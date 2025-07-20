@@ -1,5 +1,5 @@
-baseURL: "https://pascalmichaillat.org/hugo-website/" 
-title: Moritz-Maria von Igelfeld
+baseURL: "https://zihanzhang.realzzh.cn/" 
+title: Zihan Zhang
 theme: PaperMod
 
 enableInlineShortcodes: true
@@ -25,7 +25,7 @@ menu:
           url: data/
           weight: 4 
         - name: Blog
-          url: https://en.wikipedia.org/wiki/Moritz-Maria_von_Igelfeld_(character)
+          url: https://realzzh.cn/
           weight: 6
 
 params:
