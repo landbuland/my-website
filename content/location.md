@@ -1,6 +1,6 @@
 ---
 title: "Location"
-date: 2024-05-08
+date: 2025-07-20
 hidemeta: true
 description: "."
 

@@ -29,7 +29,7 @@ menu:
           weight: 6
 
 params:
-    description: "This website hosts Moritz-Maria von Igelfeld's research papers, books, course materials, data, curriculum vitae, and contact information."
+    description: "Zihan's website"
     author: Zihan Zhang
     # googleAnalyticsID: "G-XXXXX"
     DateFormat: "January 2006"
@@ -44,7 +44,7 @@ params:
     ShowBreadCrumbs: false
     ShowCodeCopyButtons: true
     ShowAllPagesInArchive: false
-    MainSections: ["books","courses","papers","data"]
+    MainSections: ["Research","Courses"]
     ShowToc: false
     disableScrollToTop: true
     TocOpen: true
@@ -63,7 +63,7 @@ params:
             - name: CV
               url: cv.pdf
             - name: Research
-              url: papers/
+              url: research/
 #            - name: Data
 #              url: data/
 #            - name: Books
