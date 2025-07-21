@@ -55,7 +55,7 @@ params:
     profileMode:
           enabled: true
           title: Zihan Zhang
-          subtitle: "I am a third-year Economic PhD student at North Carolina State University. My research interest is international economics and environmental economics."
+          subtitle: "I am a third-year Economic PhD student at North Carolina State University. My research interests include international economics and environmental economics."
           imageUrl: "picture.png"
           imageWidth: 160
           imageHeight: 160
