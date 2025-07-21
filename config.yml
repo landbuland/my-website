@@ -54,7 +54,7 @@ params:
     math: true
     profileMode:
           enabled: true
-          title: Professor Dr von Igelfeld
+          title: Zihan Zhang
           subtitle: "I am a third-year Economic PhD student at North Carolina State University. My research interest is international economics and environmental economics."
           imageUrl: "picture.jpeg"
           imageWidth: 160
@@ -105,7 +105,7 @@ params:
         hiddenInList: false
         hiddenInSingle: true
     label:
-      text: "Moritz-Maria von Igelfeld"
+      text: "Zihan Zhang"
       icon: favicon.ico
       iconHeight: 18
 
