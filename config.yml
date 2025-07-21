@@ -12,18 +12,18 @@ taxonomies:
 
 menu:
     main:
-        - name: Books
-          url: books/
-          weight: 5 
-        - name: Papers
-          url: papers/
+#        - name: Books
+#          url: books/
+#          weight: 5 
+        - name: Research
+          url: research/
           weight: 2
         - name: Courses
           url: courses/
           weight: 3
-        - name: Data
-          url: data/
-          weight: 4 
+#        - name: Data
+#          url: data/
+#          weight: 4 
         - name: Blog
           url: https://realzzh.cn/
           weight: 6
