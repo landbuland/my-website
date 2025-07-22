@@ -9,8 +9,6 @@ description: "."
 
 
 
-
-
 ## Graduate Teaching Assistant
 
 <u>North Carolina State University</u>
