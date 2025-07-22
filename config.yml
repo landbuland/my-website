@@ -18,7 +18,7 @@ menu:
         - name: Research
           url: research/
           weight: 2
-        - name: Courses
+        - name: Teaching
           url: courses/
           weight: 3
 #        - name: Data
@@ -68,7 +68,7 @@ params:
 #              url: data/
 #            - name: Books
 #              url: books/
-            - name: Courses
+            - name: Teaching
               url: courses/
  #           - name: Tags
  #             url: tags/
