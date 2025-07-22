@@ -31,7 +31,7 @@ menu:
 params:
     description: "Zihan's website"
     author: Zihan Zhang
-    # googleAnalyticsID: "G-XXXXX"
+    googleAnalyticsID: "UA-145837376-1"
     DateFormat: "January 2006"
     defaultTheme: light
     hideFooter: false
