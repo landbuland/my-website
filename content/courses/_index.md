@@ -9,27 +9,27 @@ description: "."
 
 <u>North Carolina State University</u>
 
-Math Camp for new PhD students, 2025 Summer [Course]
+- Math Camp for new PhD students, 2025 Summer [Course]
 
 
 ## Graduate Teaching Assistant
 
 <u>North Carolina State University</u>
 
-ECG 701: Microeconomics I (PhD core), 2024 Fall
+- ECG 701: Microeconomics I (PhD core), 2024 Fall
 
-ARE 301: Intermediate Microeconomics, 2024 Fall
+- ARE 301: Intermediate Microeconomics, 2024 Fall
 
-EC 201: Principle of Microeconomics, 2024 Spring
+- EC 201: Principle of Microeconomics, 2024 Spring
 
-EC 205: Fundamentals of Economics, 2023 Fall
+- EC 205: Fundamentals of Economics, 2023 Fall
 
 
 
 <u>Xiamen University</u>
 
-Applied Microeconometrics, 2023 Spring
+- Applied Microeconometrics, 2023 Spring
 
-Labor Economics, 2022 Spring
+- Labor Economics, 2022 Spring
 
-Economic Growth, 2021 Fall
+- Economic Growth, 2021 Fall
