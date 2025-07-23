@@ -7,6 +7,9 @@ description: "."
 
 ## Instructor
 
+<u>North Carolina State University</u>
+
+Math Camp for new PhD students, 2025 Summer [Course]
 
 
 ## Graduate Teaching Assistant
