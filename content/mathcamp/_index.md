@@ -3,7 +3,7 @@ title: "Math Camp"
 description: "NCSU Math Camp 2025"
 ---
 
-
+# NCSU Math Camp 2025
 
 ### Lecture Notes
 

@@ -9,7 +9,7 @@ description: "."
 
 <u>North Carolina State University</u>
 
-- Math Camp for new PhD students, 2025 Summer [Course]
+- Math Camp for new PhD students, 2025 Summer [Course](https://www.realzzh.cn/my-website/mathcamp/)
 
 
 ## Graduate Teaching Assistant
