@@ -16,7 +16,7 @@ description: "."
 
 <u>North Carolina State University</u>
 
-- ECG 701: Microeconomics I (PhD core), 2024 Fall
+- ECG 701: Microeconomics I (PhD core), 2024 Fall. [Lecture Notes](https://www.realzzh.cn/advanced_micro/2024/11/08/Micro1-lab-24Fall.html)
 
 - ARE 301: Intermediate Microeconomics, 2024 Fall
 
