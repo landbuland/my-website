@@ -12,8 +12,8 @@ description: "NCSU Math Camp 2025"
 - [Functions, Continuity, and Extrema](https://www.realzzh.cn/assets/mathcamp/Lec3.html)
 - [Vector space](https://www.realzzh.cn/assets/mathcamp/Lec4.html)
 - [Convexity](https://www.realzzh.cn/assets/mathcamp/Lec5.html)
-- [Quadratic form]()
-- [Unconstrained Optimization]()
+- [Quadratic form](https://www.realzzh.cn/assets/mathcamp/Lec6.html)
+- [Unconstrained Optimization](https://www.realzzh.cn/assets/mathcamp/Lec7.html)
 - [Constrained Optimization](https://www.markwalkereconomics.com/MathCamp2019/NLP&KuhnTucker.pdf): It would be helpful to read Mark's lecture notes for this part.
 
 
