@@ -28,7 +28,7 @@ menu:
           url: mathcamp/
           weight: 4
         - name: Blog
-          url: https://realzzh.cn/
+          url: https://zihanzhang.me/
           weight: 6
 
 params:
@@ -78,7 +78,7 @@ params:
  #           - name: Archive
  #             url: archive/
             - name: Blog
-              url: https://www.realzzh.cn/
+              url: https://zihanzhang.me/
 
     socialIcons:
         - name: CV
