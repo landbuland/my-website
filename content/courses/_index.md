@@ -11,12 +11,16 @@ description: "."
 
 - ARE 201: Introduction to Agricultural and Resource Economics, 2026 Fall. [Course](https://zihanzhang.me/are201/)
 
+- EC 202: Principles of Macroeconomics, 2025 Fall
+
 - Math Camp for new PhD students, 2025 Summer [Course](https://zihanzhang.me/mathcamp/)
 
 
 ## Graduate Teaching Assistant
 
 <u>North Carolina State University</u>
+
+- EC 448: International Trade, 2026 Spring
 
 - ECG 701: Microeconomics I (PhD core), 2024 Fall. [Lecture Notes](https://zihanzhang.me/advanced_micro/2024/11/08/Micro1-lab-24Fall.html)
 
