@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ARE 201 — Course Information</title>
+<style>
+  :root {
+    --accent: #EB811B;
+    --ink: #1f2933;
+    --muted: #5f6b76;
+    --dark: #272822;
+    --paper: #ffffff;
+    --soft: #f3f4f6;
+    --line: #d8dde3;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 100%; height: 100%; background: #111; overflow: hidden; }
+  body { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+
+  #stage {
+    width: 960px;
+    height: 720px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: center center;
+    background: var(--paper);
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  }
+  .slide {
+    position: absolute;
+    inset: 0;
+    width: 960px;
+    height: 720px;
+    padding: 58px 64px 46px;
+    background: var(--paper);
+    color: var(--ink);
+    display: none;
+    overflow: hidden;
+  }
+  .slide.active { display: block; }
+  .slide.inverse { background: var(--dark); color: #fff; }
+  .slide.center { text-align: center; }
+  .slide.middle { display: none; align-items: center; justify-content: center; flex-direction: column; }
+  .slide.middle.active { display: flex; }
+
+  h1, h2, h3, p { margin-top: 0; }
+  h1 { font-size: 37px; line-height: 1.14; margin-bottom: 26px; font-weight: 650; letter-spacing: -0.4px; }
+  h2 { font-size: 29px; line-height: 1.2; margin-bottom: 18px; font-weight: 650; }
+  h3 { font-size: 22px; line-height: 1.2; margin-bottom: 10px; font-weight: 650; }
+  p, li { font-size: 23px; line-height: 1.38; }
+  ul { margin: 10px 0 0 24px; padding: 0; }
+  li { margin: 8px 0; }
+  strong { font-weight: 700; }
+  .accent { color: var(--accent); }
+  .muted { color: var(--muted); }
+  .small { font-size: 18px; line-height: 1.35; }
+  .tiny { font-size: 15px; line-height: 1.3; }
+
+  .rule { height: 2px; width: 100%; background: var(--accent); margin: 18px 0 28px; }
+  .inverse .rule { opacity: .95; }
+
+  .title-main { font-size: 46px; margin-bottom: 10px; }
+  .title-sub { font-size: 26px; font-weight: 450; margin-bottom: 0; opacity: .92; }
+  .title-slide { padding-bottom: 260px; }
+  .title-image { position: absolute; left: 0; bottom: 0; width: 100%; height: auto; display: block; }
+  .info-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 22px; margin-top: 72px; }
+  .info-card { min-height: 210px; padding: 25px 22px; border-top: 4px solid var(--accent); background: var(--soft); }
+  .info-label { margin-bottom: 20px; color: var(--muted); font-size: 15px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .info-value { font-size: 20px; line-height: 1.5; }
+  .info-notes { margin-top: 22px; display: grid; gap: 12px; }
+  .info-notes .note-strip { margin-top: 0; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+  .card { background: var(--soft); border-radius: 8px; padding: 20px 22px; }
+  .card.white { background: #fff; border: 1px solid var(--line); }
+  .card .big { font-size: 42px; font-weight: 750; line-height: 1; margin-bottom: 8px; color: var(--accent); }
+  .card p { font-size: 19px; margin-bottom: 0; }
+  .card h3 { margin-bottom: 8px; }
+
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border-bottom: 1px solid var(--line); padding: 11px 13px; text-align: left; }
+  th { font-size: 17px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 700; }
+  td { font-size: 20px; }
+  tr:last-child td { border-bottom: 0; }
+  .weight { font-size: 26px; font-weight: 750; color: var(--accent); white-space: nowrap; }
+  .note-strip { margin-top: 22px; padding: 13px 16px; border-left: 4px solid var(--accent); background: #fff8f1; font-size: 18px; line-height: 1.35; }
+
+  .ec-box { text-align: center; padding: 18px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  .ec-box .plus { font-size: 48px; font-weight: 800; color: var(--accent); line-height: 1; }
+  .ec-box .label { font-size: 19px; margin-top: 7px; }
+  .requirements { margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px 28px; }
+  .req { display: flex; gap: 12px; align-items: flex-start; }
+  .req .num { min-width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: #fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:16px; }
+  .req p { margin: 0; font-size: 19px; }
+
+  .grade-block { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .grade-row { display: grid; grid-template-columns: 70px 1fr; border-bottom: 1px solid var(--line); }
+  .grade-row:last-child { border-bottom: 0; }
+  .grade-row:nth-child(even) { background: var(--soft); }
+  .grade-row div { padding: 9px 13px; font-size: 19px; }
+  .grade-row .g { font-weight: 750; }
+
+  .policy-step { display: grid; grid-template-columns: 58px 1fr; gap: 14px; align-items: start; margin: 18px 0; }
+  .policy-icon { width: 50px; height: 50px; border-radius: 50%; background: var(--soft); display:flex; align-items:center; justify-content:center; color: var(--accent); font-weight:800; font-size:21px; }
+  .policy-step h3 { margin: 0 0 4px; }
+  .policy-step p { margin: 0; font-size: 19px; }
+
+  .topic-card { border-top: 4px solid var(--accent); padding: 16px 16px 14px; background: var(--soft); min-height: 177px; }
+  .topic-card h3 { font-size: 20px; }
+  .topic-card p { font-size: 18px; line-height: 1.35; color: #3b4650; }
+
+  .timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 22px; }
+  .milestone { border-top: 4px solid var(--accent); padding: 12px 12px 0; position: relative; }
+  .milestone::before { content:""; position:absolute; width:12px; height:12px; background:var(--accent); border-radius:50%; top:-8px; left:12px; }
+  .milestone .date { font-weight:750; font-size:17px; }
+  .milestone .what { font-size:17px; margin-top:4px; line-height:1.3; }
+
+  .footer { position: absolute; left: 64px; right: 64px; bottom: 20px; font-size: 13px; color: #8a949e; display: flex; justify-content: space-between; }
+  .inverse .footer { color: rgba(255,255,255,.42); }
+  #progress { position: fixed; bottom: 0; left: 0; height: 4px; background: var(--accent); transition: width .18s ease; z-index: 20; }
+  #hint { position: fixed; right: 14px; bottom: 10px; color: rgba(255,255,255,.48); font: 12px Arial, sans-serif; z-index: 20; }
+
+  @media print {
+    html, body { background: #fff; overflow: visible; }
+    #stage { position: static; width: auto; height: auto; transform: none !important; box-shadow: none; }
+    .slide { position: relative; display: block !important; page-break-after: always; }
+    #progress, #hint { display: none; }
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <section class="slide title-slide center middle active">
+    <div style="width:100%; max-width:840px;">
+      <h1 class="title-main">ARE 201</h1>
+      <div class="title-sub">Introduction to Agricultural and Resource Economics</div>
+    </div>
+    <img class="title-image" src="Fig/ARE201.png" alt="Agricultural landscape at sunset">
+  </section>
+
+  <section class="slide">
+    <h1>Course Information</h1>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-label">Course</div>
+        <div class="info-value"><strong>M / W / F</strong><br>1:55–2:45 PM<br>0321 Riddick Hall</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Instructor</div>
+        <div class="info-value"><strong>Zihan Zhang</strong><br>zzhan223@ncsu.edu<br>Nelson 4119</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Office Hours</div>
+        <div class="info-value"><strong>Wednesday</strong><br>10:00–11:00 AM<br>or by appointment</div>
+      </div>
+    </div>
+    <div class="info-notes">
+      <div class="note-strip"><strong>Weekly course format:</strong> Mondays and Wednesdays are regular class meetings. Fridays are Review Sessions for practice and review, with In-Class Work to complete; on scheduled exam dates, the Friday meeting is the Unit Exam.</div>
+      <div class="note-strip"><strong>What to call me:</strong> Please feel free to call me <strong>Zihan</strong>—there’s no need to call me “Professor Zhang.” I’m a PhD student, not a professor (yet!).</div>
+    </div>
+    <div class="footer"><span>ARE 201 · Fall 2026</span><span>2</span></div>
+  </section>
+
+  <section class="slide">
+    <h1>Grading Policy</h1>
+    <table>
+      <thead><tr><th style="width:120px;">Weight</th><th>Component</th><th>Key rule</th></tr></thead>
+      <tbody>
+        <tr><td class="weight">10%</td><td><strong>In-Class Work</strong></td><td>Three lowest scores dropped</td></tr>
+        <tr><td class="weight">15%</td><td><strong>Quizzes</strong></td><td>Two attempts; average score recorded</td></tr>
+        <tr><td class="weight">50%</td><td><strong>Three Unit Exams</strong></td><td>Lowest exam score dropped</td></tr>
+        <tr><td class="weight">25%</td><td><strong>Cumulative Final</strong></td><td>Cannot be dropped</td></tr>
+      </tbody>
+    </table>
+    <div class="note-strip">
+      <strong>Exam setup:</strong> Unit exams are in person and on paper. Bring a basic calculator. Unit exams allow one handwritten 4×6 note card; the final allows two.
+    </div>
+    <div class="footer"><span>ARE 201 · Fall 2026</span><span>3</span></div>
+  </section>
+
+  <section class="slide">
+    <h1>Extra Credit Opportunities</h1>
+    <div class="grid-3">
+      <div class="ec-box"><div class="plus">+5</div><div class="label"><strong>Exam 1</strong> points</div></div>
+      <div class="ec-box"><div class="plus">+5</div><div class="label"><strong>Exam 2</strong> points</div></div>
+      <div class="ec-box"><div class="plus">+5</div><div class="label"><strong>Exam 3</strong> points</div></div>
+    </div>
+    <div class="requirements">
+      <div class="req"><div class="num">1</div><p>Complete <strong>all</strong> <a href="https://moodle-courses2527.wolfware.ncsu.edu/mod/lti/view.php?id=1483791">PlayPosit</a>/H5P activities linked to that exam.</p></div>
+      <div class="req"><div class="num">2</div><p>Finish them <strong>before the exam begins</strong>.</p></div>
+      <div class="req"><div class="num">3</div><p>Score at least <strong>70%</strong> on every activity. Unlimited attempts are allowed.</p></div>
+      <div class="req"><div class="num">4</div><p><strong>All-or-nothing:</strong> missing one item means no extra credit for that exam.</p></div>
+    </div>
+    <div class="note-strip"><strong>Final exam:</strong> no extra credit is available.</div>
+    <div class="footer"><span>ARE 201 · Fall 2026</span><span>4</span></div>
+  </section>
+
+  <section class="slide">
+    <h1>Grading Scale</h1>
+    <div class="grid-2">
+      <div class="grade-block">
+        <div class="grade-row"><div class="g">A+</div><div>97–100</div></div>
+        <div class="grade-row"><div class="g">A</div><div>93–&lt;97</div></div>
+        <div class="grade-row"><div class="g">A−</div><div>90–&lt;93</div></div>
+        <div class="grade-row"><div class="g">B+</div><div>87–&lt;90</div></div>
+        <div class="grade-row"><div class="g">B</div><div>83–&lt;87</div></div>
+        <div class="grade-row"><div class="g">B−</div><div>80–&lt;83</div></div>
+      </div>
+      <div class="grade-block">
+        <div class="grade-row"><div class="g">C+</div><div>77–&lt;80</div></div>
+        <div class="grade-row"><div class="g">C</div><div>73–&lt;77</div></div>
+        <div class="grade-row"><div class="g">C−</div><div>70–&lt;73</div></div>
+        <div class="grade-row"><div class="g">D+</div><div>67–&lt;70</div></div>
+        <div class="grade-row"><div class="g">D</div><div>63–&lt;67</div></div>
+        <div class="grade-row"><div class="g">D−</div><div>60–&lt;63</div></div>
+        <div class="grade-row"><div class="g">F</div><div>0–&lt;60</div></div>
+      </div>
+    </div>
+    <div class="note-strip"><strong>Rounding:</strong> final course averages round to the nearest whole number (e.g., 89.45 → 90; 89.44 → 89).</div>
+    <div class="footer"><span>ARE 201 · Fall 2026</span><span>5</span></div>
+  </section>
+
+  <section class="slide">
+    <h1>Late Assignments</h1>
+    <div class="small muted" style="margin-bottom:10px;">Email the instructor as soon as possible if you need an extension or make-up.</div>
+
+    <div class="policy-step">
+      <div class="policy-icon">24h</div>
+      <div><h3>Two quiz extensions</h3><p>You may request a 24-hour extension on up to <strong>two Moodle quizzes</strong> without penalty. Request it within 24 hours of the original due date.</p></div>
+    </div>
+    <div class="policy-step">
+      <div class="policy-icon">−20</div>
+      <div><h3>Other late Moodle work</h3><p>Submitted within 5 calendar days: <strong>20-point penalty</strong>. More than 5 days late: <strong>not accepted</strong>.</p></div>
+    </div>
+    <div class="policy-step">
+      <div class="policy-icon">3×</div>
+      <div><h3>In-class work</h3><p>Cannot normally be made up. The <strong>three dropped scores</strong> are intended to cover occasional absences.</p></div>
+    </div>
+    <div class="policy-step">
+      <div class="policy-icon">E</div>
+      <div><h3>Missed unit exam</h3><p>Normally becomes the dropped exam score. Additional make-up exams require an approved/verified absence or prior arrangement.</p></div>
+    </div>
+    <div class="footer"><span>ARE 201 · Fall 2026</span><span>6</span></div>
+  </section>
+
+  <section class="slide">
+    <h1>What We Will Learn</h1>
+    <div class="grid-2" style="gap:20px;">
+      <div class="topic-card">
+        <h3>1. Economic Thinking</h3>
+        <p>Scarcity, opportunity cost, trade-offs, specialization, and gains from trade.</p>
+      </div>
+      <div class="topic-card">
+        <h3>2. Markets & Prices</h3>
+        <p>Supply and demand, price controls, consumer/producer surplus, and elasticity.</p>
+      </div>
+      <div class="topic-card">
+        <h3>3. Consumers & Firms</h3>
+        <p>Consumer choice, production and costs, perfect competition, and imperfect competition.</p>
+      </div>
+      <div class="topic-card">
+        <h3>4. Policy & the Global Economy</h3>
+        <p>Externalities, public goods, international trade, and real-world agricultural/resource applications.</p>
+      </div>
+    </div>
+    <div class="note-strip">The goal is to use economic models to <strong>explain, graph, calculate, and evaluate</strong> real-world decisions and policy trade-offs.</div>
+    <div class="footer"><span>ARE 201 · Fall 2026</span><span>7</span></div>
+  </section>
+
+  <section class="slide">
+    <h1>How the Course Works</h1>
+    <div class="grid-2">
+      <div class="card">
+        <h3>In class</h3>
+        <p>Instruction, practice, real-world applications, and graded work. Attendance matters because in-class work must be completed in person.</p>
+      </div>
+      <div class="card">
+        <h3>On Moodle</h3>
+        <p>Videos, readings, quizzes, practice activities, announcements, grades, and assignment instructions.</p>
+      </div>
+      <div class="card">
+        <h3>What you need</h3>
+        <p>The textbook is free and available online. Bring your own basic calculator and prepare your own 4×6 index cards for exam notes.</p>
+      </div>
+      <div class="card">
+        <h3>Best strategy</h3>
+        <p>Keep up weekly, practice graphs and calculations, come ready to work, and ask questions early.</p>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="milestone"><div class="date">Sep 18</div><div class="what">Exam 1</div></div>
+      <div class="milestone"><div class="date">Oct 23</div><div class="what">Exam 2</div></div>
+      <div class="milestone"><div class="date">Nov 20</div><div class="what">Exam 3</div></div>
+      <div class="milestone"><div class="date">Dec 7</div><div class="what">Final · 12:00–2:30 PM</div></div>
+    </div>
+    <div class="footer"><span>ARE 201 · Fall 2026</span><span>8</span></div>
+  </section>
+
+</div>
+<div id="progress"></div>
+<div id="hint">← → / Space to navigate · P to print</div>
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  let idx = 0;
+  const stage = document.getElementById('stage');
+  const progress = document.getElementById('progress');
+
+  function fit(){
+    const scale = Math.min(window.innerWidth/960, window.innerHeight/720);
+    stage.style.transform = `translate(-50%, -50%) scale(${scale})`;
+  }
+  function show(n){
+    idx = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    progress.style.width = `${((idx+1)/slides.length)*100}%`;
+    history.replaceState(null, '', `#${idx+1}`);
+  }
+  function next(){ show(idx+1); }
+  function prev(){ show(idx-1); }
+
+  window.addEventListener('resize', fit);
+  document.addEventListener('keydown', e=>{
+    if(['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(e.key)){ e.preventDefault(); next(); }
+    else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(e.key)){ e.preventDefault(); prev(); }
+    else if(e.key.toLowerCase()==='p'){ window.print(); }
+    else if(e.key==='Home'){ show(0); }
+    else if(e.key==='End'){ show(slides.length-1); }
+  });
+  document.addEventListener('click', e=>{
+    if(e.clientX > window.innerWidth/2) next(); else prev();
+  });
+  const hash = parseInt(location.hash.replace('#',''),10);
+  if(Number.isFinite(hash)) idx = Math.max(0, Math.min(slides.length-1, hash-1));
+  fit(); show(idx);
+})();
+</script>
+</body>
+</html>

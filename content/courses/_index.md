@@ -9,6 +9,8 @@ description: "."
 
 <u>North Carolina State University</u>
 
+- ARE 201: Introduction to Agricultural and Resource Economics, 2026 Fall. [Course](https://zihanzhang.me/are201/)
+
 - Math Camp for new PhD students, 2025 Summer [Course](https://zihanzhang.me/mathcamp/)
 
 
