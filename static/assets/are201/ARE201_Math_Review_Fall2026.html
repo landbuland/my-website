@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARE 201 — Math Review</title>
+<style>
+  :root {
+    --accent: #EB811B;
+    --accent-soft: #fff4e8;
+    --ink: #1f2933;
+    --muted: #5f6b76;
+    --paper: #ffffff;
+    --soft: #f3f4f6;
+    --line: #d8dde3;
+    --blue: #2f80c9;
+    --green: #378a61;
+    --red: #c9504d;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #111;
+  }
+  body { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+
+  #stage {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 960px;
+    height: 720px;
+    transform-origin: center center;
+    background: var(--paper);
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    width: 960px;
+    height: 720px;
+    padding: 54px 64px 48px;
+    overflow: hidden;
+    color: var(--ink);
+    background: var(--paper);
+  }
+  .slide.active { display: block; }
+  .slide.center { text-align: center; }
+  .slide.middle {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .slide.middle.active { display: flex; }
+
+  h1, h2, h3, p { margin-top: 0; }
+  h1 {
+    margin-bottom: 24px;
+    font-size: 38px;
+    line-height: 1.12;
+    font-weight: 700;
+    letter-spacing: -.5px;
+  }
+  h2 {
+    margin-bottom: 14px;
+    font-size: 27px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+  h3 {
+    margin-bottom: 9px;
+    font-size: 21px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+  p, li {
+    font-size: 21px;
+    line-height: 1.38;
+  }
+  ul { margin: 8px 0 0 24px; padding: 0; }
+  li { margin: 7px 0; }
+  strong { font-weight: 750; }
+  sub { font-size: .68em; vertical-align: -.2em; }
+  sup { font-size: .68em; }
+
+  .muted { color: var(--muted); }
+  .accent { color: var(--accent); }
+  .blue { color: var(--blue); }
+  .green { color: var(--green); }
+  .red { color: var(--red); }
+  .small { font-size: 17px; line-height: 1.35; }
+  .tiny { font-size: 14px; line-height: 1.3; }
+
+  .title-slide { padding-bottom: 150px; }
+  .title-kicker {
+    margin-bottom: 13px;
+    color: var(--accent);
+    font-size: 17px;
+    font-weight: 750;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+  }
+  .title-main {
+    margin-bottom: 12px;
+    font-size: 58px;
+    line-height: 1;
+  }
+  .title-sub {
+    color: var(--muted);
+    font-size: 25px;
+    line-height: 1.35;
+  }
+  .title-graphic {
+    position: absolute;
+    right: 54px;
+    bottom: 56px;
+    width: 360px;
+    height: 145px;
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+
+  .card {
+    padding: 20px 22px;
+    border-radius: 8px;
+    background: var(--soft);
+  }
+  .card.white { border: 1px solid var(--line); background: #fff; }
+  .card.accent-top { border-top: 4px solid var(--accent); border-radius: 0 0 8px 8px; }
+  .card p { margin-bottom: 0; font-size: 18px; line-height: 1.36; }
+  .card li { font-size: 18px; }
+
+  .roadmap-card {
+    min-height: 205px;
+    padding: 17px 13px;
+    border-top: 4px solid var(--accent);
+    background: var(--soft);
+  }
+  .roadmap-num {
+    margin-bottom: 18px;
+    color: var(--accent);
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .roadmap-card h3 { font-size: 18px; }
+  .roadmap-card p { margin-bottom: 0; color: #45515c; font-size: 15px; line-height: 1.35; }
+
+  .flow {
+    display: grid;
+    grid-template-columns: 1fr 56px 1.1fr 56px 1fr;
+    align-items: center;
+    gap: 8px;
+    margin: 18px 0 28px;
+  }
+  .flow-box {
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    text-align: center;
+    background: #fff;
+  }
+  .flow-label {
+    margin-bottom: 5px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 750;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .flow-value { font-size: 21px; font-weight: 700; }
+  .flow-arrow { color: var(--accent); text-align: center; font-size: 35px; font-weight: 400; }
+
+  .formula {
+    padding: 18px 22px;
+    border-left: 5px solid var(--accent);
+    background: var(--accent-soft);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 27px;
+    line-height: 1.35;
+    text-align: center;
+  }
+  .formula.large { font-size: 38px; }
+  .formula.compact { padding: 12px 18px; font-size: 24px; }
+
+  .weight-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .weight-chip {
+    padding: 11px 8px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    text-align: center;
+  }
+  .weight-chip .pct { color: var(--accent); font-size: 25px; font-weight: 800; }
+  .weight-chip .name { margin-top: 2px; color: var(--muted); font-size: 13px; line-height: 1.2; }
+
+  .anatomy {
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap: 30px;
+    align-items: center;
+  }
+  .term {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 14px;
+    align-items: start;
+    margin: 13px 0;
+  }
+  .term-symbol {
+    display: flex;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--accent);
+    font-family: Georgia, serif;
+    font-size: 24px;
+    font-style: italic;
+    font-weight: 700;
+  }
+  .term h3 { margin-bottom: 2px; }
+  .term p { margin: 0; color: var(--muted); font-size: 17px; }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .data-table th, .data-table td {
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--line);
+    text-align: center;
+    font-size: 18px;
+  }
+  .data-table th {
+    color: #fff;
+    background: var(--ink);
+    font-size: 16px;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+  .data-table tr:last-child td { border-bottom: 0; }
+  .data-table tr:nth-child(even) td { background: var(--soft); }
+
+  .worked {
+    padding: 17px 20px;
+    border-radius: 8px;
+    background: var(--soft);
+  }
+  .worked-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 10px;
+    align-items: start;
+    margin: 8px 0;
+  }
+  .worked-num {
+    display: flex;
+    width: 28px;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--accent);
+    font-size: 14px;
+    font-weight: 750;
+  }
+  .worked-row p { margin: 0; font-size: 18px; }
+
+  .graph-box {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+  }
+  .graph-box svg { display: block; width: 100%; height: 100%; }
+  .axis { stroke: #65717c; stroke-width: 1.5; }
+  .gridline { stroke: #e4e8ec; stroke-width: 1; }
+  .tick { fill: #65717c; font: 12px Arial, sans-serif; }
+  .axis-label { fill: var(--ink); font: 14px Arial, sans-serif; font-weight: 700; }
+  .line-blue { fill: none; stroke: var(--blue); stroke-width: 4; }
+  .line-orange { fill: none; stroke: var(--accent); stroke-width: 4; }
+  .line-green { fill: none; stroke: var(--green); stroke-width: 4; }
+  .line-red { fill: none; stroke: var(--red); stroke-width: 4; }
+  .point { fill: var(--accent); stroke: #fff; stroke-width: 2; }
+  .guide { fill: none; stroke: #89949e; stroke-width: 1.5; stroke-dasharray: 6 5; }
+  .graph-text { fill: var(--ink); font: 14px Arial, sans-serif; }
+  .graph-note { fill: var(--accent); font: 14px Arial, sans-serif; font-weight: 700; }
+
+  .relation-card {
+    padding: 15px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    text-align: center;
+  }
+  .relation-card svg { width: 100%; height: 135px; }
+  .relation-card h3 { margin-bottom: 4px; font-size: 19px; }
+  .relation-card p { margin: 0; color: var(--muted); font-size: 15px; }
+
+  .fraction {
+    display: inline-flex;
+    flex-direction: column;
+    vertical-align: middle;
+    line-height: 1.05;
+    text-align: center;
+  }
+  .fraction > span:first-child {
+    padding: 0 5px 3px;
+    border-bottom: 1.5px solid currentColor;
+  }
+  .fraction > span:last-child { padding: 3px 5px 0; }
+
+  .slope-calc {
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    gap: 26px;
+    align-items: center;
+  }
+  .calc-stack {
+    display: grid;
+    gap: 12px;
+  }
+  .calc-line {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 24px;
+    text-align: center;
+  }
+  .calc-line:last-child {
+    border-bottom: 0;
+    color: var(--accent);
+    font-size: 31px;
+    font-weight: 700;
+  }
+
+  .compare-panel h2 { margin-bottom: 10px; font-size: 23px; }
+  .compare-panel .graph-box { height: 250px; }
+  .compare-note {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.35;
+  }
+
+  .method {
+    min-height: 160px;
+    padding: 20px;
+    border-top: 4px solid var(--accent);
+    background: var(--soft);
+  }
+  .method .big {
+    color: var(--accent);
+    font-size: 36px;
+    font-weight: 800;
+  }
+  .market-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 22px;
+  }
+  .market-card {
+    padding: 17px 20px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .market-label {
+    margin-bottom: 7px;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 750;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+  }
+  .market-eq {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 29px;
+  }
+
+  .steps {
+    display: grid;
+    gap: 11px;
+    margin-top: 8px;
+  }
+  .step {
+    display: grid;
+    grid-template-columns: 42px 1fr 190px;
+    gap: 13px;
+    align-items: center;
+    min-height: 63px;
+    padding: 10px 15px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .step-num {
+    display: flex;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--accent);
+    font-size: 15px;
+    font-weight: 750;
+  }
+  .step-eq {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 26px;
+    text-align: center;
+  }
+  .step-note { color: var(--muted); font-size: 15px; line-height: 1.3; }
+
+  .check-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 13px;
+    border-radius: 999px;
+    color: #236445;
+    background: #e9f6ef;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .transform-row {
+    display: grid;
+    grid-template-columns: 1fr 46px 1fr;
+    gap: 14px;
+    align-items: center;
+    margin: 20px 0;
+  }
+  .transform-eq {
+    padding: 17px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 27px;
+    text-align: center;
+  }
+  .transform-arrow { color: var(--accent); font-size: 32px; text-align: center; }
+
+  .definition-strip {
+    padding: 14px 17px;
+    border-left: 4px solid var(--accent);
+    background: var(--accent-soft);
+    font-size: 18px;
+    line-height: 1.38;
+  }
+
+  .growth-layout {
+    display: grid;
+    grid-template-columns: 1.08fr .92fr;
+    gap: 28px;
+    align-items: center;
+  }
+  .growth-list {
+    display: grid;
+    gap: 12px;
+  }
+  .growth-item {
+    display: grid;
+    grid-template-columns: 43px 1fr;
+    gap: 12px;
+    align-items: center;
+  }
+  .growth-icon {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--accent);
+    background: var(--accent-soft);
+    font-size: 19px;
+    font-weight: 800;
+  }
+  .growth-item p { margin: 0; font-size: 18px; }
+
+  .wage-flow {
+    display: grid;
+    grid-template-columns: 1fr 70px 1fr;
+    gap: 18px;
+    align-items: center;
+    margin: 24px 0;
+  }
+  .wage-box {
+    padding: 22px;
+    border-radius: 8px;
+    text-align: center;
+    background: var(--soft);
+  }
+  .wage-box .label {
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+  }
+  .wage-box .amount { margin-top: 5px; font-size: 40px; font-weight: 800; }
+  .wage-arrow { color: var(--accent); font-size: 36px; text-align: center; }
+
+  .takeaway {
+    display: grid;
+    grid-template-columns: 54px 1fr;
+    gap: 14px;
+    align-items: center;
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .takeaway:last-child { border-bottom: 0; }
+  .takeaway-num {
+    color: var(--accent);
+    font-size: 25px;
+    font-weight: 800;
+    text-align: center;
+  }
+  .takeaway p { margin: 0; font-size: 18px; }
+
+  .interactive button {
+    min-height: 40px;
+    padding: 9px 15px;
+    border: 0;
+    border-radius: 7px;
+    color: #fff;
+    background: var(--accent);
+    font: 700 15px "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+    cursor: pointer;
+  }
+  .interactive button:hover { filter: brightness(.95); }
+  .interactive button:focus-visible { outline: 3px solid rgba(235,129,27,.35); outline-offset: 2px; }
+  .interactive button.secondary { color: var(--ink); background: #e5e8eb; }
+  .interactive button:disabled { cursor: default; opacity: .55; }
+  .game-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .score-pill {
+    display: inline-flex;
+    min-height: 38px;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    color: var(--ink);
+    background: var(--soft);
+    font-size: 15px;
+    font-weight: 750;
+  }
+  .game-feedback {
+    min-height: 54px;
+    padding: 11px 14px;
+    border-left: 4px solid var(--line);
+    background: var(--soft);
+    font-size: 16px;
+    line-height: 1.35;
+  }
+  .game-feedback.success { border-left-color: var(--green); background: #e9f6ef; }
+  .game-feedback.error { border-left-color: var(--red); background: #fcedec; }
+
+  .plot-game-layout { display: grid; grid-template-columns: .68fr 1.32fr; gap: 24px; align-items: start; }
+  .plot-game-layout .graph-box { height: 470px; cursor: crosshair; }
+  .plot-game-layout .formula { font-size: 30px; }
+  .minor-gridline { stroke: #edf0f3; stroke-width: .8; }
+  .plot-column-highlight { fill: rgba(235,129,27,.12); stroke: rgba(235,129,27,.45); stroke-width: 1; }
+  .plot-cursor-line { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 5 4; pointer-events: none; }
+  .plot-cursor-dot { fill: var(--accent); stroke: #fff; stroke-width: 2; pointer-events: none; }
+  .plot-cursor-label { fill: var(--accent); font: 700 14px Arial, sans-serif; pointer-events: none; }
+
+  .lab-layout { display: grid; grid-template-columns: 1.22fr .78fr; gap: 24px; align-items: start; }
+  .lab-layout .graph-box { height: 480px; }
+  .lab-controls { display: grid; gap: 13px; }
+  .slider-control {
+    padding: 13px 15px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+  }
+  .slider-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+  .slider-head label { font-size: 16px; font-weight: 750; }
+  .slider-value { color: var(--accent); font-size: 21px; font-weight: 800; }
+  .interactive input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; }
+  .challenge-card { padding: 15px 16px; border-top: 4px solid var(--accent); background: var(--soft); }
+  .challenge-label { color: var(--muted); font-size: 12px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+  .challenge-equation { margin: 6px 0 11px; font-family: Georgia, "Times New Roman", serif; font-size: 27px; }
+
+  .eq-game-layout { display: grid; grid-template-columns: 1.08fr .92fr; gap: 24px; align-items: start; }
+  .eq-game-layout .graph-box { height: 455px; }
+  .price-display { color: var(--accent); font-size: 38px; font-weight: 800; text-align: center; }
+  .quantity-readouts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .quantity-card { padding: 13px; border-radius: 8px; background: var(--soft); text-align: center; }
+  .quantity-card .q-label { color: var(--muted); font-size: 13px; font-weight: 750; text-transform: uppercase; }
+  .quantity-card .q-value { margin-top: 3px; font-size: 26px; font-weight: 800; }
+  .market-status { min-height: 80px; padding: 13px 15px; border-left: 4px solid var(--accent); background: var(--accent-soft); font-size: 17px; line-height: 1.35; }
+
+  .quiz-layout { display: grid; grid-template-columns: .82fr 1.18fr; gap: 26px; align-items: start; }
+  .quiz-scenario { min-height: 270px; padding: 24px; border-top: 5px solid var(--accent); background: var(--soft); }
+  .quiz-round { color: var(--muted); font-size: 13px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+  .quiz-scenario h2 { margin-top: 13px; font-size: 27px; }
+  .quiz-values { display: flex; align-items: center; justify-content: center; gap: 17px; margin-top: 25px; }
+  .quiz-value { padding: 13px 16px; border-radius: 7px; background: #fff; font-size: 25px; font-weight: 800; }
+  .quiz-arrow { color: var(--accent); font-size: 28px; }
+  .answer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .interactive .answer-button { min-height: 70px; font-size: 22px; }
+  .interactive .answer-button.correct { background: var(--green); opacity: 1; }
+  .interactive .answer-button.wrong { background: var(--red); opacity: 1; }
+
+  .footer {
+    position: absolute;
+    right: 64px;
+    bottom: 19px;
+    left: 64px;
+    display: flex;
+    justify-content: space-between;
+    color: #8a949e;
+    font-size: 13px;
+  }
+  #progress {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 20;
+    height: 4px;
+    background: var(--accent);
+    transition: width .18s ease;
+  }
+  #hint {
+    position: fixed;
+    right: 14px;
+    bottom: 10px;
+    z-index: 20;
+    color: rgba(255,255,255,.5);
+    font: 12px Arial, sans-serif;
+  }
+
+  @page { size: 10in 7.5in; margin: 0; }
+  @media print {
+    html, body { width: auto; height: auto; overflow: visible; background: #fff; }
+    #stage {
+      position: static;
+      width: auto;
+      height: auto;
+      transform: none !important;
+      box-shadow: none;
+    }
+    .slide {
+      position: relative;
+      display: block !important;
+      page-break-after: always;
+      break-after: page;
+    }
+    #progress, #hint { display: none; }
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <section class="slide title-slide center middle active">
+    <div style="width:100%; max-width:840px;">
+      <div class="title-kicker">ARE 201 · Fall 2026</div>
+      <h1 class="title-main">Math Review</h1>
+      <div class="title-sub">Functions, lines, graphs, equilibrium, and growth rates</div>
+    </div>
+    <svg class="title-graphic" viewBox="0 0 360 145" aria-label="A rising line on a coordinate grid">
+      <g stroke="#e2e6ea" stroke-width="1">
+        <line x1="20" y1="20" x2="340" y2="20"/><line x1="20" y1="50" x2="340" y2="50"/>
+        <line x1="20" y1="80" x2="340" y2="80"/><line x1="20" y1="110" x2="340" y2="110"/>
+        <line x1="60" y1="10" x2="60" y2="128"/><line x1="120" y1="10" x2="120" y2="128"/>
+        <line x1="180" y1="10" x2="180" y2="128"/><line x1="240" y1="10" x2="240" y2="128"/>
+        <line x1="300" y1="10" x2="300" y2="128"/>
+      </g>
+      <line x1="20" y1="128" x2="344" y2="128" stroke="#65717c" stroke-width="2"/>
+      <line x1="20" y1="128" x2="20" y2="8" stroke="#65717c" stroke-width="2"/>
+      <polyline points="35,112 95,94 155,76 215,58 275,40 335,22" fill="none" stroke="#EB811B" stroke-width="5"/>
+      <g fill="#EB811B" stroke="#fff" stroke-width="2">
+        <circle cx="35" cy="112" r="5"/><circle cx="95" cy="94" r="5"/><circle cx="155" cy="76" r="5"/>
+        <circle cx="215" cy="58" r="5"/><circle cx="275" cy="40" r="5"/><circle cx="335" cy="22" r="5"/>
+      </g>
+    </svg>
+  </section>
+
+  <section class="slide">
+    <h1>What We Will Review</h1>
+    <div class="grid-5" style="margin-top:56px;">
+      <div class="roadmap-card">
+        <div class="roadmap-num">1</div>
+        <h3>Functions</h3>
+        <p>What a function is and how variables are related.</p>
+      </div>
+      <div class="roadmap-card">
+        <div class="roadmap-num">2</div>
+        <h3>Lines</h3>
+        <p>How to interpret slope and intercept.</p>
+      </div>
+      <div class="roadmap-card">
+        <div class="roadmap-num">3</div>
+        <h3>Graphs</h3>
+        <p>How to read, draw, and manipulate a graph.</p>
+      </div>
+      <div class="roadmap-card">
+        <div class="roadmap-num">4</div>
+        <h3>Models</h3>
+        <p>How to solve an economic model with algebra or a graph.</p>
+      </div>
+      <div class="roadmap-card">
+        <div class="roadmap-num">5</div>
+        <h3>Growth</h3>
+        <p>How to compute and interpret percentage change.</p>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:28px;"><strong>Goal:</strong> translate comfortably among words, equations, tables, and graphs.</div>
+  </section>
+
+  <section class="slide">
+    <h1>What Is a Function?</h1>
+    <p>A function is a rule that describes how an <strong>output</strong> depends on one or more <strong>inputs</strong>. In economics, functions often help us represent cause-and-effect relationships.</p>
+    <div class="flow">
+      <div class="flow-box"><div class="flow-label">Inputs</div><div class="flow-value">Category scores</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box"><div class="flow-label">Rule</div><div class="flow-value">Apply the weights</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box"><div class="flow-label">Output</div><div class="flow-value">Course grade</div></div>
+    </div>
+    <div class="formula compact">
+      Grade = 0.10(Classwork) + 0.15(Quizzes) + 0.50(Unit Exams) + 0.25(Final)
+    </div>
+    <div class="weight-grid">
+      <div class="weight-chip"><div class="pct">10%</div><div class="name">In-Class Work</div></div>
+      <div class="weight-chip"><div class="pct">15%</div><div class="name">Quizzes</div></div>
+      <div class="weight-chip"><div class="pct">50%</div><div class="name">Unit Exams</div></div>
+      <div class="weight-chip"><div class="pct">25%</div><div class="name">Final Exam</div></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <h1>The Linear Function We Will Use Most</h1>
+    <p class="muted">A variable is a quantity that can take on a range of values. In y = mx + b, x and y are variables.</p>
+    <div class="anatomy">
+      <div>
+        <div class="formula large" style="margin-bottom:24px;">y = mx + b</div>
+        <div class="term">
+          <div class="term-symbol">x</div>
+          <div><h3>Input</h3><p>Shown on the horizontal axis.</p></div>
+        </div>
+        <div class="term">
+          <div class="term-symbol">y</div>
+          <div><h3>Output</h3><p>Shown on the vertical axis.</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="term">
+          <div class="term-symbol">m</div>
+          <div><h3>Slope</h3><p>How much y changes when x increases by one unit.</p></div>
+        </div>
+        <div class="term">
+          <div class="term-symbol">b</div>
+          <div><h3>y-intercept</h3><p>The value of y when x = 0.</p></div>
+        </div>
+        <div class="definition-strip" style="margin-top:23px;"><strong>Read it in words:</strong> start at <em>b</em>, then change by <em>m</em> for each one-unit increase in <em>x</em>.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <h1>From an Equation to a Table</h1>
+    <div class="grid-2" style="grid-template-columns:1.15fr .85fr; align-items:start;">
+      <div>
+        <div class="formula large">y = 9 + 3x</div>
+        <div class="worked" style="margin-top:22px;">
+          <div class="worked-row"><div class="worked-num">1</div><p>Choose a value for <strong>x</strong>.</p></div>
+          <div class="worked-row"><div class="worked-num">2</div><p>Plug that value into the equation.</p></div>
+          <div class="worked-row"><div class="worked-num">3</div><p>Record the corresponding value of <strong>y</strong>.</p></div>
+        </div>
+        <div class="definition-strip" style="margin-top:18px;">
+          If x = 2, then y = 9 + 3(2) = <strong>15</strong>.
+        </div>
+      </div>
+      <div>
+        <table class="data-table">
+          <thead><tr><th>x</th><th>y</th></tr></thead>
+          <tbody>
+            <tr><td>0</td><td>9</td></tr>
+            <tr><td>1</td><td>12</td></tr>
+            <tr><td>2</td><td>15</td></tr>
+            <tr><td>3</td><td>18</td></tr>
+            <tr><td>4</td><td>21</td></tr>
+            <tr><td>5</td><td>24</td></tr>
+            <tr><td>6</td><td>27</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <h1>Interactive: Plot the Points</h1>
+    <div class="plot-game-layout">
+      <div>
+        <div class="formula">y = 9 + 3x</div>
+        <div class="card" style="margin-top:18px;">
+          <h3>Your task</h3>
+          <p>Work from left to right. Move over the graph, then click the correct height for the <strong>highlighted x-value</strong>.</p>
+        </div>
+        <div class="game-toolbar" style="margin:16px 0;">
+          <span class="score-pill" id="plotScore">Completed: 0 / 7</span>
+          <span class="score-pill" id="plotNext">Next: x = 0</span>
+          <button type="button" class="secondary" id="plotReset">Reset</button>
+        </div>
+        <div class="game-feedback" id="plotFeedback" aria-live="polite">Move your pointer over the graph. The live coordinate will follow it.</div>
+      </div>
+      <div class="graph-box">
+        <svg id="plotGameSvg" viewBox="0 0 520 400" role="img" aria-label="Clickable coordinate grid for plotting y equals 9 plus 3x">
+          <g id="plotMinorGrid"></g>
+          <g>
+            <line class="gridline" x1="65" y1="340" x2="455" y2="340"/>
+            <line class="gridline" x1="65" y1="290" x2="455" y2="290"/>
+            <line class="gridline" x1="65" y1="240" x2="455" y2="240"/>
+            <line class="gridline" x1="65" y1="190" x2="455" y2="190"/>
+            <line class="gridline" x1="65" y1="140" x2="455" y2="140"/>
+            <line class="gridline" x1="65" y1="90" x2="455" y2="90"/>
+            <line class="gridline" x1="65" y1="40" x2="455" y2="40"/>
+            <line class="gridline" x1="65" y1="40" x2="65" y2="340"/>
+            <line class="gridline" x1="130" y1="40" x2="130" y2="340"/>
+            <line class="gridline" x1="195" y1="40" x2="195" y2="340"/>
+            <line class="gridline" x1="260" y1="40" x2="260" y2="340"/>
+            <line class="gridline" x1="325" y1="40" x2="325" y2="340"/>
+            <line class="gridline" x1="390" y1="40" x2="390" y2="340"/>
+            <line class="gridline" x1="455" y1="40" x2="455" y2="340"/>
+          </g>
+          <line class="axis" x1="65" y1="340" x2="468" y2="340"/>
+          <line class="axis" x1="65" y1="350" x2="65" y2="28"/>
+          <g class="tick" text-anchor="middle">
+            <text x="65" y="363">0</text><text x="130" y="363">1</text><text x="195" y="363">2</text>
+            <text x="260" y="363">3</text><text x="325" y="363">4</text><text x="390" y="363">5</text><text x="455" y="363">6</text>
+          </g>
+          <g class="tick" text-anchor="end">
+            <text x="55" y="344">0</text><text x="55" y="294">5</text><text x="55" y="244">10</text>
+            <text x="55" y="194">15</text><text x="55" y="144">20</text><text x="55" y="94">25</text><text x="55" y="44">30</text>
+          </g>
+          <text class="axis-label" x="260" y="390" text-anchor="middle">x</text>
+          <text class="axis-label" transform="translate(18 190) rotate(-90)" text-anchor="middle">y</text>
+          <rect id="plotColumnHighlight" class="plot-column-highlight" x="53" y="40" width="24" height="300" rx="5"/>
+          <polyline id="plotGameLine" class="line-blue" points="65,250 130,220 195,190 260,160 325,130 390,100 455,70" opacity="0"/>
+          <g id="plotGamePoints"></g>
+          <g id="plotGameMiss"></g>
+          <line id="plotCursorLine" class="plot-cursor-line" x1="65" y1="250" x2="455" y2="250" opacity="0"/>
+          <circle id="plotCursorDot" class="plot-cursor-dot" cx="65" cy="250" r="7" opacity="0"/>
+          <text id="plotCursorLabel" class="plot-cursor-label" x="77" y="239" opacity="0">(0, 9)</text>
+          <rect id="plotHitArea" x="45" y="20" width="430" height="345" fill="transparent" pointer-events="all"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <h1>From the Table to a Graph</h1>
+    <div class="grid-2" style="grid-template-columns:.72fr 1.28fr; align-items:center;">
+      <div>
+        <h2>Each row becomes one point</h2>
+        <p class="muted">For example, the row x = 2 and y = 15 becomes the point <strong>(2, 15)</strong>.</p>
+        <div class="definition-strip" style="margin-top:22px;"><strong>Why use graphs?</strong> They express equations visually and display statistics or data. Here, connecting the points reveals the shape of the function.</div>
+        <div class="card" style="margin-top:18px;">
+          <h3>What can we already see?</h3>
+          <p>The line begins at y = 9 and rises by 3 whenever x increases by 1.</p>
+        </div>
+      </div>
+      <div class="graph-box" style="height:430px;">
+        <svg viewBox="0 0 520 340" role="img" aria-label="Graph of y equals 9 plus 3x">
+          <g>
+            <line class="gridline" x1="60" y1="285" x2="470" y2="285"/>
+            <line class="gridline" x1="60" y1="245" x2="470" y2="245"/>
+            <line class="gridline" x1="60" y1="205" x2="470" y2="205"/>
+            <line class="gridline" x1="60" y1="165" x2="470" y2="165"/>
+            <line class="gridline" x1="60" y1="125" x2="470" y2="125"/>
+            <line class="gridline" x1="60" y1="85" x2="470" y2="85"/>
+            <line class="gridline" x1="60" y1="45" x2="470" y2="45"/>
+          </g>
+          <line class="axis" x1="60" y1="285" x2="478" y2="285"/>
+          <line class="axis" x1="60" y1="292" x2="60" y2="35"/>
+          <g class="tick" text-anchor="middle">
+            <text x="60" y="305">0</text><text x="125" y="305">1</text><text x="190" y="305">2</text>
+            <text x="255" y="305">3</text><text x="320" y="305">4</text><text x="385" y="305">5</text><text x="450" y="305">6</text>
+          </g>
+          <g class="tick" text-anchor="end">
+            <text x="52" y="289">0</text><text x="52" y="249">5</text><text x="52" y="209">10</text>
+            <text x="52" y="169">15</text><text x="52" y="129">20</text><text x="52" y="89">25</text><text x="52" y="49">30</text>
+          </g>
+          <text class="axis-label" x="267" y="329" text-anchor="middle">x</text>
+          <text class="axis-label" transform="translate(18 165) rotate(-90)" text-anchor="middle">y</text>
+          <polyline class="line-blue" points="60,213 125,189 190,165 255,141 320,117 385,93 450,69"/>
+          <g>
+            <circle class="point" cx="60" cy="213" r="6"/><circle class="point" cx="125" cy="189" r="6"/>
+            <circle class="point" cx="190" cy="165" r="6"/><circle class="point" cx="255" cy="141" r="6"/>
+            <circle class="point" cx="320" cy="117" r="6"/><circle class="point" cx="385" cy="93" r="6"/>
+            <circle class="point" cx="450" cy="69" r="6"/>
+          </g>
+          <text class="graph-text" x="350" y="58">y = 9 + 3x</text>
+          <line class="guide" x1="60" y1="213" x2="190" y2="213"/>
+          <line class="guide" x1="190" y1="213" x2="190" y2="165"/>
+          <text class="graph-note" x="113" y="230">run = 2</text>
+          <text class="graph-note" x="200" y="193">rise = 6</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <h1>Interpreting the Slope</h1>
+    <p>The slope describes both the <strong>shape of a line</strong> and the <strong>relationship between two variables</strong>.</p>
+    <div class="grid-3" style="margin-top:27px;">
+      <div class="relation-card">
+        <svg viewBox="0 0 220 140" aria-label="Line with positive slope">
+          <line class="axis" x1="25" y1="120" x2="208" y2="120"/><line class="axis" x1="25" y1="125" x2="25" y2="14"/>
+          <line class="line-green" x1="42" y1="108" x2="193" y2="27"/>
+        </svg>
+        <h3 class="green">Positive slope</h3>
+        <p>As x rises, y rises.<br>Positive relationship.</p>
+      </div>
+      <div class="relation-card">
+        <svg viewBox="0 0 220 140" aria-label="Horizontal line with zero slope">
+          <line class="axis" x1="25" y1="120" x2="208" y2="120"/><line class="axis" x1="25" y1="125" x2="25" y2="14"/>
+          <line class="line-blue" x1="42" y1="70" x2="193" y2="70"/>
+        </svg>
+        <h3 class="blue">Zero slope</h3>
+        <p>As x changes, y does not.<br>No relationship.</p>
+      </div>
+      <div class="relation-card">
+        <svg viewBox="0 0 220 140" aria-label="Line with negative slope">
+          <line class="axis" x1="25" y1="120" x2="208" y2="120"/><line class="axis" x1="25" y1="125" x2="25" y2="14"/>
+          <line class="line-red" x1="42" y1="27" x2="193" y2="108"/>
+        </svg>
+        <h3 class="red">Negative slope</h3>
+        <p>As x rises, y falls.<br>Negative relationship.</p>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:25px;"><strong>Economics translation:</strong> the sign tells us the direction of the relationship; the size tells us how strongly y responds to x.</div>
+  </section>
+
+  <section class="slide">
+    <h1>Calculating the Slope: Rise over Run</h1>
+    <div class="slope-calc">
+      <div>
+        <div class="formula" style="margin-bottom:21px;">
+          slope =
+          <span class="fraction"><span>Δy</span><span>Δx</span></span>
+          =
+          <span class="fraction"><span>y<sub>2</sub> − y<sub>1</sub></span><span>x<sub>2</sub> − x<sub>1</sub></span>
+        </div>
+        <div class="card">
+          <h3>Use two points from our line</h3>
+          <p><strong>Start:</strong> (x<sub>1</sub>, y<sub>1</sub>) = (1, 12)</p>
+          <p style="margin-top:8px;"><strong>End:</strong> (x<sub>2</sub>, y<sub>2</sub>) = (5, 24)</p>
+        </div>
+      </div>
+      <div class="worked">
+        <div class="calc-stack">
+          <div class="calc-line">Δy = 24 − 12 = 12</div>
+          <div class="calc-line">Δx = 5 − 1 = 4</div>
+          <div class="calc-line">slope = 12 ÷ 4 = 3</div>
+        </div>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:28px;"><strong>Interpretation:</strong> every one-unit increase in x is associated with a three-unit increase in y.</div>
+  </section>
+
+  <section class="slide">
+    <h1>What Changes the Shape—and What Shifts the Line?</h1>
+    <div class="grid-2">
+      <div class="compare-panel">
+        <h2>Change the slope, keep b fixed</h2>
+        <div class="graph-box">
+          <svg viewBox="0 0 350 230" aria-label="Lines with different slopes and the same intercept">
+            <line class="axis" x1="38" y1="195" x2="332" y2="195"/><line class="axis" x1="38" y1="205" x2="38" y2="18"/>
+            <line class="line-blue" x1="38" y1="164" x2="317" y2="110"/>
+            <line class="line-green" x1="38" y1="164" x2="275" y2="50"/>
+            <line class="line-red" x1="38" y1="164" x2="190" y2="27"/>
+            <circle class="point" cx="38" cy="164" r="5"/>
+            <text class="graph-text" x="267" y="104">m = 0.5</text>
+            <text class="graph-text" x="260" y="47">m = 1</text>
+            <text class="graph-text" x="186" y="22">m = 2</text>
+            <text class="graph-note" x="47" y="181">same b</text>
+          </svg>
+        </div>
+        <div class="compare-note">A larger |m| makes the line <strong>steeper</strong>; a smaller |m| makes it <strong>flatter</strong>.</div>
+      </div>
+      <div class="compare-panel">
+        <h2>Change the intercept, keep m fixed</h2>
+        <div class="graph-box">
+          <svg viewBox="0 0 350 230" aria-label="Parallel lines with the same slope and different intercepts">
+            <line class="axis" x1="38" y1="195" x2="332" y2="195"/><line class="axis" x1="38" y1="205" x2="38" y2="18"/>
+            <line class="line-blue" x1="38" y1="168" x2="278" y2="68"/>
+            <line class="line-green" x1="38" y1="130" x2="278" y2="30"/>
+            <line class="line-orange" x1="38" y1="195" x2="278" y2="95"/>
+            <text class="graph-text" x="282" y="68">b = 2</text>
+            <text class="graph-text" x="282" y="31">b = 4</text>
+            <text class="graph-text" x="282" y="96">b = 0</text>
+          </svg>
+        </div>
+        <div class="compare-note">Changing b shifts the line <strong>up or down in parallel</strong>; its steepness does not change.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <h1>Interactive: Slope &amp; Intercept Lab</h1>
+    <div class="lab-layout">
+      <div class="graph-box">
+        <svg viewBox="0 0 520 420" role="img" aria-label="Interactive graph controlled by slope and intercept sliders">
+          <defs><clipPath id="labClip"><rect x="60" y="40" width="400" height="300"/></clipPath></defs>
+          <g>
+            <line class="gridline" x1="60" y1="40" x2="60" y2="340"/><line class="gridline" x1="100" y1="40" x2="100" y2="340"/>
+            <line class="gridline" x1="140" y1="40" x2="140" y2="340"/><line class="gridline" x1="180" y1="40" x2="180" y2="340"/>
+            <line class="gridline" x1="220" y1="40" x2="220" y2="340"/><line class="gridline" x1="260" y1="40" x2="260" y2="340"/>
+            <line class="gridline" x1="300" y1="40" x2="300" y2="340"/><line class="gridline" x1="340" y1="40" x2="340" y2="340"/>
+            <line class="gridline" x1="380" y1="40" x2="380" y2="340"/><line class="gridline" x1="420" y1="40" x2="420" y2="340"/>
+            <line class="gridline" x1="460" y1="40" x2="460" y2="340"/>
+            <line class="gridline" x1="60" y1="40" x2="460" y2="40"/><line class="gridline" x1="60" y1="65" x2="460" y2="65"/>
+            <line class="gridline" x1="60" y1="90" x2="460" y2="90"/><line class="gridline" x1="60" y1="115" x2="460" y2="115"/>
+            <line class="gridline" x1="60" y1="140" x2="460" y2="140"/><line class="gridline" x1="60" y1="165" x2="460" y2="165"/>
+            <line class="gridline" x1="60" y1="190" x2="460" y2="190"/><line class="gridline" x1="60" y1="215" x2="460" y2="215"/>
+            <line class="gridline" x1="60" y1="240" x2="460" y2="240"/><line class="gridline" x1="60" y1="265" x2="460" y2="265"/>
+            <line class="gridline" x1="60" y1="290" x2="460" y2="290"/><line class="gridline" x1="60" y1="315" x2="460" y2="315"/>
+            <line class="gridline" x1="60" y1="340" x2="460" y2="340"/>
+          </g>
+          <line class="axis" x1="60" y1="190" x2="470" y2="190"/><line class="axis" x1="260" y1="350" x2="260" y2="30"/>
+          <g class="tick" text-anchor="middle">
+            <text x="100" y="210">−4</text><text x="180" y="210">−2</text><text x="260" y="210">0</text><text x="340" y="210">2</text><text x="420" y="210">4</text>
+          </g>
+          <g class="tick" text-anchor="end">
+            <text x="250" y="44">6</text><text x="250" y="94">4</text><text x="250" y="144">2</text><text x="250" y="244">−2</text><text x="250" y="294">−4</text><text x="250" y="344">−6</text>
+          </g>
+          <text class="axis-label" x="478" y="194">x</text><text class="axis-label" x="267" y="25">y</text>
+          <g clip-path="url(#labClip)">
+            <line id="labLine" class="line-orange" x1="60" y1="315" x2="460" y2="65"/>
+          </g>
+          <circle id="labIntercept" class="point" cx="260" cy="190" r="7"/>
+          <text id="labEquation" class="graph-note" x="76" y="62">y = x</text>
+        </svg>
+      </div>
+      <div class="lab-controls">
+        <div class="slider-control">
+          <div class="slider-head"><label for="slopeSlider">Slope (m)</label><span class="slider-value" id="slopeValue">1</span></div>
+          <input id="slopeSlider" type="range" min="-3" max="3" step="0.5" value="1">
+        </div>
+        <div class="slider-control">
+          <div class="slider-head"><label for="interceptSlider">Intercept (b)</label><span class="slider-value" id="interceptValue">0</span></div>
+          <input id="interceptSlider" type="range" min="-4" max="4" step="1" value="0">
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-label">Match this target</div>
+          <div class="challenge-equation" id="labTarget">y = 2x − 3</div>
+          <div class="game-toolbar">
+            <button type="button" id="labCheck">Check</button>
+            <button type="button" class="secondary" id="labNew">New target</button>
+          </div>
+        </div>
+        <div class="game-feedback" id="labFeedback" aria-live="polite">Move m to rotate the line; move b to shift it.</div>
+        <button type="button" class="secondary" id="labReset">Reset line</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <h1>Solving Economic Models</h1>
+    <p>We can solve the same economic problem in two equivalent ways:</p>
+    <div class="grid-2" style="margin-top:18px;">
+      <div class="method"><div class="big">1</div><h2>Use algebra</h2><p class="small muted">Set equations equal and solve the system.</p></div>
+      <div class="method"><div class="big">2</div><h2>Use a graph</h2><p class="small muted">Find the point where the two lines intersect.</p></div>
+    </div>
+    <h2 style="margin-top:27px;">Example: the pizza market</h2>
+    <div class="market-grid">
+      <div class="market-card"><div class="market-label">Demand</div><div class="market-eq">Q<sub>d</sub> = 16 − 2P</div></div>
+      <div class="market-card"><div class="market-label">Supply</div><div class="market-eq">Q<sub>s</sub> = 2 + 5P</div></div>
+    </div>
+    <div class="definition-strip" style="margin-top:18px;"><strong>Equilibrium condition:</strong> the quantity buyers demand equals the quantity sellers supply, so Q<sub>d</sub> = Q<sub>s</sub>.</div>
+  </section>
+
+  <section class="slide">
+    <h1>Algebra Method: Solve for Equilibrium Price</h1>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-eq">16 − 2P = 2 + 5P</div><div class="step-note">Set demand equal to supply.</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-eq">14 − 2P = 5P</div><div class="step-note">Subtract 2 from both sides.</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-eq">14 = 7P</div><div class="step-note">Add 2P to both sides.</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-eq">P<sup>*</sup> = 14 ÷ 7 = 2</div><div class="step-note">Divide both sides by 7.</div></div>
+    </div>
+    <div class="definition-strip" style="margin-top:20px;"><strong>Result:</strong> the equilibrium price is <strong>P<sup>*</sup> = 2</strong>.</div>
+  </section>
+
+  <section class="slide">
+    <h1>Plug the Price Back In to Find Quantity</h1>
+    <p>Use P<sup>*</sup> = 2 in either equation. Using both equations gives us a useful check.</p>
+    <div class="grid-2" style="margin-top:25px;">
+      <div class="card accent-top">
+        <h2 class="blue">Demand</h2>
+        <div class="calc-stack">
+          <div class="calc-line">Q<sub>d</sub> = 16 − 2P</div>
+          <div class="calc-line">= 16 − 2(2)</div>
+          <div class="calc-line">Q<sub>d</sub> = 12</div>
+        </div>
+      </div>
+      <div class="card accent-top">
+        <h2 class="green">Supply</h2>
+        <div class="calc-stack">
+          <div class="calc-line">Q<sub>s</sub> = 2 + 5P</div>
+          <div class="calc-line">= 2 + 5(2)</div>
+          <div class="calc-line">Q<sub>s</sub> = 12</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:26px; text-align:center;">
+      <span class="check-badge">✓ Q<sub>d</sub> = Q<sub>s</sub> = 12, so the market is in equilibrium.</span>
+    </div>
+  </section>
+
+  <section class="slide">
+    <h1>Prepare the Equations for a Graph</h1>
+    <p>Economics graphs place <strong>quantity on the horizontal axis</strong> and <strong>price on the vertical axis</strong>. Solve each equation for the vertical variable, P.</p>
+    <div style="margin-top:31px;">
+      <div class="market-label">Demand</div>
+      <div class="transform-row">
+        <div class="transform-eq">Q<sub>d</sub> = 16 − 2P</div>
+        <div class="transform-arrow">→</div>
+        <div class="transform-eq">P = 8 − 0.5Q<sub>d</sub></div>
+      </div>
+      <div class="market-label" style="margin-top:28px;">Supply</div>
+      <div class="transform-row">
+        <div class="transform-eq">Q<sub>s</sub> = 2 + 5P</div>
+        <div class="transform-arrow">→</div>
+        <div class="transform-eq">P = −0.4 + 0.2Q<sub>s</sub></div>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:27px;"><strong>Before drawing:</strong> demand has a negative slope; supply has a positive slope.</div>
+  </section>
+
+  <section class="slide">
+    <h1>Graph Method: Find the Intersection</h1>
+    <div class="grid-2" style="grid-template-columns:.65fr 1.35fr; align-items:center;">
+      <div>
+        <div class="card accent-top">
+          <h3>Demand</h3>
+          <p>P = 8 − 0.5Q</p>
+        </div>
+        <div class="card accent-top" style="margin-top:14px;">
+          <h3>Supply</h3>
+          <p>P = −0.4 + 0.2Q</p>
+        </div>
+        <div class="definition-strip" style="margin-top:18px;">
+          The intersection gives the same answer as algebra:<br><strong>Q<sup>*</sup> = 12, P<sup>*</sup> = 2.</strong>
+        </div>
+      </div>
+      <div class="graph-box" style="height:450px;">
+        <svg viewBox="0 0 540 380" role="img" aria-label="Pizza market supply and demand equilibrium at quantity 12 and price 2">
+          <g>
+            <line class="gridline" x1="60" y1="318" x2="505" y2="318"/>
+            <line class="gridline" x1="60" y1="254" x2="505" y2="254"/>
+            <line class="gridline" x1="60" y1="190" x2="505" y2="190"/>
+            <line class="gridline" x1="60" y1="126" x2="505" y2="126"/>
+            <line class="gridline" x1="60" y1="62" x2="505" y2="62"/>
+          </g>
+          <line class="axis" x1="60" y1="318" x2="514" y2="318"/>
+          <line class="axis" x1="60" y1="326" x2="60" y2="42"/>
+          <g class="tick" text-anchor="middle">
+            <text x="60" y="339">0</text><text x="170" y="339">4</text><text x="280" y="339">8</text>
+            <text x="390" y="339">12</text><text x="500" y="339">16</text>
+          </g>
+          <g class="tick" text-anchor="end">
+            <text x="52" y="322">0</text><text x="52" y="258">2</text><text x="52" y="194">4</text>
+            <text x="52" y="130">6</text><text x="52" y="66">8</text>
+          </g>
+          <text class="axis-label" x="285" y="369" text-anchor="middle">Quantity</text>
+          <text class="axis-label" transform="translate(18 190) rotate(-90)" text-anchor="middle">Price</text>
+          <line class="line-blue" x1="60" y1="62" x2="500" y2="318"/>
+          <line class="line-orange" x1="115" y1="318" x2="500" y2="228"/>
+          <line class="guide" x1="390" y1="254" x2="390" y2="318"/>
+          <line class="guide" x1="60" y1="254" x2="390" y2="254"/>
+          <circle class="point" cx="390" cy="254" r="7"/>
+          <text class="graph-text" x="125" y="102">Demand</text>
+          <text class="graph-text" x="433" y="233">Supply</text>
+          <text class="graph-note" x="399" y="247">Equilibrium</text>
+          <text class="graph-note" x="390" y="356" text-anchor="middle">Q* = 12</text>
+          <text class="graph-note" x="48" y="258" text-anchor="end">P* = 2</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <h1>Interactive: Find Market Equilibrium</h1>
+    <div class="eq-game-layout">
+      <div class="graph-box">
+        <svg viewBox="0 0 520 400" role="img" aria-label="Interactive supply and demand graph controlled by a price slider">
+          <defs><clipPath id="eqClip"><rect x="60" y="10" width="400" height="320"/></clipPath></defs>
+          <g>
+            <line class="gridline" x1="60" y1="330" x2="460" y2="330"/><line class="gridline" x1="60" y1="250" x2="460" y2="250"/>
+            <line class="gridline" x1="60" y1="170" x2="460" y2="170"/><line class="gridline" x1="60" y1="90" x2="460" y2="90"/>
+            <line class="gridline" x1="60" y1="10" x2="460" y2="10"/>
+            <line class="gridline" x1="60" y1="10" x2="60" y2="330"/><line class="gridline" x1="160" y1="10" x2="160" y2="330"/>
+            <line class="gridline" x1="260" y1="10" x2="260" y2="330"/><line class="gridline" x1="360" y1="10" x2="360" y2="330"/>
+            <line class="gridline" x1="460" y1="10" x2="460" y2="330"/>
+          </g>
+          <line class="axis" x1="60" y1="330" x2="470" y2="330"/><line class="axis" x1="60" y1="340" x2="60" y2="4"/>
+          <g class="tick" text-anchor="middle"><text x="60" y="352">0</text><text x="160" y="352">5</text><text x="260" y="352">10</text><text x="360" y="352">15</text><text x="460" y="352">20</text></g>
+          <g class="tick" text-anchor="end"><text x="52" y="334">0</text><text x="52" y="254">1</text><text x="52" y="174">2</text><text x="52" y="94">3</text><text x="52" y="14">4</text></g>
+          <text class="axis-label" x="260" y="382" text-anchor="middle">Quantity</text>
+          <text class="axis-label" transform="translate(18 170) rotate(-90)" text-anchor="middle">Price</text>
+          <g clip-path="url(#eqClip)">
+            <line class="line-blue" x1="220" y1="10" x2="380" y2="330"/>
+            <line class="line-orange" x1="100" y1="330" x2="460" y2="42"/>
+            <line id="eqPriceLine" class="guide" x1="60" y1="250" x2="460" y2="250"/>
+          </g>
+          <circle id="eqDemandDot" cx="340" cy="250" r="8" fill="#2f80c9" stroke="#fff" stroke-width="2"/>
+          <circle id="eqSupplyDot" cx="200" cy="250" r="8" fill="#EB811B" stroke="#fff" stroke-width="2"/>
+          <text class="graph-text" x="230" y="35">Demand</text><text class="graph-text" x="410" y="65">Supply</text>
+          <text id="eqPriceGraphLabel" class="graph-note" x="450" y="242" text-anchor="end">P = 1.0</text>
+        </svg>
+      </div>
+      <div style="display:grid; gap:13px;">
+        <div class="challenge-card">
+          <div class="challenge-label">Goal</div>
+          <p class="small" style="margin:6px 0 0;">Move the price until Q<sub>d</sub> = Q<sub>s</sub> and the two dots overlap.</p>
+        </div>
+        <div class="price-display">P = <span id="eqPriceValue">1.0</span></div>
+        <div class="slider-control">
+          <label for="eqPriceSlider" style="display:block; margin-bottom:7px; font-size:16px; font-weight:750;">Choose a price</label>
+          <input id="eqPriceSlider" type="range" min="0" max="3.5" step="0.1" value="1">
+        </div>
+        <div class="quantity-readouts">
+          <div class="quantity-card"><div class="q-label">Quantity demanded</div><div class="q-value blue">Q<sub>d</sub> = <span id="eqQd">14</span></div></div>
+          <div class="quantity-card"><div class="q-label">Quantity supplied</div><div class="q-value accent">Q<sub>s</sub> = <span id="eqQs">7</span></div></div>
+        </div>
+        <div class="market-status" id="eqMarketStatus" aria-live="polite"><strong>Shortage of 7 units.</strong><br>Buyers want more than sellers provide.</div>
+        <div class="game-toolbar">
+          <button type="button" class="secondary" id="eqReset">Reset</button>
+          <button type="button" id="eqReveal">Show equilibrium</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <h1>Growth Rates Are Percentage Changes</h1>
+    <div class="growth-layout">
+      <div>
+        <p>A growth rate tells us how large a change is <strong>relative to where we started</strong>.</p>
+        <div class="formula" style="margin-top:24px;">
+          Percentage change =
+          <span class="fraction"><span>Change in quantity</span><span>Original quantity</span></span>
+          × 100%
+        </div>
+        <div class="formula compact" style="margin-top:16px;">
+          =
+          <span class="fraction"><span>New − Original</span><span>Original</span></span>
+          × 100%
+        </div>
+      </div>
+      <div class="growth-list">
+        <div class="growth-item"><div class="growth-icon">$</div><p>A firm’s sales</p></div>
+        <div class="growth-item"><div class="growth-icon">Y</div><p>A country’s GDP</p></div>
+        <div class="growth-item"><div class="growth-icon">π</div><p>The price level or inflation</p></div>
+        <div class="growth-item"><div class="growth-icon">W</div><p>A worker’s wage</p></div>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:29px;"><strong>Always identify the original value first.</strong> It belongs in the denominator.</div>
+  </section>
+
+  <section class="slide">
+    <h1>Example: A Pay Raise</h1>
+    <div class="wage-flow">
+      <div class="wage-box"><div class="label">Original wage</div><div class="amount">$10/hr</div></div>
+      <div class="wage-arrow">→</div>
+      <div class="wage-box"><div class="label">New wage</div><div class="amount">$12/hr</div></div>
+    </div>
+    <div class="grid-2" style="align-items:stretch;">
+      <div class="card">
+        <h3>1. Find the absolute change</h3>
+        <div class="formula compact">$12 − $10 = $2</div>
+      </div>
+      <div class="card">
+        <h3>2. Divide by the original value</h3>
+        <div class="formula compact">
+          <span class="fraction"><span>$2</span><span>$10</span></span>
+          × 100% = 20%
+        </div>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:24px;"><strong>Interpretation:</strong> the hourly wage increased by <strong>20 percent</strong>.</div>
+  </section>
+
+  <section class="slide interactive">
+    <h1>Interactive: Percentage Change Speed Round</h1>
+    <div class="game-toolbar" style="margin-bottom:18px;">
+      <span class="score-pill" id="quizProgress">Round 1 of 5</span>
+      <span class="score-pill" id="quizScore">Score: 0</span>
+      <button type="button" class="secondary" id="quizReset">Restart</button>
+    </div>
+    <div class="quiz-layout">
+      <div class="quiz-scenario">
+        <div class="quiz-round">Calculate the percentage change</div>
+        <h2 id="quizPrompt">Your hourly wage changes:</h2>
+        <div class="quiz-values">
+          <div class="quiz-value"><span class="tiny muted" id="quizOldLabel">ORIGINAL</span><br><span id="quizOld">$10</span></div>
+          <div class="quiz-arrow">→</div>
+          <div class="quiz-value"><span class="tiny muted" id="quizNewLabel">NEW</span><br><span id="quizNew">$12</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="answer-grid" id="quizAnswers">
+          <button type="button" class="answer-button" data-answer-index="0">20%</button>
+          <button type="button" class="answer-button" data-answer-index="1">25%</button>
+          <button type="button" class="answer-button" data-answer-index="2">2%</button>
+          <button type="button" class="answer-button" data-answer-index="3">−20%</button>
+        </div>
+        <div class="game-feedback" id="quizFeedback" style="margin-top:16px;" aria-live="polite">Remember: divide the change by the original value.</div>
+        <button type="button" id="quizNext" style="margin-top:13px; width:100%;" disabled>Next question</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <h1>Five Moves to Remember</h1>
+    <div class="card white" style="padding:8px 18px;">
+      <div class="takeaway"><div class="takeaway-num">1</div><p>A <strong>function</strong> maps inputs to an output.</p></div>
+      <div class="takeaway"><div class="takeaway-num">2</div><p>For y = mx + b, <strong>m is the slope</strong> and <strong>b is the y-intercept</strong>.</p></div>
+      <div class="takeaway"><div class="takeaway-num">3</div><p>Calculate slope with <strong>rise over run</strong>: Δy ÷ Δx.</p></div>
+      <div class="takeaway"><div class="takeaway-num">4</div><p>Solve a model by <strong>setting equations equal</strong> or finding their <strong>graphical intersection</strong>.</p></div>
+      <div class="takeaway"><div class="takeaway-num">5</div><p>Percentage change is <strong>change ÷ original</strong> × 100%.</p></div>
+    </div>
+    <div class="definition-strip" style="margin-top:22px;"><strong>The big skill:</strong> move between words, equations, tables, and graphs—and explain what the answer means.</div>
+  </section>
+
+</div>
+<div id="progress"></div>
+<div id="hint">← → / Space to navigate · P to print</div>
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const stage = document.getElementById('stage');
+  const progress = document.getElementById('progress');
+  let idx = 0;
+
+  slides.forEach(function(slide, i){
+    const footer = document.createElement('div');
+    footer.className = 'footer';
+    footer.innerHTML = '<span>ARE 201 · Fall 2026</span><span>' + (i + 1) + '</span>';
+    slide.appendChild(footer);
+  });
+
+  function fit(){
+    const scale = Math.min(window.innerWidth / 960, window.innerHeight / 720);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+  }
+
+  function show(n){
+    idx = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(slide, i){
+      slide.classList.toggle('active', i === idx);
+    });
+    progress.style.width = (((idx + 1) / slides.length) * 100) + '%';
+    history.replaceState(null, '', '#' + (idx + 1));
+  }
+
+  function setFeedback(element, message, state){
+    element.className = 'game-feedback' + (state ? ' ' + state : '');
+    element.textContent = message;
+  }
+
+  const svgNS = 'http://www.w3.org/2000/svg';
+
+  // Plot the Points
+  const plotTargets = [9, 12, 15, 18, 21, 24, 27];
+  const plotFound = new Set();
+  const plotSvg = document.getElementById('plotGameSvg');
+  const plotMinorGrid = document.getElementById('plotMinorGrid');
+  const plotPoints = document.getElementById('plotGamePoints');
+  const plotMiss = document.getElementById('plotGameMiss');
+  const plotLine = document.getElementById('plotGameLine');
+  const plotScore = document.getElementById('plotScore');
+  const plotNext = document.getElementById('plotNext');
+  const plotFeedback = document.getElementById('plotFeedback');
+  const plotColumnHighlight = document.getElementById('plotColumnHighlight');
+  const plotCursorLine = document.getElementById('plotCursorLine');
+  const plotCursorDot = document.getElementById('plotCursorDot');
+  const plotCursorLabel = document.getElementById('plotCursorLabel');
+
+  function clearSvgGroup(group){
+    while (group.firstChild) group.removeChild(group.firstChild);
+  }
+
+  for (let y = 1; y < 30; y += 1) {
+    if (y % 5 === 0) continue;
+    const minor = document.createElementNS(svgNS, 'line');
+    minor.setAttribute('class', 'minor-gridline');
+    minor.setAttribute('x1', '65');
+    minor.setAttribute('x2', '455');
+    minor.setAttribute('y1', String(340 - 10 * y));
+    minor.setAttribute('y2', String(340 - 10 * y));
+    plotMinorGrid.appendChild(minor);
+  }
+
+  function setPlotCursorVisible(visible){
+    const opacity = visible ? '1' : '0';
+    plotCursorLine.setAttribute('opacity', opacity);
+    plotCursorDot.setAttribute('opacity', opacity);
+    plotCursorLabel.setAttribute('opacity', opacity);
+  }
+
+  function updatePlotGuide(){
+    const nextX = plotFound.size;
+    if (nextX >= plotTargets.length) {
+      plotColumnHighlight.setAttribute('opacity', '0');
+      plotNext.textContent = 'Complete';
+      setPlotCursorVisible(false);
+      return;
+    }
+    const xPosition = 65 + 65 * nextX;
+    plotColumnHighlight.setAttribute('x', String(xPosition - 12));
+    plotColumnHighlight.setAttribute('opacity', '1');
+    plotNext.textContent = 'Next: x = ' + nextX;
+    setPlotCursorVisible(false);
+  }
+
+  function resetPlotGame(){
+    plotFound.clear();
+    clearSvgGroup(plotPoints);
+    clearSvgGroup(plotMiss);
+    plotLine.setAttribute('opacity', '0');
+    plotScore.textContent = 'Completed: 0 / 7';
+    setPlotCursorVisible(false);
+    updatePlotGuide();
+    setFeedback(plotFeedback, 'Move your pointer over the graph. The live coordinate will follow it.', '');
+  }
+
+  function drawPlotPoint(x, y){
+    const point = document.createElementNS(svgNS, 'circle');
+    point.setAttribute('class', 'point');
+    point.setAttribute('cx', String(65 + 65 * x));
+    point.setAttribute('cy', String(340 - 10 * y));
+    point.setAttribute('r', '9');
+    plotPoints.appendChild(point);
+  }
+
+  function localPlotPoint(event){
+    const screenPoint = plotSvg.createSVGPoint();
+    screenPoint.x = event.clientX;
+    screenPoint.y = event.clientY;
+    return screenPoint.matrixTransform(plotSvg.getScreenCTM().inverse());
+  }
+
+  function updatePlotCursor(event){
+    if (plotFound.size >= plotTargets.length) return null;
+    const local = localPlotPoint(event);
+    if (local.y < 35 || local.y > 345) {
+      setPlotCursorVisible(false);
+      return null;
+    }
+    const x = plotFound.size;
+    const y = Math.max(0, Math.min(30, Math.round((340 - local.y) / 10)));
+    const xPosition = 65 + 65 * x;
+    const yPosition = 340 - 10 * y;
+    plotCursorLine.setAttribute('y1', String(yPosition));
+    plotCursorLine.setAttribute('y2', String(yPosition));
+    plotCursorDot.setAttribute('cx', String(xPosition));
+    plotCursorDot.setAttribute('cy', String(yPosition));
+    plotCursorLabel.setAttribute('x', String(x === 6 ? xPosition - 12 : xPosition + 12));
+    plotCursorLabel.setAttribute('y', String(Math.max(30, yPosition - 11)));
+    plotCursorLabel.setAttribute('text-anchor', x === 6 ? 'end' : 'start');
+    plotCursorLabel.textContent = '(' + x + ', ' + y + ')';
+    setPlotCursorVisible(true);
+    return {x: x, y: y};
+  }
+
+  plotSvg.addEventListener('pointermove', function(event){
+    updatePlotCursor(event);
+  });
+  plotSvg.addEventListener('pointerleave', function(){
+    setPlotCursorVisible(false);
+  });
+
+  plotSvg.addEventListener('click', function(event){
+    event.stopPropagation();
+    const candidate = updatePlotCursor(event);
+    if (!candidate) {
+      setFeedback(plotFeedback, 'Click inside the coordinate grid.', 'error');
+      return;
+    }
+    const x = candidate.x;
+    const y = candidate.y;
+    clearSvgGroup(plotMiss);
+
+    if (plotTargets[x] === y) {
+      plotFound.add(x);
+      drawPlotPoint(x, y);
+      plotScore.textContent = 'Completed: ' + plotFound.size + ' / 7';
+      updatePlotGuide();
+      if (plotFound.size === plotTargets.length) {
+        plotLine.setAttribute('opacity', '1');
+        setFeedback(plotFeedback, 'Complete! All seven points lie on one straight line.', 'success');
+      } else {
+        setFeedback(plotFeedback, 'Correct: (' + x + ', ' + y + '). Now plot x = ' + plotFound.size + '.', 'success');
+      }
+    } else {
+      const miss = document.createElementNS(svgNS, 'circle');
+      miss.setAttribute('cx', String(65 + 65 * x));
+      miss.setAttribute('cy', String(340 - 10 * y));
+      miss.setAttribute('r', '10');
+      miss.setAttribute('fill', '#c9504d');
+      miss.setAttribute('stroke', '#fff');
+      miss.setAttribute('stroke-width', '2');
+      plotMiss.appendChild(miss);
+      const missLabel = document.createElementNS(svgNS, 'text');
+      missLabel.setAttribute('x', String(65 + 65 * x + (x === 6 ? -14 : 14)));
+      missLabel.setAttribute('y', String(Math.max(28, 340 - 10 * y - 13)));
+      missLabel.setAttribute('text-anchor', x === 6 ? 'end' : 'start');
+      missLabel.setAttribute('fill', '#c9504d');
+      missLabel.setAttribute('font-family', 'Arial, sans-serif');
+      missLabel.setAttribute('font-size', '14');
+      missLabel.setAttribute('font-weight', '700');
+      missLabel.textContent = 'You chose (' + x + ', ' + y + ')';
+      plotMiss.appendChild(missLabel);
+      setFeedback(plotFeedback, 'You chose (' + x + ', ' + y + '). Recalculate y = 9 + 3(' + x + ') and try again.', 'error');
+    }
+  });
+  document.getElementById('plotReset').addEventListener('click', resetPlotGame);
+  resetPlotGame();
+
+  // Slope and Intercept Lab
+  const slopeSlider = document.getElementById('slopeSlider');
+  const interceptSlider = document.getElementById('interceptSlider');
+  const slopeValue = document.getElementById('slopeValue');
+  const interceptValue = document.getElementById('interceptValue');
+  const labLine = document.getElementById('labLine');
+  const labIntercept = document.getElementById('labIntercept');
+  const labEquation = document.getElementById('labEquation');
+  const labTarget = document.getElementById('labTarget');
+  const labFeedback = document.getElementById('labFeedback');
+  const labTargets = [
+    {m: 2, b: -3},
+    {m: -1, b: 2},
+    {m: 0.5, b: 1},
+    {m: -2, b: -1},
+    {m: 0, b: 3}
+  ];
+  let labTargetIndex = 0;
+
+  function cleanNumber(value){
+    const number = Number(value);
+    const text = Number.isInteger(number) ? String(number) : number.toFixed(1);
+    return text.replace('-', '−');
+  }
+
+  function lineEquation(m, b){
+    if (m === 0) return 'y = ' + cleanNumber(b);
+    let slopeText = '';
+    if (m === 1) slopeText = '';
+    else if (m === -1) slopeText = '−';
+    else slopeText = cleanNumber(m);
+    let equation = 'y = ' + slopeText + 'x';
+    if (b > 0) equation += ' + ' + cleanNumber(b);
+    else if (b < 0) equation += ' − ' + cleanNumber(Math.abs(b));
+    return equation;
+  }
+
+  function updateLab(){
+    const m = Number(slopeSlider.value);
+    const b = Number(interceptSlider.value);
+    const yAtLeft = m * -5 + b;
+    const yAtRight = m * 5 + b;
+    labLine.setAttribute('x1', '60');
+    labLine.setAttribute('y1', String(190 - 25 * yAtLeft));
+    labLine.setAttribute('x2', '460');
+    labLine.setAttribute('y2', String(190 - 25 * yAtRight));
+    labIntercept.setAttribute('cy', String(190 - 25 * b));
+    labEquation.textContent = lineEquation(m, b);
+    slopeValue.textContent = cleanNumber(m);
+    interceptValue.textContent = cleanNumber(b);
+  }
+
+  function showLabTarget(){
+    const target = labTargets[labTargetIndex];
+    labTarget.textContent = lineEquation(target.m, target.b);
+  }
+
+  function labInputChanged(){
+    updateLab();
+    setFeedback(labFeedback, 'Watch how the line changes. Check it when it matches the target.', '');
+  }
+
+  slopeSlider.addEventListener('input', labInputChanged);
+  interceptSlider.addEventListener('input', labInputChanged);
+  document.getElementById('labCheck').addEventListener('click', function(){
+    const m = Number(slopeSlider.value);
+    const b = Number(interceptSlider.value);
+    const target = labTargets[labTargetIndex];
+    if (m === target.m && b === target.b) {
+      setFeedback(labFeedback, 'Exact match! You found both the slope and the intercept.', 'success');
+    } else if (m === target.m) {
+      setFeedback(labFeedback, 'The slope matches. Now adjust the intercept.', 'error');
+    } else if (b === target.b) {
+      setFeedback(labFeedback, 'The intercept matches. Now adjust the slope.', 'error');
+    } else {
+      setFeedback(labFeedback, 'Not yet. Compare both m and b with the target equation.', 'error');
+    }
+  });
+  document.getElementById('labNew').addEventListener('click', function(){
+    labTargetIndex = (labTargetIndex + 1) % labTargets.length;
+    showLabTarget();
+    setFeedback(labFeedback, 'New target: adjust both controls, then check your line.', '');
+  });
+  document.getElementById('labReset').addEventListener('click', function(){
+    slopeSlider.value = '1';
+    interceptSlider.value = '0';
+    updateLab();
+    setFeedback(labFeedback, 'Reset to y = x.', '');
+  });
+  updateLab();
+  showLabTarget();
+
+  // Equilibrium Finder
+  const eqPriceSlider = document.getElementById('eqPriceSlider');
+  const eqPriceValue = document.getElementById('eqPriceValue');
+  const eqQd = document.getElementById('eqQd');
+  const eqQs = document.getElementById('eqQs');
+  const eqDemandDot = document.getElementById('eqDemandDot');
+  const eqSupplyDot = document.getElementById('eqSupplyDot');
+  const eqPriceLine = document.getElementById('eqPriceLine');
+  const eqPriceGraphLabel = document.getElementById('eqPriceGraphLabel');
+  const eqMarketStatus = document.getElementById('eqMarketStatus');
+
+  function oneDecimal(value){
+    return Number.isInteger(value) ? value.toFixed(0) : value.toFixed(1);
+  }
+
+  function updateEquilibrium(){
+    const price = Number(eqPriceSlider.value);
+    const qd = 16 - 2 * price;
+    const qs = 2 + 5 * price;
+    const y = 330 - 80 * price;
+    eqPriceValue.textContent = price.toFixed(1);
+    eqQd.textContent = oneDecimal(qd);
+    eqQs.textContent = oneDecimal(qs);
+    eqDemandDot.setAttribute('cx', String(60 + 20 * qd));
+    eqDemandDot.setAttribute('cy', String(y));
+    eqSupplyDot.setAttribute('cx', String(60 + 20 * qs));
+    eqSupplyDot.setAttribute('cy', String(y));
+    eqPriceLine.setAttribute('y1', String(y));
+    eqPriceLine.setAttribute('y2', String(y));
+    eqPriceGraphLabel.setAttribute('y', String(Math.max(23, y - 8)));
+    eqPriceGraphLabel.textContent = 'P = ' + price.toFixed(1);
+
+    const gap = qd - qs;
+    if (Math.abs(gap) < 0.05) {
+      eqMarketStatus.innerHTML = '<strong>Equilibrium!</strong><br>Q<sub>d</sub> = Q<sub>s</sub> = 12.';
+      eqMarketStatus.style.borderLeftColor = '#378a61';
+      eqMarketStatus.style.background = '#e9f6ef';
+    } else if (gap > 0) {
+      eqMarketStatus.innerHTML = '<strong>Shortage of ' + oneDecimal(gap) + ' units.</strong><br>Buyers want more than sellers provide.';
+      eqMarketStatus.style.borderLeftColor = '#EB811B';
+      eqMarketStatus.style.background = '#fff4e8';
+    } else {
+      eqMarketStatus.innerHTML = '<strong>Surplus of ' + oneDecimal(Math.abs(gap)) + ' units.</strong><br>Sellers provide more than buyers want.';
+      eqMarketStatus.style.borderLeftColor = '#2f80c9';
+      eqMarketStatus.style.background = '#eef5fb';
+    }
+  }
+
+  eqPriceSlider.addEventListener('input', updateEquilibrium);
+  document.getElementById('eqReset').addEventListener('click', function(){
+    eqPriceSlider.value = '1';
+    updateEquilibrium();
+  });
+  document.getElementById('eqReveal').addEventListener('click', function(){
+    eqPriceSlider.value = '2';
+    updateEquilibrium();
+  });
+  updateEquilibrium();
+
+  // Percentage Change Speed Round
+  const quizQuestions = [
+    {
+      prompt: 'Your hourly wage changes:',
+      oldValue: '$10',
+      newValue: '$12',
+      options: ['20%', '25%', '2%', '−20%'],
+      correct: 0,
+      explanation: '($12 − $10) ÷ $10 × 100% = 20%.'
+    },
+    {
+      prompt: 'A farm’s monthly sales change:',
+      oldValue: '$50k',
+      newValue: '$65k',
+      options: ['15%', '23.1%', '30%', '130%'],
+      correct: 2,
+      explanation: '($65k − $50k) ÷ $50k × 100% = 30%.'
+    },
+    {
+      prompt: 'An input price changes:',
+      oldValue: '$80',
+      newValue: '$60',
+      options: ['−20%', '−25%', '25%', '−33.3%'],
+      correct: 1,
+      explanation: '($60 − $80) ÷ $80 × 100% = −25%.'
+    },
+    {
+      prompt: 'An economy’s GDP changes:',
+      oldValue: '200',
+      newValue: '210',
+      options: ['2%', '5%', '10%', '105%'],
+      correct: 1,
+      explanation: '(210 − 200) ÷ 200 × 100% = 5%.'
+    },
+    {
+      prompt: 'Crop yield per acre changes:',
+      oldValue: '120',
+      newValue: '108',
+      options: ['−12%', '−10%', '10%', '90%'],
+      correct: 1,
+      explanation: '(108 − 120) ÷ 120 × 100% = −10%.'
+    }
+  ];
+  const quizButtons = Array.from(document.querySelectorAll('.answer-button'));
+  const quizProgress = document.getElementById('quizProgress');
+  const quizScore = document.getElementById('quizScore');
+  const quizPrompt = document.getElementById('quizPrompt');
+  const quizOld = document.getElementById('quizOld');
+  const quizNew = document.getElementById('quizNew');
+  const quizOldLabel = document.getElementById('quizOldLabel');
+  const quizNewLabel = document.getElementById('quizNewLabel');
+  const quizFeedback = document.getElementById('quizFeedback');
+  const quizNext = document.getElementById('quizNext');
+  let quizIndex = 0;
+  let quizPoints = 0;
+  let quizAnswered = false;
+
+  function renderQuiz(){
+    quizButtons.forEach(function(button){
+      button.classList.remove('correct', 'wrong');
+      button.disabled = false;
+    });
+    quizNext.disabled = true;
+    quizAnswered = false;
+
+    if (quizIndex >= quizQuestions.length) {
+      quizProgress.textContent = 'Complete';
+      quizPrompt.textContent = 'Speed round complete!';
+      quizOldLabel.textContent = 'SCORE';
+      quizNewLabel.textContent = 'OUT OF';
+      quizOld.textContent = String(quizPoints);
+      quizNew.textContent = String(quizQuestions.length);
+      quizButtons.forEach(function(button){
+        button.textContent = '—';
+        button.disabled = true;
+      });
+      setFeedback(quizFeedback, quizPoints === quizQuestions.length ? 'Perfect score!' : 'Review any missed denominators, then restart and try again.', 'success');
+      return;
+    }
+
+    const question = quizQuestions[quizIndex];
+    quizProgress.textContent = 'Round ' + (quizIndex + 1) + ' of ' + quizQuestions.length;
+    quizScore.textContent = 'Score: ' + quizPoints;
+    quizPrompt.textContent = question.prompt;
+    quizOldLabel.textContent = 'ORIGINAL';
+    quizNewLabel.textContent = 'NEW';
+    quizOld.textContent = question.oldValue;
+    quizNew.textContent = question.newValue;
+    quizButtons.forEach(function(button, optionIndex){
+      button.textContent = question.options[optionIndex];
+    });
+    quizNext.textContent = quizIndex === quizQuestions.length - 1 ? 'See result' : 'Next question';
+    setFeedback(quizFeedback, 'Remember: divide the change by the original value.', '');
+  }
+
+  quizButtons.forEach(function(button, optionIndex){
+    button.addEventListener('click', function(){
+      if (quizAnswered) return;
+      quizAnswered = true;
+      const question = quizQuestions[quizIndex];
+      quizButtons.forEach(function(answer){ answer.disabled = true; });
+      quizButtons[question.correct].classList.add('correct');
+      if (optionIndex === question.correct) {
+        quizPoints += 1;
+        quizScore.textContent = 'Score: ' + quizPoints;
+        setFeedback(quizFeedback, 'Correct. ' + question.explanation, 'success');
+      } else {
+        button.classList.add('wrong');
+        setFeedback(quizFeedback, 'Not quite. ' + question.explanation, 'error');
+      }
+      quizNext.disabled = false;
+    });
+  });
+  quizNext.addEventListener('click', function(){
+    if (!quizAnswered) return;
+    quizIndex += 1;
+    renderQuiz();
+  });
+  document.getElementById('quizReset').addEventListener('click', function(){
+    quizIndex = 0;
+    quizPoints = 0;
+    quizScore.textContent = 'Score: 0';
+    renderQuiz();
+  });
+  renderQuiz();
+
+  document.addEventListener('keydown', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea')) return;
+    if (['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(event.key)) {
+      event.preventDefault();
+      show(idx + 1);
+    } else if (['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(event.key)) {
+      event.preventDefault();
+      show(idx - 1);
+    } else if (event.key.toLowerCase() === 'p') {
+      window.print();
+    } else if (event.key === 'Home') {
+      show(0);
+    } else if (event.key === 'End') {
+      show(slides.length - 1);
+    }
+  });
+
+  document.addEventListener('click', function(event){
+    if (event.target.closest && event.target.closest('.interactive button, .interactive input, .interactive svg, .interactive .game-feedback, .interactive .game-toolbar, .interactive .slider-control, .interactive .challenge-card, .interactive .quantity-card, .interactive .market-status, .interactive .quiz-scenario, .interactive .answer-grid')) return;
+    if (event.clientX > window.innerWidth / 2) show(idx + 1);
+    else show(idx - 1);
+  });
+
+  window.addEventListener('resize', fit);
+  const hash = parseInt(location.hash.replace('#',''), 10);
+  if (Number.isFinite(hash)) idx = Math.max(0, Math.min(slides.length - 1, hash - 1));
+  fit();
+  show(idx);
+})();
+</script>
+</body>
+</html>
