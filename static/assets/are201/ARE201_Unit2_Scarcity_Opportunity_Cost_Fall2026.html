@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARE 201 — Unit 2: Scarcity and Opportunity Cost</title>
+<style>
+  :root {
+    --accent: #EB811B;
+    --accent-soft: #fff4e8;
+    --ink: #1f2933;
+    --muted: #5f6b76;
+    --paper: #ffffff;
+    --soft: #f3f4f6;
+    --line: #d8dde3;
+    --blue: #2f80c9;
+    --blue-soft: #eef5fb;
+    --green: #378a61;
+    --green-soft: #e9f6ef;
+    --red: #c9504d;
+    --red-soft: #fcedec;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #111;
+  }
+  body { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+
+  #stage {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 960px;
+    height: 720px;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+    background: var(--paper);
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    width: 960px;
+    height: 720px;
+    padding: 54px 64px 48px;
+    overflow: hidden;
+    color: var(--ink);
+    background: var(--paper);
+  }
+  .slide.active { display: block; }
+  .slide.center { text-align: center; }
+  .slide.middle {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .slide.middle.active { display: flex; }
+
+  h1, h2, h3, p { margin-top: 0; }
+  h1 {
+    margin-bottom: 24px;
+    font-size: 38px;
+    line-height: 1.12;
+    font-weight: 700;
+    letter-spacing: -.5px;
+  }
+  h2 {
+    margin-bottom: 14px;
+    font-size: 27px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+  h3 {
+    margin-bottom: 9px;
+    font-size: 21px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+  p, li {
+    font-size: 21px;
+    line-height: 1.38;
+  }
+  ul { margin: 8px 0 0 24px; padding: 0; }
+  li { margin: 7px 0; }
+  strong { font-weight: 750; }
+  .muted { color: var(--muted); }
+  .accent { color: var(--accent); }
+  .blue { color: var(--blue); }
+  .green { color: var(--green); }
+  .red { color: var(--red); }
+  .small { font-size: 17px; line-height: 1.35; }
+  .tiny { font-size: 14px; line-height: 1.3; }
+
+  .title-slide { padding-bottom: 150px; }
+  .title-kicker {
+    margin-bottom: 13px;
+    color: var(--accent);
+    font-size: 17px;
+    font-weight: 750;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+  }
+  .title-main {
+    max-width: 770px;
+    margin: 0 auto 13px;
+    font-size: 55px;
+    line-height: 1.03;
+  }
+  .title-sub {
+    color: var(--muted);
+    font-size: 25px;
+    line-height: 1.35;
+  }
+  .title-graphic {
+    position: absolute;
+    right: 52px;
+    bottom: 49px;
+    width: 410px;
+    height: 150px;
+  }
+
+  .section-kicker {
+    margin-bottom: 8px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 13px; }
+
+  .card {
+    padding: 20px 22px;
+    border-radius: 8px;
+    background: var(--soft);
+  }
+  .card.white { border: 1px solid var(--line); background: #fff; }
+  .card.accent-top { border-top: 4px solid var(--accent); border-radius: 0 0 8px 8px; }
+  .card.blue-top { border-top: 4px solid var(--blue); border-radius: 0 0 8px 8px; }
+  .card.green-top { border-top: 4px solid var(--green); border-radius: 0 0 8px 8px; }
+  .card p { margin-bottom: 0; font-size: 18px; line-height: 1.36; }
+  .card li { font-size: 18px; }
+
+  .roadmap-card {
+    min-height: 205px;
+    padding: 19px 17px;
+    border-top: 4px solid var(--accent);
+    background: var(--soft);
+  }
+  .roadmap-num {
+    margin-bottom: 18px;
+    color: var(--accent);
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .roadmap-card h3 { font-size: 19px; }
+  .roadmap-card p { margin-bottom: 0; color: #45515c; font-size: 16px; line-height: 1.35; }
+
+  .definition-strip {
+    padding: 15px 18px;
+    border-left: 5px solid var(--accent);
+    background: var(--accent-soft);
+    font-size: 20px;
+    line-height: 1.42;
+  }
+  .definition-strip.blue-strip { border-left-color: var(--blue); background: var(--blue-soft); }
+  .definition-strip.green-strip { border-left-color: var(--green); background: var(--green-soft); }
+  .definition-strip.large { padding: 20px 24px; font-size: 27px; }
+
+  .formula {
+    padding: 18px 22px;
+    border-left: 5px solid var(--accent);
+    background: var(--accent-soft);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 28px;
+    line-height: 1.35;
+    text-align: center;
+  }
+  .formula.large { font-size: 36px; }
+  .formula.compact { padding: 12px 18px; font-size: 24px; }
+
+  .choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 15px;
+  }
+  .choice-card {
+    min-height: 82px;
+    padding: 15px 18px;
+    border: 2px solid var(--line);
+    border-radius: 9px;
+    color: var(--ink);
+    background: #fff;
+    text-align: left;
+    transition: border-color .15s ease, background .15s ease, transform .15s ease;
+  }
+  .choice-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .choice-card.selected { border-color: var(--accent); background: var(--accent-soft); }
+  .choice-card.next-best { border-color: var(--blue); background: var(--blue-soft); }
+  .choice-card .choice-title { display: block; font-size: 20px; font-weight: 800; }
+  .choice-card .choice-detail { display: block; margin-top: 3px; color: var(--muted); font-size: 14px; line-height: 1.3; }
+
+  .resource-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 13px;
+    margin-top: 15px;
+  }
+  .resource-card {
+    min-height: 108px;
+    padding: 15px 17px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+  }
+  .resource-icon {
+    display: inline-flex;
+    width: 35px;
+    height: 35px;
+    margin-bottom: 9px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--accent);
+    background: var(--accent-soft);
+    font-size: 15px;
+    font-weight: 850;
+  }
+  .resource-card h3 { margin: 0 0 3px; font-size: 18px; }
+  .resource-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.3; }
+
+  .contrast-table {
+    width: 100%;
+    margin-top: 18px;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .contrast-table th, .contrast-table td {
+    padding: 13px 18px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+    font-size: 17px;
+    line-height: 1.34;
+  }
+  .contrast-table th:last-child, .contrast-table td:last-child { border-right: 0; }
+  .contrast-table tr:last-child td { border-bottom: 0; }
+  .contrast-table th { color: #fff; background: var(--ink); font-size: 18px; }
+  .contrast-table th:first-child { background: var(--accent); }
+
+  .flow {
+    display: grid;
+    grid-template-columns: 1fr 55px 1fr 55px 1fr;
+    align-items: center;
+    gap: 7px;
+    margin: 19px 0;
+  }
+  .flow-box {
+    padding: 17px 13px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    text-align: center;
+    background: #fff;
+  }
+  .flow-label {
+    margin-bottom: 5px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 750;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .flow-value { font-size: 20px; font-weight: 800; }
+  .flow-arrow { color: var(--accent); text-align: center; font-size: 34px; }
+
+  .process-line {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin: 28px 4px 18px;
+  }
+  .process-step {
+    position: relative;
+    min-height: 125px;
+    padding: 18px 13px;
+    border-top: 4px solid var(--accent);
+    background: var(--soft);
+    text-align: center;
+  }
+  .process-step:not(:last-child)::after {
+    content: "→";
+    position: absolute;
+    right: -25px;
+    top: 41px;
+    color: var(--accent);
+    font-size: 29px;
+  }
+  .process-num { color: var(--accent); font-size: 14px; font-weight: 850; letter-spacing: .08em; }
+  .process-step h3 { margin: 6px 0 4px; font-size: 19px; }
+  .process-step p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.3; }
+
+  .myth-layout { display: grid; grid-template-columns: .85fr 1.15fr; gap: 24px; margin-top: 18px; }
+  .myth-card, .reality-card {
+    min-height: 300px;
+    padding: 24px;
+    border-radius: 8px;
+  }
+  .myth-card { border: 1px solid #efc1bf; background: var(--red-soft); }
+  .reality-card { border: 1px solid #b8ddca; background: var(--green-soft); }
+  .myth-label, .reality-label {
+    margin-bottom: 16px;
+    font-size: 13px;
+    font-weight: 850;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .myth-label { color: var(--red); }
+  .reality-label { color: var(--green); }
+  .myth-card blockquote { margin: 28px 0 0; font: 700 30px/1.3 Georgia, serif; }
+  .reality-item { display: grid; grid-template-columns: 40px 1fr; gap: 11px; margin: 15px 0; align-items: start; }
+  .reality-icon {
+    display: flex;
+    width: 34px;
+    height: 34px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--green);
+    font-size: 15px;
+    font-weight: 850;
+  }
+  .reality-item p { margin: 2px 0 0; font-size: 17px; }
+
+  .question-panel {
+    min-height: 135px;
+    padding: 20px 23px;
+    border-top: 5px solid var(--accent);
+    background: var(--soft);
+  }
+  .question-count { color: var(--muted); font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .question-panel h2 { margin: 10px 0 0; font-size: 25px; }
+  .answer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+
+  .breakfast-grid { display: grid; grid-template-columns: 1.03fr .97fr; gap: 28px; align-items: center; }
+  .breakfast-visual {
+    position: relative;
+    height: 410px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: linear-gradient(145deg, #fff 0%, #fff8ef 100%);
+  }
+  .coffee-cup {
+    position: absolute;
+    left: 113px;
+    top: 102px;
+    width: 170px;
+    height: 178px;
+    border: 7px solid var(--ink);
+    border-top: 0;
+    border-radius: 0 0 25px 25px;
+    background: #fff;
+  }
+  .coffee-cup::before {
+    content: "";
+    position: absolute;
+    right: -66px;
+    top: 34px;
+    width: 60px;
+    height: 76px;
+    border: 7px solid var(--ink);
+    border-left: 0;
+    border-radius: 0 50% 50% 0;
+  }
+  .coffee-fill { position: absolute; left: 5px; right: 5px; top: 10px; height: 55px; background: #8a5235; }
+  .steam { position: absolute; width: 38px; height: 70px; border-left: 5px solid var(--accent); border-radius: 50%; opacity: .8; }
+  .steam.s1 { left: 145px; top: 27px; transform: rotate(12deg); }
+  .steam.s2 { left: 207px; top: 20px; transform: rotate(-10deg); }
+  .breakfast-caption { position: absolute; right: 24px; bottom: 21px; left: 24px; color: var(--muted); font-size: 15px; text-align: center; }
+
+  .task-flow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    margin-top: 26px;
+  }
+  .task-box {
+    position: relative;
+    padding: 17px 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    text-align: center;
+    background: #fff;
+  }
+  .task-box:not(:last-child)::after {
+    content: "→";
+    position: absolute;
+    right: -22px;
+    top: 23px;
+    color: var(--accent);
+    font-size: 25px;
+  }
+  .task-box .task-icon { color: var(--accent); font-size: 25px; font-weight: 850; }
+  .task-box h3 { margin: 7px 0 0; font-size: 17px; }
+
+  .production-compare { display: grid; grid-template-columns: 1fr 54px 1fr; gap: 16px; align-items: center; margin-top: 18px; }
+  .production-card {
+    min-height: 245px;
+    padding: 21px;
+    border: 2px solid var(--line);
+    border-radius: 9px;
+    background: #fff;
+    text-align: center;
+  }
+  .production-card h2 { font-size: 24px; }
+  .production-people { margin: 21px 0; color: var(--muted); font-size: 29px; letter-spacing: 6px; }
+  .production-output { color: var(--accent); font-size: 35px; font-weight: 850; }
+  .production-vs { color: var(--accent); font-size: 25px; font-weight: 850; text-align: center; }
+
+  .reason-card { min-height: 260px; padding: 22px 19px; border-top: 5px solid var(--accent); background: var(--soft); }
+  .reason-num { color: var(--accent); font-size: 37px; font-weight: 850; }
+  .reason-card h2 { margin: 11px 0 8px; font-size: 23px; }
+  .reason-card p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.38; }
+
+  .supply-chain {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 23px;
+    align-items: center;
+    margin-top: 30px;
+  }
+  .chain-node {
+    position: relative;
+    min-height: 100px;
+    padding: 15px 7px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--ink);
+    background: #fff;
+    text-align: center;
+    cursor: pointer;
+  }
+  .chain-node:not(:last-child)::after {
+    content: "→";
+    position: absolute;
+    right: -20px;
+    top: 34px;
+    color: var(--accent);
+    font-size: 24px;
+    pointer-events: none;
+  }
+  .chain-node:hover, .chain-node.active { border-color: var(--accent); background: var(--accent-soft); }
+  .chain-icon { display: block; margin-bottom: 8px; color: var(--accent); font-size: 23px; font-weight: 850; }
+  .chain-label { font-size: 14px; font-weight: 800; line-height: 1.2; }
+
+  .exchange-layout { display: grid; grid-template-columns: 1fr 120px 1fr; gap: 22px; align-items: center; margin-top: 24px; }
+  .exchange-box {
+    min-height: 255px;
+    padding: 25px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: var(--soft);
+    text-align: center;
+  }
+  .exchange-icon { margin-bottom: 14px; color: var(--accent); font-size: 52px; font-weight: 850; }
+  .exchange-box p { font-size: 18px; }
+  .exchange-middle { color: var(--accent); font-size: 45px; text-align: center; }
+
+  .branch-map { display: grid; grid-template-columns: 190px 1fr; gap: 32px; align-items: center; margin-top: 16px; }
+  .scarcity-core {
+    display: flex;
+    width: 180px;
+    height: 180px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--accent);
+    font-size: 27px;
+    font-weight: 850;
+    text-align: center;
+    box-shadow: 0 9px 20px rgba(235,129,27,.22);
+  }
+  .branch-list { display: grid; gap: 18px; }
+  .branch-row { display: grid; grid-template-columns: 1fr 42px 1fr 42px 1fr; align-items: center; gap: 7px; }
+  .branch-box { min-height: 76px; padding: 14px 10px; border: 1px solid var(--line); border-radius: 8px; text-align: center; background: #fff; font-size: 16px; font-weight: 750; }
+  .branch-arrow { color: var(--accent); font-size: 27px; text-align: center; }
+  .branch-row.blue-branch .branch-box { border-color: #c6dcef; background: var(--blue-soft); }
+  .branch-row.blue-branch .branch-arrow { color: var(--blue); }
+
+  .ranking { display: grid; gap: 11px; margin-top: 18px; }
+  .rank-row { display: grid; grid-template-columns: 48px 1fr 170px; gap: 13px; align-items: center; min-height: 68px; padding: 11px 15px; border: 1px solid var(--line); border-radius: 8px; }
+  .rank-row.chosen { border-color: var(--accent); background: var(--accent-soft); }
+  .rank-row.opportunity { border-color: var(--blue); background: var(--blue-soft); }
+  .rank-num { display: flex; width: 36px; height: 36px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: #8a949e; font-size: 16px; font-weight: 850; }
+  .rank-row.chosen .rank-num { background: var(--accent); }
+  .rank-row.opportunity .rank-num { background: var(--blue); }
+  .rank-title { font-size: 19px; font-weight: 800; }
+  .rank-tag { color: var(--muted); font-size: 14px; font-weight: 750; text-align: right; }
+
+  .cartoon-layout { display: grid; grid-template-columns: .58fr .42fr; gap: 26px; align-items: center; margin-top: 14px; }
+  .cartoon-frame { display: flex; height: 445px; align-items: center; justify-content: center; padding: 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  .cartoon-frame img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .cartoon-notes { display: grid; gap: 12px; }
+  .cartoon-note { padding: 17px 18px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .cartoon-note.blue-note { border-left-color: var(--blue); background: var(--blue-soft); }
+  .cartoon-note.green-note { border-left-color: var(--green); background: var(--green-soft); }
+  .cartoon-note-label { color: var(--muted); font-size: 12px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .cartoon-note h2 { margin: 7px 0 4px; font-size: 22px; }
+  .cartoon-note p { margin: 0; font-size: 16px; line-height: 1.34; }
+
+  .cost-distinction { min-height: 260px; }
+  .cost-distinction .definition-strip { margin-top: 17px; font-size: 19px; }
+  .cost-rule {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 18px;
+    align-items: center;
+    margin-top: 22px;
+    padding: 15px 19px;
+    border: 1px solid #b9d9c8;
+    border-radius: 8px;
+    background: var(--green-soft);
+    font-size: 19px;
+    line-height: 1.35;
+  }
+  .cost-rule-label { color: var(--green); font-size: 14px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+
+  .choice-cost-examples { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 18px; }
+  .choice-cost-card { min-height: 354px; padding: 21px 22px; border: 1px solid var(--line); border-top: 5px solid var(--accent); border-radius: 0 0 8px 8px; background: var(--soft); }
+  .choice-cost-card.movie { border-top-color: var(--blue); }
+  .choice-example-label { color: var(--accent); font-size: 14px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+  .choice-cost-card.movie .choice-example-label { color: var(--blue); }
+  .choice-cost-card h2 { margin: 9px 0 14px; font-size: 25px; }
+  .cost-layer { margin-top: 11px; padding: 12px 14px; border-left: 4px solid var(--accent); background: var(--accent-soft); }
+  .cost-layer.opportunity-layer { border-left-color: var(--blue); background: var(--blue-soft); }
+  .cost-layer-label { color: var(--muted); font-size: 11px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .cost-layer-value { margin-top: 4px; font-size: 17px; font-weight: 750; line-height: 1.3; }
+  .total-cost-line { margin-top: 13px; padding: 11px 13px; border-radius: 7px; background: #fff; font-size: 17px; font-weight: 850; text-align: center; }
+
+  .sunk-cost-card { border-top-color: var(--red); }
+  .sunk-cost-card .cost-label { color: var(--red); }
+  .cost-test { display: grid; gap: 10px; margin-top: 16px; }
+  .cost-test-row { padding: 11px 13px; border-radius: 7px; background: #fff; font-size: 16px; line-height: 1.3; }
+  .cost-test-row strong { color: var(--ink); }
+  .sunk-example {
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    gap: 20px;
+    align-items: center;
+    margin-top: 20px;
+    padding: 17px 20px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--soft);
+  }
+  .sunk-example h2 { margin: 5px 0 0; font-size: 21px; line-height: 1.25; }
+  .sunk-answer-stack { display: grid; gap: 9px; }
+  .sunk-answer { padding: 11px 13px; border-left: 4px solid var(--red); background: var(--red-soft); font-size: 16px; line-height: 1.3; }
+  .sunk-answer.oc-answer-box { border-left-color: var(--blue); background: var(--blue-soft); }
+  .sunk-timing-note { grid-column: 1 / -1; padding-top: 10px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; text-align: center; }
+
+  .price-layout { display: grid; grid-template-columns: .9fr 1.1fr; gap: 28px; align-items: center; margin-top: 20px; }
+  .ticket {
+    position: relative;
+    min-height: 280px;
+    padding: 45px 28px 25px;
+    border: 3px dashed var(--accent);
+    border-radius: 15px;
+    background: var(--accent-soft);
+    text-align: center;
+  }
+  .ticket::before, .ticket::after { content: ""; position: absolute; top: 125px; width: 28px; height: 56px; border-radius: 50%; background: #fff; }
+  .ticket::before { left: -17px; }
+  .ticket::after { right: -17px; }
+  .ticket-label { color: var(--muted); font-size: 13px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+  .ticket-title { margin: 17px 0 12px; font-size: 28px; font-weight: 850; }
+  .ticket-price { color: var(--accent); font-size: 46px; font-weight: 900; }
+
+  .cost-card { min-height: 275px; padding: 24px; border-top: 5px solid var(--accent); background: var(--soft); }
+  .cost-card.blue-cost { border-top-color: var(--blue); }
+  .cost-label { color: var(--muted); font-size: 13px; font-weight: 850; letter-spacing: .09em; text-transform: uppercase; }
+  .cost-card h2 { margin: 13px 0 15px; font-size: 25px; }
+  .cost-item { display: grid; grid-template-columns: 26px 1fr; gap: 9px; margin: 11px 0; align-items: start; }
+  .cost-dot { display: flex; width: 21px; height: 21px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--accent); font-size: 11px; font-weight: 850; }
+  .blue-cost .cost-dot { background: var(--blue); }
+  .cost-item p { margin: 0; font-size: 17px; }
+
+  .quiz-layout { display: grid; grid-template-columns: .78fr 1.22fr; gap: 24px; align-items: start; }
+  .quiz-scenario { min-height: 350px; padding: 23px; border-top: 5px solid var(--accent); background: var(--soft); }
+  .quiz-round { color: var(--muted); font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .quiz-scenario h2 { margin-top: 14px; font-size: 25px; }
+  .quiz-scenario p { font-size: 17px; }
+  .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .decision-layout { display: grid; grid-template-columns: 1.06fr .94fr; gap: 24px; align-items: start; }
+  .decision-steps { display: grid; gap: 9px; }
+  .decision-step { display: grid; grid-template-columns: 36px 1fr; gap: 11px; min-height: 56px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; align-items: center; }
+  .decision-num { display: flex; width: 29px; height: 29px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--accent); font-size: 13px; font-weight: 850; }
+  .decision-step p { margin: 0; font-size: 16px; }
+  .revisit-panel { min-height: 410px; padding: 19px; border-top: 5px solid var(--blue); background: var(--blue-soft); }
+  .revisit-panel h2 { font-size: 23px; }
+  .revisit-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+
+  .exit-card { min-height: 250px; padding: 24px; border: 1px solid var(--line); border-radius: 9px; background: var(--soft); }
+  .exit-label { color: var(--accent); font-size: 13px; font-weight: 850; letter-spacing: .09em; text-transform: uppercase; }
+  .exit-card h2 { margin: 13px 0 18px; font-size: 25px; }
+  .exit-answer { display: none; padding: 13px 15px; border-left: 4px solid var(--green); background: var(--green-soft); font-size: 16px; line-height: 1.35; }
+  .exit-answer.visible { display: block; }
+
+  .interactive button {
+    min-height: 42px;
+    padding: 9px 15px;
+    border: 0;
+    border-radius: 7px;
+    color: #fff;
+    background: var(--accent);
+    font: 700 15px "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+    cursor: pointer;
+  }
+  .interactive button:hover { filter: brightness(.96); }
+  .interactive button:focus-visible { outline: 3px solid rgba(235,129,27,.35); outline-offset: 2px; }
+  .interactive button.secondary { color: var(--ink); background: #e5e8eb; }
+  .interactive button.blue-button { background: var(--blue); }
+  .interactive button:disabled { cursor: default; opacity: .55; }
+  .interactive .choice-card { color: var(--ink); background: #fff; font-size: inherit; }
+  .interactive .choice-card.selected { background: var(--accent-soft); }
+  .interactive .choice-card.next-best { background: var(--blue-soft); }
+  .interactive .chain-node {
+    min-height: 100px;
+    padding: 15px 7px;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    background: #fff;
+  }
+  .interactive .chain-node:hover,
+  .interactive .chain-node.active {
+    border-color: var(--accent);
+    color: var(--ink);
+    background: var(--accent-soft);
+  }
+  .interactive .answer-button { min-height: 68px; font-size: 18px; line-height: 1.25; }
+  .interactive .answer-button.correct { background: var(--green); opacity: 1; }
+  .interactive .answer-button.wrong { background: var(--red); opacity: 1; }
+  .game-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 11px; }
+  .score-pill { display: inline-flex; min-height: 38px; align-items: center; padding: 7px 12px; border-radius: 999px; color: var(--ink); background: var(--soft); font-size: 15px; font-weight: 750; }
+  .game-feedback { min-height: 57px; padding: 11px 14px; border-left: 4px solid var(--line); background: var(--soft); font-size: 16px; line-height: 1.35; }
+  .game-feedback.success { border-left-color: var(--green); background: var(--green-soft); }
+  .game-feedback.error { border-left-color: var(--red); background: var(--red-soft); }
+
+  .source-note { position: absolute; right: 64px; bottom: 39px; left: 64px; color: #8a949e; font-size: 11px; line-height: 1.25; }
+  .footer { position: absolute; right: 64px; bottom: 19px; left: 64px; display: flex; justify-content: space-between; color: #8a949e; font-size: 13px; }
+  #progress { position: fixed; bottom: 0; left: 0; z-index: 20; height: 4px; background: var(--accent); transition: width .18s ease; }
+  #hint { position: fixed; right: 14px; bottom: 10px; z-index: 20; color: rgba(255,255,255,.5); font: 12px Arial, sans-serif; }
+
+  @page { size: 10in 7.5in; margin: 0; }
+  @media print {
+    html, body { width: auto; height: auto; overflow: visible; background: #fff; }
+    #stage { position: static; width: auto; height: auto; transform: none !important; box-shadow: none; }
+    .slide { position: relative; display: block !important; page-break-after: always; break-after: page; }
+    #progress, #hint { display: none; }
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <section class="slide title-slide center middle active">
+    <div style="width:100%; max-width:850px;">
+      <div class="title-kicker">ARE 201 · Unit 2</div>
+      <h1 class="title-main">From Scarcity to Opportunity Cost</h1>
+      <div class="title-sub">Why limited resources force us to choose</div>
+    </div>
+    <svg class="title-graphic" viewBox="0 0 410 150" aria-label="Scarcity branching into specialization and opportunity cost">
+      <g fill="none" stroke="#e2e6ea" stroke-width="1">
+        <line x1="10" y1="25" x2="400" y2="25"/><line x1="10" y1="75" x2="400" y2="75"/><line x1="10" y1="125" x2="400" y2="125"/>
+      </g>
+      <circle cx="52" cy="75" r="32" fill="#EB811B"/>
+      <text x="52" y="79" fill="#fff" text-anchor="middle" font-family="Arial" font-size="12" font-weight="700">SCARCITY</text>
+      <path d="M84 75 C140 75,145 36,205 36" fill="none" stroke="#EB811B" stroke-width="4"/>
+      <path d="M84 75 C140 75,145 114,205 114" fill="none" stroke="#2f80c9" stroke-width="4"/>
+      <polygon points="205,36 194,30 194,42" fill="#EB811B"/>
+      <polygon points="205,114 194,108 194,120" fill="#2f80c9"/>
+      <rect x="212" y="13" width="176" height="47" rx="7" fill="#fff4e8" stroke="#EB811B"/>
+      <text x="300" y="33" text-anchor="middle" fill="#1f2933" font-family="Arial" font-size="12" font-weight="700">SPECIALIZE &amp; TRADE</text>
+      <text x="300" y="49" text-anchor="middle" fill="#5f6b76" font-family="Arial" font-size="10">produce more together</text>
+      <rect x="212" y="90" width="176" height="47" rx="7" fill="#eef5fb" stroke="#2f80c9"/>
+      <text x="300" y="110" text-anchor="middle" fill="#1f2933" font-family="Arial" font-size="12" font-weight="700">CHOOSE</text>
+      <text x="300" y="126" text-anchor="middle" fill="#5f6b76" font-family="Arial" font-size="10">give up the next best</text>
+    </svg>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Start with a choice</div>
+    <h1>You have one free hour before tomorrow’s Unit Exam.</h1>
+    <p class="muted" style="margin-bottom:8px;">What would you do? Choose one option and keep it in mind.</p>
+    <div class="choice-grid" id="openingChoices">
+      <button type="button" class="choice-card opening-choice" data-choice="Review ARE 201 notes">
+        <span class="choice-title">Review ARE 201 notes</span><span class="choice-detail">Prepare for tomorrow’s exam</span>
+      </button>
+      <button type="button" class="choice-card opening-choice" data-choice="Work a paid shift">
+        <span class="choice-title">Work a paid shift</span><span class="choice-detail">Earn $40 during the hour</span>
+      </button>
+      <button type="button" class="choice-card opening-choice" data-choice="Have dinner with a friend">
+        <span class="choice-title">Have dinner with a friend</span><span class="choice-detail">Catch up before a busy week</span>
+      </button>
+      <button type="button" class="choice-card opening-choice" data-choice="Rest or sleep">
+        <span class="choice-title">Rest or sleep</span><span class="choice-detail">Recharge before the exam</span>
+      </button>
+    </div>
+    <div class="game-toolbar">
+      <button type="button" id="openingReveal">Reveal the constraint</button>
+      <button type="button" class="secondary" id="openingReset">Reset</button>
+    </div>
+    <div class="game-feedback" id="openingFeedback" aria-live="polite">There is no universal “correct” choice. First, make your own.</div>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Today’s puzzle</div>
+    <h1>Three questions will organize the hour</h1>
+    <div class="grid-3" style="margin-top:27px;">
+      <div class="roadmap-card">
+        <div class="roadmap-num">1</div>
+        <h3>Why must we choose?</h3>
+        <p>Scarcity places limits on individuals, firms, and societies.</p>
+      </div>
+      <div class="roadmap-card">
+        <div class="roadmap-num">2</div>
+        <h3>How can we produce more?</h3>
+        <p>Specialization raises productivity—but creates interdependence.</p>
+      </div>
+      <div class="roadmap-card">
+        <div class="roadmap-num">3</div>
+        <h3>What does a choice cost?</h3>
+        <p>Opportunity cost identifies the value of what we give up.</p>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:25px;"><strong>Goal:</strong> connect scarcity → choice → trade-off → opportunity cost.</div>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">1 · Scarcity</div>
+    <h1>Scarcity is a relationship—not simply “having little”</h1>
+    <div class="flow" style="grid-template-columns:1fr 70px 1fr; margin-top:40px;">
+      <div class="flow-box" style="padding:28px 20px;">
+        <div class="flow-label">Many possible uses</div>
+        <div class="flow-value">Things people want to do or have</div>
+      </div>
+      <div class="flow-arrow" style="font-size:44px;">&gt;</div>
+      <div class="flow-box" style="padding:28px 20px;">
+        <div class="flow-label">Resources available</div>
+        <div class="flow-value">Time, money, labor, land, and capital</div>
+      </div>
+    </div>
+    <div class="definition-strip large" style="margin-top:32px;"><strong>Scarcity</strong> exists when available resources are insufficient to satisfy every possible want or use.</div>
+    <p class="small muted" style="margin-top:18px; text-align:center;">A resource does not need to be rare to be scarce. It only needs competing uses.</p>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Scarce resources</div>
+    <h1>Scarcity appears at every level of economic life</h1>
+    <div class="resource-grid">
+      <div class="resource-card"><div class="resource-icon">24</div><h3>Time</h3><p>Study, work, socialize, or rest?</p></div>
+      <div class="resource-card"><div class="resource-icon">$</div><h3>Money</h3><p>Spend, save, or invest?</p></div>
+      <div class="resource-card"><div class="resource-icon">L</div><h3>Labor</h3><p>Which tasks should workers perform?</p></div>
+      <div class="resource-card"><div class="resource-icon">A</div><h3>Land</h3><p>Food, housing, energy, or conservation?</p></div>
+      <div class="resource-card"><div class="resource-icon">K</div><h3>Capital</h3><p>Which equipment or facilities?</p></div>
+      <div class="resource-card"><div class="resource-icon">H₂O</div><h3>Natural resources</h3><p>How should water and energy be allocated?</p></div>
+    </div>
+    <div class="grid-3" style="margin-top:18px;">
+      <div class="card accent-top"><h3>Student</h3><p>One hour before an exam.</p></div>
+      <div class="card accent-top"><h3>Farm</h3><p>One acre with several possible crops.</p></div>
+      <div class="card accent-top"><h3>Government</h3><p>One budget with many public needs.</p></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">A common misconception</div>
+    <h1>Scarcity is not the same as poverty</h1>
+    <div class="myth-layout">
+      <div class="myth-card">
+        <div class="myth-label">Myth</div>
+        <blockquote>“Only people with very little money face scarcity.”</blockquote>
+      </div>
+      <div class="reality-card">
+        <div class="reality-label">Reality</div>
+        <div class="reality-item"><div class="reality-icon">1</div><p>A millionaire still has only <strong>24 hours</strong> in a day.</p></div>
+        <div class="reality-item"><div class="reality-icon">2</div><p>A wealthy university still cannot fund <strong>every project</strong>.</p></div>
+        <div class="reality-item"><div class="reality-icon">3</div><p>More resources expand choices; they do not make <strong>all choices possible</strong>.</p></div>
+      </div>
+    </div>
+    <div class="definition-strip green-strip" style="margin-top:20px;"><strong>Scarcity is about having to choose</strong>, not simply about being poor.</div>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Do not confuse these</div>
+    <h1>Scarcity versus shortage</h1>
+    <table class="contrast-table">
+      <thead><tr><th>Scarcity</th><th>Shortage</th></tr></thead>
+      <tbody>
+        <tr><td>Resources cannot satisfy every possible use.</td><td>At the current price, buyers want more than sellers provide.</td></tr>
+        <tr><td>A permanent feature of economic life.</td><td>A condition in a particular market at a particular price.</td></tr>
+        <tr><td>Changing a price cannot eliminate the basic constraint.</td><td>A price change or new supply may eliminate it.</td></tr>
+        <tr><td><strong>Example:</strong> only 24 hours in a day.</td><td><strong>Example:</strong> a café runs out of oat milk at noon.</td></tr>
+      </tbody>
+    </table>
+    <div class="definition-strip" style="margin-top:19px;">Something can reflect <strong>both</strong>: finite concert seats are scarce, and a sold-out show can have a shortage at the posted price.</div>
+    <div class="source-note">Definitions adapted from OpenStax, <em>Principles of Economics</em>, Chapter 1.</div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Quick check</div>
+    <h1>Scarcity, shortage, or both?</h1>
+    <div class="question-panel">
+      <div class="question-count" id="sortProgress">Scenario 1 of 4</div>
+      <h2 id="sortPrompt">Everyone has only 24 hours in a day.</h2>
+    </div>
+    <div class="answer-grid">
+      <button type="button" class="sort-answer" data-answer="scarcity">Scarcity</button>
+      <button type="button" class="sort-answer" data-answer="shortage">Shortage</button>
+      <button type="button" class="sort-answer" data-answer="both">Both</button>
+    </div>
+    <div class="game-toolbar">
+      <span class="score-pill" id="sortScore">Score: 0</span>
+      <button type="button" id="sortNext" disabled>Next scenario</button>
+      <button type="button" class="secondary" id="sortReset">Restart</button>
+    </div>
+    <div class="game-feedback" id="sortFeedback" aria-live="polite">Choose the best classification.</div>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">2 · Producing more together</div>
+    <h1>Why don’t you produce your own breakfast?</h1>
+    <div class="breakfast-grid">
+      <div>
+        <p>Before drinking one cup of coffee, did you personally…</p>
+        <ul>
+          <li>grow and harvest the beans?</li>
+          <li>process, export, and transport them?</li>
+          <li>roast and package them?</li>
+          <li>make the cup and prepare the drink?</li>
+        </ul>
+        <div class="definition-strip" style="margin-top:25px;">You do not need to know how to do everything—because people <strong>specialize</strong>.</div>
+      </div>
+      <div class="breakfast-visual" aria-label="A stylized cup of coffee">
+        <div class="steam s1"></div><div class="steam s2"></div>
+        <div class="coffee-cup"><div class="coffee-fill"></div></div>
+        <div class="breakfast-caption">One simple purchase connects many specialized producers.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Two related ideas</div>
+    <h1>Division of labor and specialization</h1>
+    <div class="grid-2">
+      <div class="card accent-top" style="min-height:190px;">
+        <h2>Division of labor</h2>
+        <p>A production process is divided into separate tasks performed by different workers.</p>
+      </div>
+      <div class="card blue-top" style="min-height:190px;">
+        <h2>Specialization</h2>
+        <p>A worker, firm, or region concentrates on a narrower set of tasks or products.</p>
+      </div>
+    </div>
+    <div class="task-flow">
+      <div class="task-box"><div class="task-icon">1</div><h3>Take order</h3></div>
+      <div class="task-box"><div class="task-icon">2</div><h3>Prepare drink</h3></div>
+      <div class="task-box"><div class="task-icon">3</div><h3>Assemble food</h3></div>
+      <div class="task-box"><div class="task-icon">4</div><h3>Check &amp; serve</h3></div>
+    </div>
+    <p class="small muted" style="margin-top:22px; text-align:center;">A café can assign each order to one generalist—or divide these tasks among specialists.</p>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Prediction</div>
+    <h1>How large can the productivity gain be?</h1>
+    <p class="muted">Suppose one generalist can make 20 pins per day. Ten generalists would make 200. Adam Smith observed that ten specialized workers could make about 48,000.</p>
+    <div class="production-compare">
+      <div class="production-card">
+        <h2>10 generalists</h2>
+        <div class="production-people">● ● ● ● ●<br>● ● ● ● ●</div>
+        <div class="production-output">200 pins</div>
+      </div>
+      <div class="production-vs">VS</div>
+      <div class="production-card">
+        <h2>10 specialists</h2>
+        <div class="production-people">① ② ③ ④ ⑤<br>⑥ ⑦ ⑧ ⑨ ⑩</div>
+        <div class="production-output">48,000 pins</div>
+      </div>
+    </div>
+    <div class="game-toolbar" style="justify-content:center;">
+      <span class="small"><strong>Specialized output is approximately:</strong></span>
+      <button type="button" class="productivity-answer" data-value="24">24×</button>
+      <button type="button" class="productivity-answer" data-value="240">240×</button>
+      <button type="button" class="productivity-answer" data-value="2400">2,400×</button>
+      <button type="button" class="secondary" id="productivityReset">Reset</button>
+    </div>
+    <div class="game-feedback" id="productivityFeedback" aria-live="polite">Predict first, then choose an answer.</div>
+    <div class="source-note">Pin-factory example: Adam Smith, <em>The Wealth of Nations</em>, Book I, Chapter 1; figures as presented in OpenStax.</div>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Productivity</div>
+    <h1>Why specialization can increase output</h1>
+    <div class="grid-3" style="margin-top:26px;">
+      <div class="reason-card">
+        <div class="reason-num">1</div>
+        <h2>Task matching</h2>
+        <p>People can focus on tasks that fit their skills, talents, location, or equipment.</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-num">2</div>
+        <h2>Learning</h2>
+        <p>Repeating a task improves speed and quality—and can inspire better methods.</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-num">3</div>
+        <h2>Scale</h2>
+        <p>Larger production makes specialized tools, machines, and processes worthwhile.</p>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:26px;"><strong>Important:</strong> specialization is especially powerful when production is repeated at sufficient scale.</div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">The other side of specialization</div>
+    <h1>Higher productivity creates interdependence</h1>
+    <p class="muted">Click a participant in the coffee supply chain.</p>
+    <div class="supply-chain">
+      <button type="button" class="chain-node" data-detail="The grower specializes in coffee—and depends on others for machinery, transport, and most consumer goods."><span class="chain-icon">G</span><span class="chain-label">Grower</span></button>
+      <button type="button" class="chain-node" data-detail="The processor depends on growers for beans and exporters for access to distant buyers."><span class="chain-icon">P</span><span class="chain-label">Processor</span></button>
+      <button type="button" class="chain-node" data-detail="Transport specialists connect producers who may never meet their final customers."><span class="chain-icon">T</span><span class="chain-label">Transport</span></button>
+      <button type="button" class="chain-node" data-detail="The roaster depends on an international chain of beans, energy, packaging, and logistics."><span class="chain-icon">R</span><span class="chain-label">Roaster</span></button>
+      <button type="button" class="chain-node" data-detail="The café combines many specialized inputs and depends on customers willing to trade money for service."><span class="chain-icon">C</span><span class="chain-label">Café</span></button>
+      <button type="button" class="chain-node" data-detail="The student can specialize in studying economics rather than learning to grow, roast, and transport coffee."><span class="chain-icon">S</span><span class="chain-label">Student</span></button>
+    </div>
+    <div class="game-feedback" id="chainFeedback" style="margin-top:24px;" aria-live="polite">When people produce fewer things themselves, they depend more on other specialists.</div>
+    <div class="definition-strip blue-strip" style="margin-top:19px;"><strong>Interdependence:</strong> your ability to consume depends on the production and choices of other people.</div>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Coordinating interdependence</div>
+    <h1>Trade and markets connect specialists</h1>
+    <div class="exchange-layout">
+      <div class="exchange-box">
+        <div class="exchange-icon">↗</div>
+        <h2>Trade</h2>
+        <p>Specialized producers exchange what they produce for other goods and services they value.</p>
+      </div>
+      <div class="exchange-middle">⇄</div>
+      <div class="exchange-box">
+        <div class="exchange-icon">◎</div>
+        <h2>Market</h2>
+        <p>An institution or arrangement that brings potential buyers and sellers together.</p>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:24px;">Markets coordinate exchange so that no individual needs to produce everything they consume.</div>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">One cause, two responses</div>
+    <h1>Specialization does not eliminate scarcity</h1>
+    <div class="branch-map">
+      <div class="scarcity-core">SCARCITY</div>
+      <div class="branch-list">
+        <div class="branch-row">
+          <div class="branch-box">Use resources more productively</div><div class="branch-arrow">→</div>
+          <div class="branch-box">Specialization creates interdependence</div><div class="branch-arrow">→</div>
+          <div class="branch-box">Trade and markets coordinate</div>
+        </div>
+        <div class="branch-row blue-branch">
+          <div class="branch-box">Not every alternative is feasible</div><div class="branch-arrow">→</div>
+          <div class="branch-box">Decision-makers must choose</div><div class="branch-arrow">→</div>
+          <div class="branch-box">Every choice has an opportunity cost</div>
+        </div>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:28px;"><strong>Trade expands our possibilities.</strong> It does not give us unlimited time, income, land, labor, or other resources.</div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">3 · The cost of choosing</div>
+    <h1>Choosing one option means giving up others</h1>
+    <div class="grid-2" style="margin-top:16px;">
+      <div class="card accent-top" style="min-height:280px;">
+        <div class="muted small">YOUR CHOICE</div>
+        <h2 style="margin-top:13px;">Review ARE 201 notes</h2>
+        <p>You use the only free hour available before the exam.</p>
+      </div>
+      <div class="card blue-top" style="min-height:280px;">
+        <div class="muted small">OPTIONS NOT CHOSEN</div>
+        <ul style="margin-top:14px;">
+          <li>Work the $40 shift</li>
+          <li>Have dinner with a friend</li>
+          <li>Rest or sleep</li>
+        </ul>
+      </div>
+    </div>
+    <div class="game-toolbar">
+      <button type="button" id="allForgoneReveal">Are all three the opportunity cost?</button>
+      <button type="button" class="secondary" id="allForgoneReset">Reset</button>
+    </div>
+    <div class="game-feedback" id="allForgoneFeedback" aria-live="polite">Think before revealing: economics uses a more precise definition.</div>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Opportunity cost</div>
+    <h1>The next-best alternative is what matters</h1>
+    <div class="definition-strip large"><strong>Opportunity cost</strong> is the value of the <strong>next-best alternative forgone</strong> when a choice is made.</div>
+    <div class="ranking">
+      <div class="rank-row chosen"><div class="rank-num">1</div><div class="rank-title">Review ARE 201 notes</div><div class="rank-tag accent">CHOSEN</div></div>
+      <div class="rank-row opportunity"><div class="rank-num">2</div><div class="rank-title">Work a $40 shift</div><div class="rank-tag blue">OPPORTUNITY COST</div></div>
+      <div class="rank-row"><div class="rank-num">3</div><div class="rank-title">Have dinner with a friend</div><div class="rank-tag">NOT NEXT-BEST</div></div>
+      <div class="rank-row"><div class="rank-num">4</div><div class="rank-title">Rest or sleep</div><div class="rank-tag">NOT NEXT-BEST</div></div>
+    </div>
+    <p class="small muted" style="margin-top:15px; text-align:center;">The ranking can differ across people, so opportunity cost can differ too.</p>
+    <div class="source-note">Definition adapted from OpenStax, <em>Principles of Economics</em>, Chapter 2.</div>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Opportunity cost of time</div>
+    <h1>A “free” walk can still be costly</h1>
+    <div class="cartoon-layout">
+      <div class="cartoon-frame">
+        <img src="Fig/Stu_Opportunity_Cost_Cartoon_2004.png" alt="Cartoon: a professional tells his dog that each walk costs 175 dollars of billable time; the dog thinks that the professional should appreciate having a friend.">
+      </div>
+      <div class="cartoon-notes">
+        <div class="cartoon-note">
+          <div class="cartoon-note-label">The owner’s opportunity cost</div>
+          <h2>$175 of billable work forgone</h2>
+          <p>The walk has no ticket price, but it uses time that could produce income.</p>
+        </div>
+        <div class="cartoon-note blue-note">
+          <div class="cartoon-note-label">The dog’s reminder</div>
+          <h2>Benefits need not be monetary</h2>
+          <p>Companionship and enjoyment belong on the benefit side of the decision.</p>
+        </div>
+        <div class="cartoon-note green-note">
+          <div class="cartoon-note-label">Decision question</div>
+          <h2>Is the walk worth what is given up?</h2>
+          <p>Opportunity cost informs the choice; it does not make the choice by itself.</p>
+        </div>
+      </div>
+    </div>
+    <!-- Cartoon extracted from Jiaming Mao, Introduction, p. 21; embedded copyright notice retained. -->
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Keep the labels separate</div>
+    <h1>Opportunity cost is part of total economic cost</h1>
+    <div class="grid-2" style="margin-top:20px;">
+      <div class="cost-card blue-cost cost-distinction">
+        <div class="cost-label">Opportunity cost (OC)</div>
+        <h2>What is the best option you give up?</h2>
+        <div class="definition-strip blue-strip"><strong>Net benefit</strong> of the next-best alternative forgone</div>
+        <p class="small muted" style="margin-top:15px;">Look outside the chosen option and identify the best feasible alternative.</p>
+      </div>
+      <div class="cost-card cost-distinction">
+        <div class="cost-label">Total economic cost (TEC)</div>
+        <h2>What must you give up altogether?</h2>
+        <div class="definition-strip"><strong>Relevant explicit cost</strong> of the chosen option <strong>+</strong> opportunity cost</div>
+        <p class="small muted" style="margin-top:15px;">Include only costs that the current choice can still avoid. Sunk costs are excluded.</p>
+      </div>
+    </div>
+    <div class="cost-rule">
+      <div class="cost-rule-label">Decision rule</div>
+      <div>Choose an option when its <strong>gross benefit</strong> is at least as large as its <strong>total economic cost</strong>.</div>
+    </div>
+    <!-- Terminology source: CORE Econ, The Economy, Unit 3.3. -->
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Apply the distinction</div>
+    <h1>College and a movie: separate the cost components</h1>
+    <div class="choice-cost-examples">
+      <div class="choice-cost-card">
+        <div class="choice-example-label">Going to college</div>
+        <h2>Choose to attend college</h2>
+        <div class="cost-layer">
+          <div class="cost-layer-label">Relevant explicit cost</div>
+          <div class="cost-layer-value">Net tuition, required fees, and books</div>
+        </div>
+        <div class="cost-layer opportunity-layer">
+          <div class="cost-layer-label">Opportunity cost</div>
+          <div class="cost-layer-value">Net benefit of the best alternative—for example, earnings and experience from working</div>
+        </div>
+        <div class="total-cost-line">TEC = education expenses + OC</div>
+      </div>
+      <div class="choice-cost-card movie">
+        <div class="choice-example-label">Seeing a movie</div>
+        <h2>Choose to see the movie</h2>
+        <div class="cost-layer">
+          <div class="cost-layer-label">Relevant explicit cost</div>
+          <div class="cost-layer-value">The movie-ticket price</div>
+        </div>
+        <div class="cost-layer opportunity-layer">
+          <div class="cost-layer-label">Opportunity cost</div>
+          <div class="cost-layer-value">Net benefit of the highest-valued alternative use of the same time</div>
+        </div>
+        <div class="total-cost-line">TEC = ticket price + OC</div>
+      </div>
+    </div>
+    <div class="definition-strip green-strip" style="margin-top:18px;"><strong>Keep benefits separate:</strong> a possible increase in future earnings is a benefit of college—not a cost.</div>
+    <!-- Example source: Jiaming Mao, Introduction, p. 17. -->
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Common mistake #1</div>
+    <h1>Do not add every rejected alternative</h1>
+    <div class="grid-3" style="margin-top:31px;">
+      <div class="card accent-top" style="min-height:250px;">
+        <h2>One choice</h2>
+        <p>You choose the alternative with the greatest value to you.</p>
+      </div>
+      <div class="card blue-top" style="min-height:250px;">
+        <h2>One next-best</h2>
+        <p>The opportunity cost is the value of the highest-ranked option you did not choose.</p>
+      </div>
+      <div class="card" style="min-height:250px; border-top:5px solid var(--red);">
+        <h2>Not a bundle</h2>
+        <p>You could not have done every rejected activity in the same scarce hour.</p>
+      </div>
+    </div>
+    <div class="formula" style="margin-top:26px;">Opportunity cost ≠ the value of <em>all</em> alternatives forgone</div>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Common mistake #2</div>
+    <h1>A zero price does not mean a zero opportunity cost</h1>
+    <div class="price-layout">
+      <div class="ticket">
+        <div class="ticket-label">NC State game ticket</div>
+        <div class="ticket-title">Admission</div>
+        <div class="ticket-price">FREE</div>
+      </div>
+      <div>
+        <div class="definition-strip blue-strip"><strong>Next-best alternative:</strong><br>work a shift that pays $60.</div>
+        <div class="flow" style="grid-template-columns:1fr 55px 1fr; margin-top:27px;">
+          <div class="flow-box"><div class="flow-label">Ticket price</div><div class="flow-value">$0</div></div>
+          <div class="flow-arrow">≠</div>
+          <div class="flow-box"><div class="flow-label">Opportunity cost</div><div class="flow-value">Value of the shift</div></div>
+        </div>
+        <p class="small muted">Free activities still use scarce time. Here, the forgone earnings are part of what the student gives up.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Common mistake #3</div>
+    <h1>The sticker price may not capture the full cost</h1>
+    <div class="grid-2" style="margin-top:23px;">
+      <div class="cost-card">
+        <div class="cost-label">Visible costs of college</div>
+        <h2>What appears on a bill</h2>
+        <div class="cost-item"><div class="cost-dot">$</div><p>Tuition and fees</p></div>
+        <div class="cost-item"><div class="cost-dot">$</div><p>Books and supplies</p></div>
+        <div class="cost-item"><div class="cost-dot">$</div><p>Additional living expenses</p></div>
+      </div>
+      <div class="cost-card blue-cost">
+        <div class="cost-label">The next-best alternative</div>
+        <h2>What the bill may omit</h2>
+        <div class="cost-item"><div class="cost-dot">T</div><p>Time spent in class and studying</p></div>
+        <div class="cost-item"><div class="cost-dot">W</div><p>Earnings from working instead</p></div>
+        <div class="cost-item"><div class="cost-dot">O</div><p>Other opportunities made infeasible</p></div>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:23px;"><strong>Economic thinking asks:</strong> what is the most valuable feasible alternative this decision prevents?</div>
+    <div class="source-note">College example adapted from OpenStax, <em>Principles of Economics</em>, Chapter 2.</div>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Decision timing matters</div>
+    <h1>Sunk cost versus opportunity cost</h1>
+    <div class="grid-2" style="margin-top:20px;">
+      <div class="cost-card cost-distinction sunk-cost-card">
+        <div class="cost-label">Sunk cost</div>
+        <h2>Already incurred and cannot be recovered</h2>
+        <div class="cost-test">
+          <div class="cost-test-row"><strong>Test:</strong> Is the cost the same no matter what I choose now?</div>
+          <div class="cost-test-row"><strong>Use:</strong> Ignore it in the current decision.</div>
+        </div>
+      </div>
+      <div class="cost-card blue-cost cost-distinction">
+        <div class="cost-label">Opportunity cost</div>
+        <h2>Created by the choice being made now</h2>
+        <div class="cost-test">
+          <div class="cost-test-row"><strong>Test:</strong> What is the net benefit of my next-best alternative?</div>
+          <div class="cost-test-row"><strong>Use:</strong> Include it in the current decision.</div>
+        </div>
+      </div>
+    </div>
+    <div class="sunk-example">
+      <div>
+        <div class="cost-label">Movie check</div>
+        <h2>You paid $20 for a nonrefundable ticket. After 20 minutes, you dislike the movie. Stay or leave?</h2>
+      </div>
+      <div class="sunk-answer-stack">
+        <div class="sunk-answer"><strong>$20 ticket → sunk cost.</strong> It cannot be recovered either way.</div>
+        <div class="sunk-answer oc-answer-box"><strong>OC of staying →</strong> net benefit of the best alternative use of the remaining time.</div>
+      </div>
+      <div class="sunk-timing-note"><strong>Before purchase:</strong> the ticket price was avoidable and relevant. <strong>After nonrefundable payment:</strong> it is sunk.</div>
+    </div>
+    <!-- Sunk-cost example adapted from OpenStax, Principles of Economics, Chapter 2. -->
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Practice</div>
+    <h1>Apply opportunity and relevant costs</h1>
+    <div class="quiz-layout">
+      <div class="quiz-scenario">
+        <div class="quiz-round" id="ocProgress">Question 1 of 6</div>
+        <h2 id="ocTitle">Friday Review Session</h2>
+        <p id="ocPrompt">Alex ranks the options: (1) attend review, (2) work a $40 shift, (3) have lunch with friends. Alex attends review. What is the opportunity cost?</p>
+        <span class="score-pill" id="ocScore">Score: 0</span>
+      </div>
+      <div>
+        <div class="quiz-options" id="ocOptions">
+          <button type="button" class="answer-button oc-answer" data-index="0">The $40 work shift</button>
+          <button type="button" class="answer-button oc-answer" data-index="1">Lunch plus the work shift</button>
+          <button type="button" class="answer-button oc-answer" data-index="2">The review session</button>
+          <button type="button" class="answer-button oc-answer" data-index="3">There is no cost</button>
+        </div>
+        <div class="game-toolbar">
+          <button type="button" id="ocNext" disabled>Next question</button>
+          <button type="button" class="secondary" id="ocReset">Restart</button>
+        </div>
+        <div class="game-feedback" id="ocFeedback" aria-live="polite">Focus on the next-best feasible alternative and on costs that can still change.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Put the logic together</div>
+    <h1>From scarcity to opportunity cost</h1>
+    <div class="decision-layout">
+      <div class="decision-steps">
+        <div class="decision-step"><div class="decision-num">1</div><p><strong>Identify the scarce resources</strong> and the constraint.</p></div>
+        <div class="decision-step"><div class="decision-num">2</div><p>List the <strong>feasible alternatives</strong>.</p></div>
+        <div class="decision-step"><div class="decision-num">3</div><p><strong>Evaluate and rank</strong> the alternatives by net benefit.</p></div>
+        <div class="decision-step"><div class="decision-num">4</div><p><strong>Choose</strong> the option with the highest net benefit.</p></div>
+        <div class="decision-step"><div class="decision-num">5</div><p>The value of #2 becomes the <strong>opportunity cost</strong>.</p></div>
+      </div>
+      <div class="revisit-panel">
+        <div class="section-kicker" style="color:var(--blue);">Return to the opening choice</div>
+        <h2 id="revisitHeading">Step 1: choose what you would do.</h2>
+        <div class="revisit-buttons">
+          <button type="button" class="revisit-choice blue-button" data-choice="Review ARE 201 notes">Review notes</button>
+          <button type="button" class="revisit-choice blue-button" data-choice="Work a paid shift">Work shift</button>
+          <button type="button" class="revisit-choice blue-button" data-choice="Have dinner with a friend">Dinner</button>
+          <button type="button" class="revisit-choice blue-button" data-choice="Rest or sleep">Rest</button>
+        </div>
+        <div class="game-toolbar"><button type="button" class="secondary" id="revisitReset">Start over</button></div>
+        <div class="game-feedback" id="revisitFeedback" aria-live="polite">Your opportunity cost depends on your own next-best alternative.</div>
+      </div>
+    </div>
+    <div class="cost-rule" style="margin-top:14px;">
+      <div class="cost-rule-label">Rational choice</div>
+      <div>Choose the feasible option with the <strong>highest net benefit</strong>. Among complete, mutually exclusive alternatives, this also gives the <strong>lowest opportunity cost</strong>.</div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Exit ticket</div>
+    <h1>Can you complete both steps?</h1>
+    <div class="grid-2">
+      <div class="exit-card">
+        <div class="exit-label">Explain</div>
+        <h2>Why does scarcity create opportunity cost?</h2>
+        <button type="button" class="exit-reveal" data-target="exitAnswer1">Reveal model answer</button>
+        <div class="exit-answer" id="exitAnswer1">Scarce resources cannot be used for every alternative, so choosing one use requires giving up the next-best use.</div>
+      </div>
+      <div class="exit-card">
+        <div class="exit-label">Apply</div>
+        <h2>A field is used for strawberries. Its next-best use—vegetables—would earn $4,000. Opportunity cost?</h2>
+        <button type="button" class="exit-reveal" data-target="exitAnswer2">Reveal answer</button>
+        <div class="exit-answer" id="exitAnswer2"><strong>$4,000</strong> in expected returns from vegetables.</div>
+      </div>
+    </div>
+    <div class="definition-strip large" style="margin-top:27px; text-align:center;"><strong>Scarcity forces choices.</strong> Opportunity cost is the value of the next-best choice we give up.</div>
+    <div class="source-note">Core concepts and selected examples adapted from OpenStax, <em>Principles of Economics</em>, Chapters 1–2.</div>
+  </section>
+
+</div>
+<div id="progress"></div>
+<div id="hint">← → / Space to navigate · P to print</div>
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const stage = document.getElementById('stage');
+  const progress = document.getElementById('progress');
+  let idx = 0;
+
+  slides.forEach(function(slide, i){
+    const footer = document.createElement('div');
+    footer.className = 'footer';
+    footer.innerHTML = '<span>ARE 201 · Unit 2</span><span>' + (i + 1) + '</span>';
+    slide.appendChild(footer);
+  });
+
+  function fit(){
+    const scale = Math.min(window.innerWidth / 960, window.innerHeight / 720);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+  }
+
+  function show(n){
+    idx = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(slide, i){
+      slide.classList.toggle('active', i === idx);
+    });
+    progress.style.width = (((idx + 1) / slides.length) * 100) + '%';
+    history.replaceState(null, '', '#' + (idx + 1));
+  }
+
+  function setFeedback(element, message, state){
+    element.className = 'game-feedback' + (state ? ' ' + state : '');
+    element.textContent = message;
+  }
+
+  function clearButtonState(button){
+    button.classList.remove('correct', 'wrong');
+    button.style.background = '';
+    button.style.opacity = '';
+    button.disabled = false;
+  }
+
+  // Opening choice
+  const openingButtons = Array.from(document.querySelectorAll('.opening-choice'));
+  const openingFeedback = document.getElementById('openingFeedback');
+  let openingChoice = '';
+
+  openingButtons.forEach(function(button){
+    button.addEventListener('click', function(){
+      openingButtons.forEach(function(choice){ choice.classList.remove('selected'); });
+      button.classList.add('selected');
+      openingChoice = button.dataset.choice;
+      setFeedback(openingFeedback, 'You chose: ' + openingChoice + '. Keep it in mind—we will return to it.', 'success');
+    });
+  });
+
+  document.getElementById('openingReveal').addEventListener('click', function(){
+    if (!openingChoice) {
+      setFeedback(openingFeedback, 'Choose one option first.', 'error');
+      return;
+    }
+    setFeedback(openingFeedback, 'The binding constraint is time: one hour cannot be used for all four activities.', 'success');
+  });
+
+  document.getElementById('openingReset').addEventListener('click', function(){
+    openingChoice = '';
+    openingButtons.forEach(function(button){ button.classList.remove('selected'); });
+    setFeedback(openingFeedback, 'There is no universal “correct” choice. First, make your own.', '');
+  });
+
+  // Scarcity versus shortage classifier
+  const sortScenarios = [
+    {
+      prompt: 'Everyone has only 24 hours in a day.',
+      correct: 'scarcity',
+      explanation: 'Time has competing uses and cannot satisfy all of them. That is scarcity.'
+    },
+    {
+      prompt: 'A campus café runs out of oat milk at noon but will restock tomorrow.',
+      correct: 'shortage',
+      explanation: 'At the current price and moment, the café cannot supply what customers want. This is a temporary shortage.'
+    },
+    {
+      prompt: 'A county has limited land for farming, housing, solar energy, and conservation.',
+      correct: 'scarcity',
+      explanation: 'The same finite land has several competing uses. The county must choose among them.'
+    },
+    {
+      prompt: 'Concert seats are finite, and at the posted price more students want tickets than are available.',
+      correct: 'both',
+      explanation: 'Seats are scarce, and demand exceeding supply at the posted price creates a shortage too.'
+    }
+  ];
+  const sortButtons = Array.from(document.querySelectorAll('.sort-answer'));
+  const sortProgress = document.getElementById('sortProgress');
+  const sortPrompt = document.getElementById('sortPrompt');
+  const sortScore = document.getElementById('sortScore');
+  const sortNext = document.getElementById('sortNext');
+  const sortFeedback = document.getElementById('sortFeedback');
+  let sortIndex = 0;
+  let sortPoints = 0;
+  let sortAnswered = false;
+
+  function renderSort(){
+    sortButtons.forEach(clearButtonState);
+    sortAnswered = false;
+    sortNext.disabled = true;
+    sortScore.textContent = 'Score: ' + sortPoints;
+    if (sortIndex >= sortScenarios.length) {
+      sortProgress.textContent = 'Complete';
+      sortPrompt.textContent = 'Classification complete: ' + sortPoints + ' of ' + sortScenarios.length + ' correct.';
+      sortButtons.forEach(function(button){ button.disabled = true; });
+      setFeedback(sortFeedback, 'Scarcity is the broad constraint; a shortage is a market condition at a particular price.', 'success');
+      return;
+    }
+    sortProgress.textContent = 'Scenario ' + (sortIndex + 1) + ' of ' + sortScenarios.length;
+    sortPrompt.textContent = sortScenarios[sortIndex].prompt;
+    sortNext.textContent = sortIndex === sortScenarios.length - 1 ? 'See result' : 'Next scenario';
+    setFeedback(sortFeedback, 'Choose the best classification.', '');
+  }
+
+  sortButtons.forEach(function(button){
+    button.addEventListener('click', function(){
+      if (sortAnswered || sortIndex >= sortScenarios.length) return;
+      sortAnswered = true;
+      const scenario = sortScenarios[sortIndex];
+      sortButtons.forEach(function(answer){ answer.disabled = true; answer.style.opacity = '1'; });
+      const correctButton = sortButtons.find(function(answer){ return answer.dataset.answer === scenario.correct; });
+      correctButton.style.background = '#378a61';
+      if (button.dataset.answer === scenario.correct) {
+        sortPoints += 1;
+        sortScore.textContent = 'Score: ' + sortPoints;
+        setFeedback(sortFeedback, 'Correct. ' + scenario.explanation, 'success');
+      } else {
+        button.style.background = '#c9504d';
+        setFeedback(sortFeedback, 'Not quite. ' + scenario.explanation, 'error');
+      }
+      sortNext.disabled = false;
+    });
+  });
+
+  sortNext.addEventListener('click', function(){
+    if (!sortAnswered) return;
+    sortIndex += 1;
+    renderSort();
+  });
+
+  document.getElementById('sortReset').addEventListener('click', function(){
+    sortIndex = 0;
+    sortPoints = 0;
+    renderSort();
+  });
+  renderSort();
+
+  // Specialization prediction
+  const productivityButtons = Array.from(document.querySelectorAll('.productivity-answer'));
+  const productivityFeedback = document.getElementById('productivityFeedback');
+
+  productivityButtons.forEach(function(button){
+    button.addEventListener('click', function(){
+      productivityButtons.forEach(function(answer){
+        answer.disabled = true;
+        answer.style.opacity = '1';
+        if (Number(answer.dataset.value) === 240) answer.style.background = '#378a61';
+      });
+      if (Number(button.dataset.value) === 240) {
+        setFeedback(productivityFeedback, 'Correct: 48,000 ÷ 200 = 240. The fair comparison holds the number of workers fixed.', 'success');
+      } else {
+        button.style.background = '#c9504d';
+        setFeedback(productivityFeedback, 'Not quite: compare 48,000 specialized pins with 10 × 20 = 200 generalist pins. The ratio is 240.', 'error');
+      }
+    });
+  });
+
+  document.getElementById('productivityReset').addEventListener('click', function(){
+    productivityButtons.forEach(clearButtonState);
+    setFeedback(productivityFeedback, 'Predict first, then choose an answer.', '');
+  });
+
+  // Interdependence supply chain
+  const chainNodes = Array.from(document.querySelectorAll('.chain-node'));
+  const chainFeedback = document.getElementById('chainFeedback');
+  chainNodes.forEach(function(node){
+    node.addEventListener('click', function(){
+      chainNodes.forEach(function(other){ other.classList.remove('active'); });
+      node.classList.add('active');
+      setFeedback(chainFeedback, node.dataset.detail, 'success');
+    });
+  });
+
+  // All alternatives versus next best
+  const allForgoneFeedback = document.getElementById('allForgoneFeedback');
+  document.getElementById('allForgoneReveal').addEventListener('click', function(){
+    setFeedback(allForgoneFeedback, 'No. Opportunity cost is the value of only the next-best alternative—not the sum of every rejected option.', 'success');
+  });
+  document.getElementById('allForgoneReset').addEventListener('click', function(){
+    setFeedback(allForgoneFeedback, 'Think before revealing: economics uses a more precise definition.', '');
+  });
+
+  // Opportunity cost practice
+  const ocQuestions = [
+    {
+      title: 'Friday Review Session',
+      prompt: 'Alex ranks the options: (1) attend review, (2) work a $40 shift, (3) have lunch with friends. Alex attends review. What is the opportunity cost?',
+      options: ['The $40 work shift', 'Lunch plus the work shift', 'The review session', 'There is no cost'],
+      correct: 0,
+      explanation: 'The work shift is Alex’s next-best alternative. The opportunity cost is its value—not every rejected option.'
+    },
+    {
+      title: 'Farm decision',
+      prompt: 'Expected net returns per acre are corn $900, soybeans $750, and conservation $600. The farmer plants corn. What is the opportunity cost?',
+      options: ['$750 from soybeans', '$1,350 from both alternatives', '$900 from corn', '$150, the difference'],
+      correct: 0,
+      explanation: 'Soybeans are the next-best use of the acre, so their $750 expected return is the opportunity cost.'
+    },
+    {
+      title: 'A free ticket',
+      prompt: 'Jordan uses a free game ticket. Jordan’s next-best alternative is a work shift paying $60. What is the opportunity cost?',
+      options: ['$0 because the ticket is free', 'The value of the $60 shift', 'The ticket plus the shift', 'Every activity Jordan could do'],
+      correct: 1,
+      explanation: 'A zero ticket price does not make time free. Jordan gives up the next-best shift.'
+    },
+    {
+      title: 'Airport security',
+      prompt: 'A new security procedure adds 30 minutes of waiting for every passenger. Which important cost could a spending budget miss?',
+      options: ['The value of passengers’ time', 'Only the scanner’s price', 'Nothing—waiting has no cost', 'Every trip passengers might take'],
+      correct: 0,
+      explanation: 'The time passengers give up has value even though no one sends them a bill for it.'
+    },
+    {
+      title: 'A free campus theater ticket',
+      prompt: 'Morgan has a free, nontransferable ticket to a campus theater performance. The next-best option is an NC Symphony concert that Morgan values at $90 and that costs $50. There are no other costs. What is the opportunity cost of attending the theater performance?',
+      options: ['$40—the concert’s forgone net benefit', '$0—the theater ticket is free', '$50—the concert ticket price', '$90—the value of the concert'],
+      correct: 0,
+      explanation: 'The next-best alternative provides $90 of value but requires a $50 ticket, so its forgone net benefit is $40.'
+    },
+    {
+      title: 'A last-minute airline seat',
+      prompt: 'An airline’s 200-seat Raleigh-to-Chicago flight is departing with 10 empty seats. The $100,000 flight cost will be incurred either way; one more passenger adds $25 in service costs. Ignoring effects on other fares, which cost is relevant when deciding whether to accept a last-minute passenger?',
+      options: ['$25—the additional cost of one passenger', '$500—the average flight cost per seat', '$100,000—the total flight cost', '$0—the seat is empty'],
+      correct: 0,
+      explanation: 'The $100,000 flight cost is already unavoidable, so it is sunk. The airline should compare the offered fare with the $25 marginal cost.'
+    }
+  ];
+  // Questions 5–6 adapt Jiaming Mao, Introduction, pp. 19–20, for a U.S. classroom context.
+  const ocButtons = Array.from(document.querySelectorAll('.oc-answer'));
+  const ocProgress = document.getElementById('ocProgress');
+  const ocTitle = document.getElementById('ocTitle');
+  const ocPrompt = document.getElementById('ocPrompt');
+  const ocScore = document.getElementById('ocScore');
+  const ocNext = document.getElementById('ocNext');
+  const ocFeedback = document.getElementById('ocFeedback');
+  let ocIndex = 0;
+  let ocPoints = 0;
+  let ocAnswered = false;
+
+  function renderOcQuiz(){
+    ocButtons.forEach(clearButtonState);
+    ocAnswered = false;
+    ocNext.disabled = true;
+    ocScore.textContent = 'Score: ' + ocPoints;
+    if (ocIndex >= ocQuestions.length) {
+      ocProgress.textContent = 'Complete';
+      ocTitle.textContent = 'Practice complete';
+      ocPrompt.textContent = 'You answered ' + ocPoints + ' of ' + ocQuestions.length + ' correctly.';
+      ocButtons.forEach(function(button){ button.textContent = '—'; button.disabled = true; });
+      setFeedback(ocFeedback, ocPoints === ocQuestions.length ? 'Perfect: you consistently identified the relevant alternative or cost.' : 'Restart and separate the next-best feasible alternative from costs that are already sunk.', 'success');
+      return;
+    }
+    const question = ocQuestions[ocIndex];
+    ocProgress.textContent = 'Question ' + (ocIndex + 1) + ' of ' + ocQuestions.length;
+    ocTitle.textContent = question.title;
+    ocPrompt.textContent = question.prompt;
+    ocButtons.forEach(function(button, optionIndex){ button.textContent = question.options[optionIndex]; });
+    ocNext.textContent = ocIndex === ocQuestions.length - 1 ? 'See result' : 'Next question';
+    setFeedback(ocFeedback, 'Focus on the next-best feasible alternative and on costs that can still change.', '');
+  }
+
+  ocButtons.forEach(function(button, optionIndex){
+    button.addEventListener('click', function(){
+      if (ocAnswered || ocIndex >= ocQuestions.length) return;
+      ocAnswered = true;
+      const question = ocQuestions[ocIndex];
+      ocButtons.forEach(function(answer){ answer.disabled = true; });
+      ocButtons[question.correct].classList.add('correct');
+      if (optionIndex === question.correct) {
+        ocPoints += 1;
+        ocScore.textContent = 'Score: ' + ocPoints;
+        setFeedback(ocFeedback, 'Correct. ' + question.explanation, 'success');
+      } else {
+        button.classList.add('wrong');
+        setFeedback(ocFeedback, 'Not quite. ' + question.explanation, 'error');
+      }
+      ocNext.disabled = false;
+    });
+  });
+
+  ocNext.addEventListener('click', function(){
+    if (!ocAnswered) return;
+    ocIndex += 1;
+    renderOcQuiz();
+  });
+
+  document.getElementById('ocReset').addEventListener('click', function(){
+    ocIndex = 0;
+    ocPoints = 0;
+    renderOcQuiz();
+  });
+  renderOcQuiz();
+
+  // Revisit the opening choice
+  const revisitButtons = Array.from(document.querySelectorAll('.revisit-choice'));
+  const revisitHeading = document.getElementById('revisitHeading');
+  const revisitFeedback = document.getElementById('revisitFeedback');
+  let revisitChosen = '';
+  let revisitNextBest = '';
+
+  function resetRevisit(){
+    revisitChosen = '';
+    revisitNextBest = '';
+    revisitHeading.textContent = 'Step 1: choose what you would do.';
+    revisitButtons.forEach(function(button){
+      button.disabled = false;
+      button.style.background = '#2f80c9';
+      button.style.opacity = '1';
+    });
+    setFeedback(revisitFeedback, 'Your opportunity cost depends on your own next-best alternative.', '');
+  }
+
+  revisitButtons.forEach(function(button){
+    button.addEventListener('click', function(){
+      if (!revisitChosen) {
+        revisitChosen = button.dataset.choice;
+        button.style.background = '#EB811B';
+        button.disabled = true;
+        button.style.opacity = '1';
+        revisitHeading.textContent = 'Step 2: choose your next-best alternative.';
+        setFeedback(revisitFeedback, 'Chosen: ' + revisitChosen + '. Now identify the best option you gave up.', '');
+        return;
+      }
+      if (!revisitNextBest) {
+        revisitNextBest = button.dataset.choice;
+        button.style.background = '#378a61';
+        revisitButtons.forEach(function(choice){ choice.disabled = true; choice.style.opacity = '1'; });
+        revisitHeading.textContent = 'Your opportunity cost';
+        setFeedback(revisitFeedback, 'If “' + revisitNextBest + '” is your next-best alternative, its value is the opportunity cost of choosing “' + revisitChosen + '.”', 'success');
+      }
+    });
+  });
+
+  document.getElementById('revisitReset').addEventListener('click', resetRevisit);
+  resetRevisit();
+
+  // Exit-ticket reveals
+  Array.from(document.querySelectorAll('.exit-reveal')).forEach(function(button){
+    button.addEventListener('click', function(){
+      const answer = document.getElementById(button.dataset.target);
+      const visible = answer.classList.toggle('visible');
+      button.textContent = visible ? 'Hide answer' : 'Reveal answer';
+    });
+  });
+
+  document.addEventListener('keydown', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea')) return;
+    if (['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(event.key)) {
+      event.preventDefault();
+      show(idx + 1);
+    } else if (['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(event.key)) {
+      event.preventDefault();
+      show(idx - 1);
+    } else if (event.key.toLowerCase() === 'p') {
+      window.print();
+    } else if (event.key === 'Home') {
+      show(0);
+    } else if (event.key === 'End') {
+      show(slides.length - 1);
+    }
+  });
+
+  document.addEventListener('click', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea, .game-feedback, .question-panel, .production-compare, .supply-chain, .quiz-scenario, .revisit-panel, .exit-card')) return;
+    if (event.clientX > window.innerWidth / 2) show(idx + 1);
+    else show(idx - 1);
+  });
+
+  window.addEventListener('resize', fit);
+  const hash = parseInt(location.hash.replace('#',''), 10);
+  if (Number.isFinite(hash)) idx = Math.max(0, Math.min(slides.length - 1, hash - 1));
+  fit();
+  show(idx);
+})();
+</script>
+</body>
+</html>

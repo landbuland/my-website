@@ -12,3 +12,7 @@ description: "ARE 201: Introduction to Agricultural and Resource Economics, Fall
 ### Math Review
 
 - [Math Review Slides](https://zihanzhang.me/assets/are201/ARE201_Math_Review_Fall2026.html)
+
+### Unit 2: Scarcity and Opportunity Cost
+
+- [Scarcity and Opportunity Cost Slides](https://zihanzhang.me/assets/are201/ARE201_Unit2_Scarcity_Opportunity_Cost_Fall2026.html)
