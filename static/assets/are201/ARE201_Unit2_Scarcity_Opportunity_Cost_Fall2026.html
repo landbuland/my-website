@@ -151,20 +151,40 @@
   .card li { font-size: 18px; }
 
   .roadmap-card {
-    min-height: 205px;
+    display: flex;
+    min-height: 250px;
     padding: 19px 17px;
     border-top: 4px solid var(--accent);
     background: var(--soft);
+    flex-direction: column;
   }
   .roadmap-num {
-    margin-bottom: 18px;
+    margin-bottom: 12px;
     color: var(--accent);
     font-size: 32px;
     font-weight: 800;
     line-height: 1;
   }
-  .roadmap-card h3 { font-size: 19px; }
-  .roadmap-card p { margin-bottom: 0; color: #45515c; font-size: 16px; line-height: 1.35; }
+  .roadmap-card h3 { min-height: 46px; margin-bottom: 0; font-size: 19px; }
+  .roadmap-card p { color: #45515c; font-size: 16px; line-height: 1.35; }
+  .roadmap-answer {
+    min-height: 64px;
+    margin: 12px 0 0;
+    padding: 9px 10px;
+    border-left: 4px solid transparent;
+    background: transparent;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity .16s ease, transform .16s ease;
+  }
+  .roadmap-answer.visible {
+    border-left-color: var(--green);
+    background: var(--green-soft);
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
 
   .definition-strip {
     padding: 15px 18px;
@@ -637,6 +657,14 @@
   .interactive button:focus-visible { outline: 3px solid rgba(235,129,27,.35); outline-offset: 2px; }
   .interactive button.secondary { color: var(--ink); background: #e5e8eb; }
   .interactive button.blue-button { background: var(--blue); }
+  .interactive button.roadmap-reveal {
+    width: 100%;
+    min-height: 38px;
+    margin-top: 10px;
+    padding: 7px 10px;
+    background: var(--blue);
+    font-size: 14px;
+  }
   .interactive button:disabled { cursor: default; opacity: .55; }
   .interactive .choice-card { color: var(--ink); background: #fff; font-size: inherit; }
   .interactive .choice-card.selected { background: var(--accent-soft); }
@@ -730,24 +758,27 @@
     <div class="game-feedback" id="openingFeedback" aria-live="polite">There is no universal “correct” choice. First, make your own.</div>
   </section>
 
-  <section class="slide">
+  <section class="slide interactive">
     <div class="section-kicker">Today’s puzzle</div>
     <h1>Three questions will organize the hour</h1>
-    <div class="grid-3" style="margin-top:27px;">
+    <div class="grid-3" style="margin-top:20px;">
       <div class="roadmap-card">
         <div class="roadmap-num">1</div>
         <h3>Why must we choose?</h3>
-        <p>Scarcity places limits on individuals, firms, and societies.</p>
+        <button type="button" class="roadmap-reveal" data-target="roadmapAnswer1" aria-expanded="false">Reveal answer</button>
+        <p class="roadmap-answer" id="roadmapAnswer1">Scarcity places limits on individuals, firms, and societies.</p>
       </div>
       <div class="roadmap-card">
         <div class="roadmap-num">2</div>
         <h3>How can we produce more?</h3>
-        <p>Specialization raises productivity—but creates interdependence.</p>
+        <button type="button" class="roadmap-reveal" data-target="roadmapAnswer2" aria-expanded="false">Reveal answer</button>
+        <p class="roadmap-answer" id="roadmapAnswer2">Specialization raises productivity—but creates interdependence.</p>
       </div>
       <div class="roadmap-card">
         <div class="roadmap-num">3</div>
         <h3>What does a choice cost?</h3>
-        <p>Opportunity cost identifies the value of what we give up.</p>
+        <button type="button" class="roadmap-reveal" data-target="roadmapAnswer3" aria-expanded="false">Reveal answer</button>
+        <p class="roadmap-answer" id="roadmapAnswer3">Opportunity cost identifies the value of what we give up.</p>
       </div>
     </div>
     <div class="definition-strip" style="margin-top:25px;"><strong>Goal:</strong> connect scarcity → choice → trade-off → opportunity cost.</div>
@@ -1365,6 +1396,16 @@
     openingChoice = '';
     openingButtons.forEach(function(button){ button.classList.remove('selected'); });
     setFeedback(openingFeedback, 'There is no universal “correct” choice. First, make your own.', '');
+  });
+
+  // Roadmap answer reveals
+  Array.from(document.querySelectorAll('.roadmap-reveal')).forEach(function(button){
+    button.addEventListener('click', function(){
+      const answer = document.getElementById(button.dataset.target);
+      const visible = answer.classList.toggle('visible');
+      button.textContent = visible ? 'Hide answer' : 'Reveal answer';
+      button.setAttribute('aria-expanded', visible ? 'true' : 'false');
+    });
   });
 
   // Scarcity versus shortage classifier
