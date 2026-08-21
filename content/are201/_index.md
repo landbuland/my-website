@@ -16,3 +16,5 @@ description: "ARE 201: Introduction to Agricultural and Resource Economics, Fall
 ### Unit 2: Scarcity and Opportunity Cost
 
 - [Scarcity and Opportunity Cost Slides](https://zihanzhang.me/assets/are201/ARE201_Unit2_Scarcity_Opportunity_Cost_Fall2026.html)
+- [Review Session Slides (No Answers)](https://zihanzhang.me/assets/are201/ARE201_Unit2_Review_Session_Fall2026_No_Answers.html)
+- [Review Session Slides (With Answers)](https://zihanzhang.me/assets/are201/ARE201_Unit2_Review_Session_Fall2026.html)
