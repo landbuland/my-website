@@ -1,0 +1,2989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARE 201 — Unit 3: Production Possibility Frontier</title>
+<style>
+  :root {
+    --accent: #EB811B;
+    --accent-soft: #fff4e8;
+    --ink: #1f2933;
+    --muted: #5f6b76;
+    --paper: #ffffff;
+    --soft: #f3f4f6;
+    --line: #d8dde3;
+    --blue: #2f80c9;
+    --blue-soft: #eef5fb;
+    --green: #378a61;
+    --green-soft: #e9f6ef;
+    --red: #c9504d;
+    --red-soft: #fcedec;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #111;
+  }
+  body { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+
+  #stage {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 960px;
+    height: 720px;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+    background: var(--paper);
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    width: 960px;
+    height: 720px;
+    padding: 54px 64px 48px;
+    overflow: hidden;
+    color: var(--ink);
+    background: var(--paper);
+  }
+  .slide.active { display: block; }
+  .slide.center { text-align: center; }
+  .slide.middle {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .slide.middle.active { display: flex; }
+
+  h1, h2, h3, p { margin-top: 0; }
+  h1 {
+    margin-bottom: 23px;
+    font-size: 38px;
+    line-height: 1.12;
+    font-weight: 700;
+    letter-spacing: -.5px;
+  }
+  h2 {
+    margin-bottom: 13px;
+    font-size: 27px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+  h3 {
+    margin-bottom: 8px;
+    font-size: 21px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+  p, li {
+    font-size: 20px;
+    line-height: 1.36;
+  }
+  ul { margin: 8px 0 0 23px; padding: 0; }
+  li { margin: 7px 0; }
+  strong { font-weight: 750; }
+  .muted { color: var(--muted); }
+  .accent { color: var(--accent); }
+  .blue { color: var(--blue); }
+  .green { color: var(--green); }
+  .small { font-size: 17px; line-height: 1.34; }
+  .tiny { font-size: 14px; line-height: 1.3; }
+
+  .title-slide { padding-bottom: 148px; }
+  .title-kicker {
+    margin-bottom: 13px;
+    color: var(--accent);
+    font-size: 17px;
+    font-weight: 750;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+  }
+  .title-main {
+    max-width: 780px;
+    margin: 0 auto 13px;
+    font-size: 54px;
+    line-height: 1.03;
+  }
+  .title-sub {
+    color: var(--muted);
+    font-size: 25px;
+    line-height: 1.35;
+  }
+  .title-graphic {
+    position: absolute;
+    right: 60px;
+    bottom: 41px;
+    width: 500px;
+    height: 165px;
+  }
+
+  .section-kicker {
+    margin-bottom: 8px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 17px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 13px; }
+
+  .card {
+    padding: 20px 22px;
+    border-radius: 8px;
+    background: var(--soft);
+  }
+  .card.white { border: 1px solid var(--line); background: #fff; }
+  .card.accent-top { border-top: 4px solid var(--accent); border-radius: 0 0 8px 8px; }
+  .card.blue-top { border-top: 4px solid var(--blue); border-radius: 0 0 8px 8px; }
+  .card.green-top { border-top: 4px solid var(--green); border-radius: 0 0 8px 8px; }
+  .card p { margin-bottom: 0; font-size: 18px; line-height: 1.34; }
+  .card li { font-size: 18px; }
+
+  .definition-strip {
+    padding: 15px 18px;
+    border-left: 5px solid var(--accent);
+    background: var(--accent-soft);
+    font-size: 20px;
+    line-height: 1.4;
+  }
+  .definition-strip.blue-strip { border-left-color: var(--blue); background: var(--blue-soft); }
+  .definition-strip.green-strip { border-left-color: var(--green); background: var(--green-soft); }
+  .definition-strip.large { padding: 19px 23px; font-size: 26px; }
+
+  .choice-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .choice-card {
+    min-height: 154px;
+    padding: 19px 17px;
+    border: 2px solid var(--line);
+    border-radius: 9px;
+    color: var(--ink);
+    background: #fff;
+    text-align: left;
+    transition: border-color .15s ease, background .15s ease, transform .15s ease;
+  }
+  .choice-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .choice-card.selected { border-color: var(--accent); background: var(--accent-soft); }
+  .choice-icon {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 11px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--accent);
+    font-size: 16px;
+    font-weight: 850;
+  }
+  .choice-title { display: block; font-size: 19px; font-weight: 800; }
+  .choice-detail { display: block; margin-top: 6px; color: var(--muted); font-size: 14px; line-height: 1.3; }
+
+  .roadmap-card {
+    display: flex;
+    min-height: 270px;
+    padding: 19px 17px;
+    border-top: 4px solid var(--accent);
+    background: var(--soft);
+    flex-direction: column;
+  }
+  .roadmap-num {
+    margin-bottom: 12px;
+    color: var(--accent);
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .roadmap-card h3 { min-height: 48px; margin-bottom: 0; font-size: 19px; }
+  .roadmap-answer {
+    min-height: 73px;
+    margin: 12px 0 0;
+    padding: 9px 10px;
+    border-left: 4px solid transparent;
+    color: #45515c;
+    background: transparent;
+    font-size: 15px;
+    line-height: 1.32;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity .16s ease, transform .16s ease;
+  }
+  .roadmap-answer.visible {
+    border-left-color: var(--green);
+    background: var(--green-soft);
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .logic-chain {
+    display: grid;
+    grid-template-columns: 1fr 58px 1fr 58px 1fr;
+    gap: 8px;
+    align-items: center;
+    margin-top: 34px;
+  }
+  .logic-step {
+    min-height: 190px;
+    padding: 21px 17px;
+    border: 2px solid var(--line);
+    border-radius: 9px;
+    color: var(--ink);
+    background: #fff;
+    text-align: center;
+  }
+  .logic-step.active { border-color: var(--accent); background: var(--accent-soft); }
+  .logic-number {
+    display: flex;
+    width: 38px;
+    height: 38px;
+    margin: 0 auto 13px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--accent);
+    font-size: 16px;
+    font-weight: 850;
+  }
+  .logic-step h2 { margin-bottom: 7px; font-size: 24px; }
+  .logic-step p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.32; }
+  .logic-arrow { color: var(--accent); font-size: 37px; text-align: center; }
+
+  .scale-card {
+    min-height: 315px;
+    padding: 22px 19px;
+    border-top: 5px solid var(--accent);
+    background: var(--soft);
+  }
+  .scale-label { color: var(--accent); font-size: 13px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .scale-icon { margin: 17px 0 12px; color: var(--ink); font-size: 45px; font-weight: 850; }
+  .scale-card h2 { font-size: 24px; }
+  .scale-card p { color: var(--muted); font-size: 16px; line-height: 1.34; }
+  .scale-question { margin-top: 15px; padding: 11px 12px; border-left: 4px solid var(--accent); background: #fff; font-size: 15px; font-weight: 750; line-height: 1.3; }
+
+  .social-layout {
+    display: grid;
+    grid-template-columns: 1.08fr .92fr;
+    gap: 28px;
+    align-items: center;
+  }
+  .resource-pool {
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--soft);
+  }
+  .pool-label { color: var(--muted); font-size: 13px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .token-grid { display: grid; grid-template-columns: repeat(5, 42px); gap: 12px; justify-content: center; margin: 25px 0; }
+  .token {
+    display: flex;
+    width: 42px;
+    height: 42px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--accent);
+    font-size: 12px;
+    font-weight: 850;
+  }
+  .allocation-arrows { display: grid; grid-template-columns: 1fr 50px 1fr; align-items: center; gap: 8px; }
+  .allocation-box { min-height: 102px; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: #fff; text-align: center; }
+  .allocation-box h3 { margin: 4px 0; font-size: 20px; }
+  .allocation-box p { margin: 0; color: var(--muted); font-size: 14px; }
+
+  .split-question {
+    min-height: 288px;
+    padding: 23px;
+    border: 1px solid var(--line);
+    border-top: 5px solid var(--accent);
+    border-radius: 0 0 8px 8px;
+    background: var(--soft);
+  }
+  .split-question.blue-top { border-top-color: var(--blue); }
+  .question-tag { color: var(--accent); font-size: 13px; font-weight: 850; letter-spacing: .09em; text-transform: uppercase; }
+  .blue-top .question-tag { color: var(--blue); }
+  .split-question h2 { margin-top: 13px; font-size: 26px; }
+  .split-question p { color: var(--muted); font-size: 17px; }
+  .answer-role { margin-top: 20px; padding: 13px 14px; border-left: 4px solid var(--accent); background: #fff; font-size: 17px; line-height: 1.35; }
+  .blue-top .answer-role { border-left-color: var(--blue); }
+
+  .assumption-card {
+    min-height: 178px;
+    padding: 19px 17px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+  }
+  .assumption-icon {
+    display: flex;
+    width: 36px;
+    height: 36px;
+    margin-bottom: 11px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--accent);
+    background: var(--accent-soft);
+    font-size: 14px;
+    font-weight: 850;
+  }
+  .assumption-card h3 { margin-bottom: 7px; font-size: 19px; }
+  .assumption-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.32; }
+
+  .lab-grid {
+    display: grid;
+    grid-template-columns: .88fr 1.12fr;
+    gap: 24px;
+    align-items: start;
+  }
+  .lab-panel {
+    min-height: 455px;
+    padding: 21px;
+    border-top: 5px solid var(--accent);
+    background: var(--soft);
+  }
+  .lab-point { color: var(--accent); font-size: 46px; font-weight: 900; line-height: 1; }
+  .output-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; margin-top: 15px; padding: 13px 14px; border-radius: 7px; background: #fff; }
+  .output-label { color: var(--muted); font-size: 15px; font-weight: 750; }
+  .output-value { font-size: 21px; font-weight: 850; }
+  .range-wrap { margin-top: 22px; }
+  .range-wrap label { display: block; margin-bottom: 9px; color: var(--muted); font-size: 14px; font-weight: 750; }
+  input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; }
+  .range-ends { display: flex; justify-content: space-between; margin-top: 5px; color: var(--muted); font-size: 12px; }
+  .ppf-panel {
+    min-height: 455px;
+    padding: 12px 12px 7px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: #fff;
+  }
+  .ppf-svg { display: block; width: 100%; height: 390px; }
+  .axis { stroke: var(--ink); stroke-width: 2; }
+  .gridline { stroke: #e8ebee; stroke-width: 1; }
+  .frontier { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; }
+  .frontier-dashed { fill: none; stroke: #d8dde3; stroke-width: 3; stroke-dasharray: 8 7; }
+  .ppf-dot { fill: #fff; stroke: var(--accent); stroke-width: 3; }
+  .ppf-dot.active { fill: var(--accent); }
+  .ppf-label { fill: var(--ink); font-size: 13px; font-weight: 800; }
+  .axis-label { fill: var(--muted); font-size: 13px; font-weight: 750; }
+  .axis-value { fill: #8a949e; font-size: 11px; }
+
+  .definition-layout { display: grid; grid-template-columns: .88fr 1.12fr; gap: 26px; align-items: center; }
+  .frontier-word {
+    display: flex;
+    min-height: 340px;
+    padding: 28px;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    background: var(--accent-soft);
+    text-align: center;
+  }
+  .frontier-word span { color: var(--accent); font-size: 42px; font-weight: 900; line-height: 1.08; }
+  .definition-parts { display: grid; gap: 13px; }
+  .definition-part { padding: 14px 16px; border-left: 4px solid var(--accent); background: var(--soft); }
+  .definition-part strong { display: block; margin-bottom: 4px; font-size: 17px; }
+  .definition-part p { margin: 0; color: var(--muted); font-size: 15px; }
+
+  .point-story {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-top: 22px;
+  }
+  .point-card { min-height: 158px; padding: 18px; border: 1px solid var(--line); border-radius: 8px; background: var(--soft); }
+  .point-card .point-name { color: var(--accent); font-size: 32px; font-weight: 900; }
+  .point-card h3 { margin: 5px 0; font-size: 20px; }
+  .point-card p { margin: 0; color: var(--muted); font-size: 14px; }
+
+  .point-predict-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 24px; align-items: start; }
+  .point-panel { min-height: 405px; padding: 16px; border: 1px solid var(--line); border-radius: 9px; background: #fff; }
+  .point-controls { display: grid; gap: 12px; }
+  .point-controls button { min-height: 69px !important; text-align: left; }
+
+  .region-card { min-height: 250px; padding: 21px 18px; border-top: 5px solid var(--accent); background: var(--soft); }
+  .region-card.inside { border-top-color: var(--blue); }
+  .region-card.outside { border-top-color: var(--red); }
+  .region-mark { font-size: 37px; font-weight: 900; }
+  .region-card.on .region-mark { color: var(--accent); }
+  .region-card.inside .region-mark { color: var(--blue); }
+  .region-card.outside .region-mark { color: var(--red); }
+  .region-card h2 { margin: 8px 0; font-size: 23px; }
+  .region-card p { margin: 0; color: var(--muted); font-size: 16px; }
+
+  .movement-grid { display: grid; grid-template-columns: 1.12fr .88fr; gap: 24px; align-items: start; }
+  .movement-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+  .movement-summary { min-height: 330px; padding: 22px; border-top: 5px solid var(--blue); background: var(--blue-soft); }
+  .movement-summary h2 { margin-top: 8px; }
+  .change-row { display: grid; grid-template-columns: 34px 1fr; gap: 10px; margin-top: 13px; align-items: start; }
+  .change-sign { display: flex; width: 28px; height: 28px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; font-size: 18px; font-weight: 850; }
+  .change-sign.plus { background: var(--green); }
+  .change-sign.minus { background: var(--red); }
+  .change-row p { margin: 2px 0 0; font-size: 17px; }
+
+  .formula {
+    padding: 18px 22px;
+    border-left: 5px solid var(--accent);
+    background: var(--accent-soft);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 28px;
+    line-height: 1.35;
+    text-align: center;
+  }
+  .formula.large { font-size: 35px; }
+  .calculation-row { display: grid; grid-template-columns: 1fr 50px 1fr; gap: 12px; align-items: center; margin-top: 24px; }
+  .calculation-card { min-height: 220px; padding: 22px; border: 1px solid var(--line); border-radius: 8px; background: var(--soft); }
+  .calculation-card h3 { font-size: 20px; }
+  .calculation-card p { color: var(--muted); font-size: 16px; }
+  .calculation-result { margin-top: 17px; color: var(--accent); font-size: 27px; font-weight: 850; }
+  .calculation-arrow { color: var(--accent); font-size: 36px; text-align: center; }
+
+  .pattern-table {
+    width: 100%;
+    margin-top: 14px;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .pattern-table th, .pattern-table td { padding: 10px 13px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: center; font-size: 15px; }
+  .pattern-table th:last-child, .pattern-table td:last-child { border-right: 0; }
+  .pattern-table tr:last-child td { border-bottom: 0; }
+  .pattern-table th { color: #fff; background: var(--ink); }
+  .pattern-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px; margin-top: 13px; }
+
+  .volunteer-layout {
+    display: grid;
+    grid-template-columns: 1.08fr .92fr;
+    gap: 24px;
+    align-items: start;
+  }
+  .volunteer-panel {
+    min-height: 410px;
+    padding: 21px;
+    border-top: 5px solid var(--accent);
+    background: var(--soft);
+  }
+  .volunteer-panel.blue-panel { border-top-color: var(--blue); }
+  .field-label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 850;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .nickname-input {
+    width: 100%;
+    min-height: 48px;
+    padding: 10px 13px;
+    border: 2px solid var(--line);
+    border-radius: 7px;
+    color: var(--ink);
+    background: #fff;
+    font: 700 18px "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  }
+  .nickname-input:focus { border-color: var(--accent); outline: 3px solid rgba(235,129,27,.18); }
+  .privacy-note { margin-top: 7px; color: var(--muted); font-size: 12px; line-height: 1.28; }
+  .hour-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px; margin-top: 10px; }
+  .interactive .hour-choice {
+    min-height: 47px;
+    padding: 8px 5px;
+    border: 2px solid var(--line);
+    color: var(--ink);
+    background: #fff;
+    font-size: 17px;
+  }
+  .interactive .hour-choice.selected { border-color: var(--accent); color: #fff; background: var(--accent); }
+  .speed-placeholder {
+    display: flex;
+    min-height: 164px;
+    margin-top: 15px;
+    padding: 18px;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #c9cfd6;
+    border-radius: 9px;
+    color: var(--muted);
+    background: #fff;
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.35;
+  }
+  .speed-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-top: 15px; }
+  .speed-card { min-height: 164px; padding: 18px 14px; border: 1px solid var(--line); border-radius: 8px; background: #fff; text-align: center; }
+  .speed-card .speed-icon { color: var(--accent); font-size: 31px; font-weight: 900; }
+  .speed-card h3 { margin: 8px 0 6px; font-size: 18px; }
+  .speed-value { color: var(--blue); font-size: 25px; font-weight: 900; }
+  .speed-unit { color: var(--muted); font-size: 12px; line-height: 1.25; }
+
+  .allocation-workspace {
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  .shift-panel {
+    min-height: 449px;
+    padding: 16px 18px;
+    border-top: 5px solid var(--accent);
+    background: var(--soft);
+  }
+  .shift-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 8px; }
+  .shift-meta-item { padding: 7px 10px; border-radius: 7px; background: #fff; }
+  .shift-meta-label { color: var(--muted); font-size: 11px; font-weight: 850; letter-spacing: .07em; text-transform: uppercase; }
+  .shift-meta-value { margin-top: 4px; font-size: 17px; font-weight: 850; }
+  .shift-panel .range-wrap { margin-top: 14px; }
+  .allocation-readout { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 9px; }
+  .allocation-output { padding: 7px 10px; border-left: 4px solid var(--accent); background: #fff; }
+  .allocation-output.blue-output { border-left-color: var(--blue); }
+  .allocation-output strong { display: block; margin-top: 2px; font-size: 19px; }
+  .shift-panel .game-toolbar { margin-top: 8px; }
+  .shift-panel .game-toolbar button { min-height: 38px; padding-top: 7px; padding-bottom: 7px; }
+  .boundary-caption { margin: 2px 0 0; color: var(--muted); font-size: 12px; font-weight: 750; text-align: center; }
+
+  .compare-layout { display: grid; grid-template-columns: 1.18fr .82fr; gap: 23px; align-items: start; }
+  .compare-panel { min-height: 440px; padding: 11px; border: 1px solid var(--line); border-radius: 9px; background: #fff; }
+  .compare-side { min-height: 440px; padding: 20px; border-top: 5px solid var(--blue); background: var(--blue-soft); }
+  .compare-legend { display: grid; gap: 8px; margin: 12px 0 17px; }
+  .legend-row { display: grid; grid-template-columns: 17px 1fr; gap: 9px; align-items: center; font-size: 15px; font-weight: 800; }
+  .legend-swatch { width: 17px; height: 5px; border-radius: 999px; background: var(--accent); }
+  .legend-swatch.blue-swatch { background: var(--blue); }
+  .compare-prompts { display: grid; gap: 9px; }
+  .interactive .compare-prompt { min-height: 54px; text-align: left; background: #fff; color: var(--ink); border: 1px solid #c6dcef; }
+  .compare-projection { stroke: #aeb6bf; stroke-width: 1.4; stroke-dasharray: 6 5; }
+  .compare-axis-dot { fill: #aeb6bf; }
+  .compare-bundle-value, .compare-endpoint-value, .shift-endpoint-value {
+    font-size: 11px;
+    font-weight: 900;
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 3px;
+    stroke-linejoin: round;
+  }
+  .compare-endpoint-dot, .shift-endpoint-dot { stroke: #fff; stroke-width: 1.5; }
+
+  .concept-layout { display: grid; grid-template-columns: .9fr 1.1fr; gap: 25px; align-items: stretch; }
+  .concept-curtain {
+    display: flex;
+    min-height: 320px;
+    padding: 28px;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed var(--accent);
+    border-radius: 10px;
+    background: var(--accent-soft);
+    text-align: center;
+  }
+  .concept-name { color: var(--accent); font-size: 38px; font-weight: 900; line-height: 1.08; }
+  .concept-name.hidden-name { color: #c2a98f; filter: blur(8px); user-select: none; }
+  .profile-recall { display: grid; gap: 11px; }
+  .recall-card { min-height: 151px; padding: 17px; border: 1px solid var(--line); border-left: 5px solid var(--accent); border-radius: 7px; background: var(--soft); }
+  .recall-card.blue-recall { border-left-color: var(--blue); }
+  .recall-name { font-size: 20px; font-weight: 850; }
+  .recall-details { margin-top: 7px; color: var(--muted); font-size: 14px; line-height: 1.35; }
+  .concept-definition { display: none; margin-top: 14px; padding: 13px 17px !important; font-size: 20px !important; }
+  .concept-definition.visible { display: block; }
+
+  .linear-profile-summary {
+    min-height: 36px;
+    margin: -9px 0 14px;
+    padding: 8px 12px;
+    border-left: 4px solid var(--blue);
+    color: #365267;
+    background: var(--blue-soft);
+    font-size: 14px;
+    font-weight: 750;
+    line-height: 1.35;
+  }
+  .linear-point-story { margin-top: 0; }
+  .linear-graph-grid, .linear-region-grid, .linear-movement-grid { margin-top: 0; }
+  .linear-movement-summary { min-height: 375px; padding: 18px; }
+  .movement-projection { stroke: #aeb6bf; stroke-width: 1.5; stroke-dasharray: 6 5; }
+  .movement-projection-dot { fill: #aeb6bf; }
+  .movement-axis-value { fill: #68737e; font-weight: 800; }
+  .linear-formula { padding: 14px 18px; font-size: 25px; }
+  .linear-calculation-row { margin-top: 16px; }
+  .linear-calculation-row .calculation-card { min-height: 190px; padding: 18px; }
+  .linear-calculation-row .calculation-result { margin-top: 13px; font-size: 24px; }
+  .linear-pattern-table { margin-top: 8px; }
+
+  .quiz-layout { display: grid; grid-template-columns: .82fr 1.18fr; gap: 24px; align-items: start; }
+  .quiz-scenario { min-height: 390px; padding: 23px; border-top: 5px solid var(--accent); background: var(--soft); }
+  .quiz-round { color: var(--muted); font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .quiz-scenario h2 { margin-top: 14px; font-size: 25px; }
+  .quiz-scenario p { font-size: 17px; }
+  .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .takeaway-chain {
+    display: grid;
+    grid-template-columns: 1fr 50px 1fr 50px 1fr;
+    gap: 8px;
+    align-items: center;
+    margin-top: 22px;
+  }
+  .takeaway-box { min-height: 112px; padding: 18px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--soft); text-align: center; }
+  .takeaway-box strong { display: block; margin-bottom: 7px; color: var(--accent); font-size: 20px; }
+  .takeaway-box span { color: var(--muted); font-size: 14px; line-height: 1.3; }
+  .takeaway-arrow { color: var(--accent); font-size: 31px; text-align: center; }
+  .exit-card { margin-top: 25px; padding: 20px 22px; border: 1px solid var(--line); border-radius: 9px; background: #fff; }
+  .exit-label { color: var(--accent); font-size: 13px; font-weight: 850; letter-spacing: .09em; text-transform: uppercase; }
+  .exit-card h2 { margin: 11px 0 15px; font-size: 23px; }
+  .exit-answer { display: none; padding: 12px 14px; border-left: 4px solid var(--green); background: var(--green-soft); font-size: 16px; line-height: 1.34; }
+  .exit-answer.visible { display: block; }
+
+  .shift-layout {
+    display: grid;
+    grid-template-columns: 1.08fr .92fr;
+    gap: 22px;
+    align-items: start;
+  }
+  .shift-graph-panel {
+    min-height: 350px;
+    padding: 8px 12px 4px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: #fff;
+  }
+  .shift-svg { display: block; width: 100%; height: 325px; }
+  .shift-side-panel {
+    min-height: 350px;
+    padding: 18px;
+    border-top: 5px solid var(--blue);
+    background: var(--blue-soft);
+  }
+  .shift-side-panel.orange-panel { border-top-color: var(--accent); background: var(--accent-soft); }
+  .shift-side-panel h2 { margin: 7px 0 12px; font-size: 24px; }
+  .shift-side-panel p { margin-bottom: 12px; font-size: 16px; line-height: 1.34; }
+  .shift-side-panel .game-feedback { min-height: 70px; padding: 10px 12px; font-size: 14px; }
+  .shift-choice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 13px; }
+  .shift-choice-grid.two-choice { grid-template-columns: 1fr 1fr; }
+  .interactive .shift-choice-button { min-height: 50px; padding: 8px 9px; font-size: 13px; line-height: 1.2; }
+  .interactive .shift-choice-button.selected { background: var(--blue); box-shadow: inset 0 0 0 2px rgba(255,255,255,.6); }
+  .shift-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin: 10px 0 12px; }
+  .shift-stat { padding: 8px 10px; border-radius: 6px; background: #fff; }
+  .shift-stat span { display: block; color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+  .shift-stat strong { display: block; margin-top: 3px; font-size: 15px; line-height: 1.25; }
+  .shift-equation {
+    padding: 10px 12px;
+    border-left: 4px solid var(--blue);
+    background: #fff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 20px;
+    line-height: 1.3;
+    text-align: center;
+  }
+  .parallel-line, .pivot-line {
+    fill: none;
+    stroke-width: 4;
+    stroke-linecap: round;
+    opacity: .2;
+    transition: opacity .16s ease, stroke-width .16s ease;
+  }
+  .parallel-line.active, .pivot-line.active { stroke-width: 7; opacity: 1; }
+  .parallel-line.baseline-line, .pivot-line.baseline-line { stroke: var(--accent); opacity: .48; }
+  .parallel-line.outward-line, .pivot-line.wrap-line { stroke: var(--blue); }
+  .parallel-line.inward-line { stroke: var(--red); }
+  .pivot-line.dish-line { stroke: var(--green); }
+  .parallel-line.baseline-line.active, .pivot-line.baseline-line.active { opacity: 1; }
+  .parallel-endpoints { opacity: .45; transition: opacity .16s ease; }
+  .parallel-endpoints.active { opacity: 1; }
+  .shift-point { fill: #fff; stroke: var(--blue); stroke-width: 3; }
+  .shift-segment { stroke: var(--blue); stroke-width: 8; stroke-linecap: round; }
+  .shift-feedback { min-height: 70px; padding: 10px 12px; font-size: 14px; }
+  .shift-quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .shift-quiz-options .answer-button { min-height: 58px; }
+  .shift-quiz-options .answer-button:last-child { grid-column: 1 / -1; }
+
+  .social-profile-summary {
+    min-height: 36px;
+    margin: -9px 0 14px;
+    padding: 8px 12px;
+    border-left: 4px solid var(--green);
+    color: #345d4a;
+    background: var(--green-soft);
+    font-size: 14px;
+    font-weight: 750;
+    line-height: 1.35;
+  }
+  .social-worker-grid { display: grid; grid-template-columns: 1fr 44px 1fr; gap: 10px; align-items: center; }
+  .social-worker-card {
+    min-height: 183px;
+    padding: 16px 18px;
+    border-top: 5px solid var(--accent);
+    background: var(--soft);
+  }
+  .social-worker-card.blue-worker { border-top-color: var(--blue); }
+  .social-worker-card h2 { margin: 5px 0 9px; font-size: 24px; }
+  .social-worker-card p { margin: 0; color: var(--muted); font-size: 15px; }
+  .social-worker-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 12px; }
+  .social-worker-stat { padding: 8px 9px; border-radius: 6px; background: #fff; }
+  .social-worker-stat span { display: block; color: var(--muted); font-size: 10px; font-weight: 850; letter-spacing: .05em; text-transform: uppercase; }
+  .social-worker-stat strong { display: block; margin-top: 3px; font-size: 15px; }
+  .social-plus { color: var(--green); font-size: 34px; font-weight: 900; text-align: center; }
+  .social-total-strip {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr 1fr;
+    gap: 9px;
+    margin-top: 12px;
+    padding: 12px;
+    border-left: 5px solid var(--green);
+    background: var(--green-soft);
+  }
+  .social-total-item { padding: 8px 10px; background: #fff; }
+  .social-total-item span { display: block; color: var(--muted); font-size: 10px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+  .social-total-item strong { display: block; margin-top: 3px; font-size: 17px; }
+  .social-source-row { display: grid; grid-template-columns: auto auto 1fr; gap: 9px; align-items: stretch; margin-top: 11px; }
+  .social-source-row .game-feedback { min-height: 51px; padding: 8px 12px; font-size: 14px; }
+  .interactive .social-source-button { min-height: 51px; font-size: 13px; }
+  .interactive .social-source-button.selected { background: var(--green); box-shadow: inset 0 0 0 2px rgba(255,255,255,.62); }
+
+  .social-choice-layout { display: grid; grid-template-columns: .9fr 1.1fr; gap: 23px; align-items: stretch; }
+  .social-start-panel { min-height: 372px; padding: 22px; border-top: 5px solid var(--green); background: var(--green-soft); }
+  .social-start-panel h2 { margin: 8px 0 13px; font-size: 26px; }
+  .social-start-output { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin: 15px 0; }
+  .social-output-box { padding: 14px; background: #fff; text-align: center; }
+  .social-output-box span { display: block; color: var(--muted); font-size: 12px; font-weight: 800; text-transform: uppercase; }
+  .social-output-box strong { display: block; margin-top: 5px; font-size: 28px; }
+  .social-answer-panel { min-height: 372px; padding: 20px; border-top: 5px solid var(--blue); background: var(--blue-soft); }
+  .social-answer-panel h2 { margin-bottom: 12px; font-size: 24px; }
+  .social-choice-options { display: grid; gap: 9px; }
+  .interactive .social-choice-answer { min-height: 58px; text-align: left; }
+  .interactive .social-choice-answer.correct { background: var(--green); opacity: 1; }
+  .interactive .social-choice-answer.wrong { background: var(--red); opacity: 1; }
+
+  .social-build-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
+  .interactive .social-stage-button { min-height: 49px; padding: 8px; font-size: 13px; line-height: 1.2; }
+  .interactive .social-stage-button.completed { background: var(--green); }
+  .social-oc-table { display: grid; gap: 7px; margin-top: 9px; }
+  .social-oc-row { display: grid; grid-template-columns: 55px 1fr auto; gap: 8px; align-items: center; padding: 9px 10px; border-radius: 6px; background: #fff; opacity: .25; }
+  .social-oc-row.visible { opacity: 1; }
+  .social-oc-row span { font-size: 12px; font-weight: 850; }
+  .social-oc-row strong { color: var(--green); font-size: 14px; }
+  .social-frontier-segment { fill: none; stroke: var(--green); stroke-width: 6; stroke-linecap: round; }
+  .social-frontier-point { fill: #fff; stroke: var(--green); stroke-width: 3; }
+  .social-coordinate-label, .social-axis-value {
+    fill: var(--green);
+    font-size: 11px;
+    font-weight: 900;
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 3px;
+    stroke-linejoin: round;
+  }
+
+  .social-shape-path { fill: none; stroke: var(--green); stroke-width: 6; stroke-linecap: round; }
+  .social-shape-chord { fill: none; stroke: #d8dde3; stroke-width: 2; stroke-dasharray: 7 6; }
+  .social-tangent { stroke: var(--blue); stroke-width: 4; stroke-linecap: round; }
+  .shape-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin: 10px 0; }
+  .shape-stat { padding: 9px 10px; border-radius: 6px; background: #fff; }
+  .shape-stat span { display: block; color: var(--muted); font-size: 10px; font-weight: 850; text-transform: uppercase; }
+  .shape-stat strong { display: block; margin-top: 4px; font-size: 14px; line-height: 1.25; }
+  .social-shape-reveal { display: none; margin-top: 9px; padding: 10px 12px; border-left: 4px solid var(--green); background: #fff; font-size: 13px; line-height: 1.33; }
+  .social-shape-reveal.visible { display: block; }
+  #socialShapeSlide .shift-side-panel { padding: 15px 18px; }
+  #socialShapeSlide .shift-side-panel h2 { margin: 5px 0 8px; font-size: 23px; }
+  #socialShapeSlide .shift-side-panel p { margin-bottom: 8px; font-size: 15px; }
+  #socialShapeSlide .shift-choice-grid { margin-top: 5px !important; }
+  #socialShapeSlide .shape-stat-grid { margin: 7px 0; }
+  #socialShapeSlide .social-shape-reveal { margin-top: 6px; padding: 8px 10px; font-size: 12px; line-height: 1.28; }
+
+  .interactive button {
+    min-height: 42px;
+    padding: 9px 15px;
+    border: 0;
+    border-radius: 7px;
+    color: #fff;
+    background: var(--accent);
+    font: 700 15px "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+    cursor: pointer;
+  }
+  .interactive button:hover { filter: brightness(.96); }
+  .interactive button:focus-visible, input[type="range"]:focus-visible { outline: 3px solid rgba(235,129,27,.35); outline-offset: 2px; }
+  .interactive button:disabled { cursor: default; opacity: .55; }
+  .interactive button.secondary { color: var(--ink); background: #e5e8eb; }
+  .interactive button.blue-button { background: var(--blue); }
+  .interactive button.roadmap-reveal { width: 100%; min-height: 38px; margin-top: 9px; padding: 7px 10px; background: var(--blue); font-size: 14px; }
+  .interactive .choice-card { min-height: 154px; padding: 19px 17px; border: 2px solid var(--line); color: var(--ink); background: #fff; }
+  .interactive .choice-card.selected { border-color: var(--accent); background: var(--accent-soft); }
+  .interactive .logic-step { min-height: 190px; padding: 21px 17px; border: 2px solid var(--line); color: var(--ink); background: #fff; }
+  .interactive .logic-step.active { border-color: var(--accent); color: var(--ink); background: var(--accent-soft); }
+  .interactive .answer-button { min-height: 77px; font-size: 16px; line-height: 1.25; }
+  .interactive .answer-button.correct { background: var(--green); opacity: 1; }
+  .interactive .answer-button.wrong { background: var(--red); opacity: 1; }
+  .game-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 12px; }
+  .score-pill { display: inline-flex; min-height: 38px; align-items: center; padding: 7px 12px; border-radius: 999px; color: var(--ink); background: var(--soft); font-size: 15px; font-weight: 750; }
+  .game-feedback { min-height: 57px; padding: 11px 14px; border-left: 4px solid var(--line); background: var(--soft); font-size: 16px; line-height: 1.34; }
+  .game-feedback.success { border-left-color: var(--green); background: var(--green-soft); }
+  .game-feedback.error { border-left-color: var(--red); background: var(--red-soft); }
+
+  .footer { position: absolute; right: 64px; bottom: 19px; left: 64px; display: flex; justify-content: space-between; color: #8a949e; font-size: 13px; }
+  #progress { position: fixed; bottom: 0; left: 0; z-index: 20; height: 4px; background: var(--accent); transition: width .18s ease; }
+  #hint { position: fixed; right: 14px; bottom: 10px; z-index: 20; color: rgba(255,255,255,.5); font: 12px Arial, sans-serif; }
+
+  @page { size: 10in 7.5in; margin: 0; }
+  @media print {
+    html, body { width: auto; height: auto; overflow: visible; background: #fff; }
+    #stage { position: static; width: auto; height: auto; transform: none !important; box-shadow: none; }
+    .slide { position: relative; display: block !important; page-break-after: always; break-after: page; }
+    #progress, #hint { display: none; }
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <section class="slide title-slide center middle active">
+    <div style="width:100%; max-width:850px;">
+      <div class="title-kicker">ARE 201 · Unit 3</div>
+      <h1 class="title-main">Production Possibility Frontier</h1>
+    </div>
+    <svg class="title-graphic" viewBox="0 0 500 165" role="img" aria-label="Limited time, two tasks, and possible output combinations">
+      <circle cx="52" cy="84" r="37" fill="#EB811B"/>
+      <text x="52" y="88" fill="#fff" text-anchor="middle" font-family="Arial" font-size="12" font-weight="700">TIME</text>
+      <path d="M89 84 H153" fill="none" stroke="#EB811B" stroke-width="4"/>
+      <polygon points="153,84 141,77 141,91" fill="#EB811B"/>
+      <rect x="161" y="51" width="128" height="66" rx="8" fill="#fff4e8" stroke="#EB811B" stroke-width="2"/>
+      <text x="225" y="78" text-anchor="middle" fill="#1f2933" font-family="Arial" font-size="13" font-weight="700">TWO</text>
+      <text x="225" y="97" text-anchor="middle" fill="#1f2933" font-family="Arial" font-size="13" font-weight="700">TASKS</text>
+      <path d="M289 84 H337" fill="none" stroke="#2f80c9" stroke-width="4"/>
+      <polygon points="337,84 325,77 325,91" fill="#2f80c9"/>
+      <line x1="357" y1="133" x2="357" y2="29" stroke="#1f2933" stroke-width="2"/>
+      <line x1="357" y1="133" x2="481" y2="133" stroke="#1f2933" stroke-width="2"/>
+      <path d="M359 36 L477 128" fill="none" stroke="#EB811B" stroke-width="5" stroke-linecap="round"/>
+      <text x="420" y="24" text-anchor="middle" fill="#5f6b76" font-family="Arial" font-size="11" font-weight="700">POSSIBLE OUTPUTS</text>
+    </svg>
+  </section>
+
+  <section class="slide interactive" id="volunteerSetupSlide">
+    <div class="section-kicker" id="volunteerRoundLabel">Volunteer lab · Round 1 of 2</div>
+    <h1>How much of tomorrow would you spend at this job?</h1>
+    <div class="volunteer-layout">
+      <div class="volunteer-panel">
+        <label class="field-label" for="volunteerName">Name (nickname or initials)</label>
+        <input class="nickname-input" id="volunteerName" type="text" maxlength="24" autocomplete="off" placeholder="e.g., Alex">
+        <div class="privacy-note">Session only: nothing is uploaded or retained after this page is refreshed.</div>
+        <p class="small" style="margin:20px 0 6px;"><strong>You have up to five free hours tomorrow.</strong> The dining hall pays $15 per hour.</p>
+        <div class="field-label" style="margin-top:15px;">How many hours would you choose to work?</div>
+        <div class="hour-grid" id="volunteerHours">
+          <button type="button" class="hour-choice" data-hours="0">0</button>
+          <button type="button" class="hour-choice" data-hours="1">1</button>
+          <button type="button" class="hour-choice" data-hours="2">2</button>
+          <button type="button" class="hour-choice" data-hours="3">3</button>
+          <button type="button" class="hour-choice" data-hours="4">4</button>
+          <button type="button" class="hour-choice" data-hours="5">5</button>
+        </div>
+        <div class="game-feedback" id="volunteerFeedback" style="margin-top:16px;" aria-live="polite">Enter a nickname and choose 0–5 hours.</div>
+      </div>
+      <div class="volunteer-panel blue-panel">
+        <div class="field-label">Your task card for tomorrow</div>
+        <div class="speed-placeholder" id="speedPlaceholder">Choose a name and work time, then draw one fixed productivity profile.</div>
+        <div class="speed-grid" id="speedGrid" style="display:none;">
+          <div class="speed-card"><div class="speed-icon">D</div><h3>Dish rack</h3><div class="speed-value" id="dishSpeedValue">—</div><div class="speed-unit">minutes per rack</div></div>
+          <div class="speed-card"><div class="speed-icon">W</div><h3>Chicken Wrap</h3><div class="speed-value" id="wrapSpeedValue">—</div><div class="speed-unit">minutes per wrap</div></div>
+        </div>
+        <div class="game-toolbar" style="margin-top:14px;">
+          <button type="button" id="drawProductivity">Draw task speeds</button>
+          <button type="button" class="blue-button" id="continueAllocation" disabled>Allocate the shift</button>
+        </div>
+        <div class="game-toolbar">
+          <button type="button" class="secondary" id="simulateVolunteers">Simulate two volunteers</button>
+          <button type="button" class="secondary" id="resetVolunteers">Reset all</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" id="personalAllocationSlide">
+    <div class="section-kicker" id="allocationRoundLabel">Volunteer lab · Allocate the shift</div>
+    <h1 id="allocationHeading">How will you divide your work time?</h1>
+    <div class="allocation-workspace">
+      <div class="shift-panel">
+        <div class="field-label">Current volunteer</div>
+        <h2 id="allocationVolunteerName" style="margin-bottom:5px;">Complete the setup first</h2>
+        <div class="shift-meta">
+          <div class="shift-meta-item"><div class="shift-meta-label">Work time</div><div class="shift-meta-value" id="allocationHours">—</div></div>
+          <div class="shift-meta-item"><div class="shift-meta-label">Total minutes</div><div class="shift-meta-value" id="allocationTotalMinutes">—</div></div>
+          <div class="shift-meta-item"><div class="shift-meta-label">Dish rack</div><div class="shift-meta-value" id="allocationDishSpeed">—</div></div>
+          <div class="shift-meta-item"><div class="shift-meta-label">Chicken Wrap</div><div class="shift-meta-value" id="allocationWrapSpeed">—</div></div>
+        </div>
+        <div class="range-wrap">
+          <label for="personalAllocationRange">Minutes assigned to dishwashing</label>
+          <input id="personalAllocationRange" type="range" min="0" max="180" step="15" value="90" disabled>
+          <div class="range-ends"><span>All wraps</span><span>All dishwashing</span></div>
+        </div>
+        <div class="allocation-readout">
+          <div class="allocation-output"><span class="tiny muted">Dishwashing time</span><strong id="dishTimeOutput">—</strong></div>
+          <div class="allocation-output blue-output"><span class="tiny muted">Wrap time</span><strong id="wrapTimeOutput">—</strong></div>
+          <div class="allocation-output"><span class="tiny muted">Dish racks</span><strong id="dishQuantityOutput">—</strong></div>
+          <div class="allocation-output blue-output"><span class="tiny muted">Chicken Wraps</span><strong id="wrapQuantityOutput">—</strong></div>
+        </div>
+        <div class="game-toolbar">
+          <button type="button" id="saveVolunteerRound" disabled>Save this round</button>
+          <button type="button" class="secondary" id="backToVolunteerSetup">Back</button>
+        </div>
+      </div>
+      <div class="ppf-panel" style="min-height:449px;">
+        <div class="boundary-caption">All possible full-shift allocations · the line has not been named yet</div>
+        <svg class="ppf-svg" viewBox="0 0 450 390" role="img" aria-label="A volunteer's possible dining hall output combinations">
+          <line class="axis" x1="60" y1="300" x2="405" y2="300"/><polygon points="405,300 394,294 394,306" fill="#1f2933"/>
+          <line class="axis" x1="60" y1="300" x2="60" y2="25"/><polygon points="60,25 54,36 66,36" fill="#1f2933"/>
+          <line id="personalBoundaryLine" x1="60" y1="45" x2="390" y2="300" stroke="#EB811B" stroke-width="5" stroke-linecap="round" visibility="hidden"/>
+          <circle id="personalChoicePoint" cx="225" cy="173" r="10" fill="#2f80c9" stroke="#fff" stroke-width="3" visibility="hidden"/>
+          <text class="axis-label" x="230" y="345" text-anchor="middle">Dish racks</text>
+          <text class="axis-label" x="20" y="175" text-anchor="middle" transform="rotate(-90 20 175)">Chicken Wraps</text>
+          <text class="axis-value" x="55" y="319">0</text>
+          <text class="axis-value" id="personalMaxDishesLabel" x="382" y="319">—</text>
+          <text class="axis-value" id="personalMaxWrapsLabel" x="35" y="49">—</text>
+          <text class="ppf-label" id="personalChoiceLabel" x="237" y="162" visibility="hidden">Your choice</text>
+        </svg>
+        <div class="game-feedback" id="personalAllocationFeedback" aria-live="polite">Complete the volunteer setup to activate this graph.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" id="boundaryComparisonSlide">
+    <div class="section-kicker">Observe before naming</div>
+    <h1>Two volunteers created two production boundaries</h1>
+    <div class="compare-layout">
+      <div class="compare-panel">
+        <svg class="ppf-svg" viewBox="0 0 450 390" role="img" aria-label="Two volunteers' possible dining hall output combinations">
+          <line class="axis" x1="60" y1="300" x2="405" y2="300"/><polygon points="405,300 394,294 394,306" fill="#1f2933"/>
+          <line class="axis" x1="60" y1="300" x2="60" y2="25"/><polygon points="60,25 54,36 66,36" fill="#1f2933"/>
+          <g id="compareProjection0" visibility="hidden">
+            <line class="compare-projection" id="compareProjectionHorizontal0" x1="60" y1="180" x2="150" y2="180"/>
+            <line class="compare-projection" id="compareProjectionVertical0" x1="150" y1="180" x2="150" y2="300"/>
+            <circle class="compare-axis-dot" id="compareChoiceXDot0" cx="150" cy="300" r="3"/>
+            <circle class="compare-axis-dot" id="compareChoiceYDot0" cx="60" cy="180" r="3"/>
+            <text class="compare-bundle-value" id="compareChoiceXLabel0" x="150" y="319" text-anchor="middle">—</text>
+            <text class="compare-bundle-value" id="compareChoiceYLabel0" x="50" y="184" text-anchor="end">—</text>
+          </g>
+          <g id="compareProjection1" visibility="hidden">
+            <line class="compare-projection" id="compareProjectionHorizontal1" x1="60" y1="210" x2="260" y2="210"/>
+            <line class="compare-projection" id="compareProjectionVertical1" x1="260" y1="210" x2="260" y2="300"/>
+            <circle class="compare-axis-dot" id="compareChoiceXDot1" cx="260" cy="300" r="3"/>
+            <circle class="compare-axis-dot" id="compareChoiceYDot1" cx="60" cy="210" r="3"/>
+            <text class="compare-bundle-value" id="compareChoiceXLabel1" x="260" y="319" text-anchor="middle">—</text>
+            <text class="compare-bundle-value" id="compareChoiceYLabel1" x="50" y="214" text-anchor="end">—</text>
+          </g>
+          <line id="compareLine0" x1="60" y1="80" x2="220" y2="300" stroke="#EB811B" stroke-width="5" stroke-linecap="round" visibility="hidden"/>
+          <line id="compareLine1" x1="60" y1="145" x2="390" y2="300" stroke="#2f80c9" stroke-width="5" stroke-linecap="round" visibility="hidden"/>
+          <g id="compareEndpoints0" visibility="hidden">
+            <circle class="compare-endpoint-dot" id="compareXEndpointDot0" cx="220" cy="300" r="4"/>
+            <circle class="compare-endpoint-dot" id="compareYEndpointDot0" cx="60" cy="80" r="4"/>
+            <text class="compare-endpoint-value" id="compareXEndpointLabel0" x="220" y="288" text-anchor="middle">—</text>
+            <text class="compare-endpoint-value" id="compareYEndpointLabel0" x="70" y="84">—</text>
+          </g>
+          <g id="compareEndpoints1" visibility="hidden">
+            <circle class="compare-endpoint-dot" id="compareXEndpointDot1" cx="390" cy="300" r="4"/>
+            <circle class="compare-endpoint-dot" id="compareYEndpointDot1" cx="60" cy="145" r="4"/>
+            <text class="compare-endpoint-value" id="compareXEndpointLabel1" x="390" y="288" text-anchor="middle">—</text>
+            <text class="compare-endpoint-value" id="compareYEndpointLabel1" x="70" y="149">—</text>
+          </g>
+          <circle id="comparePoint0" cx="150" cy="180" r="8" fill="#EB811B" stroke="#fff" stroke-width="3" visibility="hidden"/>
+          <circle id="comparePoint1" cx="260" cy="210" r="8" fill="#2f80c9" stroke="#fff" stroke-width="3" visibility="hidden"/>
+          <text class="axis-label" x="230" y="345" text-anchor="middle">Dish racks</text>
+          <text class="axis-label" x="20" y="175" text-anchor="middle" transform="rotate(-90 20 175)">Chicken Wraps</text>
+          <text class="axis-value" x="55" y="319">0</text>
+          <text class="axis-value" id="compareMaxDishesLabel" x="382" y="319">—</text>
+          <text class="axis-value" id="compareMaxWrapsLabel" x="35" y="49">—</text>
+        </svg>
+      </div>
+      <div class="compare-side">
+        <div class="field-label">Session profiles</div>
+        <div class="compare-legend">
+          <div class="legend-row"><span class="legend-swatch"></span><span id="compareLegend0">Volunteer 1 · waiting</span></div>
+          <div class="legend-row"><span class="legend-swatch blue-swatch"></span><span id="compareLegend1">Volunteer 2 · waiting</span></div>
+        </div>
+        <div class="compare-prompts">
+          <button type="button" class="compare-prompt" data-message="Each endpoint uses the entire chosen shift on one task. Work time and task speed determine its location.">What determines each endpoint?</button>
+          <button type="button" class="compare-prompt" data-message="Different work hours change the size of the set; different task speeds change its intercepts and slope.">Why might the two lines differ?</button>
+          <button type="button" class="compare-prompt" data-message="Every point on a line uses the full shift. Moving along it reallocates time between the two tasks.">What do points on one line share?</button>
+        </div>
+        <div class="game-toolbar">
+          <button type="button" class="secondary" id="simulateFromComparison">Simulate two volunteers</button>
+        </div>
+        <div class="game-feedback" id="comparisonFeedback" aria-live="polite">Complete two rounds—or simulate—to compare the boundaries.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" id="conceptRevealSlide">
+    <div class="section-kicker">Reveal the model</div>
+    <h1>Economists give this production boundary a name</h1>
+    <div class="concept-layout">
+      <div>
+        <div class="concept-curtain">
+          <div class="concept-name hidden-name" id="conceptName">Production<br>Possibilities<br>Frontier</div>
+        </div>
+        <div class="game-toolbar">
+          <button type="button" id="revealConcept">Reveal the name</button>
+          <button type="button" class="secondary" id="simulateFromReveal">Simulate profiles</button>
+        </div>
+      </div>
+      <div class="profile-recall">
+        <div class="recall-card">
+          <div class="recall-name" id="recallName0">Volunteer 1</div>
+          <div class="recall-details" id="recallDetails0">Complete or simulate the volunteer lab.</div>
+        </div>
+        <div class="recall-card blue-recall">
+          <div class="recall-name" id="recallName1">Volunteer 2</div>
+          <div class="recall-details" id="recallDetails1">Complete or simulate the volunteer lab.</div>
+        </div>
+      </div>
+    </div>
+    <div class="definition-strip large concept-definition" id="conceptDefinition"><strong>Production Possibilities Frontier:</strong> the maximum feasible combinations of two outputs that can be produced with current resources and technology.</div>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Unpack the model</div>
+    <h1>What each word in PPF contributes</h1>
+    <div class="definition-layout">
+      <div class="frontier-word"><span>Production<br>Possibilities<br>Frontier</span></div>
+      <div class="definition-parts">
+        <div class="definition-part"><strong>Production</strong><p>Combinations of outputs—not consumption preferences.</p></div>
+        <div class="definition-part"><strong>Possibilities</strong><p>What current resources and technology make attainable.</p></div>
+        <div class="definition-part"><strong>Frontier</strong><p>The boundary of maximum feasible production combinations.</p></div>
+      </div>
+    </div>
+    <div class="definition-strip large" style="margin-top:22px;"><strong>PPF:</strong> the maximum feasible combinations of two outputs that can be produced with current resources and technology.</div>
+  </section>
+
+  <section class="slide" id="linearEndpointsSlide">
+    <div class="section-kicker">One volunteer, one linear frontier</div>
+    <h1>Read the endpoints and the volunteer’s chosen point</h1>
+    <div class="linear-profile-summary">Complete or simulate the volunteer lab to load one profile.</div>
+    <div class="point-story linear-point-story">
+      <div class="point-card"><div class="point-name">A</div><h3>All Chicken Wraps</h3><p><span id="endpointADishes">—</span> dish racks<br><span id="endpointAWraps">—</span> Chicken Wraps</p></div>
+      <div class="point-card" style="border-color:#edc99f; background:var(--accent-soft);"><div class="point-name">V</div><h3>The volunteer’s choice</h3><p><span id="endpointVDishes">—</span> dish racks<br><span id="endpointVWraps">—</span> Chicken Wraps</p></div>
+      <div class="point-card"><div class="point-name">D</div><h3>All dishwashing</h3><p><span id="endpointDDishes">—</span> dish racks<br><span id="endpointDWraps">—</span> Chicken Wraps</p></div>
+    </div>
+    <div class="definition-strip" style="margin-top:22px;">Each point on this straight frontier uses the volunteer’s entire chosen shift. The PPF displays possibilities; it does not identify the preferred point.</div>
+    <div class="grid-2" style="margin-top:17px;">
+      <div class="card blue-top"><h3>Move right</h3><p>Produce more dish racks.</p></div>
+      <div class="card accent-top"><h3>Move down</h3><p>Give up some Chicken Wraps.</p></div>
+    </div>
+  </section>
+
+  <section class="slide interactive" id="linearLocationsSlide">
+    <div class="section-kicker">Predict before revealing</div>
+    <h1>What does each location mean for this volunteer?</h1>
+    <div class="linear-profile-summary">Complete or simulate the volunteer lab to load one profile.</div>
+    <div class="point-predict-grid linear-graph-grid">
+      <div class="point-panel">
+        <svg class="ppf-svg" viewBox="0 0 450 390" role="img" aria-label="Points inside, on, and outside a volunteer's linear PPF">
+          <line class="axis" x1="60" y1="300" x2="405" y2="300"/><polygon points="405,300 394,294 394,306" fill="#1f2933"/>
+          <line class="axis" x1="60" y1="300" x2="60" y2="25"/><polygon points="60,25 54,36 66,36" fill="#1f2933"/>
+          <line class="frontier linear-profile-mark" id="locationFrontier" x1="60" y1="45" x2="390" y2="300" visibility="hidden"/>
+          <text class="axis-label" x="230" y="342" text-anchor="middle">Dish racks</text>
+          <text class="axis-label" x="20" y="170" text-anchor="middle" transform="rotate(-90 20 170)">Chicken Wraps</text>
+          <text class="axis-value" x="55" y="319">0</text><text class="axis-value" id="locationMaxDishes" x="382" y="319">—</text><text class="axis-value" id="locationMaxWraps" x="35" y="49">—</text>
+          <circle class="linear-location-mark" id="pointI" cx="258" cy="245" r="10" fill="#fff" stroke="#2f80c9" stroke-width="4" visibility="hidden"/>
+          <text class="ppf-label linear-location-label" x="270" y="241" visibility="hidden">I</text>
+          <circle class="linear-location-mark" id="pointE" cx="258" cy="198" r="10" fill="#fff" stroke="#EB811B" stroke-width="4" visibility="hidden"/>
+          <text class="ppf-label linear-location-label" x="270" y="194" visibility="hidden">E</text>
+          <circle class="linear-location-mark" id="pointU" cx="258" cy="133" r="10" fill="#fff" stroke="#c9504d" stroke-width="4" visibility="hidden"/>
+          <text class="ppf-label linear-location-label" x="270" y="129" visibility="hidden">U</text>
+        </svg>
+      </div>
+      <div>
+        <p class="small muted">Predict first. Then select a point to reveal its meaning.</p>
+        <div class="point-controls">
+          <button type="button" class="point-reveal blue-button" data-point="I">Point I · inside</button>
+          <button type="button" class="point-reveal" data-point="E">Point E · on</button>
+          <button type="button" class="point-reveal" data-point="U" style="background:var(--red);">Point U · outside</button>
+        </div>
+        <div class="game-feedback" id="pointFeedback" style="margin-top:15px;" aria-live="polite">Load a volunteer profile, then compare each point with the straight frontier.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="linearRegionsSlide">
+    <div class="section-kicker">Translate location into economics</div>
+    <h1>Inside, on, and outside use the same volunteer benchmark</h1>
+    <div class="linear-profile-summary">Complete or simulate the volunteer lab to load one profile.</div>
+    <div class="grid-3 linear-region-grid">
+      <div class="region-card inside"><div class="region-mark">I</div><h2>Inside</h2><p><strong>Feasible but productively inefficient.</strong> Some of the chosen work time is unused, or some output is wasted.</p></div>
+      <div class="region-card on"><div class="region-mark">E</div><h2>On the PPF</h2><p><strong>Feasible and productively efficient.</strong> The full shift is allocated between dish racks and wraps.</p></div>
+      <div class="region-card outside"><div class="region-mark">U</div><h2>Outside</h2><p><strong>Currently unattainable.</strong> The combination requires more time or faster task performance.</p></div>
+    </div>
+    <div class="definition-strip blue-strip" style="margin-top:22px;"><strong>Important:</strong> “inside” does not mean impossible, and “on the PPF” does not mean personally preferred.</div>
+  </section>
+
+  <section class="slide interactive" id="linearMovementSlide">
+    <div class="section-kicker">Move along one straight frontier</div>
+    <h1>Every movement reallocates the same volunteer’s time</h1>
+    <div class="linear-profile-summary">Complete or simulate the volunteer lab to load one profile.</div>
+    <div class="movement-grid linear-movement-grid">
+      <div class="point-panel" style="min-height:375px;">
+        <svg class="ppf-svg" viewBox="0 0 450 390" role="img" aria-label="Movement along a volunteer's linear dish-rack and wrap PPF">
+          <line class="axis" x1="60" y1="300" x2="405" y2="300"/><polygon points="405,300 394,294 394,306" fill="#1f2933"/>
+          <line class="axis" x1="60" y1="300" x2="60" y2="25"/><polygon points="60,25 54,36 66,36" fill="#1f2933"/>
+          <g class="movement-projection-mark" visibility="hidden" aria-hidden="true">
+            <line class="movement-projection" x1="60" y1="130" x2="170" y2="130"/>
+            <line class="movement-projection" x1="170" y1="130" x2="170" y2="300"/>
+            <line class="movement-projection" x1="60" y1="215" x2="280" y2="215"/>
+            <line class="movement-projection" x1="280" y1="215" x2="280" y2="300"/>
+            <circle class="movement-projection-dot" cx="60" cy="130" r="3"/><circle class="movement-projection-dot" cx="170" cy="300" r="3"/>
+            <circle class="movement-projection-dot" cx="60" cy="215" r="3"/><circle class="movement-projection-dot" cx="280" cy="300" r="3"/>
+            <text class="axis-value movement-axis-value" id="movementBXLabel" x="170" y="319" text-anchor="middle">—</text>
+            <text class="axis-value movement-axis-value" id="movementCXLabel" x="280" y="319" text-anchor="middle">—</text>
+            <text class="axis-value movement-axis-value" id="movementBYLabel" x="48" y="134" text-anchor="end">—</text>
+            <text class="axis-value movement-axis-value" id="movementCYLabel" x="48" y="219" text-anchor="end">—</text>
+          </g>
+          <line class="frontier linear-profile-mark" id="movementFrontier" x1="60" y1="45" x2="390" y2="300" visibility="hidden"/>
+          <line id="movementLine" x1="60" y1="45" x2="170" y2="130" stroke="#2f80c9" stroke-width="8" stroke-linecap="round" visibility="hidden"/>
+          <circle class="ppf-dot movement-dot" cx="60" cy="45" r="7" visibility="hidden"/><circle class="ppf-dot movement-dot" cx="170" cy="130" r="7" visibility="hidden"/><circle class="ppf-dot movement-dot" cx="280" cy="215" r="7" visibility="hidden"/><circle class="ppf-dot movement-dot" cx="390" cy="300" r="7" visibility="hidden"/>
+          <text class="ppf-label movement-point-label" x="69" y="41" visibility="hidden">A</text><text class="ppf-label movement-point-label" x="179" y="126" visibility="hidden">B</text><text class="ppf-label movement-point-label" x="289" y="211" visibility="hidden">C</text><text class="ppf-label movement-point-label" x="376" y="288" visibility="hidden">D</text>
+          <text class="axis-label" x="230" y="342" text-anchor="middle">Dish racks</text>
+          <text class="axis-label" x="20" y="170" text-anchor="middle" transform="rotate(-90 20 170)">Chicken Wraps</text>
+          <text class="axis-value" x="55" y="319">0</text><text class="axis-value" id="movementMaxDishes" x="382" y="319">—</text><text class="axis-value" id="movementMaxWraps" x="35" y="49">—</text>
+        </svg>
+      </div>
+      <div class="movement-summary linear-movement-summary">
+        <div class="tiny muted" style="font-weight:850; letter-spacing:.08em; text-transform:uppercase;">Selected movement</div>
+        <h2 id="movementTitle">A → B</h2>
+        <div class="change-row"><span class="change-sign plus">+</span><p id="movementGain"><strong>— dish racks</strong></p></div>
+        <div class="change-row"><span class="change-sign minus">−</span><p id="movementLoss"><strong>— Chicken Wraps</strong></p></div>
+        <div class="definition-strip blue-strip" style="margin-top:17px; font-size:16px;" id="movementMeaning">Load a volunteer profile to calculate this trade-off.</div>
+        <div class="movement-controls">
+          <button type="button" class="movement-button" data-segment="0">A → B</button>
+          <button type="button" class="movement-button" data-segment="1">B → C</button>
+          <button type="button" class="movement-button" data-segment="2">C → D</button>
+          <button type="button" class="secondary" id="movementReset">Reset</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="linearSlopeSlide">
+    <div class="section-kicker">Turn the graph into economics</div>
+    <h1>The slope measures this volunteer’s opportunity cost</h1>
+    <div class="linear-profile-summary">Complete or simulate the volunteer lab to load one profile.</div>
+    <div class="formula linear-formula">OC of 1 Dish Rack = | Δ Chicken Wraps ÷ Δ Dish Racks |</div>
+    <div class="calculation-row linear-calculation-row">
+      <div class="calculation-card">
+        <h3 id="slopeMoveTitle">Move A → B</h3>
+        <p id="slopeMovementText">Load a profile to calculate the output changes.</p>
+        <div class="calculation-result" id="slopeCalculation">— ÷ — = —</div>
+      </div>
+      <div class="calculation-arrow">→</div>
+      <div class="calculation-card">
+        <h3>Use the task times</h3>
+        <p id="slopeTimeText">The same opportunity cost can be read directly from the two task speeds.</p>
+        <div class="calculation-result" id="slopeTimeCalculation">— min ÷ — min = —</div>
+      </div>
+    </div>
+    <div class="definition-strip blue-strip" style="margin-top:18px;" id="slopeInterpretation">With fixed task speeds, the straight-line slope—and therefore opportunity cost—stays constant.</div>
+  </section>
+
+  <section class="slide interactive" id="linearPatternSlide">
+    <div class="section-kicker">Notice the linear pattern</div>
+    <h1>Does the trade-off stay the same along this PPF?</h1>
+    <div class="linear-profile-summary">Complete or simulate the volunteer lab to load one profile.</div>
+    <table class="pattern-table linear-pattern-table">
+      <thead><tr><th>Movement</th><th>Dish racks gained</th><th>Wraps given up</th><th>Wraps per dish rack</th></tr></thead>
+      <tbody>
+        <tr><td>A → B</td><td class="pattern-gain">—</td><td class="pattern-loss">—</td><td class="pattern-oc">—</td></tr>
+        <tr><td>B → C</td><td class="pattern-gain">—</td><td class="pattern-loss">—</td><td class="pattern-oc">—</td></tr>
+        <tr><td>C → D</td><td class="pattern-gain">—</td><td class="pattern-loss">—</td><td class="pattern-oc">—</td></tr>
+      </tbody>
+    </table>
+    <div class="pattern-options">
+      <button type="button" class="pattern-answer" data-answer="constant">Constant opportunity cost</button>
+      <button type="button" class="pattern-answer" data-answer="increasing">Increasing opportunity cost</button>
+      <button type="button" class="pattern-answer" data-answer="decreasing">Decreasing opportunity cost</button>
+    </div>
+    <div class="game-feedback" id="patternFeedback" style="margin-top:12px;" aria-live="polite">Load a profile, then compare the final column before choosing.</div>
+    <div class="definition-strip" style="margin-top:13px;"><strong>Linear PPF:</strong> fixed task speeds create a constant trade-off between dish racks and Chicken Wraps.</div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Practice</div>
+    <h1>Check the full chain from scarce time to a linear PPF</h1>
+    <div class="quiz-layout">
+      <div class="quiz-scenario">
+        <div class="quiz-round" id="quizProgress">Question 1 of 4</div>
+        <h2 id="quizTitle">Personal scarcity</h2>
+        <p id="quizPrompt">Why can the volunteer not produce unlimited dish racks and Chicken Wraps?</p>
+        <div class="game-toolbar">
+          <span class="score-pill" id="quizScore">Score: 0</span>
+          <button type="button" id="quizNext" disabled>Next question</button>
+          <button type="button" class="secondary" id="quizReset">Restart</button>
+        </div>
+      </div>
+      <div>
+        <div class="quiz-options">
+          <button type="button" class="answer-button quiz-answer" data-index="0">The dining hall limits both outputs.</button>
+          <button type="button" class="answer-button quiz-answer" data-index="1">Work time is limited and has competing uses.</button>
+          <button type="button" class="answer-button quiz-answer" data-index="2">Every inside point is impossible.</button>
+          <button type="button" class="answer-button quiz-answer" data-index="3">The hourly wage is too low.</button>
+        </div>
+        <div class="game-feedback" id="quizFeedback" style="margin-top:14px;" aria-live="polite">Identify the economic constraint first.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Checkpoint · Before shifts</div>
+    <h1>Checkpoint: one fixed constraint, one linear PPF</h1>
+    <div class="takeaway-chain">
+      <div class="takeaway-box"><strong>Scarcity</strong><span>The volunteer has a finite amount of work time.</span></div>
+      <div class="takeaway-arrow">→</div>
+      <div class="takeaway-box"><strong>Allocation</strong><span>Each minute can go to dish racks or Chicken Wraps.</span></div>
+      <div class="takeaway-arrow">→</div>
+      <div class="takeaway-box"><strong>Linear PPF</strong><span>Fixed task speeds map maximum feasible output combinations.</span></div>
+    </div>
+    <div class="exit-card">
+      <div class="exit-label">Turn and talk</div>
+      <h2>In one sentence: why is a movement along the PPF costly?</h2>
+      <button type="button" class="exit-reveal" data-target="exitAnswer">Reveal a model answer</button>
+      <div class="exit-answer" id="exitAnswer">On the frontier, current productive capacity is fully used, so producing more of one output requires redirecting resources and giving up some of the other output.</div>
+    </div>
+    <div class="definition-strip blue-strip" style="margin-top:22px;"><strong>So far:</strong> fixed work time and fixed task speeds create one straight-line PPF with constant opportunity cost.</div>
+  </section>
+
+  <section class="slide interactive" id="changeTypeSlide">
+    <div class="section-kicker">A new question</div>
+    <h1>Did the choice change—or the constraint?</h1>
+    <div class="linear-profile-summary">Complete or simulate the volunteer lab to load one profile.</div>
+    <div class="shift-layout">
+      <div class="shift-graph-panel ppf-panel">
+        <svg class="shift-svg" viewBox="0 0 450 360" role="img" aria-label="A movement along a current PPF compared with an outward shift to a new PPF">
+          <line class="axis" x1="60" y1="290" x2="405" y2="290"/><polygon points="405,290 394,284 394,296" fill="#1f2933"/>
+          <line class="axis" x1="60" y1="290" x2="60" y2="20"/><polygon points="60,20 54,31 66,31" fill="#1f2933"/>
+          <line id="changeTypeBaseline" class="parallel-line baseline-line" x1="60" y1="99" x2="308" y2="290" visibility="hidden"/>
+          <line id="changeTypeShiftLine" class="parallel-line outward-line active" x1="60" y1="35" x2="390" y2="290" visibility="hidden"/>
+          <g id="changeTypeMovementGroup" visibility="hidden">
+            <line class="shift-segment" x1="143" y1="163" x2="225" y2="226"/>
+            <circle class="shift-point" cx="143" cy="163" r="7"/><circle class="shift-point" cx="225" cy="226" r="7"/>
+            <text class="ppf-label" x="130" y="153">A</text><text class="ppf-label" x="233" y="221">B</text>
+          </g>
+          <text class="ppf-label" id="changeCurrentLabel" x="272" y="268" visibility="hidden">Current PPF</text>
+          <text class="ppf-label" id="changeNewLabel" x="325" y="250" visibility="hidden">New PPF</text>
+          <text class="axis-label" x="232" y="337" text-anchor="middle">Dish racks</text>
+          <text class="axis-label" x="18" y="165" text-anchor="middle" transform="rotate(-90 18 165)">Chicken Wraps</text>
+          <text class="axis-value" x="55" y="309">0</text><text class="axis-value" id="changeTypeMaxDishes" x="382" y="309">—</text><text class="axis-value" id="changeTypeMaxWraps" x="35" y="39">—</text>
+        </svg>
+      </div>
+      <div class="shift-side-panel">
+        <div class="tiny muted" style="font-weight:850; letter-spacing:.08em; text-transform:uppercase;">Diagnostic rule</div>
+        <h2>Ask what stayed fixed</h2>
+        <div class="card white" style="padding:13px 15px; margin-bottom:9px;">
+          <p><strong>Same time + same task speeds</strong><br><span class="muted">A different output mix is a movement along the same PPF.</span></p>
+        </div>
+        <div class="card white" style="padding:13px 15px;">
+          <p><strong>Resources or productivity change</strong><br><span class="muted">The maximum feasible combinations change, so the PPF shifts.</span></p>
+        </div>
+        <div class="shift-choice-grid two-choice">
+          <button type="button" class="shift-choice-button change-type-button" data-change-type="movement">Show movement</button>
+          <button type="button" class="shift-choice-button change-type-button" data-change-type="shift">Show shift</button>
+        </div>
+        <div class="game-feedback shift-feedback" id="changeTypeFeedback" style="margin-top:10px;" aria-live="polite">Load a volunteer profile, then compare the two cases.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" id="parallelShiftSlide">
+    <div class="section-kicker">Resources change · Relative productivity does not</div>
+    <h1>More or less work time shifts the entire PPF</h1>
+    <div class="linear-profile-summary">Complete or simulate the volunteer lab to load one profile.</div>
+    <div class="shift-layout">
+      <div class="shift-graph-panel ppf-panel">
+        <svg class="shift-svg" viewBox="0 0 450 360" role="img" aria-label="Parallel inward and outward shifts of a volunteer's linear PPF">
+          <line class="axis" x1="60" y1="290" x2="405" y2="290"/><polygon points="405,290 394,284 394,296" fill="#1f2933"/>
+          <line class="axis" x1="60" y1="290" x2="60" y2="20"/><polygon points="60,20 54,31 66,31" fill="#1f2933"/>
+          <line id="parallelInwardLine" class="parallel-line inward-line" x1="60" y1="163" x2="225" y2="290" visibility="hidden"/>
+          <line id="parallelBaselineLine" class="parallel-line baseline-line active" x1="60" y1="99" x2="308" y2="290" visibility="hidden"/>
+          <line id="parallelOutwardLine" class="parallel-line outward-line" x1="60" y1="35" x2="390" y2="290" visibility="hidden"/>
+          <g id="parallelInwardEndpoints" class="parallel-endpoints" visibility="hidden">
+            <circle class="shift-endpoint-dot" cx="225" cy="290" r="4" fill="#c9504d"/><circle class="shift-endpoint-dot" cx="60" cy="163" r="4" fill="#c9504d"/>
+            <text class="shift-endpoint-value" id="parallelInwardDishes" x="225" y="307" text-anchor="middle" fill="#c9504d">—</text>
+            <text class="shift-endpoint-value" id="parallelInwardWraps" x="50" y="167" text-anchor="end" fill="#c9504d">—</text>
+          </g>
+          <g id="parallelBaselineEndpoints" class="parallel-endpoints active" visibility="hidden">
+            <circle class="shift-endpoint-dot" cx="308" cy="290" r="4" fill="#EB811B"/><circle class="shift-endpoint-dot" cx="60" cy="99" r="4" fill="#EB811B"/>
+            <text class="shift-endpoint-value" id="parallelBaselineDishes" x="308" y="307" text-anchor="middle" fill="#EB811B">—</text>
+            <text class="shift-endpoint-value" id="parallelBaselineWraps" x="50" y="103" text-anchor="end" fill="#EB811B">—</text>
+          </g>
+          <g id="parallelOutwardEndpoints" class="parallel-endpoints" visibility="hidden">
+            <circle class="shift-endpoint-dot" cx="390" cy="290" r="4" fill="#2f80c9"/><circle class="shift-endpoint-dot" cx="60" cy="35" r="4" fill="#2f80c9"/>
+            <text class="shift-endpoint-value" id="parallelMaxDishes" x="390" y="307" text-anchor="middle" fill="#2f80c9">—</text>
+            <text class="shift-endpoint-value" id="parallelMaxWraps" x="50" y="39" text-anchor="end" fill="#2f80c9">—</text>
+          </g>
+          <text class="ppf-label" x="72" y="157" fill="#c9504d">Fewer resources</text>
+          <text class="ppf-label" x="72" y="93" fill="#EB811B">Current</text>
+          <text class="ppf-label" x="72" y="49" fill="#2f80c9">More resources</text>
+          <text class="axis-label" x="232" y="337" text-anchor="middle">Dish racks</text>
+          <text class="axis-label" x="18" y="165" text-anchor="middle" transform="rotate(-90 18 165)">Chicken Wraps</text>
+          <text class="axis-value" x="55" y="309">0</text>
+        </svg>
+      </div>
+      <div class="shift-side-panel">
+        <div class="tiny muted" style="font-weight:850; letter-spacing:.08em; text-transform:uppercase;">Selected case</div>
+        <h2 id="parallelScenarioTitle">Current productive capacity</h2>
+        <div class="shift-stat-grid">
+          <div class="shift-stat"><span>Work time</span><strong id="parallelTimeStat">—</strong></div>
+          <div class="shift-stat"><span>Slope</span><strong id="parallelSlopeStat">—</strong></div>
+          <div class="shift-stat"><span>Max dish racks</span><strong id="parallelDishStat">—</strong></div>
+          <div class="shift-stat"><span>Max wraps</span><strong id="parallelWrapStat">—</strong></div>
+        </div>
+        <div class="shift-equation" id="parallelEquation">W = — − —D</div>
+        <p id="parallelMeaning" style="margin-top:11px;">Load a profile to compare productive capacity.</p>
+        <div class="shift-choice-grid">
+          <button type="button" class="shift-choice-button parallel-shift-button" data-parallel-shift="inward">Less time</button>
+          <button type="button" class="shift-choice-button parallel-shift-button selected" data-parallel-shift="baseline">Current</button>
+          <button type="button" class="shift-choice-button parallel-shift-button" data-parallel-shift="outward">More time</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" id="pivotShiftSlide">
+    <div class="section-kicker">Resources fixed · Relative productivity changes</div>
+    <h1>Task-specific productivity rotates the PPF</h1>
+    <div class="linear-profile-summary">Complete or simulate the volunteer lab to load one profile.</div>
+    <div class="shift-layout">
+      <div class="shift-graph-panel ppf-panel">
+        <svg class="shift-svg" viewBox="0 0 450 360" role="img" aria-label="A volunteer's linear PPF rotating after task-specific productivity growth">
+          <line class="axis" x1="60" y1="290" x2="405" y2="290"/><polygon points="405,290 394,284 394,296" fill="#1f2933"/>
+          <line class="axis" x1="60" y1="290" x2="60" y2="20"/><polygon points="60,20 54,31 66,31" fill="#1f2933"/>
+          <line id="pivotBaselineLine" class="pivot-line baseline-line" x1="60" y1="86" x2="324" y2="290" visibility="hidden"/>
+          <line id="pivotWrapLine" class="pivot-line wrap-line active" x1="60" y1="35" x2="324" y2="290" visibility="hidden"/>
+          <line id="pivotDishLine" class="pivot-line dish-line" x1="60" y1="86" x2="390" y2="290" visibility="hidden"/>
+          <circle id="pivotAnchor" cx="324" cy="290" r="7" fill="#fff" stroke="#2f80c9" stroke-width="3" visibility="hidden"/>
+          <text class="shift-endpoint-value" id="pivotAnchorLabel" x="324" y="309" text-anchor="middle" fill="#2f80c9" visibility="hidden">—</text>
+          <g id="pivotBaselineMovingEndpoint" visibility="hidden">
+            <circle class="shift-endpoint-dot" id="pivotBaselineMovingDot" cx="60" cy="86" r="4" fill="#EB811B"/>
+            <text class="shift-endpoint-value" id="pivotBaselineMovingValue" x="50" y="90" text-anchor="end" fill="#EB811B">—</text>
+          </g>
+          <g id="pivotNewMovingEndpoint" visibility="hidden">
+            <circle class="shift-endpoint-dot" id="pivotNewMovingDot" cx="60" cy="35" r="4" fill="#2f80c9"/>
+            <text class="shift-endpoint-value" id="pivotNewMovingValue" x="50" y="39" text-anchor="end" fill="#2f80c9">—</text>
+          </g>
+          <text class="axis-label" x="232" y="337" text-anchor="middle">Dish racks</text>
+          <text class="axis-label" x="18" y="165" text-anchor="middle" transform="rotate(-90 18 165)">Chicken Wraps</text>
+          <text class="axis-value" x="55" y="309">0</text>
+        </svg>
+      </div>
+      <div class="shift-side-panel orange-panel">
+        <div class="tiny muted" style="font-weight:850; letter-spacing:.08em; text-transform:uppercase;">Same total work time</div>
+        <h2 id="pivotScenarioTitle">Chicken Wrap productivity rises</h2>
+        <div class="shift-stat-grid">
+          <div class="shift-stat"><span>Total time</span><strong id="pivotTimeStat">—</strong></div>
+          <div class="shift-stat"><span>Task time</span><strong id="pivotSpeedStat">—</strong></div>
+          <div class="shift-stat"><span>Fixed intercept</span><strong id="pivotFixedStat">—</strong></div>
+          <div class="shift-stat"><span>OC of 1 rack</span><strong id="pivotOCStat">—</strong></div>
+        </div>
+        <div class="shift-equation" id="pivotEquation">W = — − —D</div>
+        <p id="pivotMeaning" style="margin-top:11px;">Load a profile to compare relative productivity.</p>
+        <div class="shift-choice-grid two-choice">
+          <button type="button" class="shift-choice-button pivot-shift-button selected" data-pivot-shift="wraps">Wraps 20% faster</button>
+          <button type="button" class="shift-choice-button pivot-shift-button" data-pivot-shift="dishes">Dishes 20% faster</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" id="shiftQuizSlide">
+    <div class="section-kicker">Classify the change</div>
+    <h1>What happens to the volunteer’s PPF?</h1>
+    <div class="quiz-layout">
+      <div class="quiz-scenario">
+        <div class="quiz-round" id="shiftQuizProgress">Scenario 1 of 5</div>
+        <h2 id="shiftQuizTitle">Reallocate time</h2>
+        <p id="shiftQuizPrompt">The volunteer moves 30 minutes from making wraps to washing dishes. Total work time and task speeds stay fixed.</p>
+        <div class="game-toolbar">
+          <span class="score-pill" id="shiftQuizScore">Score: 0</span>
+          <button type="button" id="shiftQuizNext" disabled>Next scenario</button>
+          <button type="button" class="secondary" id="shiftQuizReset">Restart</button>
+        </div>
+      </div>
+      <div>
+        <div class="shift-quiz-options">
+          <button type="button" class="answer-button shift-quiz-answer" data-shift-answer="movement">Movement along</button>
+          <button type="button" class="answer-button shift-quiz-answer" data-shift-answer="outward">Parallel outward shift</button>
+          <button type="button" class="answer-button shift-quiz-answer" data-shift-answer="inward">Parallel inward shift</button>
+          <button type="button" class="answer-button shift-quiz-answer" data-shift-answer="pivot">Rotation / slope change</button>
+          <button type="button" class="answer-button shift-quiz-answer" data-shift-answer="none">No change to the production PPF</button>
+        </div>
+        <div class="game-feedback" id="shiftQuizFeedback" style="margin-top:12px;" aria-live="polite">First ask: did resources or productivity change?</div>
+      </div>
+    </div>
+    <div class="definition-strip blue-strip" style="margin-top:15px; font-size:17px;"><strong>Keep the concepts separate:</strong> preferences and wages may change the chosen point, but only resources or productivity change production possibilities.</div>
+  </section>
+
+  <section class="slide interactive" id="socialIntroSlide">
+    <div class="section-kicker">From personal choice to social production</div>
+    <h1>Two personal PPFs become one social production problem</h1>
+    <div class="social-profile-summary">Loading two production profiles.</div>
+    <div class="social-worker-grid">
+      <div class="social-worker-card">
+        <div class="tiny muted" style="font-weight:850; letter-spacing:.07em; text-transform:uppercase;">Worker 1</div>
+        <h2 id="socialName0">—</h2>
+        <p id="socialDetails0">Load or select two profiles.</p>
+        <div class="social-worker-stats">
+          <div class="social-worker-stat"><span>Maximum outputs</span><strong id="socialMaxima0">—</strong></div>
+          <div class="social-worker-stat"><span>OC of 1 rack</span><strong id="socialOC0">—</strong></div>
+        </div>
+      </div>
+      <div class="social-plus">+</div>
+      <div class="social-worker-card blue-worker">
+        <div class="tiny muted" style="font-weight:850; letter-spacing:.07em; text-transform:uppercase;">Worker 2</div>
+        <h2 id="socialName1">—</h2>
+        <p id="socialDetails1">Load or select two profiles.</p>
+        <div class="social-worker-stats">
+          <div class="social-worker-stat"><span>Maximum outputs</span><strong id="socialMaxima1">—</strong></div>
+          <div class="social-worker-stat"><span>OC of 1 rack</span><strong id="socialOC1">—</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="social-total-strip">
+      <div class="social-total-item"><span>Social resource constraint</span><strong id="socialTotalHours">— total work hours</strong></div>
+      <div class="social-total-item"><span>All time to dishes</span><strong id="socialAllDishes">— racks</strong></div>
+      <div class="social-total-item"><span>All time to wraps</span><strong id="socialAllWraps">— wraps</strong></div>
+    </div>
+    <div class="social-source-row">
+      <button type="button" class="social-source-button" id="useClassSocialProfiles">Use class profiles</button>
+      <button type="button" class="social-source-button" id="useBenchmarkSocialProfiles">Use Alex–Morgan benchmark</button>
+      <div class="game-feedback" id="socialSourceFeedback" aria-live="polite">The social PPF asks for maximum combined output from these fixed resources.</div>
+    </div>
+  </section>
+
+  <section class="slide interactive" id="socialOrderSlide">
+    <div class="section-kicker">Allocate resources by opportunity cost</div>
+    <h1>Who should switch to dishwashing first?</h1>
+    <div class="social-profile-summary">Loading two production profiles.</div>
+    <div class="social-choice-layout">
+      <div class="social-start-panel">
+        <div class="tiny muted" style="font-weight:850; letter-spacing:.08em; text-transform:uppercase;">Starting allocation</div>
+        <h2>Everyone makes Chicken Wraps</h2>
+        <div class="social-start-output">
+          <div class="social-output-box"><span>Dish racks</span><strong>0</strong></div>
+          <div class="social-output-box"><span>Chicken Wraps</span><strong id="socialStartWraps">—</strong></div>
+        </div>
+        <div class="definition-strip green-strip" style="font-size:17px;"><strong>New goal:</strong> gain the first dish racks while giving up as few wraps as possible.</div>
+      </div>
+      <div class="social-answer-panel">
+        <div class="tiny muted" style="font-weight:850; letter-spacing:.08em; text-transform:uppercase;">Make a prediction</div>
+        <h2>Reassign the worker with the lower opportunity cost</h2>
+        <div class="social-choice-options">
+          <button type="button" class="social-choice-answer" id="socialChoiceButton0" data-social-choice="0">Worker 1 switches first</button>
+          <button type="button" class="social-choice-answer" id="socialChoiceButton1" data-social-choice="1">Worker 2 switches first</button>
+          <button type="button" class="social-choice-answer" id="socialChoiceTie" data-social-choice="tie">Either one—the opportunity costs are equal</button>
+        </div>
+        <div class="game-toolbar">
+          <button type="button" class="secondary" id="socialChoiceReset">Try again</button>
+        </div>
+        <div class="game-feedback" id="socialChoiceFeedback" aria-live="polite">Compare the wraps given up per additional dish rack.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" id="socialBuildSlide">
+    <div class="section-kicker">Build the social frontier</div>
+    <h1>Reassign one worker at a time</h1>
+    <div class="social-profile-summary">Loading two production profiles.</div>
+    <div class="shift-layout">
+      <div class="shift-graph-panel ppf-panel">
+        <svg class="shift-svg" viewBox="0 0 450 360" role="img" aria-label="A social production possibilities frontier built by reallocating two workers">
+          <line class="axis" x1="60" y1="290" x2="405" y2="290"/><polygon points="405,290 394,284 394,296" fill="#1f2933"/>
+          <line class="axis" x1="60" y1="290" x2="60" y2="20"/><polygon points="60,20 54,31 66,31" fill="#1f2933"/>
+          <line class="social-shape-chord" id="socialBuildChord" x1="60" y1="35" x2="390" y2="290" visibility="hidden"/>
+          <g id="socialStageOne" visibility="hidden">
+            <circle class="social-frontier-point" cx="60" cy="35" r="7"/>
+            <text class="social-coordinate-label" id="socialPointALabel" x="72" y="32">A (—, —)</text>
+          </g>
+          <g id="socialStageTwo" visibility="hidden">
+            <line class="social-frontier-segment" id="socialSegmentOne" x1="60" y1="35" x2="300" y2="137"/>
+            <circle class="social-frontier-point" id="socialKneePoint" cx="300" cy="137" r="7"/>
+            <text class="social-coordinate-label" id="socialPointBLabel" x="310" y="128">B (—, —)</text>
+          </g>
+          <g id="socialStageThree" visibility="hidden">
+            <line class="social-frontier-segment" id="socialSegmentTwo" x1="300" y1="137" x2="390" y2="290"/>
+            <circle class="social-frontier-point" cx="390" cy="290" r="7"/>
+            <text class="social-coordinate-label" id="socialPointCLabel" x="342" y="278">C (—, —)</text>
+          </g>
+          <text class="axis-label" x="232" y="337" text-anchor="middle">Dish racks</text>
+          <text class="axis-label" x="18" y="165" text-anchor="middle" transform="rotate(-90 18 165)">Chicken Wraps</text>
+          <text class="axis-value" x="55" y="309">0</text>
+          <text class="social-axis-value" id="socialBuildMaxDishes" x="390" y="309" text-anchor="middle">—</text>
+          <text class="social-axis-value" id="socialBuildMaxWraps" x="50" y="39" text-anchor="end">—</text>
+        </svg>
+      </div>
+      <div class="shift-side-panel" style="border-top-color:var(--green); background:var(--green-soft);">
+        <div class="tiny muted" style="font-weight:850; letter-spacing:.08em; text-transform:uppercase;">Three allocations</div>
+        <h2 style="margin-bottom:7px;">Trace the efficient boundary</h2>
+        <div class="social-build-controls">
+          <button type="button" class="social-stage-button" id="socialStage1Button" data-social-stage="1">1 · All wraps</button>
+          <button type="button" class="social-stage-button" id="socialStage2Button" data-social-stage="2">2 · Lower-OC worker</button>
+          <button type="button" class="social-stage-button" id="socialStage3Button" data-social-stage="3">3 · Higher-OC worker</button>
+          <button type="button" class="secondary" id="socialBuildReset">Reset graph</button>
+        </div>
+        <div class="social-oc-table">
+          <div class="social-oc-row" id="socialOCRow1"><span>A → B</span><span id="socialSegmentWorker1">—</span><strong id="socialSegmentOC1">—</strong></div>
+          <div class="social-oc-row" id="socialOCRow2"><span>B → C</span><span id="socialSegmentWorker2">—</span><strong id="socialSegmentOC2">—</strong></div>
+        </div>
+        <div class="game-feedback" id="socialBuildFeedback" style="margin-top:9px; min-height:66px; font-size:14px;" aria-live="polite">Start at A, where both workers make wraps.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" id="socialShapeSlide">
+    <div class="section-kicker">Generalize the pattern</div>
+    <h1>From two workers to a smooth concave PPF</h1>
+    <div class="social-profile-summary">Loading two production profiles.</div>
+    <div class="shift-layout">
+      <div class="shift-graph-panel ppf-panel">
+        <svg class="shift-svg" viewBox="0 0 450 360" role="img" aria-label="A kinked social PPF becoming a smooth bowed-out concave PPF">
+          <line class="axis" x1="60" y1="290" x2="405" y2="290"/><polygon points="405,290 394,284 394,296" fill="#1f2933"/>
+          <line class="axis" x1="60" y1="290" x2="60" y2="20"/><polygon points="60,20 54,31 66,31" fill="#1f2933"/>
+          <line class="social-shape-chord" x1="60" y1="35" x2="390" y2="290"/>
+          <path class="social-shape-path" id="socialTwoTypePath" d="M60 35 L300 137 L390 290"/>
+          <path class="social-shape-path" id="socialSmoothPath" d="M60 35 C245 35 378 145 390 290" visibility="hidden"/>
+          <g id="socialShapeKnee">
+            <circle class="social-frontier-point" id="socialShapeKneePoint" cx="300" cy="137" r="7"/>
+            <text class="social-coordinate-label" id="socialShapeKneeLabel" x="310" y="128">kink</text>
+          </g>
+          <g id="socialTangentGroup" visibility="hidden">
+            <line class="social-tangent" x1="117" y1="47" x2="192" y2="67"/>
+            <text class="ppf-label" x="125" y="88" fill="#2f80c9">lower OC</text>
+            <line class="social-tangent" x1="338" y1="174" x2="372" y2="259"/>
+            <text class="ppf-label" x="301" y="211" fill="#2f80c9">higher OC</text>
+          </g>
+          <circle class="social-frontier-point" cx="60" cy="35" r="6"/><circle class="social-frontier-point" cx="390" cy="290" r="6"/>
+          <text class="axis-label" x="232" y="337" text-anchor="middle">Dish racks</text>
+          <text class="axis-label" x="18" y="165" text-anchor="middle" transform="rotate(-90 18 165)">Chicken Wraps</text>
+          <text class="axis-value" x="55" y="309">0</text>
+          <text class="social-axis-value" id="socialShapeMaxDishes" x="390" y="309" text-anchor="middle">—</text>
+          <text class="social-axis-value" id="socialShapeMaxWraps" x="50" y="39" text-anchor="end">—</text>
+        </svg>
+      </div>
+      <div class="shift-side-panel" style="border-top-color:var(--green); background:var(--green-soft);">
+        <div class="tiny muted" style="font-weight:850; letter-spacing:.08em; text-transform:uppercase;">Selected view</div>
+        <h2 id="socialShapeTitle">Two resource types: one visible kink</h2>
+        <p id="socialShapeMeaning">Each worker contributes one constant-cost segment.</p>
+        <div class="shift-choice-grid two-choice" style="margin-top:8px;">
+          <button type="button" class="shift-choice-button social-shape-button selected" data-social-shape="two">Two types</button>
+          <button type="button" class="shift-choice-button social-shape-button" data-social-shape="many">Many types</button>
+        </div>
+        <div class="shape-stat-grid">
+          <div class="shape-stat"><span>First dish racks</span><strong id="socialEarlyOC">OC = —</strong></div>
+          <div class="shape-stat"><span>Later dish racks</span><strong id="socialLateOC">OC = —</strong></div>
+        </div>
+        <button type="button" id="revealDiminishingReturns">Connect to diminishing returns</button>
+        <div class="social-shape-reveal" id="diminishingReturnsReveal">Here, heterogeneous workers create the bow. Diminishing marginal returns is a second mechanism: with complementary inputs fixed, adding more resources eventually yields smaller marginal gains and raises opportunity cost.</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+<div id="progress"></div>
+<div id="hint">← → / Space to navigate · P to print</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const stage = document.getElementById('stage');
+  const progress = document.getElementById('progress');
+  let idx = 0;
+
+  slides.forEach(function(slide, i){
+    const footer = document.createElement('div');
+    footer.className = 'footer';
+    footer.innerHTML = '<span>ARE 201 · Unit 3</span><span>' + (i + 1) + '</span>';
+    slide.appendChild(footer);
+  });
+
+  function fit(){
+    const scale = Math.min(window.innerWidth / 960, window.innerHeight / 720);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+  }
+
+  function show(n){
+    idx = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(slide, i){ slide.classList.toggle('active', i === idx); });
+    progress.style.width = (((idx + 1) / slides.length) * 100) + '%';
+    history.replaceState(null, '', '#' + (idx + 1));
+  }
+
+  function setFeedback(element, message, state){
+    element.className = 'game-feedback' + (state ? ' ' + state : '');
+    element.textContent = message;
+  }
+
+  function clearAnswerButton(button){
+    button.classList.remove('correct', 'wrong', 'selected');
+    button.style.background = '';
+    button.style.opacity = '';
+    button.disabled = false;
+  }
+
+  // Two-round, session-only volunteer production lab
+  function emptyVolunteer(){
+    return {
+      nickname: '',
+      hours: null,
+      dishMinutes: null,
+      wrapMinutes: null,
+      dishTime: null,
+      wrapTime: null,
+      dishes: 0,
+      wraps: 0,
+      maxDishes: 0,
+      maxWraps: 0,
+      complete: false,
+      simulated: false
+    };
+  }
+
+  const productivityPairs = [
+    { dish: 5, wrap: 10 },
+    { dish: 10, wrap: 5 },
+    { dish: 6, wrap: 12 },
+    { dish: 12, wrap: 6 },
+    { dish: 10, wrap: 15 },
+    { dish: 15, wrap: 10 }
+  ];
+  const volunteers = [emptyVolunteer(), emptyVolunteer()];
+  let activeVolunteer = 0;
+  let changeTypeChoice = null;
+  let parallelShiftScenario = 'baseline';
+  let pivotShiftScenario = 'wraps';
+  let socialProfileMode = 'auto';
+  let socialChoiceAnswered = false;
+  let socialBuildStage = 0;
+  let socialShapeMode = 'two';
+
+  const volunteerSetupSlide = document.getElementById('volunteerSetupSlide');
+  const personalAllocationSlide = document.getElementById('personalAllocationSlide');
+  const boundaryComparisonSlide = document.getElementById('boundaryComparisonSlide');
+  const volunteerRoundLabel = document.getElementById('volunteerRoundLabel');
+  const volunteerName = document.getElementById('volunteerName');
+  const volunteerHourButtons = Array.from(document.querySelectorAll('.hour-choice'));
+  const volunteerFeedback = document.getElementById('volunteerFeedback');
+  const speedPlaceholder = document.getElementById('speedPlaceholder');
+  const speedGrid = document.getElementById('speedGrid');
+  const dishSpeedValue = document.getElementById('dishSpeedValue');
+  const wrapSpeedValue = document.getElementById('wrapSpeedValue');
+  const drawProductivity = document.getElementById('drawProductivity');
+  const continueAllocation = document.getElementById('continueAllocation');
+  const personalAllocationRange = document.getElementById('personalAllocationRange');
+  const personalBoundaryLine = document.getElementById('personalBoundaryLine');
+  const personalChoicePoint = document.getElementById('personalChoicePoint');
+  const personalChoiceLabel = document.getElementById('personalChoiceLabel');
+  const personalAllocationFeedback = document.getElementById('personalAllocationFeedback');
+
+  function goToSlide(slide){
+    show(slides.indexOf(slide));
+  }
+
+  function formatNumber(value){
+    if (!Number.isFinite(value)) return '—';
+    const rounded = Math.round(value);
+    return Math.abs(value - rounded) < 0.001 ? String(rounded) : value.toFixed(1);
+  }
+
+  function calculateVolunteer(profile){
+    const total = (profile.hours || 0) * 60;
+    profile.dishTime = total === 0 ? 0 : Math.max(0, Math.min(total, Number(profile.dishTime || 0)));
+    profile.wrapTime = total - profile.dishTime;
+    profile.dishes = profile.dishMinutes ? profile.dishTime / profile.dishMinutes : 0;
+    profile.wraps = profile.wrapMinutes ? profile.wrapTime / profile.wrapMinutes : 0;
+    profile.maxDishes = profile.dishMinutes ? total / profile.dishMinutes : 0;
+    profile.maxWraps = profile.wrapMinutes ? total / profile.wrapMinutes : 0;
+  }
+
+  function setupIsReady(profile){
+    return profile.nickname.trim().length > 0 && profile.hours !== null && profile.dishMinutes !== null && profile.wrapMinutes !== null;
+  }
+
+  function renderVolunteerSetup(customMessage){
+    const profile = volunteers[activeVolunteer];
+    volunteerRoundLabel.textContent = 'Volunteer lab · Round ' + (activeVolunteer + 1) + ' of 2';
+    volunteerName.value = profile.nickname;
+    volunteerHourButtons.forEach(function(button){
+      button.classList.toggle('selected', Number(button.dataset.hours) === profile.hours);
+    });
+    const hasSpeeds = profile.dishMinutes !== null && profile.wrapMinutes !== null;
+    speedPlaceholder.style.display = hasSpeeds ? 'none' : 'flex';
+    speedGrid.style.display = hasSpeeds ? 'grid' : 'none';
+    dishSpeedValue.textContent = hasSpeeds ? profile.dishMinutes : '—';
+    wrapSpeedValue.textContent = hasSpeeds ? profile.wrapMinutes : '—';
+    drawProductivity.disabled = hasSpeeds;
+    drawProductivity.textContent = hasSpeeds ? 'Task speeds drawn' : 'Draw task speeds';
+    continueAllocation.disabled = !setupIsReady(profile);
+    if (customMessage) {
+      setFeedback(volunteerFeedback, customMessage, 'success');
+    } else if (profile.complete) {
+      setFeedback(volunteerFeedback, profile.nickname + ' has a saved production profile for this session.', 'success');
+    } else if (hasSpeeds) {
+      setFeedback(volunteerFeedback, 'Task speeds are fixed. Continue to allocate the shift.', 'success');
+    } else {
+      setFeedback(volunteerFeedback, 'Enter a nickname and choose 0–5 hours.', '');
+    }
+  }
+
+  volunteerName.addEventListener('input', function(){
+    volunteers[activeVolunteer].nickname = volunteerName.value.slice(0, 24);
+    continueAllocation.disabled = !setupIsReady(volunteers[activeVolunteer]);
+  });
+
+  volunteerHourButtons.forEach(function(button){
+    button.addEventListener('click', function(){
+      const profile = volunteers[activeVolunteer];
+      profile.hours = Number(button.dataset.hours);
+      profile.complete = false;
+      profile.dishTime = null;
+      renderVolunteerSetup();
+    });
+  });
+
+  drawProductivity.addEventListener('click', function(){
+    const profile = volunteers[activeVolunteer];
+    profile.nickname = volunteerName.value.trim().slice(0, 24);
+    if (!profile.nickname || profile.hours === null) {
+      setFeedback(volunteerFeedback, 'Enter a nickname and choose work hours before drawing task speeds.', 'error');
+      return;
+    }
+    const other = volunteers[activeVolunteer === 0 ? 1 : 0];
+    const availablePairs = productivityPairs.filter(function(pair){
+      return pair.dish !== other.dishMinutes || pair.wrap !== other.wrapMinutes;
+    });
+    const pair = availablePairs[Math.floor(Math.random() * availablePairs.length)];
+    profile.dishMinutes = pair.dish;
+    profile.wrapMinutes = pair.wrap;
+    profile.complete = false;
+    renderVolunteerSetup('Your task speeds have been drawn and will stay fixed for this round.');
+  });
+
+  function updatePersonalAllocation(){
+    const profile = volunteers[activeVolunteer];
+    if (!setupIsReady(profile)) return;
+    const total = profile.hours * 60;
+    profile.dishTime = total === 0 ? 0 : Number(personalAllocationRange.value);
+    calculateVolunteer(profile);
+    document.getElementById('dishTimeOutput').textContent = formatNumber(profile.dishTime) + ' min';
+    document.getElementById('wrapTimeOutput').textContent = formatNumber(profile.wrapTime) + ' min';
+    document.getElementById('dishQuantityOutput').textContent = formatNumber(profile.dishes);
+    document.getElementById('wrapQuantityOutput').textContent = formatNumber(profile.wraps);
+    document.getElementById('personalMaxDishesLabel').textContent = formatNumber(profile.maxDishes);
+    document.getElementById('personalMaxWrapsLabel').textContent = formatNumber(profile.maxWraps);
+    if (total === 0) {
+      personalBoundaryLine.setAttribute('visibility', 'hidden');
+      personalChoicePoint.setAttribute('visibility', 'visible');
+      personalChoicePoint.setAttribute('cx', '60');
+      personalChoicePoint.setAttribute('cy', '300');
+      personalChoiceLabel.setAttribute('visibility', 'visible');
+      personalChoiceLabel.setAttribute('x', '73');
+      personalChoiceLabel.setAttribute('y', '286');
+      personalChoiceLabel.textContent = 'No work → no output';
+      setFeedback(personalAllocationFeedback, 'A zero-hour choice collapses the feasible production set to the origin. It is valid—but not very informative about the trade-off.', 'success');
+      return;
+    }
+    const shareDish = profile.dishTime / total;
+    const shareWrap = profile.wrapTime / total;
+    const pointX = 60 + shareDish * 330;
+    const pointY = 300 - shareWrap * 255;
+    personalBoundaryLine.setAttribute('visibility', 'visible');
+    personalChoicePoint.setAttribute('visibility', 'visible');
+    personalChoicePoint.setAttribute('cx', pointX.toFixed(1));
+    personalChoicePoint.setAttribute('cy', pointY.toFixed(1));
+    personalChoiceLabel.setAttribute('visibility', 'visible');
+    personalChoiceLabel.setAttribute('x', Math.min(350, pointX + 12).toFixed(1));
+    personalChoiceLabel.setAttribute('y', Math.max(34, pointY - 10).toFixed(1));
+    personalChoiceLabel.textContent = profile.nickname + ' chose this point';
+    setFeedback(personalAllocationFeedback, 'The highlighted point is one choice. The entire line shows all full-shift allocations under the same task speeds.', 'success');
+  }
+
+  function renderPersonalAllocation(){
+    const profile = volunteers[activeVolunteer];
+    document.getElementById('allocationRoundLabel').textContent = 'Volunteer lab · Round ' + (activeVolunteer + 1) + ' of 2';
+    if (!setupIsReady(profile)) {
+      document.getElementById('allocationHeading').textContent = 'Complete the volunteer setup first';
+      document.getElementById('allocationVolunteerName').textContent = 'No active profile';
+      personalAllocationRange.disabled = true;
+      document.getElementById('saveVolunteerRound').disabled = true;
+      return;
+    }
+    const total = profile.hours * 60;
+    if (profile.dishTime === null || profile.dishTime > total) {
+      profile.dishTime = total === 0 ? 0 : Math.round((total / 2) / 15) * 15;
+    }
+    document.getElementById('allocationHeading').textContent = profile.nickname + ', how will you use your shift?';
+    document.getElementById('allocationVolunteerName').textContent = profile.nickname;
+    document.getElementById('allocationHours').textContent = profile.hours + (profile.hours === 1 ? ' hour' : ' hours');
+    document.getElementById('allocationTotalMinutes').textContent = total + ' minutes';
+    document.getElementById('allocationDishSpeed').textContent = profile.dishMinutes + ' min / rack';
+    document.getElementById('allocationWrapSpeed').textContent = profile.wrapMinutes + ' min / wrap';
+    personalAllocationRange.max = String(Math.max(1, total));
+    personalAllocationRange.value = String(profile.dishTime);
+    personalAllocationRange.disabled = total === 0;
+    document.getElementById('saveVolunteerRound').disabled = false;
+    updatePersonalAllocation();
+  }
+
+  continueAllocation.addEventListener('click', function(){
+    const profile = volunteers[activeVolunteer];
+    profile.nickname = volunteerName.value.trim().slice(0, 24);
+    if (!setupIsReady(profile)) {
+      setFeedback(volunteerFeedback, 'Complete the name, hours, and task-speed draw first.', 'error');
+      return;
+    }
+    renderPersonalAllocation();
+    goToSlide(personalAllocationSlide);
+  });
+  personalAllocationRange.addEventListener('input', updatePersonalAllocation);
+  document.getElementById('backToVolunteerSetup').addEventListener('click', function(){
+    renderVolunteerSetup();
+    goToSlide(volunteerSetupSlide);
+  });
+
+  function updateProfileRecall(){
+    volunteers.forEach(function(profile, index){
+      const name = document.getElementById('recallName' + index);
+      const details = document.getElementById('recallDetails' + index);
+      if (!profile.complete) {
+        name.textContent = 'Volunteer ' + (index + 1);
+        details.textContent = 'Complete or simulate the volunteer lab.';
+        return;
+      }
+      name.textContent = profile.nickname;
+      details.textContent = profile.hours + 'h shift · max ' + formatNumber(profile.maxDishes) + ' dish racks or ' + formatNumber(profile.maxWraps) + ' wraps · chosen output (' + formatNumber(profile.dishes) + ', ' + formatNumber(profile.wraps) + ').';
+    });
+    renderLinearPPFSlides();
+  }
+
+  function getTeachingProfile(){
+    const index = volunteers.findIndex(function(profile){ return profile.complete && profile.hours > 0; });
+    return index === -1 ? null : { profile: volunteers[index], index: index };
+  }
+
+  function getLinearMovement(index){
+    const selection = getTeachingProfile();
+    if (!selection) return null;
+    const profile = selection.profile;
+    const x = [60, 170, 280, 390];
+    const y = [45, 130, 215, 300];
+    const labels = ['A → B', 'B → C', 'C → D'];
+    return {
+      profile: profile,
+      title: labels[index],
+      gain: profile.maxDishes / 3,
+      loss: profile.maxWraps / 3,
+      opportunityCost: profile.dishMinutes / profile.wrapMinutes,
+      x1: x[index],
+      y1: y[index],
+      x2: x[index + 1],
+      y2: y[index + 1]
+    };
+  }
+
+  function renderLinearMovement(index){
+    const movement = getLinearMovement(index);
+    const line = document.getElementById('movementLine');
+    const buttons = Array.from(document.querySelectorAll('.movement-button'));
+    if (!movement) {
+      line.setAttribute('visibility', 'hidden');
+      document.getElementById('movementTitle').textContent = 'A → B';
+      document.getElementById('movementGain').innerHTML = '<strong>— dish racks</strong>';
+      document.getElementById('movementLoss').innerHTML = '<strong>— Chicken Wraps</strong>';
+      document.getElementById('movementMeaning').textContent = 'Load a positive-hour volunteer profile to calculate this trade-off.';
+      buttons.forEach(function(button){ button.disabled = true; button.style.background = ''; });
+      return;
+    }
+    line.setAttribute('x1', movement.x1);
+    line.setAttribute('y1', movement.y1);
+    line.setAttribute('x2', movement.x2);
+    line.setAttribute('y2', movement.y2);
+    line.setAttribute('visibility', 'visible');
+    document.getElementById('movementTitle').textContent = movement.title;
+    document.getElementById('movementGain').innerHTML = '<strong>' + formatNumber(movement.gain) + ' dish racks</strong>';
+    document.getElementById('movementLoss').innerHTML = '<strong>' + formatNumber(movement.loss) + ' Chicken Wraps</strong>';
+    document.getElementById('movementMeaning').textContent = 'The opportunity cost of ' + formatNumber(movement.gain) + ' additional dish racks is ' + formatNumber(movement.loss) + ' Chicken Wraps.';
+    buttons.forEach(function(button, buttonIndex){
+      button.disabled = false;
+      button.style.background = buttonIndex === index ? '#2f80c9' : '#EB811B';
+    });
+  }
+
+  function renderChangeTypeSlide(){
+    const selection = getTeachingProfile();
+    const profile = selection ? selection.profile : null;
+    const baseline = document.getElementById('changeTypeBaseline');
+    const movementGroup = document.getElementById('changeTypeMovementGroup');
+    const shiftedLine = document.getElementById('changeTypeShiftLine');
+    const currentLabel = document.getElementById('changeCurrentLabel');
+    const newLabel = document.getElementById('changeNewLabel');
+    const buttons = Array.from(document.querySelectorAll('.change-type-button'));
+    baseline.setAttribute('visibility', profile ? 'visible' : 'hidden');
+    currentLabel.setAttribute('visibility', profile ? 'visible' : 'hidden');
+    movementGroup.setAttribute('visibility', profile && changeTypeChoice === 'movement' ? 'visible' : 'hidden');
+    shiftedLine.setAttribute('visibility', profile && changeTypeChoice === 'shift' ? 'visible' : 'hidden');
+    newLabel.setAttribute('visibility', profile && changeTypeChoice === 'shift' ? 'visible' : 'hidden');
+    document.getElementById('changeTypeMaxDishes').textContent = profile ? formatNumber(profile.maxDishes * 4 / 3) : '—';
+    document.getElementById('changeTypeMaxWraps').textContent = profile ? formatNumber(profile.maxWraps * 4 / 3) : '—';
+    buttons.forEach(function(button){
+      button.disabled = !profile;
+      button.classList.toggle('selected', button.dataset.changeType === changeTypeChoice);
+    });
+    if (!profile) {
+      setFeedback(document.getElementById('changeTypeFeedback'), 'Load a positive-hour volunteer profile—or use Simulate—to compare the two cases.', '');
+    } else if (changeTypeChoice === 'movement') {
+      setFeedback(document.getElementById('changeTypeFeedback'), profile.nickname + ' changes the output mix while the ' + profile.hours + '-hour shift and both task speeds stay fixed: movement along the same PPF.', 'success');
+    } else if (changeTypeChoice === 'shift') {
+      setFeedback(document.getElementById('changeTypeFeedback'), 'More productive capacity creates a new set of maximum feasible combinations: the entire PPF shifts outward.', 'success');
+    } else {
+      setFeedback(document.getElementById('changeTypeFeedback'), 'Choose a case. The first question is always whether the productive constraint changed.', '');
+    }
+  }
+
+  function renderParallelShift(){
+    const selection = getTeachingProfile();
+    const profile = selection ? selection.profile : null;
+    const factors = { inward: 2 / 3, baseline: 1, outward: 4 / 3 };
+    const factor = factors[parallelShiftScenario];
+    const lines = {
+      inward: document.getElementById('parallelInwardLine'),
+      baseline: document.getElementById('parallelBaselineLine'),
+      outward: document.getElementById('parallelOutwardLine')
+    };
+    const endpointGroups = {
+      inward: document.getElementById('parallelInwardEndpoints'),
+      baseline: document.getElementById('parallelBaselineEndpoints'),
+      outward: document.getElementById('parallelOutwardEndpoints')
+    };
+    Object.keys(lines).forEach(function(name){
+      lines[name].setAttribute('visibility', profile ? 'visible' : 'hidden');
+      lines[name].classList.toggle('active', name === parallelShiftScenario);
+      endpointGroups[name].setAttribute('visibility', profile ? 'visible' : 'hidden');
+      endpointGroups[name].classList.toggle('active', name === parallelShiftScenario);
+    });
+    const buttons = Array.from(document.querySelectorAll('.parallel-shift-button'));
+    buttons.forEach(function(button){
+      button.disabled = !profile;
+      button.classList.toggle('selected', button.dataset.parallelShift === parallelShiftScenario);
+    });
+    document.getElementById('parallelInwardDishes').textContent = profile ? formatNumber(profile.maxDishes * 2 / 3) : '—';
+    document.getElementById('parallelInwardWraps').textContent = profile ? formatNumber(profile.maxWraps * 2 / 3) : '—';
+    document.getElementById('parallelBaselineDishes').textContent = profile ? formatNumber(profile.maxDishes) : '—';
+    document.getElementById('parallelBaselineWraps').textContent = profile ? formatNumber(profile.maxWraps) : '—';
+    document.getElementById('parallelMaxDishes').textContent = profile ? formatNumber(profile.maxDishes * 4 / 3) : '—';
+    document.getElementById('parallelMaxWraps').textContent = profile ? formatNumber(profile.maxWraps * 4 / 3) : '—';
+    if (!profile) {
+      document.getElementById('parallelScenarioTitle').textContent = 'Current productive capacity';
+      document.getElementById('parallelTimeStat').textContent = '—';
+      document.getElementById('parallelSlopeStat').textContent = '—';
+      document.getElementById('parallelDishStat').textContent = '—';
+      document.getElementById('parallelWrapStat').textContent = '—';
+      document.getElementById('parallelEquation').textContent = 'W = — − —D';
+      document.getElementById('parallelMeaning').textContent = 'Load a profile to compare productive capacity.';
+      return;
+    }
+    const currentMinutes = profile.hours * 60;
+    const scenarioMinutes = currentMinutes * factor;
+    const scenarioDishes = profile.maxDishes * factor;
+    const scenarioWraps = profile.maxWraps * factor;
+    const opportunityCost = profile.dishMinutes / profile.wrapMinutes;
+    const title = {
+      inward: 'Fewer resources: inward shift',
+      baseline: 'Current productive capacity',
+      outward: 'More resources: outward shift'
+    }[parallelShiftScenario];
+    const meaning = {
+      inward: 'With less work time, every maximum feasible combination contracts toward the origin.',
+      baseline: 'This PPF holds work time and both task speeds fixed.',
+      outward: 'With more work time, every maximum feasible combination expands away from the origin.'
+    }[parallelShiftScenario];
+    document.getElementById('parallelScenarioTitle').textContent = title;
+    document.getElementById('parallelTimeStat').textContent = parallelShiftScenario === 'baseline'
+      ? formatNumber(currentMinutes) + ' min'
+      : formatNumber(currentMinutes) + ' → ' + formatNumber(scenarioMinutes) + ' min';
+    document.getElementById('parallelSlopeStat').textContent = '−' + formatNumber(opportunityCost) + (parallelShiftScenario === 'baseline' ? '' : ' · unchanged');
+    document.getElementById('parallelDishStat').textContent = parallelShiftScenario === 'baseline'
+      ? formatNumber(scenarioDishes)
+      : formatNumber(profile.maxDishes) + ' → ' + formatNumber(scenarioDishes);
+    document.getElementById('parallelWrapStat').textContent = parallelShiftScenario === 'baseline'
+      ? formatNumber(scenarioWraps)
+      : formatNumber(profile.maxWraps) + ' → ' + formatNumber(scenarioWraps);
+    document.getElementById('parallelEquation').textContent = 'W = ' + formatNumber(scenarioWraps) + ' − ' + formatNumber(opportunityCost) + 'D';
+    document.getElementById('parallelMeaning').textContent = meaning + ' Task speeds do not change, so the lines remain parallel.';
+  }
+
+  function renderPivotShift(){
+    const selection = getTeachingProfile();
+    const profile = selection ? selection.profile : null;
+    const baselineLine = document.getElementById('pivotBaselineLine');
+    const wrapLine = document.getElementById('pivotWrapLine');
+    const dishLine = document.getElementById('pivotDishLine');
+    const anchor = document.getElementById('pivotAnchor');
+    const anchorLabel = document.getElementById('pivotAnchorLabel');
+    const baselineMovingEndpoint = document.getElementById('pivotBaselineMovingEndpoint');
+    const newMovingEndpoint = document.getElementById('pivotNewMovingEndpoint');
+    baselineLine.setAttribute('visibility', profile ? 'visible' : 'hidden');
+    wrapLine.setAttribute('visibility', profile && pivotShiftScenario === 'wraps' ? 'visible' : 'hidden');
+    dishLine.setAttribute('visibility', profile && pivotShiftScenario === 'dishes' ? 'visible' : 'hidden');
+    wrapLine.classList.toggle('active', pivotShiftScenario === 'wraps');
+    dishLine.classList.toggle('active', pivotShiftScenario === 'dishes');
+    anchor.setAttribute('visibility', profile ? 'visible' : 'hidden');
+    anchorLabel.setAttribute('visibility', profile ? 'visible' : 'hidden');
+    baselineMovingEndpoint.setAttribute('visibility', profile ? 'visible' : 'hidden');
+    newMovingEndpoint.setAttribute('visibility', profile ? 'visible' : 'hidden');
+    const buttons = Array.from(document.querySelectorAll('.pivot-shift-button'));
+    buttons.forEach(function(button){
+      button.disabled = !profile;
+      button.classList.toggle('selected', button.dataset.pivotShift === pivotShiftScenario);
+    });
+    if (!profile) {
+      document.getElementById('pivotScenarioTitle').textContent = 'Chicken Wrap productivity rises';
+      document.getElementById('pivotTimeStat').textContent = '—';
+      document.getElementById('pivotSpeedStat').textContent = '—';
+      document.getElementById('pivotFixedStat').textContent = '—';
+      document.getElementById('pivotOCStat').textContent = '—';
+      document.getElementById('pivotEquation').textContent = 'W = — − —D';
+      document.getElementById('pivotMeaning').textContent = 'Load a profile to compare relative productivity.';
+      return;
+    }
+    const currentMinutes = profile.hours * 60;
+    const oldOpportunityCost = profile.dishMinutes / profile.wrapMinutes;
+    const wrapsImprove = pivotShiftScenario === 'wraps';
+    const newTaskMinutes = (wrapsImprove ? profile.wrapMinutes : profile.dishMinutes) * 0.8;
+    const newWrapIntercept = wrapsImprove ? profile.maxWraps * 1.25 : profile.maxWraps;
+    const newDishIntercept = wrapsImprove ? profile.maxDishes : profile.maxDishes * 1.25;
+    const newOpportunityCost = wrapsImprove ? oldOpportunityCost * 1.25 : oldOpportunityCost * 0.8;
+    document.getElementById('pivotScenarioTitle').textContent = wrapsImprove ? 'Chicken Wrap productivity rises' : 'Dishwashing productivity rises';
+    document.getElementById('pivotTimeStat').textContent = formatNumber(currentMinutes) + ' min · fixed';
+    document.getElementById('pivotSpeedStat').textContent = wrapsImprove
+      ? formatNumber(profile.wrapMinutes) + ' → ' + formatNumber(newTaskMinutes) + ' min/wrap'
+      : formatNumber(profile.dishMinutes) + ' → ' + formatNumber(newTaskMinutes) + ' min/rack';
+    document.getElementById('pivotFixedStat').textContent = wrapsImprove
+      ? formatNumber(profile.maxDishes) + ' dish racks'
+      : formatNumber(profile.maxWraps) + ' wraps';
+    document.getElementById('pivotOCStat').textContent = formatNumber(oldOpportunityCost) + ' → ' + formatNumber(newOpportunityCost) + ' wraps';
+    document.getElementById('pivotEquation').textContent = 'W = ' + formatNumber(newWrapIntercept) + ' − ' + formatNumber(newOpportunityCost) + 'D';
+    document.getElementById('pivotMeaning').textContent = wrapsImprove
+      ? 'The wrap intercept rises while the dish intercept stays fixed. The PPF pivots outward, and one rack now costs more wraps.'
+      : 'The dish intercept rises while the wrap intercept stays fixed. The PPF pivots outward, and one rack now costs fewer wraps.';
+    const baselineMovingDot = document.getElementById('pivotBaselineMovingDot');
+    const baselineMovingValue = document.getElementById('pivotBaselineMovingValue');
+    const newMovingDot = document.getElementById('pivotNewMovingDot');
+    const newMovingValue = document.getElementById('pivotNewMovingValue');
+    if (wrapsImprove) {
+      anchor.setAttribute('cx', '324');
+      anchor.setAttribute('cy', '290');
+      anchor.setAttribute('stroke', '#2f80c9');
+      anchorLabel.setAttribute('x', '324');
+      anchorLabel.setAttribute('y', '309');
+      anchorLabel.setAttribute('text-anchor', 'middle');
+      anchorLabel.setAttribute('fill', '#2f80c9');
+      anchorLabel.textContent = formatNumber(profile.maxDishes) + ' · pivot';
+      baselineMovingDot.setAttribute('cx', '60');
+      baselineMovingDot.setAttribute('cy', '86');
+      baselineMovingValue.setAttribute('x', '50');
+      baselineMovingValue.setAttribute('y', '90');
+      baselineMovingValue.setAttribute('text-anchor', 'end');
+      baselineMovingValue.textContent = formatNumber(profile.maxWraps);
+      newMovingDot.setAttribute('cx', '60');
+      newMovingDot.setAttribute('cy', '35');
+      newMovingDot.setAttribute('fill', '#2f80c9');
+      newMovingValue.setAttribute('x', '50');
+      newMovingValue.setAttribute('y', '39');
+      newMovingValue.setAttribute('text-anchor', 'end');
+      newMovingValue.setAttribute('fill', '#2f80c9');
+      newMovingValue.textContent = formatNumber(newWrapIntercept);
+    } else {
+      anchor.setAttribute('cx', '60');
+      anchor.setAttribute('cy', '86');
+      anchor.setAttribute('stroke', '#378a61');
+      anchorLabel.setAttribute('x', '50');
+      anchorLabel.setAttribute('y', '90');
+      anchorLabel.setAttribute('text-anchor', 'end');
+      anchorLabel.setAttribute('fill', '#378a61');
+      anchorLabel.textContent = formatNumber(profile.maxWraps) + ' · pivot';
+      baselineMovingDot.setAttribute('cx', '324');
+      baselineMovingDot.setAttribute('cy', '290');
+      baselineMovingValue.setAttribute('x', '324');
+      baselineMovingValue.setAttribute('y', '307');
+      baselineMovingValue.setAttribute('text-anchor', 'middle');
+      baselineMovingValue.textContent = formatNumber(profile.maxDishes);
+      newMovingDot.setAttribute('cx', '390');
+      newMovingDot.setAttribute('cy', '290');
+      newMovingDot.setAttribute('fill', '#378a61');
+      newMovingValue.setAttribute('x', '390');
+      newMovingValue.setAttribute('y', '307');
+      newMovingValue.setAttribute('text-anchor', 'middle');
+      newMovingValue.setAttribute('fill', '#378a61');
+      newMovingValue.textContent = formatNumber(newDishIntercept);
+    }
+  }
+
+  function renderShiftSlides(){
+    renderChangeTypeSlide();
+    renderParallelShift();
+    renderPivotShift();
+  }
+
+  function getSocialBenchmarkProfiles(){
+    const benchmark = [
+      Object.assign(emptyVolunteer(), { nickname: 'Alex', hours: 3, dishMinutes: 10, wrapMinutes: 5, dishTime: 120, complete: true, simulated: true }),
+      Object.assign(emptyVolunteer(), { nickname: 'Morgan', hours: 4, dishMinutes: 5, wrapMinutes: 10, dishTime: 90, complete: true, simulated: true })
+    ];
+    benchmark.forEach(calculateVolunteer);
+    return benchmark;
+  }
+
+  function getPositiveClassProfiles(){
+    return volunteers.filter(function(profile){ return profile.complete && profile.hours > 0; });
+  }
+
+  function getSocialSelection(){
+    const classProfiles = getPositiveClassProfiles();
+    const classHasTwo = classProfiles.length === 2;
+    const classOCs = classHasTwo ? classProfiles.map(function(profile){ return profile.dishMinutes / profile.wrapMinutes; }) : [];
+    const classHasContrast = classHasTwo && Math.abs(classOCs[0] - classOCs[1]) > 0.001;
+    let profiles;
+    let source;
+    let fallbackReason = '';
+    if (socialProfileMode === 'class' && classHasTwo) {
+      profiles = classProfiles;
+      source = 'class';
+    } else if (socialProfileMode === 'benchmark') {
+      profiles = getSocialBenchmarkProfiles();
+      source = 'benchmark';
+    } else if (classHasContrast) {
+      profiles = classProfiles;
+      source = 'class';
+    } else {
+      profiles = getSocialBenchmarkProfiles();
+      source = 'benchmark';
+      fallbackReason = classHasTwo
+        ? 'The class profiles have equal opportunity costs, so the contrasting benchmark is loaded automatically.'
+        : 'Two positive-hour class profiles are not available, so the contrasting benchmark is loaded automatically.';
+    }
+    const opportunityCosts = profiles.map(function(profile){ return profile.dishMinutes / profile.wrapMinutes; });
+    const tie = Math.abs(opportunityCosts[0] - opportunityCosts[1]) < 0.001;
+    const lowIndex = tie || opportunityCosts[0] < opportunityCosts[1] ? 0 : 1;
+    const highIndex = lowIndex === 0 ? 1 : 0;
+    return {
+      profiles: profiles,
+      source: source,
+      fallbackReason: fallbackReason,
+      opportunityCosts: opportunityCosts,
+      tie: tie,
+      lowIndex: lowIndex,
+      highIndex: highIndex,
+      low: profiles[lowIndex],
+      high: profiles[highIndex],
+      lowOC: opportunityCosts[lowIndex],
+      highOC: opportunityCosts[highIndex],
+      totalHours: profiles[0].hours + profiles[1].hours,
+      totalDishes: profiles[0].maxDishes + profiles[1].maxDishes,
+      totalWraps: profiles[0].maxWraps + profiles[1].maxWraps,
+      classProfilesAvailable: classHasTwo
+    };
+  }
+
+  function getSocialGeometry(data){
+    return {
+      kneeX: 60 + (data.low.maxDishes / data.totalDishes) * 330,
+      kneeY: 290 - (data.high.maxWraps / data.totalWraps) * 255
+    };
+  }
+
+  function renderSocialIntro(data){
+    const summary = (data.source === 'class' ? 'Using class profiles: ' : 'Using contrasting benchmark: ') +
+      data.profiles[0].nickname + ' + ' + data.profiles[1].nickname + ' · ' + formatNumber(data.totalHours) + ' total work hours';
+    Array.from(document.querySelectorAll('.social-profile-summary')).forEach(function(element){ element.textContent = summary; });
+    data.profiles.forEach(function(profile, index){
+      document.getElementById('socialName' + index).textContent = profile.nickname;
+      document.getElementById('socialDetails' + index).textContent = profile.hours + 'h · ' + profile.dishMinutes + ' min/rack · ' + profile.wrapMinutes + ' min/wrap';
+      document.getElementById('socialMaxima' + index).textContent = formatNumber(profile.maxDishes) + ' racks / ' + formatNumber(profile.maxWraps) + ' wraps';
+      document.getElementById('socialOC' + index).textContent = formatNumber(data.opportunityCosts[index]) + ' wraps';
+    });
+    document.getElementById('socialTotalHours').textContent = formatNumber(data.totalHours) + ' total work hours';
+    document.getElementById('socialAllDishes').textContent = formatNumber(data.totalDishes) + ' racks';
+    document.getElementById('socialAllWraps').textContent = formatNumber(data.totalWraps) + ' wraps';
+    document.getElementById('socialStartWraps').textContent = formatNumber(data.totalWraps);
+    const classButton = document.getElementById('useClassSocialProfiles');
+    const benchmarkButton = document.getElementById('useBenchmarkSocialProfiles');
+    classButton.disabled = !data.classProfilesAvailable;
+    classButton.classList.toggle('selected', data.source === 'class');
+    benchmarkButton.classList.toggle('selected', data.source === 'benchmark');
+    if (data.tie) {
+      setFeedback(document.getElementById('socialSourceFeedback'), 'These two profiles have the same opportunity cost, so their combined PPF is linear. Use the benchmark to reveal a bowed frontier.', '');
+    } else if (data.fallbackReason) {
+      setFeedback(document.getElementById('socialSourceFeedback'), data.fallbackReason, 'success');
+    } else {
+      setFeedback(document.getElementById('socialSourceFeedback'), 'The two opportunity costs differ, so efficient reallocation will create a kinked social PPF.', 'success');
+    }
+  }
+
+  function renderSocialChoice(data){
+    const buttons = Array.from(document.querySelectorAll('.social-choice-answer'));
+    buttons.forEach(clearAnswerButton);
+    socialChoiceAnswered = false;
+    document.getElementById('socialChoiceButton0').textContent = data.profiles[0].nickname + ' switches first';
+    document.getElementById('socialChoiceButton1').textContent = data.profiles[1].nickname + ' switches first';
+    document.getElementById('socialChoiceTie').textContent = 'Either one—the opportunity costs are equal';
+    setFeedback(document.getElementById('socialChoiceFeedback'), 'Compare the wraps given up per additional dish rack.', '');
+  }
+
+  function evaluateSocialChoice(choice){
+    if (socialChoiceAnswered) return;
+    const data = getSocialSelection();
+    const correctChoice = data.tie ? 'tie' : String(data.lowIndex);
+    const buttons = Array.from(document.querySelectorAll('.social-choice-answer'));
+    const selected = buttons.find(function(button){ return button.dataset.socialChoice === choice; });
+    const correct = buttons.find(function(button){ return button.dataset.socialChoice === correctChoice; });
+    socialChoiceAnswered = true;
+    buttons.forEach(function(button){ button.disabled = true; });
+    correct.classList.add('correct');
+    const comparison = data.profiles[0].nickname + ': ' + formatNumber(data.opportunityCosts[0]) + ' wraps/rack; ' +
+      data.profiles[1].nickname + ': ' + formatNumber(data.opportunityCosts[1]) + ' wraps/rack.';
+    if (choice === correctChoice) {
+      setFeedback(document.getElementById('socialChoiceFeedback'), 'Correct. ' + comparison + ' Start with the lower-cost resource.', 'success');
+    } else {
+      selected.classList.add('wrong');
+      setFeedback(document.getElementById('socialChoiceFeedback'), 'Not quite. ' + comparison + ' The lower opportunity cost goes first.', 'error');
+    }
+  }
+
+  function renderSocialBuild(data){
+    const geometry = getSocialGeometry(data);
+    const kneeX = geometry.kneeX;
+    const kneeY = geometry.kneeY;
+    document.getElementById('socialSegmentOne').setAttribute('x2', kneeX.toFixed(1));
+    document.getElementById('socialSegmentOne').setAttribute('y2', kneeY.toFixed(1));
+    document.getElementById('socialSegmentTwo').setAttribute('x1', kneeX.toFixed(1));
+    document.getElementById('socialSegmentTwo').setAttribute('y1', kneeY.toFixed(1));
+    document.getElementById('socialKneePoint').setAttribute('cx', kneeX.toFixed(1));
+    document.getElementById('socialKneePoint').setAttribute('cy', kneeY.toFixed(1));
+    document.getElementById('socialPointALabel').textContent = 'A (0, ' + formatNumber(data.totalWraps) + ')';
+    const pointBLabel = document.getElementById('socialPointBLabel');
+    pointBLabel.textContent = 'B (' + formatNumber(data.low.maxDishes) + ', ' + formatNumber(data.high.maxWraps) + ')';
+    pointBLabel.setAttribute('x', (kneeX > 315 ? kneeX - 10 : kneeX + 10).toFixed(1));
+    pointBLabel.setAttribute('y', Math.max(29, kneeY - 10).toFixed(1));
+    pointBLabel.setAttribute('text-anchor', kneeX > 315 ? 'end' : 'start');
+    document.getElementById('socialPointCLabel').textContent = 'C (' + formatNumber(data.totalDishes) + ', 0)';
+    document.getElementById('socialBuildMaxDishes').textContent = formatNumber(data.totalDishes);
+    document.getElementById('socialBuildMaxWraps').textContent = formatNumber(data.totalWraps);
+    document.getElementById('socialStageOne').setAttribute('visibility', socialBuildStage >= 1 ? 'visible' : 'hidden');
+    document.getElementById('socialStageTwo').setAttribute('visibility', socialBuildStage >= 2 ? 'visible' : 'hidden');
+    document.getElementById('socialStageThree').setAttribute('visibility', socialBuildStage >= 3 ? 'visible' : 'hidden');
+    document.getElementById('socialBuildChord').setAttribute('visibility', socialBuildStage >= 3 ? 'visible' : 'hidden');
+    const stageButtons = Array.from(document.querySelectorAll('.social-stage-button'));
+    stageButtons.forEach(function(button){
+      const stage = Number(button.dataset.socialStage);
+      button.classList.toggle('completed', socialBuildStage >= stage);
+      if (stage === 2) button.textContent = '2 · ' + data.low.nickname.slice(0, 13) + ' switches';
+      if (stage === 3) button.textContent = '3 · ' + data.high.nickname.slice(0, 13) + ' switches';
+    });
+    document.getElementById('socialSegmentWorker1').textContent = data.low.nickname + ' moves';
+    document.getElementById('socialSegmentWorker2').textContent = data.high.nickname + ' moves';
+    document.getElementById('socialSegmentOC1').textContent = 'OC = ' + formatNumber(data.lowOC);
+    document.getElementById('socialSegmentOC2').textContent = 'OC = ' + formatNumber(data.highOC);
+    document.getElementById('socialOCRow1').classList.toggle('visible', socialBuildStage >= 2);
+    document.getElementById('socialOCRow2').classList.toggle('visible', socialBuildStage >= 3);
+    if (socialBuildStage === 0) {
+      setFeedback(document.getElementById('socialBuildFeedback'), 'Start at A, where both workers make wraps.', '');
+    } else if (socialBuildStage === 1) {
+      setFeedback(document.getElementById('socialBuildFeedback'), 'A combines all available work time in wrap production: (0, ' + formatNumber(data.totalWraps) + ').', 'success');
+    } else if (socialBuildStage === 2) {
+      setFeedback(document.getElementById('socialBuildFeedback'), data.low.nickname + ' switches first because each rack costs only ' + formatNumber(data.lowOC) + ' wraps.', 'success');
+    } else if (data.tie) {
+      setFeedback(document.getElementById('socialBuildFeedback'), 'Both segments have the same slope. Equal opportunity costs produce a straight social PPF.', 'success');
+    } else {
+      setFeedback(document.getElementById('socialBuildFeedback'), 'Opportunity cost rises from ' + formatNumber(data.lowOC) + ' to ' + formatNumber(data.highOC) + ' wraps per rack: the social PPF bows outward.', 'success');
+    }
+  }
+
+  function renderSocialShape(data){
+    const geometry = getSocialGeometry(data);
+    const path = 'M60 35 L' + geometry.kneeX.toFixed(1) + ' ' + geometry.kneeY.toFixed(1) + ' L390 290';
+    document.getElementById('socialTwoTypePath').setAttribute('d', path);
+    document.getElementById('socialShapeKneePoint').setAttribute('cx', geometry.kneeX.toFixed(1));
+    document.getElementById('socialShapeKneePoint').setAttribute('cy', geometry.kneeY.toFixed(1));
+    const kneeLabel = document.getElementById('socialShapeKneeLabel');
+    kneeLabel.setAttribute('x', (geometry.kneeX > 315 ? geometry.kneeX - 10 : geometry.kneeX + 10).toFixed(1));
+    kneeLabel.setAttribute('y', Math.max(29, geometry.kneeY - 10).toFixed(1));
+    kneeLabel.setAttribute('text-anchor', geometry.kneeX > 315 ? 'end' : 'start');
+    kneeLabel.textContent = data.tie ? 'same slope' : 'kink';
+    document.getElementById('socialShapeMaxDishes').textContent = formatNumber(data.totalDishes);
+    document.getElementById('socialShapeMaxWraps').textContent = formatNumber(data.totalWraps);
+    const many = socialShapeMode === 'many';
+    document.getElementById('socialTwoTypePath').setAttribute('visibility', many ? 'hidden' : 'visible');
+    document.getElementById('socialSmoothPath').setAttribute('visibility', many ? 'visible' : 'hidden');
+    document.getElementById('socialShapeKnee').setAttribute('visibility', many ? 'hidden' : 'visible');
+    document.getElementById('socialTangentGroup').setAttribute('visibility', many ? 'visible' : 'hidden');
+    Array.from(document.querySelectorAll('.social-shape-button')).forEach(function(button){
+      button.classList.toggle('selected', button.dataset.socialShape === socialShapeMode);
+    });
+    if (many) {
+      document.getElementById('socialShapeTitle').textContent = 'Many resource types: a smooth concave frontier';
+      document.getElementById('socialShapeMeaning').textContent = 'A concave PPF bows outward: ordering many resources from lower to higher opportunity cost makes the slope progressively steeper.';
+    } else if (data.tie) {
+      document.getElementById('socialShapeTitle').textContent = 'Equal-cost resources: no bow';
+      document.getElementById('socialShapeMeaning').textContent = 'With identical opportunity costs, the two segments lie on one straight line. Use the benchmark to generate a kink.';
+    } else {
+      document.getElementById('socialShapeTitle').textContent = 'Two resource types: one visible kink';
+      document.getElementById('socialShapeMeaning').textContent = 'Each worker contributes one constant-cost segment; the steeper second segment reveals increasing opportunity cost.';
+    }
+    document.getElementById('socialEarlyOC').textContent = 'OC = ' + formatNumber(data.lowOC) + ' wraps/rack';
+    document.getElementById('socialLateOC').textContent = 'OC = ' + formatNumber(data.highOC) + ' wraps/rack';
+  }
+
+  function renderSocialSlides(){
+    const data = getSocialSelection();
+    renderSocialIntro(data);
+    renderSocialChoice(data);
+    renderSocialBuild(data);
+    renderSocialShape(data);
+  }
+
+  function renderLinearPPFSlides(){
+    const selection = getTeachingProfile();
+    const profile = selection ? selection.profile : null;
+    const summary = profile
+      ? 'Using Volunteer ' + (selection.index + 1) + ': ' + profile.nickname + ' · ' + profile.hours + 'h shift · ' + profile.dishMinutes + ' min/rack · ' + profile.wrapMinutes + ' min/wrap'
+      : 'Complete a positive-hour volunteer profile—or use Simulate—to load this example.';
+    Array.from(document.querySelectorAll('.linear-profile-summary')).forEach(function(element){ element.textContent = summary; });
+
+    Array.from(document.querySelectorAll('.linear-profile-mark, .linear-location-mark, .linear-location-label, .movement-dot, .movement-point-label, .movement-projection-mark')).forEach(function(element){
+      element.setAttribute('visibility', profile ? 'visible' : 'hidden');
+    });
+    document.getElementById('locationMaxDishes').textContent = profile ? formatNumber(profile.maxDishes) : '—';
+    document.getElementById('locationMaxWraps').textContent = profile ? formatNumber(profile.maxWraps) : '—';
+    document.getElementById('movementMaxDishes').textContent = profile ? formatNumber(profile.maxDishes) : '—';
+    document.getElementById('movementMaxWraps').textContent = profile ? formatNumber(profile.maxWraps) : '—';
+    document.getElementById('movementBXLabel').textContent = profile ? formatNumber(profile.maxDishes / 3) : '—';
+    document.getElementById('movementCXLabel').textContent = profile ? formatNumber(profile.maxDishes * 2 / 3) : '—';
+    document.getElementById('movementBYLabel').textContent = profile ? formatNumber(profile.maxWraps * 2 / 3) : '—';
+    document.getElementById('movementCYLabel').textContent = profile ? formatNumber(profile.maxWraps / 3) : '—';
+
+    document.getElementById('endpointADishes').textContent = profile ? '0' : '—';
+    document.getElementById('endpointAWraps').textContent = profile ? formatNumber(profile.maxWraps) : '—';
+    document.getElementById('endpointVDishes').textContent = profile ? formatNumber(profile.dishes) : '—';
+    document.getElementById('endpointVWraps').textContent = profile ? formatNumber(profile.wraps) : '—';
+    document.getElementById('endpointDDishes').textContent = profile ? formatNumber(profile.maxDishes) : '—';
+    document.getElementById('endpointDWraps').textContent = profile ? '0' : '—';
+
+    ['I', 'E', 'U'].forEach(function(name){ document.getElementById('point' + name).setAttribute('fill', '#fff'); });
+    setFeedback(
+      document.getElementById('pointFeedback'),
+      profile ? 'Use ' + profile.nickname + '’s ' + profile.hours + '-hour straight frontier as the benchmark.' : 'Load a volunteer profile, then compare each point with the straight frontier.',
+      profile ? 'success' : ''
+    );
+
+    renderLinearMovement(0);
+
+    const movement = getLinearMovement(0);
+    document.getElementById('slopeMoveTitle').textContent = 'Move A → B';
+    document.getElementById('slopeMovementText').textContent = movement
+      ? 'Dish racks rise by ' + formatNumber(movement.gain) + ', while Chicken Wraps fall by ' + formatNumber(movement.loss) + '.'
+      : 'Load a profile to calculate the output changes.';
+    document.getElementById('slopeCalculation').textContent = movement
+      ? formatNumber(movement.loss) + ' ÷ ' + formatNumber(movement.gain) + ' = ' + formatNumber(movement.opportunityCost)
+      : '— ÷ — = —';
+    document.getElementById('slopeTimeText').textContent = profile
+      ? 'One dish rack takes ' + profile.dishMinutes + ' minutes. In that time, ' + profile.nickname + ' could make ' + formatNumber(profile.dishMinutes / profile.wrapMinutes) + ' Chicken Wraps.'
+      : 'The same opportunity cost can be read directly from the two task speeds.';
+    document.getElementById('slopeTimeCalculation').textContent = profile
+      ? profile.dishMinutes + ' min ÷ ' + profile.wrapMinutes + ' min = ' + formatNumber(profile.dishMinutes / profile.wrapMinutes)
+      : '— min ÷ — min = —';
+    document.getElementById('slopeInterpretation').innerHTML = profile
+      ? '<strong>Interpretation:</strong> one additional dish rack costs ' + formatNumber(profile.dishMinutes / profile.wrapMinutes) + ' Chicken Wraps everywhere on ' + profile.nickname + '’s straight PPF.'
+      : 'With fixed task speeds, the straight-line slope—and therefore opportunity cost—stays constant.';
+
+    Array.from(document.querySelectorAll('.pattern-gain')).forEach(function(cell){ cell.textContent = movement ? formatNumber(movement.gain) : '—'; });
+    Array.from(document.querySelectorAll('.pattern-loss')).forEach(function(cell){ cell.textContent = movement ? formatNumber(movement.loss) : '—'; });
+    Array.from(document.querySelectorAll('.pattern-oc')).forEach(function(cell){ cell.textContent = movement ? formatNumber(movement.opportunityCost) : '—'; });
+    const patternButtons = Array.from(document.querySelectorAll('.pattern-answer'));
+    patternButtons.forEach(function(button){
+      button.disabled = !profile;
+      button.style.background = '';
+      button.style.opacity = '';
+    });
+    setFeedback(
+      document.getElementById('patternFeedback'),
+      profile ? 'Compare the final column before choosing.' : 'Load a profile, then compare the final column before choosing.',
+      ''
+    );
+    renderShiftSlides();
+    renderSocialSlides();
+  }
+
+  function renderComparison(customMessage){
+    const colors = ['#EB811B', '#2f80c9'];
+    const ready = volunteers.filter(function(profile){ return profile.complete; });
+    const maxDishes = ready.length ? Math.max(10, Math.ceil(Math.max.apply(null, ready.map(function(profile){ return profile.maxDishes; })) / 10) * 10) : 10;
+    const maxWraps = ready.length ? Math.max(10, Math.ceil(Math.max.apply(null, ready.map(function(profile){ return profile.maxWraps; })) / 10) * 10) : 10;
+    document.getElementById('compareMaxDishesLabel').textContent = '';
+    document.getElementById('compareMaxWrapsLabel').textContent = '';
+    const geometry = volunteers.map(function(profile){
+      if (!profile.complete) return null;
+      return {
+        yIntercept: 300 - (profile.maxWraps / maxWraps) * 255,
+        xIntercept: 60 + (profile.maxDishes / maxDishes) * 330,
+        pointX: 60 + (profile.dishes / maxDishes) * 330,
+        pointY: 300 - (profile.wraps / maxWraps) * 255,
+        positive: profile.hours > 0
+      };
+    });
+    const bothPositive = geometry[0] && geometry[1] && geometry[0].positive && geometry[1].positive;
+    const bundleXClose = bothPositive && Math.abs(geometry[0].pointX - geometry[1].pointX) < 28;
+    const bundleYClose = bothPositive && Math.abs(geometry[0].pointY - geometry[1].pointY) < 20;
+    const endpointXClose = bothPositive && Math.abs(geometry[0].xIntercept - geometry[1].xIntercept) < 28;
+    const endpointYClose = bothPositive && Math.abs(geometry[0].yIntercept - geometry[1].yIntercept) < 20;
+    volunteers.forEach(function(profile, index){
+      const line = document.getElementById('compareLine' + index);
+      const point = document.getElementById('comparePoint' + index);
+      const legend = document.getElementById('compareLegend' + index);
+      const projection = document.getElementById('compareProjection' + index);
+      const endpoints = document.getElementById('compareEndpoints' + index);
+      if (!profile.complete) {
+        line.setAttribute('visibility', 'hidden');
+        point.setAttribute('visibility', 'hidden');
+        projection.setAttribute('visibility', 'hidden');
+        endpoints.setAttribute('visibility', 'hidden');
+        legend.textContent = 'Volunteer ' + (index + 1) + ' · waiting';
+        return;
+      }
+      const current = geometry[index];
+      const yIntercept = current.yIntercept;
+      const xIntercept = current.xIntercept;
+      const pointX = current.pointX;
+      const pointY = current.pointY;
+      line.setAttribute('x1', '60');
+      line.setAttribute('y1', yIntercept.toFixed(1));
+      line.setAttribute('x2', xIntercept.toFixed(1));
+      line.setAttribute('y2', '300');
+      line.setAttribute('stroke', colors[index]);
+      line.setAttribute('visibility', profile.hours === 0 ? 'hidden' : 'visible');
+      point.setAttribute('cx', pointX.toFixed(1));
+      point.setAttribute('cy', pointY.toFixed(1));
+      point.setAttribute('fill', colors[index]);
+      point.setAttribute('visibility', 'visible');
+      legend.textContent = profile.nickname + ' · ' + profile.hours + 'h shift';
+
+      const showCoordinates = current.positive;
+      projection.setAttribute('visibility', showCoordinates ? 'visible' : 'hidden');
+      endpoints.setAttribute('visibility', showCoordinates ? 'visible' : 'hidden');
+      if (!showCoordinates) return;
+
+      const horizontal = document.getElementById('compareProjectionHorizontal' + index);
+      const vertical = document.getElementById('compareProjectionVertical' + index);
+      horizontal.setAttribute('x1', '60');
+      horizontal.setAttribute('y1', pointY.toFixed(1));
+      horizontal.setAttribute('x2', pointX.toFixed(1));
+      horizontal.setAttribute('y2', pointY.toFixed(1));
+      vertical.setAttribute('x1', pointX.toFixed(1));
+      vertical.setAttribute('y1', pointY.toFixed(1));
+      vertical.setAttribute('x2', pointX.toFixed(1));
+      vertical.setAttribute('y2', '300');
+
+      const choiceXDot = document.getElementById('compareChoiceXDot' + index);
+      const choiceYDot = document.getElementById('compareChoiceYDot' + index);
+      choiceXDot.setAttribute('cx', pointX.toFixed(1));
+      choiceYDot.setAttribute('cy', pointY.toFixed(1));
+      const choiceXLabel = document.getElementById('compareChoiceXLabel' + index);
+      const choiceYLabel = document.getElementById('compareChoiceYLabel' + index);
+      choiceXLabel.setAttribute('x', pointX.toFixed(1));
+      choiceXLabel.setAttribute('y', bundleXClose ? (index === 0 ? '318' : '331') : '319');
+      choiceXLabel.setAttribute('fill', colors[index]);
+      choiceXLabel.textContent = formatNumber(profile.dishes);
+      const otherPointY = bothPositive ? geometry[index === 0 ? 1 : 0].pointY : pointY;
+      const choiceLabelAbove = pointY < otherPointY || (Math.abs(pointY - otherPointY) < 0.1 && index === 0);
+      choiceYLabel.setAttribute('x', '50');
+      choiceYLabel.setAttribute('y', (pointY + (bundleYClose ? (choiceLabelAbove ? -7 : 12) : 4)).toFixed(1));
+      choiceYLabel.setAttribute('fill', colors[index]);
+      choiceYLabel.textContent = formatNumber(profile.wraps);
+
+      const xEndpointDot = document.getElementById('compareXEndpointDot' + index);
+      const yEndpointDot = document.getElementById('compareYEndpointDot' + index);
+      xEndpointDot.setAttribute('cx', xIntercept.toFixed(1));
+      xEndpointDot.setAttribute('fill', colors[index]);
+      yEndpointDot.setAttribute('cy', yIntercept.toFixed(1));
+      yEndpointDot.setAttribute('fill', colors[index]);
+      const xEndpointLabel = document.getElementById('compareXEndpointLabel' + index);
+      const yEndpointLabel = document.getElementById('compareYEndpointLabel' + index);
+      xEndpointLabel.setAttribute('x', xIntercept.toFixed(1));
+      xEndpointLabel.setAttribute('y', endpointXClose ? (index === 0 ? '288' : '275') : '288');
+      xEndpointLabel.setAttribute('fill', colors[index]);
+      xEndpointLabel.textContent = formatNumber(profile.maxDishes);
+      const otherInterceptY = bothPositive ? geometry[index === 0 ? 1 : 0].yIntercept : yIntercept;
+      const endpointLabelAbove = yIntercept < otherInterceptY || (Math.abs(yIntercept - otherInterceptY) < 0.1 && index === 0);
+      yEndpointLabel.setAttribute('x', '70');
+      yEndpointLabel.setAttribute('y', (yIntercept + (endpointYClose ? (endpointLabelAbove ? -7 : 12) : 4)).toFixed(1));
+      yEndpointLabel.setAttribute('fill', colors[index]);
+      yEndpointLabel.textContent = formatNumber(profile.maxWraps);
+    });
+    updateProfileRecall();
+    if (customMessage) {
+      setFeedback(document.getElementById('comparisonFeedback'), customMessage, 'success');
+    } else if (ready.length === 2) {
+      setFeedback(document.getElementById('comparisonFeedback'), 'Both session profiles are ready. Compare the endpoints, slopes, and highlighted choices.', 'success');
+    } else {
+      setFeedback(document.getElementById('comparisonFeedback'), 'Complete two rounds—or simulate—to compare the boundaries.', '');
+    }
+  }
+
+  document.getElementById('saveVolunteerRound').addEventListener('click', function(){
+    const profile = volunteers[activeVolunteer];
+    updatePersonalAllocation();
+    profile.complete = true;
+    updateProfileRecall();
+    if (activeVolunteer === 0) {
+      activeVolunteer = 1;
+      renderVolunteerSetup('Round 1 saved. Invite the second volunteer.');
+      goToSlide(volunteerSetupSlide);
+    } else {
+      renderComparison();
+      goToSlide(boundaryComparisonSlide);
+    }
+  });
+
+  function simulateVolunteerData(){
+    const simulated = [
+      { nickname: 'Alex', hours: 3, dishMinutes: 10, wrapMinutes: 5, dishTime: 120 },
+      { nickname: 'Morgan', hours: 4, dishMinutes: 5, wrapMinutes: 10, dishTime: 90 }
+    ];
+    simulated.forEach(function(source, index){
+      Object.assign(volunteers[index], emptyVolunteer(), source, { complete: true, simulated: true });
+      calculateVolunteer(volunteers[index]);
+    });
+    activeVolunteer = 0;
+    changeTypeChoice = null;
+    parallelShiftScenario = 'baseline';
+    pivotShiftScenario = 'wraps';
+    socialProfileMode = 'auto';
+    socialChoiceAnswered = false;
+    socialBuildStage = 0;
+    socialShapeMode = 'two';
+    resetSocialSectionState();
+    renderVolunteerSetup();
+    renderComparison('Simulated session data are loaded for self-study. No data were saved outside this page.');
+    goToSlide(boundaryComparisonSlide);
+  }
+
+  function resetVolunteerData(){
+    volunteers[0] = emptyVolunteer();
+    volunteers[1] = emptyVolunteer();
+    activeVolunteer = 0;
+    changeTypeChoice = null;
+    parallelShiftScenario = 'baseline';
+    pivotShiftScenario = 'wraps';
+    socialProfileMode = 'auto';
+    socialChoiceAnswered = false;
+    socialBuildStage = 0;
+    socialShapeMode = 'two';
+    resetSocialSectionState();
+    document.getElementById('conceptName').classList.add('hidden-name');
+    document.getElementById('conceptDefinition').classList.remove('visible');
+    document.getElementById('revealConcept').textContent = 'Reveal the name';
+    renderVolunteerSetup();
+    renderComparison();
+    goToSlide(volunteerSetupSlide);
+  }
+
+  document.getElementById('simulateVolunteers').addEventListener('click', simulateVolunteerData);
+  document.getElementById('simulateFromComparison').addEventListener('click', simulateVolunteerData);
+  document.getElementById('simulateFromReveal').addEventListener('click', function(){
+    simulateVolunteerData();
+    goToSlide(document.getElementById('conceptRevealSlide'));
+  });
+  document.getElementById('resetVolunteers').addEventListener('click', resetVolunteerData);
+
+  Array.from(document.querySelectorAll('.compare-prompt')).forEach(function(button){
+    button.addEventListener('click', function(){
+      setFeedback(document.getElementById('comparisonFeedback'), button.dataset.message, 'success');
+    });
+  });
+
+  document.getElementById('revealConcept').addEventListener('click', function(){
+    const conceptName = document.getElementById('conceptName');
+    const definition = document.getElementById('conceptDefinition');
+    const visible = !conceptName.classList.contains('hidden-name');
+    conceptName.classList.toggle('hidden-name', visible);
+    definition.classList.toggle('visible', !visible);
+    this.textContent = visible ? 'Reveal the name' : 'Hide the name';
+  });
+
+  renderVolunteerSetup();
+  renderComparison();
+
+  Array.from(document.querySelectorAll('.change-type-button')).forEach(function(button){
+    button.addEventListener('click', function(){
+      changeTypeChoice = button.dataset.changeType;
+      renderChangeTypeSlide();
+    });
+  });
+
+  Array.from(document.querySelectorAll('.parallel-shift-button')).forEach(function(button){
+    button.addEventListener('click', function(){
+      parallelShiftScenario = button.dataset.parallelShift;
+      renderParallelShift();
+    });
+  });
+
+  Array.from(document.querySelectorAll('.pivot-shift-button')).forEach(function(button){
+    button.addEventListener('click', function(){
+      pivotShiftScenario = button.dataset.pivotShift;
+      renderPivotShift();
+    });
+  });
+
+  function resetSocialSectionState(){
+    socialChoiceAnswered = false;
+    socialBuildStage = 0;
+    socialShapeMode = 'two';
+    document.getElementById('diminishingReturnsReveal').classList.remove('visible');
+    document.getElementById('revealDiminishingReturns').textContent = 'Connect to diminishing returns';
+  }
+
+  document.getElementById('useClassSocialProfiles').addEventListener('click', function(){
+    socialProfileMode = 'class';
+    resetSocialSectionState();
+    renderSocialSlides();
+  });
+  document.getElementById('useBenchmarkSocialProfiles').addEventListener('click', function(){
+    socialProfileMode = 'benchmark';
+    resetSocialSectionState();
+    renderSocialSlides();
+  });
+
+  Array.from(document.querySelectorAll('.social-choice-answer')).forEach(function(button){
+    button.addEventListener('click', function(){ evaluateSocialChoice(button.dataset.socialChoice); });
+  });
+  document.getElementById('socialChoiceReset').addEventListener('click', function(){
+    renderSocialChoice(getSocialSelection());
+  });
+
+  Array.from(document.querySelectorAll('.social-stage-button')).forEach(function(button){
+    button.addEventListener('click', function(){
+      socialBuildStage = Number(button.dataset.socialStage);
+      renderSocialBuild(getSocialSelection());
+    });
+  });
+  document.getElementById('socialBuildReset').addEventListener('click', function(){
+    socialBuildStage = 0;
+    renderSocialBuild(getSocialSelection());
+  });
+
+  Array.from(document.querySelectorAll('.social-shape-button')).forEach(function(button){
+    button.addEventListener('click', function(){
+      socialShapeMode = button.dataset.socialShape;
+      renderSocialShape(getSocialSelection());
+    });
+  });
+  document.getElementById('revealDiminishingReturns').addEventListener('click', function(){
+    const reveal = document.getElementById('diminishingReturnsReveal');
+    const visible = reveal.classList.toggle('visible');
+    this.textContent = visible ? 'Hide diminishing returns' : 'Connect to diminishing returns';
+  });
+
+  // Point meanings
+  const pointColors = { I: '#2f80c9', E: '#EB811B', U: '#c9504d' };
+  const pointFeedback = document.getElementById('pointFeedback');
+  Array.from(document.querySelectorAll('.point-reveal')).forEach(function(button){
+    button.addEventListener('click', function(){
+      const selection = getTeachingProfile();
+      if (!selection) {
+        setFeedback(pointFeedback, 'Complete a positive-hour volunteer profile—or use Simulate—before revealing the points.', 'error');
+        return;
+      }
+      ['I','E','U'].forEach(function(name){ document.getElementById('point' + name).setAttribute('fill', '#fff'); });
+      const point = button.dataset.point;
+      const profile = selection.profile;
+      const messages = {
+        I: 'Point I is feasible for ' + profile.nickname + ', but it leaves some of the chosen shift unused or wastes some output.',
+        E: 'Point E is feasible and productively efficient: ' + profile.nickname + ' uses the full shift at the fixed task speeds.',
+        U: 'Point U is unattainable during ' + profile.nickname + '’s ' + profile.hours + '-hour shift at the current task speeds.'
+      };
+      document.getElementById('point' + point).setAttribute('fill', pointColors[point]);
+      setFeedback(pointFeedback, messages[point], 'success');
+    });
+  });
+
+  // Movements along the frontier
+  const movementButtons = Array.from(document.querySelectorAll('.movement-button'));
+  movementButtons.forEach(function(button){ button.addEventListener('click', function(){ renderLinearMovement(Number(button.dataset.segment)); }); });
+  document.getElementById('movementReset').addEventListener('click', function(){ renderLinearMovement(0); });
+
+  // Constant opportunity-cost prediction
+  const patternButtons = Array.from(document.querySelectorAll('.pattern-answer'));
+  const patternFeedback = document.getElementById('patternFeedback');
+  patternButtons.forEach(function(button){
+    button.addEventListener('click', function(){
+      const selection = getTeachingProfile();
+      if (!selection) {
+        setFeedback(patternFeedback, 'Complete a positive-hour volunteer profile—or use Simulate—before answering.', 'error');
+        return;
+      }
+      patternButtons.forEach(function(answer){ answer.disabled = true; answer.style.opacity = '1'; });
+      const correct = button.dataset.answer === 'constant';
+      const correctButton = patternButtons.find(function(answer){ return answer.dataset.answer === 'constant'; });
+      correctButton.style.background = '#378a61';
+      const opportunityCost = selection.profile.dishMinutes / selection.profile.wrapMinutes;
+      if (correct) {
+        setFeedback(patternFeedback, 'Correct. Every additional dish rack costs ' + formatNumber(opportunityCost) + ' Chicken Wraps because the two task speeds stay fixed.', 'success');
+      } else {
+        button.style.background = '#c9504d';
+        setFeedback(patternFeedback, 'Not quite. Each row has the same wraps-per-rack value, so opportunity cost is constant.', 'error');
+      }
+    });
+  });
+
+  // Cumulative practice
+  const quizQuestions = [
+    {
+      title: 'Personal scarcity',
+      prompt: 'Why can the volunteer not produce unlimited dish racks and Chicken Wraps?',
+      options: ['The dining hall limits both outputs.', 'Work time is limited and has competing uses.', 'Every inside point is impossible.', 'The hourly wage is too low.'],
+      correct: 1,
+      explanation: 'A minute assigned to one task cannot also be assigned to the other task.'
+    },
+    {
+      title: 'The frontier',
+      prompt: 'What stays fixed along this volunteer’s PPF?',
+      options: ['The preferred output mix', 'The hourly wage only', 'Chosen work time and task speeds', 'The number of points on the graph'],
+      correct: 2,
+      explanation: 'The graph reallocates one fixed shift between two tasks performed at fixed speeds.'
+    },
+    {
+      title: 'Inside the PPF',
+      prompt: 'Which description best fits a point inside the PPF?',
+      options: ['Currently impossible', 'Feasible but productively inefficient', 'Efficient and socially preferred', 'Possible only through trade'],
+      correct: 1,
+      explanation: 'An inside point is attainable, but it does not fully use the volunteer’s chosen work time at the fixed task speeds.'
+    },
+    {
+      title: 'A linear PPF',
+      prompt: 'With fixed task speeds, what happens to opportunity cost along this straight PPF?',
+      options: ['It stays constant.', 'It always rises.', 'It always falls.', 'It becomes zero at the midpoint.'],
+      correct: 0,
+      explanation: 'Fixed task speeds create the same output trade-off at every point on the straight frontier.'
+    }
+  ];
+  const quizButtons = Array.from(document.querySelectorAll('.quiz-answer'));
+  const quizProgress = document.getElementById('quizProgress');
+  const quizTitle = document.getElementById('quizTitle');
+  const quizPrompt = document.getElementById('quizPrompt');
+  const quizScore = document.getElementById('quizScore');
+  const quizNext = document.getElementById('quizNext');
+  const quizFeedback = document.getElementById('quizFeedback');
+  let quizIndex = 0;
+  let quizPoints = 0;
+  let quizAnswered = false;
+
+  function renderQuiz(){
+    quizButtons.forEach(clearAnswerButton);
+    quizAnswered = false;
+    quizNext.disabled = true;
+    quizScore.textContent = 'Score: ' + quizPoints;
+    if (quizIndex >= quizQuestions.length) {
+      quizProgress.textContent = 'Complete';
+      quizTitle.textContent = 'Practice complete';
+      quizPrompt.textContent = 'You answered ' + quizPoints + ' of ' + quizQuestions.length + ' correctly.';
+      quizButtons.forEach(function(button){ button.textContent = '—'; button.disabled = true; });
+      setFeedback(quizFeedback, quizPoints === quizQuestions.length ? 'Perfect: you connected scarce time, the graph, and constant opportunity cost.' : 'Restart and use the chain scarcity → time allocation → linear PPF → constant opportunity cost.', 'success');
+      return;
+    }
+    const question = quizQuestions[quizIndex];
+    quizProgress.textContent = 'Question ' + (quizIndex + 1) + ' of ' + quizQuestions.length;
+    quizTitle.textContent = question.title;
+    quizPrompt.textContent = question.prompt;
+    quizButtons.forEach(function(button, optionIndex){ button.textContent = question.options[optionIndex]; });
+    quizNext.textContent = quizIndex === quizQuestions.length - 1 ? 'See result' : 'Next question';
+    setFeedback(quizFeedback, 'Identify the economic constraint first.', '');
+  }
+
+  quizButtons.forEach(function(button, optionIndex){
+    button.addEventListener('click', function(){
+      if (quizAnswered || quizIndex >= quizQuestions.length) return;
+      quizAnswered = true;
+      const question = quizQuestions[quizIndex];
+      quizButtons.forEach(function(answer){ answer.disabled = true; });
+      quizButtons[question.correct].classList.add('correct');
+      if (optionIndex === question.correct) {
+        quizPoints += 1;
+        quizScore.textContent = 'Score: ' + quizPoints;
+        setFeedback(quizFeedback, 'Correct. ' + question.explanation, 'success');
+      } else {
+        button.classList.add('wrong');
+        setFeedback(quizFeedback, 'Not quite. ' + question.explanation, 'error');
+      }
+      quizNext.disabled = false;
+    });
+  });
+  quizNext.addEventListener('click', function(){ if (quizAnswered) { quizIndex += 1; renderQuiz(); } });
+  document.getElementById('quizReset').addEventListener('click', function(){ quizIndex = 0; quizPoints = 0; renderQuiz(); });
+  renderQuiz();
+
+  // PPF-change classification practice
+  const shiftQuizQuestions = [
+    {
+      title: 'Reallocate time',
+      prompt: 'The volunteer moves 30 minutes from making wraps to washing dishes. Total work time and task speeds stay fixed.',
+      correct: 'movement',
+      explanation: 'Only the output mix changes, so this is a movement along the same PPF.'
+    },
+    {
+      title: 'More available work time',
+      prompt: 'The volunteer has more work time, while minutes per rack and minutes per wrap remain unchanged.',
+      correct: 'outward',
+      explanation: 'Both maximum outputs rise proportionally, so the PPF shifts outward without changing slope.'
+    },
+    {
+      title: 'A shorter shift',
+      prompt: 'The shift is cut short, while both task speeds remain unchanged.',
+      correct: 'inward',
+      explanation: 'Both maximum outputs fall proportionally, so the PPF shifts inward without changing slope.'
+    },
+    {
+      title: 'A better wrap station',
+      prompt: 'New equipment reduces minutes per Chicken Wrap, but work time and dishwashing productivity stay fixed.',
+      correct: 'pivot',
+      explanation: 'Only the wrap intercept changes. The PPF rotates and its slope changes.'
+    },
+    {
+      title: 'A higher wage',
+      prompt: 'The hourly wage rises, but this production problem still holds total work time and both task speeds fixed.',
+      correct: 'none',
+      explanation: 'The wage may affect willingness to work, but it does not change the stated production possibilities when time and productivity are fixed.'
+    }
+  ];
+  const shiftQuizOptionLabels = {
+    movement: 'Movement along',
+    outward: 'Parallel outward shift',
+    inward: 'Parallel inward shift',
+    pivot: 'Rotation / slope change',
+    none: 'No change to the production PPF'
+  };
+  const shiftQuizButtons = Array.from(document.querySelectorAll('.shift-quiz-answer'));
+  const shiftQuizProgress = document.getElementById('shiftQuizProgress');
+  const shiftQuizTitle = document.getElementById('shiftQuizTitle');
+  const shiftQuizPrompt = document.getElementById('shiftQuizPrompt');
+  const shiftQuizScore = document.getElementById('shiftQuizScore');
+  const shiftQuizNext = document.getElementById('shiftQuizNext');
+  const shiftQuizFeedback = document.getElementById('shiftQuizFeedback');
+  let shiftQuizIndex = 0;
+  let shiftQuizPoints = 0;
+  let shiftQuizAnswered = false;
+
+  function renderShiftQuiz(){
+    shiftQuizButtons.forEach(function(button){
+      clearAnswerButton(button);
+      button.textContent = shiftQuizOptionLabels[button.dataset.shiftAnswer];
+    });
+    shiftQuizAnswered = false;
+    shiftQuizNext.disabled = true;
+    shiftQuizScore.textContent = 'Score: ' + shiftQuizPoints;
+    if (shiftQuizIndex >= shiftQuizQuestions.length) {
+      shiftQuizProgress.textContent = 'Complete';
+      shiftQuizTitle.textContent = 'Classification complete';
+      shiftQuizPrompt.textContent = 'You answered ' + shiftQuizPoints + ' of ' + shiftQuizQuestions.length + ' scenarios correctly.';
+      shiftQuizButtons.forEach(function(button){ button.disabled = true; });
+      setFeedback(shiftQuizFeedback, shiftQuizPoints === shiftQuizQuestions.length
+        ? 'Perfect: separate a changed choice from a changed productive constraint.'
+        : 'Restart and ask two questions: did total resources change, and did relative productivity change?', 'success');
+      return;
+    }
+    const question = shiftQuizQuestions[shiftQuizIndex];
+    shiftQuizProgress.textContent = 'Scenario ' + (shiftQuizIndex + 1) + ' of ' + shiftQuizQuestions.length;
+    shiftQuizTitle.textContent = question.title;
+    shiftQuizPrompt.textContent = question.prompt;
+    shiftQuizNext.textContent = shiftQuizIndex === shiftQuizQuestions.length - 1 ? 'See result' : 'Next scenario';
+    setFeedback(shiftQuizFeedback, 'First ask: did resources or productivity change?', '');
+  }
+
+  shiftQuizButtons.forEach(function(button){
+    button.addEventListener('click', function(){
+      if (shiftQuizAnswered || shiftQuizIndex >= shiftQuizQuestions.length) return;
+      shiftQuizAnswered = true;
+      const question = shiftQuizQuestions[shiftQuizIndex];
+      const correctButton = shiftQuizButtons.find(function(answer){ return answer.dataset.shiftAnswer === question.correct; });
+      shiftQuizButtons.forEach(function(answer){ answer.disabled = true; });
+      correctButton.classList.add('correct');
+      if (button.dataset.shiftAnswer === question.correct) {
+        shiftQuizPoints += 1;
+        shiftQuizScore.textContent = 'Score: ' + shiftQuizPoints;
+        setFeedback(shiftQuizFeedback, 'Correct. ' + question.explanation, 'success');
+      } else {
+        button.classList.add('wrong');
+        setFeedback(shiftQuizFeedback, 'Not quite. ' + question.explanation, 'error');
+      }
+      shiftQuizNext.disabled = false;
+    });
+  });
+  shiftQuizNext.addEventListener('click', function(){
+    if (!shiftQuizAnswered) return;
+    shiftQuizIndex += 1;
+    renderShiftQuiz();
+  });
+  document.getElementById('shiftQuizReset').addEventListener('click', function(){
+    shiftQuizIndex = 0;
+    shiftQuizPoints = 0;
+    renderShiftQuiz();
+  });
+  renderShiftQuiz();
+
+  // Exit ticket
+  document.querySelector('.exit-reveal').addEventListener('click', function(){
+    const answer = document.getElementById(this.dataset.target);
+    const visible = answer.classList.toggle('visible');
+    this.textContent = visible ? 'Hide model answer' : 'Reveal a model answer';
+  });
+
+  document.addEventListener('keydown', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea')) return;
+    if (['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(event.key)) {
+      event.preventDefault();
+      show(idx + 1);
+    } else if (['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(event.key)) {
+      event.preventDefault();
+      show(idx - 1);
+    } else if (event.key.toLowerCase() === 'p') {
+      window.print();
+    } else if (event.key === 'Home') {
+      show(0);
+    } else if (event.key === 'End') {
+      show(slides.length - 1);
+    }
+  });
+
+  document.addEventListener('click', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea, .game-feedback, .ppf-panel, .point-panel, .quiz-scenario, .exit-card')) return;
+    if (event.clientX > window.innerWidth / 2) show(idx + 1);
+    else show(idx - 1);
+  });
+
+  window.addEventListener('resize', fit);
+  const hash = parseInt(location.hash.replace('#',''), 10);
+  if (Number.isFinite(hash)) idx = Math.max(0, Math.min(slides.length - 1, hash - 1));
+  fit();
+  show(idx);
+})();
+</script>
+</body>
+</html>
