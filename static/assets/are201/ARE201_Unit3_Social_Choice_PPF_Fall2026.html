@@ -628,6 +628,23 @@
   .linear-calculation-row .calculation-card { min-height: 190px; padding: 18px; }
   .linear-calculation-row .calculation-result { margin-top: 13px; font-size: 24px; }
   .linear-pattern-table { margin-top: 8px; }
+  .oc-comparison-grid { display: grid; grid-template-columns: 1fr 54px 1fr; gap: 13px; align-items: stretch; }
+  .oc-direction-card { min-height: 280px; padding: 17px 18px; border: 1px solid var(--line); border-top: 5px solid var(--accent); border-radius: 0 0 8px 8px; background: var(--accent-soft); }
+  .oc-direction-card.wrap-direction { border-top-color: var(--blue); background: var(--blue-soft); }
+  .oc-direction-label { color: var(--muted); font-size: 12px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .oc-direction-card h2 { margin: 7px 0 8px; font-size: 24px; }
+  .oc-direction-card p { min-height: 55px; margin-bottom: 11px; color: var(--muted); font-size: 15px; line-height: 1.32; }
+  .oc-direction-card button { width: 100%; }
+  .oc-direction-card.wrap-direction button { background: var(--blue); }
+  .oc-reveal { min-height: 83px; margin-top: 11px; padding: 10px 12px; border: 1px dashed var(--line); border-radius: 6px; visibility: hidden; opacity: 0; background: #fff; transition: opacity .18s ease; }
+  .oc-reveal.visible { visibility: visible; opacity: 1; }
+  .oc-equation { font-family: Georgia, "Times New Roman", serif; font-size: 18px; line-height: 1.3; }
+  .oc-result { margin-top: 6px; color: var(--accent); font-size: 21px; font-weight: 850; }
+  .wrap-direction .oc-result { color: var(--blue); }
+  .oc-reverse-marker { display: flex; align-items: center; justify-content: center; flex-direction: column; color: var(--muted); text-align: center; }
+  .oc-reverse-marker strong { color: var(--accent); font-size: 34px; line-height: 1; }
+  .oc-reverse-marker span { margin-top: 7px; font-size: 10px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+  .oc-reciprocal-summary { min-height: 66px; margin-top: 13px; padding: 11px 15px; font-size: 16px; }
 
   .quiz-layout { display: grid; grid-template-columns: .82fr 1.18fr; gap: 24px; align-items: start; }
   .quiz-scenario { min-height: 390px; padding: 23px; border-top: 5px solid var(--accent); background: var(--soft); }
@@ -727,6 +744,174 @@
     font-weight: 750;
     line-height: 1.35;
   }
+  .advantage-table {
+    width: 100%;
+    margin: 0 0 13px;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .advantage-table th, .advantage-table td { padding: 9px 13px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: center; font-size: 15px; }
+  .advantage-table th:last-child, .advantage-table td:last-child { border-right: 0; }
+  .advantage-table tr:last-child td { border-bottom: 0; }
+  .advantage-table th { color: #fff; background: var(--ink); font-size: 13px; }
+  .advantage-table td:first-child { font-weight: 850; text-align: left; }
+  .advantage-question-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .advantage-card { min-height: 183px; padding: 15px 17px; border-top: 5px solid var(--accent); background: var(--accent-soft); }
+  .advantage-card.blue-card { border-top-color: var(--blue); background: var(--blue-soft); }
+  .advantage-task-label { color: var(--muted); font-size: 11px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .advantage-card h2 { margin: 5px 0 6px; font-size: 23px; }
+  .advantage-card p { margin: 0 0 9px; color: var(--muted); font-size: 14px; line-height: 1.3; }
+  .advantage-card button { width: 100%; min-height: 38px; padding: 7px 12px; }
+  .advantage-card.blue-card button { background: var(--blue); }
+  .advantage-reveal { min-height: 47px; margin-top: 9px; padding: 8px 10px; border-left: 4px solid var(--green); visibility: hidden; opacity: 0; background: #fff; transition: opacity .18s ease; }
+  .advantage-reveal.visible { visibility: visible; opacity: 1; }
+  .advantage-reveal strong { display: block; color: var(--green); font-size: 16px; }
+  .advantage-reveal span { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; line-height: 1.25; }
+  .advantage-definition { min-height: 58px; margin-top: 12px; padding: 10px 15px; font-size: 16px; }
+  .comparative-concept-definition { min-height: 58px; margin: -7px 0 13px; padding: 10px 15px; font-size: 16px; }
+  .comparative-explainer-grid { display: grid; grid-template-columns: .88fr 1.12fr; gap: 17px; }
+  .concept-example-panel { min-height: 290px; padding: 15px 17px; border-top: 5px solid var(--accent); background: var(--accent-soft); }
+  .concept-example-panel.blue-panel { border-top-color: var(--blue); background: var(--blue-soft); }
+  .concept-example-panel h2 { margin: 5px 0 9px; font-size: 23px; }
+  .concept-example-panel .advantage-table { margin-bottom: 10px; background: #fff; }
+  .concept-example-panel .advantage-table th, .concept-example-panel .advantage-table td { padding: 7px 9px; font-size: 12px; }
+  .concept-example-panel button { width: 100%; min-height: 38px; padding: 7px 9px; font-size: 13px; }
+  .concept-example-panel.blue-panel button { background: var(--blue); }
+  .concept-example-panel .advantage-reveal { min-height: 46px; margin-top: 8px; padding: 7px 9px; }
+  .concept-ca-actions, .concept-ca-results { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .concept-ca-results .advantage-reveal strong { font-size: 14px; }
+  .concept-ca-results .advantage-reveal span { font-size: 11px; }
+  .comparative-concept-summary { min-height: 58px; margin-top: 12px; padding: 10px 15px; font-size: 16px; }
+
+  .exchange-thesis {
+    min-height: 62px;
+    margin: -7px 0 15px;
+    padding: 12px 17px;
+    border-left: 5px solid var(--green);
+    background: var(--green-soft);
+    font-size: 19px;
+    line-height: 1.35;
+  }
+  #specializationExchangeConceptSlide h1 { font-size: 35px; }
+  .exchange-concept-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  .exchange-concept-card {
+    min-height: 237px;
+    padding: 17px;
+    border-top: 5px solid var(--accent);
+    background: var(--accent-soft);
+  }
+  .exchange-concept-card.blue-card { border-top-color: var(--blue); background: var(--blue-soft); }
+  .exchange-concept-card.green-card { border-top-color: var(--green); background: var(--green-soft); }
+  .exchange-step-number { color: var(--muted); font-size: 11px; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
+  .exchange-concept-card h2 { margin: 7px 0 8px; font-size: 23px; }
+  .exchange-concept-card p { min-height: 55px; margin-bottom: 11px; color: var(--muted); font-size: 14px; line-height: 1.32; }
+  .exchange-concept-card button { width: 100%; min-height: 38px; padding: 7px 10px; font-size: 13px; }
+  .exchange-concept-card.blue-card button { background: var(--blue); }
+  .exchange-concept-card.green-card button { background: var(--green); }
+  .exchange-concept-answer {
+    min-height: 58px;
+    margin-top: 9px;
+    padding: 8px 9px;
+    border-left: 4px solid var(--green);
+    visibility: hidden;
+    opacity: 0;
+    background: #fff;
+    font-size: 13px;
+    line-height: 1.28;
+    transition: opacity .18s ease;
+  }
+  .exchange-concept-answer.visible { visibility: visible; opacity: 1; }
+  .exchange-flow-strip {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+    gap: 8px;
+    align-items: center;
+    min-height: 52px;
+    margin-top: 14px;
+    padding: 9px 13px;
+    background: var(--soft);
+    text-align: center;
+  }
+  .exchange-flow-step { font-size: 13px; font-weight: 850; }
+  .exchange-flow-arrow { color: var(--green); font-size: 20px; font-weight: 900; }
+
+  .allocation-rule-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin: -7px 0 11px; }
+  .allocation-rule-card { padding: 9px 13px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .allocation-rule-card.blue-rule { border-left-color: var(--blue); background: var(--blue-soft); }
+  .allocation-rule-card span { display: block; color: var(--muted); font-size: 11px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
+  .allocation-rule-card strong { display: block; margin-top: 3px; font-size: 15px; line-height: 1.3; }
+  .allocation-mode-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-bottom: 11px; }
+  .interactive .allocation-mode-button { min-height: 43px; padding: 7px 8px; font-size: 13px; line-height: 1.2; }
+  .interactive .allocation-mode-button.selected { background: var(--green); box-shadow: inset 0 0 0 2px rgba(255,255,255,.62); }
+  .allocation-results-grid { display: grid; grid-template-columns: .88fr 1.12fr; gap: 15px; }
+  .allocation-worker-list { display: grid; gap: 9px; }
+  .allocation-worker-result { min-height: 105px; padding: 13px 15px; border-top: 4px solid var(--accent); background: var(--soft); }
+  .allocation-worker-result.blue-worker { border-top-color: var(--blue); }
+  .allocation-worker-header { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+  .allocation-worker-header strong { font-size: 19px; }
+  .allocation-worker-header span { color: var(--muted); font-size: 11px; font-weight: 850; text-transform: uppercase; }
+  .allocation-worker-result h3 { margin: 6px 0 3px; font-size: 17px; }
+  .allocation-worker-result p { margin: 0; color: var(--muted); font-size: 12px; }
+  .allocation-total-panel { min-height: 219px; padding: 14px 16px; border-top: 5px solid var(--green); background: var(--green-soft); }
+  .allocation-total-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 9px; }
+  .allocation-total-header h2 { margin: 0; font-size: 22px; }
+  .allocation-total-header span { color: var(--muted); font-size: 11px; font-weight: 850; text-transform: uppercase; }
+  .allocation-total-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .allocation-total-stat { padding: 9px 10px; background: #fff; text-align: center; }
+  .allocation-total-stat span { display: block; color: var(--muted); font-size: 10px; font-weight: 850; text-transform: uppercase; }
+  .allocation-total-stat strong { display: block; margin-top: 2px; color: var(--green); font-size: 25px; }
+  .allocation-bar-row { display: grid; grid-template-columns: 72px 1fr 34px; gap: 7px; align-items: center; margin-top: 9px; }
+  .allocation-bar-row span, .allocation-bar-row strong { font-size: 11px; }
+  .allocation-bar-track { height: 10px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.85); }
+  .allocation-bar-fill { height: 100%; border-radius: inherit; background: var(--accent); transition: width .2s ease; }
+  .allocation-bar-fill.wrap-fill { background: var(--blue); }
+  .allocation-feedback { min-height: 55px; margin-top: 10px; padding: 9px 12px; font-size: 13px; }
+
+  #exchangeConsumptionSlide h1 { margin-bottom: 13px; }
+  .exchange-rate-strip {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: center;
+    min-height: 39px;
+    margin: -4px 0 10px;
+    padding: 7px 12px;
+    border-left: 5px solid var(--green);
+    background: var(--green-soft);
+    font-size: 13px;
+    line-height: 1.28;
+  }
+  .exchange-rate-equation { color: var(--green); font-family: Georgia, "Times New Roman", serif; font-size: 18px; font-weight: 800; white-space: nowrap; }
+  .exchange-chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .exchange-chart-panel { min-height: 274px; padding: 9px 10px 5px; border: 1px solid var(--line); background: #fff; }
+  .exchange-chart-header { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+  .exchange-chart-header h2 { margin: 0; font-size: 19px; }
+  .exchange-chart-header span { color: var(--muted); font-size: 10px; font-weight: 800; }
+  .exchange-svg { display: block; width: 100%; height: 235px; }
+  .exchange-ppf-line { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; }
+  .exchange-consumption-line { fill: none; stroke: var(--green); stroke-width: 4; stroke-linecap: round; }
+  .exchange-projection { stroke: #a8b0b8; stroke-width: 1.5; stroke-dasharray: 5 4; }
+  .exchange-baseline-point { fill: var(--blue); stroke: #fff; stroke-width: 2.5; }
+  .exchange-production-point { fill: var(--accent); stroke: #fff; stroke-width: 2.5; }
+  .exchange-consumption-point { fill: var(--green); stroke: #fff; stroke-width: 3; }
+  .exchange-chart-label { fill: var(--ink); font-size: 10px; font-weight: 900; paint-order: stroke; stroke: #fff; stroke-width: 3px; stroke-linejoin: round; }
+  .exchange-line-label { fill: var(--green); font-size: 9px; font-weight: 900; paint-order: stroke; stroke: #fff; stroke-width: 3px; stroke-linejoin: round; }
+  .exchange-axis-value { fill: var(--green); font-size: 10px; font-weight: 900; paint-order: stroke; stroke: #fff; stroke-width: 3px; }
+  .exchange-control-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 14px; margin-top: 9px; }
+  .exchange-slider-panel { min-height: 90px; padding: 10px 13px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .exchange-slider-panel label { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 5px; font-size: 12px; font-weight: 850; }
+  .exchange-slider-panel p { margin: 5px 0 0; color: var(--muted); font-size: 10px; line-height: 1.25; }
+  .exchange-readout { min-height: 90px; padding: 9px 11px; border-left: 5px solid var(--green); background: var(--green-soft); }
+  .exchange-bundle-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+  .exchange-bundle-stat { padding: 6px 7px; background: #fff; text-align: center; }
+  .exchange-bundle-stat span { display: block; color: var(--muted); font-size: 8px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
+  .exchange-bundle-stat strong { display: block; margin-top: 2px; color: var(--green); font-size: 14px; }
+  .exchange-gain-message { margin-top: 6px; font-size: 10px; font-weight: 750; line-height: 1.28; }
+  .exchange-clarifier { min-height: 43px; margin-top: 9px; padding: 8px 12px; border-left: 5px solid var(--blue); background: var(--blue-soft); font-size: 13px; line-height: 1.28; }
+
   .social-worker-grid { display: grid; grid-template-columns: 1fr 44px 1fr; gap: 10px; align-items: center; }
   .social-worker-card {
     min-height: 183px;
@@ -792,6 +977,16 @@
     stroke-width: 3px;
     stroke-linejoin: round;
   }
+  .social-kink-note {
+    fill: var(--green);
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: .02em;
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 3px;
+    stroke-linejoin: round;
+  }
 
   .social-shape-path { fill: none; stroke: var(--green); stroke-width: 6; stroke-linecap: round; }
   .social-shape-chord { fill: none; stroke: #d8dde3; stroke-width: 2; stroke-dasharray: 7 6; }
@@ -808,6 +1003,73 @@
   #socialShapeSlide .shift-choice-grid { margin-top: 5px !important; }
   #socialShapeSlide .shape-stat-grid { margin: 7px 0; }
   #socialShapeSlide .social-shape-reveal { margin-top: 6px; padding: 8px 10px; font-size: 12px; line-height: 1.28; }
+
+  .dmr-formula { margin-bottom: 16px; padding: 13px 18px; font-size: 24px; }
+  .dmr-concept-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  .dmr-concept-card { min-height: 235px; padding: 18px 17px; border-top: 5px solid var(--accent); background: var(--accent-soft); }
+  .dmr-concept-card.blue-card { border-top-color: var(--blue); background: var(--blue-soft); }
+  .dmr-concept-card.green-card { border-top-color: var(--green); background: var(--green-soft); }
+  .dmr-concept-number { color: var(--muted); font-size: 12px; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
+  .dmr-concept-card h2 { margin: 7px 0 10px; font-size: 23px; }
+  .dmr-concept-card p { min-height: 57px; margin-bottom: 12px; color: var(--muted); font-size: 15px; line-height: 1.3; }
+  .dmr-concept-card button { width: 100%; }
+  .dmr-concept-card.blue-card button { background: var(--blue); }
+  .dmr-concept-card.green-card button { background: var(--green); }
+  .dmr-concept-answer { min-height: 61px; margin-top: 11px; padding: 10px 11px; border-left: 4px solid var(--green); visibility: hidden; opacity: 0; background: #fff; font-size: 14px; line-height: 1.3; transition: opacity .18s ease; }
+  .dmr-concept-answer.visible { visibility: visible; opacity: 1; }
+  .dmr-definition-strip { min-height: 66px; margin-top: 14px; padding: 11px 16px; font-size: 17px; }
+
+  .dmr-example-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: -8px 0 14px; }
+  .dmr-input-chip { padding: 9px 12px; border-left: 4px solid var(--blue); background: var(--blue-soft); font-size: 14px; font-weight: 800; }
+  .dmr-input-chip.variable { border-left-color: var(--accent); background: var(--accent-soft); }
+  .dmr-example-layout { display: grid; grid-template-columns: .88fr 1.12fr; gap: 20px; align-items: stretch; }
+  .dmr-station-panel { min-height: 325px; padding: 18px; border-top: 5px solid var(--accent); background: var(--accent-soft); }
+  .dmr-station-box { display: flex; min-height: 72px; align-items: center; justify-content: center; border: 2px solid var(--accent); border-radius: 8px; background: #fff; color: var(--accent); font-size: 18px; font-weight: 900; letter-spacing: .05em; text-align: center; }
+  .dmr-worker-row { display: flex; justify-content: center; gap: 8px; margin: 15px 0; }
+  .dmr-worker-icon { display: flex; width: 42px; height: 42px; align-items: center; justify-content: center; border: 2px solid var(--line); border-radius: 50%; color: var(--muted); background: #fff; font-size: 14px; font-weight: 900; }
+  .dmr-worker-icon.active { border-color: var(--accent); color: #fff; background: var(--accent); }
+  .dmr-example-slider-label { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 13px; font-weight: 850; }
+  .dmr-example-range, .dmr-linked-range { width: 100%; accent-color: var(--accent); }
+  .dmr-example-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 13px; }
+  .dmr-example-stat { padding: 11px 9px; background: #fff; text-align: center; }
+  .dmr-example-stat span { display: block; color: var(--muted); font-size: 10px; font-weight: 850; letter-spacing: .05em; text-transform: uppercase; }
+  .dmr-example-stat strong { display: block; margin-top: 4px; color: var(--accent); font-size: 24px; }
+  .dmr-example-table { width: 100%; border-collapse: separate; border-spacing: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .dmr-example-table th, .dmr-example-table td { padding: 10px 12px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: center; font-size: 14px; }
+  .dmr-example-table th:last-child, .dmr-example-table td:last-child { border-right: 0; }
+  .dmr-example-table tr:last-child td { border-bottom: 0; }
+  .dmr-example-table th { color: #fff; background: var(--ink); font-size: 12px; }
+  .dmr-example-table tbody tr { transition: background .15s ease; }
+  .dmr-example-table tbody tr.selected { background: var(--green-soft); }
+  .dmr-example-table tbody tr.selected td { color: var(--green); font-weight: 900; }
+  .dmr-example-feedback { min-height: 62px; margin-top: 13px; padding: 10px 14px; font-size: 15px; }
+
+  .dmr-link-summary { min-height: 34px; margin: -9px 0 11px; padding: 7px 11px; border-left: 4px solid var(--green); color: #345d4a; background: var(--green-soft); font-size: 13px; font-weight: 750; }
+  .dmr-linked-chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .dmr-linked-chart-panel { min-height: 303px; padding: 11px 12px 5px; border: 1px solid var(--line); background: #fff; }
+  .dmr-linked-chart-panel h2 { margin: 0 0 2px; font-size: 20px; }
+  .dmr-linked-chart-panel p { margin: 0; color: var(--muted); font-size: 11px; }
+  .dmr-linked-svg { display: block; width: 100%; height: 245px; }
+  .dmr-grid-line { stroke: #e7eaee; stroke-width: 1; }
+  .dmr-ppf-path { fill: none; stroke: var(--green); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+  .dmr-selected-segment { stroke: var(--accent); stroke-width: 8; stroke-linecap: round; }
+  .dmr-ppf-point { fill: #fff; stroke: var(--green); stroke-width: 2; }
+  .dmr-ppf-point.selected { fill: var(--accent); stroke: #fff; stroke-width: 3; }
+  .dmr-previous-point { fill: var(--blue); stroke: #fff; stroke-width: 3; }
+  .dmr-oc-path { fill: none; stroke: var(--blue); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+  .dmr-oc-point { fill: #fff; stroke: var(--blue); stroke-width: 2; }
+  .dmr-oc-point.selected { fill: var(--accent); stroke: #fff; stroke-width: 3; }
+  .dmr-linked-label { fill: var(--ink); font-size: 10px; font-weight: 850; paint-order: stroke; stroke: #fff; stroke-width: 3px; stroke-linejoin: round; }
+  .dmr-linked-control-grid { display: grid; grid-template-columns: .86fr 1.14fr; gap: 16px; margin-top: 10px; }
+  .dmr-slider-panel { min-height: 91px; padding: 11px 14px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .dmr-slider-panel label { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 13px; font-weight: 850; }
+  .dmr-slider-panel p { margin: 5px 0 0; color: var(--muted); font-size: 11px; }
+  .dmr-linked-readout { min-height: 91px; padding: 9px 11px; border-left: 5px solid var(--green); background: var(--green-soft); }
+  .dmr-linked-stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .dmr-linked-stat { padding: 6px 7px; background: #fff; text-align: center; }
+  .dmr-linked-stat span { display: block; color: var(--muted); font-size: 8px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
+  .dmr-linked-stat strong { display: block; margin-top: 2px; color: var(--green); font-size: 15px; }
+  .dmr-linked-explanation { margin-top: 6px; font-size: 11px; line-height: 1.28; }
 
   .interactive button {
     min-height: 42px;
@@ -1219,6 +1481,36 @@
     <div class="definition-strip" style="margin-top:13px;"><strong>Linear PPF:</strong> fixed task speeds create a constant trade-off between dish racks and Chicken Wraps.</div>
   </section>
 
+  <section class="slide interactive" id="reciprocalOCSlide">
+    <div class="section-kicker">Reverse the direction</div>
+    <h1>Read the same trade-off in both directions</h1>
+    <div class="linear-profile-summary">Complete or simulate the volunteer lab to load one profile.</div>
+    <div class="oc-comparison-grid">
+      <div class="oc-direction-card">
+        <div class="oc-direction-label">Move toward more dish racks</div>
+        <h2>OC of 1 Dish Rack</h2>
+        <p id="ocDishPrompt">How many Chicken Wraps could be produced during the time needed for one dish rack?</p>
+        <button type="button" id="revealDishOC" aria-expanded="false">Reveal the calculation</button>
+        <div class="oc-reveal" id="dishOCReveal" aria-hidden="true">
+          <div class="oc-equation"><span id="ocDishMinutes">—</span> min/rack ÷ <span id="ocDishWrapMinutes">—</span> min/wrap</div>
+          <div class="oc-result">= <span id="ocDishValue">—</span> Chicken Wraps</div>
+        </div>
+      </div>
+      <div class="oc-reverse-marker" aria-hidden="true"><strong>⇄</strong><span>Reverse<br>the ratio</span></div>
+      <div class="oc-direction-card wrap-direction">
+        <div class="oc-direction-label">Move toward more Chicken Wraps</div>
+        <h2>OC of 1 Chicken Wrap</h2>
+        <p id="ocWrapPrompt">How many dish racks could be produced during the time needed for one Chicken Wrap?</p>
+        <button type="button" id="revealWrapOC" aria-expanded="false">Reveal the calculation</button>
+        <div class="oc-reveal" id="wrapOCReveal" aria-hidden="true">
+          <div class="oc-equation"><span id="ocWrapMinutes">—</span> min/wrap ÷ <span id="ocWrapDishMinutes">—</span> min/rack</div>
+          <div class="oc-result">= <span id="ocWrapValue">—</span> dish racks</div>
+        </div>
+      </div>
+    </div>
+    <div class="definition-strip blue-strip oc-reciprocal-summary" id="ocReciprocalSummary">Reveal each direction separately, then compare the two ratios.</div>
+  </section>
+
   <section class="slide interactive">
     <div class="section-kicker">Practice</div>
     <h1>Check the full chain from scarce time to a linear PPF</h1>
@@ -1434,9 +1726,244 @@
     <div class="definition-strip blue-strip" style="margin-top:15px; font-size:17px;"><strong>Keep the concepts separate:</strong> preferences and wages may change the chosen point, but only resources or productivity change production possibilities.</div>
   </section>
 
+  <section class="slide interactive" id="absoluteAdvantageSlide">
+    <div class="section-kicker">Compare productivity</div>
+    <h1>Absolute advantage: who can produce more per hour?</h1>
+    <div class="social-profile-summary">Loading two production profiles.</div>
+    <table class="advantage-table">
+      <thead><tr><th>Worker</th><th>Dish racks per hour</th><th>Chicken Wraps per hour</th></tr></thead>
+      <tbody>
+        <tr><td id="absoluteName0">Worker 1</td><td id="absoluteDishRate0">—</td><td id="absoluteWrapRate0">—</td></tr>
+        <tr><td id="absoluteName1">Worker 2</td><td id="absoluteDishRate1">—</td><td id="absoluteWrapRate1">—</td></tr>
+      </tbody>
+    </table>
+    <div class="advantage-question-grid">
+      <div class="advantage-card">
+        <div class="advantage-task-label">Dish racks</div>
+        <h2>Who produces more?</h2>
+        <p>Compare racks per hour, holding work time fixed.</p>
+        <button type="button" id="revealAbsoluteDish" aria-expanded="false">Reveal absolute advantage</button>
+        <div class="advantage-reveal" id="absoluteDishReveal" aria-hidden="true"><strong id="absoluteDishWinner">—</strong><span id="absoluteDishReason">—</span></div>
+      </div>
+      <div class="advantage-card blue-card">
+        <div class="advantage-task-label">Chicken Wraps</div>
+        <h2>Who produces more?</h2>
+        <p>Compare wraps per hour, holding work time fixed.</p>
+        <button type="button" id="revealAbsoluteWrap" aria-expanded="false">Reveal absolute advantage</button>
+        <div class="advantage-reveal" id="absoluteWrapReveal" aria-hidden="true"><strong id="absoluteWrapWinner">—</strong><span id="absoluteWrapReason">—</span></div>
+      </div>
+    </div>
+    <div class="definition-strip advantage-definition"><strong>Absolute advantage:</strong> producing more output with the same amount of resources—in this example, one hour of work.</div>
+  </section>
+
+  <section class="slide interactive" id="comparativeAdvantageSlide">
+    <div class="section-kicker">Compare opportunity cost</div>
+    <h1>Comparative advantage: who gives up less?</h1>
+    <div class="social-profile-summary">Loading two production profiles.</div>
+    <table class="advantage-table">
+      <thead><tr><th>Worker</th><th>OC of 1 dish rack</th><th>OC of 1 Chicken Wrap</th></tr></thead>
+      <tbody>
+        <tr><td id="comparativeName0">Worker 1</td><td id="comparativeDishOC0">—</td><td id="comparativeWrapOC0">—</td></tr>
+        <tr><td id="comparativeName1">Worker 2</td><td id="comparativeDishOC1">—</td><td id="comparativeWrapOC1">—</td></tr>
+      </tbody>
+    </table>
+    <div class="advantage-question-grid">
+      <div class="advantage-card">
+        <div class="advantage-task-label">Dish racks</div>
+        <h2>Who has the lower OC?</h2>
+        <p>The worker who gives up fewer wraps has comparative advantage.</p>
+        <button type="button" id="revealComparativeDish" aria-expanded="false">Reveal comparative advantage</button>
+        <div class="advantage-reveal" id="comparativeDishReveal" aria-hidden="true"><strong id="comparativeDishWinner">—</strong><span id="comparativeDishReason">—</span></div>
+      </div>
+      <div class="advantage-card blue-card">
+        <div class="advantage-task-label">Chicken Wraps</div>
+        <h2>Who has the lower OC?</h2>
+        <p>The worker who gives up fewer racks has comparative advantage.</p>
+        <button type="button" id="revealComparativeWrap" aria-expanded="false">Reveal comparative advantage</button>
+        <div class="advantage-reveal" id="comparativeWrapReveal" aria-hidden="true"><strong id="comparativeWrapWinner">—</strong><span id="comparativeWrapReason">—</span></div>
+      </div>
+    </div>
+    <div class="definition-strip green-strip advantage-definition"><strong>Allocation rule:</strong> assign production by comparative advantage—the lower opportunity cost—not by absolute advantage alone.</div>
+  </section>
+
+  <section class="slide interactive" id="comparativeConceptSlide">
+    <div class="section-kicker">Why comparative advantage matters</div>
+    <h1>Comparative advantage is about relative cost</h1>
+    <div class="definition-strip blue-strip comparative-concept-definition"><strong>Comparative advantage:</strong> the ability to produce a good at a lower opportunity cost than another producer.</div>
+    <div class="comparative-explainer-grid">
+      <div class="concept-example-panel">
+        <div class="advantage-task-label">Output in one hour</div>
+        <h2>Worker A is faster at both</h2>
+        <table class="advantage-table">
+          <thead><tr><th>Worker</th><th>Racks</th><th>Wraps</th></tr></thead>
+          <tbody><tr><td>A</td><td>10</td><td>20</td></tr><tr><td>B</td><td>4</td><td>4</td></tr></tbody>
+        </table>
+        <button type="button" id="revealConceptAbsolute" aria-expanded="false">Reveal absolute advantage</button>
+        <div class="advantage-reveal" id="conceptAbsoluteReveal" aria-hidden="true"><strong>Worker A has absolute advantage in both</strong><span>A produces more of either output in one hour.</span></div>
+      </div>
+      <div class="concept-example-panel blue-panel">
+        <div class="advantage-task-label">What each output costs</div>
+        <h2>But compare opportunity costs</h2>
+        <table class="advantage-table">
+          <thead><tr><th>Worker</th><th>OC of 1 rack</th><th>OC of 1 wrap</th></tr></thead>
+          <tbody><tr><td>A</td><td>2 wraps</td><td>0.5 rack</td></tr><tr><td>B</td><td>1 wrap</td><td>1 rack</td></tr></tbody>
+        </table>
+        <div class="concept-ca-actions">
+          <button type="button" id="revealConceptCADish" aria-expanded="false">Dish-rack CA</button>
+          <button type="button" id="revealConceptCAWrap" aria-expanded="false">Wrap CA</button>
+        </div>
+        <div class="concept-ca-results">
+          <div class="advantage-reveal" id="conceptCADishReveal" aria-hidden="true"><strong>Worker B → racks</strong><span>1 wrap &lt; 2 wraps</span></div>
+          <div class="advantage-reveal" id="conceptCAWrapReveal" aria-hidden="true"><strong>Worker A → wraps</strong><span>0.5 rack &lt; 1 rack</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="definition-strip comparative-concept-summary" id="comparativeConceptSummary"><strong>Different questions:</strong> absolute advantage compares productivity; comparative advantage compares opportunity cost.</div>
+  </section>
+
+  <section class="slide interactive" id="specializationExchangeConceptSlide">
+    <div class="section-kicker">From comparative advantage to gains from exchange</div>
+    <h1>Specialization and exchange can benefit both</h1>
+    <div class="exchange-thesis"><strong>Core idea:</strong> specialization can create additional output, and exchange can distribute those gains so both people consume bundles they could not produce alone.</div>
+    <div class="exchange-concept-grid">
+      <div class="exchange-concept-card">
+        <div class="exchange-step-number">Step 1</div>
+        <h2>Specialize</h2>
+        <p>Assign each task to the producer with the lower opportunity cost.</p>
+        <button type="button" id="revealExchangeSpecialize" aria-expanded="false">Reveal the allocation rule</button>
+        <div class="exchange-concept-answer" id="exchangeSpecializeAnswer" aria-hidden="true"><strong>Alex → wraps; Morgan → racks.</strong><br>Each specializes according to comparative advantage.</div>
+      </div>
+      <div class="exchange-concept-card blue-card">
+        <div class="exchange-step-number">Step 2</div>
+        <h2>Produce more</h2>
+        <p>Using time where it is relatively most productive can expand total output.</p>
+        <button type="button" id="revealExchangeOutput" aria-expanded="false">Reveal the output gain</button>
+        <div class="exchange-concept-answer" id="exchangeOutputAnswer" aria-hidden="true"><strong>Benchmark result: (48, 36).</strong><br>That is 15 more racks and 6 more wraps than a 50–50 split.</div>
+      </div>
+      <div class="exchange-concept-card green-card">
+        <div class="exchange-step-number">Step 3</div>
+        <h2>Exchange</h2>
+        <p>Trade at terms between the two opportunity costs, then divide the larger output.</p>
+        <button type="button" id="revealExchangeTrade" aria-expanded="false">Reveal why both can gain</button>
+        <div class="exchange-concept-answer" id="exchangeTradeAnswer" aria-hidden="true"><strong>Try 1 rack ↔ 1 wrap.</strong><br>The rate lies between 0.5 and 2 wraps per rack, so both sides can accept it.</div>
+      </div>
+    </div>
+    <div class="exchange-flow-strip" aria-label="Logic from comparative advantage to gains from exchange">
+      <span class="exchange-flow-step">Comparative advantage</span><span class="exchange-flow-arrow">→</span>
+      <span class="exchange-flow-step">Specialization</span><span class="exchange-flow-arrow">→</span>
+      <span class="exchange-flow-step">Larger total output</span><span class="exchange-flow-arrow">→</span>
+      <span class="exchange-flow-step">Mutually beneficial exchange</span>
+    </div>
+  </section>
+
+  <section class="slide interactive" id="specializationAllocationSlide">
+    <div class="section-kicker">Use the Alex–Morgan benchmark</div>
+    <h1>Who should do which job?</h1>
+    <div class="allocation-rule-grid">
+      <div class="allocation-rule-card"><span>Alex · lower OC of a wrap</span><strong>0.5 rack per wrap → specialize in Chicken Wraps</strong></div>
+      <div class="allocation-rule-card blue-rule"><span>Morgan · lower OC of a rack</span><strong>0.5 wrap per rack → specialize in dish racks</strong></div>
+    </div>
+    <div class="allocation-mode-grid" role="group" aria-label="Compare work allocations">
+      <button type="button" class="allocation-mode-button selected" data-allocation-mode="split">50–50 split</button>
+      <button type="button" class="allocation-mode-button" data-allocation-mode="comparative">Specialize by comparative advantage</button>
+      <button type="button" class="allocation-mode-button" data-allocation-mode="reverse">Reverse specialization</button>
+    </div>
+    <div class="allocation-results-grid">
+      <div class="allocation-worker-list">
+        <div class="allocation-worker-result">
+          <div class="allocation-worker-header"><strong>Alex</strong><span>3-hour shift</span></div>
+          <h3 id="allocationAlexTask">Split both tasks</h3>
+          <p><span id="allocationAlexTime">90 minutes per task</span> · <strong id="allocationAlexBundle">(9 racks, 18 wraps)</strong></p>
+        </div>
+        <div class="allocation-worker-result blue-worker">
+          <div class="allocation-worker-header"><strong>Morgan</strong><span>4-hour shift</span></div>
+          <h3 id="allocationMorganTask">Split both tasks</h3>
+          <p><span id="allocationMorganTime">120 minutes per task</span> · <strong id="allocationMorganBundle">(24 racks, 12 wraps)</strong></p>
+        </div>
+      </div>
+      <div class="allocation-total-panel">
+        <div class="allocation-total-header"><h2>Total output</h2><span id="allocationScenarioLabel">50–50 split</span></div>
+        <div class="allocation-total-stat-grid">
+          <div class="allocation-total-stat"><span>Dish racks</span><strong id="allocationTotalDishes">33</strong></div>
+          <div class="allocation-total-stat"><span>Chicken Wraps</span><strong id="allocationTotalWraps">30</strong></div>
+        </div>
+        <div class="allocation-bar-row"><span>Dish racks</span><div class="allocation-bar-track"><div class="allocation-bar-fill" id="allocationDishBar" style="width:68.75%;"></div></div><strong id="allocationDishBarValue">33</strong></div>
+        <div class="allocation-bar-row"><span>Wraps</span><div class="allocation-bar-track"><div class="allocation-bar-fill wrap-fill" id="allocationWrapBar" style="width:83.33%;"></div></div><strong id="allocationWrapBarValue">30</strong></div>
+        <div class="game-feedback allocation-feedback" id="allocationFeedback" aria-live="polite">This feasible 50–50 benchmark produces (33, 30). Compare it with specialization.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" id="exchangeConsumptionSlide">
+    <div class="section-kicker">Separate production from consumption</div>
+    <h1>Exchange expands consumption possibilities</h1>
+    <div class="exchange-rate-strip">
+      <span><strong>Terms of trade:</strong> Morgan gives racks; Alex gives wraps. The rate is mutually acceptable because it lies between their opportunity costs.</span>
+      <span class="exchange-rate-equation">0.5 &lt; 1 wrap/rack &lt; 2</span>
+    </div>
+    <div class="exchange-chart-grid">
+      <div class="exchange-chart-panel">
+        <div class="exchange-chart-header"><h2>Alex</h2><span>orange: PPF · green: with exchange</span></div>
+        <svg class="exchange-svg" viewBox="0 0 400 250" role="img" aria-label="Alex's individual PPF and consumption possibilities with exchange">
+          <line class="axis" x1="48" y1="210" x2="378" y2="210"/><polygon points="378,210 368,205 368,215" fill="#1f2933"/>
+          <line class="axis" x1="48" y1="210" x2="48" y2="22"/><polygon points="48,22 43,32 53,32" fill="#1f2933"/>
+          <line class="exchange-ppf-line" x1="48" y1="48" x2="163.9" y2="210"/>
+          <line class="exchange-consumption-line" x1="48" y1="48" x2="279.8" y2="210"/>
+          <line class="exchange-projection" id="exchangeAlexProjectionX" x1="144.6" y1="115.5" x2="144.6" y2="210"/>
+          <line class="exchange-projection" id="exchangeAlexProjectionY" x1="48" y1="115.5" x2="144.6" y2="115.5"/>
+          <circle class="exchange-baseline-point" cx="106" cy="129" r="5"/><text class="exchange-chart-label" x="99" y="145">B (9, 18)</text>
+          <circle class="exchange-production-point" cx="48" cy="48" r="5.5"/><text class="exchange-chart-label" x="57" y="42">P (0, 36)</text>
+          <circle class="exchange-consumption-point" id="exchangeAlexConsumptionPoint" cx="144.6" cy="115.5" r="6"/>
+          <text class="exchange-chart-label" id="exchangeAlexConsumptionLabel" x="153" y="108">C (15, 21)</text>
+          <text class="exchange-axis-value" id="exchangeAlexDishAxisValue" x="144.6" y="225" text-anchor="middle">15</text>
+          <text class="exchange-axis-value" id="exchangeAlexWrapAxisValue" x="40" y="119.5" text-anchor="end">21</text>
+          <text class="axis-value" x="41" y="225">0</text><text class="axis-value" x="163.9" y="225" text-anchor="middle">18</text><text class="axis-value" x="39" y="52" text-anchor="end">36</text>
+          <text class="axis-label" x="215" y="245" text-anchor="middle">Dish racks</text>
+          <text class="axis-label" x="14" y="120" text-anchor="middle" transform="rotate(-90 14 120)">Chicken Wraps</text>
+        </svg>
+      </div>
+      <div class="exchange-chart-panel">
+        <div class="exchange-chart-header"><h2>Morgan</h2><span>orange: PPF · green: with exchange</span></div>
+        <svg class="exchange-svg" viewBox="0 0 400 250" role="img" aria-label="Morgan's individual PPF and consumption possibilities with exchange">
+          <line class="axis" x1="48" y1="210" x2="378" y2="210"/><polygon points="378,210 368,205 368,215" fill="#1f2933"/>
+          <line class="axis" x1="48" y1="210" x2="48" y2="22"/><polygon points="48,22 43,32 53,32" fill="#1f2933"/>
+          <line class="exchange-ppf-line" x1="48" y1="102" x2="357.1" y2="210"/>
+          <line class="exchange-consumption-line" x1="357.1" y1="210" x2="125.3" y2="48"/>
+          <line class="exchange-projection" id="exchangeMorganProjectionX" x1="260.5" y1="142.5" x2="260.5" y2="210"/>
+          <line class="exchange-projection" id="exchangeMorganProjectionY" x1="48" y1="142.5" x2="260.5" y2="142.5"/>
+          <circle class="exchange-baseline-point" cx="202.6" cy="156" r="5"/><text class="exchange-chart-label" x="195" y="173">B (24, 12)</text>
+          <circle class="exchange-production-point" cx="357.1" cy="210" r="5.5"/><text class="exchange-chart-label" x="348" y="196" text-anchor="end">P (48, 0)</text>
+          <circle class="exchange-consumption-point" id="exchangeMorganConsumptionPoint" cx="260.5" cy="142.5" r="6"/>
+          <text class="exchange-chart-label" id="exchangeMorganConsumptionLabel" x="269" y="135">C (33, 15)</text>
+          <text class="exchange-axis-value" id="exchangeMorganDishAxisValue" x="260.5" y="225" text-anchor="middle">33</text>
+          <text class="exchange-axis-value" id="exchangeMorganWrapAxisValue" x="40" y="146.5" text-anchor="end">15</text>
+          <text class="axis-value" x="41" y="225">0</text><text class="axis-value" x="357.1" y="225" text-anchor="middle">48</text><text class="axis-value" x="39" y="106" text-anchor="end">24</text>
+          <text class="axis-label" x="215" y="245" text-anchor="middle">Dish racks</text>
+          <text class="axis-label" x="14" y="120" text-anchor="middle" transform="rotate(-90 14 120)">Chicken Wraps</text>
+        </svg>
+      </div>
+    </div>
+    <div class="exchange-control-grid">
+      <div class="exchange-slider-panel">
+        <label for="exchangeQuantityRange"><span>Trade equal quantities</span><output id="exchangeQuantityOutput">15 racks ↔ 15 wraps</output></label>
+        <input id="exchangeQuantityRange" type="range" min="0" max="36" step="1" value="15">
+        <p>B = 50–50 no-trade bundle · P = specialized production · C = consumption after exchange</p>
+      </div>
+      <div class="exchange-readout">
+        <div class="exchange-bundle-grid">
+          <div class="exchange-bundle-stat"><span>Alex consumes</span><strong id="exchangeAlexBundle">(15, 21)</strong></div>
+          <div class="exchange-bundle-stat"><span>Morgan consumes</span><strong id="exchangeMorganBundle">(33, 15)</strong></div>
+          <div class="exchange-bundle-stat"><span>Total remains</span><strong>(48, 36)</strong></div>
+        </div>
+        <div class="exchange-gain-message" id="exchangeGainMessage">At q = 15, both consume more of both outputs than under the 50–50 no-trade allocation.</div>
+      </div>
+    </div>
+    <div class="exchange-clarifier"><strong>Trade does not shift either production PPF.</strong> It separates consumption from production, allowing consumption points outside each person’s own PPF.</div>
+  </section>
+
   <section class="slide interactive" id="socialIntroSlide">
-    <div class="section-kicker">From personal choice to social production</div>
-    <h1>Two personal PPFs become one social production problem</h1>
+    <div class="section-kicker">From comparative advantage to social production</div>
+    <h1>Now combine two producers into one production problem</h1>
     <div class="social-profile-summary">Loading two production profiles.</div>
     <div class="social-worker-grid">
       <div class="social-worker-card">
@@ -1472,8 +1999,8 @@
   </section>
 
   <section class="slide interactive" id="socialOrderSlide">
-    <div class="section-kicker">Allocate resources by opportunity cost</div>
-    <h1>Who should switch to dishwashing first?</h1>
+    <div class="section-kicker">Apply comparative advantage</div>
+    <h1>Comparative advantage determines the order</h1>
     <div class="social-profile-summary">Loading two production profiles.</div>
     <div class="social-choice-layout">
       <div class="social-start-panel">
@@ -1487,7 +2014,7 @@
       </div>
       <div class="social-answer-panel">
         <div class="tiny muted" style="font-weight:850; letter-spacing:.08em; text-transform:uppercase;">Make a prediction</div>
-        <h2>Reassign the worker with the lower opportunity cost</h2>
+        <h2>Choose the lower opportunity cost of dish racks</h2>
         <div class="social-choice-options">
           <button type="button" class="social-choice-answer" id="socialChoiceButton0" data-social-choice="0">Worker 1 switches first</button>
           <button type="button" class="social-choice-answer" id="socialChoiceButton1" data-social-choice="1">Worker 2 switches first</button>
@@ -1502,8 +2029,8 @@
   </section>
 
   <section class="slide interactive" id="socialBuildSlide">
-    <div class="section-kicker">Build the social frontier</div>
-    <h1>Reassign one worker at a time</h1>
+    <div class="section-kicker">Build the efficient social frontier</div>
+    <h1>Reassign workers from lower to higher opportunity cost</h1>
     <div class="social-profile-summary">Loading two production profiles.</div>
     <div class="shift-layout">
       <div class="shift-graph-panel ppf-panel">
@@ -1519,6 +2046,7 @@
             <line class="social-frontier-segment" id="socialSegmentOne" x1="60" y1="35" x2="300" y2="137"/>
             <circle class="social-frontier-point" id="socialKneePoint" cx="300" cy="137" r="7"/>
             <text class="social-coordinate-label" id="socialPointBLabel" x="310" y="128">B (—, —)</text>
+            <text class="social-kink-note" id="socialKinkMeaningLabel" x="290" y="155" text-anchor="end">comparative-advantage specialization</text>
           </g>
           <g id="socialStageThree" visibility="hidden">
             <line class="social-frontier-segment" id="socialSegmentTwo" x1="300" y1="137" x2="390" y2="290"/>
@@ -1564,7 +2092,7 @@
           <path class="social-shape-path" id="socialSmoothPath" d="M60 35 C245 35 378 145 390 290" visibility="hidden"/>
           <g id="socialShapeKnee">
             <circle class="social-frontier-point" id="socialShapeKneePoint" cx="300" cy="137" r="7"/>
-            <text class="social-coordinate-label" id="socialShapeKneeLabel" x="310" y="128">kink</text>
+            <text class="social-coordinate-label" id="socialShapeKneeLabel" x="310" y="128">specialization kink</text>
           </g>
           <g id="socialTangentGroup" visibility="hidden">
             <line class="social-tangent" x1="117" y1="47" x2="192" y2="67"/>
@@ -1594,6 +2122,131 @@
         </div>
         <button type="button" id="revealDiminishingReturns">Connect to diminishing returns</button>
         <div class="social-shape-reveal" id="diminishingReturnsReveal">Here, heterogeneous workers create the bow. Diminishing marginal returns is a second mechanism: with complementary inputs fixed, adding more resources eventually yields smaller marginal gains and raises opportunity cost.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" id="dmrDefinitionSlide">
+    <div class="section-kicker">A second source of increasing opportunity cost</div>
+    <h1>What are diminishing marginal returns?</h1>
+    <div class="formula dmr-formula">Marginal product = Δ Total Output ÷ Δ Variable Input</div>
+    <div class="dmr-concept-grid">
+      <div class="dmr-concept-card">
+        <div class="dmr-concept-number">1 · Variable input</div>
+        <h2>What changes?</h2>
+        <p>Add one worker—or another unit of one input—at a time.</p>
+        <button type="button" id="dmrRevealVariable" aria-expanded="false">Reveal</button>
+        <div class="dmr-concept-answer" id="dmrVariableAnswer" aria-hidden="true"><strong>Labor varies.</strong><br>The number of workers increases.</div>
+      </div>
+      <div class="dmr-concept-card blue-card">
+        <div class="dmr-concept-number">2 · Fixed input</div>
+        <h2>What stays fixed?</h2>
+        <p>At least one complementary input cannot expand in the short run.</p>
+        <button type="button" id="dmrRevealFixed" aria-expanded="false">Reveal</button>
+        <div class="dmr-concept-answer" id="dmrFixedAnswer" aria-hidden="true"><strong>Capacity is fixed.</strong><br>The same station and equipment must be shared.</div>
+      </div>
+      <div class="dmr-concept-card green-card">
+        <div class="dmr-concept-number">3 · Marginal return</div>
+        <h2>What diminishes?</h2>
+        <p>Focus on the extra output created by the next unit of input.</p>
+        <button type="button" id="dmrRevealMarginal" aria-expanded="false">Reveal</button>
+        <div class="dmr-concept-answer" id="dmrMarginalAnswer" aria-hidden="true"><strong>Marginal product falls.</strong><br>Total output may still keep rising.</div>
+      </div>
+    </div>
+    <div class="definition-strip green-strip dmr-definition-strip"><strong>Diminishing marginal returns:</strong> holding other inputs fixed, successive units of a variable input eventually add less and less output.</div>
+  </section>
+
+  <section class="slide interactive" id="dmrExampleSlide">
+    <div class="section-kicker">Dining-hall example</div>
+    <h1>Later workers add less at one fixed station</h1>
+    <div class="dmr-example-summary">
+      <div class="dmr-input-chip"><strong>Fixed input:</strong> 1 Chicken Wrap station</div>
+      <div class="dmr-input-chip variable"><strong>Variable input:</strong> workers assigned to the station</div>
+    </div>
+    <div class="dmr-example-layout">
+      <div class="dmr-station-panel">
+        <div class="dmr-station-box">ONE FIXED<br>WRAP STATION</div>
+        <div class="dmr-worker-row" aria-label="Workers assigned to the fixed station">
+          <div class="dmr-worker-icon" id="dmrWorkerIcon1">1</div><div class="dmr-worker-icon" id="dmrWorkerIcon2">2</div><div class="dmr-worker-icon" id="dmrWorkerIcon3">3</div><div class="dmr-worker-icon" id="dmrWorkerIcon4">4</div><div class="dmr-worker-icon" id="dmrWorkerIcon5">5</div>
+        </div>
+        <label class="dmr-example-slider-label" for="dmrWorkersRange"><span>Workers assigned</span><output id="dmrWorkersOutput">1 worker</output></label>
+        <input class="dmr-example-range" id="dmrWorkersRange" type="range" min="1" max="5" step="1" value="1">
+        <div class="dmr-example-stats">
+          <div class="dmr-example-stat"><span>Total wraps / hour</span><strong id="dmrTotalOutput">20</strong></div>
+          <div class="dmr-example-stat"><span>Marginal product</span><strong id="dmrMarginalProduct">20</strong></div>
+        </div>
+      </div>
+      <div>
+        <table class="dmr-example-table">
+          <thead><tr><th>Workers</th><th>Total wraps/hour</th><th>Marginal product of worker n</th></tr></thead>
+          <tbody>
+            <tr id="dmrExampleRow1"><td>1</td><td>20</td><td>20</td></tr>
+            <tr id="dmrExampleRow2"><td>2</td><td>36</td><td>16</td></tr>
+            <tr id="dmrExampleRow3"><td>3</td><td>48</td><td>12</td></tr>
+            <tr id="dmrExampleRow4"><td>4</td><td>56</td><td>8</td></tr>
+            <tr id="dmrExampleRow5"><td>5</td><td>60</td><td>4</td></tr>
+          </tbody>
+        </table>
+        <div class="definition-strip blue-strip dmr-example-feedback" id="dmrExampleFeedback">Worker 1 adds 20 wraps per hour. Drag the slider to add workers while the station stays fixed.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" id="dmrConcavePPFSlide">
+    <div class="section-kicker">Return to the concave PPF</div>
+    <h1>Link the PPF to rising opportunity cost</h1>
+    <div class="dmr-link-summary">Eight workers are reallocated between two fixed stations. Both tasks have diminishing marginal product.</div>
+    <div class="dmr-linked-chart-grid">
+      <div class="dmr-linked-chart-panel">
+        <h2>Concave PPF</h2>
+        <p>The highlighted segment moves one worker toward dishwashing.</p>
+        <svg class="dmr-linked-svg" id="dmrPPFSvg" viewBox="0 0 400 260" role="img" aria-label="Interactive concave production possibilities frontier">
+          <line class="dmr-grid-line" x1="55" y1="35" x2="370" y2="35"/><line class="dmr-grid-line" x1="55" y1="130" x2="370" y2="130"/><line class="dmr-grid-line" x1="55" y1="225" x2="370" y2="225"/>
+          <line class="axis" x1="55" y1="225" x2="374" y2="225"/><polygon points="374,225 364,220 364,230" fill="#1f2933"/>
+          <line class="axis" x1="55" y1="225" x2="55" y2="18"/><polygon points="55,18 50,28 60,28" fill="#1f2933"/>
+          <path class="dmr-ppf-path" id="dmrPPFPath" d=""/>
+          <g id="dmrPPFPointGroup"></g>
+          <line class="dmr-selected-segment" id="dmrSelectedPPFSegment" x1="55" y1="35" x2="131" y2="42"/>
+          <circle class="dmr-previous-point" id="dmrPreviousPPFPoint" cx="55" cy="35" r="6"/>
+          <circle class="dmr-ppf-point selected" id="dmrSelectedPPFPoint" cx="131" cy="42" r="7"/>
+          <text class="dmr-linked-label" id="dmrPreviousPPFLabel" x="64" y="31">P0</text>
+          <text class="dmr-linked-label" id="dmrSelectedPPFLabel" x="139" y="54">P1</text>
+          <text class="axis-label" x="220" y="253" text-anchor="middle">Dish racks / hour</text>
+          <text class="axis-label" x="15" y="128" text-anchor="middle" transform="rotate(-90 15 128)">Chicken Wraps / hour</text>
+          <text class="axis-value" x="50" y="242">0</text><text class="axis-value" x="366" y="242">50</text><text class="axis-value" x="48" y="39" text-anchor="end">83</text>
+        </svg>
+      </div>
+      <div class="dmr-linked-chart-panel">
+        <h2>Marginal OC of dish racks</h2>
+        <p>Each point measures wraps lost per additional dish rack.</p>
+        <svg class="dmr-linked-svg" id="dmrOCSvg" viewBox="0 0 400 260" role="img" aria-label="Opportunity cost rises along the concave PPF">
+          <line class="dmr-grid-line" x1="55" y1="35" x2="370" y2="35"/><line class="dmr-grid-line" x1="55" y1="130" x2="370" y2="130"/><line class="dmr-grid-line" x1="55" y1="225" x2="370" y2="225"/>
+          <line class="axis" x1="55" y1="225" x2="374" y2="225"/><polygon points="374,225 364,220 364,230" fill="#1f2933"/>
+          <line class="axis" x1="55" y1="225" x2="55" y2="18"/><polygon points="55,18 50,28 60,28" fill="#1f2933"/>
+          <path class="dmr-oc-path" id="dmrOCPath" d=""/>
+          <g id="dmrOCPointGroup"></g>
+          <circle class="dmr-oc-point selected" id="dmrSelectedOCPoint" cx="131" cy="220" r="7"/>
+          <text class="dmr-linked-label" id="dmrSelectedOCLabel" x="139" y="213">OC = 0.25</text>
+          <text class="axis-label" x="220" y="253" text-anchor="middle">Dish racks / hour</text>
+          <text class="axis-label" x="15" y="128" text-anchor="middle" transform="rotate(-90 15 128)">OC of next rack · wraps</text>
+          <text class="axis-value" x="50" y="242">0</text><text class="axis-value" x="366" y="242">50</text><text class="axis-value" x="48" y="229" text-anchor="end">0</text><text class="axis-value" x="48" y="134" text-anchor="end">5</text><text class="axis-value" x="48" y="39" text-anchor="end">10</text>
+        </svg>
+      </div>
+    </div>
+    <div class="dmr-linked-control-grid">
+      <div class="dmr-slider-panel">
+        <label for="dmrAllocationRange"><span>Move one more worker to dishes</span><output id="dmrAllocationStep">Step 1 of 8</output></label>
+        <input class="dmr-linked-range" id="dmrAllocationRange" type="range" min="1" max="8" step="1" value="1">
+        <p>Drag once: the highlighted segment and the OC point move together.</p>
+      </div>
+      <div class="dmr-linked-readout">
+        <div class="dmr-linked-stat-grid">
+          <div class="dmr-linked-stat"><span>Workers · D / W</span><strong id="dmrWorkerAllocation">1 / 7</strong></div>
+          <div class="dmr-linked-stat"><span>Gain dishes</span><strong id="dmrDishGain">+12</strong></div>
+          <div class="dmr-linked-stat"><span>Give up wraps</span><strong id="dmrWrapLoss">−3</strong></div>
+          <div class="dmr-linked-stat"><span>OC per rack</span><strong id="dmrMarginalOC">0.25</strong></div>
+        </div>
+        <div class="dmr-linked-explanation" id="dmrLinkedExplanation">The first reassigned worker adds many racks and gives up few wraps, so marginal opportunity cost is low.</div>
       </div>
     </div>
   </section>
@@ -1675,6 +2328,14 @@
   let socialChoiceAnswered = false;
   let socialBuildStage = 0;
   let socialShapeMode = 'two';
+  let advantageProfileSignature = '';
+  const advantageRevealState = { absoluteDish: false, absoluteWrap: false, comparativeDish: false, comparativeWrap: false };
+  const comparativeConceptRevealState = { absolute: false, dish: false, wrap: false };
+  const exchangeConceptRevealState = { specialize: false, output: false, trade: false };
+  let specializationAllocationMode = 'split';
+  const dmrConceptRevealState = { variable: false, fixed: false, marginal: false };
+  let ocProfileSignature = '';
+  const ocRevealState = { dish: false, wrap: false };
 
   const volunteerSetupSlide = document.getElementById('volunteerSetupSlide');
   const personalAllocationSlide = document.getElementById('personalAllocationSlide');
@@ -1703,6 +2364,149 @@
     if (!Number.isFinite(value)) return '—';
     const rounded = Math.round(value);
     return Math.abs(value - rounded) < 0.001 ? String(rounded) : value.toFixed(1);
+  }
+
+  function formatRatio(value){
+    if (!Number.isFinite(value)) return '—';
+    const rounded = Math.round(value * 100) / 100;
+    return String(rounded);
+  }
+
+  function renderDMRConceptSlide(){
+    [
+      ['variable', 'dmrRevealVariable', 'dmrVariableAnswer'],
+      ['fixed', 'dmrRevealFixed', 'dmrFixedAnswer'],
+      ['marginal', 'dmrRevealMarginal', 'dmrMarginalAnswer']
+    ].forEach(function(config){
+      const visible = dmrConceptRevealState[config[0]];
+      const button = document.getElementById(config[1]);
+      const answer = document.getElementById(config[2]);
+      button.textContent = visible ? 'Hide' : 'Reveal';
+      button.setAttribute('aria-expanded', String(visible));
+      answer.classList.toggle('visible', visible);
+      answer.setAttribute('aria-hidden', String(!visible));
+    });
+  }
+
+  const dmrExampleTotals = [0, 20, 36, 48, 56, 60];
+
+  function renderDMRExample(){
+    const workers = Number(document.getElementById('dmrWorkersRange').value);
+    const total = dmrExampleTotals[workers];
+    const marginalProduct = total - dmrExampleTotals[workers - 1];
+    document.getElementById('dmrWorkersOutput').textContent = workers + (workers === 1 ? ' worker' : ' workers');
+    document.getElementById('dmrTotalOutput').textContent = formatNumber(total);
+    document.getElementById('dmrMarginalProduct').textContent = '+' + formatNumber(marginalProduct);
+    for (let index = 1; index <= 5; index += 1) {
+      document.getElementById('dmrWorkerIcon' + index).classList.toggle('active', index <= workers);
+      document.getElementById('dmrExampleRow' + index).classList.toggle('selected', index === workers);
+    }
+    const feedback = document.getElementById('dmrExampleFeedback');
+    if (workers === 1) {
+      feedback.innerHTML = '<strong>Worker 1 adds 20 wraps per hour.</strong> Drag the slider: the station stays fixed while additional workers must share it.';
+    } else {
+      const previousMarginalProduct = dmrExampleTotals[workers - 1] - dmrExampleTotals[workers - 2];
+      feedback.innerHTML = '<strong>Total output rises to ' + formatNumber(total) + ', but marginal product falls.</strong> Worker ' + (workers - 1) + ' added ' + formatNumber(previousMarginalProduct) + ' wraps; worker ' + workers + ' adds only ' + formatNumber(marginalProduct) + '.';
+    }
+  }
+
+  const dmrDishMarginalProducts = [12, 10, 8, 6, 5, 4, 3, 2];
+  const dmrWrapMarginalProducts = [20, 17, 14, 11, 8, 6, 4, 3];
+  const dmrDishTotals = dmrDishMarginalProducts.reduce(function(values, marginalProduct){
+    values.push(values[values.length - 1] + marginalProduct);
+    return values;
+  }, [0]);
+  const dmrWrapTotals = dmrWrapMarginalProducts.reduce(function(values, marginalProduct){
+    values.push(values[values.length - 1] + marginalProduct);
+    return values;
+  }, [0]);
+  const dmrPPFAllocations = Array.from({ length: 9 }, function(_, dishWorkers){
+    return { dishWorkers: dishWorkers, wrapWorkers: 8 - dishWorkers, dishes: dmrDishTotals[dishWorkers], wraps: dmrWrapTotals[8 - dishWorkers] };
+  });
+  const dmrMarginalOpportunityCosts = Array.from({ length: 8 }, function(_, index){
+    const step = index + 1;
+    const dishGain = dmrDishMarginalProducts[index];
+    const wrapLoss = dmrWrapMarginalProducts[8 - step];
+    return { step: step, dishes: dmrDishTotals[step], dishGain: dishGain, wrapLoss: wrapLoss, opportunityCost: wrapLoss / dishGain };
+  });
+
+  function dmrPPFX(value){ return 55 + (value / 50) * 315; }
+  function dmrPPFY(value){ return 225 - (value / 83) * 190; }
+  function dmrOCX(value){ return 55 + (value / 50) * 315; }
+  function dmrOCY(value){ return 225 - (value / 10) * 190; }
+
+  function replaceDMRPoints(groupId, points, className, xAccessor, yAccessor){
+    const group = document.getElementById(groupId);
+    while (group.firstChild) group.removeChild(group.firstChild);
+    points.forEach(function(point){
+      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle.setAttribute('class', className);
+      circle.setAttribute('cx', xAccessor(point).toFixed(1));
+      circle.setAttribute('cy', yAccessor(point).toFixed(1));
+      circle.setAttribute('r', '4');
+      group.appendChild(circle);
+    });
+  }
+
+  function renderDMRLinkedCharts(){
+    const step = Number(document.getElementById('dmrAllocationRange').value);
+    const previous = dmrPPFAllocations[step - 1];
+    const current = dmrPPFAllocations[step];
+    const marginal = dmrMarginalOpportunityCosts[step - 1];
+    const previousX = dmrPPFX(previous.dishes);
+    const previousY = dmrPPFY(previous.wraps);
+    const currentX = dmrPPFX(current.dishes);
+    const currentY = dmrPPFY(current.wraps);
+    const opportunityCostX = dmrOCX(marginal.dishes);
+    const opportunityCostY = dmrOCY(marginal.opportunityCost);
+
+    document.getElementById('dmrPPFPath').setAttribute('d', dmrPPFAllocations.map(function(point, index){
+      return (index === 0 ? 'M' : 'L') + dmrPPFX(point.dishes).toFixed(1) + ' ' + dmrPPFY(point.wraps).toFixed(1);
+    }).join(' '));
+    document.getElementById('dmrOCPath').setAttribute('d', dmrMarginalOpportunityCosts.map(function(point, index){
+      return (index === 0 ? 'M' : 'L') + dmrOCX(point.dishes).toFixed(1) + ' ' + dmrOCY(point.opportunityCost).toFixed(1);
+    }).join(' '));
+    replaceDMRPoints('dmrPPFPointGroup', dmrPPFAllocations, 'dmr-ppf-point', function(point){ return dmrPPFX(point.dishes); }, function(point){ return dmrPPFY(point.wraps); });
+    replaceDMRPoints('dmrOCPointGroup', dmrMarginalOpportunityCosts, 'dmr-oc-point', function(point){ return dmrOCX(point.dishes); }, function(point){ return dmrOCY(point.opportunityCost); });
+
+    const selectedSegment = document.getElementById('dmrSelectedPPFSegment');
+    selectedSegment.setAttribute('x1', previousX.toFixed(1));
+    selectedSegment.setAttribute('y1', previousY.toFixed(1));
+    selectedSegment.setAttribute('x2', currentX.toFixed(1));
+    selectedSegment.setAttribute('y2', currentY.toFixed(1));
+    const previousPoint = document.getElementById('dmrPreviousPPFPoint');
+    previousPoint.setAttribute('cx', previousX.toFixed(1));
+    previousPoint.setAttribute('cy', previousY.toFixed(1));
+    const selectedPoint = document.getElementById('dmrSelectedPPFPoint');
+    selectedPoint.setAttribute('cx', currentX.toFixed(1));
+    selectedPoint.setAttribute('cy', currentY.toFixed(1));
+
+    const previousLabel = document.getElementById('dmrPreviousPPFLabel');
+    previousLabel.textContent = 'P' + (step - 1) + ' (' + formatNumber(previous.dishes) + ', ' + formatNumber(previous.wraps) + ')';
+    previousLabel.setAttribute('x', (previousX > 315 ? previousX - 8 : previousX + 8).toFixed(1));
+    previousLabel.setAttribute('y', Math.max(27, previousY - 9).toFixed(1));
+    previousLabel.setAttribute('text-anchor', previousX > 315 ? 'end' : 'start');
+    const selectedLabel = document.getElementById('dmrSelectedPPFLabel');
+    selectedLabel.textContent = 'P' + step + ' (' + formatNumber(current.dishes) + ', ' + formatNumber(current.wraps) + ')';
+    selectedLabel.setAttribute('x', (currentX > 315 ? currentX - 8 : currentX + 8).toFixed(1));
+    selectedLabel.setAttribute('y', (currentY > 198 ? currentY - 11 : currentY + 16).toFixed(1));
+    selectedLabel.setAttribute('text-anchor', currentX > 315 ? 'end' : 'start');
+
+    const selectedOCPoint = document.getElementById('dmrSelectedOCPoint');
+    selectedOCPoint.setAttribute('cx', opportunityCostX.toFixed(1));
+    selectedOCPoint.setAttribute('cy', opportunityCostY.toFixed(1));
+    const selectedOCLabel = document.getElementById('dmrSelectedOCLabel');
+    selectedOCLabel.textContent = 'OC = ' + formatRatio(marginal.opportunityCost);
+    selectedOCLabel.setAttribute('x', (opportunityCostX > 315 ? opportunityCostX - 8 : opportunityCostX + 8).toFixed(1));
+    selectedOCLabel.setAttribute('y', (opportunityCostY < 53 ? opportunityCostY + 17 : opportunityCostY - 9).toFixed(1));
+    selectedOCLabel.setAttribute('text-anchor', opportunityCostX > 315 ? 'end' : 'start');
+
+    document.getElementById('dmrAllocationStep').textContent = 'Step ' + step + ' of 8';
+    document.getElementById('dmrWorkerAllocation').textContent = current.dishWorkers + ' / ' + current.wrapWorkers;
+    document.getElementById('dmrDishGain').textContent = '+' + formatNumber(marginal.dishGain);
+    document.getElementById('dmrWrapLoss').textContent = '−' + formatNumber(marginal.wrapLoss);
+    document.getElementById('dmrMarginalOC').textContent = formatRatio(marginal.opportunityCost);
+    document.getElementById('dmrLinkedExplanation').textContent = 'The next dish worker adds ' + formatNumber(marginal.dishGain) + ' racks, while the removed wrap worker costs ' + formatNumber(marginal.wrapLoss) + ' wraps. Marginal OC rises to ' + formatRatio(marginal.opportunityCost) + ' wraps per rack.';
   }
 
   function calculateVolunteer(profile){
@@ -1898,6 +2702,61 @@
       x2: x[index + 1],
       y2: y[index + 1]
     };
+  }
+
+  function renderOpportunityCostComparison(profile, profileIndex){
+    const signature = profile ? [profileIndex, profile.dishMinutes, profile.wrapMinutes].join('|') : '';
+    if (signature !== ocProfileSignature) {
+      ocProfileSignature = signature;
+      ocRevealState.dish = false;
+      ocRevealState.wrap = false;
+    }
+
+    const dishButton = document.getElementById('revealDishOC');
+    const wrapButton = document.getElementById('revealWrapOC');
+    const dishReveal = document.getElementById('dishOCReveal');
+    const wrapReveal = document.getElementById('wrapOCReveal');
+    const summary = document.getElementById('ocReciprocalSummary');
+    const dishOC = profile ? profile.dishMinutes / profile.wrapMinutes : NaN;
+    const wrapOC = profile ? profile.wrapMinutes / profile.dishMinutes : NaN;
+
+    document.getElementById('ocDishMinutes').textContent = profile ? formatNumber(profile.dishMinutes) : '—';
+    document.getElementById('ocDishWrapMinutes').textContent = profile ? formatNumber(profile.wrapMinutes) : '—';
+    document.getElementById('ocDishValue').textContent = profile ? formatRatio(dishOC) : '—';
+    document.getElementById('ocWrapMinutes').textContent = profile ? formatNumber(profile.wrapMinutes) : '—';
+    document.getElementById('ocWrapDishMinutes').textContent = profile ? formatNumber(profile.dishMinutes) : '—';
+    document.getElementById('ocWrapValue').textContent = profile ? formatRatio(wrapOC) : '—';
+    document.getElementById('ocDishPrompt').textContent = profile
+      ? 'One rack takes ' + profile.dishMinutes + ' minutes. How many wraps fit into the same time?'
+      : 'How many Chicken Wraps could be produced during the time needed for one dish rack?';
+    document.getElementById('ocWrapPrompt').textContent = profile
+      ? 'One wrap takes ' + profile.wrapMinutes + ' minutes. How many racks fit into the same time?'
+      : 'How many dish racks could be produced during the time needed for one Chicken Wrap?';
+
+    dishButton.disabled = !profile;
+    wrapButton.disabled = !profile;
+    dishButton.textContent = ocRevealState.dish ? 'Hide the calculation' : 'Reveal the calculation';
+    wrapButton.textContent = ocRevealState.wrap ? 'Hide the calculation' : 'Reveal the calculation';
+    dishButton.setAttribute('aria-expanded', String(Boolean(profile && ocRevealState.dish)));
+    wrapButton.setAttribute('aria-expanded', String(Boolean(profile && ocRevealState.wrap)));
+    dishReveal.classList.toggle('visible', Boolean(profile && ocRevealState.dish));
+    wrapReveal.classList.toggle('visible', Boolean(profile && ocRevealState.wrap));
+    dishReveal.setAttribute('aria-hidden', String(!profile || !ocRevealState.dish));
+    wrapReveal.setAttribute('aria-hidden', String(!profile || !ocRevealState.wrap));
+
+    if (!profile) {
+      summary.className = 'definition-strip blue-strip oc-reciprocal-summary';
+      summary.textContent = 'Load a positive-hour volunteer profile—or use Simulate—to compare both directions.';
+    } else if (ocRevealState.dish && ocRevealState.wrap) {
+      summary.className = 'definition-strip green-strip oc-reciprocal-summary';
+      summary.innerHTML = '<strong>Reciprocals:</strong> (' + profile.dishMinutes + ' ÷ ' + profile.wrapMinutes + ') × (' + profile.wrapMinutes + ' ÷ ' + profile.dishMinutes + ') = 1. Reversing the direction flips the ratio and the units.';
+    } else if (ocRevealState.dish || ocRevealState.wrap) {
+      summary.className = 'definition-strip blue-strip oc-reciprocal-summary';
+      summary.textContent = 'Now reveal the opposite direction. The numerator and denominator will switch places.';
+    } else {
+      summary.className = 'definition-strip blue-strip oc-reciprocal-summary';
+      summary.textContent = 'Reveal each direction separately, then compare the two ratios.';
+    }
   }
 
   function renderLinearMovement(index){
@@ -2211,6 +3070,252 @@
     };
   }
 
+  function resetAdvantageRevealState(){
+    Object.keys(advantageRevealState).forEach(function(key){ advantageRevealState[key] = false; });
+  }
+
+  function renderAdvantageSlides(data){
+    const signature = data.source + '|' + data.profiles.map(function(profile){
+      return [profile.nickname, profile.dishMinutes, profile.wrapMinutes].join(':');
+    }).join('|');
+    if (signature !== advantageProfileSignature) {
+      advantageProfileSignature = signature;
+      resetAdvantageRevealState();
+    }
+
+    const dishRates = data.profiles.map(function(profile){ return 60 / profile.dishMinutes; });
+    const wrapRates = data.profiles.map(function(profile){ return 60 / profile.wrapMinutes; });
+    const dishOCs = data.opportunityCosts;
+    const wrapOCs = data.profiles.map(function(profile){ return profile.wrapMinutes / profile.dishMinutes; });
+    const absoluteDishTie = Math.abs(dishRates[0] - dishRates[1]) < 0.001;
+    const absoluteWrapTie = Math.abs(wrapRates[0] - wrapRates[1]) < 0.001;
+    const absoluteDishIndex = absoluteDishTie ? null : (dishRates[0] > dishRates[1] ? 0 : 1);
+    const absoluteWrapIndex = absoluteWrapTie ? null : (wrapRates[0] > wrapRates[1] ? 0 : 1);
+
+    data.profiles.forEach(function(profile, index){
+      document.getElementById('absoluteName' + index).textContent = profile.nickname;
+      document.getElementById('absoluteDishRate' + index).textContent = formatRatio(dishRates[index]);
+      document.getElementById('absoluteWrapRate' + index).textContent = formatRatio(wrapRates[index]);
+      document.getElementById('comparativeName' + index).textContent = profile.nickname;
+      document.getElementById('comparativeDishOC' + index).textContent = formatRatio(dishOCs[index]) + ' wraps';
+      document.getElementById('comparativeWrapOC' + index).textContent = formatRatio(wrapOCs[index]) + ' racks';
+    });
+
+    if (absoluteDishTie) {
+      document.getElementById('absoluteDishWinner').textContent = 'Neither—productivity is equal';
+      document.getElementById('absoluteDishReason').textContent = 'Both produce ' + formatRatio(dishRates[0]) + ' dish racks per hour.';
+    } else {
+      const other = absoluteDishIndex === 0 ? 1 : 0;
+      document.getElementById('absoluteDishWinner').textContent = data.profiles[absoluteDishIndex].nickname + ' has the absolute advantage';
+      document.getElementById('absoluteDishReason').textContent = formatRatio(dishRates[absoluteDishIndex]) + ' racks/hour versus ' + formatRatio(dishRates[other]) + ' for ' + data.profiles[other].nickname + '.';
+    }
+    if (absoluteWrapTie) {
+      document.getElementById('absoluteWrapWinner').textContent = 'Neither—productivity is equal';
+      document.getElementById('absoluteWrapReason').textContent = 'Both produce ' + formatRatio(wrapRates[0]) + ' Chicken Wraps per hour.';
+    } else {
+      const other = absoluteWrapIndex === 0 ? 1 : 0;
+      document.getElementById('absoluteWrapWinner').textContent = data.profiles[absoluteWrapIndex].nickname + ' has the absolute advantage';
+      document.getElementById('absoluteWrapReason').textContent = formatRatio(wrapRates[absoluteWrapIndex]) + ' wraps/hour versus ' + formatRatio(wrapRates[other]) + ' for ' + data.profiles[other].nickname + '.';
+    }
+
+    if (data.tie) {
+      document.getElementById('comparativeDishWinner').textContent = 'Neither has a distinct comparative advantage';
+      document.getElementById('comparativeDishReason').textContent = 'Both give up ' + formatRatio(dishOCs[0]) + ' wraps per dish rack.';
+      document.getElementById('comparativeWrapWinner').textContent = 'Neither has a distinct comparative advantage';
+      document.getElementById('comparativeWrapReason').textContent = 'Both give up ' + formatRatio(wrapOCs[0]) + ' dish racks per wrap.';
+    } else {
+      document.getElementById('comparativeDishWinner').textContent = data.low.nickname + ' has the comparative advantage';
+      document.getElementById('comparativeDishReason').textContent = formatRatio(data.lowOC) + ' wraps/rack versus ' + formatRatio(data.highOC) + ' for ' + data.high.nickname + '.';
+      document.getElementById('comparativeWrapWinner').textContent = data.high.nickname + ' has the comparative advantage';
+      document.getElementById('comparativeWrapReason').textContent = formatRatio(wrapOCs[data.highIndex]) + ' racks/wrap versus ' + formatRatio(wrapOCs[data.lowIndex]) + ' for ' + data.low.nickname + '.';
+    }
+
+    [
+      ['absoluteDish', 'revealAbsoluteDish', 'absoluteDishReveal', 'absolute advantage'],
+      ['absoluteWrap', 'revealAbsoluteWrap', 'absoluteWrapReveal', 'absolute advantage'],
+      ['comparativeDish', 'revealComparativeDish', 'comparativeDishReveal', 'comparative advantage'],
+      ['comparativeWrap', 'revealComparativeWrap', 'comparativeWrapReveal', 'comparative advantage']
+    ].forEach(function(config){
+      const visible = advantageRevealState[config[0]];
+      const button = document.getElementById(config[1]);
+      const reveal = document.getElementById(config[2]);
+      button.textContent = visible ? 'Hide ' + config[3] : 'Reveal ' + config[3];
+      button.setAttribute('aria-expanded', String(visible));
+      reveal.classList.toggle('visible', visible);
+      reveal.setAttribute('aria-hidden', String(!visible));
+    });
+  }
+
+  function resetComparativeConceptState(){
+    Object.keys(comparativeConceptRevealState).forEach(function(key){ comparativeConceptRevealState[key] = false; });
+  }
+
+  function renderComparativeConceptSlide(){
+    [
+      ['absolute', 'revealConceptAbsolute', 'conceptAbsoluteReveal', 'absolute advantage'],
+      ['dish', 'revealConceptCADish', 'conceptCADishReveal', 'dish-rack CA'],
+      ['wrap', 'revealConceptCAWrap', 'conceptCAWrapReveal', 'wrap CA']
+    ].forEach(function(config){
+      const visible = comparativeConceptRevealState[config[0]];
+      const button = document.getElementById(config[1]);
+      const reveal = document.getElementById(config[2]);
+      button.textContent = visible ? 'Hide ' + config[3] : 'Reveal ' + config[3];
+      button.setAttribute('aria-expanded', String(visible));
+      reveal.classList.toggle('visible', visible);
+      reveal.setAttribute('aria-hidden', String(!visible));
+    });
+    const summary = document.getElementById('comparativeConceptSummary');
+    if (comparativeConceptRevealState.absolute && comparativeConceptRevealState.dish && comparativeConceptRevealState.wrap) {
+      summary.className = 'definition-strip green-strip comparative-concept-summary';
+      summary.innerHTML = '<strong>Key result:</strong> Worker A is absolutely better at both tasks, yet efficient specialization still splits: B makes dish racks and A makes Chicken Wraps.';
+    } else {
+      summary.className = 'definition-strip comparative-concept-summary';
+      summary.innerHTML = '<strong>Different questions:</strong> absolute advantage compares productivity; comparative advantage compares opportunity cost.';
+    }
+  }
+
+  function renderExchangeConceptSlide(){
+    [
+      ['specialize', 'revealExchangeSpecialize', 'exchangeSpecializeAnswer', 'the allocation rule'],
+      ['output', 'revealExchangeOutput', 'exchangeOutputAnswer', 'the output gain'],
+      ['trade', 'revealExchangeTrade', 'exchangeTradeAnswer', 'why both can gain']
+    ].forEach(function(config){
+      const visible = exchangeConceptRevealState[config[0]];
+      const button = document.getElementById(config[1]);
+      const answer = document.getElementById(config[2]);
+      button.textContent = visible ? 'Hide ' + config[3] : 'Reveal ' + config[3];
+      button.setAttribute('aria-expanded', String(visible));
+      answer.classList.toggle('visible', visible);
+      answer.setAttribute('aria-hidden', String(!visible));
+    });
+  }
+
+  const specializationAllocationScenarios = {
+    split: {
+      label: '50–50 split',
+      alexTask: 'Split both tasks',
+      alexTime: '90 minutes per task',
+      alexBundle: '(9 racks, 18 wraps)',
+      morganTask: 'Split both tasks',
+      morganTime: '120 minutes per task',
+      morganBundle: '(24 racks, 12 wraps)',
+      dishes: 33,
+      wraps: 30,
+      message: 'This feasible 50–50 benchmark produces (33, 30). Compare it with specialization.',
+      state: ''
+    },
+    comparative: {
+      label: 'Specialize by comparative advantage',
+      alexTask: 'Make only Chicken Wraps',
+      alexTime: '180 minutes making wraps',
+      alexBundle: '(0 racks, 36 wraps)',
+      morganTask: 'Wash only dish racks',
+      morganTime: '240 minutes washing racks',
+      morganBundle: '(48 racks, 0 wraps)',
+      dishes: 48,
+      wraps: 36,
+      message: 'In this benchmark, specialization by comparative advantage adds 15 racks and 6 wraps relative to the 50–50 split.',
+      state: 'success'
+    },
+    reverse: {
+      label: 'Reverse specialization',
+      alexTask: 'Wash only dish racks',
+      alexTime: '180 minutes washing racks',
+      alexBundle: '(18 racks, 0 wraps)',
+      morganTask: 'Make only Chicken Wraps',
+      morganTime: '240 minutes making wraps',
+      morganBundle: '(0 racks, 24 wraps)',
+      dishes: 18,
+      wraps: 24,
+      message: 'Assigning tasks against comparative advantage produces 30 fewer racks and 12 fewer wraps than the efficient specialization.',
+      state: 'error'
+    }
+  };
+
+  function renderSpecializationAllocation(){
+    const scenario = specializationAllocationScenarios[specializationAllocationMode];
+    Array.from(document.querySelectorAll('.allocation-mode-button')).forEach(function(button){
+      button.classList.toggle('selected', button.dataset.allocationMode === specializationAllocationMode);
+    });
+    document.getElementById('allocationAlexTask').textContent = scenario.alexTask;
+    document.getElementById('allocationAlexTime').textContent = scenario.alexTime;
+    document.getElementById('allocationAlexBundle').textContent = scenario.alexBundle;
+    document.getElementById('allocationMorganTask').textContent = scenario.morganTask;
+    document.getElementById('allocationMorganTime').textContent = scenario.morganTime;
+    document.getElementById('allocationMorganBundle').textContent = scenario.morganBundle;
+    document.getElementById('allocationScenarioLabel').textContent = scenario.label;
+    document.getElementById('allocationTotalDishes').textContent = formatNumber(scenario.dishes);
+    document.getElementById('allocationTotalWraps').textContent = formatNumber(scenario.wraps);
+    document.getElementById('allocationDishBarValue').textContent = formatNumber(scenario.dishes);
+    document.getElementById('allocationWrapBarValue').textContent = formatNumber(scenario.wraps);
+    document.getElementById('allocationDishBar').style.width = ((scenario.dishes / 48) * 100).toFixed(2) + '%';
+    document.getElementById('allocationWrapBar').style.width = ((scenario.wraps / 36) * 100).toFixed(2) + '%';
+    const feedback = document.getElementById('allocationFeedback');
+    feedback.className = 'game-feedback allocation-feedback' + (scenario.state ? ' ' + scenario.state : '');
+    feedback.textContent = scenario.message;
+  }
+
+  function exchangePlotX(dishes){ return 48 + (dishes / 50) * 322; }
+  function exchangePlotY(wraps){ return 210 - (wraps / 40) * 180; }
+
+  function positionExchangeConsumptionPoint(person, dishes, wraps, dishEndpoint, wrapEndpoint){
+    const x = exchangePlotX(dishes);
+    const y = exchangePlotY(wraps);
+    const point = document.getElementById('exchange' + person + 'ConsumptionPoint');
+    const label = document.getElementById('exchange' + person + 'ConsumptionLabel');
+    const projectionX = document.getElementById('exchange' + person + 'ProjectionX');
+    const projectionY = document.getElementById('exchange' + person + 'ProjectionY');
+    const dishValue = document.getElementById('exchange' + person + 'DishAxisValue');
+    const wrapValue = document.getElementById('exchange' + person + 'WrapAxisValue');
+
+    point.setAttribute('cx', x.toFixed(1));
+    point.setAttribute('cy', y.toFixed(1));
+    projectionX.setAttribute('x1', x.toFixed(1));
+    projectionX.setAttribute('y1', y.toFixed(1));
+    projectionX.setAttribute('x2', x.toFixed(1));
+    projectionX.setAttribute('y2', '210');
+    projectionY.setAttribute('x1', '48');
+    projectionY.setAttribute('y1', y.toFixed(1));
+    projectionY.setAttribute('x2', x.toFixed(1));
+    projectionY.setAttribute('y2', y.toFixed(1));
+
+    const placeLeft = x > 300;
+    label.textContent = 'C (' + formatNumber(dishes) + ', ' + formatNumber(wraps) + ')';
+    label.setAttribute('x', (x + (placeLeft ? -9 : 9)).toFixed(1));
+    label.setAttribute('y', (y < 58 ? y + 18 : y - 9).toFixed(1));
+    label.setAttribute('text-anchor', placeLeft ? 'end' : 'start');
+
+    dishValue.textContent = formatNumber(dishes);
+    dishValue.setAttribute('x', x.toFixed(1));
+    dishValue.setAttribute('visibility', Math.abs(dishes) < 0.001 || Math.abs(dishes - dishEndpoint) < 0.001 ? 'hidden' : 'visible');
+    wrapValue.textContent = formatNumber(wraps);
+    wrapValue.setAttribute('y', (y + 4).toFixed(1));
+    wrapValue.setAttribute('visibility', Math.abs(wraps) < 0.001 || Math.abs(wraps - wrapEndpoint) < 0.001 ? 'hidden' : 'visible');
+  }
+
+  function renderExchangeConsumption(){
+    const quantity = Number(document.getElementById('exchangeQuantityRange').value);
+    const alexDishes = quantity;
+    const alexWraps = 36 - quantity;
+    const morganDishes = 48 - quantity;
+    const morganWraps = quantity;
+    positionExchangeConsumptionPoint('Alex', alexDishes, alexWraps, 18, 36);
+    positionExchangeConsumptionPoint('Morgan', morganDishes, morganWraps, 48, 24);
+    document.getElementById('exchangeQuantityOutput').textContent = quantity + (quantity === 1 ? ' rack ↔ ' : ' racks ↔ ') + quantity + (quantity === 1 ? ' wrap' : ' wraps');
+    document.getElementById('exchangeAlexBundle').textContent = '(' + formatNumber(alexDishes) + ', ' + formatNumber(alexWraps) + ')';
+    document.getElementById('exchangeMorganBundle').textContent = '(' + formatNumber(morganDishes) + ', ' + formatNumber(morganWraps) + ')';
+    const message = document.getElementById('exchangeGainMessage');
+    if (quantity === 0) {
+      message.textContent = 'At q = 0, production and consumption coincide: specialization has occurred, but no exchange has shared the outputs.';
+    } else if (quantity >= 13 && quantity <= 17) {
+      message.textContent = 'At q = ' + quantity + ', both C bundles contain more of both outputs than their 50–50 no-trade bundles B.';
+    } else if (quantity === 12 || quantity === 18) {
+      message.textContent = 'Both are at least as well supplied as at B, but one output is unchanged for one person. Try q = 13–17 for strict gains in both outputs.';
+    } else {
+      message.textContent = 'Both C points are outside the individual PPFs. Whether this division is preferred depends on preferences; try q = 13–17 for mutual gains relative to B.';
+    }
+  }
+
   function renderSocialIntro(data){
     const summary = (data.source === 'class' ? 'Using class profiles: ' : 'Using contrasting benchmark: ') +
       data.profiles[0].nickname + ' + ' + data.profiles[1].nickname + ' · ' + formatNumber(data.totalHours) + ' total work hours';
@@ -2246,7 +3351,7 @@
     document.getElementById('socialChoiceButton0').textContent = data.profiles[0].nickname + ' switches first';
     document.getElementById('socialChoiceButton1').textContent = data.profiles[1].nickname + ' switches first';
     document.getElementById('socialChoiceTie').textContent = 'Either one—the opportunity costs are equal';
-    setFeedback(document.getElementById('socialChoiceFeedback'), 'Compare the wraps given up per additional dish rack.', '');
+    setFeedback(document.getElementById('socialChoiceFeedback'), 'Apply comparative advantage: compare the wraps given up per additional dish rack.', '');
   }
 
   function evaluateSocialChoice(choice){
@@ -2259,13 +3364,19 @@
     socialChoiceAnswered = true;
     buttons.forEach(function(button){ button.disabled = true; });
     correct.classList.add('correct');
-    const comparison = data.profiles[0].nickname + ': ' + formatNumber(data.opportunityCosts[0]) + ' wraps/rack; ' +
-      data.profiles[1].nickname + ': ' + formatNumber(data.opportunityCosts[1]) + ' wraps/rack.';
+    const comparison = data.profiles[0].nickname + ' = ' + formatNumber(data.opportunityCosts[0]) + '; ' +
+      data.profiles[1].nickname + ' = ' + formatNumber(data.opportunityCosts[1]) + ' wraps/rack.';
     if (choice === correctChoice) {
-      setFeedback(document.getElementById('socialChoiceFeedback'), 'Correct. ' + comparison + ' Start with the lower-cost resource.', 'success');
+      const conclusion = data.tie
+        ? 'The opportunity costs are equal, so there is no unique first worker.'
+        : data.low.nickname + ' has comparative advantage in dish racks and switches first.';
+      setFeedback(document.getElementById('socialChoiceFeedback'), 'Correct. ' + comparison + ' ' + conclusion, 'success');
     } else {
       selected.classList.add('wrong');
-      setFeedback(document.getElementById('socialChoiceFeedback'), 'Not quite. ' + comparison + ' The lower opportunity cost goes first.', 'error');
+      const correction = data.tie
+        ? 'The opportunity costs are equal.'
+        : data.low.nickname + ' has the lower opportunity cost and switches first.';
+      setFeedback(document.getElementById('socialChoiceFeedback'), 'Not quite. ' + comparison + ' ' + correction, 'error');
     }
   }
 
@@ -2285,6 +3396,11 @@
     pointBLabel.setAttribute('x', (kneeX > 315 ? kneeX - 10 : kneeX + 10).toFixed(1));
     pointBLabel.setAttribute('y', Math.max(29, kneeY - 10).toFixed(1));
     pointBLabel.setAttribute('text-anchor', kneeX > 315 ? 'end' : 'start');
+    const kinkMeaningLabel = document.getElementById('socialKinkMeaningLabel');
+    kinkMeaningLabel.textContent = data.tie ? 'equal-OC reallocation point' : 'comparative-advantage specialization';
+    kinkMeaningLabel.setAttribute('x', (kneeX > 250 ? kneeX - 10 : kneeX + 10).toFixed(1));
+    kinkMeaningLabel.setAttribute('y', Math.min(277, kneeY + 20).toFixed(1));
+    kinkMeaningLabel.setAttribute('text-anchor', kneeX > 250 ? 'end' : 'start');
     document.getElementById('socialPointCLabel').textContent = 'C (' + formatNumber(data.totalDishes) + ', 0)';
     document.getElementById('socialBuildMaxDishes').textContent = formatNumber(data.totalDishes);
     document.getElementById('socialBuildMaxWraps').textContent = formatNumber(data.totalWraps);
@@ -2309,12 +3425,14 @@
       setFeedback(document.getElementById('socialBuildFeedback'), 'Start at A, where both workers make wraps.', '');
     } else if (socialBuildStage === 1) {
       setFeedback(document.getElementById('socialBuildFeedback'), 'A combines all available work time in wrap production: (0, ' + formatNumber(data.totalWraps) + ').', 'success');
+    } else if (socialBuildStage === 2 && data.tie) {
+      setFeedback(document.getElementById('socialBuildFeedback'), 'The workers have equal opportunity costs, so there is no unique specialization order and no true kink.', 'success');
     } else if (socialBuildStage === 2) {
-      setFeedback(document.getElementById('socialBuildFeedback'), data.low.nickname + ' switches first because each rack costs only ' + formatNumber(data.lowOC) + ' wraps.', 'success');
+      setFeedback(document.getElementById('socialBuildFeedback'), 'B is the comparative-advantage specialization point: ' + data.low.nickname + ' makes only dish racks while ' + data.high.nickname + ' makes only Chicken Wraps.', 'success');
     } else if (data.tie) {
       setFeedback(document.getElementById('socialBuildFeedback'), 'Both segments have the same slope. Equal opportunity costs produce a straight social PPF.', 'success');
     } else {
-      setFeedback(document.getElementById('socialBuildFeedback'), 'Opportunity cost rises from ' + formatNumber(data.lowOC) + ' to ' + formatNumber(data.highOC) + ' wraps per rack: the social PPF bows outward.', 'success');
+      setFeedback(document.getElementById('socialBuildFeedback'), 'Beyond B, the marginal producer changes. Opportunity cost rises from ' + formatNumber(data.lowOC) + ' to ' + formatNumber(data.highOC) + ' wraps per rack.', 'success');
     }
   }
 
@@ -2328,7 +3446,7 @@
     kneeLabel.setAttribute('x', (geometry.kneeX > 315 ? geometry.kneeX - 10 : geometry.kneeX + 10).toFixed(1));
     kneeLabel.setAttribute('y', Math.max(29, geometry.kneeY - 10).toFixed(1));
     kneeLabel.setAttribute('text-anchor', geometry.kneeX > 315 ? 'end' : 'start');
-    kneeLabel.textContent = data.tie ? 'same slope' : 'kink';
+    kneeLabel.textContent = data.tie ? 'same slope' : 'specialization kink';
     document.getElementById('socialShapeMaxDishes').textContent = formatNumber(data.totalDishes);
     document.getElementById('socialShapeMaxWraps').textContent = formatNumber(data.totalWraps);
     const many = socialShapeMode === 'many';
@@ -2346,8 +3464,8 @@
       document.getElementById('socialShapeTitle').textContent = 'Equal-cost resources: no bow';
       document.getElementById('socialShapeMeaning').textContent = 'With identical opportunity costs, the two segments lie on one straight line. Use the benchmark to generate a kink.';
     } else {
-      document.getElementById('socialShapeTitle').textContent = 'Two resource types: one visible kink';
-      document.getElementById('socialShapeMeaning').textContent = 'Each worker contributes one constant-cost segment; the steeper second segment reveals increasing opportunity cost.';
+      document.getElementById('socialShapeTitle').textContent = 'Two resource types: one specialization kink';
+      document.getElementById('socialShapeMeaning').textContent = 'At the kink, each worker is fully specialized by comparative advantage. Beyond it, the marginal producer changes and opportunity cost rises.';
     }
     document.getElementById('socialEarlyOC').textContent = 'OC = ' + formatNumber(data.lowOC) + ' wraps/rack';
     document.getElementById('socialLateOC').textContent = 'OC = ' + formatNumber(data.highOC) + ' wraps/rack';
@@ -2356,6 +3474,11 @@
   function renderSocialSlides(){
     const data = getSocialSelection();
     renderSocialIntro(data);
+    renderAdvantageSlides(data);
+    renderComparativeConceptSlide();
+    renderExchangeConceptSlide();
+    renderSpecializationAllocation();
+    renderExchangeConsumption();
     renderSocialChoice(data);
     renderSocialBuild(data);
     renderSocialShape(data);
@@ -2414,6 +3537,8 @@
     document.getElementById('slopeInterpretation').innerHTML = profile
       ? '<strong>Interpretation:</strong> one additional dish rack costs ' + formatNumber(profile.dishMinutes / profile.wrapMinutes) + ' Chicken Wraps everywhere on ' + profile.nickname + '’s straight PPF.'
       : 'With fixed task speeds, the straight-line slope—and therefore opportunity cost—stays constant.';
+
+    renderOpportunityCostComparison(profile, selection ? selection.index : -1);
 
     Array.from(document.querySelectorAll('.pattern-gain')).forEach(function(cell){ cell.textContent = movement ? formatNumber(movement.gain) : '—'; });
     Array.from(document.querySelectorAll('.pattern-loss')).forEach(function(cell){ cell.textContent = movement ? formatNumber(movement.loss) : '—'; });
@@ -2657,6 +3782,11 @@
     socialChoiceAnswered = false;
     socialBuildStage = 0;
     socialShapeMode = 'two';
+    resetAdvantageRevealState();
+    resetComparativeConceptState();
+    Object.keys(exchangeConceptRevealState).forEach(function(key){ exchangeConceptRevealState[key] = false; });
+    specializationAllocationMode = 'split';
+    document.getElementById('exchangeQuantityRange').value = '15';
     document.getElementById('diminishingReturnsReveal').classList.remove('visible');
     document.getElementById('revealDiminishingReturns').textContent = 'Connect to diminishing returns';
   }
@@ -2671,6 +3801,63 @@
     resetSocialSectionState();
     renderSocialSlides();
   });
+
+  [
+    ['revealAbsoluteDish', 'absoluteDish'],
+    ['revealAbsoluteWrap', 'absoluteWrap'],
+    ['revealComparativeDish', 'comparativeDish'],
+    ['revealComparativeWrap', 'comparativeWrap']
+  ].forEach(function(config){
+    document.getElementById(config[0]).addEventListener('click', function(){
+      advantageRevealState[config[1]] = !advantageRevealState[config[1]];
+      renderAdvantageSlides(getSocialSelection());
+    });
+  });
+
+  [
+    ['revealConceptAbsolute', 'absolute'],
+    ['revealConceptCADish', 'dish'],
+    ['revealConceptCAWrap', 'wrap']
+  ].forEach(function(config){
+    document.getElementById(config[0]).addEventListener('click', function(){
+      comparativeConceptRevealState[config[1]] = !comparativeConceptRevealState[config[1]];
+      renderComparativeConceptSlide();
+    });
+  });
+
+  [
+    ['revealExchangeSpecialize', 'specialize'],
+    ['revealExchangeOutput', 'output'],
+    ['revealExchangeTrade', 'trade']
+  ].forEach(function(config){
+    document.getElementById(config[0]).addEventListener('click', function(){
+      exchangeConceptRevealState[config[1]] = !exchangeConceptRevealState[config[1]];
+      renderExchangeConceptSlide();
+    });
+  });
+  Array.from(document.querySelectorAll('.allocation-mode-button')).forEach(function(button){
+    button.addEventListener('click', function(){
+      specializationAllocationMode = button.dataset.allocationMode;
+      renderSpecializationAllocation();
+    });
+  });
+  document.getElementById('exchangeQuantityRange').addEventListener('input', renderExchangeConsumption);
+
+  [
+    ['dmrRevealVariable', 'variable'],
+    ['dmrRevealFixed', 'fixed'],
+    ['dmrRevealMarginal', 'marginal']
+  ].forEach(function(config){
+    document.getElementById(config[0]).addEventListener('click', function(){
+      dmrConceptRevealState[config[1]] = !dmrConceptRevealState[config[1]];
+      renderDMRConceptSlide();
+    });
+  });
+  document.getElementById('dmrWorkersRange').addEventListener('input', renderDMRExample);
+  document.getElementById('dmrAllocationRange').addEventListener('input', renderDMRLinkedCharts);
+  renderDMRConceptSlide();
+  renderDMRExample();
+  renderDMRLinkedCharts();
 
   Array.from(document.querySelectorAll('.social-choice-answer')).forEach(function(button){
     button.addEventListener('click', function(){ evaluateSocialChoice(button.dataset.socialChoice); });
@@ -2752,6 +3939,20 @@
         setFeedback(patternFeedback, 'Not quite. Each row has the same wraps-per-rack value, so opportunity cost is constant.', 'error');
       }
     });
+  });
+
+  // Read the same opportunity cost in both directions
+  document.getElementById('revealDishOC').addEventListener('click', function(){
+    const selection = getTeachingProfile();
+    if (!selection) return;
+    ocRevealState.dish = !ocRevealState.dish;
+    renderOpportunityCostComparison(selection.profile, selection.index);
+  });
+  document.getElementById('revealWrapOC').addEventListener('click', function(){
+    const selection = getTeachingProfile();
+    if (!selection) return;
+    ocRevealState.wrap = !ocRevealState.wrap;
+    renderOpportunityCostComparison(selection.profile, selection.index);
   });
 
   // Cumulative practice
