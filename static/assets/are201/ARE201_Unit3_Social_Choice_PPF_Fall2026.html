@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ARE 201 — Unit 3: Production Possibility Frontier</title>
+<title>ARE 201 — Unit 3: Production Possibility Frontier and Comparative Advantage</title>
 <style>
   :root {
     --accent: #EB811B;
@@ -758,6 +758,11 @@
   .advantage-table tr:last-child td { border-bottom: 0; }
   .advantage-table th { color: #fff; background: var(--ink); font-size: 13px; }
   .advantage-table td:first-child { font-weight: 850; text-align: left; }
+  .table-only-slide .advantage-table { width: 84%; margin: 0; }
+  .table-only-slide .advantage-table th,
+  .table-only-slide .advantage-table td { padding: 22px 18px; font-size: 23px; }
+  .table-only-slide .advantage-table th { font-size: 19px; }
+  .table-only-slide .advantage-table td:first-child { text-align: center; }
   .advantage-question-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .advantage-card { min-height: 183px; padding: 15px 17px; border-top: 5px solid var(--accent); background: var(--accent-soft); }
   .advantage-card.blue-card { border-top-color: var(--blue); background: var(--blue-soft); }
@@ -785,6 +790,62 @@
   .concept-ca-results .advantage-reveal strong { font-size: 14px; }
   .concept-ca-results .advantage-reveal span { font-size: 11px; }
   .comparative-concept-summary { min-height: 58px; margin-top: 12px; padding: 10px 15px; font-size: 16px; }
+
+  #advantageAlignmentQuestionSlide h1 {
+    max-width: 820px;
+    margin: 28px auto 22px;
+    font-size: 48px;
+    line-height: 1.08;
+    text-align: center;
+  }
+  .advantage-reflection-card {
+    width: 82%;
+    margin: 0 auto;
+    padding: 24px 30px 22px;
+    border-top: 6px solid var(--accent);
+    background: var(--accent-soft);
+    box-shadow: 0 10px 24px rgba(31, 41, 51, .08);
+  }
+  .advantage-reflection-label {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: .1em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .advantage-reflection-prompt {
+    max-width: 720px;
+    margin: 10px auto 20px;
+    font-size: 25px;
+    font-weight: 780;
+    line-height: 1.32;
+    text-align: center;
+  }
+  .advantage-reflection-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .advantage-reflection-option {
+    min-height: 83px;
+    padding: 13px 17px;
+    border: 2px solid #e2bd8f;
+    background: #fff;
+    text-align: center;
+  }
+  .advantage-reflection-option:last-child { border-color: #b8d8ef; }
+  .advantage-reflection-option strong { display: block; color: var(--accent); font-size: 22px; }
+  .advantage-reflection-option:last-child strong { color: var(--blue); }
+  .advantage-reflection-option span { display: block; margin-top: 4px; color: var(--muted); font-size: 14px; }
+  .advantage-reflection-instruction {
+    margin-top: 18px;
+    color: var(--muted);
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: .025em;
+    text-align: center;
+  }
 
   .exchange-thesis {
     min-height: 62px;
@@ -837,6 +898,46 @@
   }
   .exchange-flow-step { font-size: 13px; font-weight: 850; }
   .exchange-flow-arrow { color: var(--green); font-size: 20px; font-weight: 900; }
+
+  #stateAgricultureCaseSlide h1 { margin-bottom: 12px; font-size: 34px; }
+  .state-case-context {
+    margin-bottom: 12px;
+    padding: 9px 13px;
+    border-left: 5px solid var(--accent);
+    background: var(--accent-soft);
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.3;
+  }
+  .state-case-context strong { color: var(--ink); }
+  .state-case-table { margin-bottom: 12px; }
+  .state-case-table th, .state-case-table td { padding: 10px 13px; font-size: 15px; }
+  .state-case-table th { font-size: 13px; }
+  .state-case-prompt-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 14px; }
+  .state-case-prompt {
+    min-height: 126px;
+    padding: 12px 15px;
+    border-top: 5px solid var(--accent);
+    background: var(--accent-soft);
+  }
+  .state-case-prompt.blue-card { border-top-color: var(--blue); background: var(--blue-soft); }
+  .state-case-prompt .advantage-task-label { display: block; }
+  .state-case-prompt h2 { margin: 4px 0 5px; font-size: 20px; }
+  .state-case-prompt p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.3; }
+  .state-case-prompt button { width: 100%; min-height: 35px; margin-top: 8px; padding: 6px 10px; background: var(--blue); font-size: 13px; }
+  .state-case-answer {
+    min-height: 58px;
+    margin-top: 10px;
+    padding: 8px 12px;
+    border-left: 5px solid var(--green);
+    visibility: hidden;
+    opacity: 0;
+    background: var(--green-soft);
+    transition: opacity .18s ease;
+  }
+  .state-case-answer.visible { visibility: visible; opacity: 1; }
+  .state-case-answer strong { display: block; color: var(--green); font-size: 17px; }
+  .state-case-answer span { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; line-height: 1.3; }
 
   .allocation-rule-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin: -7px 0 11px; }
   .allocation-rule-card { padding: 9px 13px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
@@ -911,6 +1012,59 @@
   .exchange-bundle-stat strong { display: block; margin-top: 2px; color: var(--green); font-size: 14px; }
   .exchange-gain-message { margin-top: 6px; font-size: 10px; font-weight: 750; line-height: 1.28; }
   .exchange-clarifier { min-height: 43px; margin-top: 9px; padding: 8px 12px; border-left: 5px solid var(--blue); background: var(--blue-soft); font-size: 13px; line-height: 1.28; }
+
+  #termsCalculationSlide h1, #termsInteractiveSlide h1 { margin-bottom: 13px; font-size: 36px; }
+  .terms-definition-strip {
+    min-height: 54px;
+    margin-bottom: 14px;
+    padding: 10px 15px;
+    border-left: 5px solid var(--green);
+    background: var(--green-soft);
+    font-size: 16px;
+    line-height: 1.32;
+  }
+  .terms-reservation-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .terms-reservation-card { min-height: 164px; padding: 15px 17px; border-top: 5px solid var(--accent); background: var(--accent-soft); }
+  .terms-reservation-card.blue-card { border-top-color: var(--blue); background: var(--blue-soft); }
+  .terms-reservation-card h2 { margin: 5px 0 8px; font-size: 23px; }
+  .terms-reservation-card p { margin: 0 0 9px; color: var(--muted); font-size: 14px; line-height: 1.32; }
+  .terms-reservation-value { padding: 9px 11px; background: #fff; font-size: 17px; font-weight: 850; }
+  .terms-question-panel { margin-top: 14px; padding: 15px 18px; border: 2px solid var(--line); background: #fff; text-align: center; }
+  .terms-question-label { color: var(--muted); font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+  .terms-blank-interval { margin: 7px 0 5px; font-family: Georgia, "Times New Roman", serif; font-size: 37px; font-weight: 800; }
+  .terms-blank { display: inline-block; width: 118px; border-bottom: 4px solid var(--accent); transform: translateY(-5px); }
+  .terms-question-panel p { margin: 0; color: var(--muted); font-size: 14px; }
+  .terms-boundary-question { margin-top: 10px; padding: 9px 13px; border-left: 5px solid var(--blue); background: var(--blue-soft); font-size: 15px; }
+
+  .terms-control-panel { padding: 11px 15px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .terms-control-header { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
+  .terms-control-header label { font-size: 15px; font-weight: 850; }
+  .terms-control-header output { color: var(--accent); font-family: Georgia, "Times New Roman", serif; font-size: 21px; font-weight: 800; }
+  .terms-rate-range { width: 100%; margin: 8px 0 5px; accent-color: var(--accent); }
+  .terms-preset-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .interactive .terms-preset-button { min-height: 33px; padding: 5px 8px; background: var(--ink); font-size: 12px; }
+  .interactive .terms-preset-button.selected { background: var(--green); }
+  .terms-zone-strip { display: grid; grid-template-columns: 1fr 3fr 1fr; margin: 10px 0; text-align: center; }
+  .terms-zone { padding: 6px 5px; color: #fff; background: var(--red); font-size: 11px; font-weight: 850; }
+  .terms-zone.mutual { background: var(--green); }
+  .terms-zone.high { background: var(--red); }
+  .terms-status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .terms-state-card { min-height: 164px; padding: 13px 15px; border-top: 5px solid var(--line); background: var(--soft); transition: border-color .18s ease, background .18s ease; }
+  .terms-state-card.accept { border-top-color: var(--green); background: var(--green-soft); }
+  .terms-state-card.indifferent { border-top-color: var(--blue); background: var(--blue-soft); }
+  .terms-state-card.reject { border-top-color: var(--red); background: var(--red-soft); }
+  .terms-state-header { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+  .terms-state-header h2 { margin: 0; font-size: 22px; }
+  .terms-status-badge { padding: 5px 9px; border-radius: 999px; color: #fff; background: var(--muted); font-size: 11px; font-weight: 900; text-transform: uppercase; }
+  .terms-state-card.accept .terms-status-badge { background: var(--green); }
+  .terms-state-card.indifferent .terms-status-badge { background: var(--blue); }
+  .terms-state-card.reject .terms-status-badge { background: var(--red); }
+  .terms-state-card p { margin: 8px 0 7px; color: var(--muted); font-size: 13px; line-height: 1.3; }
+  .terms-net-calculation { padding: 8px 10px; background: #fff; font-size: 14px; }
+  .terms-net-calculation strong { color: var(--ink); font-size: 18px; }
+  .terms-overall-feedback { min-height: 62px; margin-top: 10px; padding: 10px 14px; border-left: 5px solid var(--line); background: var(--soft); font-size: 15px; line-height: 1.32; }
+  .terms-overall-feedback.success { border-left-color: var(--green); background: var(--green-soft); }
+  .terms-overall-feedback.error { border-left-color: var(--red); background: var(--red-soft); }
 
   .social-worker-grid { display: grid; grid-template-columns: 1fr 44px 1fr; gap: 10px; align-items: center; }
   .social-worker-card {
@@ -1004,19 +1158,23 @@
   #socialShapeSlide .shape-stat-grid { margin: 7px 0; }
   #socialShapeSlide .social-shape-reveal { margin-top: 6px; padding: 8px 10px; font-size: 12px; line-height: 1.28; }
 
-  .dmr-formula { margin-bottom: 16px; padding: 13px 18px; font-size: 24px; }
-  .dmr-concept-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-  .dmr-concept-card { min-height: 235px; padding: 18px 17px; border-top: 5px solid var(--accent); background: var(--accent-soft); }
-  .dmr-concept-card.blue-card { border-top-color: var(--blue); background: var(--blue-soft); }
-  .dmr-concept-card.green-card { border-top-color: var(--green); background: var(--green-soft); }
-  .dmr-concept-number { color: var(--muted); font-size: 12px; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
-  .dmr-concept-card h2 { margin: 7px 0 10px; font-size: 23px; }
-  .dmr-concept-card p { min-height: 57px; margin-bottom: 12px; color: var(--muted); font-size: 15px; line-height: 1.3; }
-  .dmr-concept-card button { width: 100%; }
-  .dmr-concept-card.blue-card button { background: var(--blue); }
-  .dmr-concept-card.green-card button { background: var(--green); }
-  .dmr-concept-answer { min-height: 61px; margin-top: 11px; padding: 10px 11px; border-left: 4px solid var(--green); visibility: hidden; opacity: 0; background: #fff; font-size: 14px; line-height: 1.3; transition: opacity .18s ease; }
-  .dmr-concept-answer.visible { visibility: visible; opacity: 1; }
+  #dmrDefinitionSlide h1 { margin-bottom: 12px; font-size: 36px; }
+  .dmr-definition-hero { padding: 14px 18px; border-left: 6px solid var(--green); background: var(--green-soft); }
+  .dmr-definition-label { color: var(--green); font-size: 11px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+  .dmr-definition-hero p { margin: 5px 0 9px; font-size: 18px; line-height: 1.34; }
+  .dmr-mp-translation { display: inline-block; padding: 6px 10px; background: #fff; font-size: 14px; font-weight: 850; }
+  .dmr-why-heading { margin: 14px 0 9px; font-size: 20px; }
+  .dmr-reason-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .dmr-reason-card { min-height: 245px; padding: 14px 15px; border-top: 5px solid var(--accent); background: var(--accent-soft); }
+  .dmr-reason-card.blue-card { border-top-color: var(--blue); background: var(--blue-soft); }
+  .dmr-reason-card.green-card { border-top-color: var(--green); background: var(--green-soft); }
+  .dmr-reason-number { display: flex; width: 31px; height: 31px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--accent); font-size: 15px; font-weight: 900; }
+  .dmr-reason-card.blue-card .dmr-reason-number { background: var(--blue); }
+  .dmr-reason-card.green-card .dmr-reason-number { background: var(--green); }
+  .dmr-reason-card h2 { margin: 8px 0 7px; font-size: 21px; }
+  .dmr-reason-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.34; }
+  .dmr-reason-result { margin-top: 10px; padding: 8px 9px; border-left: 4px solid var(--green); background: #fff; font-size: 12px; line-height: 1.3; }
+  .dmr-reason-result strong { display: block; margin-bottom: 2px; color: var(--green); font-size: 13px; }
   .dmr-definition-strip { min-height: 66px; margin-top: 14px; padding: 11px 16px; font-size: 17px; }
 
   .dmr-example-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: -8px 0 14px; }
@@ -1045,6 +1203,7 @@
   .dmr-example-feedback { min-height: 62px; margin-top: 13px; padding: 10px 14px; font-size: 15px; }
 
   .dmr-link-summary { min-height: 34px; margin: -9px 0 11px; padding: 7px 11px; border-left: 4px solid var(--green); color: #345d4a; background: var(--green-soft); font-size: 13px; font-weight: 750; }
+  #dmrConcavePPFSlide h1 { font-size: 36px; }
   .dmr-linked-chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .dmr-linked-chart-panel { min-height: 303px; padding: 11px 12px 5px; border: 1px solid var(--line); background: #fff; }
   .dmr-linked-chart-panel h2 { margin: 0 0 2px; font-size: 20px; }
@@ -1119,7 +1278,7 @@
   <section class="slide title-slide center middle active">
     <div style="width:100%; max-width:850px;">
       <div class="title-kicker">ARE 201 · Unit 3</div>
-      <h1 class="title-main">Production Possibility Frontier</h1>
+      <h1 class="title-main">Production Possibility Frontier &amp; Comparative Advantage</h1>
     </div>
     <svg class="title-graphic" viewBox="0 0 500 165" role="img" aria-label="Limited time, two tasks, and possible output combinations">
       <circle cx="52" cy="84" r="37" fill="#EB811B"/>
@@ -1726,12 +1885,23 @@
     <div class="definition-strip blue-strip" style="margin-top:15px; font-size:17px;"><strong>Keep the concepts separate:</strong> preferences and wages may change the chosen point, but only resources or productivity change production possibilities.</div>
   </section>
 
-  <section class="slide interactive" id="absoluteAdvantageSlide">
-    <div class="section-kicker">Compare productivity</div>
-    <h1>Absolute advantage: who can produce more per hour?</h1>
-    <div class="social-profile-summary">Loading two production profiles.</div>
+  <section class="slide center middle table-only-slide" id="opportunityCostPracticeSlide">
+    <h1>Calculate the Opportunity Costs</h1>
     <table class="advantage-table">
-      <thead><tr><th>Worker</th><th>Dish racks per hour</th><th>Chicken Wraps per hour</th></tr></thead>
+      <thead><tr><th>Worker</th><th>T-shirts per hour</th><th>Loaves of bread per hour</th></tr></thead>
+      <tbody>
+        <tr><td id="ocPracticeName0">Worker 1</td><td id="ocPracticeDishRate0">—</td><td id="ocPracticeWrapRate0">—</td></tr>
+        <tr><td id="ocPracticeName1">Worker 2</td><td id="ocPracticeDishRate1">—</td><td id="ocPracticeWrapRate1">—</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="slide interactive" id="absoluteAdvantageSlide">
+    <div class="section-kicker">New example · two consumer goods</div>
+    <h1>Absolute advantage: who can produce more per hour?</h1>
+    <div class="social-profile-summary advantage-profile-summary">Loading two consumer-goods production profiles.</div>
+    <table class="advantage-table">
+      <thead><tr><th>Worker</th><th>T-shirts per hour</th><th>Loaves of bread per hour</th></tr></thead>
       <tbody>
         <tr><td id="absoluteName0">Worker 1</td><td id="absoluteDishRate0">—</td><td id="absoluteWrapRate0">—</td></tr>
         <tr><td id="absoluteName1">Worker 2</td><td id="absoluteDishRate1">—</td><td id="absoluteWrapRate1">—</td></tr>
@@ -1739,16 +1909,16 @@
     </table>
     <div class="advantage-question-grid">
       <div class="advantage-card">
-        <div class="advantage-task-label">Dish racks</div>
+        <div class="advantage-task-label">T-shirts</div>
         <h2>Who produces more?</h2>
-        <p>Compare racks per hour, holding work time fixed.</p>
+        <p>Compare T-shirts per hour, holding work time fixed.</p>
         <button type="button" id="revealAbsoluteDish" aria-expanded="false">Reveal absolute advantage</button>
         <div class="advantage-reveal" id="absoluteDishReveal" aria-hidden="true"><strong id="absoluteDishWinner">—</strong><span id="absoluteDishReason">—</span></div>
       </div>
       <div class="advantage-card blue-card">
-        <div class="advantage-task-label">Chicken Wraps</div>
+        <div class="advantage-task-label">Loaves of bread</div>
         <h2>Who produces more?</h2>
-        <p>Compare wraps per hour, holding work time fixed.</p>
+        <p>Compare loaves per hour, holding work time fixed.</p>
         <button type="button" id="revealAbsoluteWrap" aria-expanded="false">Reveal absolute advantage</button>
         <div class="advantage-reveal" id="absoluteWrapReveal" aria-hidden="true"><strong id="absoluteWrapWinner">—</strong><span id="absoluteWrapReason">—</span></div>
       </div>
@@ -1757,11 +1927,11 @@
   </section>
 
   <section class="slide interactive" id="comparativeAdvantageSlide">
-    <div class="section-kicker">Compare opportunity cost</div>
+    <div class="section-kicker">Two consumer goods · compare opportunity cost</div>
     <h1>Comparative advantage: who gives up less?</h1>
-    <div class="social-profile-summary">Loading two production profiles.</div>
+    <div class="social-profile-summary advantage-profile-summary">Loading two consumer-goods production profiles.</div>
     <table class="advantage-table">
-      <thead><tr><th>Worker</th><th>OC of 1 dish rack</th><th>OC of 1 Chicken Wrap</th></tr></thead>
+      <thead><tr><th>Worker</th><th>OC of 1 T-shirt</th><th>OC of 1 loaf of bread</th></tr></thead>
       <tbody>
         <tr><td id="comparativeName0">Worker 1</td><td id="comparativeDishOC0">—</td><td id="comparativeWrapOC0">—</td></tr>
         <tr><td id="comparativeName1">Worker 2</td><td id="comparativeDishOC1">—</td><td id="comparativeWrapOC1">—</td></tr>
@@ -1769,21 +1939,35 @@
     </table>
     <div class="advantage-question-grid">
       <div class="advantage-card">
-        <div class="advantage-task-label">Dish racks</div>
+        <div class="advantage-task-label">T-shirts</div>
         <h2>Who has the lower OC?</h2>
-        <p>The worker who gives up fewer wraps has comparative advantage.</p>
+        <p>The worker who gives up fewer loaves has comparative advantage.</p>
         <button type="button" id="revealComparativeDish" aria-expanded="false">Reveal comparative advantage</button>
         <div class="advantage-reveal" id="comparativeDishReveal" aria-hidden="true"><strong id="comparativeDishWinner">—</strong><span id="comparativeDishReason">—</span></div>
       </div>
       <div class="advantage-card blue-card">
-        <div class="advantage-task-label">Chicken Wraps</div>
+        <div class="advantage-task-label">Loaves of bread</div>
         <h2>Who has the lower OC?</h2>
-        <p>The worker who gives up fewer racks has comparative advantage.</p>
+        <p>The worker who gives up fewer T-shirts has comparative advantage.</p>
         <button type="button" id="revealComparativeWrap" aria-expanded="false">Reveal comparative advantage</button>
         <div class="advantage-reveal" id="comparativeWrapReveal" aria-hidden="true"><strong id="comparativeWrapWinner">—</strong><span id="comparativeWrapReason">—</span></div>
       </div>
     </div>
     <div class="definition-strip green-strip advantage-definition"><strong>Allocation rule:</strong> assign production by comparative advantage—the lower opportunity cost—not by absolute advantage alone.</div>
+  </section>
+
+  <section class="slide" id="advantageAlignmentQuestionSlide">
+    <div class="section-kicker">Pause · predict before the example</div>
+    <h1>Are absolute advantage and comparative advantage always aligned?</h1>
+    <div class="advantage-reflection-card">
+      <div class="advantage-reflection-label">Consider this claim</div>
+      <div class="advantage-reflection-prompt">If one producer can make more of both goods per hour, must that producer also have comparative advantage in both goods?</div>
+      <div class="advantage-reflection-options" aria-label="Two possible answers for class discussion">
+        <div class="advantage-reflection-option"><strong>YES</strong><span>They always point to the same producer.</span></div>
+        <div class="advantage-reflection-option"><strong>NO</strong><span>They do not necessarily point to the same producer.</span></div>
+      </div>
+    </div>
+    <div class="advantage-reflection-instruction">Think for 20 seconds → vote → explain your reasoning</div>
   </section>
 
   <section class="slide interactive" id="comparativeConceptSlide">
@@ -1795,7 +1979,7 @@
         <div class="advantage-task-label">Output in one hour</div>
         <h2>Worker A is faster at both</h2>
         <table class="advantage-table">
-          <thead><tr><th>Worker</th><th>Racks</th><th>Wraps</th></tr></thead>
+          <thead><tr><th>Worker</th><th>T-shirts</th><th>Loaves</th></tr></thead>
           <tbody><tr><td>A</td><td>10</td><td>20</td></tr><tr><td>B</td><td>4</td><td>4</td></tr></tbody>
         </table>
         <button type="button" id="revealConceptAbsolute" aria-expanded="false">Reveal absolute advantage</button>
@@ -1805,16 +1989,16 @@
         <div class="advantage-task-label">What each output costs</div>
         <h2>But compare opportunity costs</h2>
         <table class="advantage-table">
-          <thead><tr><th>Worker</th><th>OC of 1 rack</th><th>OC of 1 wrap</th></tr></thead>
-          <tbody><tr><td>A</td><td>2 wraps</td><td>0.5 rack</td></tr><tr><td>B</td><td>1 wrap</td><td>1 rack</td></tr></tbody>
+          <thead><tr><th>Worker</th><th>OC of 1 T-shirt</th><th>OC of 1 loaf</th></tr></thead>
+          <tbody><tr><td>A</td><td>2 loaves</td><td>0.5 T-shirt</td></tr><tr><td>B</td><td>1 loaf</td><td>1 T-shirt</td></tr></tbody>
         </table>
         <div class="concept-ca-actions">
-          <button type="button" id="revealConceptCADish" aria-expanded="false">Dish-rack CA</button>
-          <button type="button" id="revealConceptCAWrap" aria-expanded="false">Wrap CA</button>
+          <button type="button" id="revealConceptCADish" aria-expanded="false">T-shirt CA</button>
+          <button type="button" id="revealConceptCAWrap" aria-expanded="false">Bread CA</button>
         </div>
         <div class="concept-ca-results">
-          <div class="advantage-reveal" id="conceptCADishReveal" aria-hidden="true"><strong>Worker B → racks</strong><span>1 wrap &lt; 2 wraps</span></div>
-          <div class="advantage-reveal" id="conceptCAWrapReveal" aria-hidden="true"><strong>Worker A → wraps</strong><span>0.5 rack &lt; 1 rack</span></div>
+          <div class="advantage-reveal" id="conceptCADishReveal" aria-hidden="true"><strong>Worker B → T-shirts</strong><span>1 loaf &lt; 2 loaves</span></div>
+          <div class="advantage-reveal" id="conceptCAWrapReveal" aria-hidden="true"><strong>Worker A → bread</strong><span>0.5 T-shirt &lt; 1 T-shirt</span></div>
         </div>
       </div>
     </div>
@@ -1829,23 +2013,23 @@
       <div class="exchange-concept-card">
         <div class="exchange-step-number">Step 1</div>
         <h2>Specialize</h2>
-        <p>Assign each task to the producer with the lower opportunity cost.</p>
+        <p>Assign each good to the producer with the lower opportunity cost.</p>
         <button type="button" id="revealExchangeSpecialize" aria-expanded="false">Reveal the allocation rule</button>
-        <div class="exchange-concept-answer" id="exchangeSpecializeAnswer" aria-hidden="true"><strong>Alex → wraps; Morgan → racks.</strong><br>Each specializes according to comparative advantage.</div>
+        <div class="exchange-concept-answer" id="exchangeSpecializeAnswer" aria-hidden="true"><strong>Alex → bread; Morgan → T-shirts.</strong><br>Each specializes according to comparative advantage.</div>
       </div>
       <div class="exchange-concept-card blue-card">
         <div class="exchange-step-number">Step 2</div>
         <h2>Produce more</h2>
         <p>Using time where it is relatively most productive can expand total output.</p>
         <button type="button" id="revealExchangeOutput" aria-expanded="false">Reveal the output gain</button>
-        <div class="exchange-concept-answer" id="exchangeOutputAnswer" aria-hidden="true"><strong>Benchmark result: (48, 36).</strong><br>That is 15 more racks and 6 more wraps than a 50–50 split.</div>
+        <div class="exchange-concept-answer" id="exchangeOutputAnswer" aria-hidden="true"><strong>Benchmark result: (48 T-shirts, 36 loaves).</strong><br>That is 15 more T-shirts and 6 more loaves than a 50–50 split.</div>
       </div>
       <div class="exchange-concept-card green-card">
         <div class="exchange-step-number">Step 3</div>
         <h2>Exchange</h2>
         <p>Trade at terms between the two opportunity costs, then divide the larger output.</p>
         <button type="button" id="revealExchangeTrade" aria-expanded="false">Reveal why both can gain</button>
-        <div class="exchange-concept-answer" id="exchangeTradeAnswer" aria-hidden="true"><strong>Try 1 rack ↔ 1 wrap.</strong><br>The rate lies between 0.5 and 2 wraps per rack, so both sides can accept it.</div>
+        <div class="exchange-concept-answer" id="exchangeTradeAnswer" aria-hidden="true"><strong>Try 1 T-shirt ↔ 1 loaf.</strong><br>The rate lies between 0.5 and 2 loaves per T-shirt, so both sides can accept it.</div>
       </div>
     </div>
     <div class="exchange-flow-strip" aria-label="Logic from comparative advantage to gains from exchange">
@@ -1856,185 +2040,276 @@
     </div>
   </section>
 
+  <section class="slide interactive" id="stateAgricultureCaseSlide">
+    <div class="section-kicker">Case study · agricultural production</div>
+    <h1>North Carolina and Idaho: who should produce what?</h1>
+    <div class="state-case-context"><strong>Stylized production possibilities:</strong> maximum output from the same 100 acres over one growing season. These are classroom values, not observed state totals.</div>
+    <table class="advantage-table state-case-table" aria-label="Stylized agricultural production possibilities for North Carolina and Idaho">
+      <thead>
+        <tr><th>State</th><th>Sweet potatoes</th><th>Potatoes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>North Carolina</td><td>60 units</td><td>30 units</td></tr>
+        <tr><td>Idaho</td><td>20 units</td><td>40 units</td></tr>
+      </tbody>
+    </table>
+    <div class="state-case-prompt-grid">
+      <div class="state-case-prompt">
+        <span class="advantage-task-label">Step 1</span>
+        <h2>Calculate opportunity cost</h2>
+        <p>For each state, calculate the opportunity cost of one unit of each crop.</p>
+      </div>
+      <div class="state-case-prompt blue-card">
+        <span class="advantage-task-label">Step 2</span>
+        <h2>Recommend specialization</h2>
+        <p>Based on comparative advantage, how should the two states divide production?</p>
+        <button type="button" id="revealStateCase" aria-expanded="false">Reveal the specialization</button>
+      </div>
+    </div>
+    <div class="state-case-answer" id="stateCaseAnswer" aria-hidden="true">
+      <strong>North Carolina → sweet potatoes · Idaho → potatoes</strong>
+      <span>North Carolina gives up 0.5 unit of potatoes per unit of sweet potatoes; Idaho gives up 0.5 unit of sweet potatoes per unit of potatoes.</span>
+    </div>
+  </section>
+
   <section class="slide interactive" id="specializationAllocationSlide">
-    <div class="section-kicker">Use the Alex–Morgan benchmark</div>
-    <h1>Who should do which job?</h1>
+    <div class="section-kicker">North Carolina–Idaho case · compare land allocations</div>
+    <h1>Which state should produce which crop?</h1>
     <div class="allocation-rule-grid">
-      <div class="allocation-rule-card"><span>Alex · lower OC of a wrap</span><strong>0.5 rack per wrap → specialize in Chicken Wraps</strong></div>
-      <div class="allocation-rule-card blue-rule"><span>Morgan · lower OC of a rack</span><strong>0.5 wrap per rack → specialize in dish racks</strong></div>
+      <div class="allocation-rule-card"><span>North Carolina · lower OC of sweet potatoes</span><strong>0.5 potato unit per sweet-potato unit</strong></div>
+      <div class="allocation-rule-card blue-rule"><span>Idaho · lower OC of potatoes</span><strong>0.5 sweet-potato unit per potato unit</strong></div>
     </div>
     <div class="allocation-mode-grid" role="group" aria-label="Compare work allocations">
-      <button type="button" class="allocation-mode-button selected" data-allocation-mode="split">50–50 split</button>
+      <button type="button" class="allocation-mode-button selected" data-allocation-mode="split">50–50 land split</button>
       <button type="button" class="allocation-mode-button" data-allocation-mode="comparative">Specialize by comparative advantage</button>
       <button type="button" class="allocation-mode-button" data-allocation-mode="reverse">Reverse specialization</button>
     </div>
     <div class="allocation-results-grid">
       <div class="allocation-worker-list">
         <div class="allocation-worker-result">
-          <div class="allocation-worker-header"><strong>Alex</strong><span>3-hour shift</span></div>
-          <h3 id="allocationAlexTask">Split both tasks</h3>
-          <p><span id="allocationAlexTime">90 minutes per task</span> · <strong id="allocationAlexBundle">(9 racks, 18 wraps)</strong></p>
+          <div class="allocation-worker-header"><strong>North Carolina</strong><span>100 acres</span></div>
+          <h3 id="allocationAlexTask">Split land between crops</h3>
+          <p><span id="allocationAlexTime">50 acres per crop</span> · <strong id="allocationAlexBundle">(30 sweet potatoes, 15 potatoes)</strong></p>
         </div>
         <div class="allocation-worker-result blue-worker">
-          <div class="allocation-worker-header"><strong>Morgan</strong><span>4-hour shift</span></div>
-          <h3 id="allocationMorganTask">Split both tasks</h3>
-          <p><span id="allocationMorganTime">120 minutes per task</span> · <strong id="allocationMorganBundle">(24 racks, 12 wraps)</strong></p>
+          <div class="allocation-worker-header"><strong>Idaho</strong><span>100 acres</span></div>
+          <h3 id="allocationMorganTask">Split land between crops</h3>
+          <p><span id="allocationMorganTime">50 acres per crop</span> · <strong id="allocationMorganBundle">(10 sweet potatoes, 20 potatoes)</strong></p>
         </div>
       </div>
       <div class="allocation-total-panel">
-        <div class="allocation-total-header"><h2>Total output</h2><span id="allocationScenarioLabel">50–50 split</span></div>
+        <div class="allocation-total-header"><h2>Total output</h2><span id="allocationScenarioLabel">50–50 land split</span></div>
         <div class="allocation-total-stat-grid">
-          <div class="allocation-total-stat"><span>Dish racks</span><strong id="allocationTotalDishes">33</strong></div>
-          <div class="allocation-total-stat"><span>Chicken Wraps</span><strong id="allocationTotalWraps">30</strong></div>
+          <div class="allocation-total-stat"><span>Sweet-potato units</span><strong id="allocationTotalDishes">40</strong></div>
+          <div class="allocation-total-stat"><span>Potato units</span><strong id="allocationTotalWraps">35</strong></div>
         </div>
-        <div class="allocation-bar-row"><span>Dish racks</span><div class="allocation-bar-track"><div class="allocation-bar-fill" id="allocationDishBar" style="width:68.75%;"></div></div><strong id="allocationDishBarValue">33</strong></div>
-        <div class="allocation-bar-row"><span>Wraps</span><div class="allocation-bar-track"><div class="allocation-bar-fill wrap-fill" id="allocationWrapBar" style="width:83.33%;"></div></div><strong id="allocationWrapBarValue">30</strong></div>
-        <div class="game-feedback allocation-feedback" id="allocationFeedback" aria-live="polite">This feasible 50–50 benchmark produces (33, 30). Compare it with specialization.</div>
+        <div class="allocation-bar-row"><span>Sweet potatoes</span><div class="allocation-bar-track"><div class="allocation-bar-fill" id="allocationDishBar" style="width:66.67%;"></div></div><strong id="allocationDishBarValue">40</strong></div>
+        <div class="allocation-bar-row"><span>Potatoes</span><div class="allocation-bar-track"><div class="allocation-bar-fill wrap-fill" id="allocationWrapBar" style="width:87.5%;"></div></div><strong id="allocationWrapBarValue">35</strong></div>
+        <div class="game-feedback allocation-feedback" id="allocationFeedback" aria-live="polite">The 50–50 land split produces (40, 35). Compare it with specialization.</div>
       </div>
     </div>
   </section>
 
   <section class="slide interactive" id="exchangeConsumptionSlide">
-    <div class="section-kicker">Separate production from consumption</div>
+    <div class="section-kicker">North Carolina–Idaho case · separate production from consumption</div>
     <h1>Exchange expands consumption possibilities</h1>
     <div class="exchange-rate-strip">
-      <span><strong>Terms of trade:</strong> Morgan gives racks; Alex gives wraps. The rate is mutually acceptable because it lies between their opportunity costs.</span>
-      <span class="exchange-rate-equation">0.5 &lt; 1 wrap/rack &lt; 2</span>
+      <span><strong>Terms of trade:</strong> North Carolina gives sweet potatoes; Idaho gives potatoes. A one-for-one rate lies between their opportunity costs.</span>
+      <span class="exchange-rate-equation">1 sweet-potato unit ↔ 1 potato unit</span>
     </div>
     <div class="exchange-chart-grid">
       <div class="exchange-chart-panel">
-        <div class="exchange-chart-header"><h2>Alex</h2><span>orange: PPF · green: with exchange</span></div>
-        <svg class="exchange-svg" viewBox="0 0 400 250" role="img" aria-label="Alex's individual PPF and consumption possibilities with exchange">
+        <div class="exchange-chart-header"><h2>North Carolina</h2><span>orange: PPF · green: with exchange</span></div>
+        <svg class="exchange-svg" viewBox="0 0 400 250" role="img" aria-label="North Carolina's PPF and consumption possibilities with exchange">
           <line class="axis" x1="48" y1="210" x2="378" y2="210"/><polygon points="378,210 368,205 368,215" fill="#1f2933"/>
           <line class="axis" x1="48" y1="210" x2="48" y2="22"/><polygon points="48,22 43,32 53,32" fill="#1f2933"/>
-          <line class="exchange-ppf-line" x1="48" y1="48" x2="163.9" y2="210"/>
-          <line class="exchange-consumption-line" x1="48" y1="48" x2="279.8" y2="210"/>
-          <line class="exchange-projection" id="exchangeAlexProjectionX" x1="144.6" y1="115.5" x2="144.6" y2="210"/>
-          <line class="exchange-projection" id="exchangeAlexProjectionY" x1="48" y1="115.5" x2="144.6" y2="115.5"/>
-          <circle class="exchange-baseline-point" cx="106" cy="129" r="5"/><text class="exchange-chart-label" x="99" y="145">B (9, 18)</text>
-          <circle class="exchange-production-point" cx="48" cy="48" r="5.5"/><text class="exchange-chart-label" x="57" y="42">P (0, 36)</text>
-          <circle class="exchange-consumption-point" id="exchangeAlexConsumptionPoint" cx="144.6" cy="115.5" r="6"/>
-          <text class="exchange-chart-label" id="exchangeAlexConsumptionLabel" x="153" y="108">C (15, 21)</text>
-          <text class="exchange-axis-value" id="exchangeAlexDishAxisValue" x="144.6" y="225" text-anchor="middle">15</text>
-          <text class="exchange-axis-value" id="exchangeAlexWrapAxisValue" x="40" y="119.5" text-anchor="end">21</text>
-          <text class="axis-value" x="41" y="225">0</text><text class="axis-value" x="163.9" y="225" text-anchor="middle">18</text><text class="axis-value" x="39" y="52" text-anchor="end">36</text>
-          <text class="axis-label" x="215" y="245" text-anchor="middle">Dish racks</text>
-          <text class="axis-label" x="14" y="120" text-anchor="middle" transform="rotate(-90 14 120)">Chicken Wraps</text>
+          <line class="exchange-ppf-line" x1="48" y1="75" x2="370" y2="210"/>
+          <line class="exchange-consumption-line" x1="370" y1="210" x2="155.3" y2="30"/>
+          <line class="exchange-projection" id="exchangeAlexProjectionX" x1="273.4" y1="129" x2="273.4" y2="210"/>
+          <line class="exchange-projection" id="exchangeAlexProjectionY" x1="48" y1="129" x2="273.4" y2="129"/>
+          <circle class="exchange-baseline-point" cx="209" cy="142.5" r="5"/><text class="exchange-chart-label" x="201" y="159">B (30, 15)</text>
+          <circle class="exchange-production-point" cx="370" cy="210" r="5.5"/><text class="exchange-chart-label" x="360" y="196" text-anchor="end">P (60, 0)</text>
+          <circle class="exchange-consumption-point" id="exchangeAlexConsumptionPoint" cx="273.4" cy="129" r="6"/>
+          <text class="exchange-chart-label" id="exchangeAlexConsumptionLabel" x="282" y="120">C (42, 18)</text>
+          <text class="exchange-axis-value" id="exchangeAlexDishAxisValue" x="273.4" y="225" text-anchor="middle">42</text>
+          <text class="exchange-axis-value" id="exchangeAlexWrapAxisValue" x="40" y="133" text-anchor="end">18</text>
+          <text class="axis-value" x="41" y="225">0</text><text class="axis-value" x="370" y="225" text-anchor="middle">60</text><text class="axis-value" x="39" y="79" text-anchor="end">30</text>
+          <text class="axis-label" x="215" y="245" text-anchor="middle">Sweet-potato units</text>
+          <text class="axis-label" x="14" y="120" text-anchor="middle" transform="rotate(-90 14 120)">Potato units</text>
         </svg>
       </div>
       <div class="exchange-chart-panel">
-        <div class="exchange-chart-header"><h2>Morgan</h2><span>orange: PPF · green: with exchange</span></div>
-        <svg class="exchange-svg" viewBox="0 0 400 250" role="img" aria-label="Morgan's individual PPF and consumption possibilities with exchange">
+        <div class="exchange-chart-header"><h2>Idaho</h2><span>orange: PPF · green: with exchange</span></div>
+        <svg class="exchange-svg" viewBox="0 0 400 250" role="img" aria-label="Idaho's PPF and consumption possibilities with exchange">
           <line class="axis" x1="48" y1="210" x2="378" y2="210"/><polygon points="378,210 368,205 368,215" fill="#1f2933"/>
           <line class="axis" x1="48" y1="210" x2="48" y2="22"/><polygon points="48,22 43,32 53,32" fill="#1f2933"/>
-          <line class="exchange-ppf-line" x1="48" y1="102" x2="357.1" y2="210"/>
-          <line class="exchange-consumption-line" x1="357.1" y1="210" x2="125.3" y2="48"/>
-          <line class="exchange-projection" id="exchangeMorganProjectionX" x1="260.5" y1="142.5" x2="260.5" y2="210"/>
-          <line class="exchange-projection" id="exchangeMorganProjectionY" x1="48" y1="142.5" x2="260.5" y2="142.5"/>
-          <circle class="exchange-baseline-point" cx="202.6" cy="156" r="5"/><text class="exchange-chart-label" x="195" y="173">B (24, 12)</text>
-          <circle class="exchange-production-point" cx="357.1" cy="210" r="5.5"/><text class="exchange-chart-label" x="348" y="196" text-anchor="end">P (48, 0)</text>
-          <circle class="exchange-consumption-point" id="exchangeMorganConsumptionPoint" cx="260.5" cy="142.5" r="6"/>
-          <text class="exchange-chart-label" id="exchangeMorganConsumptionLabel" x="269" y="135">C (33, 15)</text>
-          <text class="exchange-axis-value" id="exchangeMorganDishAxisValue" x="260.5" y="225" text-anchor="middle">33</text>
-          <text class="exchange-axis-value" id="exchangeMorganWrapAxisValue" x="40" y="146.5" text-anchor="end">15</text>
-          <text class="axis-value" x="41" y="225">0</text><text class="axis-value" x="357.1" y="225" text-anchor="middle">48</text><text class="axis-value" x="39" y="106" text-anchor="end">24</text>
-          <text class="axis-label" x="215" y="245" text-anchor="middle">Dish racks</text>
-          <text class="axis-label" x="14" y="120" text-anchor="middle" transform="rotate(-90 14 120)">Chicken Wraps</text>
+          <line class="exchange-ppf-line" x1="48" y1="30" x2="209" y2="210"/>
+          <line class="exchange-consumption-line" x1="48" y1="30" x2="370" y2="210"/>
+          <line class="exchange-projection" id="exchangeMorganProjectionX" x1="192.9" y1="111" x2="192.9" y2="210"/>
+          <line class="exchange-projection" id="exchangeMorganProjectionY" x1="48" y1="111" x2="192.9" y2="111"/>
+          <circle class="exchange-baseline-point" cx="128.5" cy="120" r="5"/><text class="exchange-chart-label" x="120" y="137">B (10, 20)</text>
+          <circle class="exchange-production-point" cx="48" cy="30" r="5.5"/><text class="exchange-chart-label" x="57" y="45">P (0, 40)</text>
+          <circle class="exchange-consumption-point" id="exchangeMorganConsumptionPoint" cx="192.9" cy="111" r="6"/>
+          <text class="exchange-chart-label" id="exchangeMorganConsumptionLabel" x="202" y="102">C (18, 22)</text>
+          <text class="exchange-axis-value" id="exchangeMorganDishAxisValue" x="192.9" y="225" text-anchor="middle">18</text>
+          <text class="exchange-axis-value" id="exchangeMorganWrapAxisValue" x="40" y="115" text-anchor="end">22</text>
+          <text class="axis-value" x="41" y="225">0</text><text class="axis-value" x="209" y="225" text-anchor="middle">20</text><text class="axis-value" x="39" y="34" text-anchor="end">40</text>
+          <text class="axis-label" x="215" y="245" text-anchor="middle">Sweet-potato units</text>
+          <text class="axis-label" x="14" y="120" text-anchor="middle" transform="rotate(-90 14 120)">Potato units</text>
         </svg>
       </div>
     </div>
     <div class="exchange-control-grid">
       <div class="exchange-slider-panel">
-        <label for="exchangeQuantityRange"><span>Trade equal quantities</span><output id="exchangeQuantityOutput">15 racks ↔ 15 wraps</output></label>
-        <input id="exchangeQuantityRange" type="range" min="0" max="36" step="1" value="15">
+        <label for="exchangeQuantityRange"><span>Trade equal quantities</span><output id="exchangeQuantityOutput">18 sweet-potato ↔ 18 potato units</output></label>
+        <input id="exchangeQuantityRange" type="range" min="0" max="30" step="1" value="18">
         <p>B = 50–50 no-trade bundle · P = specialized production · C = consumption after exchange</p>
       </div>
       <div class="exchange-readout">
         <div class="exchange-bundle-grid">
-          <div class="exchange-bundle-stat"><span>Alex consumes</span><strong id="exchangeAlexBundle">(15, 21)</strong></div>
-          <div class="exchange-bundle-stat"><span>Morgan consumes</span><strong id="exchangeMorganBundle">(33, 15)</strong></div>
-          <div class="exchange-bundle-stat"><span>Total remains</span><strong>(48, 36)</strong></div>
+          <div class="exchange-bundle-stat"><span>North Carolina consumes</span><strong id="exchangeAlexBundle">(42, 18)</strong></div>
+          <div class="exchange-bundle-stat"><span>Idaho consumes</span><strong id="exchangeMorganBundle">(18, 22)</strong></div>
+          <div class="exchange-bundle-stat"><span>Total remains</span><strong>(60, 40)</strong></div>
         </div>
-        <div class="exchange-gain-message" id="exchangeGainMessage">At q = 15, both consume more of both outputs than under the 50–50 no-trade allocation.</div>
+        <div class="exchange-gain-message" id="exchangeGainMessage">At q = 18, both states consume more of both crops than under their 50–50 no-trade allocations.</div>
       </div>
     </div>
-    <div class="exchange-clarifier"><strong>Trade does not shift either production PPF.</strong> It separates consumption from production, allowing consumption points outside each person’s own PPF.</div>
+    <div class="exchange-clarifier"><strong>Trade does not shift either state’s production PPF.</strong> It separates consumption from production, allowing each state to consume beyond its own frontier.</div>
+  </section>
+
+  <section class="slide" id="termsCalculationSlide">
+    <div class="section-kicker">Terms of trade · calculate before revealing</div>
+    <h1>What trading rate would both states accept?</h1>
+    <div class="terms-definition-strip">Let <strong>p</strong> be the number of potato units exchanged for <strong>1 sweet-potato unit</strong>.</div>
+    <div class="terms-reservation-grid">
+      <div class="terms-reservation-card">
+        <div class="advantage-task-label">North Carolina · exporter of sweet potatoes</div>
+        <h2>What must North Carolina receive?</h2>
+        <p>Producing one sweet-potato unit costs North Carolina the potatoes it could have produced instead.</p>
+        <div class="terms-reservation-value">OC = 0.5 potato unit</div>
+      </div>
+      <div class="terms-reservation-card blue-card">
+        <div class="advantage-task-label">Idaho · importer of sweet potatoes</div>
+        <h2>What is Idaho willing to pay?</h2>
+        <p>Producing one sweet-potato unit itself would cost Idaho the potatoes it must give up.</p>
+        <div class="terms-reservation-value">OC = 2 potato units</div>
+      </div>
+    </div>
+    <div class="terms-question-panel">
+      <div class="terms-question-label">Strictly mutually beneficial interval</div>
+      <div class="terms-blank-interval"><span class="terms-blank" aria-label="lower bound blank"></span> &lt; p &lt; <span class="terms-blank" aria-label="upper bound blank"></span></div>
+      <p>Use each state’s opportunity cost to fill in the two bounds.</p>
+    </div>
+    <div class="terms-boundary-question"><strong>Think one step further:</strong> What happens exactly at either boundary?</div>
+  </section>
+
+  <section class="slide interactive" id="termsInteractiveSlide">
+    <div class="section-kicker">Terms of trade · test proposed rates</div>
+    <h1>Why do some trading rates work—and others fail?</h1>
+    <div class="terms-control-panel">
+      <div class="terms-control-header">
+        <label for="termsRateRange">Potato units paid for 1 sweet-potato unit</label>
+        <output id="termsRateOutput">p = 1</output>
+      </div>
+      <input class="terms-rate-range" id="termsRateRange" type="range" min="0" max="2.5" step="0.25" value="1">
+      <div class="terms-preset-row">
+        <button type="button" class="terms-preset-button" data-terms-rate="0.25">Test p = 0.25</button>
+        <button type="button" class="terms-preset-button selected" data-terms-rate="1">Test p = 1</button>
+        <button type="button" class="terms-preset-button" data-terms-rate="2.25">Test p = 2.25</button>
+      </div>
+    </div>
+    <div class="terms-zone-strip" aria-label="Acceptance regions for the terms of trade">
+      <div class="terms-zone">p ≤ 0.5<br>NC will not gain</div>
+      <div class="terms-zone mutual">0.5 &lt; p &lt; 2<br>both states gain</div>
+      <div class="terms-zone high">p ≥ 2<br>Idaho will not gain</div>
+    </div>
+    <div class="terms-status-grid">
+      <div class="terms-state-card accept" id="termsNCCard">
+        <div class="terms-state-header"><h2>North Carolina</h2><span class="terms-status-badge" id="termsNCStatus">Accepts</span></div>
+        <p>It receives <strong id="termsNCReceives">1</strong> potato unit and gives up production worth 0.5 potato unit.</p>
+        <div class="terms-net-calculation">Exporter gain: <strong id="termsNCGain">+0.5</strong> potato unit</div>
+      </div>
+      <div class="terms-state-card accept" id="termsIdahoCard">
+        <div class="terms-state-header"><h2>Idaho</h2><span class="terms-status-badge" id="termsIdahoStatus">Accepts</span></div>
+        <p>It pays <strong id="termsIdahoPays">1</strong> potato unit instead of giving up 2 potato units to produce the crop itself.</p>
+        <div class="terms-net-calculation">Importer gain: <strong id="termsIdahoGain">+1</strong> potato unit</div>
+      </div>
+    </div>
+    <div class="terms-overall-feedback success" id="termsOverallFeedback" aria-live="polite"><strong>Both accept.</strong> The rate lies strictly between their opportunity costs: 0.5 &lt; 1 &lt; 2.</div>
   </section>
 
   <section class="slide interactive" id="socialIntroSlide">
-    <div class="section-kicker">From comparative advantage to social production</div>
-    <h1>Now combine two producers into one production problem</h1>
-    <div class="social-profile-summary">Loading two production profiles.</div>
+    <div class="section-kicker">North Carolina–Idaho case · combine production</div>
+    <h1>Now combine two states into one production problem</h1>
+    <div class="social-profile-summary social-intro-profile-summary">Stylized production possibilities using 100 acres in each state.</div>
     <div class="social-worker-grid">
       <div class="social-worker-card">
-        <div class="tiny muted" style="font-weight:850; letter-spacing:.07em; text-transform:uppercase;">Worker 1</div>
-        <h2 id="socialName0">—</h2>
-        <p id="socialDetails0">Load or select two profiles.</p>
+        <div class="tiny muted" style="font-weight:850; letter-spacing:.07em; text-transform:uppercase;">State 1</div>
+        <h2 id="socialName0">North Carolina</h2>
+        <p id="socialDetails0">100 acres · one growing season</p>
         <div class="social-worker-stats">
-          <div class="social-worker-stat"><span>Maximum outputs</span><strong id="socialMaxima0">—</strong></div>
-          <div class="social-worker-stat"><span>OC of 1 rack</span><strong id="socialOC0">—</strong></div>
+          <div class="social-worker-stat"><span>Maximum outputs</span><strong id="socialMaxima0">60 sweet potatoes / 30 potatoes</strong></div>
+          <div class="social-worker-stat"><span>OC of 1 sweet potato</span><strong id="socialOC0">0.5 potato unit</strong></div>
         </div>
       </div>
       <div class="social-plus">+</div>
       <div class="social-worker-card blue-worker">
-        <div class="tiny muted" style="font-weight:850; letter-spacing:.07em; text-transform:uppercase;">Worker 2</div>
-        <h2 id="socialName1">—</h2>
-        <p id="socialDetails1">Load or select two profiles.</p>
+        <div class="tiny muted" style="font-weight:850; letter-spacing:.07em; text-transform:uppercase;">State 2</div>
+        <h2 id="socialName1">Idaho</h2>
+        <p id="socialDetails1">100 acres · one growing season</p>
         <div class="social-worker-stats">
-          <div class="social-worker-stat"><span>Maximum outputs</span><strong id="socialMaxima1">—</strong></div>
-          <div class="social-worker-stat"><span>OC of 1 rack</span><strong id="socialOC1">—</strong></div>
+          <div class="social-worker-stat"><span>Maximum outputs</span><strong id="socialMaxima1">20 sweet potatoes / 40 potatoes</strong></div>
+          <div class="social-worker-stat"><span>OC of 1 sweet potato</span><strong id="socialOC1">2 potato units</strong></div>
         </div>
       </div>
     </div>
     <div class="social-total-strip">
-      <div class="social-total-item"><span>Social resource constraint</span><strong id="socialTotalHours">— total work hours</strong></div>
-      <div class="social-total-item"><span>All time to dishes</span><strong id="socialAllDishes">— racks</strong></div>
-      <div class="social-total-item"><span>All time to wraps</span><strong id="socialAllWraps">— wraps</strong></div>
+      <div class="social-total-item"><span>Combined resource constraint</span><strong id="socialTotalHours">200 total acres</strong></div>
+      <div class="social-total-item"><span>All land to sweet potatoes</span><strong id="socialAllDishes">80 units</strong></div>
+      <div class="social-total-item"><span>All land to potatoes</span><strong id="socialAllWraps">70 units</strong></div>
     </div>
     <div class="social-source-row">
-      <button type="button" class="social-source-button" id="useClassSocialProfiles">Use class profiles</button>
-      <button type="button" class="social-source-button" id="useBenchmarkSocialProfiles">Use Alex–Morgan benchmark</button>
-      <div class="game-feedback" id="socialSourceFeedback" aria-live="polite">The social PPF asks for maximum combined output from these fixed resources.</div>
+      <div class="game-feedback" id="socialSourceFeedback" style="grid-column:1 / -1;" aria-live="polite">The combined PPF asks for the maximum total crop output from the same 200 acres.</div>
     </div>
   </section>
 
   <section class="slide interactive" id="socialOrderSlide">
-    <div class="section-kicker">Apply comparative advantage</div>
-    <h1>Comparative advantage determines the order</h1>
-    <div class="social-profile-summary">Loading two production profiles.</div>
+    <div class="section-kicker">North Carolina–Idaho case · apply comparative advantage</div>
+    <h1>Which state should reallocate land first?</h1>
+    <div class="social-profile-summary state-social-profile-summary">Loading the two-state agricultural production possibilities.</div>
     <div class="social-choice-layout">
       <div class="social-start-panel">
         <div class="tiny muted" style="font-weight:850; letter-spacing:.08em; text-transform:uppercase;">Starting allocation</div>
-        <h2>Everyone makes Chicken Wraps</h2>
+        <h2>Both states produce potatoes</h2>
         <div class="social-start-output">
-          <div class="social-output-box"><span>Dish racks</span><strong>0</strong></div>
-          <div class="social-output-box"><span>Chicken Wraps</span><strong id="socialStartWraps">—</strong></div>
+          <div class="social-output-box"><span>Sweet potatoes</span><strong>0</strong></div>
+          <div class="social-output-box"><span>Potatoes</span><strong id="socialStartWraps">70</strong></div>
         </div>
-        <div class="definition-strip green-strip" style="font-size:17px;"><strong>New goal:</strong> gain the first dish racks while giving up as few wraps as possible.</div>
+        <div class="definition-strip green-strip" style="font-size:17px;"><strong>New goal:</strong> gain the first sweet-potato units while giving up as few potato units as possible.</div>
       </div>
       <div class="social-answer-panel">
         <div class="tiny muted" style="font-weight:850; letter-spacing:.08em; text-transform:uppercase;">Make a prediction</div>
-        <h2>Choose the lower opportunity cost of dish racks</h2>
+        <h2>Choose the lower OC of sweet potatoes</h2>
         <div class="social-choice-options">
-          <button type="button" class="social-choice-answer" id="socialChoiceButton0" data-social-choice="0">Worker 1 switches first</button>
-          <button type="button" class="social-choice-answer" id="socialChoiceButton1" data-social-choice="1">Worker 2 switches first</button>
+          <button type="button" class="social-choice-answer" id="socialChoiceButton0" data-social-choice="0">North Carolina reallocates first</button>
+          <button type="button" class="social-choice-answer" id="socialChoiceButton1" data-social-choice="1">Idaho reallocates first</button>
           <button type="button" class="social-choice-answer" id="socialChoiceTie" data-social-choice="tie">Either one—the opportunity costs are equal</button>
         </div>
         <div class="game-toolbar">
           <button type="button" class="secondary" id="socialChoiceReset">Try again</button>
         </div>
-        <div class="game-feedback" id="socialChoiceFeedback" aria-live="polite">Compare the wraps given up per additional dish rack.</div>
+        <div class="game-feedback" id="socialChoiceFeedback" aria-live="polite">Compare the potato units given up per additional sweet-potato unit.</div>
       </div>
     </div>
   </section>
 
   <section class="slide interactive" id="socialBuildSlide">
-    <div class="section-kicker">Build the efficient social frontier</div>
-    <h1>Reassign workers from lower to higher opportunity cost</h1>
-    <div class="social-profile-summary">Loading two production profiles.</div>
+    <div class="section-kicker">North Carolina–Idaho case · combined production</div>
+    <h1>Build the two-state production frontier</h1>
+    <div class="social-profile-summary state-social-profile-summary">Loading the two-state agricultural production possibilities.</div>
     <div class="shift-layout">
       <div class="shift-graph-panel ppf-panel">
-        <svg class="shift-svg" viewBox="0 0 450 360" role="img" aria-label="A social production possibilities frontier built by reallocating two workers">
+        <svg class="shift-svg" viewBox="0 0 450 360" role="img" aria-label="A combined production possibilities frontier built by reallocating land in North Carolina and Idaho">
           <line class="axis" x1="60" y1="290" x2="405" y2="290"/><polygon points="405,290 394,284 394,296" fill="#1f2933"/>
           <line class="axis" x1="60" y1="290" x2="60" y2="20"/><polygon points="60,20 54,31 66,31" fill="#1f2933"/>
           <line class="social-shape-chord" id="socialBuildChord" x1="60" y1="35" x2="390" y2="290" visibility="hidden"/>
@@ -2046,45 +2321,45 @@
             <line class="social-frontier-segment" id="socialSegmentOne" x1="60" y1="35" x2="300" y2="137"/>
             <circle class="social-frontier-point" id="socialKneePoint" cx="300" cy="137" r="7"/>
             <text class="social-coordinate-label" id="socialPointBLabel" x="310" y="128">B (—, —)</text>
-            <text class="social-kink-note" id="socialKinkMeaningLabel" x="290" y="155" text-anchor="end">comparative-advantage specialization</text>
+            <text class="social-kink-note" id="socialKinkMeaningLabel" x="290" y="155" text-anchor="end">state specialization</text>
           </g>
           <g id="socialStageThree" visibility="hidden">
             <line class="social-frontier-segment" id="socialSegmentTwo" x1="300" y1="137" x2="390" y2="290"/>
             <circle class="social-frontier-point" cx="390" cy="290" r="7"/>
             <text class="social-coordinate-label" id="socialPointCLabel" x="342" y="278">C (—, —)</text>
           </g>
-          <text class="axis-label" x="232" y="337" text-anchor="middle">Dish racks</text>
-          <text class="axis-label" x="18" y="165" text-anchor="middle" transform="rotate(-90 18 165)">Chicken Wraps</text>
+          <text class="axis-label" x="232" y="337" text-anchor="middle">Sweet-potato units</text>
+          <text class="axis-label" x="18" y="165" text-anchor="middle" transform="rotate(-90 18 165)">Potato units</text>
           <text class="axis-value" x="55" y="309">0</text>
           <text class="social-axis-value" id="socialBuildMaxDishes" x="390" y="309" text-anchor="middle">—</text>
           <text class="social-axis-value" id="socialBuildMaxWraps" x="50" y="39" text-anchor="end">—</text>
         </svg>
       </div>
       <div class="shift-side-panel" style="border-top-color:var(--green); background:var(--green-soft);">
-        <div class="tiny muted" style="font-weight:850; letter-spacing:.08em; text-transform:uppercase;">Three allocations</div>
+        <div class="tiny muted" style="font-weight:850; letter-spacing:.08em; text-transform:uppercase;">Three land allocations</div>
         <h2 style="margin-bottom:7px;">Trace the efficient boundary</h2>
         <div class="social-build-controls">
-          <button type="button" class="social-stage-button" id="socialStage1Button" data-social-stage="1">1 · All wraps</button>
-          <button type="button" class="social-stage-button" id="socialStage2Button" data-social-stage="2">2 · Lower-OC worker</button>
-          <button type="button" class="social-stage-button" id="socialStage3Button" data-social-stage="3">3 · Higher-OC worker</button>
+          <button type="button" class="social-stage-button" id="socialStage1Button" data-social-stage="1">1 · All potatoes</button>
+          <button type="button" class="social-stage-button" id="socialStage2Button" data-social-stage="2">2 · North Carolina reallocates</button>
+          <button type="button" class="social-stage-button" id="socialStage3Button" data-social-stage="3">3 · Idaho reallocates</button>
           <button type="button" class="secondary" id="socialBuildReset">Reset graph</button>
         </div>
         <div class="social-oc-table">
           <div class="social-oc-row" id="socialOCRow1"><span>A → B</span><span id="socialSegmentWorker1">—</span><strong id="socialSegmentOC1">—</strong></div>
           <div class="social-oc-row" id="socialOCRow2"><span>B → C</span><span id="socialSegmentWorker2">—</span><strong id="socialSegmentOC2">—</strong></div>
         </div>
-        <div class="game-feedback" id="socialBuildFeedback" style="margin-top:9px; min-height:66px; font-size:14px;" aria-live="polite">Start at A, where both workers make wraps.</div>
+        <div class="game-feedback" id="socialBuildFeedback" style="margin-top:9px; min-height:66px; font-size:14px;" aria-live="polite">Start at A, where both states produce potatoes.</div>
       </div>
     </div>
   </section>
 
   <section class="slide interactive" id="socialShapeSlide">
-    <div class="section-kicker">Generalize the pattern</div>
-    <h1>From two workers to a smooth concave PPF</h1>
-    <div class="social-profile-summary">Loading two production profiles.</div>
+    <div class="section-kicker">North Carolina–Idaho case · generalize the pattern</div>
+    <h1>From two states to a smooth concave PPF</h1>
+    <div class="social-profile-summary state-social-profile-summary">Loading the two-state agricultural production possibilities.</div>
     <div class="shift-layout">
       <div class="shift-graph-panel ppf-panel">
-        <svg class="shift-svg" viewBox="0 0 450 360" role="img" aria-label="A kinked social PPF becoming a smooth bowed-out concave PPF">
+        <svg class="shift-svg" viewBox="0 0 450 360" role="img" aria-label="A kinked two-state agricultural PPF becoming a smooth bowed-out concave PPF">
           <line class="axis" x1="60" y1="290" x2="405" y2="290"/><polygon points="405,290 394,284 394,296" fill="#1f2933"/>
           <line class="axis" x1="60" y1="290" x2="60" y2="20"/><polygon points="60,20 54,31 66,31" fill="#1f2933"/>
           <line class="social-shape-chord" x1="60" y1="35" x2="390" y2="290"/>
@@ -2101,8 +2376,8 @@
             <text class="ppf-label" x="301" y="211" fill="#2f80c9">higher OC</text>
           </g>
           <circle class="social-frontier-point" cx="60" cy="35" r="6"/><circle class="social-frontier-point" cx="390" cy="290" r="6"/>
-          <text class="axis-label" x="232" y="337" text-anchor="middle">Dish racks</text>
-          <text class="axis-label" x="18" y="165" text-anchor="middle" transform="rotate(-90 18 165)">Chicken Wraps</text>
+          <text class="axis-label" x="232" y="337" text-anchor="middle">Sweet-potato units</text>
+          <text class="axis-label" x="18" y="165" text-anchor="middle" transform="rotate(-90 18 165)">Potato units</text>
           <text class="axis-value" x="55" y="309">0</text>
           <text class="social-axis-value" id="socialShapeMaxDishes" x="390" y="309" text-anchor="middle">—</text>
           <text class="social-axis-value" id="socialShapeMaxWraps" x="50" y="39" text-anchor="end">—</text>
@@ -2110,75 +2385,76 @@
       </div>
       <div class="shift-side-panel" style="border-top-color:var(--green); background:var(--green-soft);">
         <div class="tiny muted" style="font-weight:850; letter-spacing:.08em; text-transform:uppercase;">Selected view</div>
-        <h2 id="socialShapeTitle">Two resource types: one visible kink</h2>
-        <p id="socialShapeMeaning">Each worker contributes one constant-cost segment.</p>
+        <h2 id="socialShapeTitle">Two states: one visible kink</h2>
+        <p id="socialShapeMeaning">Each state contributes one constant-cost segment.</p>
         <div class="shift-choice-grid two-choice" style="margin-top:8px;">
-          <button type="button" class="shift-choice-button social-shape-button selected" data-social-shape="two">Two types</button>
-          <button type="button" class="shift-choice-button social-shape-button" data-social-shape="many">Many types</button>
+          <button type="button" class="shift-choice-button social-shape-button selected" data-social-shape="two">Two states</button>
+          <button type="button" class="shift-choice-button social-shape-button" data-social-shape="many">Many land types</button>
         </div>
         <div class="shape-stat-grid">
-          <div class="shape-stat"><span>First dish racks</span><strong id="socialEarlyOC">OC = —</strong></div>
-          <div class="shape-stat"><span>Later dish racks</span><strong id="socialLateOC">OC = —</strong></div>
+          <div class="shape-stat"><span>First sweet potatoes</span><strong id="socialEarlyOC">OC = —</strong></div>
+          <div class="shape-stat"><span>Later sweet potatoes</span><strong id="socialLateOC">OC = —</strong></div>
         </div>
         <button type="button" id="revealDiminishingReturns">Connect to diminishing returns</button>
-        <div class="social-shape-reveal" id="diminishingReturnsReveal">Here, heterogeneous workers create the bow. Diminishing marginal returns is a second mechanism: with complementary inputs fixed, adding more resources eventually yields smaller marginal gains and raises opportunity cost.</div>
+        <div class="social-shape-reveal" id="diminishingReturnsReveal">Here, differences between North Carolina and Idaho create the kink. With many parcels of differing suitability—and fixed complementary inputs—the combined frontier becomes smooth and bowed out.</div>
       </div>
     </div>
   </section>
 
-  <section class="slide interactive" id="dmrDefinitionSlide">
-    <div class="section-kicker">A second source of increasing opportunity cost</div>
-    <h1>What are diminishing marginal returns?</h1>
-    <div class="formula dmr-formula">Marginal product = Δ Total Output ÷ Δ Variable Input</div>
-    <div class="dmr-concept-grid">
-      <div class="dmr-concept-card">
-        <div class="dmr-concept-number">1 · Variable input</div>
-        <h2>What changes?</h2>
-        <p>Add one worker—or another unit of one input—at a time.</p>
-        <button type="button" id="dmrRevealVariable" aria-expanded="false">Reveal</button>
-        <div class="dmr-concept-answer" id="dmrVariableAnswer" aria-hidden="true"><strong>Labor varies.</strong><br>The number of workers increases.</div>
+  <section class="slide" id="dmrDefinitionSlide">
+    <div class="section-kicker">Diminishing marginal returns · definition and intuition</div>
+    <h1>Each additional input eventually adds less output</h1>
+    <div class="dmr-definition-hero">
+      <div class="dmr-definition-label">Definition</div>
+      <p><strong>Diminishing marginal returns</strong> occur when, with technology and other inputs held constant, successive units of one input eventually generate smaller additions to total output.</p>
+      <div class="dmr-mp-translation">Marginal product = the extra output produced by one more unit of input</div>
+    </div>
+    <h2 class="dmr-why-heading">Why might the next unit contribute less?</h2>
+    <div class="dmr-reason-grid">
+      <div class="dmr-reason-card">
+        <div class="dmr-reason-number">1</div>
+        <h2>Expand onto less-suitable land</h2>
+        <p>A farm plants its best-watered, most fertile parcels first. Later 20-acre blocks may have poorer soil or sit farther from irrigation.</p>
+        <div class="dmr-reason-result"><strong>Result</strong>The next 20 acres add fewer crop units than the previous 20 acres.</div>
       </div>
-      <div class="dmr-concept-card blue-card">
-        <div class="dmr-concept-number">2 · Fixed input</div>
-        <h2>What stays fixed?</h2>
-        <p>At least one complementary input cannot expand in the short run.</p>
-        <button type="button" id="dmrRevealFixed" aria-expanded="false">Reveal</button>
-        <div class="dmr-concept-answer" id="dmrFixedAnswer" aria-hidden="true"><strong>Capacity is fixed.</strong><br>The same station and equipment must be shared.</div>
+      <div class="dmr-reason-card blue-card">
+        <div class="dmr-reason-number">2</div>
+        <h2>Add workers to limited equipment</h2>
+        <p>The first workers keep one harvester and loading area busy. Additional workers begin waiting, crowding, or duplicating tasks.</p>
+        <div class="dmr-reason-result"><strong>Result</strong>Each additional worker adds less harvested output.</div>
       </div>
-      <div class="dmr-concept-card green-card">
-        <div class="dmr-concept-number">3 · Marginal return</div>
-        <h2>What diminishes?</h2>
-        <p>Focus on the extra output created by the next unit of input.</p>
-        <button type="button" id="dmrRevealMarginal" aria-expanded="false">Reveal</button>
-        <div class="dmr-concept-answer" id="dmrMarginalAnswer" aria-hidden="true"><strong>Marginal product falls.</strong><br>Total output may still keep rising.</div>
+      <div class="dmr-reason-card green-card">
+        <div class="dmr-reason-number">3</div>
+        <h2>Apply more fertilizer</h2>
+        <p>The first application corrects the largest nutrient shortage. Later applications address smaller shortages, and excessive fertilizer can damage plants.</p>
+        <div class="dmr-reason-result"><strong>Result</strong>Each additional application creates a smaller yield increase.</div>
       </div>
     </div>
-    <div class="definition-strip green-strip dmr-definition-strip"><strong>Diminishing marginal returns:</strong> holding other inputs fixed, successive units of a variable input eventually add less and less output.</div>
   </section>
 
   <section class="slide interactive" id="dmrExampleSlide">
-    <div class="section-kicker">Dining-hall example</div>
-    <h1>Later workers add less at one fixed station</h1>
+    <div class="section-kicker">North Carolina · sweet-potato production</div>
+    <h1>Later land blocks add less output</h1>
     <div class="dmr-example-summary">
-      <div class="dmr-input-chip"><strong>Fixed input:</strong> 1 Chicken Wrap station</div>
-      <div class="dmr-input-chip variable"><strong>Variable input:</strong> workers assigned to the station</div>
+      <div class="dmr-input-chip"><strong>Fixed inputs:</strong> irrigation, equipment, and management</div>
+      <div class="dmr-input-chip variable"><strong>Variable input:</strong> 20-acre blocks planted</div>
     </div>
     <div class="dmr-example-layout">
       <div class="dmr-station-panel">
-        <div class="dmr-station-box">ONE FIXED<br>WRAP STATION</div>
-        <div class="dmr-worker-row" aria-label="Workers assigned to the fixed station">
+        <div class="dmr-station-box">FIXED SUPPORTING<br>INPUTS</div>
+        <div class="dmr-worker-row" aria-label="Twenty-acre land blocks planted in sweet potatoes">
           <div class="dmr-worker-icon" id="dmrWorkerIcon1">1</div><div class="dmr-worker-icon" id="dmrWorkerIcon2">2</div><div class="dmr-worker-icon" id="dmrWorkerIcon3">3</div><div class="dmr-worker-icon" id="dmrWorkerIcon4">4</div><div class="dmr-worker-icon" id="dmrWorkerIcon5">5</div>
         </div>
-        <label class="dmr-example-slider-label" for="dmrWorkersRange"><span>Workers assigned</span><output id="dmrWorkersOutput">1 worker</output></label>
+        <label class="dmr-example-slider-label" for="dmrWorkersRange"><span>20-acre blocks planted</span><output id="dmrWorkersOutput">1 block</output></label>
         <input class="dmr-example-range" id="dmrWorkersRange" type="range" min="1" max="5" step="1" value="1">
         <div class="dmr-example-stats">
-          <div class="dmr-example-stat"><span>Total wraps / hour</span><strong id="dmrTotalOutput">20</strong></div>
+          <div class="dmr-example-stat"><span>Total sweet-potato units</span><strong id="dmrTotalOutput">20</strong></div>
           <div class="dmr-example-stat"><span>Marginal product</span><strong id="dmrMarginalProduct">20</strong></div>
         </div>
       </div>
       <div>
         <table class="dmr-example-table">
-          <thead><tr><th>Workers</th><th>Total wraps/hour</th><th>Marginal product of worker n</th></tr></thead>
+          <thead><tr><th>20-acre blocks</th><th>Total sweet-potato units</th><th>Marginal product of block n</th></tr></thead>
           <tbody>
             <tr id="dmrExampleRow1"><td>1</td><td>20</td><td>20</td></tr>
             <tr id="dmrExampleRow2"><td>2</td><td>36</td><td>16</td></tr>
@@ -2187,19 +2463,19 @@
             <tr id="dmrExampleRow5"><td>5</td><td>60</td><td>4</td></tr>
           </tbody>
         </table>
-        <div class="definition-strip blue-strip dmr-example-feedback" id="dmrExampleFeedback">Worker 1 adds 20 wraps per hour. Drag the slider to add workers while the station stays fixed.</div>
+        <div class="definition-strip blue-strip dmr-example-feedback" id="dmrExampleFeedback">The first 20-acre block adds 20 units. Add land blocks while irrigation, equipment, and management remain fixed.</div>
       </div>
     </div>
   </section>
 
   <section class="slide interactive" id="dmrConcavePPFSlide">
-    <div class="section-kicker">Return to the concave PPF</div>
-    <h1>Link the PPF to rising opportunity cost</h1>
-    <div class="dmr-link-summary">Eight workers are reallocated between two fixed stations. Both tasks have diminishing marginal product.</div>
+    <div class="section-kicker">North Carolina–Idaho case · return to the combined PPF</div>
+    <h1>Link land reallocation to rising opportunity cost</h1>
+    <div class="dmr-link-summary">The same 200 acres—100 in each state—are divided into ten stylized 20-acre blocks and reallocated in order of increasing opportunity cost.</div>
     <div class="dmr-linked-chart-grid">
       <div class="dmr-linked-chart-panel">
         <h2>Concave PPF</h2>
-        <p>The highlighted segment moves one worker toward dishwashing.</p>
+        <p>The highlighted segment moves one land block toward sweet-potato production.</p>
         <svg class="dmr-linked-svg" id="dmrPPFSvg" viewBox="0 0 400 260" role="img" aria-label="Interactive concave production possibilities frontier">
           <line class="dmr-grid-line" x1="55" y1="35" x2="370" y2="35"/><line class="dmr-grid-line" x1="55" y1="130" x2="370" y2="130"/><line class="dmr-grid-line" x1="55" y1="225" x2="370" y2="225"/>
           <line class="axis" x1="55" y1="225" x2="374" y2="225"/><polygon points="374,225 364,220 364,230" fill="#1f2933"/>
@@ -2211,14 +2487,14 @@
           <circle class="dmr-ppf-point selected" id="dmrSelectedPPFPoint" cx="131" cy="42" r="7"/>
           <text class="dmr-linked-label" id="dmrPreviousPPFLabel" x="64" y="31">P0</text>
           <text class="dmr-linked-label" id="dmrSelectedPPFLabel" x="139" y="54">P1</text>
-          <text class="axis-label" x="220" y="253" text-anchor="middle">Dish racks / hour</text>
-          <text class="axis-label" x="15" y="128" text-anchor="middle" transform="rotate(-90 15 128)">Chicken Wraps / hour</text>
-          <text class="axis-value" x="50" y="242">0</text><text class="axis-value" x="366" y="242">50</text><text class="axis-value" x="48" y="39" text-anchor="end">83</text>
+          <text class="axis-label" x="220" y="253" text-anchor="middle">Sweet-potato units</text>
+          <text class="axis-label" x="15" y="128" text-anchor="middle" transform="rotate(-90 15 128)">Potato units</text>
+          <text class="axis-value" x="50" y="242">0</text><text class="axis-value" x="366" y="242">80</text><text class="axis-value" x="48" y="39" text-anchor="end">70</text>
         </svg>
       </div>
       <div class="dmr-linked-chart-panel">
-        <h2>Marginal OC of dish racks</h2>
-        <p>Each point measures wraps lost per additional dish rack.</p>
+        <h2>Marginal OC of sweet potatoes</h2>
+        <p>Each point measures potato units lost per additional sweet-potato unit.</p>
         <svg class="dmr-linked-svg" id="dmrOCSvg" viewBox="0 0 400 260" role="img" aria-label="Opportunity cost rises along the concave PPF">
           <line class="dmr-grid-line" x1="55" y1="35" x2="370" y2="35"/><line class="dmr-grid-line" x1="55" y1="130" x2="370" y2="130"/><line class="dmr-grid-line" x1="55" y1="225" x2="370" y2="225"/>
           <line class="axis" x1="55" y1="225" x2="374" y2="225"/><polygon points="374,225 364,220 364,230" fill="#1f2933"/>
@@ -2227,26 +2503,26 @@
           <g id="dmrOCPointGroup"></g>
           <circle class="dmr-oc-point selected" id="dmrSelectedOCPoint" cx="131" cy="220" r="7"/>
           <text class="dmr-linked-label" id="dmrSelectedOCLabel" x="139" y="213">OC = 0.25</text>
-          <text class="axis-label" x="220" y="253" text-anchor="middle">Dish racks / hour</text>
-          <text class="axis-label" x="15" y="128" text-anchor="middle" transform="rotate(-90 15 128)">OC of next rack · wraps</text>
-          <text class="axis-value" x="50" y="242">0</text><text class="axis-value" x="366" y="242">50</text><text class="axis-value" x="48" y="229" text-anchor="end">0</text><text class="axis-value" x="48" y="134" text-anchor="end">5</text><text class="axis-value" x="48" y="39" text-anchor="end">10</text>
+          <text class="axis-label" x="220" y="253" text-anchor="middle">Sweet-potato units</text>
+          <text class="axis-label" x="15" y="128" text-anchor="middle" transform="rotate(-90 15 128)">OC · potato units</text>
+          <text class="axis-value" x="50" y="242">0</text><text class="axis-value" x="366" y="242">80</text><text class="axis-value" x="48" y="229" text-anchor="end">0</text><text class="axis-value" x="48" y="134" text-anchor="end">7</text><text class="axis-value" x="48" y="39" text-anchor="end">14</text>
         </svg>
       </div>
     </div>
     <div class="dmr-linked-control-grid">
       <div class="dmr-slider-panel">
-        <label for="dmrAllocationRange"><span>Move one more worker to dishes</span><output id="dmrAllocationStep">Step 1 of 8</output></label>
-        <input class="dmr-linked-range" id="dmrAllocationRange" type="range" min="1" max="8" step="1" value="1">
+        <label for="dmrAllocationRange"><span>Move one more block to sweet potatoes</span><output id="dmrAllocationStep">Step 1 of 10</output></label>
+        <input class="dmr-linked-range" id="dmrAllocationRange" type="range" min="1" max="10" step="1" value="1">
         <p>Drag once: the highlighted segment and the OC point move together.</p>
       </div>
       <div class="dmr-linked-readout">
         <div class="dmr-linked-stat-grid">
-          <div class="dmr-linked-stat"><span>Workers · D / W</span><strong id="dmrWorkerAllocation">1 / 7</strong></div>
-          <div class="dmr-linked-stat"><span>Gain dishes</span><strong id="dmrDishGain">+12</strong></div>
-          <div class="dmr-linked-stat"><span>Give up wraps</span><strong id="dmrWrapLoss">−3</strong></div>
-          <div class="dmr-linked-stat"><span>OC per rack</span><strong id="dmrMarginalOC">0.25</strong></div>
+          <div class="dmr-linked-stat"><span>Blocks · SP / P</span><strong id="dmrWorkerAllocation">1 / 9</strong></div>
+          <div class="dmr-linked-stat"><span>Gain sweet-potato units</span><strong id="dmrDishGain">+16</strong></div>
+          <div class="dmr-linked-stat"><span>Give up potato units</span><strong id="dmrWrapLoss">−2</strong></div>
+          <div class="dmr-linked-stat"><span>OC per sweet-potato unit</span><strong id="dmrMarginalOC">0.125</strong></div>
         </div>
-        <div class="dmr-linked-explanation" id="dmrLinkedExplanation">The first reassigned worker adds many racks and gives up few wraps, so marginal opportunity cost is low.</div>
+        <div class="dmr-linked-explanation" id="dmrLinkedExplanation">The first reallocated block adds many sweet-potato units and gives up few potato units, so marginal opportunity cost is low.</div>
       </div>
     </div>
   </section>
@@ -2332,8 +2608,8 @@
   const advantageRevealState = { absoluteDish: false, absoluteWrap: false, comparativeDish: false, comparativeWrap: false };
   const comparativeConceptRevealState = { absolute: false, dish: false, wrap: false };
   const exchangeConceptRevealState = { specialize: false, output: false, trade: false };
+  let stateAgricultureCaseRevealed = false;
   let specializationAllocationMode = 'split';
-  const dmrConceptRevealState = { variable: false, fixed: false, marginal: false };
   let ocProfileSignature = '';
   const ocRevealState = { dish: false, wrap: false };
 
@@ -2372,46 +2648,30 @@
     return String(rounded);
   }
 
-  function renderDMRConceptSlide(){
-    [
-      ['variable', 'dmrRevealVariable', 'dmrVariableAnswer'],
-      ['fixed', 'dmrRevealFixed', 'dmrFixedAnswer'],
-      ['marginal', 'dmrRevealMarginal', 'dmrMarginalAnswer']
-    ].forEach(function(config){
-      const visible = dmrConceptRevealState[config[0]];
-      const button = document.getElementById(config[1]);
-      const answer = document.getElementById(config[2]);
-      button.textContent = visible ? 'Hide' : 'Reveal';
-      button.setAttribute('aria-expanded', String(visible));
-      answer.classList.toggle('visible', visible);
-      answer.setAttribute('aria-hidden', String(!visible));
-    });
-  }
-
   const dmrExampleTotals = [0, 20, 36, 48, 56, 60];
 
   function renderDMRExample(){
-    const workers = Number(document.getElementById('dmrWorkersRange').value);
-    const total = dmrExampleTotals[workers];
-    const marginalProduct = total - dmrExampleTotals[workers - 1];
-    document.getElementById('dmrWorkersOutput').textContent = workers + (workers === 1 ? ' worker' : ' workers');
+    const blocks = Number(document.getElementById('dmrWorkersRange').value);
+    const total = dmrExampleTotals[blocks];
+    const marginalProduct = total - dmrExampleTotals[blocks - 1];
+    document.getElementById('dmrWorkersOutput').textContent = blocks + (blocks === 1 ? ' block' : ' blocks');
     document.getElementById('dmrTotalOutput').textContent = formatNumber(total);
     document.getElementById('dmrMarginalProduct').textContent = '+' + formatNumber(marginalProduct);
     for (let index = 1; index <= 5; index += 1) {
-      document.getElementById('dmrWorkerIcon' + index).classList.toggle('active', index <= workers);
-      document.getElementById('dmrExampleRow' + index).classList.toggle('selected', index === workers);
+      document.getElementById('dmrWorkerIcon' + index).classList.toggle('active', index <= blocks);
+      document.getElementById('dmrExampleRow' + index).classList.toggle('selected', index === blocks);
     }
     const feedback = document.getElementById('dmrExampleFeedback');
-    if (workers === 1) {
-      feedback.innerHTML = '<strong>Worker 1 adds 20 wraps per hour.</strong> Drag the slider: the station stays fixed while additional workers must share it.';
+    if (blocks === 1) {
+      feedback.innerHTML = '<strong>The first 20-acre block adds 20 sweet-potato units.</strong> Add blocks while irrigation, equipment, and management remain fixed.';
     } else {
-      const previousMarginalProduct = dmrExampleTotals[workers - 1] - dmrExampleTotals[workers - 2];
-      feedback.innerHTML = '<strong>Total output rises to ' + formatNumber(total) + ', but marginal product falls.</strong> Worker ' + (workers - 1) + ' added ' + formatNumber(previousMarginalProduct) + ' wraps; worker ' + workers + ' adds only ' + formatNumber(marginalProduct) + '.';
+      const previousMarginalProduct = dmrExampleTotals[blocks - 1] - dmrExampleTotals[blocks - 2];
+      feedback.innerHTML = '<strong>Total sweet-potato output rises to ' + formatNumber(total) + ', but marginal product falls.</strong> Block ' + (blocks - 1) + ' added ' + formatNumber(previousMarginalProduct) + ' units; block ' + blocks + ' adds only ' + formatNumber(marginalProduct) + '.';
     }
   }
 
-  const dmrDishMarginalProducts = [12, 10, 8, 6, 5, 4, 3, 2];
-  const dmrWrapMarginalProducts = [20, 17, 14, 11, 8, 6, 4, 3];
+  const dmrDishMarginalProducts = [16, 14, 12, 10, 8, 7, 5, 4, 3, 1];
+  const dmrWrapMarginalProducts = [14, 12, 10, 9, 8, 6, 4, 3, 2, 2];
   const dmrDishTotals = dmrDishMarginalProducts.reduce(function(values, marginalProduct){
     values.push(values[values.length - 1] + marginalProduct);
     return values;
@@ -2420,20 +2680,20 @@
     values.push(values[values.length - 1] + marginalProduct);
     return values;
   }, [0]);
-  const dmrPPFAllocations = Array.from({ length: 9 }, function(_, dishWorkers){
-    return { dishWorkers: dishWorkers, wrapWorkers: 8 - dishWorkers, dishes: dmrDishTotals[dishWorkers], wraps: dmrWrapTotals[8 - dishWorkers] };
+  const dmrPPFAllocations = Array.from({ length: 11 }, function(_, dishWorkers){
+    return { dishWorkers: dishWorkers, wrapWorkers: 10 - dishWorkers, dishes: dmrDishTotals[dishWorkers], wraps: dmrWrapTotals[10 - dishWorkers] };
   });
-  const dmrMarginalOpportunityCosts = Array.from({ length: 8 }, function(_, index){
+  const dmrMarginalOpportunityCosts = Array.from({ length: 10 }, function(_, index){
     const step = index + 1;
     const dishGain = dmrDishMarginalProducts[index];
-    const wrapLoss = dmrWrapMarginalProducts[8 - step];
+    const wrapLoss = dmrWrapMarginalProducts[10 - step];
     return { step: step, dishes: dmrDishTotals[step], dishGain: dishGain, wrapLoss: wrapLoss, opportunityCost: wrapLoss / dishGain };
   });
 
-  function dmrPPFX(value){ return 55 + (value / 50) * 315; }
-  function dmrPPFY(value){ return 225 - (value / 83) * 190; }
-  function dmrOCX(value){ return 55 + (value / 50) * 315; }
-  function dmrOCY(value){ return 225 - (value / 10) * 190; }
+  function dmrPPFX(value){ return 55 + (value / 80) * 315; }
+  function dmrPPFY(value){ return 225 - (value / 70) * 190; }
+  function dmrOCX(value){ return 55 + (value / 80) * 315; }
+  function dmrOCY(value){ return 225 - (value / 14) * 190; }
 
   function replaceDMRPoints(groupId, points, className, xAccessor, yAccessor){
     const group = document.getElementById(groupId);
@@ -2501,12 +2761,12 @@
     selectedOCLabel.setAttribute('y', (opportunityCostY < 53 ? opportunityCostY + 17 : opportunityCostY - 9).toFixed(1));
     selectedOCLabel.setAttribute('text-anchor', opportunityCostX > 315 ? 'end' : 'start');
 
-    document.getElementById('dmrAllocationStep').textContent = 'Step ' + step + ' of 8';
+    document.getElementById('dmrAllocationStep').textContent = 'Step ' + step + ' of 10';
     document.getElementById('dmrWorkerAllocation').textContent = current.dishWorkers + ' / ' + current.wrapWorkers;
     document.getElementById('dmrDishGain').textContent = '+' + formatNumber(marginal.dishGain);
     document.getElementById('dmrWrapLoss').textContent = '−' + formatNumber(marginal.wrapLoss);
     document.getElementById('dmrMarginalOC').textContent = formatRatio(marginal.opportunityCost);
-    document.getElementById('dmrLinkedExplanation').textContent = 'The next dish worker adds ' + formatNumber(marginal.dishGain) + ' racks, while the removed wrap worker costs ' + formatNumber(marginal.wrapLoss) + ' wraps. Marginal OC rises to ' + formatRatio(marginal.opportunityCost) + ' wraps per rack.';
+    document.getElementById('dmrLinkedExplanation').textContent = 'The next 20-acre block adds ' + formatNumber(marginal.dishGain) + ' sweet-potato units and gives up ' + formatNumber(marginal.wrapLoss) + ' potato units. Marginal OC rises to ' + formatRatio(marginal.opportunityCost) + ' potato units per sweet-potato unit.';
   }
 
   function calculateVolunteer(profile){
@@ -3037,8 +3297,8 @@
       profiles = getSocialBenchmarkProfiles();
       source = 'benchmark';
       fallbackReason = classHasTwo
-        ? 'The class profiles have equal opportunity costs, so the contrasting benchmark is loaded automatically.'
-        : 'Two positive-hour class profiles are not available, so the contrasting benchmark is loaded automatically.';
+        ? 'The earlier productivity profiles have equal opportunity costs, so the consumer-goods benchmark is loaded automatically.'
+        : 'Two positive-hour earlier profiles are not available, so the consumer-goods benchmark is loaded automatically.';
     }
     const opportunityCosts = profiles.map(function(profile){ return profile.dishMinutes / profile.wrapMinutes; });
     const tie = Math.abs(opportunityCosts[0] - opportunityCosts[1]) < 0.001;
@@ -3063,6 +3323,28 @@
     };
   }
 
+  function getStateAgricultureSelection(){
+    const profiles = [
+      { nickname: 'North Carolina', shortName: 'North Carolina', maxDishes: 60, maxWraps: 30 },
+      { nickname: 'Idaho', shortName: 'Idaho', maxDishes: 20, maxWraps: 40 }
+    ];
+    const opportunityCosts = profiles.map(function(profile){ return profile.maxWraps / profile.maxDishes; });
+    return {
+      profiles: profiles,
+      source: 'state-agriculture',
+      opportunityCosts: opportunityCosts,
+      tie: false,
+      lowIndex: 0,
+      highIndex: 1,
+      low: profiles[0],
+      high: profiles[1],
+      lowOC: opportunityCosts[0],
+      highOC: opportunityCosts[1],
+      totalDishes: 80,
+      totalWraps: 70
+    };
+  }
+
   function getSocialGeometry(data){
     return {
       kneeX: 60 + (data.low.maxDishes / data.totalDishes) * 330,
@@ -3075,6 +3357,9 @@
   }
 
   function renderAdvantageSlides(data){
+    const summary = (data.source === 'class' ? 'Using earlier productivity profiles: ' : 'Using consumer-goods benchmark: ') +
+      data.profiles[0].nickname + ' + ' + data.profiles[1].nickname + ' · ' + formatNumber(data.totalHours) + ' total work hours · T-shirts and bread';
+    Array.from(document.querySelectorAll('.advantage-profile-summary')).forEach(function(element){ element.textContent = summary; });
     const signature = data.source + '|' + data.profiles.map(function(profile){
       return [profile.nickname, profile.dishMinutes, profile.wrapMinutes].join(':');
     }).join('|');
@@ -3093,41 +3378,44 @@
     const absoluteWrapIndex = absoluteWrapTie ? null : (wrapRates[0] > wrapRates[1] ? 0 : 1);
 
     data.profiles.forEach(function(profile, index){
+      document.getElementById('ocPracticeName' + index).textContent = profile.nickname;
+      document.getElementById('ocPracticeDishRate' + index).textContent = formatRatio(dishRates[index]);
+      document.getElementById('ocPracticeWrapRate' + index).textContent = formatRatio(wrapRates[index]);
       document.getElementById('absoluteName' + index).textContent = profile.nickname;
       document.getElementById('absoluteDishRate' + index).textContent = formatRatio(dishRates[index]);
       document.getElementById('absoluteWrapRate' + index).textContent = formatRatio(wrapRates[index]);
       document.getElementById('comparativeName' + index).textContent = profile.nickname;
-      document.getElementById('comparativeDishOC' + index).textContent = formatRatio(dishOCs[index]) + ' wraps';
-      document.getElementById('comparativeWrapOC' + index).textContent = formatRatio(wrapOCs[index]) + ' racks';
+      document.getElementById('comparativeDishOC' + index).textContent = formatRatio(dishOCs[index]) + ' loaves';
+      document.getElementById('comparativeWrapOC' + index).textContent = formatRatio(wrapOCs[index]) + ' T-shirts';
     });
 
     if (absoluteDishTie) {
       document.getElementById('absoluteDishWinner').textContent = 'Neither—productivity is equal';
-      document.getElementById('absoluteDishReason').textContent = 'Both produce ' + formatRatio(dishRates[0]) + ' dish racks per hour.';
+      document.getElementById('absoluteDishReason').textContent = 'Both produce ' + formatRatio(dishRates[0]) + ' T-shirts per hour.';
     } else {
       const other = absoluteDishIndex === 0 ? 1 : 0;
       document.getElementById('absoluteDishWinner').textContent = data.profiles[absoluteDishIndex].nickname + ' has the absolute advantage';
-      document.getElementById('absoluteDishReason').textContent = formatRatio(dishRates[absoluteDishIndex]) + ' racks/hour versus ' + formatRatio(dishRates[other]) + ' for ' + data.profiles[other].nickname + '.';
+      document.getElementById('absoluteDishReason').textContent = formatRatio(dishRates[absoluteDishIndex]) + ' T-shirts/hour versus ' + formatRatio(dishRates[other]) + ' for ' + data.profiles[other].nickname + '.';
     }
     if (absoluteWrapTie) {
       document.getElementById('absoluteWrapWinner').textContent = 'Neither—productivity is equal';
-      document.getElementById('absoluteWrapReason').textContent = 'Both produce ' + formatRatio(wrapRates[0]) + ' Chicken Wraps per hour.';
+      document.getElementById('absoluteWrapReason').textContent = 'Both produce ' + formatRatio(wrapRates[0]) + ' loaves of bread per hour.';
     } else {
       const other = absoluteWrapIndex === 0 ? 1 : 0;
       document.getElementById('absoluteWrapWinner').textContent = data.profiles[absoluteWrapIndex].nickname + ' has the absolute advantage';
-      document.getElementById('absoluteWrapReason').textContent = formatRatio(wrapRates[absoluteWrapIndex]) + ' wraps/hour versus ' + formatRatio(wrapRates[other]) + ' for ' + data.profiles[other].nickname + '.';
+      document.getElementById('absoluteWrapReason').textContent = formatRatio(wrapRates[absoluteWrapIndex]) + ' loaves/hour versus ' + formatRatio(wrapRates[other]) + ' for ' + data.profiles[other].nickname + '.';
     }
 
     if (data.tie) {
       document.getElementById('comparativeDishWinner').textContent = 'Neither has a distinct comparative advantage';
-      document.getElementById('comparativeDishReason').textContent = 'Both give up ' + formatRatio(dishOCs[0]) + ' wraps per dish rack.';
+      document.getElementById('comparativeDishReason').textContent = 'Both give up ' + formatRatio(dishOCs[0]) + ' loaves per T-shirt.';
       document.getElementById('comparativeWrapWinner').textContent = 'Neither has a distinct comparative advantage';
-      document.getElementById('comparativeWrapReason').textContent = 'Both give up ' + formatRatio(wrapOCs[0]) + ' dish racks per wrap.';
+      document.getElementById('comparativeWrapReason').textContent = 'Both give up ' + formatRatio(wrapOCs[0]) + ' T-shirts per loaf.';
     } else {
       document.getElementById('comparativeDishWinner').textContent = data.low.nickname + ' has the comparative advantage';
-      document.getElementById('comparativeDishReason').textContent = formatRatio(data.lowOC) + ' wraps/rack versus ' + formatRatio(data.highOC) + ' for ' + data.high.nickname + '.';
+      document.getElementById('comparativeDishReason').textContent = formatRatio(data.lowOC) + ' loaves/T-shirt versus ' + formatRatio(data.highOC) + ' for ' + data.high.nickname + '.';
       document.getElementById('comparativeWrapWinner').textContent = data.high.nickname + ' has the comparative advantage';
-      document.getElementById('comparativeWrapReason').textContent = formatRatio(wrapOCs[data.highIndex]) + ' racks/wrap versus ' + formatRatio(wrapOCs[data.lowIndex]) + ' for ' + data.low.nickname + '.';
+      document.getElementById('comparativeWrapReason').textContent = formatRatio(wrapOCs[data.highIndex]) + ' T-shirts/loaf versus ' + formatRatio(wrapOCs[data.lowIndex]) + ' for ' + data.low.nickname + '.';
     }
 
     [
@@ -3153,8 +3441,8 @@
   function renderComparativeConceptSlide(){
     [
       ['absolute', 'revealConceptAbsolute', 'conceptAbsoluteReveal', 'absolute advantage'],
-      ['dish', 'revealConceptCADish', 'conceptCADishReveal', 'dish-rack CA'],
-      ['wrap', 'revealConceptCAWrap', 'conceptCAWrapReveal', 'wrap CA']
+      ['dish', 'revealConceptCADish', 'conceptCADishReveal', 'T-shirt CA'],
+      ['wrap', 'revealConceptCAWrap', 'conceptCAWrapReveal', 'bread CA']
     ].forEach(function(config){
       const visible = comparativeConceptRevealState[config[0]];
       const button = document.getElementById(config[1]);
@@ -3167,7 +3455,7 @@
     const summary = document.getElementById('comparativeConceptSummary');
     if (comparativeConceptRevealState.absolute && comparativeConceptRevealState.dish && comparativeConceptRevealState.wrap) {
       summary.className = 'definition-strip green-strip comparative-concept-summary';
-      summary.innerHTML = '<strong>Key result:</strong> Worker A is absolutely better at both tasks, yet efficient specialization still splits: B makes dish racks and A makes Chicken Wraps.';
+      summary.innerHTML = '<strong>Key result:</strong> Worker A is absolutely better at producing both goods, yet efficient specialization still splits: B makes T-shirts and A makes bread.';
     } else {
       summary.className = 'definition-strip comparative-concept-summary';
       summary.innerHTML = '<strong>Different questions:</strong> absolute advantage compares productivity; comparative advantage compares opportunity cost.';
@@ -3190,44 +3478,53 @@
     });
   }
 
+  function renderStateAgricultureCase(){
+    const button = document.getElementById('revealStateCase');
+    const answer = document.getElementById('stateCaseAnswer');
+    button.textContent = stateAgricultureCaseRevealed ? 'Hide the specialization' : 'Reveal the specialization';
+    button.setAttribute('aria-expanded', String(stateAgricultureCaseRevealed));
+    answer.classList.toggle('visible', stateAgricultureCaseRevealed);
+    answer.setAttribute('aria-hidden', String(!stateAgricultureCaseRevealed));
+  }
+
   const specializationAllocationScenarios = {
     split: {
-      label: '50–50 split',
-      alexTask: 'Split both tasks',
-      alexTime: '90 minutes per task',
-      alexBundle: '(9 racks, 18 wraps)',
-      morganTask: 'Split both tasks',
-      morganTime: '120 minutes per task',
-      morganBundle: '(24 racks, 12 wraps)',
-      dishes: 33,
-      wraps: 30,
-      message: 'This feasible 50–50 benchmark produces (33, 30). Compare it with specialization.',
+      label: '50–50 land split',
+      alexTask: 'Split land between crops',
+      alexTime: '50 acres per crop',
+      alexBundle: '(30 sweet potatoes, 15 potatoes)',
+      morganTask: 'Split land between crops',
+      morganTime: '50 acres per crop',
+      morganBundle: '(10 sweet potatoes, 20 potatoes)',
+      dishes: 40,
+      wraps: 35,
+      message: 'The 50–50 land split produces (40, 35). Compare it with specialization.',
       state: ''
     },
     comparative: {
-      label: 'Specialize by comparative advantage',
-      alexTask: 'Make only Chicken Wraps',
-      alexTime: '180 minutes making wraps',
-      alexBundle: '(0 racks, 36 wraps)',
-      morganTask: 'Wash only dish racks',
-      morganTime: '240 minutes washing racks',
-      morganBundle: '(48 racks, 0 wraps)',
-      dishes: 48,
-      wraps: 36,
-      message: 'In this benchmark, specialization by comparative advantage adds 15 racks and 6 wraps relative to the 50–50 split.',
+      label: 'Comparative-advantage specialization',
+      alexTask: 'Produce only sweet potatoes',
+      alexTime: 'All 100 acres in sweet potatoes',
+      alexBundle: '(60 sweet potatoes, 0 potatoes)',
+      morganTask: 'Produce only potatoes',
+      morganTime: 'All 100 acres in potatoes',
+      morganBundle: '(0 sweet potatoes, 40 potatoes)',
+      dishes: 60,
+      wraps: 40,
+      message: 'Specialization by comparative advantage adds 20 sweet-potato units and 5 potato units relative to the 50–50 land split.',
       state: 'success'
     },
     reverse: {
       label: 'Reverse specialization',
-      alexTask: 'Wash only dish racks',
-      alexTime: '180 minutes washing racks',
-      alexBundle: '(18 racks, 0 wraps)',
-      morganTask: 'Make only Chicken Wraps',
-      morganTime: '240 minutes making wraps',
-      morganBundle: '(0 racks, 24 wraps)',
-      dishes: 18,
-      wraps: 24,
-      message: 'Assigning tasks against comparative advantage produces 30 fewer racks and 12 fewer wraps than the efficient specialization.',
+      alexTask: 'Produce only potatoes',
+      alexTime: 'All 100 acres in potatoes',
+      alexBundle: '(0 sweet potatoes, 30 potatoes)',
+      morganTask: 'Produce only sweet potatoes',
+      morganTime: 'All 100 acres in sweet potatoes',
+      morganBundle: '(20 sweet potatoes, 0 potatoes)',
+      dishes: 20,
+      wraps: 30,
+      message: 'Reverse specialization produces 40 fewer sweet-potato units and 10 fewer potato units than efficient specialization.',
       state: 'error'
     }
   };
@@ -3248,18 +3545,18 @@
     document.getElementById('allocationTotalWraps').textContent = formatNumber(scenario.wraps);
     document.getElementById('allocationDishBarValue').textContent = formatNumber(scenario.dishes);
     document.getElementById('allocationWrapBarValue').textContent = formatNumber(scenario.wraps);
-    document.getElementById('allocationDishBar').style.width = ((scenario.dishes / 48) * 100).toFixed(2) + '%';
-    document.getElementById('allocationWrapBar').style.width = ((scenario.wraps / 36) * 100).toFixed(2) + '%';
+    document.getElementById('allocationDishBar').style.width = ((scenario.dishes / 60) * 100).toFixed(2) + '%';
+    document.getElementById('allocationWrapBar').style.width = ((scenario.wraps / 40) * 100).toFixed(2) + '%';
     const feedback = document.getElementById('allocationFeedback');
     feedback.className = 'game-feedback allocation-feedback' + (scenario.state ? ' ' + scenario.state : '');
     feedback.textContent = scenario.message;
   }
 
-  function exchangePlotX(dishes){ return 48 + (dishes / 50) * 322; }
+  function exchangePlotX(dishes, xMaximum){ return 48 + (dishes / xMaximum) * 322; }
   function exchangePlotY(wraps){ return 210 - (wraps / 40) * 180; }
 
-  function positionExchangeConsumptionPoint(person, dishes, wraps, dishEndpoint, wrapEndpoint){
-    const x = exchangePlotX(dishes);
+  function positionExchangeConsumptionPoint(person, dishes, wraps, dishEndpoint, wrapEndpoint, xMaximum){
+    const x = exchangePlotX(dishes, xMaximum);
     const y = exchangePlotY(wraps);
     const point = document.getElementById('exchange' + person + 'ConsumptionPoint');
     const label = document.getElementById('exchange' + person + 'ConsumptionLabel');
@@ -3287,7 +3584,7 @@
 
     dishValue.textContent = formatNumber(dishes);
     dishValue.setAttribute('x', x.toFixed(1));
-    dishValue.setAttribute('visibility', Math.abs(dishes) < 0.001 || Math.abs(dishes - dishEndpoint) < 0.001 ? 'hidden' : 'visible');
+    dishValue.setAttribute('visibility', Math.abs(dishes) < 0.001 || Math.abs(dishes - dishEndpoint) < 3 ? 'hidden' : 'visible');
     wrapValue.textContent = formatNumber(wraps);
     wrapValue.setAttribute('y', (y + 4).toFixed(1));
     wrapValue.setAttribute('visibility', Math.abs(wraps) < 0.001 || Math.abs(wraps - wrapEndpoint) < 0.001 ? 'hidden' : 'visible');
@@ -3295,68 +3592,112 @@
 
   function renderExchangeConsumption(){
     const quantity = Number(document.getElementById('exchangeQuantityRange').value);
-    const alexDishes = quantity;
-    const alexWraps = 36 - quantity;
-    const morganDishes = 48 - quantity;
-    const morganWraps = quantity;
-    positionExchangeConsumptionPoint('Alex', alexDishes, alexWraps, 18, 36);
-    positionExchangeConsumptionPoint('Morgan', morganDishes, morganWraps, 48, 24);
-    document.getElementById('exchangeQuantityOutput').textContent = quantity + (quantity === 1 ? ' rack ↔ ' : ' racks ↔ ') + quantity + (quantity === 1 ? ' wrap' : ' wraps');
-    document.getElementById('exchangeAlexBundle').textContent = '(' + formatNumber(alexDishes) + ', ' + formatNumber(alexWraps) + ')';
-    document.getElementById('exchangeMorganBundle').textContent = '(' + formatNumber(morganDishes) + ', ' + formatNumber(morganWraps) + ')';
+    const northCarolinaSweetPotatoes = 60 - quantity;
+    const northCarolinaPotatoes = quantity;
+    const idahoSweetPotatoes = quantity;
+    const idahoPotatoes = 40 - quantity;
+    positionExchangeConsumptionPoint('Alex', northCarolinaSweetPotatoes, northCarolinaPotatoes, 60, 30, 60);
+    positionExchangeConsumptionPoint('Morgan', idahoSweetPotatoes, idahoPotatoes, 20, 40, 40);
+    document.getElementById('exchangeQuantityOutput').textContent = quantity + ' sweet-potato ↔ ' + quantity + ' potato units';
+    document.getElementById('exchangeAlexBundle').textContent = '(' + formatNumber(northCarolinaSweetPotatoes) + ', ' + formatNumber(northCarolinaPotatoes) + ')';
+    document.getElementById('exchangeMorganBundle').textContent = '(' + formatNumber(idahoSweetPotatoes) + ', ' + formatNumber(idahoPotatoes) + ')';
     const message = document.getElementById('exchangeGainMessage');
     if (quantity === 0) {
       message.textContent = 'At q = 0, production and consumption coincide: specialization has occurred, but no exchange has shared the outputs.';
-    } else if (quantity >= 13 && quantity <= 17) {
-      message.textContent = 'At q = ' + quantity + ', both C bundles contain more of both outputs than their 50–50 no-trade bundles B.';
-    } else if (quantity === 12 || quantity === 18) {
-      message.textContent = 'Both are at least as well supplied as at B, but one output is unchanged for one person. Try q = 13–17 for strict gains in both outputs.';
+    } else if (quantity >= 16 && quantity <= 19) {
+      message.textContent = 'At q = ' + quantity + ', both states consume more of both crops than under their 50–50 no-trade allocations B.';
+    } else if (quantity === 15 || quantity === 20) {
+      message.textContent = 'Both states are at least as well supplied as at B, but one crop is unchanged for one state. Try q = 16–19 for strict gains.';
     } else {
-      message.textContent = 'Both C points are outside the individual PPFs. Whether this division is preferred depends on preferences; try q = 13–17 for mutual gains relative to B.';
+      message.textContent = 'The division of the specialized output changes with q. Try q = 16–19 for mutual gains relative to both 50–50 bundles B.';
     }
   }
 
-  function renderSocialIntro(data){
-    const summary = (data.source === 'class' ? 'Using class profiles: ' : 'Using contrasting benchmark: ') +
-      data.profiles[0].nickname + ' + ' + data.profiles[1].nickname + ' · ' + formatNumber(data.totalHours) + ' total work hours';
-    Array.from(document.querySelectorAll('.social-profile-summary')).forEach(function(element){ element.textContent = summary; });
-    data.profiles.forEach(function(profile, index){
-      document.getElementById('socialName' + index).textContent = profile.nickname;
-      document.getElementById('socialDetails' + index).textContent = profile.hours + 'h · ' + profile.dishMinutes + ' min/rack · ' + profile.wrapMinutes + ' min/wrap';
-      document.getElementById('socialMaxima' + index).textContent = formatNumber(profile.maxDishes) + ' racks / ' + formatNumber(profile.maxWraps) + ' wraps';
-      document.getElementById('socialOC' + index).textContent = formatNumber(data.opportunityCosts[index]) + ' wraps';
+  function formatTermsGain(value){
+    if (Math.abs(value) < 0.001) return '0';
+    return (value > 0 ? '+' : '−') + formatRatio(Math.abs(value));
+  }
+
+  function setTermsState(cardId, statusId, gain, role){
+    const card = document.getElementById(cardId);
+    const status = document.getElementById(statusId);
+    const state = gain > 0.001 ? 'accept' : (gain < -0.001 ? 'reject' : 'indifferent');
+    card.className = 'terms-state-card ' + state;
+    status.textContent = state === 'accept' ? 'Accepts' : (state === 'reject' ? 'Rejects' : 'Indifferent');
+    status.setAttribute('aria-label', role + ' ' + status.textContent.toLowerCase());
+    return state;
+  }
+
+  function renderTermsOfTrade(){
+    const rate = Number(document.getElementById('termsRateRange').value);
+    const northCarolinaGain = rate - 0.5;
+    const idahoGain = 2 - rate;
+    document.getElementById('termsRateOutput').textContent = 'p = ' + formatRatio(rate);
+    document.getElementById('termsNCReceives').textContent = formatRatio(rate);
+    document.getElementById('termsIdahoPays').textContent = formatRatio(rate);
+    document.getElementById('termsNCGain').textContent = formatTermsGain(northCarolinaGain);
+    document.getElementById('termsIdahoGain').textContent = formatTermsGain(idahoGain);
+    const northCarolinaState = setTermsState('termsNCCard', 'termsNCStatus', northCarolinaGain, 'North Carolina');
+    const idahoState = setTermsState('termsIdahoCard', 'termsIdahoStatus', idahoGain, 'Idaho');
+    Array.from(document.querySelectorAll('.terms-preset-button')).forEach(function(button){
+      button.classList.toggle('selected', Math.abs(Number(button.dataset.termsRate) - rate) < 0.001);
     });
-    document.getElementById('socialTotalHours').textContent = formatNumber(data.totalHours) + ' total work hours';
-    document.getElementById('socialAllDishes').textContent = formatNumber(data.totalDishes) + ' racks';
-    document.getElementById('socialAllWraps').textContent = formatNumber(data.totalWraps) + ' wraps';
-    document.getElementById('socialStartWraps').textContent = formatNumber(data.totalWraps);
-    const classButton = document.getElementById('useClassSocialProfiles');
-    const benchmarkButton = document.getElementById('useBenchmarkSocialProfiles');
-    classButton.disabled = !data.classProfilesAvailable;
-    classButton.classList.toggle('selected', data.source === 'class');
-    benchmarkButton.classList.toggle('selected', data.source === 'benchmark');
-    if (data.tie) {
-      setFeedback(document.getElementById('socialSourceFeedback'), 'These two profiles have the same opportunity cost, so their combined PPF is linear. Use the benchmark to reveal a bowed frontier.', '');
-    } else if (data.fallbackReason) {
-      setFeedback(document.getElementById('socialSourceFeedback'), data.fallbackReason, 'success');
+    const feedback = document.getElementById('termsOverallFeedback');
+    if (northCarolinaState === 'accept' && idahoState === 'accept') {
+      feedback.className = 'terms-overall-feedback success';
+      feedback.innerHTML = '<strong>Both accept.</strong> The rate lies strictly between their opportunity costs: 0.5 &lt; ' + formatRatio(rate) + ' &lt; 2.';
+    } else if (northCarolinaState === 'indifferent') {
+      feedback.className = 'terms-overall-feedback';
+      feedback.innerHTML = '<strong>Boundary rate.</strong> North Carolina receives exactly its opportunity cost, so it is indifferent rather than strictly better off.';
+    } else if (idahoState === 'indifferent') {
+      feedback.className = 'terms-overall-feedback';
+      feedback.innerHTML = '<strong>Boundary rate.</strong> Idaho pays exactly its opportunity cost, so it is indifferent rather than strictly better off.';
+    } else if (northCarolinaState === 'reject') {
+      feedback.className = 'terms-overall-feedback error';
+      feedback.innerHTML = '<strong>North Carolina rejects.</strong> It would receive only ' + formatRatio(rate) + ' potato units after giving up output worth 0.5.';
     } else {
-      setFeedback(document.getElementById('socialSourceFeedback'), 'The two opportunity costs differ, so efficient reallocation will create a kinked social PPF.', 'success');
+      feedback.className = 'terms-overall-feedback error';
+      feedback.innerHTML = '<strong>Idaho rejects.</strong> Paying ' + formatRatio(rate) + ' potato units costs more than producing one sweet-potato unit itself.';
     }
+  }
+
+  function renderSocialIntro(){
+    const stateData = getStateAgricultureSelection();
+    document.querySelector('.social-intro-profile-summary').textContent = 'Stylized production possibilities using 100 acres in each state.';
+    document.getElementById('socialName0').textContent = 'North Carolina';
+    document.getElementById('socialDetails0').textContent = '100 acres · one growing season';
+    document.getElementById('socialMaxima0').textContent = '60 sweet potatoes / 30 potatoes';
+    document.getElementById('socialOC0').textContent = '0.5 potato unit';
+    document.getElementById('socialName1').textContent = 'Idaho';
+    document.getElementById('socialDetails1').textContent = '100 acres · one growing season';
+    document.getElementById('socialMaxima1').textContent = '20 sweet potatoes / 40 potatoes';
+    document.getElementById('socialOC1').textContent = '2 potato units';
+    document.getElementById('socialTotalHours').textContent = '200 total acres';
+    document.getElementById('socialAllDishes').textContent = formatNumber(stateData.totalDishes) + ' units';
+    document.getElementById('socialAllWraps').textContent = formatNumber(stateData.totalWraps) + ' units';
+    document.getElementById('socialStartWraps').textContent = formatNumber(stateData.totalWraps);
+    setFeedback(document.getElementById('socialSourceFeedback'), 'The combined PPF asks for the maximum total crop output from the same 200 acres.', 'success');
+  }
+
+  function renderStateAgricultureSummary(data){
+    const summary = 'Stylized 100-acre possibilities · North Carolina: 60 sweet-potato or 30 potato units · Idaho: 20 sweet-potato or 40 potato units';
+    Array.from(document.querySelectorAll('.state-social-profile-summary')).forEach(function(element){ element.textContent = summary; });
+    document.getElementById('socialStartWraps').textContent = formatNumber(data.totalWraps);
   }
 
   function renderSocialChoice(data){
     const buttons = Array.from(document.querySelectorAll('.social-choice-answer'));
     buttons.forEach(clearAnswerButton);
     socialChoiceAnswered = false;
-    document.getElementById('socialChoiceButton0').textContent = data.profiles[0].nickname + ' switches first';
-    document.getElementById('socialChoiceButton1').textContent = data.profiles[1].nickname + ' switches first';
+    document.getElementById('socialChoiceButton0').textContent = data.profiles[0].nickname + ' reallocates first';
+    document.getElementById('socialChoiceButton1').textContent = data.profiles[1].nickname + ' reallocates first';
     document.getElementById('socialChoiceTie').textContent = 'Either one—the opportunity costs are equal';
-    setFeedback(document.getElementById('socialChoiceFeedback'), 'Apply comparative advantage: compare the wraps given up per additional dish rack.', '');
+    setFeedback(document.getElementById('socialChoiceFeedback'), 'Apply comparative advantage: compare potato units given up per additional sweet-potato unit.', '');
   }
 
   function evaluateSocialChoice(choice){
     if (socialChoiceAnswered) return;
-    const data = getSocialSelection();
+    const data = getStateAgricultureSelection();
     const correctChoice = data.tie ? 'tie' : String(data.lowIndex);
     const buttons = Array.from(document.querySelectorAll('.social-choice-answer'));
     const selected = buttons.find(function(button){ return button.dataset.socialChoice === choice; });
@@ -3364,18 +3705,17 @@
     socialChoiceAnswered = true;
     buttons.forEach(function(button){ button.disabled = true; });
     correct.classList.add('correct');
-    const comparison = data.profiles[0].nickname + ' = ' + formatNumber(data.opportunityCosts[0]) + '; ' +
-      data.profiles[1].nickname + ' = ' + formatNumber(data.opportunityCosts[1]) + ' wraps/rack.';
+    const comparison = 'OC of sweet potatoes: North Carolina = ' + formatNumber(data.opportunityCosts[0]) + '; Idaho = ' + formatNumber(data.opportunityCosts[1]) + '.';
     if (choice === correctChoice) {
       const conclusion = data.tie
-        ? 'The opportunity costs are equal, so there is no unique first worker.'
-        : data.low.nickname + ' has comparative advantage in dish racks and switches first.';
+        ? 'The opportunity costs are equal, so there is no unique first state.'
+        : data.low.nickname + ' reallocates land first.';
       setFeedback(document.getElementById('socialChoiceFeedback'), 'Correct. ' + comparison + ' ' + conclusion, 'success');
     } else {
       selected.classList.add('wrong');
       const correction = data.tie
         ? 'The opportunity costs are equal.'
-        : data.low.nickname + ' has the lower opportunity cost and switches first.';
+        : data.low.nickname + ' has the lower opportunity cost and reallocates first.';
       setFeedback(document.getElementById('socialChoiceFeedback'), 'Not quite. ' + comparison + ' ' + correction, 'error');
     }
   }
@@ -3397,7 +3737,7 @@
     pointBLabel.setAttribute('y', Math.max(29, kneeY - 10).toFixed(1));
     pointBLabel.setAttribute('text-anchor', kneeX > 315 ? 'end' : 'start');
     const kinkMeaningLabel = document.getElementById('socialKinkMeaningLabel');
-    kinkMeaningLabel.textContent = data.tie ? 'equal-OC reallocation point' : 'comparative-advantage specialization';
+    kinkMeaningLabel.textContent = data.tie ? 'equal-OC reallocation point' : 'state specialization';
     kinkMeaningLabel.setAttribute('x', (kneeX > 250 ? kneeX - 10 : kneeX + 10).toFixed(1));
     kinkMeaningLabel.setAttribute('y', Math.min(277, kneeY + 20).toFixed(1));
     kinkMeaningLabel.setAttribute('text-anchor', kneeX > 250 ? 'end' : 'start');
@@ -3412,27 +3752,27 @@
     stageButtons.forEach(function(button){
       const stage = Number(button.dataset.socialStage);
       button.classList.toggle('completed', socialBuildStage >= stage);
-      if (stage === 2) button.textContent = '2 · ' + data.low.nickname.slice(0, 13) + ' switches';
-      if (stage === 3) button.textContent = '3 · ' + data.high.nickname.slice(0, 13) + ' switches';
+      if (stage === 2) button.textContent = '2 · ' + data.low.shortName + ' reallocates';
+      if (stage === 3) button.textContent = '3 · ' + data.high.shortName + ' reallocates';
     });
-    document.getElementById('socialSegmentWorker1').textContent = data.low.nickname + ' moves';
-    document.getElementById('socialSegmentWorker2').textContent = data.high.nickname + ' moves';
+    document.getElementById('socialSegmentWorker1').textContent = data.low.nickname + ' land';
+    document.getElementById('socialSegmentWorker2').textContent = data.high.nickname + ' land';
     document.getElementById('socialSegmentOC1').textContent = 'OC = ' + formatNumber(data.lowOC);
     document.getElementById('socialSegmentOC2').textContent = 'OC = ' + formatNumber(data.highOC);
     document.getElementById('socialOCRow1').classList.toggle('visible', socialBuildStage >= 2);
     document.getElementById('socialOCRow2').classList.toggle('visible', socialBuildStage >= 3);
     if (socialBuildStage === 0) {
-      setFeedback(document.getElementById('socialBuildFeedback'), 'Start at A, where both workers make wraps.', '');
+      setFeedback(document.getElementById('socialBuildFeedback'), 'Start at A, where both states use all 200 acres for potatoes.', '');
     } else if (socialBuildStage === 1) {
-      setFeedback(document.getElementById('socialBuildFeedback'), 'A combines all available work time in wrap production: (0, ' + formatNumber(data.totalWraps) + ').', 'success');
+      setFeedback(document.getElementById('socialBuildFeedback'), 'A combines both states’ land in potato production: (0, ' + formatNumber(data.totalWraps) + ').', 'success');
     } else if (socialBuildStage === 2 && data.tie) {
       setFeedback(document.getElementById('socialBuildFeedback'), 'The workers have equal opportunity costs, so there is no unique specialization order and no true kink.', 'success');
     } else if (socialBuildStage === 2) {
-      setFeedback(document.getElementById('socialBuildFeedback'), 'B is the comparative-advantage specialization point: ' + data.low.nickname + ' makes only dish racks while ' + data.high.nickname + ' makes only Chicken Wraps.', 'success');
+      setFeedback(document.getElementById('socialBuildFeedback'), 'B is the comparative-advantage specialization point: North Carolina produces sweet potatoes while Idaho produces potatoes: (' + formatNumber(data.low.maxDishes) + ', ' + formatNumber(data.high.maxWraps) + ').', 'success');
     } else if (data.tie) {
       setFeedback(document.getElementById('socialBuildFeedback'), 'Both segments have the same slope. Equal opportunity costs produce a straight social PPF.', 'success');
     } else {
-      setFeedback(document.getElementById('socialBuildFeedback'), 'Beyond B, the marginal producer changes. Opportunity cost rises from ' + formatNumber(data.lowOC) + ' to ' + formatNumber(data.highOC) + ' wraps per rack.', 'success');
+      setFeedback(document.getElementById('socialBuildFeedback'), 'Beyond B, Idaho also reallocates land to sweet potatoes. Opportunity cost rises from ' + formatNumber(data.lowOC) + ' to ' + formatNumber(data.highOC) + ' potato units per sweet-potato unit.', 'success');
     }
   }
 
@@ -3458,30 +3798,33 @@
       button.classList.toggle('selected', button.dataset.socialShape === socialShapeMode);
     });
     if (many) {
-      document.getElementById('socialShapeTitle').textContent = 'Many resource types: a smooth concave frontier';
-      document.getElementById('socialShapeMeaning').textContent = 'A concave PPF bows outward: ordering many resources from lower to higher opportunity cost makes the slope progressively steeper.';
+      document.getElementById('socialShapeTitle').textContent = 'Many land types: a smooth concave frontier';
+      document.getElementById('socialShapeMeaning').textContent = 'Ordering parcels in North Carolina and Idaho from lower to higher opportunity cost makes the slope progressively steeper.';
     } else if (data.tie) {
       document.getElementById('socialShapeTitle').textContent = 'Equal-cost resources: no bow';
       document.getElementById('socialShapeMeaning').textContent = 'With identical opportunity costs, the two segments lie on one straight line. Use the benchmark to generate a kink.';
     } else {
-      document.getElementById('socialShapeTitle').textContent = 'Two resource types: one specialization kink';
-      document.getElementById('socialShapeMeaning').textContent = 'At the kink, each worker is fully specialized by comparative advantage. Beyond it, the marginal producer changes and opportunity cost rises.';
+      document.getElementById('socialShapeTitle').textContent = 'Two states: one specialization kink';
+      document.getElementById('socialShapeMeaning').textContent = 'At the kink, North Carolina specializes in sweet potatoes and Idaho in potatoes. Beyond it, opportunity cost rises.';
     }
-    document.getElementById('socialEarlyOC').textContent = 'OC = ' + formatNumber(data.lowOC) + ' wraps/rack';
-    document.getElementById('socialLateOC').textContent = 'OC = ' + formatNumber(data.highOC) + ' wraps/rack';
+    document.getElementById('socialEarlyOC').textContent = 'OC = ' + formatNumber(data.lowOC) + ' potato/SP';
+    document.getElementById('socialLateOC').textContent = 'OC = ' + formatNumber(data.highOC) + ' potato/SP';
   }
 
   function renderSocialSlides(){
     const data = getSocialSelection();
+    const stateData = getStateAgricultureSelection();
     renderSocialIntro(data);
     renderAdvantageSlides(data);
     renderComparativeConceptSlide();
     renderExchangeConceptSlide();
     renderSpecializationAllocation();
     renderExchangeConsumption();
-    renderSocialChoice(data);
-    renderSocialBuild(data);
-    renderSocialShape(data);
+    renderTermsOfTrade();
+    renderStateAgricultureSummary(stateData);
+    renderSocialChoice(stateData);
+    renderSocialBuild(stateData);
+    renderSocialShape(stateData);
   }
 
   function renderLinearPPFSlides(){
@@ -3785,22 +4128,15 @@
     resetAdvantageRevealState();
     resetComparativeConceptState();
     Object.keys(exchangeConceptRevealState).forEach(function(key){ exchangeConceptRevealState[key] = false; });
+    stateAgricultureCaseRevealed = false;
+    renderStateAgricultureCase();
     specializationAllocationMode = 'split';
-    document.getElementById('exchangeQuantityRange').value = '15';
+    document.getElementById('exchangeQuantityRange').value = '18';
+    document.getElementById('termsRateRange').value = '1';
+    renderTermsOfTrade();
     document.getElementById('diminishingReturnsReveal').classList.remove('visible');
     document.getElementById('revealDiminishingReturns').textContent = 'Connect to diminishing returns';
   }
-
-  document.getElementById('useClassSocialProfiles').addEventListener('click', function(){
-    socialProfileMode = 'class';
-    resetSocialSectionState();
-    renderSocialSlides();
-  });
-  document.getElementById('useBenchmarkSocialProfiles').addEventListener('click', function(){
-    socialProfileMode = 'benchmark';
-    resetSocialSectionState();
-    renderSocialSlides();
-  });
 
   [
     ['revealAbsoluteDish', 'absoluteDish'],
@@ -3835,6 +4171,10 @@
       renderExchangeConceptSlide();
     });
   });
+  document.getElementById('revealStateCase').addEventListener('click', function(){
+    stateAgricultureCaseRevealed = !stateAgricultureCaseRevealed;
+    renderStateAgricultureCase();
+  });
   Array.from(document.querySelectorAll('.allocation-mode-button')).forEach(function(button){
     button.addEventListener('click', function(){
       specializationAllocationMode = button.dataset.allocationMode;
@@ -3842,20 +4182,17 @@
     });
   });
   document.getElementById('exchangeQuantityRange').addEventListener('input', renderExchangeConsumption);
-
-  [
-    ['dmrRevealVariable', 'variable'],
-    ['dmrRevealFixed', 'fixed'],
-    ['dmrRevealMarginal', 'marginal']
-  ].forEach(function(config){
-    document.getElementById(config[0]).addEventListener('click', function(){
-      dmrConceptRevealState[config[1]] = !dmrConceptRevealState[config[1]];
-      renderDMRConceptSlide();
+  document.getElementById('termsRateRange').addEventListener('input', renderTermsOfTrade);
+  Array.from(document.querySelectorAll('.terms-preset-button')).forEach(function(button){
+    button.addEventListener('click', function(){
+      document.getElementById('termsRateRange').value = button.dataset.termsRate;
+      renderTermsOfTrade();
     });
   });
+  renderTermsOfTrade();
+
   document.getElementById('dmrWorkersRange').addEventListener('input', renderDMRExample);
   document.getElementById('dmrAllocationRange').addEventListener('input', renderDMRLinkedCharts);
-  renderDMRConceptSlide();
   renderDMRExample();
   renderDMRLinkedCharts();
 
@@ -3863,24 +4200,24 @@
     button.addEventListener('click', function(){ evaluateSocialChoice(button.dataset.socialChoice); });
   });
   document.getElementById('socialChoiceReset').addEventListener('click', function(){
-    renderSocialChoice(getSocialSelection());
+    renderSocialChoice(getStateAgricultureSelection());
   });
 
   Array.from(document.querySelectorAll('.social-stage-button')).forEach(function(button){
     button.addEventListener('click', function(){
       socialBuildStage = Number(button.dataset.socialStage);
-      renderSocialBuild(getSocialSelection());
+      renderSocialBuild(getStateAgricultureSelection());
     });
   });
   document.getElementById('socialBuildReset').addEventListener('click', function(){
     socialBuildStage = 0;
-    renderSocialBuild(getSocialSelection());
+    renderSocialBuild(getStateAgricultureSelection());
   });
 
   Array.from(document.querySelectorAll('.social-shape-button')).forEach(function(button){
     button.addEventListener('click', function(){
       socialShapeMode = button.dataset.socialShape;
-      renderSocialShape(getSocialSelection());
+      renderSocialShape(getStateAgricultureSelection());
     });
   });
   document.getElementById('revealDiminishingReturns').addEventListener('click', function(){
