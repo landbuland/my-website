@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARE 201 - Unit 3 Review Session</title>
+<style>
+  :root {
+    --accent: #EB811B;
+    --accent-soft: #fff4e8;
+    --ink: #1f2933;
+    --muted: #5f6b76;
+    --paper: #ffffff;
+    --soft: #f3f4f6;
+    --line: #d8dde3;
+    --blue: #2f80c9;
+    --blue-soft: #eef5fb;
+    --green: #378a61;
+    --green-soft: #e9f6ef;
+    --purple: #7257a6;
+    --purple-soft: #f3eff9;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: #111;
+  }
+  body { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+
+  #stage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 960px;
+    height: 720px;
+    background: var(--paper);
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    width: 960px;
+    height: 720px;
+    padding: 54px 64px 48px;
+    overflow: hidden;
+    color: var(--ink);
+    background: var(--paper);
+  }
+  .slide.active { display: block; }
+  .slide.center { text-align: center; }
+  .slide.middle {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .slide.middle.active { display: flex; }
+
+  h1, h2, h3, p { margin-top: 0; }
+  h1 {
+    margin-bottom: 22px;
+    font-size: 38px;
+    line-height: 1.12;
+    font-weight: 700;
+    letter-spacing: -.5px;
+  }
+  h2 {
+    margin-bottom: 11px;
+    font-size: 25px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+  h3 {
+    margin-bottom: 8px;
+    font-size: 19px;
+    line-height: 1.2;
+    font-weight: 750;
+  }
+  p {
+    font-size: 19px;
+    line-height: 1.38;
+  }
+  strong { font-weight: 750; }
+  .muted { color: var(--muted); }
+
+  .title-slide { padding-bottom: 112px; }
+  .title-kicker {
+    margin-bottom: 13px;
+    color: var(--accent);
+    font-size: 17px;
+    font-weight: 750;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+  }
+  .title-main {
+    max-width: 790px;
+    margin: 0 auto 14px;
+    font-size: 55px;
+    line-height: 1.03;
+  }
+  .title-rule {
+    width: 150px;
+    height: 6px;
+    margin: 30px auto 25px;
+    background: var(--accent);
+  }
+  .title-promise {
+    max-width: 760px;
+    margin: 0 auto;
+    color: var(--ink);
+    font-size: 22px;
+    line-height: 1.42;
+  }
+
+  .section-kicker {
+    margin-bottom: 8px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  .concept-layout {
+    display: grid;
+    grid-template-columns: 1.06fr .94fr;
+    gap: 24px;
+    margin-top: 24px;
+    align-items: stretch;
+  }
+  .concept-definition {
+    min-height: 382px;
+    padding: 28px 30px;
+    border-left: 7px solid var(--accent);
+    background: var(--accent-soft);
+  }
+  .concept-definition.blue {
+    border-left-color: var(--blue);
+    background: var(--blue-soft);
+  }
+  .concept-definition.green {
+    border-left-color: var(--green);
+    background: var(--green-soft);
+  }
+  .concept-definition .big-definition {
+    margin-bottom: 25px;
+    font-size: 26px;
+    line-height: 1.38;
+  }
+  .concept-definition .key-line {
+    margin: 0;
+    padding: 17px 18px;
+    border-top: 2px solid rgba(235,129,27,.25);
+    border-bottom: 2px solid rgba(235,129,27,.25);
+    font-size: 19px;
+    line-height: 1.38;
+  }
+  .concept-definition.blue .key-line { border-color: rgba(47,128,201,.25); }
+  .concept-definition.green .key-line { border-color: rgba(55,138,97,.25); }
+
+  .concept-side {
+    min-height: 382px;
+    padding: 23px 24px;
+    border-top: 5px solid var(--blue);
+    background: var(--soft);
+  }
+  .concept-side.green-top { border-top-color: var(--green); }
+  .concept-side.orange-top { border-top-color: var(--accent); }
+  .concept-side h2 { font-size: 23px; }
+  .check-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 17px;
+  }
+  .check-item {
+    display: grid;
+    min-height: 67px;
+    padding: 11px 13px;
+    grid-template-columns: 34px 1fr;
+    gap: 10px;
+    align-items: center;
+    background: #fff;
+  }
+  .check-num {
+    color: var(--accent);
+    font-size: 22px;
+    font-weight: 850;
+    text-align: center;
+  }
+  .check-item h3 { margin: 0 0 2px; font-size: 17px; }
+  .check-item p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.28; }
+
+  .formula-box {
+    margin-top: 20px;
+    padding: 17px 18px;
+    border-left: 5px solid var(--green);
+    background: #fff;
+    font: 700 23px/1.32 Georgia, "Times New Roman", serif;
+    text-align: center;
+  }
+
+  .ppf-card {
+    min-height: 382px;
+    padding: 18px 20px 15px;
+    border-top: 5px solid var(--blue);
+    background: var(--soft);
+  }
+  .ppf-card svg {
+    display: block;
+    width: 100%;
+    height: 280px;
+  }
+  .ppf-legend {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .ppf-legend span { padding: 7px 5px; background: #fff; }
+
+  .join-layout {
+    display: grid;
+    grid-template-columns: 1.08fr .92fr;
+    gap: 24px;
+    margin-top: 20px;
+    align-items: stretch;
+  }
+  .join-panel {
+    min-height: 418px;
+    padding: 27px 29px;
+    border-left: 7px solid var(--accent);
+    background: var(--accent-soft);
+  }
+  .join-panel h2 { margin-bottom: 15px; font-size: 29px; }
+  .join-panel p { margin-bottom: 20px; font-size: 18px; }
+  .join-link {
+    display: block;
+    margin: 23px 0 13px;
+    padding: 16px 18px;
+    color: #fff;
+    background: var(--accent);
+    font-size: 20px;
+    font-weight: 800;
+    text-align: center;
+    text-decoration: none;
+  }
+  .join-link:hover { filter: brightness(.96); }
+  .join-url {
+    display: block;
+    padding: 13px 15px;
+    border: 2px solid rgba(235,129,27,.24);
+    color: var(--ink);
+    background: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.32;
+    overflow-wrap: anywhere;
+    text-decoration: none;
+  }
+  .join-rules {
+    display: grid;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .join-rule {
+    display: grid;
+    min-height: 47px;
+    padding: 9px 12px;
+    grid-template-columns: 25px 1fr;
+    gap: 8px;
+    align-items: center;
+    background: #fff;
+    font-size: 15px;
+    font-weight: 650;
+    line-height: 1.28;
+  }
+  .join-rule strong { color: var(--accent); font-size: 17px; text-align: center; }
+  .join-qr-panel {
+    min-height: 418px;
+    padding: 21px 22px 18px;
+    border-top: 5px solid var(--blue);
+    background: var(--blue-soft);
+    text-align: center;
+  }
+  .join-qr-panel h2 { margin-bottom: 10px; font-size: 25px; }
+  .join-qr-link {
+    display: block;
+    width: 312px;
+    height: 312px;
+    margin: 0 auto 12px;
+    padding: 7px;
+    border: 3px solid var(--blue);
+    background: #fff;
+  }
+  .join-qr-link img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+  }
+  .join-scan-note {
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+    font-weight: 750;
+    line-height: 1.3;
+  }
+  .checkin-panel {
+    border-left-color: var(--green);
+    background: var(--green-soft);
+  }
+  .checkin-panel .join-link { background: var(--green); }
+  .checkin-panel .join-url { border-color: rgba(55,138,97,.26); }
+  .checkin-panel .join-rule strong { color: var(--green); }
+  .checkin-qr-panel {
+    border-top-color: var(--purple);
+    background: var(--purple-soft);
+  }
+  .checkin-qr-panel .join-qr-link { border-color: var(--purple); }
+
+  .activity-background {
+    display: grid;
+    grid-template-columns: .92fr 1.08fr;
+    gap: 22px;
+    margin-top: 18px;
+  }
+  .story-card {
+    min-height: 418px;
+    padding: 24px 26px;
+    border-left: 7px solid var(--accent);
+    background: var(--accent-soft);
+  }
+  .story-card h2 { font-size: 28px; }
+  .story-card p { font-size: 18px; }
+  .goal-banner {
+    margin-top: 21px;
+    padding: 18px 18px;
+    border-top: 4px solid var(--green);
+    background: #fff;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.32;
+    text-align: center;
+  }
+  .technology-panel {
+    min-height: 418px;
+    padding: 21px 22px;
+    border-top: 5px solid var(--blue);
+    background: var(--blue-soft);
+  }
+  .technology-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 13px;
+  }
+  .technology-card {
+    min-height: 168px;
+    padding: 18px 17px;
+    background: #fff;
+  }
+  .technology-card h3 {
+    margin-bottom: 14px;
+    color: var(--blue);
+    font-size: 24px;
+  }
+  .technology-line {
+    margin: 0 0 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+    font-size: 15px;
+    line-height: 1.3;
+  }
+  .technology-line:last-child { margin: 0; padding: 0; border-bottom: 0; }
+  .activity-note {
+    margin-top: 13px;
+    padding: 13px 15px;
+    color: var(--muted);
+    background: #fff;
+    font-size: 15px;
+    font-weight: 650;
+    line-height: 1.32;
+    text-align: center;
+  }
+
+  .round-header {
+    display: grid;
+    grid-template-columns: 76px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 22px;
+  }
+  .round-number {
+    display: flex;
+    width: 68px;
+    height: 68px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--accent);
+    font-size: 28px;
+    font-weight: 850;
+  }
+  .round-title h1 { margin: 0 0 4px; font-size: 37px; }
+  .round-title p { margin: 0; color: var(--muted); font-size: 16px; }
+  .round-badge {
+    padding: 9px 13px;
+    border-radius: 999px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .round-blue .round-number { background: var(--blue); }
+  .round-blue .round-badge { color: var(--blue); background: var(--blue-soft); }
+  .round-green .round-number { background: var(--green); }
+  .round-green .round-badge { color: var(--green); background: var(--green-soft); }
+  .round-purple .round-number { background: var(--purple); }
+  .round-purple .round-badge { color: var(--purple); background: var(--purple-soft); }
+
+  .round-grid {
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: 20px;
+  }
+  .round-actions {
+    display: grid;
+    gap: 11px;
+  }
+  .round-action {
+    display: grid;
+    min-height: 92px;
+    padding: 14px 16px;
+    grid-template-columns: 38px 1fr;
+    gap: 12px;
+    align-items: center;
+    border-left: 6px solid var(--accent);
+    background: var(--soft);
+  }
+  .round-blue .round-action { border-left-color: var(--blue); }
+  .round-green .round-action { border-left-color: var(--green); }
+  .round-purple .round-action { border-left-color: var(--purple); }
+  .action-number {
+    color: var(--accent);
+    font-size: 25px;
+    font-weight: 850;
+    text-align: center;
+  }
+  .round-blue .action-number { color: var(--blue); }
+  .round-green .action-number { color: var(--green); }
+  .round-purple .action-number { color: var(--purple); }
+  .round-action h2 { margin: 0 0 4px; font-size: 20px; }
+  .round-action p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.3; }
+
+  .round-side {
+    min-height: 395px;
+    padding: 21px 22px;
+    border-top: 5px solid var(--accent);
+    background: var(--accent-soft);
+  }
+  .round-blue .round-side { border-top-color: var(--blue); background: var(--blue-soft); }
+  .round-green .round-side { border-top-color: var(--green); background: var(--green-soft); }
+  .round-purple .round-side { border-top-color: var(--purple); background: var(--purple-soft); }
+  .round-side h2 { font-size: 23px; }
+  .round-side ul {
+    margin: 16px 0 0;
+    padding-left: 22px;
+  }
+  .round-side li {
+    margin-bottom: 13px;
+    font-size: 16px;
+    line-height: 1.34;
+  }
+  .round-side li:last-child { margin-bottom: 0; }
+  .finish-box {
+    margin-top: 20px;
+    padding: 16px 17px;
+    border: 2px solid rgba(31,41,51,.14);
+    background: #fff;
+    font-size: 16px;
+    font-weight: 750;
+    line-height: 1.35;
+  }
+  .claim-box {
+    margin: 13px 0 0;
+    padding: 15px 16px;
+    border-left: 5px solid var(--green);
+    background: #fff;
+    font-size: 17px;
+    font-weight: 750;
+    line-height: 1.34;
+  }
+
+  .footer {
+    position: absolute;
+    right: 64px;
+    bottom: 19px;
+    left: 64px;
+    display: flex;
+    justify-content: space-between;
+    color: #8a949e;
+    font-size: 13px;
+  }
+  #progress {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 20;
+    height: 4px;
+    background: var(--accent);
+    transition: width .18s ease;
+  }
+  #hint {
+    position: fixed;
+    right: 14px;
+    bottom: 10px;
+    z-index: 20;
+    color: rgba(255,255,255,.5);
+    font: 12px Arial, sans-serif;
+  }
+
+  @page { size: 10in 7.5in; margin: 0; }
+  @media print {
+    html, body { width: auto; height: auto; overflow: visible; background: #fff; }
+    #stage { position: static; width: auto; height: auto; transform: none !important; box-shadow: none; }
+    .slide { position: relative; display: block !important; page-break-after: always; break-after: page; }
+    #progress, #hint { display: none; }
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <section class="slide title-slide center middle active">
+    <div style="width:100%; max-width:850px;">
+      <div class="title-kicker">ARE 201 · Unit 3</div>
+      <h1 class="title-main">Review Session</h1>
+      <div class="title-rule"></div>
+      <p class="title-promise">PPF · Absolute Advantage · Comparative Advantage<br>followed by a four-round partner activity</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Key concept 1</div>
+    <h1>Production Possibilities Frontier (PPF)</h1>
+    <div class="concept-layout">
+      <div class="concept-definition">
+        <p class="big-definition">A <strong>PPF</strong> shows the <strong>maximum feasible combinations of two outputs</strong> that can be produced with current resources and technology.</p>
+        <p class="key-line"><strong>The trade-off:</strong> moving along the frontier means producing more of one output and less of the other.</p>
+        <p style="margin:23px 0 0; color:var(--muted); font-size:17px;"><strong>Remember:</strong> a PPF describes production possibilities—not preferences and not what a person should choose.</p>
+      </div>
+      <div class="ppf-card" aria-label="Illustrative production possibilities frontier">
+        <svg viewBox="0 0 360 285" role="img" aria-label="PPF with a point inside, on, and outside the frontier">
+          <line x1="48" y1="245" x2="334" y2="245" stroke="#1f2933" stroke-width="2"/>
+          <line x1="48" y1="245" x2="48" y2="24" stroke="#1f2933" stroke-width="2"/>
+          <line x1="48" y1="42" x2="314" y2="245" stroke="#EB811B" stroke-width="5"/>
+          <circle cx="196" cy="155" r="8" fill="#378a61"/>
+          <circle cx="150" cy="206" r="8" fill="#2f80c9"/>
+          <circle cx="245" cy="102" r="8" fill="#7257a6"/>
+          <text x="207" y="151" font-size="14" font-weight="700" fill="#378a61">On</text>
+          <text x="161" y="211" font-size="14" font-weight="700" fill="#2f80c9">Inside</text>
+          <text x="256" y="98" font-size="14" font-weight="700" fill="#7257a6">Outside</text>
+          <text x="267" y="273" font-size="14" fill="#5f6b76">Output 1</text>
+          <text x="8" y="19" font-size="14" fill="#5f6b76">Output 2</text>
+          <text x="207" y="183" font-size="13" font-weight="700" fill="#EB811B">PPF</text>
+        </svg>
+        <div class="ppf-legend">
+          <span>On = efficient</span>
+          <span>Inside = inefficient</span>
+          <span>Outside = unattainable</span>
+        </div>
+      </div>
+    </div>
+    <!-- Source: ARE 201 Unit 3 lecture slides and lecture notes. -->
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Key concept 2</div>
+    <h1>Absolute Advantage</h1>
+    <div class="concept-layout">
+      <div class="concept-definition blue">
+        <p class="big-definition">A producer has an <strong>absolute advantage</strong> if the producer can make <strong>more output with the same quantity of inputs</strong>.</p>
+        <p class="key-line"><strong>Fair comparison:</strong> hold the input fixed—such as one hour of work—then compare output rates.</p>
+        <p style="margin:23px 0 0; color:var(--muted); font-size:17px;">Different total time endowments can produce misleading endpoint comparisons. Compare productivity using the <strong>same amount of time</strong>.</p>
+      </div>
+      <div class="concept-side orange-top">
+        <h2>How to identify it</h2>
+        <div class="check-list">
+          <div class="check-item">
+            <div class="check-num">1</div>
+            <div><h3>Choose one output</h3><p>Compare producers one good at a time.</p></div>
+          </div>
+          <div class="check-item">
+            <div class="check-num">2</div>
+            <div><h3>Use the same input</h3><p>Convert both technologies to output per hour.</p></div>
+          </div>
+          <div class="check-item">
+            <div class="check-num">3</div>
+            <div><h3>Find the higher rate</h3><p>More output per hour means absolute advantage.</p></div>
+          </div>
+        </div>
+        <div class="formula-box" style="border-left-color:var(--blue); background:var(--blue-soft);">productivity = output ÷ input</div>
+      </div>
+    </div>
+    <!-- Source: ARE 201 Unit 3 lecture slides and lecture notes. -->
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Key concept 3</div>
+    <h1>Comparative Advantage</h1>
+    <div class="concept-layout">
+      <div class="concept-definition green">
+        <p class="big-definition">A producer has a <strong>comparative advantage</strong> in an output when the producer has the <strong>lower opportunity cost</strong> of producing it.</p>
+        <p class="key-line"><strong>Specialization rule:</strong> assign each task to the producer who gives up less of the other output.</p>
+        <p style="margin:23px 0 0; color:var(--muted); font-size:17px;">A producer can be better at everything in absolute terms but still lack comparative advantage in one activity.</p>
+      </div>
+      <div class="concept-side green-top">
+        <h2>Keep the units visible</h2>
+        <div class="formula-box" style="margin-top:15px;">OC of 1 unit of X = Y forgone ÷ X gained</div>
+        <div class="check-list" style="margin-top:18px;">
+          <div class="check-item">
+            <div class="check-num">1</div>
+            <div><h3>Calculate both costs</h3><p>Find each producer's opportunity cost of X.</p></div>
+          </div>
+          <div class="check-item">
+            <div class="check-num">2</div>
+            <div><h3>Compare like with like</h3><p>Use the same units for both producers.</p></div>
+          </div>
+          <div class="check-item">
+            <div class="check-num">3</div>
+            <div><h3>Choose the lower cost</h3><p>Lower opportunity cost means comparative advantage.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Source: ARE 201 Unit 3 lecture slides and lecture notes. -->
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Today's interactive practice</div>
+    <h1>Join the Activity</h1>
+    <div class="join-layout">
+      <div class="join-panel">
+        <h2>Open the Room link</h2>
+        <p>Use your phone or laptop. The activity will assign your role and pair you with a partner.</p>
+        <a class="join-link" href="https://siri-alexa.zihanzhang.trade/room/are201_unit3" target="_blank" rel="noopener">Open Siri &amp; Alexa Activity ↗</a>
+        <a class="join-url" href="https://siri-alexa.zihanzhang.trade/room/are201_unit3" target="_blank" rel="noopener">https://siri-alexa.zihanzhang.trade/room/are201_unit3</a>
+        <div class="join-rules">
+          <div class="join-rule"><strong>1</strong><span>Use one browser and one tab.</span></div>
+          <div class="join-rule"><strong>2</strong><span>Stay on the waiting screen until the instructor begins.</span></div>
+          <div class="join-rule"><strong>3</strong><span>Keep the same tab open throughout all four rounds.</span></div>
+        </div>
+      </div>
+      <div class="join-qr-panel">
+        <h2>Scan to join</h2>
+        <a class="join-qr-link" href="https://siri-alexa.zihanzhang.trade/room/are201_unit3" target="_blank" rel="noopener" aria-label="Open the Siri and Alexa activity Room">
+          <img src="Fig/Siri_Alexa_Room_QR_Unit3_Review.png" alt="QR code linking to the Siri and Alexa interactive activity Room.">
+        </a>
+        <p class="join-scan-note">Scan → open the Room → wait for your partner</p>
+      </div>
+    </div>
+    <!-- Room URL supplied by the instructor; QR code generated locally for this deck. -->
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Today's interactive practice</div>
+    <h1>Siri &amp; Alexa: Cookies and Windows</h1>
+    <div class="activity-background">
+      <div class="story-card">
+        <h2>The background</h2>
+        <p>Siri and Alexa make cookies for neighborhood friends. Before going to the park, they must wash all <strong>45 windows</strong> in their house.</p>
+        <p>Each sibling has <strong>3 hours (180 minutes)</strong>. Time spent washing windows cannot be used to make cookies.</p>
+        <div class="goal-banner">Team goal: wash all 45 windows and make as many cookies as possible.</div>
+      </div>
+      <div class="technology-panel">
+        <h2>Production technology</h2>
+        <div class="technology-grid">
+          <div class="technology-card">
+            <h3>Siri</h3>
+            <p class="technology-line"><strong>6 windows</strong><br>in 15 minutes</p>
+            <p class="technology-line"><strong>15 cookies</strong><br>in 30 minutes</p>
+          </div>
+          <div class="technology-card">
+            <h3>Alexa</h3>
+            <p class="technology-line"><strong>5 windows</strong><br>in 10 minutes</p>
+            <p class="technology-line"><strong>40 cookies</strong><br>in 60 minutes</p>
+          </div>
+        </div>
+        <div class="activity-note">You will be assigned one role and work with a partner through four instructor-paced rounds. Stay in one browser tab and wait at each stage gate.</div>
+      </div>
+    </div>
+    <!-- Source: ARE201_Unit3_Comparative_Advantage_Practice_Fall2026.md and the Siri/Alexa oTree activity. -->
+  </section>
+
+  <section class="slide round-orange">
+    <div class="round-header">
+      <div class="round-number">1</div>
+      <div class="round-title">
+        <h1>Draw and Check a PPF</h1>
+        <p>Work from the productivity numbers for your assigned role.</p>
+      </div>
+      <div class="round-badge">PPF</div>
+    </div>
+    <div class="round-grid">
+      <div class="round-actions">
+        <div class="round-action">
+          <div class="action-number">1</div>
+          <div><h2>Find your two intercepts</h2><p>Use the full 180 minutes to calculate all-cookies output and all-windows output.</p></div>
+        </div>
+        <div class="round-action">
+          <div class="action-number">2</div>
+          <div><h2>Draw your PPF</h2><p>Choose one endpoint on each axis; the activity connects them with a straight line.</p></div>
+        </div>
+        <div class="round-action">
+          <div class="action-number">3</div>
+          <div><h2>Check your partner</h2><p>Inspect your partner's endpoints and mark the PPF correct or incorrect.</p></div>
+        </div>
+      </div>
+      <div class="round-side">
+        <h2>What to pay attention to</h2>
+        <ul>
+          <li><strong>Horizontal axis:</strong> cookies.</li>
+          <li><strong>Vertical axis:</strong> windows.</li>
+          <li>Use all 3 hours at each intercept.</li>
+          <li>Do your own calculation before judging your partner.</li>
+        </ul>
+        <div class="finish-box"><strong>Round complete when:</strong> both partners submit a PPF, check the other PPF, and review the correct line.</div>
+      </div>
+    </div>
+    <!-- Requirements mirror the DRAW stage in the Siri/Alexa oTree activity. -->
+  </section>
+
+  <section class="slide round-blue">
+    <div class="round-header">
+      <div class="round-number">2</div>
+      <div class="round-title">
+        <h1>Calculate Opportunity Costs</h1>
+        <p>Opportunity cost must include the output being given up.</p>
+      </div>
+      <div class="round-badge">OC</div>
+    </div>
+    <div class="round-grid">
+      <div class="round-actions">
+        <div class="round-action">
+          <div class="action-number">1</div>
+          <div><h2>Calculate your own costs</h2><p>Find the windows forgone per cookie and the cookies forgone per window.</p></div>
+        </div>
+        <div class="round-action">
+          <div class="action-number">2</div>
+          <div><h2>Keep the units attached</h2><p>Decimals are allowed; round to two decimal places when needed.</p></div>
+        </div>
+        <div class="round-action">
+          <div class="action-number">3</div>
+          <div><h2>Check your partner's numbers</h2><p>Judge each of the two submitted opportunity costs separately.</p></div>
+        </div>
+      </div>
+      <div class="round-side">
+        <h2>Two calculations</h2>
+        <div class="formula-box" style="margin-top:16px; border-left-color:var(--blue);">OC of 1 cookie<br>= windows forgone ÷ cookies gained</div>
+        <div class="formula-box" style="margin-top:13px; border-left-color:var(--blue);">OC of 1 window<br>= cookies forgone ÷ windows gained</div>
+        <div class="finish-box"><strong>Round complete when:</strong> both partners submit both costs, check both of the other person's numbers, and read the result screen.</div>
+      </div>
+    </div>
+    <!-- Requirements mirror the OC stage in the Siri/Alexa oTree activity. -->
+  </section>
+
+  <section class="slide round-green">
+    <div class="round-header">
+      <div class="round-number">3</div>
+      <div class="round-title">
+        <h1>Judge Two Claims</h1>
+        <p>Use opportunity cost—not speed alone—to defend your position.</p>
+      </div>
+      <div class="round-badge">Claims</div>
+    </div>
+    <div class="round-grid">
+      <div class="round-actions">
+        <div class="round-action">
+          <div class="action-number">1</div>
+          <div><h2>Respond to Claim 1</h2><p>Agree or disagree, then give at least one full sentence explaining why.</p></div>
+        </div>
+        <div class="round-action">
+          <div class="action-number">2</div>
+          <div><h2>Respond to Claim 2</h2><p>Again choose a position and justify it from your assigned role's point of view.</p></div>
+        </div>
+        <div class="round-action">
+          <div class="action-number">3</div>
+          <div><h2>Compare your reasoning</h2><p>Read your partner's responses and prepare to negotiate the window split.</p></div>
+        </div>
+      </div>
+      <div class="round-side">
+        <h2>The two claims</h2>
+        <div class="claim-box">“The siblings should each wash the same number of windows.”</div>
+        <div class="claim-box">“Alexa should wash all 45 windows while Siri makes cookies.”</div>
+        <div class="finish-box"><strong>Before moving on:</strong> compare the two opportunity costs of washing one window. Ask which sibling gives up fewer cookies per window.</div>
+      </div>
+    </div>
+    <!-- Requirements mirror the CLAIMS stage in the Siri/Alexa oTree activity. -->
+  </section>
+
+  <section class="slide round-purple">
+    <div class="round-header">
+      <div class="round-number">4</div>
+      <div class="round-title">
+        <h1>Negotiate and Calculate</h1>
+        <p>Reach one binding contract that assigns all 45 windows.</p>
+      </div>
+      <div class="round-badge">Contract</div>
+    </div>
+    <div class="round-grid">
+      <div class="round-actions">
+        <div class="round-action">
+          <div class="action-number">1</div>
+          <div><h2>Propose a whole-number split</h2><p>Enter windows washed by Siri from 0 to 45; Alexa washes the remainder.</p></div>
+        </div>
+        <div class="round-action">
+          <div class="action-number">2</div>
+          <div><h2>Review output before accepting</h2><p>Use the preview to compare Siri's cookies, Alexa's cookies, and the team total.</p></div>
+        </div>
+        <div class="round-action">
+          <div class="action-number">3</div>
+          <div><h2>Accept and verify the contract</h2><p>After agreement, independently calculate the total cookies produced.</p></div>
+        </div>
+      </div>
+      <div class="round-side">
+        <h2>Contract rules</h2>
+        <ul>
+          <li>Either partner may propose a split.</li>
+          <li>Only the other partner may accept the current proposal.</li>
+          <li>An accepted proposal is final for this activity.</li>
+          <li>For each sibling: subtract washing time from 180 minutes, then use the remaining time for cookies.</li>
+        </ul>
+        <div class="finish-box"><strong>Final goal:</strong> satisfy the 45-window requirement and maximize the pair's total cookie output.</div>
+      </div>
+    </div>
+    <!-- Requirements mirror the NEGOTIATE stage in the Siri/Alexa oTree activity. -->
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Before you leave</div>
+    <h1>Check In for In-Class Work Credit</h1>
+    <div class="join-layout">
+      <div class="join-panel checkin-panel">
+        <h2>Submit the Google Form</h2>
+        <p>Complete this form before leaving. Your submission will be used to record today's <strong style="white-space:nowrap;">in-class work score</strong>.</p>
+        <a class="join-link" href="https://docs.google.com/forms/d/e/1FAIpQLScHSxxRY0ZCC9AB34GSmThdQ-hoAX3b8G0BDkOfAZv897c9wg/viewform?usp=publish-editor" target="_blank" rel="noopener">Open Check-In Form ↗</a>
+        <a class="join-url" href="https://docs.google.com/forms/d/e/1FAIpQLScHSxxRY0ZCC9AB34GSmThdQ-hoAX3b8G0BDkOfAZv897c9wg/viewform?usp=publish-editor" target="_blank" rel="noopener">Google Form · In-Class Work Credit</a>
+        <div class="join-rules">
+          <div class="join-rule"><strong>1</strong><span>Complete every required field.</span></div>
+          <div class="join-rule"><strong>2</strong><span>Submit only one response.</span></div>
+          <div class="join-rule"><strong>3</strong><span>Wait for the confirmation screen before closing the form.</span></div>
+        </div>
+      </div>
+      <div class="join-qr-panel checkin-qr-panel">
+        <h2>Scan to check in</h2>
+        <a class="join-qr-link" href="https://docs.google.com/forms/d/e/1FAIpQLScHSxxRY0ZCC9AB34GSmThdQ-hoAX3b8G0BDkOfAZv897c9wg/viewform?usp=publish-editor" target="_blank" rel="noopener" aria-label="Open the ARE 201 in-class work check-in form">
+          <img src="Fig/Google_Form_QR_Unit3_Review_InClass_Work.png" alt="QR code linking to the ARE 201 in-class work check-in Google Form.">
+        </a>
+        <p class="join-scan-note">Scan → complete the form → submit once</p>
+      </div>
+    </div>
+    <!-- Google Form URL supplied by the instructor; QR code generated locally for this deck. -->
+  </section>
+
+</div>
+<div id="progress"></div>
+<div id="hint">← → / Space to navigate · P to print</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const stage = document.getElementById('stage');
+  const progress = document.getElementById('progress');
+  let idx = 0;
+
+  slides.forEach(function(slide, i){
+    const footer = document.createElement('div');
+    footer.className = 'footer';
+    footer.innerHTML = '<span>ARE 201 · Unit 3 Review</span><span>' + (i + 1) + '</span>';
+    slide.appendChild(footer);
+  });
+
+  function fit(){
+    const scale = Math.min(window.innerWidth / 960, window.innerHeight / 720);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+  }
+
+  function show(n){
+    idx = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(slide, i){
+      slide.classList.toggle('active', i === idx);
+    });
+    progress.style.width = (((idx + 1) / slides.length) * 100) + '%';
+    history.replaceState(null, '', '#' + (idx + 1));
+  }
+
+  document.addEventListener('keydown', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea, a')) return;
+    if (['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(event.key)) {
+      event.preventDefault();
+      show(idx + 1);
+    } else if (['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(event.key)) {
+      event.preventDefault();
+      show(idx - 1);
+    } else if (event.key.toLowerCase() === 'p') {
+      window.print();
+    } else if (event.key === 'Home') {
+      show(0);
+    } else if (event.key === 'End') {
+      show(slides.length - 1);
+    }
+  });
+
+  document.addEventListener('click', function(event){
+    if (event.target.closest && event.target.closest('a')) return;
+    if (event.clientX > window.innerWidth / 2) show(idx + 1);
+    else show(idx - 1);
+  });
+
+  window.addEventListener('resize', fit);
+  const hash = parseInt(location.hash.replace('#',''), 10);
+  if (Number.isFinite(hash)) idx = Math.max(0, Math.min(slides.length - 1, hash - 1));
+  fit();
+  show(idx);
+})();
+</script>
+</body>
+</html>
