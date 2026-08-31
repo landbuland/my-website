@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARE 201 — Unit 4: Supply and Demand</title>
+<style>
+  :root {
+    --accent: #EB811B;
+    --accent-soft: #fff4e8;
+    --ink: #1f2933;
+    --muted: #5f6b76;
+    --paper: #ffffff;
+    --soft: #f3f4f6;
+    --line: #d8dde3;
+    --blue: #2f80c9;
+    --blue-soft: #eef5fb;
+    --green: #378a61;
+    --green-soft: #e9f6ef;
+    --red: #c9504d;
+    --red-soft: #fcedec;
+    --purple: #7657a5;
+    --purple-soft: #f3effa;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #111;
+  }
+  body { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+
+  #stage {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 960px;
+    height: 720px;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+    background: var(--paper);
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    width: 960px;
+    height: 720px;
+    padding: 50px 62px 48px;
+    overflow: hidden;
+    color: var(--ink);
+    background: var(--paper);
+  }
+  .slide.active { display: block; }
+  .slide.center { text-align: center; }
+  .slide.middle { align-items: center; justify-content: center; flex-direction: column; }
+  .slide.middle.active { display: flex; }
+
+  h1, h2, h3, p { margin-top: 0; }
+  h1 { margin-bottom: 16px; font-size: 37px; line-height: 1.12; letter-spacing: -.4px; }
+  h2 { margin-bottom: 10px; font-size: 25px; line-height: 1.2; }
+  h3 { margin-bottom: 7px; font-size: 19px; line-height: 1.2; }
+  p, li { font-size: 19px; line-height: 1.34; }
+  ul { margin: 7px 0 0 22px; padding: 0; }
+  li { margin: 6px 0; }
+  strong { font-weight: 780; }
+  .small { font-size: 16px; line-height: 1.34; }
+  .tiny { font-size: 13px; line-height: 1.3; }
+  .muted { color: var(--muted); }
+  .accent { color: var(--accent); }
+  .blue { color: var(--blue); }
+  .green { color: var(--green); }
+  .red { color: var(--red); }
+
+  .section-kicker {
+    margin-bottom: 7px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 820;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .two-thirds { display: grid; grid-template-columns: 1.12fr .88fr; gap: 23px; }
+
+  .card { padding: 17px 19px; border-radius: 8px; background: var(--soft); }
+  .card.white { border: 1px solid var(--line); background: #fff; }
+  .card.accent-top { border-top: 4px solid var(--accent); border-radius: 0 0 8px 8px; }
+  .card.blue-top { border-top: 4px solid var(--blue); border-radius: 0 0 8px 8px; }
+  .card.green-top { border-top: 4px solid var(--green); border-radius: 0 0 8px 8px; }
+  .card.red-top { border-top: 4px solid var(--red); border-radius: 0 0 8px 8px; }
+  .card p, .card li { font-size: 16px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  .definition-strip {
+    padding: 13px 16px;
+    border-left: 5px solid var(--accent);
+    background: var(--accent-soft);
+    font-size: 19px;
+    line-height: 1.36;
+  }
+  .definition-strip.blue-strip { border-left-color: var(--blue); background: var(--blue-soft); }
+  .definition-strip.green-strip { border-left-color: var(--green); background: var(--green-soft); }
+  .definition-strip.red-strip { border-left-color: var(--red); background: var(--red-soft); }
+
+  .interactive button {
+    min-height: 41px;
+    padding: 9px 14px;
+    border: 0;
+    border-radius: 7px;
+    color: #fff;
+    background: var(--accent);
+    font: 730 15px "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+    cursor: pointer;
+  }
+  .interactive button:hover { filter: brightness(.96); }
+  .interactive button:focus-visible, input:focus-visible { outline: 3px solid rgba(235,129,27,.35); outline-offset: 2px; }
+  .interactive button.secondary { color: var(--ink); background: #e5e8eb; }
+  .interactive button.blue-button { background: var(--blue); }
+  .interactive button.green-button { background: var(--green); }
+  .interactive button.purple-button { background: var(--purple); }
+  .interactive button.selected { box-shadow: inset 0 0 0 3px rgba(255,255,255,.65); }
+  .interactive button.correct { background: var(--green); }
+  .interactive button.wrong { background: var(--red); }
+
+  .button-row { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
+  .feedback {
+    min-height: 54px;
+    padding: 10px 13px;
+    border-left: 4px solid var(--line);
+    background: var(--soft);
+    font-size: 15px;
+    line-height: 1.33;
+  }
+  .feedback.success { border-left-color: var(--green); background: var(--green-soft); }
+  .feedback.error { border-left-color: var(--red); background: var(--red-soft); }
+  .feedback.info { border-left-color: var(--blue); background: var(--blue-soft); }
+
+  .title-slide { padding-bottom: 150px; }
+  .title-kicker { margin-bottom: 13px; color: var(--accent); font-size: 17px; font-weight: 780; letter-spacing: .11em; text-transform: uppercase; }
+  .title-main { max-width: 780px; margin: 0 auto 12px; font-size: 57px; line-height: 1.02; }
+  .title-sub { color: var(--muted); font-size: 24px; line-height: 1.35; }
+  .title-graphic { position: absolute; right: 65px; bottom: 38px; width: 480px; height: 175px; }
+
+  .roadmap-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 11px; margin-top: 23px; }
+  .roadmap-card { min-height: 222px; padding: 15px 13px; border-top: 4px solid var(--accent); background: var(--soft); }
+  .roadmap-card:nth-child(even) { border-top-color: var(--blue); }
+  .roadmap-num { color: var(--accent); font-size: 26px; font-weight: 820; }
+  .roadmap-card h3 { min-height: 45px; margin: 7px 0; font-size: 16px; }
+  .roadmap-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.3; }
+
+  .bridge-chain { display: grid; grid-template-columns: 1fr 56px 1fr 56px 1fr; gap: 8px; align-items: center; margin-top: 40px; }
+  .bridge-box { min-height: 175px; padding: 24px 15px; border: 2px solid var(--line); border-radius: 9px; text-align: center; }
+  .bridge-box.active { border-color: var(--accent); background: var(--accent-soft); }
+  .bridge-icon { display: flex; width: 43px; height: 43px; margin: 0 auto 12px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--accent); font-weight: 850; }
+  .bridge-box p { margin: 0; color: var(--muted); font-size: 15px; }
+  .bridge-arrow { color: var(--accent); font-size: 35px; text-align: center; }
+
+  .poll-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; margin-top: 20px; }
+  .interactive .poll-option { min-height: 128px; padding: 18px 16px; border: 2px solid var(--line); color: var(--ink); background: #fff; text-align: left; }
+  .interactive .poll-option:hover { border-color: var(--accent); }
+  .poll-letter { display: inline-flex; width: 31px; height: 31px; margin-bottom: 10px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--accent); }
+  .poll-option strong { display: block; font-size: 17px; }
+  .poll-option span:last-child { display: block; margin-top: 5px; color: var(--muted); font-size: 13px; line-height: 1.28; }
+
+  .market-scope { display: grid; grid-template-columns: 1.08fr .92fr; gap: 24px; }
+  .market-definition { padding: 27px 25px; border-left: 6px solid var(--accent); background: var(--accent-soft); }
+  .market-definition p { margin: 0; font-size: 25px; line-height: 1.35; }
+  .assumption-list { display: grid; gap: 11px; }
+  .assumption { display: grid; grid-template-columns: 38px 1fr; gap: 11px; padding: 12px; background: var(--soft); }
+  .assumption-num { display: flex; width: 32px; height: 32px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--blue); font-weight: 800; }
+  .assumption strong { display: block; font-size: 16px; }
+  .assumption span { color: var(--muted); font-size: 13px; }
+
+  .schedule-layout { display: grid; grid-template-columns: .87fr 1.13fr; gap: 20px; align-items: start; }
+  .schedule-table { width: 100%; border-collapse: collapse; font-size: 14px; text-align: center; }
+  .schedule-table th { padding: 7px 6px; color: #fff; background: var(--ink); font-size: 13px; }
+  .schedule-table td { padding: 6px; border-bottom: 1px solid var(--line); }
+  .schedule-table tbody tr:nth-child(even) { background: var(--soft); }
+  .schedule-table tbody tr.active { color: var(--ink); background: var(--accent-soft); font-weight: 800; box-shadow: inset 4px 0 0 var(--accent); }
+  .table-note { margin-top: 9px; color: var(--muted); font-size: 13px; }
+  .plot-panel { padding: 10px 12px 8px; border: 1px solid var(--line); background: #fff; }
+  .plot { display: block; width: 100%; height: 305px; }
+  .axis { stroke: var(--ink); stroke-width: 2; }
+  .gridline { stroke: #e8ebee; stroke-width: 1; }
+  .demand-line { fill: none; stroke: var(--blue); stroke-width: 4; stroke-linecap: round; }
+  .supply-line { fill: none; stroke: var(--green); stroke-width: 4; stroke-linecap: round; }
+  .individual-demand-a { fill: none; stroke: #86b9e3; stroke-width: 2.5; stroke-dasharray: 7 5; }
+  .individual-demand-b { fill: none; stroke: var(--purple); stroke-width: 2.5; stroke-dasharray: 3 5; }
+  .individual-supply-a { fill: none; stroke: #83b89c; stroke-width: 2.5; stroke-dasharray: 7 5; }
+  .individual-supply-b { fill: none; stroke: var(--purple); stroke-width: 2.5; stroke-dasharray: 3 5; }
+  .old-line { fill: none; stroke: #9aa3ab; stroke-width: 3; stroke-dasharray: 7 6; }
+  .new-line { fill: none; stroke: var(--accent); stroke-width: 4; }
+  .plot-label { fill: var(--ink); font: 700 13px Arial, sans-serif; }
+  .tick-label { fill: var(--muted); font: 11px Arial, sans-serif; }
+  .projection { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 5 4; }
+
+  .slider-panel { display: grid; grid-template-columns: 155px 1fr 230px; gap: 15px; align-items: center; margin-top: 12px; padding: 12px 15px; background: var(--soft); }
+  .slider-panel label { font-size: 14px; font-weight: 800; }
+  input[type="range"] { width: 100%; accent-color: var(--accent); }
+  .readout { color: var(--accent); font-size: 20px; font-weight: 820; text-align: right; }
+  .sum-strip { display: grid; grid-template-columns: 1fr 42px 1fr 42px 1fr; gap: 6px; align-items: center; margin-top: 10px; }
+  .sum-box { padding: 10px 8px; background: var(--soft); text-align: center; }
+  .sum-box strong { display: block; color: var(--blue); font-size: 23px; }
+  .sum-box.supply strong { color: var(--green); }
+  .sum-symbol { color: var(--accent); font-size: 26px; font-weight: 800; text-align: center; }
+
+  .contrast-layout { display: grid; grid-template-columns: 1fr 72px 1fr; gap: 15px; align-items: stretch; margin-top: 20px; }
+  .contrast-card { min-height: 245px; padding: 22px 20px; border: 2px solid var(--line); border-radius: 8px; }
+  .contrast-card.curve { border-color: var(--blue); background: var(--blue-soft); }
+  .contrast-card.point { border-color: var(--accent); background: var(--accent-soft); }
+  .contrast-icon { margin-bottom: 11px; color: var(--accent); font-size: 38px; font-weight: 850; }
+  .contrast-card p { color: var(--muted); font-size: 16px; }
+  .versus { display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 17px; font-weight: 850; }
+
+  .shifter-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px; margin-top: 13px; }
+  .interactive .shifter-card { min-height: 116px; padding: 13px 12px; border: 2px solid var(--line); color: var(--ink); background: #fff; text-align: left; }
+  .interactive .shifter-card:hover { border-color: var(--accent); }
+  .shifter-card strong { display: block; color: var(--blue); font-size: 16px; }
+  .supply-shifters .shifter-card strong { color: var(--green); }
+  .shifter-card .shifter-example { display: block; margin-top: 7px; color: transparent; font-size: 12px; line-height: 1.28; }
+  .shifter-card.revealed { border-color: var(--accent); background: var(--accent-soft); }
+  .supply-shifters .shifter-card.revealed { border-color: var(--green); background: var(--green-soft); }
+  .shifter-card.revealed .shifter-example { color: var(--muted); }
+
+  .income-definitions { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 14px; }
+  .income-definition { padding: 14px 16px; border-top: 4px solid var(--blue); background: var(--blue-soft); }
+  .income-definition.inferior { border-top-color: var(--purple); background: var(--purple-soft); }
+  .income-definition h2 { margin-bottom: 5px; font-size: 21px; }
+  .income-definition p { margin: 0; font-size: 14px; }
+  .income-lab { display: grid; grid-template-columns: .93fr 1.07fr; gap: 18px; }
+  .income-controls { padding: 14px; background: var(--soft); }
+  .income-control-label { margin: 0 0 7px; color: var(--muted); font-size: 12px; font-weight: 820; letter-spacing: .06em; text-transform: uppercase; }
+  .income-control-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 13px; }
+  .interactive .income-choice { min-height: 48px; background: var(--blue); }
+  .interactive .income-choice.type-choice { background: var(--purple); }
+  .income-result { min-height: 76px; padding: 11px 13px; border-left: 5px solid var(--line); background: #fff; }
+  .income-result.ready { border-left-color: var(--accent); background: var(--accent-soft); }
+  .income-result strong { display: block; font-size: 20px; }
+  .income-result span { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; line-height: 1.28; }
+  .income-plot { width: 100%; height: 245px; border: 1px solid var(--line); background: #fff; }
+
+  .quiz-scenario { min-height: 102px; padding: 17px 19px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .quiz-scenario .market-label { color: var(--accent); font-size: 13px; font-weight: 820; letter-spacing: .07em; text-transform: uppercase; }
+  .quiz-scenario p { margin: 5px 0 0; font-size: 21px; }
+  .quiz-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+  .quiz-options.four { grid-template-columns: repeat(4, 1fr); }
+  .interactive .quiz-option { min-height: 64px; font-size: 15px; line-height: 1.22; }
+  .quiz-toolbar { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; }
+  .score-pill { padding: 8px 12px; border-radius: 999px; background: var(--soft); font-size: 14px; font-weight: 800; }
+
+  .exit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 16px; }
+  .exit-card { min-height: 290px; padding: 20px; border-top: 5px solid var(--accent); background: var(--soft); }
+  .exit-card:nth-child(2) { border-top-color: var(--blue); }
+  .exit-card p { font-size: 18px; }
+  .exit-answer { min-height: 86px; margin-top: 14px; padding: 12px; border-left: 4px solid var(--green); background: #fff; visibility: hidden; opacity: 0; }
+  .exit-answer.visible { visibility: visible; opacity: 1; }
+  .exit-answer p { margin: 0; color: var(--muted); font-size: 15px; }
+
+  .day-divider { color: #fff; background: var(--ink); }
+  .day-divider .section-kicker { color: #ffc387; }
+  .day-divider h1 { max-width: 760px; font-size: 50px; }
+  .warmup-box { width: 760px; margin-top: 18px; padding: 20px; border: 1px solid #50606e; background: #293743; text-align: left; }
+  .warmup-box p { margin-bottom: 13px; color: #fff; font-size: 20px; }
+  .day-divider .definition-strip { color: var(--ink); }
+  .day-divider .feedback { color: var(--ink); }
+
+  .round-layout { display: grid; grid-template-columns: 1.12fr .88fr; gap: 18px; align-items: stretch; }
+  .round-rules { padding: 17px 19px; border-top: 5px solid var(--accent); background: var(--soft); }
+  .round-rules h2 { margin-bottom: 8px; font-size: 22px; }
+  .round-rules ul { margin-top: 5px; }
+  .round-rules li { margin: 5px 0; font-size: 15px; line-height: 1.28; }
+  .payoff-stack { display: grid; gap: 10px; }
+  .payoff-card { padding: 14px 16px; border-left: 5px solid var(--blue); background: var(--blue-soft); }
+  .payoff-card.seller { border-left-color: var(--green); background: var(--green-soft); }
+  .payoff-card.goal { border-left-color: var(--accent); background: var(--accent-soft); }
+  .payoff-card h2 { margin-bottom: 5px; font-size: 19px; }
+  .payoff-card p { margin: 0; font-size: 14px; line-height: 1.28; }
+  .payoff-formula { color: var(--ink); font-size: 17px; font-weight: 820; }
+  .round-setting-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; margin-top: 14px; }
+  .round-setting-card { min-height: 167px; padding: 17px 16px; border-top: 5px solid var(--line); background: var(--soft); }
+  .round-setting-card.blue-card { border-top-color: var(--blue); background: var(--blue-soft); }
+  .round-setting-card.green-card { border-top-color: var(--green); background: var(--green-soft); }
+  .round-setting-card.accent-card { border-top-color: var(--accent); background: var(--accent-soft); }
+  .round-setting-card.purple-card { border-top-color: var(--purple); background: var(--purple-soft); }
+  .round-setting-card h2 { margin-bottom: 7px; font-size: 20px; }
+  .round-setting-card p { margin: 0; font-size: 15px; line-height: 1.3; }
+  .round-result-board { display: grid; grid-template-columns: 175px 1fr 1fr; gap: 13px; align-items: center; margin-top: 14px; padding: 13px 15px; border: 2px solid var(--line); background: #fff; }
+  .round-result-label strong { display: block; color: var(--accent); font-size: 18px; }
+  .round-result-label span { color: var(--muted); font-size: 11px; line-height: 1.25; }
+  .round-result-field label { display: block; margin-bottom: 5px; color: var(--muted); font-size: 12px; font-weight: 820; letter-spacing: .04em; text-transform: uppercase; }
+  .round-record-wrap { display: flex; align-items: center; gap: 8px; }
+  .round-record-unit { color: var(--muted); font-size: 16px; font-weight: 800; }
+  .round-record-input { width: 100%; height: 45px; padding: 6px 10px; border: 2px solid #bfc7ce; border-radius: 5px; color: var(--ink); background: #fff; font: 820 23px "Avenir Next", "Helvetica Neue", Arial, sans-serif; text-align: center; }
+  .round-record-input::placeholder { color: #adb5bd; font-weight: 650; }
+  .round-record-input:focus { border-color: var(--accent); }
+
+  .eq-table .equilibrium-row { background: var(--green-soft); }
+  .interactive .row-choice { min-width: 64px; min-height: 31px; padding: 5px 9px; background: var(--blue); font-size: 13px; }
+  .eq-callout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+  .eq-stat { padding: 11px; background: var(--soft); text-align: center; }
+  .eq-stat strong { display: block; color: var(--accent); font-size: 23px; }
+  .eq-stat span { color: var(--muted); font-size: 12px; }
+
+  .price-lab { display: grid; grid-template-columns: 1.15fr .85fr; gap: 18px; }
+  .price-readouts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
+  .price-readout { padding: 10px 7px; background: var(--soft); text-align: center; }
+  .price-readout strong { display: block; font-size: 22px; }
+  .price-readout:nth-child(1) strong { color: var(--blue); }
+  .price-readout:nth-child(2) strong { color: var(--green); }
+  .price-readout:nth-child(3) strong { color: var(--accent); }
+
+  .chain { display: grid; grid-template-columns: repeat(5, 1fr); gap: 9px; align-items: stretch; margin-top: 25px; }
+  .chain-step { position: relative; min-height: 180px; padding: 17px 12px; border: 2px solid var(--line); border-radius: 8px; opacity: .18; transform: translateY(5px); transition: .18s ease; }
+  .chain-step.visible { border-color: var(--accent); background: var(--accent-soft); opacity: 1; transform: translateY(0); }
+  .shortage-chain .chain-step.visible { border-color: var(--blue); background: var(--blue-soft); }
+  .chain-num { display: flex; width: 30px; height: 30px; margin-bottom: 12px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--accent); font-size: 13px; font-weight: 820; }
+  .shortage-chain .chain-num { background: var(--blue); }
+  .chain-step h3 { font-size: 16px; }
+  .chain-step p { margin: 0; color: var(--muted); font-size: 13px; }
+
+  .step-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 11px; margin-top: 19px; }
+  .step-card { min-height: 255px; padding: 16px 14px; border-top: 5px solid var(--line); background: var(--soft); }
+  .step-card.revealed { border-top-color: var(--accent); }
+  .step-number { color: var(--accent); font-size: 29px; font-weight: 850; }
+  .step-card h3 { min-height: 43px; font-size: 17px; }
+  .step-answer { min-height: 77px; margin-top: 11px; color: transparent; font-size: 13px; line-height: 1.3; }
+  .step-card.revealed .step-answer { color: var(--muted); }
+
+  .shock-layout { display: grid; grid-template-columns: 1.05fr .95fr; gap: 20px; }
+  .shock-brief { padding: 18px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .shock-brief p { margin: 0; font-size: 20px; }
+  .result-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-top: 13px; }
+  .interactive .result-option { min-height: 59px; padding: 8px; background: var(--blue); font-size: 14px; }
+  .shock-graph { width: 100%; height: 330px; border: 1px solid var(--line); background: #fff; }
+
+  .pattern-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-top: 13px; }
+  .pattern-result { display: grid; grid-template-columns: .85fr 1.15fr; gap: 18px; margin-top: 14px; }
+  .pattern-big { display: flex; min-height: 245px; padding: 22px; align-items: center; justify-content: center; border: 2px solid var(--line); background: var(--soft); text-align: center; }
+  .pattern-big strong { display: block; margin-bottom: 10px; color: var(--accent); font-size: 42px; }
+
+  .combine-layout { display: grid; grid-template-columns: 1fr 60px 1fr 60px 1fr; gap: 8px; align-items: center; margin-top: 25px; }
+  .combine-card { min-height: 225px; padding: 18px 14px; border: 2px solid var(--line); text-align: center; }
+  .combine-card.final { border-color: var(--accent); background: var(--accent-soft); }
+  .combine-card h3 { font-size: 18px; }
+  .combine-card p { color: var(--muted); font-size: 14px; }
+  .combine-symbol { color: var(--accent); font-size: 34px; font-weight: 850; text-align: center; }
+
+  .ambiguity-layout { display: grid; grid-template-columns: 1.12fr .88fr; gap: 18px; }
+  .control-card { padding: 15px; background: var(--soft); }
+  .control-row { margin-bottom: 18px; }
+  .control-row:last-child { margin-bottom: 0; }
+  .control-row label { display: flex; justify-content: space-between; font-size: 14px; font-weight: 800; }
+  .ambiguity-outcome { margin-top: 12px; padding: 15px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .ambiguity-outcome strong { font-size: 24px; }
+  .ambiguity-outcome p { margin: 6px 0 0; font-size: 14px; }
+
+  .matrix { width: 100%; margin-top: 14px; border-collapse: collapse; text-align: center; }
+  .matrix th, .matrix td { padding: 10px 7px; border: 1px solid #bfc7ce; font-size: 14px; }
+  .matrix th { color: #fff; background: var(--ink); }
+  .matrix .rowhead { color: var(--ink); background: var(--soft); font-weight: 800; }
+  .matrix .matrix-answer { color: transparent; background: #fff; }
+  .matrix.revealed .matrix-answer { color: var(--ink); }
+  .matrix .ambiguous { background: var(--accent-soft); }
+
+  .news-banner { padding: 10px 15px; color: #fff; background: var(--ink); font-size: 13px; font-weight: 820; letter-spacing: .08em; text-transform: uppercase; }
+  .news-brief { padding: 21px 23px; border: 1px solid var(--line); border-top: 0; background: #fff; }
+  .news-brief h2 { font-size: 26px; }
+  .news-brief p { font-size: 18px; }
+  .news-note { color: var(--muted); font-size: 12px; }
+
+  .simultaneity-visual { display: grid; grid-template-columns: 1.05fr .95fr; gap: 20px; }
+  .observed-points { padding: 20px; background: var(--soft); }
+  .observed-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .observed-cell { padding: 13px 8px; background: #fff; text-align: center; }
+  .observed-cell strong { display: block; color: var(--accent); font-size: 23px; }
+
+  .final-checks { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 16px 0; }
+  .lo-card { min-height: 146px; padding: 13px 11px; border-top: 4px solid var(--accent); background: var(--soft); }
+  .lo-card:nth-child(even) { border-top-color: var(--blue); }
+  .lo-card strong { color: var(--accent); font-size: 16px; }
+  .lo-card p { margin: 7px 0 0; color: var(--muted); font-size: 12px; }
+
+  .footer { position: absolute; right: 62px; bottom: 18px; left: 62px; display: flex; justify-content: space-between; color: #8a949e; font-size: 12px; }
+  #progress { position: fixed; bottom: 0; left: 0; z-index: 20; height: 4px; background: var(--accent); transition: width .18s ease; }
+  #hint { position: fixed; right: 14px; bottom: 9px; z-index: 20; color: rgba(255,255,255,.52); font: 12px Arial, sans-serif; }
+
+  @page { size: 10in 7.5in; margin: 0; }
+  @media print {
+    html, body { width: auto; height: auto; overflow: visible; background: #fff; }
+    #stage { position: static; width: auto; height: auto; transform: none !important; box-shadow: none; }
+    .slide { position: relative; display: block !important; page-break-after: always; break-after: page; }
+    #progress, #hint { display: none; }
+    .exit-answer, .chain-step, .step-answer { visibility: visible !important; opacity: 1 !important; color: var(--muted) !important; }
+    .shifter-card .shifter-example, .matrix .matrix-answer { color: var(--ink) !important; }
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- DAY 1 -->
+  <section class="slide title-slide center middle active" data-day="1">
+    <div style="width:100%; max-width:850px;">
+      <div class="title-kicker">ARE 201 · Unit 4</div>
+      <h1 class="title-main">Supply &amp; Demand</h1>
+      <div class="title-sub">How markets coordinate buyers, sellers, prices, and quantities</div>
+    </div>
+    <svg class="title-graphic" viewBox="0 0 480 175" role="img" aria-label="A downward-sloping demand curve and upward-sloping supply curve intersecting at equilibrium">
+      <line x1="42" y1="145" x2="445" y2="145" stroke="#1f2933" stroke-width="2"/>
+      <line x1="42" y1="145" x2="42" y2="18" stroke="#1f2933" stroke-width="2"/>
+      <path d="M65 28 L420 135" fill="none" stroke="#2f80c9" stroke-width="6" stroke-linecap="round"/>
+      <path d="M68 135 L420 30" fill="none" stroke="#378a61" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="244" cy="82" r="11" fill="#EB811B" stroke="#fff" stroke-width="4"/>
+      <line x1="244" y1="82" x2="244" y2="145" stroke="#EB811B" stroke-width="2" stroke-dasharray="5 4"/>
+      <line x1="42" y1="82" x2="244" y2="82" stroke="#EB811B" stroke-width="2" stroke-dasharray="5 4"/>
+      <text x="427" y="136" fill="#2f80c9" font-family="Arial" font-size="16" font-weight="700">D</text>
+      <text x="427" y="31" fill="#378a61" font-family="Arial" font-size="16" font-weight="700">S</text>
+      <text x="258" y="76" fill="#EB811B" font-family="Arial" font-size="14" font-weight="700">E</text>
+    </svg>
+  </section>
+
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Bridge from Unit 3</div>
+    <h1>Trade creates gains—but a market still needs coordination</h1>
+    <div class="bridge-chain" style="margin-top:22px;">
+      <div class="bridge-box"><div class="bridge-icon">1</div><h2>Gains from trade</h2><p>Different opportunity costs create room for mutually beneficial exchange.</p></div>
+      <div class="bridge-arrow">→</div>
+      <div class="bridge-box"><div class="bridge-icon">2</div><h2>Many buyers &amp; sellers</h2><p>Each arrives with a different willingness to buy or sell.</p></div>
+      <div class="bridge-arrow">→</div>
+      <div class="bridge-box active"><div class="bridge-icon">3</div><h2>Market outcome</h2><p>What price and quantity coordinate their plans?</p></div>
+    </div>
+    <figure style="position:relative; height:190px; margin:17px 0 0; overflow:hidden; border-radius:8px;">
+      <img src="Fig/Organic_Strawberries_CC_BY_2_0.jpg" alt="Organic strawberries in a market container" style="width:100%; height:100%; object-fit:cover; object-position:center 56%;">
+      <figcaption style="position:absolute; right:10px; bottom:8px; padding:4px 7px; color:#fff; background:rgba(31,41,51,.78); font-size:10px;">Photo: Suzette via Wikimedia Commons · CC BY 2.0 · cropped</figcaption>
+    </figure>
+  </section>
+
+  <section class="slide interactive" data-day="1" id="organicHookSlide">
+    <div class="section-kicker">Predict before modeling</div>
+    <h1>Why are organic strawberries often more expensive?</h1>
+    <p class="muted">Choose the explanation you would investigate first. We will return to this market next class.</p>
+    <div class="poll-grid">
+      <button type="button" class="poll-option" data-hook="demand"><span class="poll-letter">A</span><strong>Demand is stronger</strong><span>Consumers value organic attributes and are willing to buy more.</span></button>
+      <button type="button" class="poll-option" data-hook="supply"><span class="poll-letter">B</span><strong>Supply is more costly</strong><span>Production methods may raise costs or limit output.</span></button>
+      <button type="button" class="poll-option" data-hook="both"><span class="poll-letter">C</span><strong>Both may matter</strong><span>The observed price reflects the interaction of demand and supply.</span></button>
+    </div>
+    <div class="feedback" id="organicHookFeedback" style="margin-top:16px;" aria-live="polite">Commit to a hypothesis before revealing the market model.</div>
+  </section>
+
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Model scope</div>
+    <h1>A market connects buyers and sellers of one good or service</h1>
+    <div class="market-scope">
+      <div class="market-definition">
+        <p><strong>Market:</strong> a group of buyers and sellers of a particular good or service.</p>
+        <div class="definition-strip blue-strip" style="margin-top:22px;"><strong>Buyers as a group</strong> determine market demand.</div>
+        <div class="definition-strip green-strip" style="margin-top:12px;"><strong>Sellers as a group</strong> determine market supply.</div>
+      </div>
+      <div class="assumption-list">
+        <div class="assumption"><div class="assumption-num">1</div><div><strong>Same market</strong><span>Specify the product, place, and time.</span></div></div>
+        <div class="assumption"><div class="assumption-num">2</div><div><strong>Competitive benchmark</strong><span>Many buyers and sellers; no one controls market price.</span></div></div>
+        <div class="assumption"><div class="assumption-num">3</div><div><strong>Ceteris paribus</strong><span>Hold other relevant factors constant while tracing one curve.</span></div></div>
+      </div>
+    </div>
+    <p class="small muted" style="margin-top:15px;">The model is a benchmark and prediction—not a claim that every real market adjusts instantly.</p>
+  </section>
+
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Individual demand</div>
+    <h1>One buyer: price changes the quantity demanded</h1>
+    <div class="schedule-layout">
+      <div>
+        <table class="schedule-table" aria-label="A buyer's demand schedule for ice-cream cones">
+          <thead><tr><th>Price</th><th>Alex's quantity demanded</th></tr></thead>
+          <tbody><tr><td>$0.00</td><td>12</td></tr><tr><td>$0.50</td><td>10</td></tr><tr><td>$1.00</td><td>8</td></tr><tr><td>$1.50</td><td>6</td></tr><tr><td>$2.00</td><td>4</td></tr><tr><td>$2.50</td><td>2</td></tr><tr><td>$3.00</td><td>0</td></tr></tbody>
+        </table>
+        <div class="definition-strip blue-strip" style="margin-top:14px;"><strong>Demand:</strong> the quantities a consumer is willing and able to buy at every possible price.</div>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="A downward-sloping individual demand curve">
+          <line class="gridline" x1="55" y1="100" x2="380" y2="100"/><line class="gridline" x1="55" y1="170" x2="380" y2="170"/>
+          <line class="axis" x1="55" y1="260" x2="390" y2="260"/><line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <path class="demand-line" d="M55 40 L365 255"/>
+          <g fill="#2f80c9"><circle cx="55" cy="40" r="5"/><circle cx="107" cy="77" r="5"/><circle cx="158" cy="113" r="5"/><circle cx="210" cy="150" r="5"/><circle cx="262" cy="187" r="5"/><circle cx="313" cy="223" r="5"/><circle cx="365" cy="255" r="5"/></g>
+          <text class="plot-label" x="370" y="244">D₍Alex₎</text><text class="plot-label" x="203" y="289">Quantity of cones</text><text class="plot-label" x="13" y="145" transform="rotate(-90 13 145)">Price per cone</text>
+          <text class="tick-label" x="43" y="264">0</text><text class="tick-label" x="38" y="45">$3</text><text class="tick-label" x="360" y="276">12</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" data-day="1" id="marketDemandSlide">
+    <div class="section-kicker">Individual → market demand</div>
+    <h1>At each price, add every buyer's quantity</h1>
+    <div class="schedule-layout">
+      <div>
+        <table class="schedule-table" id="marketDemandTable" aria-label="Individual and market demand schedules">
+          <thead><tr><th>Price</th><th>Alex</th><th>Blair</th><th>Market</th></tr></thead>
+          <tbody>
+            <tr><td>$0.00</td><td>12</td><td>7</td><td>19</td></tr><tr><td>$0.50</td><td>10</td><td>6</td><td>16</td></tr><tr><td>$1.00</td><td>8</td><td>5</td><td>13</td></tr><tr><td>$1.50</td><td>6</td><td>4</td><td>10</td></tr><tr class="active"><td>$2.00</td><td>4</td><td>3</td><td>7</td></tr><tr><td>$2.50</td><td>2</td><td>2</td><td>4</td></tr><tr><td>$3.00</td><td>0</td><td>1</td><td>1</td></tr>
+          </tbody>
+        </table>
+        <div class="sum-strip"><div class="sum-box"><span>Alex</span><strong id="demandAlex">4</strong></div><div class="sum-symbol">+</div><div class="sum-box"><span>Blair</span><strong id="demandBlair">3</strong></div><div class="sum-symbol">=</div><div class="sum-box"><span>Market</span><strong id="demandMarket">7</strong></div></div>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Alex's and Blair's individual demand curves added horizontally to form market demand">
+          <line class="axis" x1="55" y1="260" x2="390" y2="260"/><line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <path class="individual-demand-a" d="M55 40 L87 77 L119 113 L151 150 L183 187 L215 223 L247 260"/>
+          <path class="individual-demand-b" d="M71 40 L87 77 L103 113 L119 150 L135 187 L151 223 L167 260"/>
+          <path class="demand-line" d="M71 40 L119 77 L167 113 L215 150 L263 187 L311 223 L359 260"/>
+          <line class="projection" id="demandProjectX" x1="55" y1="113" x2="167" y2="113"/><line class="projection" id="demandProjectY" x1="167" y1="113" x2="167" y2="260"/>
+          <circle id="demandAlexPoint" cx="119" cy="113" r="5" fill="#86b9e3" stroke="#fff" stroke-width="2"/>
+          <circle id="demandBlairPoint" cx="103" cy="113" r="5" fill="#7657a5" stroke="#fff" stroke-width="2"/>
+          <circle id="marketDemandPoint" cx="167" cy="113" r="8" fill="#EB811B" stroke="#fff" stroke-width="3"/>
+          <line class="individual-demand-a" x1="267" y1="28" x2="291" y2="28"/><text class="tick-label" x="298" y="32">Alex</text>
+          <line class="individual-demand-b" x1="267" y1="46" x2="291" y2="46"/><text class="tick-label" x="298" y="50">Blair</text>
+          <line class="demand-line" x1="267" y1="64" x2="291" y2="64"/><text class="tick-label" x="298" y="68">Market = Alex + Blair</text>
+          <text class="plot-label" x="210" y="289">Quantity</text><text class="plot-label" x="13" y="145" transform="rotate(-90 13 145)">Price</text>
+          <text class="tick-label" id="demandGraphP" x="27" y="117">$2.00</text><text class="tick-label" id="demandGraphQ" x="163" y="276">7</text>
+        </svg>
+      </div>
+    </div>
+    <div class="slider-panel"><label for="demandPrice">Choose a price</label><input id="demandPrice" type="range" min="0" max="6" step="1" value="4"><div class="readout" id="demandPriceReadout">Price = $2.00</div></div>
+  </section>
+
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Language discipline</div>
+    <h1>Demand is the curve; quantity demanded is one point</h1>
+    <div class="contrast-layout">
+      <div class="contrast-card curve"><div class="contrast-icon">D</div><h2>Demand</h2><p>The entire relationship between price and quantities demanded.</p><div class="definition-strip blue-strip"><strong>A change in a determinant</strong><br>shifts the entire curve.</div></div>
+      <div class="versus">≠</div>
+      <div class="contrast-card point"><div class="contrast-icon">Q<sub>d</sub></div><h2>Quantity demanded</h2><p>The amount buyers choose at one particular price.</p><div class="definition-strip"><strong>A change in this good's price</strong><br>moves to another point on the same curve.</div></div>
+    </div>
+    <div class="definition-strip" style="margin-top:18px;"><strong>Law of demand:</strong> ceteris paribus, a higher price leads to a lower quantity demanded—and a lower price leads to a higher quantity demanded.</div>
+  </section>
+
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Individual supply</div>
+    <h1>One seller: price changes the quantity supplied</h1>
+    <div class="schedule-layout">
+      <div>
+        <table class="schedule-table" aria-label="A seller's supply schedule for ice-cream cones">
+          <thead><tr><th>Price</th><th>Drew's quantity supplied</th></tr></thead>
+          <tbody><tr><td>$0.00</td><td>0</td></tr><tr><td>$0.50</td><td>0</td></tr><tr><td>$1.00</td><td>1</td></tr><tr><td>$1.50</td><td>2</td></tr><tr><td>$2.00</td><td>3</td></tr><tr><td>$2.50</td><td>4</td></tr><tr><td>$3.00</td><td>5</td></tr></tbody>
+        </table>
+        <div class="definition-strip green-strip" style="margin-top:14px;"><strong>Supply:</strong> the quantities a producer is willing and able to sell at every possible price.</div>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="An upward-sloping individual supply curve">
+          <line class="gridline" x1="55" y1="100" x2="380" y2="100"/><line class="gridline" x1="55" y1="170" x2="380" y2="170"/>
+          <line class="axis" x1="55" y1="260" x2="390" y2="260"/><line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <path class="supply-line" d="M55 223 L340 40"/>
+          <g fill="#378a61"><circle cx="55" cy="223" r="5"/><circle cx="112" cy="187" r="5"/><circle cx="169" cy="150" r="5"/><circle cx="226" cy="113" r="5"/><circle cx="283" cy="77" r="5"/><circle cx="340" cy="40" r="5"/></g>
+          <text class="plot-label" x="346" y="45">S₍Drew₎</text><text class="plot-label" x="203" y="289">Quantity of cones</text><text class="plot-label" x="13" y="145" transform="rotate(-90 13 145)">Price per cone</text>
+          <text class="tick-label" x="43" y="264">0</text><text class="tick-label" x="38" y="45">$3</text><text class="tick-label" x="336" y="276">5</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" data-day="1" id="marketSupplySlide">
+    <div class="section-kicker">Individual → market supply</div>
+    <h1>At each price, add every seller's quantity</h1>
+    <div class="schedule-layout">
+      <div>
+        <table class="schedule-table" id="marketSupplyTable" aria-label="Individual and market supply schedules">
+          <thead><tr><th>Price</th><th>Drew</th><th>Casey</th><th>Market</th></tr></thead>
+          <tbody>
+            <tr><td>$0.00</td><td>0</td><td>0</td><td>0</td></tr><tr><td>$0.50</td><td>0</td><td>0</td><td>0</td></tr><tr><td>$1.00</td><td>1</td><td>0</td><td>1</td></tr><tr><td>$1.50</td><td>2</td><td>2</td><td>4</td></tr><tr class="active"><td>$2.00</td><td>3</td><td>4</td><td>7</td></tr><tr><td>$2.50</td><td>4</td><td>6</td><td>10</td></tr><tr><td>$3.00</td><td>5</td><td>8</td><td>13</td></tr>
+          </tbody>
+        </table>
+        <div class="sum-strip"><div class="sum-box supply"><span>Drew</span><strong id="supplyDrew">3</strong></div><div class="sum-symbol">+</div><div class="sum-box supply"><span>Casey</span><strong id="supplyCasey">4</strong></div><div class="sum-symbol">=</div><div class="sum-box supply"><span>Market</span><strong id="supplyMarket">7</strong></div></div>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Drew's and Casey's individual supply curves added horizontally to form market supply">
+          <line class="axis" x1="55" y1="260" x2="390" y2="260"/><line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <path class="individual-supply-a" d="M55 260 L55 223 L71 187 L87 150 L103 113 L119 77 L135 40"/>
+          <path class="individual-supply-b" d="M55 260 L55 223 L55 187 L87 150 L119 113 L151 77 L183 40"/>
+          <path class="supply-line" d="M55 260 L55 223 L71 187 L119 150 L167 113 L215 77 L263 40"/>
+          <line class="projection" id="supplyProjectX" x1="55" y1="113" x2="167" y2="113"/><line class="projection" id="supplyProjectY" x1="167" y1="113" x2="167" y2="260"/>
+          <circle id="supplyDrewPoint" cx="103" cy="113" r="5" fill="#83b89c" stroke="#fff" stroke-width="2"/>
+          <circle id="supplyCaseyPoint" cx="119" cy="113" r="5" fill="#7657a5" stroke="#fff" stroke-width="2"/>
+          <circle id="marketSupplyPoint" cx="167" cy="113" r="8" fill="#EB811B" stroke="#fff" stroke-width="3"/>
+          <line class="individual-supply-a" x1="267" y1="28" x2="291" y2="28"/><text class="tick-label" x="298" y="32">Drew</text>
+          <line class="individual-supply-b" x1="267" y1="46" x2="291" y2="46"/><text class="tick-label" x="298" y="50">Casey</text>
+          <line class="supply-line" x1="267" y1="64" x2="291" y2="64"/><text class="tick-label" x="298" y="68">Market = Drew + Casey</text>
+          <text class="plot-label" x="210" y="289">Quantity</text><text class="plot-label" x="13" y="145" transform="rotate(-90 13 145)">Price</text>
+          <text class="tick-label" id="supplyGraphP" x="27" y="117">$2.00</text><text class="tick-label" id="supplyGraphQ" x="163" y="276">7</text>
+        </svg>
+      </div>
+    </div>
+    <div class="slider-panel"><label for="supplyPrice">Choose a price</label><input id="supplyPrice" type="range" min="0" max="6" step="1" value="4"><div class="readout" id="supplyPriceReadout">Price = $2.00</div></div>
+  </section>
+
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Language discipline</div>
+    <h1>Supply is the curve; quantity supplied is one point</h1>
+    <div class="contrast-layout">
+      <div class="contrast-card curve" style="border-color:var(--green); background:var(--green-soft);"><div class="contrast-icon green">S</div><h2>Supply</h2><p>The entire relationship between price and quantities supplied.</p><div class="definition-strip green-strip"><strong>A change in a determinant</strong><br>shifts the entire curve.</div></div>
+      <div class="versus">≠</div>
+      <div class="contrast-card point"><div class="contrast-icon">Q<sub>s</sub></div><h2>Quantity supplied</h2><p>The amount sellers choose at one particular price.</p><div class="definition-strip"><strong>A change in this good's price</strong><br>moves to another point on the same curve.</div></div>
+    </div>
+    <div class="definition-strip green-strip" style="margin-top:18px;"><strong>Law of supply:</strong> ceteris paribus, a higher price leads to a higher quantity supplied—and a lower price leads to a lower quantity supplied.</div>
+  </section>
+
+  <!-- DAY 2 -->
+  <section class="slide day-divider center middle" data-day="2" id="marketRound1LaunchSlide">
+    <div class="section-kicker">Class market · Round 1</div>
+    <h1>You are about to become the strawberry market</h1>
+    <div class="warmup-box" style="display:grid; grid-template-columns:1.2fr .8fr; gap:24px; align-items:center;">
+      <div>
+        <p><strong>1 · Join:</strong> scan the QR code or open <a href="https://market.zihanzhang.trade/room/are201_unit4" target="_blank" rel="noopener" style="color:#ffc387;">market.zihanzhang.trade/room/are201_unit4</a></p>
+        <p><strong>2 · Protect your information:</strong> do not share your buyer value or seller cost.</p>
+        <p><strong>3 · Trade:</strong> watch the best bid, best ask, and anonymous transaction tape.</p>
+      </div>
+      <div style="text-align:center;">
+        <img src="Fig/ARE201_Unit4_Market_Room_QR.png" alt="QR code for the ARE 201 Unit 4 anonymous market room" style="display:block; width:230px; height:230px; margin:0 auto; border:8px solid #fff; background:#fff;">
+        <p class="tiny" style="margin:8px 0 0; color:#fff;">Anonymous Room · one browser · one tab</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-day="2" id="marketRound1RulesSlide">
+    <div class="section-kicker">Class market · Round 1 of 5 · baseline</div>
+    <h1>Trade one unit—and maximize your own payoff</h1>
+    <div class="round-layout">
+      <div class="round-rules">
+        <h2>How the market works</h2>
+        <ul>
+          <li>You see only your own <strong>buyer value</strong> or <strong>seller cost</strong>. Keep it private.</li>
+          <li>Buyers submit bids; sellers submit asks. Watch the live best bid, best ask, and transaction tape.</li>
+          <li>Quotes use <strong>$0.25 increments</strong>. Buyers raise bids but never bid above value; sellers lower asks but never ask below cost.</li>
+          <li>A trade occurs when the best bid is at least the best ask. The earlier resting order sets the transaction price.</li>
+          <li>Each person can complete <strong>at most one trade</strong> this round.</li>
+        </ul>
+      </div>
+      <div class="payoff-stack">
+        <div class="payoff-card"><h2>Buyer payoff</h2><p class="payoff-formula">Value − transaction price</p></div>
+        <div class="payoff-card seller"><h2>Seller payoff</h2><p class="payoff-formula">Transaction price − cost</p></div>
+        <div class="payoff-card goal"><h2>Your goal</h2><p><strong>Maximize your own payoff.</strong> No completed trade means a payoff of 0. Never reveal your private information.</p></div>
+      </div>
+    </div>
+    <div class="round-result-board">
+      <div class="round-result-label"><strong>Record Round 1</strong><span>Entries save automatically in this browser.</span></div>
+      <div class="round-result-field"><label for="round1AvgPrice">Average transaction price</label><div class="round-record-wrap"><span class="round-record-unit">$</span><input class="round-record-input" id="round1AvgPrice" data-round-record="round1-average-price" type="text" inputmode="decimal" placeholder="____" autocomplete="off"></div></div>
+      <div class="round-result-field"><label for="round1Quantity">Transaction quantity</label><div class="round-record-wrap"><input class="round-record-input" id="round1Quantity" data-round-record="round1-quantity" type="text" inputmode="numeric" placeholder="____" autocomplete="off"><span class="round-record-unit">trades</span></div></div>
+    </div>
+  </section>
+
+  <section class="slide" data-day="2" id="marketRound2SettingSlide">
+    <div class="section-kicker">Class market · Round 2 of 5 · increase in demand</div>
+    <h1>A favorable health report raises buyer values</h1>
+    <div class="definition-strip blue-strip"><strong>Updated setting:</strong> consumers become more willing to pay for organic strawberries.</div>
+    <div class="round-setting-grid">
+      <div class="round-setting-card blue-card"><h2>Buyer side</h2><p>Every buyer value rises by <strong>$3</strong>.</p></div>
+      <div class="round-setting-card green-card"><h2>Seller side</h2><p>Every seller cost stays at its Round 1 baseline.</p></div>
+      <div class="round-setting-card accent-card"><h2>People and roles</h2><p>The same participants remain buyers and sellers, with the same value or cost rank.</p></div>
+    </div>
+    <div class="round-result-board">
+      <div class="round-result-label"><strong>Record Round 2</strong><span>Compare with the Round 1 baseline.</span></div>
+      <div class="round-result-field"><label for="round2AvgPrice">Average transaction price</label><div class="round-record-wrap"><span class="round-record-unit">$</span><input class="round-record-input" id="round2AvgPrice" data-round-record="round2-average-price" type="text" inputmode="decimal" placeholder="____" autocomplete="off"></div></div>
+      <div class="round-result-field"><label for="round2Quantity">Transaction quantity</label><div class="round-record-wrap"><input class="round-record-input" id="round2Quantity" data-round-record="round2-quantity" type="text" inputmode="numeric" placeholder="____" autocomplete="off"><span class="round-record-unit">trades</span></div></div>
+    </div>
+  </section>
+
+  <section class="slide" data-day="2" id="marketRound3SettingSlide">
+    <div class="section-kicker">Class market · Round 3 of 5 · negative supply shock</div>
+    <h1>A drought raises farms’ production costs</h1>
+    <div class="definition-strip green-strip"><strong>Updated setting:</strong> producing organic strawberries becomes more costly.</div>
+    <div class="round-setting-grid">
+      <div class="round-setting-card green-card"><h2>Seller side</h2><p>Every seller cost rises by <strong>$3</strong>.</p></div>
+      <div class="round-setting-card blue-card"><h2>Buyer side</h2><p>Buyer values return to their Round 1 baseline.</p></div>
+      <div class="round-setting-card accent-card"><h2>People and roles</h2><p>The same participants remain buyers and sellers, with the same value or cost rank.</p></div>
+    </div>
+    <div class="round-result-board">
+      <div class="round-result-label"><strong>Record Round 3</strong><span>Compare with Round 1, not cumulatively with Round 2.</span></div>
+      <div class="round-result-field"><label for="round3AvgPrice">Average transaction price</label><div class="round-record-wrap"><span class="round-record-unit">$</span><input class="round-record-input" id="round3AvgPrice" data-round-record="round3-average-price" type="text" inputmode="decimal" placeholder="____" autocomplete="off"></div></div>
+      <div class="round-result-field"><label for="round3Quantity">Transaction quantity</label><div class="round-record-wrap"><input class="round-record-input" id="round3Quantity" data-round-record="round3-quantity" type="text" inputmode="numeric" placeholder="____" autocomplete="off"><span class="round-record-unit">trades</span></div></div>
+    </div>
+  </section>
+
+  <section class="slide" data-day="2" id="marketRound4SettingSlide">
+    <div class="section-kicker">Class market · Round 4 of 5 · relatively more buyers</div>
+    <h1>The buying side becomes crowded</h1>
+    <div class="definition-strip blue-strip"><strong>Updated setting:</strong> the class is randomly re-dealt so that buyers outnumber sellers—approximately 2 buyers for every 1 seller.</div>
+    <div class="round-setting-grid">
+      <div class="round-setting-card blue-card"><h2>Market composition</h2><p><strong>More buyers</strong> and fewer sellers, while total class size stays fixed.</p></div>
+      <div class="round-setting-card purple-card"><h2>Private amounts</h2><p>Buyer values and seller costs return to their baseline ranges.</p></div>
+      <div class="round-setting-card accent-card"><h2>Roles are re-dealt</h2><p>Your role and private amount may differ from Rounds 1–3.</p></div>
+    </div>
+    <div class="round-result-board">
+      <div class="round-result-label"><strong>Record Round 4</strong><span>Compare with the Round 1 baseline.</span></div>
+      <div class="round-result-field"><label for="round4AvgPrice">Average transaction price</label><div class="round-record-wrap"><span class="round-record-unit">$</span><input class="round-record-input" id="round4AvgPrice" data-round-record="round4-average-price" type="text" inputmode="decimal" placeholder="____" autocomplete="off"></div></div>
+      <div class="round-result-field"><label for="round4Quantity">Transaction quantity</label><div class="round-record-wrap"><input class="round-record-input" id="round4Quantity" data-round-record="round4-quantity" type="text" inputmode="numeric" placeholder="____" autocomplete="off"><span class="round-record-unit">trades</span></div></div>
+    </div>
+  </section>
+
+  <section class="slide" data-day="2" id="marketRound5SettingSlide">
+    <div class="section-kicker">Class market · Round 5 of 5 · relatively more sellers</div>
+    <h1>The selling side becomes crowded</h1>
+    <div class="definition-strip green-strip"><strong>Updated setting:</strong> the class is randomly re-dealt so that sellers outnumber buyers—approximately 2 sellers for every 1 buyer.</div>
+    <div class="round-setting-grid">
+      <div class="round-setting-card green-card"><h2>Market composition</h2><p><strong>More sellers</strong> and fewer buyers, while total class size stays fixed.</p></div>
+      <div class="round-setting-card purple-card"><h2>Private amounts</h2><p>Buyer values and seller costs remain in their baseline ranges.</p></div>
+      <div class="round-setting-card accent-card"><h2>Roles are re-dealt</h2><p>Your role and private amount may differ again from Round 4.</p></div>
+    </div>
+    <div class="round-result-board">
+      <div class="round-result-label"><strong>Record Round 5</strong><span>Compare with the Round 1 baseline.</span></div>
+      <div class="round-result-field"><label for="round5AvgPrice">Average transaction price</label><div class="round-record-wrap"><span class="round-record-unit">$</span><input class="round-record-input" id="round5AvgPrice" data-round-record="round5-average-price" type="text" inputmode="decimal" placeholder="____" autocomplete="off"></div></div>
+      <div class="round-result-field"><label for="round5Quantity">Transaction quantity</label><div class="round-record-wrap"><input class="round-record-input" id="round5Quantity" data-round-record="round5-quantity" type="text" inputmode="numeric" placeholder="____" autocomplete="off"><span class="round-record-unit">trades</span></div></div>
+    </div>
+  </section>
+
+  <section class="slide" data-day="2" id="marketCurveDebriefSlide">
+    <div class="section-kicker">Round 1 debrief · build the curves from our class</div>
+    <h1>Private values and costs generate the market curves</h1>
+    <div class="grid-2">
+      <div class="card blue-top">
+        <h2>Class demand at price P</h2>
+        <p>Count every buyer whose private value is at least P.</p>
+        <div class="definition-strip blue-strip"><strong>Q<sub>d</sub>(P) = buyers with value ≥ P</strong></div>
+      </div>
+      <div class="card green-top">
+        <h2>Class supply at price P</h2>
+        <p>Count every seller whose private cost is no more than P.</p>
+        <div class="definition-strip green-strip"><strong>Q<sub>s</sub>(P) = sellers with cost ≤ P</strong></div>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:18px;"><strong>Do this with today’s Results table:</strong> choose one price, count Q<sub>d</sub> and Q<sub>s</sub>, plot both points, then repeat to build the two step curves.</div>
+    <p class="small muted" style="margin-top:13px;">The bids and asks show bargaining behavior. The assigned values and costs—not the submitted quotes—identify the complete theoretical curves.</p>
+  </section>
+
+  <section class="slide day-divider center middle interactive" data-day="2" id="day2WarmupSlide">
+    <div class="section-kicker">Round 1 debrief · predict before naming equilibrium</div>
+    <h1>When buyers and sellers meet, which price can persist?</h1>
+    <div class="warmup-box">
+      <p>At a price of $2.50, buyers want 4 cones while sellers offer 10. What pressure should follow?</p>
+      <div class="button-row"><button type="button" class="warmup-choice" data-warmup="up">Price rises</button><button type="button" class="warmup-choice blue-button" data-warmup="same">Price stays</button><button type="button" class="warmup-choice green-button" data-warmup="down">Price falls</button></div>
+      <div class="feedback" id="warmupFeedback" style="margin-top:12px;" aria-live="polite">Predict before we name the market condition.</div>
+    </div>
+  </section>
+
+  <section class="slide interactive" data-day="2" id="equilibriumTableSlide">
+    <div class="section-kicker">Find equilibrium from a table · LO 4.2</div>
+    <h1>Where do buyers' and sellers' plans agree?</h1>
+    <div class="grid-2">
+      <table class="schedule-table eq-table" aria-label="Demand and supply schedule for the market">
+        <thead><tr><th>Price</th><th>Q<sub>d</sub></th><th>Q<sub>s</sub></th><th>Test</th></tr></thead>
+        <tbody>
+          <tr><td>$0.50</td><td>16</td><td>0</td><td><button type="button" class="row-choice" data-eq="false">Choose</button></td></tr>
+          <tr><td>$1.00</td><td>13</td><td>1</td><td><button type="button" class="row-choice" data-eq="false">Choose</button></td></tr>
+          <tr><td>$1.50</td><td>10</td><td>4</td><td><button type="button" class="row-choice" data-eq="false">Choose</button></td></tr>
+          <tr><td>$2.00</td><td>7</td><td>7</td><td><button type="button" class="row-choice" data-eq="true">Choose</button></td></tr>
+          <tr><td>$2.50</td><td>4</td><td>10</td><td><button type="button" class="row-choice" data-eq="false">Choose</button></td></tr>
+          <tr><td>$3.00</td><td>1</td><td>13</td><td><button type="button" class="row-choice" data-eq="false">Choose</button></td></tr>
+        </tbody>
+      </table>
+      <div>
+        <div class="definition-strip"><strong>Equilibrium:</strong> the price and quantity at which quantity demanded equals quantity supplied.</div>
+        <div class="eq-callout"><div class="eq-stat"><strong id="eqPriceValue">?</strong><span>equilibrium price</span></div><div class="eq-stat"><strong id="eqQuantityValue">?</strong><span>equilibrium quantity</span></div><div class="eq-stat"><strong id="eqEqualityValue">?</strong><span>Qd = Qs</span></div></div>
+        <div class="feedback" id="equilibriumTableFeedback" style="margin-top:13px;" aria-live="polite">Select the row where the two quantities are equal.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-day="2">
+    <div class="section-kicker">Find equilibrium from a graph · LO 4.2</div>
+    <h1>The same equality appears at the intersection</h1>
+    <div class="grid-2">
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Demand and supply curves intersecting at equilibrium price two dollars and quantity seven">
+          <line class="axis" x1="55" y1="260" x2="390" y2="260"/><line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <path class="demand-line" d="M71 40 L359 260"/><path class="supply-line" d="M55 199 L263 40"/>
+          <line class="projection" x1="55" y1="113" x2="167" y2="113"/><line class="projection" x1="167" y1="113" x2="167" y2="260"/>
+          <circle cx="167" cy="113" r="9" fill="#EB811B" stroke="#fff" stroke-width="3"/>
+          <text class="plot-label" x="181" y="106">E</text><text class="plot-label" x="363" y="252" fill="#2f80c9">D</text><text class="plot-label" x="268" y="45" fill="#378a61">S</text>
+          <text class="tick-label" x="25" y="117">$2.00</text><text class="tick-label" x="164" y="276">7</text><text class="plot-label" x="210" y="289">Quantity</text><text class="plot-label" x="15" y="145" transform="rotate(-90 15 145)">Price</text>
+        </svg>
+      </div>
+      <div>
+        <div class="card blue-top"><h2>Demand plan</h2><p>At $2.00, buyers plan to purchase <strong>7 cones</strong>.</p></div>
+        <div class="card green-top" style="margin-top:12px;"><h2>Supply plan</h2><p>At $2.00, sellers plan to offer <strong>7 cones</strong>.</p></div>
+        <div class="definition-strip" style="margin-top:13px;"><strong>Market-clearing price:</strong> no shortage or surplus creates pressure for price to move away.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" data-day="2" id="priceLabSlide">
+    <div class="section-kicker">Price-adjustment lab · LO 4.3</div>
+    <h1>Move the price: what market condition appears?</h1>
+    <div class="price-lab">
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Demand and supply graph with adjustable market price">
+          <line class="axis" x1="55" y1="260" x2="390" y2="260"/><line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <path class="demand-line" d="M71 40 L359 260"/><path class="supply-line" d="M55 199 L263 40"/>
+          <line id="labPriceLine" x1="55" y1="76" x2="390" y2="76" stroke="#EB811B" stroke-width="3" stroke-dasharray="7 5"/>
+          <circle id="labDemandPoint" cx="119" cy="76" r="7" fill="#2f80c9"/><circle id="labSupplyPoint" cx="215" cy="76" r="7" fill="#378a61"/>
+          <line id="labGapLine" x1="119" y1="61" x2="215" y2="61" stroke="#c9504d" stroke-width="5"/>
+          <text class="plot-label" id="labGapLabel" x="167" y="52" text-anchor="middle">Surplus = 6</text>
+          <text class="plot-label" x="363" y="252">D</text><text class="plot-label" x="268" y="45">S</text><text class="plot-label" x="210" y="289">Quantity</text><text class="plot-label" x="15" y="145" transform="rotate(-90 15 145)">Price</text>
+        </svg>
+      </div>
+      <div>
+        <label for="marketPriceLab"><strong>Posted market price</strong></label>
+        <input id="marketPriceLab" type="range" min="1" max="6" step="1" value="5" style="margin:10px 0;">
+        <div class="readout" id="marketPriceReadout" style="text-align:left;">$2.50</div>
+        <div class="price-readouts"><div class="price-readout"><span class="tiny">Qd</span><strong id="labQd">4</strong></div><div class="price-readout"><span class="tiny">Qs</span><strong id="labQs">10</strong></div><div class="price-readout"><span class="tiny">Gap</span><strong id="labGap">6</strong></div></div>
+        <div class="feedback error" id="priceLabFeedback" aria-live="polite"><strong>Surplus:</strong> Qs &gt; Qd. Unsold cones create downward pressure on price.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" data-day="2" id="surplusChainSlide">
+    <div class="section-kicker">Why price falls above equilibrium</div>
+    <h1>A surplus creates a sequence of incentives</h1>
+    <div class="chain" id="surplusChain">
+      <div class="chain-step visible"><div class="chain-num">1</div><h3>Price above equilibrium</h3><p>The posted price is higher than the market-clearing price.</p></div>
+      <div class="chain-step"><div class="chain-num">2</div><h3>Q<sub>s</sub> &gt; Q<sub>d</sub></h3><p>Sellers offer more than buyers plan to purchase.</p></div>
+      <div class="chain-step"><div class="chain-num">3</div><h3>Unsold inventory</h3><p>Some sellers cannot complete their planned sales.</p></div>
+      <div class="chain-step"><div class="chain-num">4</div><h3>Sellers cut price</h3><p>A lower price is better than leaving output unsold.</p></div>
+      <div class="chain-step"><div class="chain-num">5</div><h3>Move toward E</h3><p>Qd rises and Qs falls along the existing curves.</p></div>
+    </div>
+    <div class="button-row" style="margin-top:14px;"><button type="button" class="chain-next" data-chain="surplusChain">Reveal next link</button><button type="button" class="secondary chain-reset" data-chain="surplusChain">Reset</button></div>
+  </section>
+
+  <section class="slide interactive" data-day="2" id="shortageChainSlide">
+    <div class="section-kicker">Why price rises below equilibrium</div>
+    <h1>A shortage creates the opposite pressure</h1>
+    <div class="chain shortage-chain" id="shortageChain">
+      <div class="chain-step visible"><div class="chain-num">1</div><h3>Price below equilibrium</h3><p>The posted price is lower than the market-clearing price.</p></div>
+      <div class="chain-step"><div class="chain-num">2</div><h3>Q<sub>d</sub> &gt; Q<sub>s</sub></h3><p>Buyers want more than sellers plan to offer.</p></div>
+      <div class="chain-step"><div class="chain-num">3</div><h3>Buyers compete</h3><p>Some buyers cannot purchase the good at that price.</p></div>
+      <div class="chain-step"><div class="chain-num">4</div><h3>Price rises</h3><p>Sellers can charge more when customers are waiting.</p></div>
+      <div class="chain-step"><div class="chain-num">5</div><h3>Move toward E</h3><p>Qd falls and Qs rises along the existing curves.</p></div>
+    </div>
+    <div class="button-row" style="margin-top:14px;"><button type="button" class="chain-next blue-button" data-chain="shortageChain">Reveal next link</button><button type="button" class="secondary chain-reset" data-chain="shortageChain">Reset</button></div>
+  </section>
+
+  <section class="slide" data-day="2" id="marketRound2Slide">
+    <div class="section-kicker">Round 2 debrief · interpret the class evidence</div>
+    <h1>The health report changed buyers’ willingness to pay</h1>
+    <div class="grid-3" style="margin-top:22px;">
+      <div class="card blue-top"><h2>What changes?</h2><p>Every buyer value rises by <strong>$3</strong>.</p></div>
+      <div class="card green-top"><h2>What stays fixed?</h2><p>Seller costs and each participant’s role stay unchanged.</p></div>
+      <div class="card accent-top"><h2>What did we observe?</h2><p>Compare the recorded average price and transaction quantity with Round 1.</p></div>
+    </div>
+    <div class="definition-strip" style="margin-top:20px;"><strong>Explain the evidence:</strong> at any given strawberry price, did more buyers now have a value high enough to purchase?</div>
+    <p class="small muted" style="margin-top:14px;">Use the experiment first; then name the curve change on the next slide.</p>
+  </section>
+
+  <section class="slide interactive" data-day="2" id="demandShiftersSlide">
+    <div class="section-kicker">Round 2 debrief · demand determinants · click to reveal</div>
+    <h1>What can change demand at every price?</h1>
+    <div class="shifter-grid">
+      <button type="button" class="shifter-card"><strong>Number of buyers</strong><span class="shifter-example">More buyers → demand shifts right.</span></button>
+      <button type="button" class="shifter-card"><strong>Income &amp; wealth</strong><span class="shifter-example">Income ↑: normal D →; inferior D ←.</span></button>
+      <button type="button" class="shifter-card"><strong>Prices of related goods</strong><span class="shifter-example">Substitute price ↑ → D right; complement price ↑ → D left.</span></button>
+      <button type="button" class="shifter-card"><strong>Tastes &amp; needs</strong><span class="shifter-example">A stronger preference or need → demand right.</span></button>
+      <button type="button" class="shifter-card"><strong>Expectations</strong><span class="shifter-example">Expected future price ↑ can raise demand today.</span></button>
+      <button type="button" class="shifter-card"><strong>Population composition</strong><span class="shifter-example">Age or household changes alter what the market buys.</span></button>
+    </div>
+    <div class="definition-strip blue-strip" style="margin-top:13px;"><strong>Round 2 connection:</strong> the health report raised buyer values, so buyers wanted more strawberries at every price and demand shifted right.</div>
+  </section>
+
+  <section class="slide interactive" data-day="2" id="incomeGoodsSlide">
+    <div class="section-kicker">Income as a demand determinant · normal versus inferior</div>
+    <h1>Income can shift demand in opposite directions</h1>
+    <div class="income-definitions">
+      <div class="income-definition"><h2>Normal good</h2><p>Income ↑ → demand ↑. Income ↓ → demand ↓.</p></div>
+      <div class="income-definition inferior"><h2>Inferior good</h2><p>Income ↑ → demand ↓. Income ↓ → demand ↑.</p></div>
+    </div>
+    <div class="income-lab">
+      <div class="income-controls">
+        <div class="income-control-label">1 · What happens to income?</div>
+        <div class="income-control-group"><button type="button" class="income-choice" data-income="up">Income ↑</button><button type="button" class="income-choice" data-income="down">Income ↓</button></div>
+        <div class="income-control-label">2 · What type of good?</div>
+        <div class="income-control-group"><button type="button" class="income-choice type-choice" data-good-type="normal">Normal</button><button type="button" class="income-choice type-choice" data-good-type="inferior">Inferior</button></div>
+        <div class="income-result" id="incomeResult" aria-live="polite"><strong>Predict, then choose</strong><span>Select one income change and one good type.</span></div>
+      </div>
+      <div>
+        <svg class="income-plot" viewBox="0 0 420 245" role="img" aria-label="Demand curve that shifts according to income and whether the good is normal or inferior">
+          <line class="axis" x1="52" y1="210" x2="382" y2="210"/><line class="axis" x1="52" y1="210" x2="52" y2="22"/>
+          <path class="old-line" d="M102 35 L315 195"/>
+          <path class="new-line" id="incomeNewDemand" d="M102 35 L315 195" visibility="hidden"/>
+          <line id="incomeShiftArrow" x1="198" y1="112" x2="242" y2="112" stroke="#EB811B" stroke-width="4" visibility="hidden"/>
+          <polygon id="incomeShiftArrowHead" points="242,112 230,105 230,119" fill="#EB811B" visibility="hidden"/>
+          <text class="plot-label" x="310" y="192">D₀</text><text class="plot-label" id="incomeNewLabel" x="355" y="192" visibility="hidden">D₁</text>
+          <text class="plot-label" x="204" y="236">Quantity</text><text class="plot-label" x="14" y="128" transform="rotate(-90 14 128)">Price</text>
+        </svg>
+        <p class="tiny muted" style="margin:7px 0 0;"><strong>“Inferior” is not a judgment about quality.</strong> It describes an income–demand relationship. The same good can change category over different income ranges.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" data-day="2" id="demandQuizSlide">
+    <div class="section-kicker">Demand concept check · predict before reveal</div>
+    <h1>Which way does the demand curve move?</h1>
+    <div class="quiz-scenario"><div class="market-label" id="demandQuizMarket">Market: Soy milk</div><p id="demandQuizPrompt">The price of dairy milk, a substitute, increases.</p></div>
+    <div class="quiz-options">
+      <button type="button" class="quiz-option blue-button" data-direction="left">Demand shifts left</button>
+      <button type="button" class="quiz-option" data-direction="none">No demand shift</button>
+      <button type="button" class="quiz-option green-button" data-direction="right">Demand shifts right</button>
+    </div>
+    <div class="feedback" id="demandQuizFeedback" style="margin-top:13px;" aria-live="polite">Choose a direction, then explain it using “at every price.”</div>
+    <div class="quiz-toolbar"><span class="score-pill" id="demandQuizScore">0 correct · 1 of 5</span><button type="button" class="secondary" id="demandQuizNext">Next scenario</button></div>
+  </section>
+
+  <section class="slide" data-day="2" id="marketRound3Slide">
+    <div class="section-kicker">Round 3 debrief · interpret the class evidence</div>
+    <h1>The drought changed farms’ production costs</h1>
+    <div class="grid-3" style="margin-top:22px;">
+      <div class="card green-top"><h2>What changes?</h2><p>Every seller cost rises by <strong>$3</strong>.</p></div>
+      <div class="card blue-top"><h2>What resets?</h2><p>Buyer values return to their Round 1 baseline.</p></div>
+      <div class="card accent-top"><h2>What did we observe?</h2><p>Compare the recorded average price and transaction quantity with Round 1.</p></div>
+    </div>
+    <div class="definition-strip" style="margin-top:20px;"><strong>Explain the evidence:</strong> at any given strawberry price, did fewer sellers now have a cost low enough to sell?</div>
+    <p class="small muted" style="margin-top:14px;">Compare Round 3 with Round 1—not cumulatively with Round 2.</p>
+  </section>
+
+  <section class="slide interactive" data-day="2" id="supplyShiftersSlide">
+    <div class="section-kicker">Round 3 debrief · supply determinants · click to reveal</div>
+    <h1>What can change supply at every price?</h1>
+    <div class="shifter-grid supply-shifters">
+      <button type="button" class="shifter-card"><strong>Number of sellers</strong><span class="shifter-example">More sellers → market supply shifts right.</span></button>
+      <button type="button" class="shifter-card"><strong>Input prices</strong><span class="shifter-example">Higher wages or materials costs → supply left.</span></button>
+      <button type="button" class="shifter-card"><strong>Technology</strong><span class="shifter-example">Cost-saving technology → supply right.</span></button>
+      <button type="button" class="shifter-card"><strong>Natural conditions</strong><span class="shifter-example">Drought or disease can reduce farm supply.</span></button>
+      <button type="button" class="shifter-card"><strong>Taxes, rules &amp; subsidies</strong><span class="shifter-example">Higher costs → left; cost-reducing subsidy → right.</span></button>
+      <button type="button" class="shifter-card"><strong>Expectations</strong><span class="shifter-example">Expected future price ↑ may reduce supply today.</span></button>
+    </div>
+    <div class="definition-strip green-strip" style="margin-top:13px;"><strong>Round 3 connection:</strong> the drought raised seller costs, so sellers offered fewer strawberries at every price and supply shifted left.</div>
+  </section>
+
+  <section class="slide interactive" data-day="2" id="movementQuizSlide">
+    <div class="section-kicker">Experiment synthesis · misconception clinic · LO 4.1</div>
+    <h1>Movement along a curve—or a shift?</h1>
+    <div class="quiz-scenario"><div class="market-label" id="movementQuizMarket">Market: Strawberries</div><p id="movementQuizPrompt">The market price of strawberries falls.</p></div>
+    <div class="quiz-options four">
+      <button type="button" class="quiz-option blue-button" data-kind="move-d">Move along demand</button>
+      <button type="button" class="quiz-option green-button" data-kind="move-s">Move along supply</button>
+      <button type="button" class="quiz-option" data-kind="shift-d">Shift demand</button>
+      <button type="button" class="quiz-option purple-button" data-kind="shift-s">Shift supply</button>
+    </div>
+    <div class="feedback" id="movementQuizFeedback" style="margin-top:13px;" aria-live="polite">Ask first: did this good's own price change, or did another determinant change?</div>
+    <div class="quiz-toolbar"><span class="score-pill" id="movementQuizScore">0 correct · 1 of 6</span><button type="button" class="secondary" id="movementQuizNext">Next scenario</button></div>
+  </section>
+
+  <section class="slide interactive" data-day="2">
+    <div class="section-kicker">Three-round experiment checkpoint</div>
+    <h1>Can you build and move the curves correctly?</h1>
+    <div class="exit-grid">
+      <div class="exit-card"><h2>1 · Language</h2><p>The price of coffee rises. Describe the response on the coffee demand curve without saying “demand falls.”</p><button type="button" class="exit-reveal" data-target="day1Answer1">Reveal model answer</button><div class="exit-answer" id="day1Answer1"><p><strong>Quantity demanded decreases:</strong> buyers move upward and leftward along the existing coffee demand curve.</p></div></div>
+      <div class="exit-card"><h2>2 · Determinant</h2><p>A frost damages the strawberry crop. Which curve moves, in which direction, and why?</p><button type="button" class="exit-reveal" data-target="day1Answer2">Reveal model answer</button><div class="exit-answer" id="day1Answer2"><p><strong>Supply shifts left:</strong> at every possible price, farms can offer fewer strawberries.</p></div></div>
+    </div>
+  </section>
+
+  <!-- DAY 3 -->
+  <section class="slide interactive" data-day="3" id="fourStepSlide">
+    <div class="section-kicker">A repeatable method · LO 4.4</div>
+    <h1>Use four steps for every market shock</h1>
+    <div class="step-grid">
+      <div class="step-card"><div class="step-number">1</div><h3>Draw the initial market</h3><button type="button" class="step-reveal">Reveal</button><div class="step-answer">Label D₀, S₀, E₀, P₀, and Q₀.</div></div>
+      <div class="step-card"><div class="step-number">2</div><h3>Identify the curve</h3><button type="button" class="step-reveal">Reveal</button><div class="step-answer">Which determinant changed: demand or supply?</div></div>
+      <div class="step-card"><div class="step-number">3</div><h3>Choose the direction</h3><button type="button" class="step-reveal">Reveal</button><div class="step-answer">At the same price: more → right; less → left.</div></div>
+      <div class="step-card"><div class="step-number">4</div><h3>Compare equilibria</h3><button type="button" class="step-reveal">Reveal</button><div class="step-answer">Label E₁, then state how P* and Q* change.</div></div>
+    </div>
+  </section>
+
+  <section class="slide interactive" data-day="3" id="demandShockSlide">
+    <div class="section-kicker">Single determinant · demand shock</div>
+    <h1>Hot weather increases demand for ice cream</h1>
+    <div class="shock-layout">
+      <div>
+        <div class="shock-brief"><p>At every price, more consumers now want ice cream. Supply conditions are unchanged.</p></div>
+        <p class="small" style="margin:15px 0 8px;"><strong>Predict the new equilibrium:</strong></p>
+        <div class="result-options"><button type="button" class="result-option" data-shock-answer="wrong">P↓, Q↑</button><button type="button" class="result-option" data-shock-answer="correct">P↑, Q↑</button><button type="button" class="result-option" data-shock-answer="wrong">P↑, Q↓</button></div>
+        <div class="feedback" id="demandShockFeedback" style="margin-top:12px;" aria-live="polite">Use the four steps before choosing.</div>
+      </div>
+      <svg class="shock-graph" viewBox="0 0 400 330" role="img" aria-label="An increase in demand raises equilibrium price and quantity">
+        <line class="axis" x1="48" y1="285" x2="365" y2="285"/><line class="axis" x1="48" y1="285" x2="48" y2="30"/>
+        <path class="old-line" d="M78 48 L335 270"/><path class="new-line" d="M124 48 L381 270"/><path class="supply-line" d="M78 270 L340 48"/>
+        <circle cx="207" cy="159" r="7" fill="#9aa3ab"/><circle cx="230" cy="140" r="9" fill="#EB811B"/>
+        <line class="projection" x1="48" y1="140" x2="230" y2="140"/><line class="projection" x1="230" y1="140" x2="230" y2="285"/>
+        <text class="plot-label" x="323" y="262">D₀</text><text class="plot-label" x="364" y="260">D₁</text><text class="plot-label" x="342" y="49">S</text><text class="plot-label" x="240" y="132">E₁</text><text class="plot-label" x="205" y="317">Quantity</text><text class="plot-label" x="13" y="165" transform="rotate(-90 13 165)">Price</text>
+      </svg>
+    </div>
+  </section>
+
+  <section class="slide interactive" data-day="3" id="supplyShockSlide">
+    <div class="section-kicker">Single determinant · agricultural supply shock</div>
+    <h1>A drought reduces the strawberry harvest</h1>
+    <div class="shock-layout">
+      <div>
+        <div class="shock-brief"><p>At every price, farms can now offer fewer strawberries. Consumer preferences are unchanged.</p></div>
+        <p class="small" style="margin:15px 0 8px;"><strong>Predict the new equilibrium:</strong></p>
+        <div class="result-options"><button type="button" class="result-option" data-shock-answer="wrong">P↓, Q↓</button><button type="button" class="result-option" data-shock-answer="wrong">P↑, Q↑</button><button type="button" class="result-option" data-shock-answer="correct">P↑, Q↓</button></div>
+        <div class="feedback" id="supplyShockFeedback" style="margin-top:12px;" aria-live="polite">Name the determinant before moving the curve.</div>
+      </div>
+      <svg class="shock-graph" viewBox="0 0 400 330" role="img" aria-label="A decrease in supply raises equilibrium price and reduces equilibrium quantity">
+        <line class="axis" x1="48" y1="285" x2="365" y2="285"/><line class="axis" x1="48" y1="285" x2="48" y2="30"/>
+        <path class="demand-line" d="M78 48 L340 270"/><path class="old-line" d="M78 270 L340 48"/><path class="new-line" d="M40 270 L302 48"/>
+        <circle cx="209" cy="159" r="7" fill="#9aa3ab"/><circle cx="190" cy="143" r="9" fill="#EB811B"/>
+        <line class="projection" x1="48" y1="143" x2="190" y2="143"/><line class="projection" x1="190" y1="143" x2="190" y2="285"/>
+        <text class="plot-label" x="323" y="260">D</text><text class="plot-label" x="340" y="49">S₀</text><text class="plot-label" x="300" y="49">S₁</text><text class="plot-label" x="200" y="135">E₁</text><text class="plot-label" x="205" y="317">Quantity</text><text class="plot-label" x="13" y="165" transform="rotate(-90 13 165)">Price</text>
+      </svg>
+    </div>
+  </section>
+
+  <section class="slide interactive" data-day="3" id="singlePatternSlide">
+    <div class="section-kicker">Four single-shock patterns · derive, then summarize</div>
+    <h1>Select a shock and explain the outcome</h1>
+    <div class="pattern-tabs"><button type="button" class="pattern-tab" data-pattern="du">Demand ↑</button><button type="button" class="pattern-tab blue-button" data-pattern="dd">Demand ↓</button><button type="button" class="pattern-tab green-button" data-pattern="su">Supply ↑</button><button type="button" class="pattern-tab purple-button" data-pattern="sd">Supply ↓</button></div>
+    <div class="pattern-result">
+      <div class="pattern-big"><div><strong id="patternSymbol">D ↑</strong><h2 id="patternOutcome">P* ↑ · Q* ↑</h2></div></div>
+      <div class="card white"><div class="section-kicker">Four-step explanation</div><h2 id="patternTitle">Increase in demand</h2><p id="patternReason">At every price, buyers want more. Demand shifts right. The new intersection lies at a higher price and a higher quantity.</p><div class="definition-strip" id="patternExample">Example: a positive health report increases demand for strawberries.</div></div>
+    </div>
+  </section>
+
+  <section class="slide" data-day="3">
+    <div class="section-kicker">Two determinants change · LO 4.5</div>
+    <h1>Analyze each shock separately—then combine</h1>
+    <div class="combine-layout">
+      <div class="combine-card"><h3>Shock A</h3><p>Hold supply fixed. Determine the demand effect on P* and Q*.</p><div class="definition-strip blue-strip"><strong>D shift alone</strong></div></div>
+      <div class="combine-symbol">+</div>
+      <div class="combine-card"><h3>Shock B</h3><p>Hold demand fixed. Determine the supply effect on P* and Q*.</p><div class="definition-strip green-strip"><strong>S shift alone</strong></div></div>
+      <div class="combine-symbol">→</div>
+      <div class="combine-card final"><h3>Combined outcome</h3><p>Same direction → certain. Opposite directions → relative magnitudes matter.</p><div class="definition-strip"><strong>State ambiguity honestly</strong></div></div>
+    </div>
+  </section>
+
+  <section class="slide interactive" data-day="3" id="organicReturnSlide">
+    <div class="section-kicker">Return to the opening market</div>
+    <h1>Organic strawberries: demand and supply both increase</h1>
+    <div class="grid-2">
+      <div class="card blue-top"><h2>Demand shifts right</h2><p>Stronger preferences for organic food and higher incomes increase demand at every price.</p><div class="definition-strip blue-strip"><strong>Alone:</strong> P* ↑ and Q* ↑</div></div>
+      <div class="card green-top"><h2>Supply shifts right</h2><p>More farms enter or production methods improve, increasing supply at every price.</p><div class="definition-strip green-strip"><strong>Alone:</strong> P* ↓ and Q* ↑</div></div>
+    </div>
+    <p style="margin:18px 0 9px;"><strong>Combine the two effects. What can we determine?</strong></p>
+    <div class="quiz-options"><button type="button" class="organic-result" data-organic="wrong">P* ↑ and Q* ↑</button><button type="button" class="organic-result blue-button" data-organic="correct">Q* ↑; P* is ambiguous</button><button type="button" class="organic-result green-button" data-organic="wrong">P* ↓ and Q* ↑</button></div>
+    <div class="feedback" id="organicReturnFeedback" style="margin-top:12px;" aria-live="polite">Compare the direction of each separate effect on price and quantity.</div>
+  </section>
+
+  <section class="slide interactive" data-day="3" id="ambiguityLabSlide">
+    <div class="section-kicker">Ambiguity lab · change the relative magnitudes</div>
+    <h1>When D and S both increase, price depends on which shifts more</h1>
+    <div class="ambiguity-layout">
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Demand and supply shifts with an equilibrium that responds to two magnitude sliders">
+          <line class="axis" x1="55" y1="260" x2="390" y2="260"/><line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <line class="old-line" x1="93" y1="45" x2="349" y2="250"/><line class="old-line" x1="93" y1="250" x2="349" y2="45"/>
+          <line class="new-line" id="ambiguityDemandLine" x1="119" y1="45" x2="375" y2="250"/><line id="ambiguitySupplyLine" x1="119" y1="250" x2="375" y2="45" stroke="#378a61" stroke-width="4"/>
+          <circle cx="221" cy="148" r="6" fill="#9aa3ab"/><circle id="ambiguityEqPoint" cx="247" cy="148" r="9" fill="#EB811B" stroke="#fff" stroke-width="3"/>
+          <line class="projection" id="ambiguityPLine" x1="55" y1="148" x2="247" y2="148"/><line class="projection" id="ambiguityQLine" x1="247" y1="148" x2="247" y2="260"/>
+          <text class="plot-label" x="204" y="289">Quantity</text><text class="plot-label" x="13" y="145" transform="rotate(-90 13 145)">Price</text><text class="tick-label" id="ambiguityPLabel" x="25" y="152">6.0</text><text class="tick-label" id="ambiguityQLabel" x="241" y="276">12.0</text>
+        </svg>
+      </div>
+      <div>
+        <div class="control-card">
+          <div class="control-row"><label for="demandShiftMagnitude"><span>Demand increase</span><span id="demandMagnitudeValue">5</span></label><input id="demandShiftMagnitude" type="range" min="1" max="9" value="5"></div>
+          <div class="control-row"><label for="supplyShiftMagnitude"><span>Supply increase</span><span id="supplyMagnitudeValue">5</span></label><input id="supplyShiftMagnitude" type="range" min="1" max="9" value="5"></div>
+        </div>
+        <div class="ambiguity-outcome"><strong id="ambiguityHeadline">P* unchanged · Q* increases</strong><p id="ambiguityExplanation">Equal-sized shifts have offsetting effects on price, while both raise quantity.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" data-day="3">
+    <div class="section-kicker">All simultaneous-shift possibilities</div>
+    <h1>Use the matrix only after you can explain each cell</h1>
+    <table class="matrix" id="outcomeMatrix" aria-label="Effects of simultaneous demand and supply shifts on equilibrium price and quantity">
+      <thead><tr><th>Demand \ Supply</th><th>No change in S</th><th>S increases</th><th>S decreases</th></tr></thead>
+      <tbody>
+        <tr><td class="rowhead">No change in D</td><td class="matrix-answer">P same<br>Q same</td><td class="matrix-answer">P ↓<br>Q ↑</td><td class="matrix-answer">P ↑<br>Q ↓</td></tr>
+        <tr><td class="rowhead">D increases</td><td class="matrix-answer">P ↑<br>Q ↑</td><td class="matrix-answer ambiguous">P ambiguous<br>Q ↑</td><td class="matrix-answer ambiguous">P ↑<br>Q ambiguous</td></tr>
+        <tr><td class="rowhead">D decreases</td><td class="matrix-answer">P ↓<br>Q ↓</td><td class="matrix-answer ambiguous">P ↓<br>Q ambiguous</td><td class="matrix-answer ambiguous">P ambiguous<br>Q ↓</td></tr>
+      </tbody>
+    </table>
+    <div class="button-row" style="margin-top:14px;"><button type="button" id="matrixReveal">Reveal the matrix</button><button type="button" class="secondary" id="matrixHide">Hide answers</button></div>
+    <p class="small muted" style="margin-top:10px;">Ambiguous does not mean “nothing happens.” It means the direction cannot be determined without relative magnitudes.</p>
+  </section>
+
+  <section class="slide interactive" data-day="3" id="newsCaseSlide">
+    <div class="section-kicker">Agricultural news-brief simulation · LO 4.5</div>
+    <h1>Two shocks hit the fresh-strawberry market</h1>
+    <div class="news-banner">Practice brief · not a report of a specific 2026 event</div>
+    <div class="news-brief">
+      <h2>Consumer interest rises as drought cuts the harvest</h2>
+      <p>A widely shared nutrition report increases consumers' preference for fresh strawberries. During the same season, severe drought reduces strawberry yields.</p>
+      <div class="news-note">Assume no other determinants change. Analyze the market for fresh strawberries this season.</div>
+    </div>
+    <div class="quiz-options" style="margin-top:13px;"><button type="button" class="news-result" data-news="wrong">P* ↑, Q* ↑</button><button type="button" class="news-result blue-button" data-news="correct">P* ↑, Q* ambiguous</button><button type="button" class="news-result green-button" data-news="wrong">P* ambiguous, Q* ↓</button></div>
+    <div class="feedback" id="newsCaseFeedback" style="margin-top:12px;" aria-live="polite">Analyze the preference shock and drought separately before combining them.</div>
+  </section>
+
+  <section class="slide interactive" data-day="3" id="simultaneitySlide">
+    <div class="section-kicker">Optional extension from Jiaming Mao</div>
+    <h1>Observed price–quantity points do not trace a demand curve</h1>
+    <div class="simultaneity-visual">
+      <div class="observed-points">
+        <h2>What the data show</h2>
+        <div class="observed-row"><div class="observed-cell"><span>Season</span><strong>1</strong></div><div class="observed-cell"><span>Price</span><strong>$4</strong></div><div class="observed-cell"><span>Quantity</span><strong>80</strong></div></div>
+        <div class="observed-row"><div class="observed-cell"><span>Season</span><strong>2</strong></div><div class="observed-cell"><span>Price</span><strong>$5</strong></div><div class="observed-cell"><span>Quantity</span><strong>95</strong></div></div>
+        <p class="small muted" style="margin:16px 0 0;">Price and quantity both rose. Did demand shift, supply shift, or both?</p>
+      </div>
+      <div>
+        <div class="definition-strip"><strong>Simultaneity problem:</strong> observed market outcomes may reflect changes in both demand and supply.</div>
+        <button type="button" id="simultaneityReveal" style="margin-top:14px;">Can we infer the demand curve?</button>
+        <div class="feedback" id="simultaneityFeedback" style="margin-top:12px;" aria-live="polite">Commit to an answer before revealing.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" data-day="3">
+    <div class="section-kicker">Final checkpoint</div>
+    <h1>Five moves you should now be able to make</h1>
+    <div class="final-checks">
+      <div class="lo-card"><strong>LO 4.1</strong><p>Name the determinant and distinguish shift from movement.</p></div>
+      <div class="lo-card"><strong>LO 4.2</strong><p>Find P* and Q* in a table or graph.</p></div>
+      <div class="lo-card"><strong>LO 4.3</strong><p>Explain the incentive chain from shortage or surplus.</p></div>
+      <div class="lo-card"><strong>LO 4.4</strong><p>Apply four steps to one market shock.</p></div>
+      <div class="lo-card"><strong>LO 4.5</strong><p>Combine two shocks and identify ambiguity.</p></div>
+    </div>
+    <div class="definition-strip"><strong>Exit ticket:</strong> Fertilizer prices fall while consumer income rises. For a normal agricultural good, identify both curve shifts and state which equilibrium outcome is certain.</div>
+    <div class="button-row" style="margin-top:13px;"><button type="button" class="exit-reveal" data-target="finalAnswer">Reveal model answer</button></div>
+    <div class="exit-answer" id="finalAnswer" style="margin-top:10px;"><p><strong>Supply shifts right; demand shifts right.</strong> Equilibrium quantity definitely increases. Equilibrium price is ambiguous because the two price effects oppose each other.</p></div>
+    <p class="tiny muted" style="margin-top:12px;">Adapted for ARE 201 from OpenStax, “Demand and Supply,” and Jiaming Mao, <em>Supply and Demand</em> (2018).</p>
+  </section>
+
+</div>
+<div id="progress"></div>
+<div id="hint">← → / Space to navigate · P to print</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const stage = document.getElementById('stage');
+  const progress = document.getElementById('progress');
+  let idx = 0;
+
+  slides.forEach(function(slide, i){
+    const footer = document.createElement('div');
+    const day = slide.dataset.day || (i < 15 ? '1' : '2');
+    footer.className = 'footer';
+    footer.innerHTML = '<span>ARE 201 · Unit 4 · Class ' + day + '</span><span>' + (i + 1) + ' / ' + slides.length + '</span>';
+    slide.appendChild(footer);
+  });
+
+  function fit(){
+    const scale = Math.min(window.innerWidth / 960, window.innerHeight / 720);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+  }
+
+  function show(n){
+    idx = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(slide, i){ slide.classList.toggle('active', i === idx); });
+    progress.style.width = (((idx + 1) / slides.length) * 100) + '%';
+    history.replaceState(null, '', '#' + (idx + 1));
+  }
+
+  function setFeedback(element, message, state){
+    element.className = 'feedback' + (state ? ' ' + state : '');
+    element.innerHTML = message;
+  }
+
+  function resetButtons(buttons){
+    buttons.forEach(function(button){ button.classList.remove('correct', 'wrong', 'selected'); });
+  }
+
+  // Preserve the instructor's observed round results on this browser.
+  document.querySelectorAll('.round-record-input').forEach(function(input){
+    const storageKey = 'are201-unit4-market-' + input.dataset.roundRecord;
+    try {
+      const savedValue = localStorage.getItem(storageKey);
+      if (savedValue !== null) input.value = savedValue;
+    } catch (error) {
+      // The fields still work when browser privacy settings disable storage.
+    }
+    input.addEventListener('input', function(){
+      try { localStorage.setItem(storageKey, input.value); } catch (error) {}
+    });
+  });
+
+  // Opening prediction
+  document.querySelectorAll('[data-hook]').forEach(function(button){
+    button.addEventListener('click', function(){
+      document.querySelectorAll('[data-hook]').forEach(function(item){ item.classList.remove('selected'); });
+      button.classList.add('selected');
+      const messages = {
+        demand: '<strong>Demand may matter.</strong> Stronger preferences can shift demand right—but price is determined jointly with supply.',
+        supply: '<strong>Supply may matter.</strong> Higher production costs can shift supply left—but price is determined jointly with demand.',
+        both: '<strong>Good hypothesis.</strong> An observed price is an equilibrium outcome of both demand and supply.'
+      };
+      setFeedback(document.getElementById('organicHookFeedback'), messages[button.dataset.hook], 'info');
+    });
+  });
+
+  const prices = [0, .5, 1, 1.5, 2, 2.5, 3];
+  const demandA = [12, 10, 8, 6, 4, 2, 0];
+  const demandB = [7, 6, 5, 4, 3, 2, 1];
+  const demandM = demandA.map(function(value, i){ return value + demandB[i]; });
+  const supplyA = [0, 0, 1, 2, 3, 4, 5];
+  const supplyB = [0, 0, 0, 2, 4, 6, 8];
+  const supplyM = supplyA.map(function(value, i){ return value + supplyB[i]; });
+  function graphX(q){ return 55 + (q / 20) * 320; }
+  function graphY(p){ return 260 - (p / 3) * 220; }
+
+  function updateAggregate(kind, index){
+    const isDemand = kind === 'demand';
+    const table = document.getElementById(isDemand ? 'marketDemandTable' : 'marketSupplyTable');
+    Array.from(table.tBodies[0].rows).forEach(function(row, i){ row.classList.toggle('active', i === index); });
+    const a = isDemand ? demandA[index] : supplyA[index];
+    const b = isDemand ? demandB[index] : supplyB[index];
+    const market = isDemand ? demandM[index] : supplyM[index];
+    document.getElementById(isDemand ? 'demandAlex' : 'supplyDrew').textContent = a;
+    document.getElementById(isDemand ? 'demandBlair' : 'supplyCasey').textContent = b;
+    document.getElementById(isDemand ? 'demandMarket' : 'supplyMarket').textContent = market;
+    document.getElementById(isDemand ? 'demandPriceReadout' : 'supplyPriceReadout').textContent = 'Price = $' + prices[index].toFixed(2);
+    const x = graphX(market);
+    const y = graphY(prices[index]);
+    const aPoint = document.getElementById(isDemand ? 'demandAlexPoint' : 'supplyDrewPoint');
+    const bPoint = document.getElementById(isDemand ? 'demandBlairPoint' : 'supplyCaseyPoint');
+    aPoint.setAttribute('cx', graphX(a)); aPoint.setAttribute('cy', y);
+    bPoint.setAttribute('cx', graphX(b)); bPoint.setAttribute('cy', y);
+    const point = document.getElementById(isDemand ? 'marketDemandPoint' : 'marketSupplyPoint');
+    const lineX = document.getElementById(isDemand ? 'demandProjectX' : 'supplyProjectX');
+    const lineY = document.getElementById(isDemand ? 'demandProjectY' : 'supplyProjectY');
+    point.setAttribute('cx', x); point.setAttribute('cy', y);
+    lineX.setAttribute('y1', y); lineX.setAttribute('y2', y); lineX.setAttribute('x2', x);
+    lineY.setAttribute('x1', x); lineY.setAttribute('x2', x); lineY.setAttribute('y1', y);
+    const pLabel = document.getElementById(isDemand ? 'demandGraphP' : 'supplyGraphP');
+    const qLabel = document.getElementById(isDemand ? 'demandGraphQ' : 'supplyGraphQ');
+    pLabel.textContent = '$' + prices[index].toFixed(2); pLabel.setAttribute('y', y + 4);
+    qLabel.textContent = market; qLabel.setAttribute('x', x - 4);
+  }
+  document.getElementById('demandPrice').addEventListener('input', function(){ updateAggregate('demand', Number(this.value)); });
+  document.getElementById('supplyPrice').addEventListener('input', function(){ updateAggregate('supply', Number(this.value)); });
+
+  // Reveal shifter examples
+  document.querySelectorAll('.shifter-card').forEach(function(button){
+    button.addEventListener('click', function(){ button.classList.toggle('revealed'); });
+  });
+
+  // Normal versus inferior goods income lab
+  let selectedIncomeChange = null;
+  let selectedGoodType = null;
+  function renderIncomeLab(){
+    const result = document.getElementById('incomeResult');
+    if (!selectedIncomeChange || !selectedGoodType) {
+      result.classList.remove('ready');
+      result.innerHTML = '<strong>Predict, then choose</strong><span>Select one income change and one good type.</span>';
+      document.getElementById('incomeNewDemand').setAttribute('visibility', 'hidden');
+      document.getElementById('incomeNewLabel').setAttribute('visibility', 'hidden');
+      document.getElementById('incomeShiftArrow').setAttribute('visibility', 'hidden');
+      document.getElementById('incomeShiftArrowHead').setAttribute('visibility', 'hidden');
+      return;
+    }
+    const shiftsRight = (selectedIncomeChange === 'up' && selectedGoodType === 'normal') || (selectedIncomeChange === 'down' && selectedGoodType === 'inferior');
+    const curve = document.getElementById('incomeNewDemand');
+    const label = document.getElementById('incomeNewLabel');
+    const arrow = document.getElementById('incomeShiftArrow');
+    const arrowHead = document.getElementById('incomeShiftArrowHead');
+    const offset = shiftsRight ? 45 : -45;
+    curve.setAttribute('d', 'M' + (102 + offset) + ' 35 L' + (315 + offset) + ' 195');
+    curve.setAttribute('visibility', 'visible');
+    label.setAttribute('x', shiftsRight ? 355 : 265);
+    label.setAttribute('visibility', 'visible');
+    arrow.setAttribute('x1', shiftsRight ? 198 : 242);
+    arrow.setAttribute('x2', shiftsRight ? 242 : 198);
+    arrow.setAttribute('visibility', 'visible');
+    arrowHead.setAttribute('points', shiftsRight ? '242,112 230,105 230,119' : '198,112 210,105 210,119');
+    arrowHead.setAttribute('visibility', 'visible');
+    const incomeWord = selectedIncomeChange === 'up' ? 'rises' : 'falls';
+    const demandWord = shiftsRight ? 'increases' : 'decreases';
+    const directionWord = shiftsRight ? 'right' : 'left';
+    result.classList.add('ready');
+    result.innerHTML = '<strong>Demand shifts ' + directionWord + '</strong><span>Income ' + incomeWord + '; for an ' + selectedGoodType + ' good, demand ' + demandWord + ' at every price.</span>';
+  }
+  document.querySelectorAll('[data-income]').forEach(function(button){
+    button.addEventListener('click', function(){
+      document.querySelectorAll('[data-income]').forEach(function(item){ item.classList.remove('selected'); });
+      button.classList.add('selected');
+      selectedIncomeChange = button.dataset.income;
+      renderIncomeLab();
+    });
+  });
+  document.querySelectorAll('[data-good-type]').forEach(function(button){
+    button.addEventListener('click', function(){
+      document.querySelectorAll('[data-good-type]').forEach(function(item){ item.classList.remove('selected'); });
+      button.classList.add('selected');
+      selectedGoodType = button.dataset.goodType;
+      renderIncomeLab();
+    });
+  });
+
+  // Demand shifter quiz
+  const demandScenarios = [
+    {market:'Soy milk', prompt:'The price of dairy milk, a substitute, increases.', answer:'right', reason:'A substitute became more expensive, so buyers switch toward soy milk at every soy-milk price.'},
+    {market:'Bus rides', prompt:'Household income rises, and bus rides are an inferior good.', answer:'left', reason:'For an inferior good, higher income reduces demand at every price.'},
+    {market:'Coffee today', prompt:'Consumers expect coffee prices to rise next month.', answer:'right', reason:'Some consumers buy earlier, increasing demand today.'},
+    {market:'Strawberries', prompt:'The market price of strawberries falls.', answer:'none', reason:'This good’s own price changes quantity demanded; it does not shift demand.'},
+    {market:'Golf balls', prompt:'The price of golf clubs, a complement, increases.', answer:'left', reason:'Fewer clubs are purchased, reducing demand for complementary golf balls.'}
+  ];
+  let demandQuizIndex = 0;
+  let demandQuizScore = 0;
+  function renderDemandQuiz(){
+    const item = demandScenarios[demandQuizIndex];
+    document.getElementById('demandQuizMarket').textContent = 'Market: ' + item.market;
+    document.getElementById('demandQuizPrompt').textContent = item.prompt;
+    document.getElementById('demandQuizScore').textContent = demandQuizScore + ' correct · ' + (demandQuizIndex + 1) + ' of ' + demandScenarios.length;
+    resetButtons(document.querySelectorAll('#demandQuizSlide .quiz-option'));
+    setFeedback(document.getElementById('demandQuizFeedback'), 'Choose a direction, then explain it using “at every price.”', '');
+  }
+  document.querySelectorAll('#demandQuizSlide .quiz-option').forEach(function(button){
+    button.addEventListener('click', function(){
+      const item = demandScenarios[demandQuizIndex];
+      const correct = button.dataset.direction === item.answer;
+      resetButtons(document.querySelectorAll('#demandQuizSlide .quiz-option'));
+      button.classList.add(correct ? 'correct' : 'wrong');
+      if (correct && !button.dataset.counted) { demandQuizScore += 1; button.dataset.counted = 'true'; }
+      setFeedback(document.getElementById('demandQuizFeedback'), '<strong>' + (correct ? 'Correct.' : 'Try again.') + '</strong> ' + item.reason, correct ? 'success' : 'error');
+      document.getElementById('demandQuizScore').textContent = demandQuizScore + ' correct · ' + (demandQuizIndex + 1) + ' of ' + demandScenarios.length;
+    });
+  });
+  document.getElementById('demandQuizNext').addEventListener('click', function(){
+    demandQuizIndex = (demandQuizIndex + 1) % demandScenarios.length;
+    document.querySelectorAll('#demandQuizSlide .quiz-option').forEach(function(button){ delete button.dataset.counted; });
+    renderDemandQuiz();
+  });
+  renderDemandQuiz();
+
+  // Movement versus shift quiz
+  const movementScenarios = [
+    {market:'Strawberries', prompt:'The market price of strawberries falls.', answer:'move-d', reason:'An own-price change causes a movement along the demand curve: quantity demanded rises.'},
+    {market:'Strawberries', prompt:'A frost damages the crop.', answer:'shift-s', reason:'A natural condition reduces supply at every price, so supply shifts left.'},
+    {market:'Coffee', prompt:'The market price of coffee rises.', answer:'move-s', reason:'An own-price change causes a movement along supply: quantity supplied rises.'},
+    {market:'Coffee', prompt:'The price of tea, a substitute, rises.', answer:'shift-d', reason:'A related-good price changes demand for coffee at every coffee price.'},
+    {market:'Corn', prompt:'A new seed raises yield per acre.', answer:'shift-s', reason:'A technology improvement increases supply at every price.'},
+    {market:'Used cars', prompt:'Income rises and used cars are inferior goods.', answer:'shift-d', reason:'Income is a demand determinant; demand for the inferior good shifts left.'}
+  ];
+  let movementIndex = 0;
+  let movementScore = 0;
+  function renderMovementQuiz(){
+    const item = movementScenarios[movementIndex];
+    document.getElementById('movementQuizMarket').textContent = 'Market: ' + item.market;
+    document.getElementById('movementQuizPrompt').textContent = item.prompt;
+    document.getElementById('movementQuizScore').textContent = movementScore + ' correct · ' + (movementIndex + 1) + ' of ' + movementScenarios.length;
+    resetButtons(document.querySelectorAll('#movementQuizSlide .quiz-option'));
+    setFeedback(document.getElementById('movementQuizFeedback'), 'Ask first: did this good’s own price change, or did another determinant change?', '');
+  }
+  document.querySelectorAll('#movementQuizSlide .quiz-option').forEach(function(button){
+    button.addEventListener('click', function(){
+      const item = movementScenarios[movementIndex];
+      const correct = button.dataset.kind === item.answer;
+      resetButtons(document.querySelectorAll('#movementQuizSlide .quiz-option'));
+      button.classList.add(correct ? 'correct' : 'wrong');
+      if (correct && !button.dataset.counted) { movementScore += 1; button.dataset.counted = 'true'; }
+      setFeedback(document.getElementById('movementQuizFeedback'), '<strong>' + (correct ? 'Correct.' : 'Recheck the cause.') + '</strong> ' + item.reason, correct ? 'success' : 'error');
+      document.getElementById('movementQuizScore').textContent = movementScore + ' correct · ' + (movementIndex + 1) + ' of ' + movementScenarios.length;
+    });
+  });
+  document.getElementById('movementQuizNext').addEventListener('click', function(){
+    movementIndex = (movementIndex + 1) % movementScenarios.length;
+    document.querySelectorAll('#movementQuizSlide .quiz-option').forEach(function(button){ delete button.dataset.counted; });
+    renderMovementQuiz();
+  });
+  renderMovementQuiz();
+
+  // Generic reveal buttons
+  document.querySelectorAll('.exit-reveal').forEach(function(button){
+    button.addEventListener('click', function(){
+      const answer = document.getElementById(button.dataset.target);
+      const visible = answer.classList.toggle('visible');
+      button.textContent = visible ? 'Hide model answer' : 'Reveal model answer';
+    });
+  });
+
+  // Day 2 warm-up
+  document.querySelectorAll('.warmup-choice').forEach(function(button){
+    button.addEventListener('click', function(){
+      resetButtons(document.querySelectorAll('.warmup-choice'));
+      const correct = button.dataset.warmup === 'down';
+      button.classList.add(correct ? 'correct' : 'wrong');
+      setFeedback(document.getElementById('warmupFeedback'), correct ? '<strong>Correct.</strong> Qs exceeds Qd, so unsold output gives sellers an incentive to lower price.' : '<strong>Recheck.</strong> Sellers planned to sell 6 more cones than buyers planned to buy.', correct ? 'success' : 'error');
+    });
+  });
+
+  // Equilibrium row choice
+  document.querySelectorAll('.row-choice').forEach(function(button){
+    button.addEventListener('click', function(){
+      const correct = button.dataset.eq === 'true';
+      document.querySelectorAll('.row-choice').forEach(function(item){ item.classList.remove('correct', 'wrong'); });
+      button.classList.add(correct ? 'correct' : 'wrong');
+      if (correct) {
+        button.closest('tr').classList.add('equilibrium-row');
+        document.getElementById('eqPriceValue').textContent = '$2.00';
+        document.getElementById('eqQuantityValue').textContent = '7';
+        document.getElementById('eqEqualityValue').textContent = '7 = 7';
+        setFeedback(document.getElementById('equilibriumTableFeedback'), '<strong>Equilibrium found.</strong> This is the only listed price where Qd equals Qs.', 'success');
+      } else {
+        setFeedback(document.getElementById('equilibriumTableFeedback'), '<strong>Not yet.</strong> Compare Qd and Qs in that row.', 'error');
+      }
+    });
+  });
+
+  // Price adjustment lab
+  function updatePriceLab(index){
+    const p = prices[index];
+    const qd = demandM[index];
+    const qs = supplyM[index];
+    const gap = Math.abs(qd - qs);
+    const y = graphY(p);
+    const xd = graphX(qd);
+    const xs = graphX(qs);
+    const priceLine = document.getElementById('labPriceLine');
+    priceLine.setAttribute('y1', y); priceLine.setAttribute('y2', y);
+    const dp = document.getElementById('labDemandPoint'); const sp = document.getElementById('labSupplyPoint');
+    dp.setAttribute('cx', xd); dp.setAttribute('cy', y); sp.setAttribute('cx', xs); sp.setAttribute('cy', y);
+    const gapLine = document.getElementById('labGapLine'); const gapY = Math.max(34, y - 16);
+    gapLine.setAttribute('x1', Math.min(xd, xs)); gapLine.setAttribute('x2', Math.max(xd, xs)); gapLine.setAttribute('y1', gapY); gapLine.setAttribute('y2', gapY);
+    gapLine.setAttribute('stroke', qd === qs ? '#378a61' : (qd > qs ? '#2f80c9' : '#c9504d'));
+    const label = document.getElementById('labGapLabel'); label.setAttribute('x', (xd + xs) / 2); label.setAttribute('y', gapY - 8);
+    document.getElementById('marketPriceReadout').textContent = '$' + p.toFixed(2);
+    document.getElementById('labQd').textContent = qd; document.getElementById('labQs').textContent = qs; document.getElementById('labGap').textContent = gap;
+    if (qd > qs) {
+      label.textContent = 'Shortage = ' + gap;
+      setFeedback(document.getElementById('priceLabFeedback'), '<strong>Shortage:</strong> Qd &gt; Qs. Buyers who cannot purchase create upward pressure on price.', 'info');
+    } else if (qs > qd) {
+      label.textContent = 'Surplus = ' + gap;
+      setFeedback(document.getElementById('priceLabFeedback'), '<strong>Surplus:</strong> Qs &gt; Qd. Unsold cones create downward pressure on price.', 'error');
+    } else {
+      label.textContent = 'Equilibrium';
+      setFeedback(document.getElementById('priceLabFeedback'), '<strong>Equilibrium:</strong> Qd = Qs. No shortage or surplus pushes price away.', 'success');
+    }
+  }
+  document.getElementById('marketPriceLab').addEventListener('input', function(){ updatePriceLab(Number(this.value)); });
+  updatePriceLab(5);
+
+  // Causal chain reveals
+  document.querySelectorAll('.chain-next').forEach(function(button){
+    button.addEventListener('click', function(){
+      const steps = Array.from(document.querySelectorAll('#' + button.dataset.chain + ' .chain-step'));
+      const next = steps.find(function(step){ return !step.classList.contains('visible'); });
+      if (next) next.classList.add('visible');
+      if (!steps.find(function(step){ return !step.classList.contains('visible'); })) button.textContent = 'Chain complete';
+    });
+  });
+  document.querySelectorAll('.chain-reset').forEach(function(button){
+    button.addEventListener('click', function(){
+      const steps = Array.from(document.querySelectorAll('#' + button.dataset.chain + ' .chain-step'));
+      steps.forEach(function(step, i){ step.classList.toggle('visible', i === 0); });
+      document.querySelector('.chain-next[data-chain="' + button.dataset.chain + '"]').textContent = 'Reveal next link';
+    });
+  });
+
+  // Four-step reveals
+  document.querySelectorAll('.step-reveal').forEach(function(button){
+    button.addEventListener('click', function(){
+      const card = button.closest('.step-card');
+      const visible = card.classList.toggle('revealed');
+      button.textContent = visible ? 'Hide' : 'Reveal';
+    });
+  });
+
+  // Shock prediction slides
+  document.querySelectorAll('#demandShockSlide .result-option').forEach(function(button){
+    button.addEventListener('click', function(){
+      resetButtons(document.querySelectorAll('#demandShockSlide .result-option'));
+      const correct = button.dataset.shockAnswer === 'correct';
+      button.classList.add(correct ? 'correct' : 'wrong');
+      setFeedback(document.getElementById('demandShockFeedback'), correct ? '<strong>Correct.</strong> D shifts right; the new intersection has higher P* and Q*.' : '<strong>Try again.</strong> Hold supply fixed and move demand right.', correct ? 'success' : 'error');
+    });
+  });
+  document.querySelectorAll('#supplyShockSlide .result-option').forEach(function(button){
+    button.addEventListener('click', function(){
+      resetButtons(document.querySelectorAll('#supplyShockSlide .result-option'));
+      const correct = button.dataset.shockAnswer === 'correct';
+      button.classList.add(correct ? 'correct' : 'wrong');
+      setFeedback(document.getElementById('supplyShockFeedback'), correct ? '<strong>Correct.</strong> S shifts left; the new intersection has higher P* and lower Q*.' : '<strong>Try again.</strong> Hold demand fixed and move supply left.', correct ? 'success' : 'error');
+    });
+  });
+
+  // Single-shock pattern explorer
+  const patterns = {
+    du:{symbol:'D ↑', outcome:'P* ↑ · Q* ↑', title:'Increase in demand', reason:'At every price, buyers want more. Demand shifts right. The new intersection lies at a higher price and a higher quantity.', example:'Example: a positive health report increases demand for strawberries.'},
+    dd:{symbol:'D ↓', outcome:'P* ↓ · Q* ↓', title:'Decrease in demand', reason:'At every price, buyers want less. Demand shifts left. The new intersection lies at a lower price and a lower quantity.', example:'Example: consumers switch from printed newspapers to digital news.'},
+    su:{symbol:'S ↑', outcome:'P* ↓ · Q* ↑', title:'Increase in supply', reason:'At every price, sellers offer more. Supply shifts right. The new intersection lies at a lower price and a higher quantity.', example:'Example: a yield-improving seed lowers the cost per unit of a crop.'},
+    sd:{symbol:'S ↓', outcome:'P* ↑ · Q* ↓', title:'Decrease in supply', reason:'At every price, sellers offer less. Supply shifts left. The new intersection lies at a higher price and a lower quantity.', example:'Example: drought reduces the strawberry harvest.'}
+  };
+  document.querySelectorAll('.pattern-tab').forEach(function(button){
+    button.addEventListener('click', function(){
+      document.querySelectorAll('.pattern-tab').forEach(function(item){ item.classList.remove('selected'); });
+      button.classList.add('selected');
+      const item = patterns[button.dataset.pattern];
+      document.getElementById('patternSymbol').textContent = item.symbol;
+      document.getElementById('patternOutcome').textContent = item.outcome;
+      document.getElementById('patternTitle').textContent = item.title;
+      document.getElementById('patternReason').textContent = item.reason;
+      document.getElementById('patternExample').textContent = item.example;
+    });
+  });
+
+  // Organic combined result
+  document.querySelectorAll('.organic-result').forEach(function(button){
+    button.addEventListener('click', function(){
+      resetButtons(document.querySelectorAll('.organic-result'));
+      const correct = button.dataset.organic === 'correct';
+      button.classList.add(correct ? 'correct' : 'wrong');
+      setFeedback(document.getElementById('organicReturnFeedback'), correct ? '<strong>Correct.</strong> Both shifts raise quantity. Their price effects oppose each other, so relative magnitudes determine price.' : '<strong>Incomplete.</strong> That price result is possible, but not certain without the relative shift sizes.', correct ? 'success' : 'error');
+    });
+  });
+
+  // Ambiguity magnitude lab
+  function updateAmbiguityLab(){
+    const d = Number(document.getElementById('demandShiftMagnitude').value);
+    const s = Number(document.getElementById('supplyShiftMagnitude').value);
+    document.getElementById('demandMagnitudeValue').textContent = d;
+    document.getElementById('supplyMagnitudeValue').textContent = s;
+    const q = 10 + .2 * (d + s);
+    const p = 6 + .12 * (d - s);
+    const x = 221 + 2.5 * (d + s);
+    const y = 147.5 + 2 * (s - d);
+    const dOffset = d * 5;
+    const sOffset = s * 5;
+    const dLine = document.getElementById('ambiguityDemandLine');
+    dLine.setAttribute('x1', 93 + dOffset); dLine.setAttribute('x2', 349 + dOffset);
+    const sLine = document.getElementById('ambiguitySupplyLine');
+    sLine.setAttribute('x1', 93 + sOffset); sLine.setAttribute('x2', 349 + sOffset);
+    const point = document.getElementById('ambiguityEqPoint'); point.setAttribute('cx', x); point.setAttribute('cy', y);
+    const pLine = document.getElementById('ambiguityPLine'); pLine.setAttribute('y1', y); pLine.setAttribute('y2', y); pLine.setAttribute('x2', x);
+    const qLine = document.getElementById('ambiguityQLine'); qLine.setAttribute('x1', x); qLine.setAttribute('x2', x); qLine.setAttribute('y1', y);
+    const pLabel = document.getElementById('ambiguityPLabel'); pLabel.textContent = p.toFixed(1); pLabel.setAttribute('y', y + 4);
+    const qLabel = document.getElementById('ambiguityQLabel'); qLabel.textContent = q.toFixed(1); qLabel.setAttribute('x', x - 9);
+    let headline; let explanation;
+    if (d > s) { headline = 'P* increases · Q* increases'; explanation = 'The demand increase is larger, so its upward price effect dominates.'; }
+    else if (s > d) { headline = 'P* decreases · Q* increases'; explanation = 'The supply increase is larger, so its downward price effect dominates.'; }
+    else { headline = 'P* unchanged · Q* increases'; explanation = 'Equal-sized shifts offset in price, while both raise quantity.'; }
+    document.getElementById('ambiguityHeadline').textContent = headline;
+    document.getElementById('ambiguityExplanation').textContent = explanation;
+  }
+  document.getElementById('demandShiftMagnitude').addEventListener('input', updateAmbiguityLab);
+  document.getElementById('supplyShiftMagnitude').addEventListener('input', updateAmbiguityLab);
+  updateAmbiguityLab();
+
+  // Matrix reveal
+  document.getElementById('matrixReveal').addEventListener('click', function(){ document.getElementById('outcomeMatrix').classList.add('revealed'); });
+  document.getElementById('matrixHide').addEventListener('click', function(){ document.getElementById('outcomeMatrix').classList.remove('revealed'); });
+
+  // News brief
+  document.querySelectorAll('.news-result').forEach(function(button){
+    button.addEventListener('click', function(){
+      resetButtons(document.querySelectorAll('.news-result'));
+      const correct = button.dataset.news === 'correct';
+      button.classList.add(correct ? 'correct' : 'wrong');
+      setFeedback(document.getElementById('newsCaseFeedback'), correct ? '<strong>Correct.</strong> Preference shifts D right; drought shifts S left. Both raise price, while their quantity effects oppose each other.' : '<strong>Try again.</strong> Analyze each shock alone: D right raises P and Q; S left raises P and lowers Q.', correct ? 'success' : 'error');
+    });
+  });
+
+  // Simultaneity extension
+  document.getElementById('simultaneityReveal').addEventListener('click', function(){
+    setFeedback(document.getElementById('simultaneityFeedback'), '<strong>No.</strong> A line through observed equilibria need not be a demand curve. Demand, supply, or both may have shifted between seasons.', 'info');
+  });
+
+  document.addEventListener('keydown', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea')) return;
+    if (['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(event.key)) { event.preventDefault(); show(idx + 1); }
+    else if (['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(event.key)) { event.preventDefault(); show(idx - 1); }
+    else if (event.key.toLowerCase() === 'p') { window.print(); }
+    else if (event.key === 'Home') { show(0); }
+    else if (event.key === 'End') { show(slides.length - 1); }
+  });
+
+  document.addEventListener('click', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea, .feedback, .plot-panel, .quiz-scenario, .exit-card, .news-brief, .observed-points')) return;
+    if (event.clientX > window.innerWidth / 2) show(idx + 1); else show(idx - 1);
+  });
+
+  window.addEventListener('resize', fit);
+  const hash = parseInt(location.hash.replace('#',''), 10);
+  if (Number.isFinite(hash)) idx = Math.max(0, Math.min(slides.length - 1, hash - 1));
+  fit();
+  show(idx);
+})();
+</script>
+</body>
+</html>
