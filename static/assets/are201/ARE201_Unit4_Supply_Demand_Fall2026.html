@@ -60,10 +60,6 @@
   .slide.center { text-align: center; }
   .slide.middle { align-items: center; justify-content: center; flex-direction: column; }
   .slide.middle.active { display: flex; }
-  .image-only-slide { padding: 0; }
-  .image-only-slide img { display: block; width: 100%; height: 100%; object-fit: cover; }
-  body.image-only-active #progress,
-  body.image-only-active #hint { display: none; }
 
   h1, h2, h3, p { margin-top: 0; }
   h1 { margin-bottom: 16px; font-size: 37px; line-height: 1.12; letter-spacing: -.4px; }
@@ -234,6 +230,63 @@
   .supply-shifters .shifter-card.revealed { border-color: var(--green); background: var(--green-soft); }
   .shifter-card.revealed .shifter-example { color: var(--muted); }
 
+  .curve-direction-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .curve-direction-card { padding: 14px 15px; border-top: 5px solid var(--blue); background: var(--blue-soft); }
+  .curve-direction-card.decrease-card { border-top-color: var(--purple); background: var(--purple-soft); }
+  .supply-direction-slide .curve-direction-card { border-top-color: var(--green); background: var(--green-soft); }
+  .supply-direction-slide .curve-direction-card.decrease-card { border-top-color: var(--red); background: var(--red-soft); }
+  .curve-direction-card h2 { margin-bottom: 3px; color: var(--blue); font-size: 22px; }
+  .curve-direction-card.decrease-card h2 { color: var(--purple); }
+  .supply-direction-slide .curve-direction-card h2 { color: var(--green); }
+  .supply-direction-slide .curve-direction-card.decrease-card h2 { color: var(--red); }
+  .curve-direction-card > p { min-height: 41px; margin: 0; font-size: 13px; line-height: 1.27; }
+  .direction-plot { display: block; width: 100%; height: 244px; margin-top: 7px; border: 1px solid rgba(31,41,51,.14); background: #fff; }
+  .direction-quantity-strip { display: grid; grid-template-columns: 1fr 34px 1fr; gap: 6px; align-items: center; margin-top: 8px; }
+  .direction-quantity { padding: 7px 5px; background: #fff; text-align: center; }
+  .direction-quantity strong { display: block; color: var(--blue); font-size: 18px; }
+  .supply-direction-slide .direction-quantity strong { color: var(--green); }
+  .direction-quantity span { color: var(--muted); font-size: 10px; }
+  .direction-quantity-arrow { color: var(--accent); font-size: 20px; font-weight: 850; text-align: center; }
+  .direction-takeaway { margin-top: 12px; padding: 10px 13px; border-left: 5px solid var(--accent); background: var(--accent-soft); font-size: 14px; line-height: 1.3; }
+
+  .shifter-detail-layout { display: grid; grid-template-columns: 1.04fr .96fr; gap: 18px; align-items: start; }
+  .shifter-rule { min-height: 94px; padding: 14px 16px; border-left: 5px solid var(--blue); background: var(--blue-soft); }
+  .shifter-rule strong { display: block; margin-bottom: 5px; color: var(--blue); font-size: 18px; }
+  .shifter-rule p { margin: 0; font-size: 15px; line-height: 1.32; }
+  .detail-chain { display: grid; grid-template-columns: 1fr 28px 1fr 28px 1fr; gap: 5px; align-items: center; margin: 12px 0; }
+  .detail-chain-box { min-height: 86px; padding: 11px 8px; border: 1px solid var(--line); background: #fff; text-align: center; }
+  .detail-chain-box strong { display: block; color: var(--blue); font-size: 14px; line-height: 1.2; }
+  .detail-chain-box span { display: block; margin-top: 5px; color: var(--muted); font-size: 11px; line-height: 1.25; }
+  .detail-chain-arrow { color: var(--accent); font-size: 23px; font-weight: 850; text-align: center; }
+  .detail-examples { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .detail-example { min-height: 95px; padding: 11px 12px; border-top: 4px solid var(--accent); background: var(--soft); }
+  .detail-example.blue-example { border-top-color: var(--blue); background: var(--blue-soft); }
+  .detail-example.purple-example { border-top-color: var(--purple); background: var(--purple-soft); }
+  .detail-example strong { display: block; margin-bottom: 5px; font-size: 14px; }
+  .detail-example p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.28; }
+  .shift-prediction { padding: 13px; border: 1px solid var(--line); background: #fff; }
+  .shift-prediction-label { color: var(--accent); font-size: 11px; font-weight: 820; letter-spacing: .07em; text-transform: uppercase; }
+  .shift-prediction h2 { margin: 4px 0 7px; font-size: 18px; line-height: 1.25; }
+  .detail-demand-plot { display: block; width: 100%; height: 238px; background: #fff; }
+  .detail-new-line, .detail-shift-arrow, .detail-new-label { opacity: 0; transition: opacity .18s ease; }
+  .shift-prediction.revealed .detail-new-line, .shift-prediction.revealed .detail-shift-arrow, .shift-prediction.revealed .detail-new-label { opacity: 1; }
+  .detail-prediction-buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-top: 5px; }
+  .interactive .detail-prediction-button { min-height: 42px; padding: 7px 5px; background: var(--blue); font-size: 12px; }
+  .interactive .detail-prediction-button:nth-child(2) { background: var(--muted); }
+  .interactive .detail-prediction-button:nth-child(3) { background: var(--green); }
+  .interactive .detail-prediction-button.correct { background: var(--green); }
+  .interactive .detail-prediction-button.wrong { background: var(--red); }
+  .shift-detail-feedback { min-height: 58px; margin-top: 8px; padding: 8px 10px; font-size: 12px; line-height: 1.28; }
+  .composition-visual { display: grid; grid-template-columns: 1fr 42px 1fr; gap: 7px; align-items: center; margin-top: 12px; }
+  .population-card { padding: 12px 10px; border: 1px solid var(--line); background: #fff; text-align: center; }
+  .population-icons { margin-bottom: 6px; color: var(--blue); font-size: 23px; letter-spacing: 3px; }
+  .population-card strong { display: block; font-size: 14px; }
+  .population-card span { display: block; margin-top: 4px; color: var(--muted); font-size: 11px; line-height: 1.25; }
+  .supply-detail .shifter-rule { border-left-color: var(--green); background: var(--green-soft); }
+  .supply-detail .shifter-rule strong, .supply-detail .detail-chain-box strong { color: var(--green); }
+  .supply-detail .shift-prediction-label { color: var(--green); }
+  .supply-detail .detail-example.green-example { border-top-color: var(--green); background: var(--green-soft); }
+
   .income-definitions { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 14px; }
   .income-definition { padding: 14px 16px; border-top: 4px solid var(--blue); background: var(--blue-soft); }
   .income-definition.inferior { border-top-color: var(--purple); background: var(--purple-soft); }
@@ -251,6 +304,55 @@
   .income-result span { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; line-height: 1.28; }
   .income-plot { width: 100%; height: 245px; border: 1px solid var(--line); background: #fff; }
 
+  .income-example-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .income-example-column { padding: 13px; border-top: 5px solid var(--blue); background: var(--blue-soft); }
+  .income-example-column.inferior-column { border-top-color: var(--purple); background: var(--purple-soft); }
+  .income-example-header { min-height: 58px; }
+  .income-example-header h2 { margin-bottom: 3px; color: var(--blue); font-size: 21px; }
+  .inferior-column .income-example-header h2 { color: var(--purple); }
+  .income-example-header p { margin: 0; font-size: 13px; line-height: 1.25; }
+  .income-photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .income-photo-card { overflow: hidden; border: 1px solid rgba(31,41,51,.14); background: #fff; }
+  .income-photo { height: 130px; background-image: url('Fig/ARE201_Unit4_Normal_Inferior_Examples.jpg'); background-repeat: no-repeat; background-size: 200% 200%; }
+  .income-photo.restaurant { background-position: 0 0; }
+  .income-photo.mountains { background-position: 100% 0; }
+  .income-photo.noodles { background-position: 0 100%; }
+  .income-photo.bus { background-position: 100% 100%; }
+  .income-photo-caption { min-height: 82px; padding: 9px 10px; }
+  .income-photo-caption strong { display: block; margin-bottom: 4px; font-size: 14px; }
+  .income-photo-caption span { display: block; color: var(--muted); font-size: 11px; line-height: 1.25; }
+  .income-evidence-strip { display: grid; grid-template-columns: 185px 1fr; gap: 14px; align-items: center; margin-top: 13px; padding: 11px 14px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .income-evidence-strip strong { color: var(--accent); font-size: 16px; }
+  .income-evidence-strip p { margin: 0; font-size: 13px; line-height: 1.3; }
+
+  .related-example-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .related-example-column { padding: 13px; border-top: 5px solid var(--blue); background: var(--blue-soft); }
+  .related-example-column.complement-column { border-top-color: var(--purple); background: var(--purple-soft); }
+  .related-example-header { min-height: 55px; }
+  .related-example-header h2 { margin-bottom: 3px; color: var(--blue); font-size: 22px; }
+  .complement-column .related-example-header h2 { color: var(--purple); }
+  .related-example-header p { margin: 0; font-size: 13px; line-height: 1.25; }
+  .related-photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .related-photo-card { overflow: hidden; border: 1px solid rgba(31,41,51,.14); background: #fff; }
+  .related-photo { height: 135px; background-image: url('Fig/ARE201_Unit4_Substitutes_Complements_Examples.jpg'); background-repeat: no-repeat; background-size: 200% auto; }
+  .related-photo.jellycat { background-position: 0 0; }
+  .related-photo.labubu { background-position: 100% 0; }
+  .related-photo.bag-charm { background-position: 0 100%; }
+  .related-photo.console-game { background-position: 100% 100%; }
+  .related-photo-caption { min-height: 66px; padding: 8px 10px; }
+  .related-photo-caption strong { display: block; margin-bottom: 3px; font-size: 14px; }
+  .related-photo-caption span { display: block; color: var(--muted); font-size: 11px; line-height: 1.23; }
+  .related-reaction { margin-top: 9px; padding: 9px 11px; border-left: 4px solid var(--blue); background: #fff; }
+  .complement-column .related-reaction { border-left-color: var(--purple); }
+  .related-reaction strong { display: block; color: var(--blue); font-size: 14px; }
+  .complement-column .related-reaction strong { color: var(--purple); }
+  .related-reaction span { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; line-height: 1.25; }
+  .cross-price-strip { display: grid; grid-template-columns: 150px 1fr 1fr; gap: 10px; align-items: center; margin-top: 12px; padding: 10px 12px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .cross-price-strip > strong { color: var(--accent); font-size: 16px; }
+  .cross-price-result { padding: 7px 9px; background: #fff; font-size: 12px; line-height: 1.25; }
+  .cross-price-result strong { color: var(--ink); }
+  .related-market-note { margin: 7px 0 0; color: var(--muted); font-size: 11px; line-height: 1.25; }
+
   .quiz-scenario { min-height: 102px; padding: 17px 19px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
   .quiz-scenario .market-label { color: var(--accent); font-size: 13px; font-weight: 820; letter-spacing: .07em; text-transform: uppercase; }
   .quiz-scenario p { margin: 5px 0 0; font-size: 21px; }
@@ -259,6 +361,13 @@
   .interactive .quiz-option { min-height: 64px; font-size: 15px; line-height: 1.22; }
   .quiz-toolbar { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; }
   .score-pill { padding: 8px 12px; border-radius: 999px; background: var(--soft); font-size: 14px; font-weight: 800; }
+  .two-shock-cues { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-top: 11px; }
+  .two-shock-cue { padding: 9px 11px; border-top: 3px solid var(--line); background: var(--soft); }
+  .two-shock-cue:nth-child(1) { border-top-color: var(--blue); }
+  .two-shock-cue:nth-child(2) { border-top-color: var(--green); }
+  .two-shock-cue:nth-child(3) { border-top-color: var(--accent); }
+  .two-shock-cue strong { display: block; margin-bottom: 2px; font-size: 13px; }
+  .two-shock-cue span { color: var(--muted); font-size: 11px; line-height: 1.2; }
 
   .exit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 16px; }
   .exit-card { min-height: 290px; padding: 20px; border-top: 5px solid var(--accent); background: var(--soft); }
@@ -344,6 +453,10 @@
   .result-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-top: 13px; }
   .interactive .result-option { min-height: 59px; padding: 8px; background: var(--blue); font-size: 14px; }
   .shock-graph { width: 100%; height: 330px; border: 1px solid var(--line); background: #fff; }
+  .shock-reveal-layer { opacity: 0; transition: opacity .22s ease; }
+  .shock-original-shifting { transition: stroke .22s ease, stroke-width .22s ease; }
+  #demandShockSlide.revealed .shock-reveal-layer, #supplyShockSlide.revealed .shock-reveal-layer { opacity: 1; }
+  #demandShockSlide.revealed .shock-original-shifting, #supplyShockSlide.revealed .shock-original-shifting { stroke: #9aa3ab; stroke-width: 3; stroke-dasharray: 7 6; }
 
   .pattern-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-top: 13px; }
   .pattern-result { display: grid; grid-template-columns: .85fr 1.15fr; gap: 18px; margin-top: 14px; }
@@ -404,6 +517,8 @@
     #progress, #hint { display: none; }
     .exit-answer, .chain-step, .step-answer { visibility: visible !important; opacity: 1 !important; color: var(--muted) !important; }
     .shifter-card .shifter-example, .matrix .matrix-answer { color: var(--ink) !important; }
+    .detail-new-line, .detail-shift-arrow, .detail-new-label { opacity: 1 !important; }
+    .shock-reveal-layer { opacity: 1 !important; }
   }
 </style>
 </head>
@@ -475,10 +590,6 @@
       </div>
     </div>
     <p class="small muted" style="margin-top:15px;">The model is a benchmark and prediction—not a claim that every real market adjusts instantly.</p>
-  </section>
-
-  <section class="slide image-only-slide" data-day="1">
-    <img src="Fig/ARE201_Unit4_Market_Examples.png" alt="A collage of markets for collectible toys, graphics cards, smartphones, strawberries, coffee, sneakers, used cars, rental housing, eggs, grain, air travel, and bicycles">
   </section>
 
   <section class="slide" data-day="1">
@@ -869,7 +980,7 @@
     <h1>What can change demand at every price?</h1>
     <div class="shifter-grid">
       <button type="button" class="shifter-card"><strong>Number of buyers</strong><span class="shifter-example">More buyers → demand shifts right.</span></button>
-      <button type="button" class="shifter-card"><strong>Income &amp; wealth</strong><span class="shifter-example">Income ↑: normal D →; inferior D ←.</span></button>
+      <button type="button" class="shifter-card"><strong>Income</strong><span class="shifter-example">Income ↑: normal D →; inferior D ←.</span></button>
       <button type="button" class="shifter-card"><strong>Prices of related goods</strong><span class="shifter-example">Substitute price ↑ → D right; complement price ↑ → D left.</span></button>
       <button type="button" class="shifter-card"><strong>Tastes &amp; needs</strong><span class="shifter-example">A stronger preference or need → demand right.</span></button>
       <button type="button" class="shifter-card"><strong>Expectations</strong><span class="shifter-example">Expected future price ↑ can raise demand today.</span></button>
@@ -878,8 +989,78 @@
     <div class="definition-strip blue-strip" style="margin-top:13px;"><strong>Round 2 connection:</strong> the health report raised buyer values, so buyers wanted more strawberries at every price and demand shifted right.</div>
   </section>
 
+  <section class="slide" data-day="2" id="demandDirectionLogicSlide">
+    <div class="section-kicker">Reading a demand shift · compare quantity at the same price</div>
+    <h1>Why does demand increase to the right—and decrease to the left?</h1>
+    <div class="curve-direction-grid">
+      <div class="curve-direction-card">
+        <h2>Increase in demand → right</h2>
+        <p>At the same price P₀, buyers now want a larger quantity. A larger quantity is farther right on the horizontal axis.</p>
+        <svg class="direction-plot" viewBox="0 0 390 250" role="img" aria-label="At the same price, an increase in demand moves quantity from Q0 to a larger Q1, so the demand curve shifts right">
+          <line class="axis" x1="45" y1="210" x2="365" y2="210"/><line class="axis" x1="45" y1="210" x2="45" y2="22"/>
+          <line class="gridline" x1="45" y1="115" x2="345" y2="115" stroke-dasharray="5 4"/>
+          <path class="old-line" d="M90 40 L285 190"/><path class="demand-line" d="M135 40 L330 190"/>
+          <circle cx="188" cy="115" r="6" fill="#9aa3ab"/><circle cx="233" cy="115" r="7" fill="#2f80c9"/>
+          <line class="gridline" x1="188" y1="115" x2="188" y2="210" stroke-dasharray="4 4"/><line class="gridline" x1="233" y1="115" x2="233" y2="210" stroke-dasharray="4 4"/>
+          <line x1="196" y1="100" x2="224" y2="100" stroke="#EB811B" stroke-width="4"/><polygon points="224,100 213,94 213,106" fill="#EB811B"/>
+          <text class="plot-label" x="8" y="119">P₀</text><text class="plot-label" x="178" y="229">Q₀</text><text class="plot-label" x="224" y="229">Q₁</text>
+          <text class="plot-label" x="276" y="189">D₀</text><text class="plot-label" x="323" y="189">D₁</text><text class="plot-label" x="178" y="244">Quantity demanded</text>
+        </svg>
+        <div class="direction-quantity-strip"><div class="direction-quantity"><strong>Q₀ = 8</strong><span>before, at P₀</span></div><div class="direction-quantity-arrow">→</div><div class="direction-quantity"><strong>Q₁ = 12</strong><span>after, at P₀</span></div></div>
+      </div>
+      <div class="curve-direction-card decrease-card">
+        <h2>Decrease in demand → left</h2>
+        <p>At the same price P₀, buyers now want a smaller quantity. A smaller quantity is farther left on the horizontal axis.</p>
+        <svg class="direction-plot" viewBox="0 0 390 250" role="img" aria-label="At the same price, a decrease in demand moves quantity from Q0 to a smaller Q1, so the demand curve shifts left">
+          <line class="axis" x1="45" y1="210" x2="365" y2="210"/><line class="axis" x1="45" y1="210" x2="45" y2="22"/>
+          <line class="gridline" x1="45" y1="115" x2="345" y2="115" stroke-dasharray="5 4"/>
+          <path class="old-line" d="M135 40 L330 190"/><path d="M90 40 L285 190" fill="none" stroke="#7657a5" stroke-width="4"/>
+          <circle cx="233" cy="115" r="6" fill="#9aa3ab"/><circle cx="188" cy="115" r="7" fill="#7657a5"/>
+          <line class="gridline" x1="233" y1="115" x2="233" y2="210" stroke-dasharray="4 4"/><line class="gridline" x1="188" y1="115" x2="188" y2="210" stroke-dasharray="4 4"/>
+          <line x1="225" y1="100" x2="197" y2="100" stroke="#EB811B" stroke-width="4"/><polygon points="197,100 208,94 208,106" fill="#EB811B"/>
+          <text class="plot-label" x="8" y="119">P₀</text><text class="plot-label" x="224" y="229">Q₀</text><text class="plot-label" x="178" y="229">Q₁</text>
+          <text class="plot-label" x="323" y="189">D₀</text><text class="plot-label" x="276" y="189">D₁</text><text class="plot-label" x="178" y="244">Quantity demanded</text>
+        </svg>
+        <div class="direction-quantity-strip"><div class="direction-quantity"><strong>Q₀ = 12</strong><span>before, at P₀</span></div><div class="direction-quantity-arrow">→</div><div class="direction-quantity"><strong>Q₁ = 8</strong><span>after, at P₀</span></div></div>
+      </div>
+    </div>
+    <div class="direction-takeaway"><strong>Direction comes from the quantity axis:</strong> compare quantities at one unchanged price. More at every price places the new curve to the right; less at every price places it to the left.</div>
+  </section>
+
+  <section class="slide interactive" data-day="2" id="buyersShifterDetailSlide">
+    <div class="section-kicker">Demand shifter 1 of 6 · number of buyers</div>
+    <h1>Market demand grows or shrinks with the buyer pool</h1>
+    <div class="shifter-detail-layout">
+      <div>
+        <div class="shifter-rule"><strong>Formal rule</strong><p>Holding each buyer’s demand fixed, adding buyers raises the market quantity demanded at every price; losing buyers lowers it.</p></div>
+        <div class="detail-chain">
+          <div class="detail-chain-box"><strong>Fewer buyers</strong><span>Campus empties for summer</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>Smaller sum</strong><span>Add fewer individual quantities</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>Demand left</strong><span>Less demanded at every price</span></div>
+        </div>
+        <div class="detail-examples">
+          <div class="detail-example blue-example"><strong>More buyers → right</strong><p>A convention brings thousands of visitors into the downtown restaurant market.</p></div>
+          <div class="detail-example"><strong>Fewer buyers → left</strong><p>Students leave town, reducing demand at nearby cafés.</p></div>
+        </div>
+      </div>
+      <div class="shift-prediction" data-answer="left" data-explanation="With fewer potential lunch buyers, cafés face a lower quantity demanded at every meal price.">
+        <div class="shift-prediction-label">Predict before revealing</div>
+        <h2>Students leave for summer. What happens to demand for café lunches near campus?</h2>
+        <svg class="detail-demand-plot" viewBox="0 0 390 238" role="img" aria-label="Demand curve shifts left when the number of buyers falls">
+          <line class="axis" x1="46" y1="205" x2="370" y2="205"/><line class="axis" x1="46" y1="205" x2="46" y2="20"/>
+          <path class="old-line" d="M115 38 L310 190"/><path class="new-line detail-new-line" d="M75 38 L270 190"/>
+          <line class="detail-shift-arrow" x1="205" y1="112" x2="165" y2="112" stroke="#EB811B" stroke-width="4"/><polygon class="detail-shift-arrow" points="165,112 177,105 177,119" fill="#EB811B"/>
+          <text class="plot-label" x="304" y="190">D₀</text><text class="plot-label detail-new-label" x="259" y="190">D₁</text>
+          <text class="plot-label" x="190" y="230">Café lunches per day</text><text class="plot-label" x="14" y="130" transform="rotate(-90 14 130)">Price per lunch</text>
+        </svg>
+        <div class="detail-prediction-buttons"><button type="button" class="detail-prediction-button" data-prediction="left">Shift left</button><button type="button" class="detail-prediction-button" data-prediction="none">No shift</button><button type="button" class="detail-prediction-button" data-prediction="right">Shift right</button></div>
+        <div class="feedback shift-detail-feedback" aria-live="polite">Choose a direction. The price of café lunches has not changed.</div>
+      </div>
+    </div>
+  </section>
+
   <section class="slide interactive" data-day="2" id="incomeGoodsSlide">
-    <div class="section-kicker">Income as a demand determinant · normal versus inferior</div>
+    <div class="section-kicker">Demand shifter 2 of 6 · income · normal versus inferior</div>
     <h1>Income can shift demand in opposite directions</h1>
     <div class="income-definitions">
       <div class="income-definition"><h2>Normal good</h2><p>Income ↑ → demand ↑. Income ↓ → demand ↓.</p></div>
@@ -904,6 +1085,211 @@
           <text class="plot-label" x="204" y="236">Quantity</text><text class="plot-label" x="14" y="128" transform="rotate(-90 14 128)">Price</text>
         </svg>
         <p class="tiny muted" style="margin:7px 0 0;"><strong>“Inferior” is not a judgment about quality.</strong> It describes an income–demand relationship. The same good can change category over different income ranges.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-day="2" id="incomeExamplesSlide">
+    <div class="section-kicker">Demand shifter 2 of 6 · familiar examples in North Carolina</div>
+    <h1>The label comes from the income response—not the product</h1>
+    <div class="income-example-columns">
+      <div class="income-example-column">
+        <div class="income-example-header"><h2>Normal-good examples</h2><p>When income rises, demand for these goods often rises.</p></div>
+        <div class="income-photo-grid">
+          <div class="income-photo-card">
+            <div class="income-photo restaurant" role="img" aria-label="College students sharing a meal at a casual restaurant"></div>
+            <div class="income-photo-caption"><strong>Meals away from home</strong><span>More disposable income can mean more restaurant meals with friends.</span></div>
+          </div>
+          <div class="income-photo-card">
+            <div class="income-photo mountains" role="img" aria-label="College students on a weekend trip in the Blue Ridge Mountains"></div>
+            <div class="income-photo-caption"><strong>Weekend travel</strong><span>More income can make a Blue Ridge or beach trip easier to afford.</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="income-example-column inferior-column">
+        <div class="income-example-header"><h2>Possible inferior-good examples</h2><p>When income rises, demand for these goods may fall.</p></div>
+        <div class="income-photo-grid">
+          <div class="income-photo-card">
+            <div class="income-photo noodles" role="img" aria-label="College student preparing a simple instant-noodle meal in a dorm kitchenette"></div>
+            <div class="income-photo-caption"><strong>Bare-bones meals</strong><span>Some students buy fewer instant-noodle meals when their budget grows.</span></div>
+          </div>
+          <div class="income-photo-card">
+            <div class="income-photo bus" role="img" aria-label="College student commuting on a city bus in a college town"></div>
+            <div class="income-photo-caption"><strong>Bus trips</strong><span>Some riders take fewer trips once driving or ride-hailing is affordable.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="income-evidence-strip"><strong>Classify with evidence</strong><p>These are common possibilities, not permanent labels. Ask: holding price fixed, does demand rise or fall when income rises? A bus trip—or any good—can be normal for a different buyer or market.</p></div>
+  </section>
+
+  <section class="slide interactive" data-day="2" id="relatedGoodsShifterDetailSlide">
+    <div class="section-kicker">Demand shifter 3 of 6 · prices of related goods</div>
+    <h1>Another good’s price can redirect demand</h1>
+    <div class="shifter-detail-layout">
+      <div>
+        <div class="shifter-rule"><strong>Formal rule</strong><p>Substitutes can replace each other; complements are consumed together. Change the related good’s price—not this good’s own price.</p></div>
+        <div class="detail-examples" style="margin-top:12px;">
+          <div class="detail-example blue-example"><strong>Substitutes</strong><p>Dairy milk price ↑ → quantity demanded of dairy milk ↓ → demand for soy milk shifts right.</p></div>
+          <div class="detail-example purple-example"><strong>Complements</strong><p>Printer price ↑ → quantity demanded of printers ↓ → demand for ink shifts left.</p></div>
+        </div>
+        <div class="detail-chain">
+          <div class="detail-chain-box"><strong>Dairy milk P ↑</strong><span>The substitute gets costlier</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>Buyers switch</strong><span>Toward soy milk</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>Soy demand right</strong><span>More at every soy price</span></div>
+        </div>
+        <p class="tiny muted"><strong>Memory cue:</strong> substitutes move demand in the same direction as the other good’s price; complements move it in the opposite direction.</p>
+      </div>
+      <div class="shift-prediction" data-answer="right" data-explanation="Dairy milk is a substitute. When it becomes more expensive, buyers switch toward soy milk at every soy-milk price.">
+        <div class="shift-prediction-label">Predict before revealing</div>
+        <h2>The price of dairy milk rises. What happens to demand for soy milk?</h2>
+        <svg class="detail-demand-plot" viewBox="0 0 390 238" role="img" aria-label="Demand for soy milk shifts right when the price of substitute dairy milk rises">
+          <line class="axis" x1="46" y1="205" x2="370" y2="205"/><line class="axis" x1="46" y1="205" x2="46" y2="20"/>
+          <path class="old-line" d="M75 38 L270 190"/><path class="new-line detail-new-line" d="M115 38 L310 190"/>
+          <line class="detail-shift-arrow" x1="165" y1="112" x2="205" y2="112" stroke="#EB811B" stroke-width="4"/><polygon class="detail-shift-arrow" points="205,112 193,105 193,119" fill="#EB811B"/>
+          <text class="plot-label" x="259" y="190">D₀</text><text class="plot-label detail-new-label" x="304" y="190">D₁</text>
+          <text class="plot-label" x="202" y="230">Soy milk</text><text class="plot-label" x="14" y="126" transform="rotate(-90 14 126)">Soy-milk price</text>
+        </svg>
+        <div class="detail-prediction-buttons"><button type="button" class="detail-prediction-button" data-prediction="left">Shift left</button><button type="button" class="detail-prediction-button" data-prediction="none">No shift</button><button type="button" class="detail-prediction-button" data-prediction="right">Shift right</button></div>
+        <div class="feedback shift-detail-feedback" aria-live="polite">First classify dairy milk and soy milk: substitutes or complements?</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-day="2" id="relatedGoodsExamplesSlide">
+    <div class="section-kicker">Demand shifter 3 of 6 · fashionable examples</div>
+    <h1>Related goods can be collectible, wearable, or digital</h1>
+    <div class="related-example-columns">
+      <div class="related-example-column">
+        <div class="related-example-header"><h2>Substitutes</h2><p>Two products can satisfy a similar want or compete for the same budget.</p></div>
+        <div class="related-photo-grid">
+          <div class="related-photo-card">
+            <div class="related-photo jellycat" role="img" aria-label="A Jellycat-style plush bunny displayed in a boutique"></div>
+            <div class="related-photo-caption"><strong>Jellycat plush</strong><span>One choice for a trendy collectible gift.</span></div>
+          </div>
+          <div class="related-photo-card">
+            <div class="related-photo labubu" role="img" aria-label="A Labubu-style collectible figure displayed in a designer toy shop"></div>
+            <div class="related-photo-caption"><strong>Labubu figure</strong><span>An alternative use of the same collectible budget.</span></div>
+          </div>
+        </div>
+        <div class="related-reaction"><strong>If the price of Jellycat rises …</strong><span>Some buyers switch toward Labubu → demand for Labubu shifts right.</span></div>
+      </div>
+      <div class="related-example-column complement-column">
+        <div class="related-example-header"><h2>Complements</h2><p>Two products are more useful or enjoyable when consumed together.</p></div>
+        <div class="related-photo-grid">
+          <div class="related-photo-card">
+            <div class="related-photo bag-charm" role="img" aria-label="A Labubu-style plush charm clipped to a fashionable tote bag"></div>
+            <div class="related-photo-caption"><strong>Bag + Labubu charm</strong><span>The charm is used with the bag.</span></div>
+          </div>
+          <div class="related-photo-card">
+            <div class="related-photo console-game" role="img" aria-label="A handheld game console beside a physical game card and carrying case"></div>
+            <div class="related-photo-caption"><strong>Console + game</strong><span>The game is played on the console.</span></div>
+          </div>
+        </div>
+        <div class="related-reaction"><strong>If the price of the bag or console rises …</strong><span>Fewer are purchased → demand for the charm or game may shift left.</span></div>
+      </div>
+    </div>
+    <div class="cross-price-strip">
+      <strong>Cross-price test</strong>
+      <div class="cross-price-result">Price of A ↑ → demand for B ↑<br><strong>A and B are substitutes.</strong></div>
+      <div class="cross-price-result">Price of A ↑ → demand for B ↓<br><strong>A and B are complements.</strong></div>
+    </div>
+    <p class="related-market-note"><strong>Context matters:</strong> Jellycat and Labubu are substitutes only for buyers who see them as alternatives. If a collector wants both, the relationship could be different.</p>
+  </section>
+
+  <section class="slide interactive" data-day="2" id="tastesShifterDetailSlide">
+    <div class="section-kicker">Demand shifter 4 of 6 · tastes and needs</div>
+    <h1>What buyers want can change—even when price does not</h1>
+    <div class="shifter-detail-layout">
+      <div>
+        <div class="shifter-rule"><strong>Formal rule</strong><p>Information, trends, advertising, seasons, or urgent needs can change willingness to buy at every price.</p></div>
+        <div class="detail-chain">
+          <div class="detail-chain-box"><strong>New information</strong><span>A negative health report</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>Preference weakens</strong><span>Fewer buyers want soda</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>Demand left</strong><span>Less wanted at every price</span></div>
+        </div>
+        <div class="detail-examples">
+          <div class="detail-example blue-example"><strong>Round 2: tastes → right</strong><p>A favorable health report raises willingness to pay for strawberries.</p></div>
+          <div class="detail-example"><strong>Urgent need → right</strong><p>A hurricane warning raises demand for bottled water before the storm.</p></div>
+        </div>
+      </div>
+      <div class="shift-prediction" data-answer="left" data-explanation="The report weakens consumers’ preference for sugary drinks, so less soda is demanded at every soda price.">
+        <div class="shift-prediction-label">Predict before revealing</div>
+        <h2>A trusted health report links sugary drinks to health risks. What happens to demand for soda?</h2>
+        <svg class="detail-demand-plot" viewBox="0 0 390 238" role="img" aria-label="Demand for soda shifts left when preferences weaken">
+          <line class="axis" x1="46" y1="205" x2="370" y2="205"/><line class="axis" x1="46" y1="205" x2="46" y2="20"/>
+          <path class="old-line" d="M115 38 L310 190"/><path class="new-line detail-new-line" d="M75 38 L270 190"/>
+          <line class="detail-shift-arrow" x1="205" y1="112" x2="165" y2="112" stroke="#EB811B" stroke-width="4"/><polygon class="detail-shift-arrow" points="165,112 177,105 177,119" fill="#EB811B"/>
+          <text class="plot-label" x="304" y="190">D₀</text><text class="plot-label detail-new-label" x="259" y="190">D₁</text>
+          <text class="plot-label" x="205" y="230">Soda</text><text class="plot-label" x="14" y="124" transform="rotate(-90 14 124)">Soda price</text>
+        </svg>
+        <div class="detail-prediction-buttons"><button type="button" class="detail-prediction-button" data-prediction="left">Shift left</button><button type="button" class="detail-prediction-button" data-prediction="none">No shift</button><button type="button" class="detail-prediction-button" data-prediction="right">Shift right</button></div>
+        <div class="feedback shift-detail-feedback" aria-live="polite">Ask whether buyers now want more or less soda at every possible soda price.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" data-day="2" id="expectationsShifterDetailSlide">
+    <div class="section-kicker">Demand shifter 5 of 6 · expectations</div>
+    <h1>Beliefs about tomorrow can change demand today</h1>
+    <div class="shifter-detail-layout">
+      <div>
+        <div class="shifter-rule"><strong>Formal rule</strong><p>Expected future prices, income, availability, or needs can change how much consumers want to buy now at every current price.</p></div>
+        <div class="detail-chain">
+          <div class="detail-chain-box"><strong>Future price expected ↑</strong><span>Coffee may cost more next week</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>Purchase sooner</strong><span>Some buyers stock up now</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>Today’s demand right</strong><span>More at every current price</span></div>
+        </div>
+        <div class="detail-examples">
+          <div class="detail-example blue-example"><strong>Expected price ↑</strong><p>For a storable good, buying earlier can raise current demand.</p></div>
+          <div class="detail-example purple-example"><strong>Expected income ↓</strong><p>Households may postpone a large purchase, reducing current demand.</p></div>
+        </div>
+      </div>
+      <div class="shift-prediction" data-answer="right" data-explanation="Some consumers move purchases forward to avoid the expected higher future price, increasing demand today at every current price.">
+        <div class="shift-prediction-label">Predict before revealing</div>
+        <h2>Consumers expect coffee prices to rise next week. What happens to demand for coffee today?</h2>
+        <svg class="detail-demand-plot" style="height:218px;" viewBox="0 0 390 238" role="img" aria-label="Current demand for coffee shifts right when consumers expect a future price increase">
+          <line class="axis" x1="46" y1="205" x2="370" y2="205"/><line class="axis" x1="46" y1="205" x2="46" y2="20"/>
+          <path class="old-line" d="M75 38 L270 190"/><path class="new-line detail-new-line" d="M115 38 L310 190"/>
+          <line class="detail-shift-arrow" x1="165" y1="112" x2="205" y2="112" stroke="#EB811B" stroke-width="4"/><polygon class="detail-shift-arrow" points="205,112 193,105 193,119" fill="#EB811B"/>
+          <text class="plot-label" x="259" y="190">D₀</text><text class="plot-label detail-new-label" x="304" y="190">D₁</text>
+          <text class="plot-label" x="185" y="230">Coffee today</text><text class="plot-label" x="14" y="128" transform="rotate(-90 14 128)">Current price</text>
+        </svg>
+        <div class="detail-prediction-buttons"><button type="button" class="detail-prediction-button" data-prediction="left">Shift left</button><button type="button" class="detail-prediction-button" data-prediction="none">No shift</button><button type="button" class="detail-prediction-button" data-prediction="right">Shift right</button></div>
+        <div class="feedback shift-detail-feedback" aria-live="polite">Keep the time labels straight: the expectation is about next week; the curve is for today.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive" data-day="2" id="compositionShifterDetailSlide">
+    <div class="section-kicker">Demand shifter 6 of 6 · population composition</div>
+    <h1>Who is in the market matters—not only how many</h1>
+    <div class="shifter-detail-layout">
+      <div>
+        <div class="shifter-rule"><strong>Formal rule</strong><p>Even with the same population size, a change in age, household structure, or other buyer characteristics can shift demand for a particular good.</p></div>
+        <div class="composition-visual" aria-label="Same population size but a larger share of older adults">
+          <div class="population-card"><div class="population-icons">● ● ● ●</div><strong>Before</strong><span>More young households</span></div>
+          <div class="detail-chain-arrow">→</div>
+          <div class="population-card"><div class="population-icons">● ● ● ●</div><strong>After</strong><span>Larger share of older adults</span></div>
+        </div>
+        <div class="detail-examples" style="margin-top:12px;">
+          <div class="detail-example blue-example"><strong>Hearing aids → right</strong><p>A larger older share raises demand at every hearing-aid price.</p></div>
+          <div class="detail-example"><strong>Tricycles → left</strong><p>If the share of young children falls, demand falls at every tricycle price.</p></div>
+        </div>
+        <p class="tiny muted" style="margin-top:9px;"><strong>Do not double-count:</strong> “number of buyers” changes market size; “composition” changes the mix of buyers.</p>
+      </div>
+      <div class="shift-prediction" data-answer="right" data-explanation="The total population is unchanged, but a larger share is likely to purchase hearing aids; market demand shifts right.">
+        <div class="shift-prediction-label">Predict before revealing</div>
+        <h2>The population is the same size, but the share age 65+ rises. What happens to demand for hearing aids?</h2>
+        <svg class="detail-demand-plot" viewBox="0 0 390 238" role="img" aria-label="Demand for hearing aids shifts right when the share of older adults rises">
+          <line class="axis" x1="46" y1="205" x2="370" y2="205"/><line class="axis" x1="46" y1="205" x2="46" y2="20"/>
+          <path class="old-line" d="M75 38 L270 190"/><path class="new-line detail-new-line" d="M115 38 L310 190"/>
+          <line class="detail-shift-arrow" x1="165" y1="112" x2="205" y2="112" stroke="#EB811B" stroke-width="4"/><polygon class="detail-shift-arrow" points="205,112 193,105 193,119" fill="#EB811B"/>
+          <text class="plot-label" x="259" y="190">D₀</text><text class="plot-label detail-new-label" x="304" y="190">D₁</text>
+          <text class="plot-label" x="176" y="230">Hearing aids</text><text class="plot-label" x="14" y="129" transform="rotate(-90 14 129)">Price</text>
+        </svg>
+        <div class="detail-prediction-buttons"><button type="button" class="detail-prediction-button" data-prediction="left">Shift left</button><button type="button" class="detail-prediction-button" data-prediction="none">No shift</button><button type="button" class="detail-prediction-button" data-prediction="right">Shift right</button></div>
+        <div class="feedback shift-detail-feedback" aria-live="polite">The number of people is fixed. Focus on the changing mix of potential buyers.</div>
       </div>
     </div>
   </section>
@@ -933,6 +1319,44 @@
     <p class="small muted" style="margin-top:14px;">Compare Round 3 with Round 1—not cumulatively with Round 2.</p>
   </section>
 
+  <section class="slide supply-direction-slide" data-day="2" id="supplyDirectionLogicSlide">
+    <div class="section-kicker">Reading a supply shift · compare quantity at the same price</div>
+    <h1>Why does supply increase to the right—and decrease to the left?</h1>
+    <div class="curve-direction-grid">
+      <div class="curve-direction-card">
+        <h2>Increase in supply → right</h2>
+        <p>At the same price P₀, sellers now offer a larger quantity. A larger quantity is farther right on the horizontal axis.</p>
+        <svg class="direction-plot" viewBox="0 0 390 250" role="img" aria-label="At the same price, an increase in supply moves quantity from Q0 to a larger Q1, so the supply curve shifts right">
+          <line class="axis" x1="45" y1="210" x2="365" y2="210"/><line class="axis" x1="45" y1="210" x2="45" y2="22"/>
+          <line class="gridline" x1="45" y1="115" x2="345" y2="115" stroke-dasharray="5 4"/>
+          <path class="old-line" d="M90 190 L285 40"/><path class="supply-line" d="M135 190 L330 40"/>
+          <circle cx="188" cy="115" r="6" fill="#9aa3ab"/><circle cx="233" cy="115" r="7" fill="#378a61"/>
+          <line class="gridline" x1="188" y1="115" x2="188" y2="210" stroke-dasharray="4 4"/><line class="gridline" x1="233" y1="115" x2="233" y2="210" stroke-dasharray="4 4"/>
+          <line x1="196" y1="100" x2="224" y2="100" stroke="#EB811B" stroke-width="4"/><polygon points="224,100 213,94 213,106" fill="#EB811B"/>
+          <text class="plot-label" x="8" y="119">P₀</text><text class="plot-label" x="178" y="229">Q₀</text><text class="plot-label" x="224" y="229">Q₁</text>
+          <text class="plot-label" x="278" y="42">S₀</text><text class="plot-label" x="323" y="42">S₁</text><text class="plot-label" x="185" y="244">Quantity supplied</text>
+        </svg>
+        <div class="direction-quantity-strip"><div class="direction-quantity"><strong>Q₀ = 8</strong><span>before, at P₀</span></div><div class="direction-quantity-arrow">→</div><div class="direction-quantity"><strong>Q₁ = 12</strong><span>after, at P₀</span></div></div>
+      </div>
+      <div class="curve-direction-card decrease-card">
+        <h2>Decrease in supply → left</h2>
+        <p>At the same price P₀, sellers now offer a smaller quantity. A smaller quantity is farther left on the horizontal axis.</p>
+        <svg class="direction-plot" viewBox="0 0 390 250" role="img" aria-label="At the same price, a decrease in supply moves quantity from Q0 to a smaller Q1, so the supply curve shifts left">
+          <line class="axis" x1="45" y1="210" x2="365" y2="210"/><line class="axis" x1="45" y1="210" x2="45" y2="22"/>
+          <line class="gridline" x1="45" y1="115" x2="345" y2="115" stroke-dasharray="5 4"/>
+          <path class="old-line" d="M135 190 L330 40"/><path d="M90 190 L285 40" fill="none" stroke="#c9504d" stroke-width="4"/>
+          <circle cx="233" cy="115" r="6" fill="#9aa3ab"/><circle cx="188" cy="115" r="7" fill="#c9504d"/>
+          <line class="gridline" x1="233" y1="115" x2="233" y2="210" stroke-dasharray="4 4"/><line class="gridline" x1="188" y1="115" x2="188" y2="210" stroke-dasharray="4 4"/>
+          <line x1="225" y1="100" x2="197" y2="100" stroke="#EB811B" stroke-width="4"/><polygon points="197,100 208,94 208,106" fill="#EB811B"/>
+          <text class="plot-label" x="8" y="119">P₀</text><text class="plot-label" x="224" y="229">Q₀</text><text class="plot-label" x="178" y="229">Q₁</text>
+          <text class="plot-label" x="323" y="42">S₀</text><text class="plot-label" x="278" y="42">S₁</text><text class="plot-label" x="185" y="244">Quantity supplied</text>
+        </svg>
+        <div class="direction-quantity-strip"><div class="direction-quantity"><strong>Q₀ = 12</strong><span>before, at P₀</span></div><div class="direction-quantity-arrow">→</div><div class="direction-quantity"><strong>Q₁ = 8</strong><span>after, at P₀</span></div></div>
+      </div>
+    </div>
+    <div class="direction-takeaway"><strong>Use the same test as demand:</strong> hold the product’s price fixed. More supplied at every price places the new curve to the right; less supplied at every price places it to the left.</div>
+  </section>
+
   <section class="slide interactive" data-day="2" id="supplyShiftersSlide">
     <div class="section-kicker">Round 3 debrief · supply determinants · click to reveal</div>
     <h1>What can change supply at every price?</h1>
@@ -947,6 +1371,198 @@
     <div class="definition-strip green-strip" style="margin-top:13px;"><strong>Round 3 connection:</strong> the drought raised seller costs, so sellers offered fewer strawberries at every price and supply shifted left.</div>
   </section>
 
+  <section class="slide interactive supply-detail" data-day="2" id="sellersShifterDetailSlide">
+    <div class="section-kicker">Supply shifter 1 of 6 · number of sellers</div>
+    <h1>Market supply expands or contracts with the seller pool</h1>
+    <div class="shifter-detail-layout">
+      <div>
+        <div class="shifter-rule"><strong>Formal rule</strong><p>Holding each seller’s supply fixed, adding sellers raises the market quantity supplied at every price; losing sellers lowers it.</p></div>
+        <div class="detail-chain">
+          <div class="detail-chain-box"><strong>More sellers</strong><span>New food trucks enter</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>Larger sum</strong><span>Add more individual quantities</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>Supply right</strong><span>More offered at every price</span></div>
+        </div>
+        <div class="detail-examples">
+          <div class="detail-example green-example"><strong>Entry → right</strong><p>More lawn-care businesses begin serving a neighborhood.</p></div>
+          <div class="detail-example"><strong>Exit → left</strong><p>Several local repair shops close permanently.</p></div>
+        </div>
+      </div>
+      <div class="shift-prediction" data-answer="right" data-explanation="With more food trucks operating, the market offers more lunch meals at every possible meal price.">
+        <div class="shift-prediction-label">Predict before revealing</div>
+        <h2>Ten new food trucks enter downtown. What happens to the supply of food-truck lunches?</h2>
+        <svg class="detail-demand-plot" viewBox="0 0 390 238" role="img" aria-label="Market supply shifts right when more sellers enter">
+          <line class="axis" x1="46" y1="205" x2="370" y2="205"/><line class="axis" x1="46" y1="205" x2="46" y2="20"/>
+          <path class="old-line" d="M75 190 L270 38"/><path class="supply-line detail-new-line" d="M115 190 L310 38"/>
+          <line class="detail-shift-arrow" x1="165" y1="112" x2="205" y2="112" stroke="#EB811B" stroke-width="4"/><polygon class="detail-shift-arrow" points="205,112 193,105 193,119" fill="#EB811B"/>
+          <text class="plot-label" x="259" y="42">S₀</text><text class="plot-label detail-new-label" x="304" y="42">S₁</text>
+          <text class="plot-label" x="181" y="230">Lunch meals</text><text class="plot-label" x="14" y="128" transform="rotate(-90 14 128)">Meal price</text>
+        </svg>
+        <div class="detail-prediction-buttons"><button type="button" class="detail-prediction-button" data-prediction="left">Shift left</button><button type="button" class="detail-prediction-button" data-prediction="none">No shift</button><button type="button" class="detail-prediction-button" data-prediction="right">Shift right</button></div>
+        <div class="feedback shift-detail-feedback" aria-live="polite">Hold each truck’s supply curve fixed; focus on market supply.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive supply-detail" data-day="2" id="inputPricesShifterDetailSlide">
+    <div class="section-kicker">Supply shifter 2 of 6 · input prices</div>
+    <h1>Input prices change the cost of producing each unit</h1>
+    <div class="shifter-detail-layout">
+      <div>
+        <div class="shifter-rule"><strong>Formal rule</strong><p>Higher prices for labor, materials, energy, or other inputs make production less profitable at every output price and usually reduce supply.</p></div>
+        <div class="detail-chain">
+          <div class="detail-chain-box"><strong>Cotton price ↑</strong><span>Fabric costs more</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>Unit cost ↑</strong><span>Profit per shirt falls</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>Supply left</strong><span>Less offered at every price</span></div>
+        </div>
+        <div class="detail-examples">
+          <div class="detail-example green-example"><strong>Input price ↓ → right</strong><p>Cheaper flour lowers bakeries’ cost of producing bread.</p></div>
+          <div class="detail-example"><strong>Input price ↑ → left</strong><p>Higher hourly wages raise a car wash’s service cost.</p></div>
+        </div>
+      </div>
+      <div class="shift-prediction" data-answer="left" data-explanation="Cotton fabric is an input. Its higher price raises production cost, so sellers offer fewer custom T-shirts at every T-shirt price.">
+        <div class="shift-prediction-label">Predict before revealing</div>
+        <h2>The price of cotton fabric rises. What happens to the supply of custom T-shirts?</h2>
+        <svg class="detail-demand-plot" viewBox="0 0 390 238" role="img" aria-label="Supply of custom T-shirts shifts left when the price of cotton fabric rises">
+          <line class="axis" x1="46" y1="205" x2="370" y2="205"/><line class="axis" x1="46" y1="205" x2="46" y2="20"/>
+          <path class="old-line" d="M115 190 L310 38"/><path class="supply-line detail-new-line" d="M75 190 L270 38"/>
+          <line class="detail-shift-arrow" x1="205" y1="112" x2="165" y2="112" stroke="#EB811B" stroke-width="4"/><polygon class="detail-shift-arrow" points="165,112 177,105 177,119" fill="#EB811B"/>
+          <text class="plot-label" x="304" y="42">S₀</text><text class="plot-label detail-new-label" x="259" y="42">S₁</text>
+          <text class="plot-label" x="181" y="230">Custom T-shirts</text><text class="plot-label" x="14" y="128" transform="rotate(-90 14 128)">Shirt price</text>
+        </svg>
+        <div class="detail-prediction-buttons"><button type="button" class="detail-prediction-button" data-prediction="left">Shift left</button><button type="button" class="detail-prediction-button" data-prediction="none">No shift</button><button type="button" class="detail-prediction-button" data-prediction="right">Shift right</button></div>
+        <div class="feedback shift-detail-feedback" aria-live="polite">The T-shirt’s own price is unchanged; an input price changed.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive supply-detail" data-day="2" id="technologyShifterDetailSlide">
+    <div class="section-kicker">Supply shifter 3 of 6 · technology</div>
+    <h1>Better technology can raise output from the same inputs</h1>
+    <div class="shifter-detail-layout">
+      <div>
+        <div class="shifter-rule"><strong>Formal rule</strong><p>Productivity-improving technology lowers the input cost or time required per unit, allowing firms to supply more at every price.</p></div>
+        <div class="detail-chain">
+          <div class="detail-chain-box"><strong>Faster printers</strong><span>Less time and wasted material</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>Unit cost ↓</strong><span>More cases are profitable</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>Supply right</strong><span>More offered at every price</span></div>
+        </div>
+        <div class="detail-examples">
+          <div class="detail-example green-example"><strong>Productivity ↑ → right</strong><p>Scheduling software lets a clinic complete more appointments.</p></div>
+          <div class="detail-example"><strong>Technology failure → left</strong><p>A platform outage limits how many deliveries can be coordinated.</p></div>
+        </div>
+      </div>
+      <div class="shift-prediction" data-answer="right" data-explanation="The faster printers reduce time and material waste per case, so firms can profitably offer more phone cases at every price.">
+        <div class="shift-prediction-label">Predict before revealing</div>
+        <h2>Faster 3D printers reduce production time for custom phone cases. What happens to supply?</h2>
+        <svg class="detail-demand-plot" viewBox="0 0 390 238" role="img" aria-label="Supply of custom phone cases shifts right after a productivity-improving technology">
+          <line class="axis" x1="46" y1="205" x2="370" y2="205"/><line class="axis" x1="46" y1="205" x2="46" y2="20"/>
+          <path class="old-line" d="M75 190 L270 38"/><path class="supply-line detail-new-line" d="M115 190 L310 38"/>
+          <line class="detail-shift-arrow" x1="165" y1="112" x2="205" y2="112" stroke="#EB811B" stroke-width="4"/><polygon class="detail-shift-arrow" points="205,112 193,105 193,119" fill="#EB811B"/>
+          <text class="plot-label" x="259" y="42">S₀</text><text class="plot-label detail-new-label" x="304" y="42">S₁</text>
+          <text class="plot-label" x="174" y="230">Phone cases</text><text class="plot-label" x="14" y="128" transform="rotate(-90 14 128)">Case price</text>
+        </svg>
+        <div class="detail-prediction-buttons"><button type="button" class="detail-prediction-button" data-prediction="left">Shift left</button><button type="button" class="detail-prediction-button" data-prediction="none">No shift</button><button type="button" class="detail-prediction-button" data-prediction="right">Shift right</button></div>
+        <div class="feedback shift-detail-feedback" aria-live="polite">Translate the technology change into cost or productivity first.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive supply-detail" data-day="2" id="naturalConditionsShifterDetailSlide">
+    <div class="section-kicker">Supply shifter 4 of 6 · natural conditions</div>
+    <h1>Weather and biology can change productive capacity</h1>
+    <div class="shifter-detail-layout">
+      <div>
+        <div class="shifter-rule"><strong>Formal rule</strong><p>Natural conditions affect crop yields, catches, disease losses, construction time, and other limits on how much sellers can produce.</p></div>
+        <div class="detail-chain">
+          <div class="detail-chain-box"><strong>Ideal weather</strong><span>Blueberry yield per acre rises</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>More harvest</strong><span>Cost per box falls</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>Supply right</strong><span>More offered at every price</span></div>
+        </div>
+        <div class="detail-examples">
+          <div class="detail-example green-example"><strong>Good conditions → right</strong><p>Calm seas increase the number of productive fishing days.</p></div>
+          <div class="detail-example"><strong>Damage or disease → left</strong><p>A livestock disease reduces farms’ marketable output.</p></div>
+        </div>
+      </div>
+      <div class="shift-prediction" data-answer="right" data-explanation="Higher yield lets North Carolina farms bring more blueberries to market at every possible blueberry price.">
+        <div class="shift-prediction-label">Predict before revealing</div>
+        <h2>Ideal growing weather raises blueberry yields at North Carolina farms. What happens to supply?</h2>
+        <svg class="detail-demand-plot" viewBox="0 0 390 238" role="img" aria-label="Supply of blueberries shifts right when ideal weather raises crop yields">
+          <line class="axis" x1="46" y1="205" x2="370" y2="205"/><line class="axis" x1="46" y1="205" x2="46" y2="20"/>
+          <path class="old-line" d="M75 190 L270 38"/><path class="supply-line detail-new-line" d="M115 190 L310 38"/>
+          <line class="detail-shift-arrow" x1="165" y1="112" x2="205" y2="112" stroke="#EB811B" stroke-width="4"/><polygon class="detail-shift-arrow" points="205,112 193,105 193,119" fill="#EB811B"/>
+          <text class="plot-label" x="259" y="42">S₀</text><text class="plot-label detail-new-label" x="304" y="42">S₁</text>
+          <text class="plot-label" x="180" y="230">Blueberries</text><text class="plot-label" x="14" y="128" transform="rotate(-90 14 128)">Berry price</text>
+        </svg>
+        <div class="detail-prediction-buttons"><button type="button" class="detail-prediction-button" data-prediction="left">Shift left</button><button type="button" class="detail-prediction-button" data-prediction="none">No shift</button><button type="button" class="detail-prediction-button" data-prediction="right">Shift right</button></div>
+        <div class="feedback shift-detail-feedback" aria-live="polite">Ask whether farms can offer more or less at the same market price.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive supply-detail" data-day="2" id="policyShifterDetailSlide">
+    <div class="section-kicker">Supply shifter 5 of 6 · taxes, rules, and subsidies</div>
+    <h1>Policy shifts supply when it changes sellers’ costs</h1>
+    <div class="shifter-detail-layout">
+      <div>
+        <div class="shifter-rule"><strong>Formal rule</strong><p>A per-unit tax or costly requirement raises production cost and shifts supply left; a cost-reducing subsidy shifts supply right.</p></div>
+        <div class="detail-chain">
+          <div class="detail-chain-box"><strong>Installer subsidy</strong><span>Effective cost per job falls</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>More jobs profitable</strong><span>At each service price</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>Supply right</strong><span>More installations offered</span></div>
+        </div>
+        <div class="detail-examples">
+          <div class="detail-example green-example"><strong>Subsidy → right</strong><p>A payment per installed unit reduces firms’ effective cost.</p></div>
+          <div class="detail-example"><strong>Costly rule or fee → left</strong><p>A new per-unit inspection fee raises marginal cost.</p></div>
+        </div>
+      </div>
+      <div class="shift-prediction" data-answer="right" data-explanation="The subsidy lowers installers’ effective cost, so firms offer more heat-pump installations at every customer price.">
+        <div class="shift-prediction-label">Predict before revealing</div>
+        <h2>A subsidy lowers firms’ cost of each residential heat-pump installation. What happens to supply?</h2>
+        <svg class="detail-demand-plot" viewBox="0 0 390 238" role="img" aria-label="Supply of heat-pump installations shifts right when a subsidy lowers installers' costs">
+          <line class="axis" x1="46" y1="205" x2="370" y2="205"/><line class="axis" x1="46" y1="205" x2="46" y2="20"/>
+          <path class="old-line" d="M75 190 L270 38"/><path class="supply-line detail-new-line" d="M115 190 L310 38"/>
+          <line class="detail-shift-arrow" x1="165" y1="112" x2="205" y2="112" stroke="#EB811B" stroke-width="4"/><polygon class="detail-shift-arrow" points="205,112 193,105 193,119" fill="#EB811B"/>
+          <text class="plot-label" x="259" y="42">S₀</text><text class="plot-label detail-new-label" x="304" y="42">S₁</text>
+          <text class="plot-label" x="155" y="230">Installations</text><text class="plot-label" x="14" y="128" transform="rotate(-90 14 128)">Customer price</text>
+        </svg>
+        <div class="detail-prediction-buttons"><button type="button" class="detail-prediction-button" data-prediction="left">Shift left</button><button type="button" class="detail-prediction-button" data-prediction="none">No shift</button><button type="button" class="detail-prediction-button" data-prediction="right">Shift right</button></div>
+        <div class="feedback shift-detail-feedback" aria-live="polite">Focus only on the cost channel in this example.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive supply-detail" data-day="2" id="supplyExpectationsShifterDetailSlide">
+    <div class="section-kicker">Supply shifter 6 of 6 · expectations</div>
+    <h1>Beliefs about tomorrow can change supply today</h1>
+    <div class="shifter-detail-layout">
+      <div>
+        <div class="shifter-rule"><strong>Formal rule</strong><p>For goods that can be stored or whose production timing can change, an expected future price can shift how much sellers offer today.</p></div>
+        <div class="detail-chain">
+          <div class="detail-chain-box"><strong>Future resale price expected ↑</strong><span>Waiting looks more profitable</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>Hold inventory</strong><span>Save pairs for next month</span></div><div class="detail-chain-arrow">→</div>
+          <div class="detail-chain-box"><strong>Today’s supply left</strong><span>Less offered now</span></div>
+        </div>
+        <div class="detail-examples">
+          <div class="detail-example green-example"><strong>Expected future price ↓</strong><p>Sellers may release inventory now, shifting current supply right.</p></div>
+          <div class="detail-example"><strong>Expected future price ↑</strong><p>Sellers may withhold a storable good, shifting current supply left.</p></div>
+        </div>
+      </div>
+      <div class="shift-prediction" data-answer="left" data-explanation="Resellers move sales into the future, so fewer limited-edition sneakers are offered at every current price.">
+        <div class="shift-prediction-label">Predict before revealing</div>
+        <h2>Resellers expect limited-edition sneaker prices to rise next month and hold inventory. What happens today?</h2>
+        <svg class="detail-demand-plot" viewBox="0 0 390 238" role="img" aria-label="Current supply of limited-edition sneakers shifts left when sellers hold inventory for an expected future price increase">
+          <line class="axis" x1="46" y1="205" x2="370" y2="205"/><line class="axis" x1="46" y1="205" x2="46" y2="20"/>
+          <path class="old-line" d="M115 190 L310 38"/><path class="supply-line detail-new-line" d="M75 190 L270 38"/>
+          <line class="detail-shift-arrow" x1="205" y1="112" x2="165" y2="112" stroke="#EB811B" stroke-width="4"/><polygon class="detail-shift-arrow" points="165,112 177,105 177,119" fill="#EB811B"/>
+          <text class="plot-label" x="304" y="42">S₀</text><text class="plot-label detail-new-label" x="259" y="42">S₁</text>
+          <text class="plot-label" x="168" y="230">Sneakers today</text><text class="plot-label" x="14" y="128" transform="rotate(-90 14 128)">Current price</text>
+        </svg>
+        <div class="detail-prediction-buttons"><button type="button" class="detail-prediction-button" data-prediction="left">Shift left</button><button type="button" class="detail-prediction-button" data-prediction="none">No shift</button><button type="button" class="detail-prediction-button" data-prediction="right">Shift right</button></div>
+        <div class="feedback shift-detail-feedback" aria-live="polite">Keep the time labels straight: the expectation is future; the supply curve is for today.</div>
+      </div>
+    </div>
+  </section>
+
   <section class="slide interactive" data-day="2" id="movementQuizSlide">
     <div class="section-kicker">Experiment synthesis · misconception clinic · LO 4.1</div>
     <h1>Movement along a curve—or a shift?</h1>
@@ -959,15 +1575,6 @@
     </div>
     <div class="feedback" id="movementQuizFeedback" style="margin-top:13px;" aria-live="polite">Ask first: did this good's own price change, or did another determinant change?</div>
     <div class="quiz-toolbar"><span class="score-pill" id="movementQuizScore">0 correct · 1 of 6</span><button type="button" class="secondary" id="movementQuizNext">Next scenario</button></div>
-  </section>
-
-  <section class="slide interactive" data-day="2">
-    <div class="section-kicker">Three-round experiment checkpoint</div>
-    <h1>Can you build and move the curves correctly?</h1>
-    <div class="exit-grid">
-      <div class="exit-card"><h2>1 · Language</h2><p>The price of coffee rises. Describe the response on the coffee demand curve without saying “demand falls.”</p><button type="button" class="exit-reveal" data-target="day1Answer1">Reveal model answer</button><div class="exit-answer" id="day1Answer1"><p><strong>Quantity demanded decreases:</strong> buyers move upward and leftward along the existing coffee demand curve.</p></div></div>
-      <div class="exit-card"><h2>2 · Determinant</h2><p>A frost damages the strawberry crop. Which curve moves, in which direction, and why?</p><button type="button" class="exit-reveal" data-target="day1Answer2">Reveal model answer</button><div class="exit-answer" id="day1Answer2"><p><strong>Supply shifts left:</strong> at every possible price, farms can offer fewer strawberries.</p></div></div>
-    </div>
   </section>
 
   <!-- DAY 3 -->
@@ -992,12 +1599,20 @@
         <div class="result-options"><button type="button" class="result-option" data-shock-answer="wrong">P↓, Q↑</button><button type="button" class="result-option" data-shock-answer="correct">P↑, Q↑</button><button type="button" class="result-option" data-shock-answer="wrong">P↑, Q↓</button></div>
         <div class="feedback" id="demandShockFeedback" style="margin-top:12px;" aria-live="polite">Use the four steps before choosing.</div>
       </div>
-      <svg class="shock-graph" viewBox="0 0 400 330" role="img" aria-label="An increase in demand raises equilibrium price and quantity">
+      <svg class="shock-graph" viewBox="0 0 400 330" role="img" aria-label="Original demand and supply curves; after a prediction, an increase in demand and the new equilibrium are revealed">
         <line class="axis" x1="48" y1="285" x2="365" y2="285"/><line class="axis" x1="48" y1="285" x2="48" y2="30"/>
-        <path class="old-line" d="M78 48 L335 270"/><path class="new-line" d="M124 48 L381 270"/><path class="supply-line" d="M78 270 L340 48"/>
-        <circle cx="207" cy="159" r="7" fill="#9aa3ab"/><circle cx="230" cy="140" r="9" fill="#EB811B"/>
-        <line class="projection" x1="48" y1="140" x2="230" y2="140"/><line class="projection" x1="230" y1="140" x2="230" y2="285"/>
-        <text class="plot-label" x="323" y="262">D₀</text><text class="plot-label" x="364" y="260">D₁</text><text class="plot-label" x="342" y="49">S</text><text class="plot-label" x="240" y="132">E₁</text><text class="plot-label" x="205" y="317">Quantity</text><text class="plot-label" x="13" y="165" transform="rotate(-90 13 165)">Price</text>
+        <path class="demand-line shock-original-shifting" d="M78 48 L335 270"/><path class="supply-line" d="M78 270 L340 48"/>
+        <line x1="48" y1="159" x2="207" y2="159" stroke="#9aa3ab" stroke-width="1.5" stroke-dasharray="5 4"/><line x1="207" y1="159" x2="207" y2="285" stroke="#9aa3ab" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <circle cx="207" cy="159" r="7" fill="#5f6b76" stroke="#fff" stroke-width="2"/>
+        <text class="plot-label" x="216" y="153">E₀</text><text class="tick-label" x="26" y="163">P₀</text><text class="tick-label" x="200" y="301">Q₀</text>
+        <g class="shock-reveal-layer">
+          <path class="new-line" d="M124 48 L381 270"/>
+          <line x1="189" y1="101" x2="224" y2="101" stroke="#EB811B" stroke-width="4"/><polygon points="224,101 212,94 212,108" fill="#EB811B"/>
+          <circle cx="230" cy="140" r="9" fill="#EB811B" stroke="#fff" stroke-width="3"/>
+          <line class="projection" x1="48" y1="140" x2="230" y2="140"/><line class="projection" x1="230" y1="140" x2="230" y2="285"/>
+          <text class="plot-label" x="364" y="260">D₁</text><text class="plot-label" x="240" y="132">E₁</text><text class="tick-label" x="26" y="143">P₁</text><text class="tick-label" x="223" y="301">Q₁</text>
+        </g>
+        <text class="plot-label" x="323" y="262">D₀</text><text class="plot-label" x="342" y="49">S</text><text class="plot-label" x="205" y="317">Quantity</text><text class="plot-label" x="13" y="165" transform="rotate(-90 13 165)">Price</text>
       </svg>
     </div>
   </section>
@@ -1012,12 +1627,20 @@
         <div class="result-options"><button type="button" class="result-option" data-shock-answer="wrong">P↓, Q↓</button><button type="button" class="result-option" data-shock-answer="wrong">P↑, Q↑</button><button type="button" class="result-option" data-shock-answer="correct">P↑, Q↓</button></div>
         <div class="feedback" id="supplyShockFeedback" style="margin-top:12px;" aria-live="polite">Name the determinant before moving the curve.</div>
       </div>
-      <svg class="shock-graph" viewBox="0 0 400 330" role="img" aria-label="A decrease in supply raises equilibrium price and reduces equilibrium quantity">
+      <svg class="shock-graph" viewBox="0 0 400 330" role="img" aria-label="Original demand and supply curves; after a prediction, a decrease in supply and the new equilibrium are revealed">
         <line class="axis" x1="48" y1="285" x2="365" y2="285"/><line class="axis" x1="48" y1="285" x2="48" y2="30"/>
-        <path class="demand-line" d="M78 48 L340 270"/><path class="old-line" d="M78 270 L340 48"/><path class="new-line" d="M40 270 L302 48"/>
-        <circle cx="209" cy="159" r="7" fill="#9aa3ab"/><circle cx="190" cy="143" r="9" fill="#EB811B"/>
-        <line class="projection" x1="48" y1="143" x2="190" y2="143"/><line class="projection" x1="190" y1="143" x2="190" y2="285"/>
-        <text class="plot-label" x="323" y="260">D</text><text class="plot-label" x="340" y="49">S₀</text><text class="plot-label" x="300" y="49">S₁</text><text class="plot-label" x="200" y="135">E₁</text><text class="plot-label" x="205" y="317">Quantity</text><text class="plot-label" x="13" y="165" transform="rotate(-90 13 165)">Price</text>
+        <path class="demand-line" d="M78 48 L340 270"/><path class="supply-line shock-original-shifting" d="M78 270 L340 48"/>
+        <line x1="48" y1="159" x2="209" y2="159" stroke="#9aa3ab" stroke-width="1.5" stroke-dasharray="5 4"/><line x1="209" y1="159" x2="209" y2="285" stroke="#9aa3ab" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <circle cx="209" cy="159" r="7" fill="#5f6b76" stroke="#fff" stroke-width="2"/>
+        <text class="plot-label" x="218" y="153">E₀</text><text class="tick-label" x="26" y="163">P₀</text><text class="tick-label" x="202" y="301">Q₀</text>
+        <g class="shock-reveal-layer">
+          <path class="new-line" d="M40 270 L302 48"/>
+          <line x1="257" y1="101" x2="222" y2="101" stroke="#EB811B" stroke-width="4"/><polygon points="222,101 234,94 234,108" fill="#EB811B"/>
+          <circle cx="190" cy="143" r="9" fill="#EB811B" stroke="#fff" stroke-width="3"/>
+          <line class="projection" x1="48" y1="143" x2="190" y2="143"/><line class="projection" x1="190" y1="143" x2="190" y2="285"/>
+          <text class="plot-label" x="300" y="49">S₁</text><text class="plot-label" x="198" y="135">E₁</text><text class="tick-label" x="26" y="146">P₁</text><text class="tick-label" x="181" y="301">Q₁</text>
+        </g>
+        <text class="plot-label" x="323" y="260">D</text><text class="plot-label" x="340" y="49">S₀</text><text class="plot-label" x="205" y="317">Quantity</text><text class="plot-label" x="13" y="165" transform="rotate(-90 13 165)">Price</text>
       </svg>
     </div>
   </section>
@@ -1032,16 +1655,23 @@
     </div>
   </section>
 
-  <section class="slide" data-day="3">
-    <div class="section-kicker">Two determinants change · LO 4.5</div>
+  <section class="slide interactive" data-day="3" id="twoShockQuizSlide">
+    <div class="section-kicker">Two determinants change · new cases · LO 4.5</div>
     <h1>Analyze each shock separately—then combine</h1>
-    <div class="combine-layout">
-      <div class="combine-card"><h3>Shock A</h3><p>Hold supply fixed. Determine the demand effect on P* and Q*.</p><div class="definition-strip blue-strip"><strong>D shift alone</strong></div></div>
-      <div class="combine-symbol">+</div>
-      <div class="combine-card"><h3>Shock B</h3><p>Hold demand fixed. Determine the supply effect on P* and Q*.</p><div class="definition-strip green-strip"><strong>S shift alone</strong></div></div>
-      <div class="combine-symbol">→</div>
-      <div class="combine-card final"><h3>Combined outcome</h3><p>Same direction → certain. Opposite directions → relative magnitudes matter.</p><div class="definition-strip"><strong>State ambiguity honestly</strong></div></div>
+    <div class="quiz-scenario"><div class="market-label" id="twoShockQuizMarket">Market: Triangle rental apartments</div><p id="twoShockQuizPrompt">Suppose a major employer hires thousands of workers in the Triangle. At the same time, several new apartment buildings open.</p></div>
+    <div class="two-shock-cues">
+      <div class="two-shock-cue"><strong>1 · Demand?</strong><span>Name the determinant and direction.</span></div>
+      <div class="two-shock-cue"><strong>2 · Supply?</strong><span>Name the determinant and direction.</span></div>
+      <div class="two-shock-cue"><strong>3 · Combine</strong><span>Which outcome is certain?</span></div>
     </div>
+    <div class="quiz-options four" style="margin-top:11px;">
+      <button type="button" class="quiz-option blue-button" data-two-outcome="p-amb-q-up">P* ambiguous<br>Q* ↑</button>
+      <button type="button" class="quiz-option" data-two-outcome="p-up-q-amb">P* ↑<br>Q* ambiguous</button>
+      <button type="button" class="quiz-option green-button" data-two-outcome="p-down-q-amb">P* ↓<br>Q* ambiguous</button>
+      <button type="button" class="quiz-option purple-button" data-two-outcome="p-amb-q-down">P* ambiguous<br>Q* ↓</button>
+    </div>
+    <div class="feedback" id="twoShockQuizFeedback" style="margin-top:11px;" aria-live="polite">Work from the two curve shifts—not from the story’s tone.</div>
+    <div class="quiz-toolbar"><span class="score-pill" id="twoShockQuizScore">0 correct · 1 of 4</span><button type="button" class="secondary" id="twoShockQuizNext">Next new case</button></div>
   </section>
 
   <section class="slide interactive" data-day="3" id="organicReturnSlide">
@@ -1154,7 +1784,6 @@
   let idx = 0;
 
   slides.forEach(function(slide, i){
-    if (slide.classList.contains('image-only-slide')) return;
     const footer = document.createElement('div');
     const day = slide.dataset.day || (i < 15 ? '1' : '2');
     footer.className = 'footer';
@@ -1170,7 +1799,6 @@
   function show(n){
     idx = Math.max(0, Math.min(slides.length - 1, n));
     slides.forEach(function(slide, i){ slide.classList.toggle('active', i === idx); });
-    document.body.classList.toggle('image-only-active', slides[idx].classList.contains('image-only-slide'));
     progress.style.width = (((idx + 1) / slides.length) * 100) + '%';
     history.replaceState(null, '', '#' + (idx + 1));
   }
@@ -1256,6 +1884,21 @@
   // Reveal shifter examples
   document.querySelectorAll('.shifter-card').forEach(function(button){
     button.addEventListener('click', function(){ button.classList.toggle('revealed'); });
+  });
+
+  // One-at-a-time demand-shifter predictions
+  document.querySelectorAll('.shift-prediction').forEach(function(panel){
+    const buttons = panel.querySelectorAll('.detail-prediction-button');
+    const feedback = panel.querySelector('.shift-detail-feedback');
+    buttons.forEach(function(button){
+      button.addEventListener('click', function(){
+        const correct = button.dataset.prediction === panel.dataset.answer;
+        resetButtons(buttons);
+        button.classList.add(correct ? 'correct' : 'wrong');
+        panel.classList.add('revealed');
+        setFeedback(feedback, '<strong>' + (correct ? 'Correct.' : 'See the revealed direction.') + '</strong> ' + panel.dataset.explanation, correct ? 'success' : 'info');
+      });
+    });
   });
 
   // Normal versus inferior goods income lab
@@ -1485,6 +2128,7 @@
       resetButtons(document.querySelectorAll('#demandShockSlide .result-option'));
       const correct = button.dataset.shockAnswer === 'correct';
       button.classList.add(correct ? 'correct' : 'wrong');
+      document.getElementById('demandShockSlide').classList.add('revealed');
       setFeedback(document.getElementById('demandShockFeedback'), correct ? '<strong>Correct.</strong> D shifts right; the new intersection has higher P* and Q*.' : '<strong>Try again.</strong> Hold supply fixed and move demand right.', correct ? 'success' : 'error');
     });
   });
@@ -1493,6 +2137,7 @@
       resetButtons(document.querySelectorAll('#supplyShockSlide .result-option'));
       const correct = button.dataset.shockAnswer === 'correct';
       button.classList.add(correct ? 'correct' : 'wrong');
+      document.getElementById('supplyShockSlide').classList.add('revealed');
       setFeedback(document.getElementById('supplyShockFeedback'), correct ? '<strong>Correct.</strong> S shifts left; the new intersection has higher P* and lower Q*.' : '<strong>Try again.</strong> Hold demand fixed and move supply left.', correct ? 'success' : 'error');
     });
   });
@@ -1516,6 +2161,61 @@
       document.getElementById('patternExample').textContent = item.example;
     });
   });
+
+  // Fresh two-shock cases
+  const twoShockScenarios = [
+    {
+      market:'Triangle rental apartments',
+      prompt:'Suppose a major employer hires thousands of workers in the Triangle. At the same time, several new apartment buildings open.',
+      answer:'p-amb-q-up',
+      reason:'More potential renters shift demand right; new apartments shift supply right. Both shifts raise Q*, while their price effects oppose each other.'
+    },
+    {
+      market:'Outer Banks vacation rentals',
+      prompt:'Suppose a viral travel series raises interest in the Outer Banks. At the same time, storm damage takes some rental homes off the market.',
+      answer:'p-up-q-amb',
+      reason:'Greater interest shifts demand right; fewer available homes shift supply left. Both shifts raise P*, while their quantity effects oppose each other.'
+    },
+    {
+      market:'Used gaming laptops',
+      prompt:'Suppose students switch toward cloud gaming. At the same time, replacement batteries and screens become more expensive for laptop refurbishers.',
+      answer:'p-amb-q-down',
+      reason:'Switching away shifts demand left; higher refurbishment costs shift supply left. Both shifts lower Q*, while their price effects oppose each other.'
+    },
+    {
+      market:'E-bike rentals',
+      prompt:'Suppose a new free shuttle reduces interest in renting e-bikes. At the same time, cheaper batteries lower e-bike rental companies’ operating costs.',
+      answer:'p-down-q-amb',
+      reason:'The shuttle shifts demand left; cheaper batteries shift supply right. Both shifts lower P*, while their quantity effects oppose each other.'
+    }
+  ];
+  let twoShockQuizIndex = 0;
+  let twoShockQuizScore = 0;
+  function renderTwoShockQuiz(){
+    const item = twoShockScenarios[twoShockQuizIndex];
+    document.getElementById('twoShockQuizMarket').textContent = 'Market: ' + item.market;
+    document.getElementById('twoShockQuizPrompt').textContent = item.prompt;
+    document.getElementById('twoShockQuizScore').textContent = twoShockQuizScore + ' correct · ' + (twoShockQuizIndex + 1) + ' of ' + twoShockScenarios.length;
+    resetButtons(document.querySelectorAll('#twoShockQuizSlide .quiz-option'));
+    setFeedback(document.getElementById('twoShockQuizFeedback'), 'Work from the two curve shifts—not from the story’s tone.', '');
+  }
+  document.querySelectorAll('#twoShockQuizSlide .quiz-option').forEach(function(button){
+    button.addEventListener('click', function(){
+      const item = twoShockScenarios[twoShockQuizIndex];
+      const correct = button.dataset.twoOutcome === item.answer;
+      resetButtons(document.querySelectorAll('#twoShockQuizSlide .quiz-option'));
+      button.classList.add(correct ? 'correct' : 'wrong');
+      if (correct && !button.dataset.counted) { twoShockQuizScore += 1; button.dataset.counted = 'true'; }
+      setFeedback(document.getElementById('twoShockQuizFeedback'), '<strong>' + (correct ? 'Correct.' : 'Try again.') + '</strong> ' + item.reason, correct ? 'success' : 'error');
+      document.getElementById('twoShockQuizScore').textContent = twoShockQuizScore + ' correct · ' + (twoShockQuizIndex + 1) + ' of ' + twoShockScenarios.length;
+    });
+  });
+  document.getElementById('twoShockQuizNext').addEventListener('click', function(){
+    twoShockQuizIndex = (twoShockQuizIndex + 1) % twoShockScenarios.length;
+    document.querySelectorAll('#twoShockQuizSlide .quiz-option').forEach(function(button){ delete button.dataset.counted; });
+    renderTwoShockQuiz();
+  });
+  renderTwoShockQuiz();
 
   // Organic combined result
   document.querySelectorAll('.organic-result').forEach(function(button){
