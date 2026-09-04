@@ -28,3 +28,4 @@ description: "ARE 201: Introduction to Agricultural and Resource Economics, Fall
 ### Unit 4: Supply and Demand
 
 - [Supply and Demand Slides](https://zihanzhang.me/assets/are201/ARE201_Unit4_Supply_Demand_Fall2026.html)
+- [Review Session Slides](https://zihanzhang.me/assets/are201/ARE201_Unit4_Review_Session_Fall2026.html)
