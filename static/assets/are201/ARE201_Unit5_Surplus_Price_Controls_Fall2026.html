@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARE 201 — Unit 5: Consumer &amp; Producer Surplus</title>
+<style>
+  :root {
+    --accent: #EB811B;
+    --accent-soft: #fff4e8;
+    --ink: #1f2933;
+    --muted: #5f6b76;
+    --paper: #ffffff;
+    --soft: #f3f4f6;
+    --line: #d8dde3;
+    --blue: #2f80c9;
+    --blue-soft: #eef5fb;
+    --green: #378a61;
+    --green-soft: #e9f6ef;
+    --red: #c9504d;
+    --red-soft: #fcedec;
+    --purple: #7657a5;
+    --purple-soft: #f3effa;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #111;
+  }
+  body { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+
+  #stage {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 960px;
+    height: 720px;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+    background: var(--paper);
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    width: 960px;
+    height: 720px;
+    padding: 50px 62px 48px;
+    overflow: hidden;
+    color: var(--ink);
+    background: var(--paper);
+  }
+  .slide.active { display: block; }
+  .slide.center { text-align: center; }
+  .slide.middle { align-items: center; justify-content: center; flex-direction: column; }
+  .slide.middle.active { display: flex; }
+
+  h1, h2, h3, p { margin-top: 0; }
+  h1 { margin-bottom: 16px; font-size: 37px; line-height: 1.12; letter-spacing: -.4px; }
+  h2 { margin-bottom: 10px; font-size: 25px; line-height: 1.2; }
+  h3 { margin-bottom: 7px; font-size: 19px; line-height: 1.2; }
+  p, li { font-size: 19px; line-height: 1.34; }
+  ul { margin: 7px 0 0 22px; padding: 0; }
+  li { margin: 6px 0; }
+  strong { font-weight: 780; }
+  .small { font-size: 16px; line-height: 1.34; }
+  .tiny { font-size: 13px; line-height: 1.3; }
+  .muted { color: var(--muted); }
+  .accent { color: var(--accent); }
+  .blue { color: var(--blue); }
+  .green { color: var(--green); }
+  .red { color: var(--red); }
+
+  .section-kicker {
+    margin-bottom: 7px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 820;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  .two-thirds { display: grid; grid-template-columns: 1.12fr .88fr; gap: 23px; }
+
+  .card { padding: 17px 19px; border-radius: 8px; background: var(--soft); }
+  .card.white { border: 1px solid var(--line); background: #fff; }
+  .card.accent-top { border-top: 4px solid var(--accent); border-radius: 0 0 8px 8px; }
+  .card.blue-top { border-top: 4px solid var(--blue); border-radius: 0 0 8px 8px; }
+  .card.green-top { border-top: 4px solid var(--green); border-radius: 0 0 8px 8px; }
+  .card p, .card li { font-size: 16px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  .definition-strip {
+    padding: 13px 16px;
+    border-left: 5px solid var(--accent);
+    background: var(--accent-soft);
+    font-size: 19px;
+    line-height: 1.36;
+  }
+  .definition-strip.blue-strip { border-left-color: var(--blue); background: var(--blue-soft); }
+  .definition-strip.green-strip { border-left-color: var(--green); background: var(--green-soft); }
+
+  .interactive button {
+    min-height: 41px;
+    padding: 9px 14px;
+    border: 0;
+    border-radius: 7px;
+    color: #fff;
+    background: var(--accent);
+    font: 730 15px "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+    cursor: pointer;
+  }
+  .interactive button:hover { filter: brightness(.96); }
+  .interactive button:focus-visible { outline: 3px solid rgba(235,129,27,.35); outline-offset: 2px; }
+  .interactive button.secondary { color: var(--ink); background: #e5e8eb; }
+  .interactive button.blue-button { background: var(--blue); }
+  .interactive button.green-button { background: var(--green); }
+  .interactive button.selected { box-shadow: inset 0 0 0 3px rgba(255,255,255,.65); }
+  .interactive button.correct { background: var(--green); }
+  .interactive button.wrong { background: var(--red); }
+
+  .button-row { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
+  .feedback {
+    min-height: 54px;
+    padding: 10px 13px;
+    border-left: 4px solid var(--line);
+    background: var(--soft);
+    font-size: 15px;
+    line-height: 1.33;
+  }
+  .feedback.success { border-left-color: var(--green); background: var(--green-soft); }
+  .feedback.error { border-left-color: var(--red); background: var(--red-soft); }
+  .feedback.info { border-left-color: var(--blue); background: var(--blue-soft); }
+
+  .title-slide { padding-bottom: 150px; }
+  .title-kicker { margin-bottom: 13px; color: var(--accent); font-size: 17px; font-weight: 780; letter-spacing: .11em; text-transform: uppercase; }
+  .title-main { max-width: 780px; margin: 0 auto 12px; font-size: 57px; line-height: 1.02; }
+  .title-sub { color: var(--muted); font-size: 24px; line-height: 1.35; }
+  .title-graphic { position: absolute; right: 65px; bottom: 38px; width: 480px; height: 175px; }
+  .announcement-list { display: grid; gap: 14px; margin-top: 28px; }
+  .announcement-item {
+    display: grid;
+    min-height: 125px;
+    padding: 18px 22px;
+    border-left: 7px solid var(--blue);
+    grid-template-columns: 145px 1fr;
+    gap: 24px;
+    align-items: center;
+    background: var(--blue-soft);
+  }
+  .announcement-item.exam { border-left-color: var(--accent); background: var(--accent-soft); }
+  .announcement-item:last-child { border-left-color: var(--green); background: var(--green-soft); }
+  .announcement-date { color: var(--blue); font-size: 27px; font-weight: 850; letter-spacing: .02em; }
+  .announcement-item.exam .announcement-date { color: var(--accent); }
+  .announcement-item:last-child .announcement-date { color: var(--green); }
+  .announcement-label { margin-bottom: 5px; color: var(--muted); font-size: 13px; font-weight: 820; letter-spacing: .08em; text-transform: uppercase; }
+  .announcement-text { color: var(--ink); font-size: 25px; font-weight: 800; line-height: 1.18; }
+  .announcement-detail { margin-top: 5px; color: var(--muted); font-size: 16px; line-height: 1.3; }
+
+  .object-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 22px; align-items: stretch; margin-top: 4px; }
+  .object-panel { position: relative; display: flex; min-height: 300px; align-items: center; justify-content: center; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: var(--soft); }
+  .object-photo { width: 100%; height: 100%; object-fit: cover; }
+  .object-fallback { flex-direction: column; align-items: center; justify-content: center; width: 100%; padding: 20px; text-align: center; }
+  .object-fallback p { margin: 14px 0 0; color: var(--muted); font-size: 13px; line-height: 1.3; }
+  .ask-panel { display: flex; flex-direction: column; justify-content: center; }
+  .ask-big { padding: 22px 24px; border-left: 6px solid var(--accent); background: var(--accent-soft); }
+  .ask-big p { margin: 0; font-size: 27px; line-height: 1.28; }
+  .ask-rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px; margin-top: 16px; }
+  .ask-rule { padding: 12px 13px; border-top: 4px solid var(--blue); background: var(--soft); }
+  .ask-rule strong { display: block; margin-bottom: 3px; font-size: 15px; }
+  .ask-rule span { color: var(--muted); font-size: 13px; line-height: 1.26; }
+
+  .wtp-example-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
+  .wtp-example-card { min-height: 326px; padding: 17px 16px; border-top: 5px solid var(--blue); background: var(--blue-soft); }
+  .wtp-example-card:nth-child(2) { border-top-color: var(--accent); background: var(--accent-soft); }
+  .wtp-example-card:nth-child(3) { border-top-color: var(--green); background: var(--green-soft); }
+  .wtp-example-icon { font-size: 32px; line-height: 1; }
+  .wtp-example-card h2 { min-height: 58px; margin: 9px 0 10px; font-size: 20px; }
+  .wtp-example-label { margin-bottom: 7px; color: var(--muted); font-size: 11px; font-weight: 820; letter-spacing: .07em; text-transform: uppercase; }
+  .wtp-person { display: grid; min-height: 58px; padding: 9px 10px; grid-template-columns: 1fr auto; gap: 8px; align-items: center; background: #fff; }
+  .wtp-person + .wtp-person { margin-top: 8px; }
+  .wtp-person span { color: var(--muted); font-size: 13px; line-height: 1.22; }
+  .wtp-person strong { color: var(--ink); font-size: 18px; white-space: nowrap; }
+  .wtp-factor { margin: 11px 0 0; color: var(--muted); font-size: 13px; line-height: 1.28; }
+
+  .bid-board { display: grid; grid-template-columns: 152px repeat(4, 1fr); gap: 12px; align-items: center; margin-top: 16px; padding: 13px 15px; border: 2px solid var(--line); background: #fff; }
+  .bid-board-label strong { display: block; color: var(--accent); font-size: 16px; }
+  .bid-board-label span { color: var(--muted); font-size: 11px; line-height: 1.22; }
+  .bid-field label { display: block; margin-bottom: 4px; color: var(--muted); font-size: 11px; font-weight: 820; letter-spacing: .04em; text-transform: uppercase; }
+  .bid-wrap { display: flex; align-items: center; gap: 6px; }
+  .bid-unit { color: var(--muted); font-size: 16px; font-weight: 800; }
+  .bid-input { width: 100%; height: 42px; padding: 5px 8px; border: 2px solid #bfc7ce; border-radius: 5px; color: var(--ink); background: #fff; font: 820 21px "Avenir Next", "Helvetica Neue", Arial, sans-serif; text-align: center; }
+  .bid-input::placeholder { color: #adb5bd; font-weight: 650; }
+  .bid-input:focus { border-color: var(--accent); outline: 3px solid rgba(235,129,27,.35); outline-offset: 2px; }
+
+  .payoff-stack { display: grid; gap: 12px; }
+  .payoff-card { padding: 15px 17px; border-left: 5px solid var(--blue); background: var(--blue-soft); }
+  .payoff-card.seller { border-left-color: var(--green); background: var(--green-soft); }
+  .payoff-card.goal { border-left-color: var(--accent); background: var(--accent-soft); }
+  .payoff-card h2 { margin-bottom: 5px; font-size: 20px; }
+  .payoff-card p { margin: 0; font-size: 15px; line-height: 1.28; }
+  .payoff-formula { color: var(--ink); font-size: 18px; font-weight: 820; }
+  .payoff-rename { display: block; margin-top: 6px; color: var(--muted); font-size: 13px; font-weight: 600; }
+
+  .poll-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; margin-top: 20px; }
+  .poll-grid.four { grid-template-columns: repeat(4, 1fr); }
+  .interactive .poll-option { min-height: 118px; padding: 17px 15px; border: 2px solid var(--line); color: var(--ink); background: #fff; text-align: left; }
+  .interactive .poll-option:hover { border-color: var(--accent); }
+  .poll-letter { display: inline-flex; width: 31px; height: 31px; margin-bottom: 10px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--accent); }
+  .poll-option strong { display: block; font-size: 17px; }
+  .poll-option span:last-child { display: block; margin-top: 5px; color: var(--muted); font-size: 13px; line-height: 1.28; }
+
+  .schedule-layout { display: grid; grid-template-columns: .87fr 1.13fr; gap: 20px; align-items: start; }
+  .schedule-table { width: 100%; border-collapse: collapse; font-size: 15px; text-align: center; }
+  .schedule-table th { padding: 8px 6px; color: #fff; background: var(--ink); font-size: 13px; }
+  .schedule-table td { padding: 7px 6px; border-bottom: 1px solid var(--line); }
+  .schedule-table tbody tr:nth-child(even) { background: var(--soft); }
+  .schedule-table tbody tr.out { color: #9aa3ab; }
+  .schedule-table tbody tr.total { background: var(--accent-soft); font-weight: 820; }
+  .schedule-table tbody tr.total td { border-bottom: 0; }
+  .schedule-table .buyer-name { font-weight: 780; text-align: left; padding-left: 12px; }
+  .table-note { margin-top: 9px; color: var(--muted); font-size: 13px; }
+
+  .calc-answer { color: transparent; }
+  .revealed .calc-answer { color: var(--ink); }
+  .revealed .out .calc-answer { color: #9aa3ab; }
+  /* .calc-step span sets its own colour, so hide the working at higher specificity */
+  .calc-steps span.calc-answer { color: transparent; }
+  .calc-steps.revealed span.calc-answer { color: var(--muted); }
+  /* the plot must not give away what students are being asked to compute */
+  .answer-layer { opacity: 0; transition: opacity .2s ease; }
+  .answer-layer.shown { opacity: 1; }
+
+  .plot-panel { padding: 10px 12px 8px; border: 1px solid var(--line); background: #fff; }
+  .plot { display: block; width: 100%; height: 300px; }
+  .axis { stroke: var(--ink); stroke-width: 2; }
+  .gridline { stroke: #e8ebee; stroke-width: 1; }
+  .demand-line { fill: none; stroke: var(--blue); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+  .supply-line { fill: none; stroke: var(--green); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+  .old-line { fill: none; stroke: #9aa3ab; stroke-width: 3; stroke-dasharray: 7 6; }
+  .price-line { stroke: var(--accent); stroke-width: 2.5; stroke-dasharray: 6 4; }
+  .projection { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 5 4; }
+  .plot-label { fill: var(--ink); font: 700 13px Arial, sans-serif; }
+  .tick-label { fill: var(--muted); font: 11px Arial, sans-serif; }
+  .cs-fill { fill: var(--blue); fill-opacity: .26; }
+  .ps-fill { fill: var(--green); fill-opacity: .26; }
+  .cs-edge { fill: none; stroke: var(--blue); stroke-width: 1.5; }
+  .ps-edge { fill: none; stroke: var(--green); stroke-width: 1.5; }
+
+  .mirror-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 14px; }
+  .mirror-col { padding: 16px 17px; border-top: 5px solid var(--blue); background: var(--blue-soft); }
+  .mirror-col.seller-col { border-top-color: var(--green); background: var(--green-soft); }
+  .mirror-col h2 { margin-bottom: 8px; color: var(--blue); font-size: 21px; }
+  .mirror-col.seller-col h2 { color: var(--green); }
+  .mirror-line { margin: 0 0 10px; font-size: 15px; line-height: 1.3; }
+  .mirror-line:last-child { margin-bottom: 0; }
+  .mirror-formula { padding: 9px 11px; background: #fff; font-size: 19px; font-weight: 820; text-align: center; }
+
+  .sum-strip { display: grid; grid-template-columns: 1fr 42px 1fr 42px 1fr; gap: 8px; align-items: center; margin-top: 14px; }
+  .sum-box { padding: 12px 8px; background: var(--soft); text-align: center; }
+  .sum-box strong { display: block; color: var(--blue); font-size: 26px; }
+  .sum-box.supply strong { color: var(--green); }
+  .sum-box.total { background: var(--accent-soft); }
+  .sum-box.total strong { color: var(--accent); }
+  .sum-box span { color: var(--muted); font-size: 12px; }
+  .sum-symbol { color: var(--accent); font-size: 28px; font-weight: 800; text-align: center; }
+
+  .smooth-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
+  .smooth-card { padding: 12px 12px 8px; border: 1px solid var(--line); background: #fff; }
+  .smooth-card h3 { margin-bottom: 6px; color: var(--blue); font-size: 16px; text-align: center; }
+  .smooth-plot { display: block; width: 100%; height: 180px; }
+
+  .calc-layout { display: grid; grid-template-columns: .96fr 1.04fr; gap: 20px; align-items: start; }
+  .calc-steps { display: grid; gap: 8px; }
+  .calc-step { display: grid; grid-template-columns: 30px 1fr; gap: 11px; padding: 8px 12px; background: var(--soft); align-items: center; }
+  .calc-step.cs-step { background: var(--blue-soft); }
+  .calc-step.ps-step { background: var(--green-soft); }
+  .calc-step.ts-step { background: var(--accent-soft); }
+  .calc-num { display: flex; width: 26px; height: 26px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--ink); font-size: 12px; font-weight: 820; }
+  .cs-step .calc-num { background: var(--blue); }
+  .ps-step .calc-num { background: var(--green); }
+  .ts-step .calc-num { background: var(--accent); }
+  .calc-step strong { display: block; font-size: 15px; }
+  .calc-step span { display: block; margin-top: 2px; color: var(--muted); font-size: 13px; line-height: 1.28; }
+
+  .quiz-scenario { min-height: 92px; padding: 16px 18px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .quiz-scenario .market-label { color: var(--accent); font-size: 13px; font-weight: 820; letter-spacing: .07em; text-transform: uppercase; }
+  .quiz-scenario p { margin: 5px 0 0; font-size: 21px; line-height: 1.28; }
+  .quiz-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+  .interactive .quiz-option { min-height: 62px; font-size: 15px; line-height: 1.22; }
+  .quiz-toolbar { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; }
+  .score-pill { padding: 8px 12px; border-radius: 999px; background: var(--soft); font-size: 14px; font-weight: 800; }
+
+  .control-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 4px; }
+  .control-case { padding: 14px 15px; border-top: 5px solid var(--muted); background: var(--soft); }
+  .control-case.bites { border-top-color: var(--red); background: var(--red-soft); }
+  .control-case h2 { margin-bottom: 3px; font-size: 20px; }
+  .control-case.bites h2 { color: var(--red); }
+  .control-case > p { min-height: 38px; margin: 0 0 8px; color: var(--muted); font-size: 13px; line-height: 1.27; }
+  .control-plot { display: block; width: 100%; height: 212px; border: 1px solid rgba(31,41,51,.14); background: #fff; }
+  .control-readout { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px; margin-top: 9px; }
+  .control-stat { padding: 7px 5px; background: #fff; text-align: center; }
+  .control-stat strong { display: block; color: var(--ink); font-size: 17px; }
+  .control-case.bites .control-stat strong { color: var(--red); }
+  .control-stat span { color: var(--muted); font-size: 10px; line-height: 1.2; }
+  .ceiling-line { stroke: var(--red); stroke-width: 3; stroke-dasharray: 7 4; }
+  .gap-bracket { stroke: var(--red); stroke-width: 2.5; }
+
+  .real-control-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 15px; }
+  .real-control-card { min-height: 351px; padding: 17px 18px; border-top: 5px solid var(--blue); background: var(--blue-soft); }
+  .real-control-card:nth-child(2) { border-top-color: var(--accent); background: var(--accent-soft); }
+  .floor-examples .real-control-card { border-top-color: var(--green); background: var(--green-soft); }
+  .floor-examples .real-control-card:nth-child(2) { border-top-color: var(--purple); background: var(--purple-soft); }
+  .real-control-heading { display: grid; grid-template-columns: 40px 1fr; gap: 10px; align-items: center; }
+  .real-control-icon { font-size: 31px; line-height: 1; }
+  .real-control-card h2 { margin: 0; font-size: 22px; }
+  .real-control-context { min-height: 40px; margin: 10px 0; color: var(--muted); font-size: 14px; line-height: 1.3; }
+  .real-control-rule { padding: 10px 12px; border-left: 4px solid var(--red); background: #fff; font-size: 16px; line-height: 1.28; }
+  .floor-examples .real-control-rule { border-left-color: var(--purple); }
+  .real-control-reference { margin: 8px 0 10px; color: var(--muted); font-size: 12px; line-height: 1.25; }
+  .real-control-chain { display: grid; grid-template-columns: 1fr 24px 1fr 24px 1fr; gap: 3px; align-items: center; }
+  .real-control-step { min-height: 61px; padding: 8px 6px; display: flex; align-items: center; justify-content: center; background: #fff; font-size: 12px; font-weight: 760; line-height: 1.23; text-align: center; }
+  .real-control-step.outcome { color: #fff; background: var(--red); }
+  .floor-examples .real-control-step.outcome { background: var(--purple); }
+  .real-control-arrow { color: var(--muted); font-size: 19px; font-weight: 850; text-align: center; }
+  .real-control-result { margin: 11px 0 0; color: var(--ink); font-size: 14px; line-height: 1.3; }
+
+  .final-checks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; margin: 16px 0; }
+  .lo-card { min-height: 112px; padding: 14px 15px; border-top: 4px solid var(--accent); background: var(--soft); }
+  .lo-card:nth-child(2) { border-top-color: var(--blue); }
+  .lo-card:nth-child(3) { border-top-color: var(--green); }
+  .lo-card strong { color: var(--accent); font-size: 17px; }
+  .lo-card:nth-child(2) strong { color: var(--blue); }
+  .lo-card:nth-child(3) strong { color: var(--green); }
+  .lo-card p { margin: 7px 0 0; color: var(--muted); font-size: 13px; line-height: 1.3; }
+
+  .exit-answer { min-height: 60px; margin-top: 12px; padding: 12px 14px; border-left: 4px solid var(--green); background: var(--green-soft); visibility: hidden; opacity: 0; }
+  .exit-answer.visible { visibility: visible; opacity: 1; }
+  .exit-answer p { margin: 0; font-size: 15px; line-height: 1.34; }
+
+  .footer { position: absolute; right: 62px; bottom: 18px; left: 62px; display: flex; justify-content: space-between; color: #8a949e; font-size: 12px; }
+  #progress { position: fixed; bottom: 0; left: 0; z-index: 20; height: 4px; background: var(--accent); transition: width .18s ease; }
+  #hint { position: fixed; right: 14px; bottom: 9px; z-index: 20; color: rgba(255,255,255,.52); font: 12px Arial, sans-serif; }
+
+  @page { size: 10in 7.5in; margin: 0; }
+  @media print {
+    html, body { width: auto; height: auto; overflow: visible; background: #fff; }
+    #stage { position: static; width: auto; height: auto; transform: none !important; box-shadow: none; }
+    .slide { position: relative; display: block !important; page-break-after: always; break-after: page; }
+    #progress, #hint { display: none; }
+    .exit-answer { visibility: visible !important; opacity: 1 !important; }
+    .calc-answer { color: var(--ink) !important; }
+    .out .calc-answer { color: #9aa3ab !important; }
+    .answer-layer { opacity: 1 !important; }
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- ===== CLASS 1 — LO 5.1, LO 5.2 ===== -->
+
+  <!-- 1 -->
+  <section class="slide title-slide center middle active" data-day="1">
+    <div style="width:100%; max-width:850px;">
+      <div class="title-kicker">ARE 201 · Unit 5</div>
+      <h1 class="title-main">Consumer &amp; Producer Surplus</h1>
+      <div class="title-sub">Measuring who gains from a market—and by how much</div>
+    </div>
+    <svg class="title-graphic" viewBox="0 0 480 175" role="img" aria-label="Demand and supply curves with consumer surplus shaded above the price and producer surplus shaded below it">
+      <polygon class="cs-fill" points="42,21 244,82 42,82"/>
+      <polygon class="ps-fill" points="42,143 244,82 42,82"/>
+      <line x1="42" y1="145" x2="445" y2="145" stroke="#1f2933" stroke-width="2"/>
+      <line x1="42" y1="145" x2="42" y2="18" stroke="#1f2933" stroke-width="2"/>
+      <path d="M42 21 L420 135" fill="none" stroke="#2f80c9" stroke-width="5" stroke-linecap="round"/>
+      <path d="M42 143 L420 30" fill="none" stroke="#378a61" stroke-width="5" stroke-linecap="round"/>
+      <line x1="42" y1="82" x2="244" y2="82" stroke="#EB811B" stroke-width="2" stroke-dasharray="5 4"/>
+      <line x1="244" y1="82" x2="244" y2="145" stroke="#EB811B" stroke-width="2" stroke-dasharray="5 4"/>
+      <circle cx="244" cy="82" r="9" fill="#EB811B" stroke="#fff" stroke-width="4"/>
+      <text x="428" y="136" fill="#2f80c9" font-family="Arial" font-size="16" font-weight="700">D</text>
+      <text x="428" y="31" fill="#378a61" font-family="Arial" font-size="16" font-weight="700">S</text>
+      <text x="108" y="58" fill="#2f80c9" font-family="Arial" font-size="13" font-weight="700">CS</text>
+      <text x="108" y="118" fill="#378a61" font-family="Arial" font-size="13" font-weight="700">PS</text>
+    </svg>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Before we begin</div>
+    <h1>Announcements</h1>
+    <div class="announcement-list" aria-label="Course announcements">
+      <div class="announcement-item">
+        <div class="announcement-date">SEP 13</div>
+        <div><div class="announcement-label">Quiz deadline</div><div class="announcement-text">Unit 4 Quiz due</div></div>
+      </div>
+      <div class="announcement-item exam">
+        <div class="announcement-date">SEP 18</div>
+        <div><div class="announcement-label">Exam</div><div class="announcement-text">Units 1–5</div><div class="announcement-detail">The exam covers all material from Units 1 through 5.</div></div>
+      </div>
+      <div class="announcement-item">
+        <div class="announcement-date">SEP 20</div>
+        <div><div class="announcement-label">Quiz deadline</div><div class="announcement-text">Unit 5 Quiz due</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Bridge from the Unit 4 class market</div>
+    <h1>You already computed surplus—we just hadn’t named it yet</h1>
+    <div class="two-thirds" style="margin-top:6px;">
+      <div class="payoff-stack">
+        <div class="payoff-card">
+          <h2>Your buyer payoff was</h2>
+          <p class="payoff-formula">Value − transaction price</p>
+          <span class="payoff-rename">Economists call this <strong>consumer surplus</strong>.</span>
+        </div>
+        <div class="payoff-card seller">
+          <h2>Your seller payoff was</h2>
+          <p class="payoff-formula">Transaction price − cost</p>
+          <span class="payoff-rename">Economists call this <strong>producer surplus</strong>.</span>
+        </div>
+        <div class="payoff-card goal">
+          <h2>What you were doing</h2>
+          <p>Every bid and ask you placed was an attempt to capture more of the gains from one trade.</p>
+        </div>
+      </div>
+      <figure style="position:relative; height:352px; margin:0; overflow:hidden; border-radius:8px;">
+        <img src="Fig/Organic_Strawberries_CC_BY_2_0.jpg" alt="Organic strawberries in a market container" style="width:100%; height:100%; object-fit:cover; object-position:center 56%;">
+        <figcaption style="position:absolute; right:10px; bottom:8px; padding:4px 7px; color:#fff; background:rgba(31,41,51,.78); font-size:10px;">Photo: Suzette via Wikimedia Commons · CC BY 2.0 · cropped</figcaption>
+      </figure>
+    </div>
+    <div class="definition-strip" style="margin-top:16px;">Today we scale that idea up from <strong>one trader</strong> to <strong>the whole market</strong>.</div>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide interactive" data-day="1" id="askSlide">
+    <div class="section-kicker">Before any theory · write one number down</div>
+    <h1>What would you pay for this?</h1>
+    <div class="object-layout">
+      <div class="object-panel">
+        <img class="object-photo" src="Fig/ARE201_Unit5_Toy.jpg" alt="The collectible figure being auctioned in class" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="object-fallback" style="display:none;">
+          <svg viewBox="0 0 150 190" width="132" height="167" role="img" aria-label="Illustration of a collectible action figure in its display box">
+            <rect x="10" y="8" width="130" height="174" rx="9" fill="#fff" stroke="#1f2933" stroke-width="3"/>
+            <rect x="22" y="30" width="106" height="126" rx="5" fill="#eef5fb" stroke="#2f80c9" stroke-width="2"/>
+            <rect x="30" y="14" width="90" height="10" rx="5" fill="#EB811B"/>
+            <circle cx="75" cy="60" r="16" fill="#c9504d"/>
+            <path d="M75 76 L75 118" stroke="#c9504d" stroke-width="13" stroke-linecap="round"/>
+            <path d="M75 84 L48 66 M75 84 L102 66" stroke="#c9504d" stroke-width="9" stroke-linecap="round"/>
+            <path d="M75 116 L58 146 M75 116 L92 146" stroke="#2f80c9" stroke-width="10" stroke-linecap="round"/>
+            <rect x="34" y="162" width="82" height="8" rx="4" fill="#d8dde3"/>
+          </svg>
+          <p><strong>Hold up the toy.</strong></p>
+        </div>
+      </div>
+      <div class="ask-panel">
+        <div class="ask-big">
+          <p>Write down the <strong>most you would pay</strong> for it rather than walk away with nothing.</p>
+        </div>
+        <div class="ask-rules">
+          <div class="ask-rule"><strong>One number</strong><span>Not a range. Not “it depends.”</span></div>
+          <div class="ask-rule"><strong>Keep it private</strong><span>Don’t call it out or change it once you hear someone else’s.</span></div>
+          <div class="ask-rule"><strong>Be honest</strong><span>The most you’d actually pay—not what you think it’s worth to somebody else.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="bid-board">
+      <div class="bid-board-label"><strong>Four volunteers</strong><span>Type the numbers you hear. They save in this browser.</span></div>
+      <div class="bid-field"><label for="bid1">Student 1</label><div class="bid-wrap"><span class="bid-unit">$</span><input class="bid-input" id="bid1" data-bid="1" type="text" inputmode="decimal" placeholder="__" autocomplete="off"></div></div>
+      <div class="bid-field"><label for="bid2">Student 2</label><div class="bid-wrap"><span class="bid-unit">$</span><input class="bid-input" id="bid2" data-bid="2" type="text" inputmode="decimal" placeholder="__" autocomplete="off"></div></div>
+      <div class="bid-field"><label for="bid3">Student 3</label><div class="bid-wrap"><span class="bid-unit">$</span><input class="bid-input" id="bid3" data-bid="3" type="text" inputmode="decimal" placeholder="__" autocomplete="off"></div></div>
+      <div class="bid-field"><label for="bid4">Student 4</label><div class="bid-wrap"><span class="bid-unit">$</span><input class="bid-input" id="bid4" data-bid="4" type="text" inputmode="decimal" placeholder="__" autocomplete="off"></div></div>
+    </div>
+    <p class="small muted" style="margin-top:13px;">Four people, four different numbers, one identical toy. <strong>Nobody was wrong.</strong> That number you wrote down already has a name in economics—and everything in Unit 5 is built out of it.</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Willingness to pay · familiar examples</div>
+    <h1>WTP changes across people and situations</h1>
+    <div class="wtp-example-grid">
+      <div class="wtp-example-card">
+        <div class="wtp-example-icon">🏈</div>
+        <h2>NC State–UNC football ticket</h2>
+        <div class="wtp-example-label">Example maximums</div>
+        <div class="wtp-person"><span>Die-hard Wolfpack fan</span><strong>$120</strong></div>
+        <div class="wtp-person"><span>Friend tagging along</span><strong>$25</strong></div>
+        <p class="wtp-factor"><strong>Why different?</strong> Preferences and expected enjoyment.</p>
+      </div>
+      <div class="wtp-example-card">
+        <div class="wtp-example-icon">🚗</div>
+        <h2>A ride home from RDU</h2>
+        <div class="wtp-example-label">Example maximums</div>
+        <div class="wtp-person"><span>1 a.m. after a flight delay</span><strong>$45</strong></div>
+        <div class="wtp-person"><span>Daytime with a bus option</span><strong>$15</strong></div>
+        <p class="wtp-factor"><strong>Why different?</strong> Urgency and available alternatives.</p>
+      </div>
+      <div class="wtp-example-card">
+        <div class="wtp-example-icon">🧸</div>
+        <h2>A limited-edition Jellycat</h2>
+        <div class="wtp-example-label">Example maximums</div>
+        <div class="wtp-person"><span>Enthusiastic collector</span><strong>$70</strong></div>
+        <div class="wtp-person"><span>Someone who just needs a gift</span><strong>$12</strong></div>
+        <p class="wtp-factor"><strong>Why different?</strong> Tastes and the value of owning this version.</p>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:15px;"><strong>Takeaway:</strong> WTP is personal and situational—not the seller’s price or a universal “true value.”</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">The buyer side · naming what you just wrote</div>
+    <h1>That number you wrote down is your willingness to pay</h1>
+    <div class="definition-strip blue-strip" style="margin-top:4px;">
+      <strong>Willingness to pay (WTP):</strong> the maximum amount a buyer would hand over for one unit of a good rather than go without it.
+    </div>
+    <div class="grid-3" style="margin-top:20px;">
+      <div class="card blue-top">
+        <h2>It is a ceiling, not a plan</h2>
+        <p>A buyer with WTP = $22 does not want to pay $22. She will pay as little as the market makes her pay.</p>
+      </div>
+      <div class="card blue-top">
+        <h2>It is measured per unit</h2>
+        <p>One toy. One flat of strawberries. WTP is always about <em>one more unit</em>, holding everything else fixed.</p>
+      </div>
+      <div class="card blue-top">
+        <h2>It is a number we can add up</h2>
+        <p>Because WTP is in dollars, we can compare buyers and sum across a whole market.</p>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:20px;">
+      <strong>Keep this in mind:</strong> WTP reflects both <strong>how much you want it</strong> and <strong>what you can afford</strong>. Two buyers with identical tastes but different incomes will report different WTP.
+    </div>
+    <p class="small muted" style="margin-top:13px;">We will return to that caveat next class, when we ask whether an efficient outcome is also a fair one.</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="slide interactive" data-day="1" id="wtpPollSlide">
+    <div class="section-kicker">Predict before we build</div>
+    <h1>Four buyers, one price: who actually buys?</h1>
+    <div class="two-thirds" style="margin-top:4px;">
+      <div>
+        <table class="schedule-table" aria-label="Willingness to pay for one flat of strawberries, four buyers">
+          <thead><tr><th>Buyer</th><th>Willingness to pay</th></tr></thead>
+          <tbody>
+            <tr><td class="buyer-name">Ana</td><td>$22</td></tr>
+            <tr><td class="buyer-name">Ben</td><td>$18</td></tr>
+            <tr><td class="buyer-name">Carlos</td><td>$15</td></tr>
+            <tr><td class="buyer-name">Dee</td><td>$11</td></tr>
+          </tbody>
+        </table>
+        <p class="table-note">One flat of strawberries. Each buyer wants at most one flat.</p>
+      </div>
+      <div class="definition-strip" style="font-size:22px;">
+        The market price is <strong>$14 per flat</strong>.<br><br>Who buys, and what is quantity demanded?
+      </div>
+    </div>
+    <div class="poll-grid four" style="margin-top:16px;">
+      <button type="button" class="poll-option" data-wtp="1"><span class="poll-letter">A</span><strong>Q<sub>d</sub> = 1</strong><span>Only Ana</span></button>
+      <button type="button" class="poll-option" data-wtp="2"><span class="poll-letter">B</span><strong>Q<sub>d</sub> = 2</strong><span>Ana and Ben</span></button>
+      <button type="button" class="poll-option" data-wtp="3"><span class="poll-letter">C</span><strong>Q<sub>d</sub> = 3</strong><span>Ana, Ben, and Carlos</span></button>
+      <button type="button" class="poll-option" data-wtp="4"><span class="poll-letter">D</span><strong>Q<sub>d</sub> = 4</strong><span>All four buyers</span></button>
+    </div>
+    <div class="feedback" id="wtpPollFeedback" style="margin-top:14px;" aria-live="polite">Commit to an answer, then say out loud what rule you used.</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Individual WTP → market demand</div>
+    <h1>Stack the buyers from highest WTP down and you have drawn demand</h1>
+    <div class="schedule-layout" style="margin-top:4px;">
+      <div>
+        <table class="schedule-table" aria-label="Demand schedule built from four buyers' willingness to pay">
+          <thead><tr><th>If the price is…</th><th>Buyers who purchase</th><th>Q<sub>d</sub></th></tr></thead>
+          <tbody>
+            <tr><td>above $22</td><td class="buyer-name">nobody</td><td>0</td></tr>
+            <tr><td>$18–$22</td><td class="buyer-name">Ana</td><td>1</td></tr>
+            <tr><td>$15–$18</td><td class="buyer-name">+ Ben</td><td>2</td></tr>
+            <tr><td>$11–$15</td><td class="buyer-name">+ Carlos</td><td>3</td></tr>
+            <tr><td>below $11</td><td class="buyer-name">+ Dee</td><td>4</td></tr>
+          </tbody>
+        </table>
+        <p class="table-note">Lower the price and you do not persuade Ana to buy more—you recruit the <strong>next</strong> buyer.</p>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="A step-shaped demand curve built from four buyers' willingness to pay">
+          <line class="gridline" x1="55" y1="49" x2="390" y2="49"/>
+          <line class="gridline" x1="55" y1="88" x2="390" y2="88"/>
+          <line class="gridline" x1="55" y1="116" x2="390" y2="116"/>
+          <line class="gridline" x1="55" y1="155" x2="390" y2="155"/>
+          <line class="axis" x1="55" y1="260" x2="395" y2="260"/>
+          <line class="axis" x1="55" y1="260" x2="55" y2="30"/>
+          <path class="demand-line" d="M55 49 H119 V88 H183 V116 H247 V155 H311 V260"/>
+          <text class="plot-label" x="72" y="43" fill="#2f80c9">Ana $22</text>
+          <text class="plot-label" x="136" y="82" fill="#2f80c9">Ben $18</text>
+          <text class="plot-label" x="200" y="110" fill="#2f80c9">Carlos $15</text>
+          <text class="plot-label" x="258" y="149" fill="#2f80c9">Dee $11</text>
+          <text class="plot-label" x="318" y="230">D</text>
+          <text class="plot-label" x="185" y="290">Flats of strawberries</text>
+          <text class="plot-label" x="14" y="165" transform="rotate(-90 14 165)">Price per flat</text>
+          <text class="tick-label" x="43" y="264">0</text>
+          <text class="tick-label" x="115" y="276">1</text>
+          <text class="tick-label" x="179" y="276">2</text>
+          <text class="tick-label" x="243" y="276">3</text>
+          <text class="tick-label" x="307" y="276">4</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">The key reading rule · LO 5.1</div>
+    <h1>The height of the demand curve is the marginal buyer’s WTP</h1>
+    <div class="schedule-layout" style="margin-top:4px;">
+      <div>
+        <div class="definition-strip blue-strip">
+          At any quantity <em>Q</em>, the height of the demand curve is the willingness to pay of the <strong>marginal buyer</strong>—the last buyer still in the market at that price. Nudge the price up and she is the first one out.
+        </div>
+        <div class="card white" style="margin-top:16px;">
+          <h2 class="blue">Read it at Q = 3</h2>
+          <p>The third flat is bought by <strong>Carlos</strong>, whose WTP is <strong>$15</strong>. So the demand curve sits at $15 when <em>Q</em> = 3.</p>
+          <p style="margin-top:9px;">Raise the price above $15 and Carlos is the first to walk away.</p>
+        </div>
+        <p class="table-note" style="margin-top:14px;"><strong>This is why surplus is an area and not just a number.</strong> Every unit along the curve carries its own dollar value.</p>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Step demand curve with the height at quantity three highlighted at fifteen dollars">
+          <line class="axis" x1="55" y1="260" x2="395" y2="260"/>
+          <line class="axis" x1="55" y1="260" x2="55" y2="30"/>
+          <path class="demand-line" d="M55 49 H119 V88 H183 V116 H247 V155 H311 V260"/>
+          <line class="projection" x1="247" y1="260" x2="247" y2="116"/>
+          <line class="projection" x1="55" y1="116" x2="247" y2="116"/>
+          <circle cx="247" cy="116" r="7" fill="#EB811B" stroke="#fff" stroke-width="3"/>
+          <text class="plot-label" x="258" y="110" fill="#EB811B">marginal buyer: Carlos</text>
+          <text class="plot-label" x="20" y="120" fill="#EB811B">$15</text>
+          <text class="plot-label" x="235" y="278" fill="#EB811B">Q = 3</text>
+          <text class="plot-label" x="318" y="230">D</text>
+          <text class="plot-label" x="185" y="295">Flats of strawberries</text>
+          <text class="plot-label" x="14" y="165" transform="rotate(-90 14 165)">Price per flat</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Consumer surplus</div>
+    <h1>Consumer surplus is what you would have paid minus what you did pay</h1>
+    <div class="schedule-layout" style="margin-top:4px;">
+      <div>
+        <div class="definition-strip blue-strip" style="text-align:center; font-size:24px; font-weight:820;">
+          CS = WTP − <em>P</em>
+        </div>
+        <div class="card white" style="margin-top:15px;">
+          <p>At <strong>$14</strong>, Ana pays the same $14 as everyone else—but she would have paid $22. That <strong>$8 gap</strong> is hers to keep.</p>
+          <p style="margin-top:9px;">Stack one rectangle per buyer and the shaded region is the market’s consumer surplus: <strong>the area below demand and above the price</strong>.</p>
+        </div>
+        <p class="table-note" style="margin-top:14px;">Dee is not in the shaded region at all. A buyer who does not trade earns a surplus of <strong>zero</strong>—never a negative number.</p>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Step demand curve with consumer surplus rectangles shaded above the fourteen dollar price">
+          <rect class="cs-fill" x="55" y="49" width="64" height="77"/>
+          <rect class="cs-fill" x="119" y="88" width="64" height="38"/>
+          <rect class="cs-fill" x="183" y="116" width="64" height="10"/>
+          <line class="axis" x1="55" y1="260" x2="395" y2="260"/>
+          <line class="axis" x1="55" y1="260" x2="55" y2="30"/>
+          <path class="demand-line" d="M55 49 H119 V88 H183 V116 H247 V155 H311 V260"/>
+          <line class="price-line" x1="55" y1="126" x2="360" y2="126"/>
+          <text class="plot-label" x="18" y="130" fill="#EB811B">$14</text>
+          <text class="plot-label" x="364" y="130" fill="#EB811B">P</text>
+          <text class="plot-label" x="74" y="94" fill="#2f80c9">$8</text>
+          <text class="plot-label" x="142" y="113" fill="#2f80c9">$4</text>
+          <text class="plot-label" x="254" y="113" fill="#2f80c9">$1</text>
+          <text class="plot-label" x="305" y="178" text-anchor="end" fill="#9aa3ab">Dee: no trade</text>
+          <text class="plot-label" x="318" y="230">D</text>
+          <text class="tick-label" x="43" y="264">0</text>
+          <text class="tick-label" x="115" y="276">1</text>
+          <text class="tick-label" x="179" y="276">2</text>
+          <text class="tick-label" x="243" y="276">3</text>
+          <text class="tick-label" x="307" y="276">4</text>
+          <text class="plot-label" x="185" y="295">Flats of strawberries</text>
+          <text class="plot-label" x="14" y="165" transform="rotate(-90 14 165)">Price per flat</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 -->
+  <section class="slide interactive" data-day="1" id="csTableSlide">
+    <div class="section-kicker">Method 1 of 2 · from a table · LO 5.2</div>
+    <h1>Compute consumer surplus buyer by buyer, then add</h1>
+    <table class="schedule-table" id="csTable" style="margin-top:6px; font-size:18px;" aria-label="Consumer surplus computed for each buyer at a price of fourteen dollars">
+      <thead><tr><th style="text-align:left; padding-left:12px;">Buyer</th><th>Willingness to pay</th><th>Price paid</th><th>Buys?</th><th>Consumer surplus</th></tr></thead>
+      <tbody>
+        <tr><td class="buyer-name">Ana</td><td>$22</td><td>$14</td><td>yes</td><td class="calc-answer"><strong>$8</strong></td></tr>
+        <tr><td class="buyer-name">Ben</td><td>$18</td><td>$14</td><td>yes</td><td class="calc-answer"><strong>$4</strong></td></tr>
+        <tr><td class="buyer-name">Carlos</td><td>$15</td><td>$14</td><td>yes</td><td class="calc-answer"><strong>$1</strong></td></tr>
+        <tr class="out"><td class="buyer-name">Dee</td><td>$11</td><td>—</td><td>no</td><td class="calc-answer"><strong>$0</strong></td></tr>
+        <tr class="total"><td class="buyer-name">Market</td><td colspan="3">Q<sub>d</sub> = 3 flats</td><td class="calc-answer"><strong>CS = $13</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="button-row" style="margin-top:16px;">
+      <button type="button" class="calc-reveal blue-button" data-target="csTable">Reveal the surplus column</button>
+      <span class="small muted">Ask the class for Ana’s number before you click.</span>
+    </div>
+    <div class="definition-strip" style="margin-top:16px;">
+      <strong>Two traps to name out loud:</strong> Dee’s surplus is <strong>$0</strong>, not −$3. And Carlos still counts—his surplus is small, but it is real.
+    </div>
+  </section>
+
+  <!-- 12 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">The seller side—same logic, mirrored</div>
+    <h1>Everything you just learned runs backwards for sellers</h1>
+    <div class="mirror-grid">
+      <div class="mirror-col">
+        <h2>Buyers</h2>
+        <p class="mirror-line"><strong>Willingness to pay</strong> — the most a buyer would pay.</p>
+        <p class="mirror-line">The <strong>height of demand</strong> is the WTP of the last buyer still willing to trade.</p>
+        <p class="mirror-line">A buyer trades only if <strong>WTP ≥ P</strong>.</p>
+        <div class="mirror-formula blue">CS = WTP − P</div>
+      </div>
+      <div class="mirror-col seller-col">
+        <h2>Sellers</h2>
+        <p class="mirror-line"><strong>Cost</strong> — the value of everything a seller gives up to produce one unit. This is <em>opportunity</em> cost.</p>
+        <p class="mirror-line">The <strong>height of supply</strong> is the cost of the last seller still willing to trade.</p>
+        <p class="mirror-line">A seller trades only if <strong>P ≥ cost</strong>.</p>
+        <div class="mirror-formula green">PS = P − Cost</div>
+      </div>
+    </div>
+    <div class="definition-strip green-strip" style="margin-top:20px;">
+      <strong>Producer surplus</strong> is what a seller collects above what the unit cost to produce—the area <strong>above the supply curve and below the price</strong>.
+    </div>
+    <p class="small muted" style="margin-top:13px;">Cost here is not just cash out the door. A grower who plants strawberries gives up the blueberries that land could have grown.</p>
+  </section>
+
+  <!-- 13 -->
+  <section class="slide interactive" data-day="1" id="psTableSlide">
+    <div class="section-kicker">Method 1 continued · the seller side · LO 5.2</div>
+    <h1>Four farms, the same $14, and the market clears</h1>
+    <div class="schedule-layout" style="margin-top:4px;">
+      <div>
+        <table class="schedule-table" id="psTable" style="font-size:17px;" aria-label="Producer surplus computed for each farm at a price of fourteen dollars">
+          <thead><tr><th style="text-align:left; padding-left:12px;">Farm</th><th>Cost</th><th>Sells?</th><th>Producer surplus</th></tr></thead>
+          <tbody>
+            <tr><td class="buyer-name">Farm W</td><td>$5</td><td>yes</td><td class="calc-answer"><strong>$9</strong></td></tr>
+            <tr><td class="buyer-name">Farm X</td><td>$9</td><td>yes</td><td class="calc-answer"><strong>$5</strong></td></tr>
+            <tr><td class="buyer-name">Farm Y</td><td>$12</td><td>yes</td><td class="calc-answer"><strong>$2</strong></td></tr>
+            <tr class="out"><td class="buyer-name">Farm Z</td><td>$16</td><td>no</td><td class="calc-answer"><strong>$0</strong></td></tr>
+            <tr class="total"><td class="buyer-name">Market</td><td colspan="2">Q<sub>s</sub> = 3 flats</td><td class="calc-answer"><strong>PS = $16</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="button-row" style="margin-top:13px;">
+          <button type="button" class="calc-reveal green-button" data-target="psTable">Reveal the surplus column</button>
+        </div>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Step supply curve with producer surplus rectangles shaded below the fourteen dollar price">
+          <rect class="ps-fill" x="55" y="126" width="64" height="86"/>
+          <rect class="ps-fill" x="119" y="126" width="64" height="48"/>
+          <rect class="ps-fill" x="183" y="126" width="64" height="19"/>
+          <line class="axis" x1="55" y1="260" x2="395" y2="260"/>
+          <line class="axis" x1="55" y1="260" x2="55" y2="30"/>
+          <path class="supply-line" d="M55 212 H119 V174 H183 V145 H247 V107 H311 V40"/>
+          <line class="price-line" x1="55" y1="126" x2="360" y2="126"/>
+          <text class="plot-label" x="18" y="130" fill="#EB811B">$14</text>
+          <text class="plot-label" x="364" y="130" fill="#EB811B">P</text>
+          <text class="plot-label" x="74" y="172" fill="#378a61">$9</text>
+          <text class="plot-label" x="140" y="154" fill="#378a61">$5</text>
+          <text class="plot-label" x="204" y="141" fill="#378a61">$2</text>
+          <text class="plot-label" x="240" y="92" text-anchor="end" fill="#9aa3ab">Farm Z: no trade →</text>
+          <text class="plot-label" x="318" y="55">S</text>
+          <text class="tick-label" x="43" y="264">0</text>
+          <text class="tick-label" x="115" y="276">1</text>
+          <text class="tick-label" x="179" y="276">2</text>
+          <text class="tick-label" x="243" y="276">3</text>
+          <text class="tick-label" x="307" y="276">4</text>
+          <text class="plot-label" x="185" y="295">Flats of strawberries</text>
+          <text class="plot-label" x="14" y="165" transform="rotate(-90 14 165)">Price per flat</text>
+        </svg>
+      </div>
+    </div>
+    <div class="sum-strip">
+      <div class="sum-box"><strong>$13</strong><span>Consumer surplus</span></div>
+      <div class="sum-symbol">+</div>
+      <div class="sum-box supply"><strong>$16</strong><span>Producer surplus</span></div>
+      <div class="sum-symbol">=</div>
+      <div class="sum-box total"><strong>$29</strong><span>Total surplus</span></div>
+    </div>
+    <p class="table-note" style="margin-top:9px;">At $14, Q<sub>d</sub> = Q<sub>s</sub> = 3—this little market clears. Note that <strong>CS ≠ PS</strong>: there is no rule saying the two sides split the gains evenly.</p>
+  </section>
+
+  <!-- 14 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">From four traders to a real market</div>
+    <h1>Add buyers and the steps smooth into the curve you already know</h1>
+    <div class="smooth-grid">
+      <div class="smooth-card">
+        <h3>4 buyers</h3>
+        <svg class="smooth-plot" viewBox="0 0 220 180" role="img" aria-label="Coarse four-step demand curve">
+          <line class="axis" x1="26" y1="155" x2="205" y2="155"/>
+          <line class="axis" x1="26" y1="155" x2="26" y2="16"/>
+          <path class="demand-line" d="M26 28 H64 V60 H102 V88 H140 V120 H178 V155" stroke-width="3"/>
+        </svg>
+      </div>
+      <div class="smooth-card">
+        <h3>12 buyers</h3>
+        <svg class="smooth-plot" viewBox="0 0 220 180" role="img" aria-label="Finer twelve-step demand curve">
+          <line class="axis" x1="26" y1="155" x2="205" y2="155"/>
+          <line class="axis" x1="26" y1="155" x2="26" y2="16"/>
+          <path class="demand-line" d="M26 26 H39 V37 H52 V48 H65 V58 H78 V69 H91 V80 H104 V90 H117 V101 H130 V112 H143 V122 H156 V133 H169 V144 H182 V155" stroke-width="2.5"/>
+        </svg>
+      </div>
+      <div class="smooth-card">
+        <h3>A whole market</h3>
+        <svg class="smooth-plot" viewBox="0 0 220 180" role="img" aria-label="Smooth downward sloping demand curve">
+          <line class="axis" x1="26" y1="155" x2="205" y2="155"/>
+          <line class="axis" x1="26" y1="155" x2="26" y2="16"/>
+          <path class="demand-line" d="M26 26 L186 155" stroke-width="3"/>
+        </svg>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:20px; text-align:center; font-size:24px;">
+      A staircase with enough steps is a line—and the area under a line is a <strong>triangle</strong>: &nbsp;½ × base × height
+    </div>
+    <p class="small muted" style="margin-top:16px;">The economics has not changed. Summing rectangles buyer by buyer and taking the area of a triangle are the same calculation, done at two different scales. <strong>Exam 1 allows a basic calculator—these numbers will always come out clean.</strong></p>
+  </section>
+
+  <!-- 15 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Method 2 of 2 · from a graph · LO 5.2</div>
+    <h1>Find P*, then take the two triangles</h1>
+    <div class="calc-layout" style="margin-top:4px;">
+      <div>
+        <div class="definition-strip" style="font-size:17px; margin-bottom:12px;">
+          Strawberries, thousands of flats:<br>
+          <span style="white-space:nowrap; font-weight:820;">Q<sub>D</sub> = 120 − 6P</span> &nbsp;and&nbsp; <span style="white-space:nowrap; font-weight:820;">Q<sub>S</sub> = 4P − 20</span>
+        </div>
+        <div class="calc-steps">
+          <div class="calc-step">
+            <div class="calc-num">1</div>
+            <div><strong>Set Q<sub>D</sub> = Q<sub>S</sub> → P* = $14, Q* = 36</strong><span>120 − 6P = 4P − 20, so 10P = 140</span></div>
+          </div>
+          <div class="calc-step">
+            <div class="calc-num">2</div>
+            <div><strong>Read the two vertical intercepts</strong><span>Demand at Q = 0: $20. Supply at Q = 0: $5.</span></div>
+          </div>
+          <div class="calc-step cs-step">
+            <div class="calc-num">3</div>
+            <div><strong>Consumer surplus = $108</strong><span>½ × 36 × (20 − 14) = ½ × 36 × 6</span></div>
+          </div>
+          <div class="calc-step ps-step">
+            <div class="calc-num">4</div>
+            <div><strong>Producer surplus = $162</strong><span>½ × 36 × (14 − 5) = ½ × 36 × 9</span></div>
+          </div>
+          <div class="calc-step ts-step">
+            <div class="calc-num">5</div>
+            <div><strong>Total surplus = $270 thousand</strong><span>108 + 162</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Linear demand and supply with consumer surplus and producer surplus triangles shaded at the equilibrium price of fourteen">
+          <polygon class="cs-fill" points="55,51 247,114 55,114"/>
+          <polygon class="ps-fill" points="55,208 247,114 55,114"/>
+          <line class="axis" x1="55" y1="260" x2="395" y2="260"/>
+          <line class="axis" x1="55" y1="260" x2="55" y2="30"/>
+          <path class="demand-line" d="M55 51 L375 155"/>
+          <path class="supply-line" d="M55 208 L375 51"/>
+          <line class="projection" x1="247" y1="114" x2="247" y2="260"/>
+          <line class="projection" x1="55" y1="114" x2="247" y2="114"/>
+          <circle cx="247" cy="114" r="7" fill="#EB811B" stroke="#fff" stroke-width="3"/>
+          <text class="plot-label" x="126" y="92" fill="#2f80c9">CS = $108</text>
+          <text class="plot-label" x="126" y="168" fill="#378a61">PS = $162</text>
+          <text class="plot-label" x="20" y="55" fill="#2f80c9">$20</text>
+          <text class="plot-label" x="20" y="118" fill="#EB811B">$14</text>
+          <text class="plot-label" x="24" y="212" fill="#378a61">$5</text>
+          <text class="plot-label" x="234" y="278" fill="#EB811B">36</text>
+          <text class="plot-label" x="379" y="158">D</text>
+          <text class="plot-label" x="379" y="54">S</text>
+          <text class="plot-label" x="170" y="295">Thousands of flats</text>
+          <text class="plot-label" x="14" y="165" transform="rotate(-90 14 165)">Price per flat</text>
+        </svg>
+      </div>
+    </div>
+    <p class="table-note" style="margin-top:10px;">Step 2 is the one students skip—and you already practiced it in Unit 4: rewrite <em>Q</em> = 120 − 6<em>P</em> as <em>P</em> = 20 − <em>Q</em>/6.</p>
+  </section>
+
+  <!-- 16 -->
+  <section class="slide interactive" data-day="1" id="practiceASlide">
+    <div class="section-kicker">Your turn · LO 5.2</div>
+    <h1>Now you compute one</h1>
+    <div class="calc-layout">
+      <div>
+        <div class="definition-strip" style="font-size:17px; margin-bottom:12px;">
+          A different market:<br>
+          <span style="white-space:nowrap; font-weight:820;">Q<sub>D</sub> = 90 − 3P</span> &nbsp;and&nbsp; <span style="white-space:nowrap; font-weight:820;">Q<sub>S</sub> = 2P − 10</span>
+        </div>
+        <p class="small" style="margin-bottom:12px;"><strong>Find P*, Q*, consumer surplus, producer surplus, and total surplus.</strong> Same four steps as the last slide. Three minutes.</p>
+        <div class="calc-steps" id="practiceASteps">
+          <div class="calc-step"><div class="calc-num">1</div><div><strong class="calc-answer">P* = $20, Q* = 30</strong><span class="calc-answer">90 − 3P = 2P − 10, so 5P = 100</span></div></div>
+          <div class="calc-step"><div class="calc-num">2</div><div><strong class="calc-answer">Intercepts: $30 and $5</strong><span class="calc-answer">Demand at Q = 0: $30. Supply at Q = 0: $5.</span></div></div>
+          <div class="calc-step cs-step"><div class="calc-num">3</div><div><strong class="calc-answer">CS = $150</strong><span class="calc-answer">½ × 30 × (30 − 20) = ½ × 30 × 10</span></div></div>
+          <div class="calc-step ps-step"><div class="calc-num">4</div><div><strong class="calc-answer">PS = $225</strong><span class="calc-answer">½ × 30 × (20 − 5) = ½ × 30 × 15</span></div></div>
+          <div class="calc-step ts-step"><div class="calc-num">5</div><div><strong class="calc-answer">Total surplus = $375</strong><span class="calc-answer">150 + 225</span></div></div>
+        </div>
+        <div class="button-row" style="margin-top:12px;">
+          <button type="button" class="calc-reveal" data-target="practiceASteps">Reveal the worked answer</button>
+        </div>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Practice market with demand and supply intersecting at a price of twenty and quantity of thirty">
+          <g class="answer-layer">
+            <polygon class="cs-fill" points="55,30 215,107 55,107"/>
+            <polygon class="ps-fill" points="55,222 215,107 55,107"/>
+          </g>
+          <line class="axis" x1="55" y1="260" x2="395" y2="260"/>
+          <line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <path class="demand-line" d="M55 30 L375 183"/>
+          <path class="supply-line" d="M55 222 L322 30"/>
+          <g class="answer-layer">
+            <line class="projection" x1="215" y1="107" x2="215" y2="260"/>
+            <line class="projection" x1="55" y1="107" x2="215" y2="107"/>
+            <circle cx="215" cy="107" r="7" fill="#EB811B" stroke="#fff" stroke-width="3"/>
+            <text class="plot-label" x="20" y="34" fill="#2f80c9">$30</text>
+            <text class="plot-label" x="20" y="111" fill="#EB811B">$20</text>
+            <text class="plot-label" x="24" y="226" fill="#378a61">$5</text>
+            <text class="plot-label" x="203" y="278" fill="#EB811B">30</text>
+          </g>
+          <text class="plot-label" x="379" y="186">D</text>
+          <text class="plot-label" x="326" y="34">S</text>
+          <text class="plot-label" x="200" y="295">Quantity</text>
+          <text class="plot-label" x="14" y="160" transform="rotate(-90 14 160)">Price</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17 -->
+  <section class="slide interactive" data-day="1" id="shiftSlide">
+    <div class="section-kicker">Predict first · then check</div>
+    <h1>Demand rises. What happens to consumer surplus?</h1>
+    <div class="calc-layout">
+      <div>
+        <div class="definition-strip" style="font-size:17px; margin-bottom:12px;">
+          Same supply. Demand shifts right:<br>
+          <span style="white-space:nowrap; font-weight:820;">Q<sub>D</sub> = 90 − 3P</span> &nbsp;→&nbsp; <span style="white-space:nowrap; font-weight:820;">Q<sub>D</sub> = 120 − 3P</span>
+        </div>
+        <div class="quiz-options" style="grid-template-columns:1fr 1fr; margin-top:0;">
+          <button type="button" class="quiz-option blue-button" data-shift="down">CS falls</button>
+          <button type="button" class="quiz-option green-button" data-shift="up">CS rises</button>
+        </div>
+        <div class="feedback" id="shiftFeedback" style="margin-top:12px;" aria-live="polite">The price is about to rise from $20 to $26. Vote before you compute.</div>
+        <div class="calc-steps" id="shiftSteps" style="margin-top:12px;">
+          <div class="calc-step"><div class="calc-num">1</div><div><strong class="calc-answer">New P* = $26, Q* = 42</strong><span class="calc-answer">120 − 3P = 2P − 10, so 5P = 130</span></div></div>
+          <div class="calc-step cs-step"><div class="calc-num">2</div><div><strong class="calc-answer">CS = $294 &nbsp;(was $150)</strong><span class="calc-answer">New demand intercept is $40: ½ × 42 × (40 − 26)</span></div></div>
+          <div class="calc-step ps-step"><div class="calc-num">3</div><div><strong class="calc-answer">PS = $441 &nbsp;(was $225)</strong><span class="calc-answer">½ × 42 × (26 − 5)</span></div></div>
+        </div>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Demand shifting right raises both the equilibrium price and consumer surplus">
+          <g class="answer-layer"><polygon class="cs-fill" points="55,30 279,110 55,110"/></g>
+          <line class="axis" x1="55" y1="260" x2="395" y2="260"/>
+          <line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <path class="old-line" d="M55 88 L375 202"/>
+          <path class="demand-line" d="M55 30 L375 145"/>
+          <path class="supply-line" d="M55 231 L322 88"/>
+          <circle cx="215" cy="145" r="6" fill="#9aa3ab" stroke="#fff" stroke-width="3"/>
+          <text class="plot-label" x="20" y="149" fill="#9aa3ab">$20</text>
+          <text class="plot-label" x="170" y="158" fill="#9aa3ab">old E</text>
+          <g class="answer-layer">
+            <circle cx="279" cy="110" r="7" fill="#EB811B" stroke="#fff" stroke-width="3"/>
+            <line class="projection" x1="55" y1="110" x2="279" y2="110"/>
+            <text class="plot-label" x="20" y="34" fill="#2f80c9">$40</text>
+            <text class="plot-label" x="20" y="114" fill="#EB811B">$26</text>
+            <text class="plot-label" x="120" y="82" fill="#2f80c9">CS = $294</text>
+          </g>
+          <text class="plot-label" x="379" y="148">D′</text>
+          <text class="plot-label" x="379" y="205" fill="#9aa3ab">D</text>
+          <text class="plot-label" x="326" y="92">S</text>
+          <text class="plot-label" x="200" y="295">Quantity</text>
+          <text class="plot-label" x="14" y="160" transform="rotate(-90 14 160)">Price</text>
+        </svg>
+      </div>
+    </div>
+    <p class="table-note" style="margin-top:8px;"><strong>Buyers paid more per unit and still ended up better off.</strong> Consumer surplus is not read off the price alone—the curve itself moved.</p>
+  </section>
+
+  <!-- 18 -->
+  <section class="slide interactive" data-day="1" id="conceptQuizSlide">
+    <div class="section-kicker">Three traps before we move on</div>
+    <h1>Concept check</h1>
+    <div class="quiz-scenario"><div class="market-label" id="cqLabel">Question 1 of 3</div><p id="cqPrompt">A buyer whose willingness to pay is $9 faces a price of $14. Her consumer surplus is:</p></div>
+    <div class="quiz-options" id="cqOptions">
+      <button type="button" class="quiz-option" data-i="0">−$5</button>
+      <button type="button" class="quiz-option" data-i="1">$0</button>
+      <button type="button" class="quiz-option" data-i="2">$5</button>
+    </div>
+    <div class="feedback" id="cqFeedback" style="margin-top:13px;" aria-live="polite">Answer, then say the rule out loud.</div>
+    <div class="quiz-toolbar">
+      <span class="score-pill" id="cqScore">0 correct · 1 of 3</span>
+      <button type="button" class="secondary" id="cqNext">Next question</button>
+    </div>
+  </section>
+
+  <!-- 19 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">New topic · LO 5.3</div>
+    <h1>What if the price is not allowed to settle at $14?</h1>
+    <div class="grid-2" style="margin-top:6px;">
+      <div class="card white" style="border-top:5px solid var(--red); border-radius:0 0 8px 8px;">
+        <h2 class="red">Price ceiling</h2>
+        <p style="font-size:19px;">A <strong>legal maximum</strong>. Charging more is illegal.</p>
+        <p class="small muted" style="margin-top:9px;">Rent control, capped insulin prices, anti-gouging rules after a hurricane.</p>
+      </div>
+      <div class="card white" style="border-top:5px solid var(--red); border-radius:0 0 8px 8px;">
+        <h2 class="red">Price floor</h2>
+        <p style="font-size:19px;">A <strong>legal minimum</strong>. Paying less is illegal.</p>
+        <p class="small muted" style="margin-top:9px;">The minimum wage, the farm-labor AEWR, agricultural price supports.</p>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:20px;">
+      Both are <strong>price controls</strong>: a law that replaces the price the market would have reached. Neither one moves the demand curve or the supply curve—<strong>the curves stay exactly where they were.</strong>
+    </div>
+    <p class="small muted" style="margin-top:16px;">That last sentence is the most-missed point of the whole unit. A price control changes <em>quantity demanded</em> and <em>quantity supplied</em>—movements <strong>along</strong> the curves you drew in Unit 4, never shifts of them.</p>
+  </section>
+
+  <!-- 20 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Price ceiling · real settings, illustrative numbers</div>
+    <h1>“The price cannot go above this amount”</h1>
+    <div class="real-control-grid">
+      <div class="real-control-card">
+        <div class="real-control-heading"><div class="real-control-icon">🏠</div><h2>Rent cap</h2></div>
+        <p class="real-control-context">A city limits the monthly rent a landlord may legally charge.</p>
+        <div class="real-control-rule"><strong>Legal maximum:</strong> $1,200 per month</div>
+        <div class="real-control-reference">Suppose the market-clearing rent without the cap would be $1,600.</div>
+        <div class="real-control-chain">
+          <div class="real-control-step">Rent held below P*</div><div class="real-control-arrow">→</div>
+          <div class="real-control-step">Q<sub>d</sub> &gt; Q<sub>s</sub></div><div class="real-control-arrow">→</div>
+          <div class="real-control-step outcome">Apartment shortage</div>
+        </div>
+        <p class="real-control-result">More renters search for apartments than landlords offer: longer searches, waitlists, and non-price screening.</p>
+      </div>
+      <div class="real-control-card">
+        <div class="real-control-heading"><div class="real-control-icon">🧴</div><h2>Emergency essentials</h2></div>
+        <p class="real-control-context">After a hurricane, an emergency rule limits the price of bottled water.</p>
+        <div class="real-control-rule"><strong>Legal maximum:</strong> $6 per case</div>
+        <div class="real-control-reference">Suppose emergency demand would otherwise produce a market-clearing price of $15.</div>
+        <div class="real-control-chain">
+          <div class="real-control-step">Price held below P*</div><div class="real-control-arrow">→</div>
+          <div class="real-control-step">Q<sub>d</sub> &gt; Q<sub>s</sub></div><div class="real-control-arrow">→</div>
+          <div class="real-control-step outcome">Shortage</div>
+        </div>
+        <p class="real-control-result">At the capped price, people want more water than stores have available: shelves empty and lines form.</p>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:14px;"><strong>Memory rule:</strong> “maximum” identifies a ceiling; a ceiling is binding only when it is <strong>below P*</strong>.</div>
+  </section>
+
+  <!-- 21 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Price floor · real settings, illustrative numbers</div>
+    <h1>“The price cannot go below this amount”</h1>
+    <div class="real-control-grid floor-examples">
+      <div class="real-control-card">
+        <div class="real-control-heading"><div class="real-control-icon">💵</div><h2>Minimum wage</h2></div>
+        <p class="real-control-context">In a labor market, the “price” is the hourly wage paid for labor.</p>
+        <div class="real-control-rule"><strong>Legal minimum:</strong> $15 per hour</div>
+        <div class="real-control-reference">Suppose the market-clearing wage for this job would be $12 per hour.</div>
+        <div class="real-control-chain">
+          <div class="real-control-step">Wage held above P*</div><div class="real-control-arrow">→</div>
+          <div class="real-control-step">Labor Q<sub>s</sub> &gt; Q<sub>d</sub></div><div class="real-control-arrow">→</div>
+          <div class="real-control-step outcome">Labor surplus</div>
+        </div>
+        <p class="real-control-result">More people want to work than firms want to hire at that wage. If binding, the gap appears as fewer available jobs or hours.</p>
+      </div>
+      <div class="real-control-card">
+        <div class="real-control-heading"><div class="real-control-icon">🌽</div><h2>Agricultural price support</h2></div>
+        <p class="real-control-context">A support program prevents a crop price from falling below a stated level.</p>
+        <div class="real-control-rule"><strong>Legal minimum:</strong> $5 per bushel</div>
+        <div class="real-control-reference">Suppose the market-clearing price without support would be $3.50 per bushel.</div>
+        <div class="real-control-chain">
+          <div class="real-control-step">Price held above P*</div><div class="real-control-arrow">→</div>
+          <div class="real-control-step">Q<sub>s</sub> &gt; Q<sub>d</sub></div><div class="real-control-arrow">→</div>
+          <div class="real-control-step outcome">Crop surplus</div>
+        </div>
+        <p class="real-control-result">Farms offer more while buyers purchase less, leaving unsold output unless someone buys or stores the excess.</p>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:14px;"><strong>Memory rule:</strong> “minimum” identifies a floor; a floor is binding only when it is <strong>above P*</strong>.</div>
+  </section>
+
+  <!-- 22 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Price ceilings · strawberries, P* = $14</div>
+    <h1>A ceiling only bites if it sits below the equilibrium price</h1>
+    <div class="control-pair">
+      <div class="control-case">
+        <h2>Ceiling at $18</h2>
+        <p>Above P*. Sellers could never get $18 anyway, so the law never binds. <strong>Nothing happens.</strong></p>
+        <svg class="control-plot" viewBox="0 0 300 210" role="img" aria-label="A price ceiling above the equilibrium price has no effect">
+          <line class="axis" x1="40" y1="180" x2="290" y2="180"/>
+          <line class="axis" x1="40" y1="180" x2="40" y2="20"/>
+          <path class="demand-line" d="M40 51 L270 126" stroke-width="3"/>
+          <path class="supply-line" d="M40 148 L270 35" stroke-width="3"/>
+          <line class="ceiling-line" x1="40" y1="64" x2="285" y2="64"/>
+          <line class="projection" x1="158" y1="90" x2="158" y2="180"/>
+          <circle cx="158" cy="90" r="6" fill="#EB811B" stroke="#fff" stroke-width="3"/>
+          <text class="plot-label" x="283" y="80" text-anchor="end" fill="#c9504d">ceiling $18</text>
+          <text class="plot-label" x="168" y="142" fill="#EB811B">E unchanged</text>
+          <text class="tick-label" x="158" y="194" text-anchor="middle">36</text>
+          <text class="plot-label" x="274" y="129">D</text>
+          <text class="plot-label" x="274" y="38">S</text>
+        </svg>
+        <div class="control-readout">
+          <div class="control-stat"><strong>$14</strong><span>Price</span></div>
+          <div class="control-stat"><strong>36</strong><span>Traded</span></div>
+          <div class="control-stat"><strong>0</strong><span>Shortage</span></div>
+        </div>
+      </div>
+      <div class="control-case bites">
+        <h2>Ceiling at $10</h2>
+        <p>Below P*. The price is forced down and the two sides no longer agree. <strong>A shortage opens up.</strong></p>
+        <svg class="control-plot" viewBox="0 0 300 210" role="img" aria-label="A binding price ceiling below equilibrium creates a shortage of forty units">
+          <line class="axis" x1="40" y1="180" x2="290" y2="180"/>
+          <line class="axis" x1="40" y1="180" x2="40" y2="20"/>
+          <path class="demand-line" d="M40 51 L270 126" stroke-width="3"/>
+          <path class="supply-line" d="M40 148 L270 35" stroke-width="3"/>
+          <line class="ceiling-line" x1="40" y1="115" x2="285" y2="115"/>
+          <line class="projection" x1="106" y1="115" x2="106" y2="180"/>
+          <line class="projection" x1="237" y1="115" x2="237" y2="180"/>
+          <line class="gap-bracket" x1="106" y1="115" x2="237" y2="115"/>
+          <line class="gap-bracket" x1="106" y1="109" x2="106" y2="121"/>
+          <line class="gap-bracket" x1="237" y1="109" x2="237" y2="121"/>
+          <circle cx="106" cy="115" r="4.5" fill="#378a61"/>
+          <circle cx="237" cy="115" r="4.5" fill="#2f80c9"/>
+          <circle cx="158" cy="90" r="5" fill="#fff" stroke="#9aa3ab" stroke-width="2.5"/>
+          <text class="plot-label" x="44" y="107" fill="#c9504d">ceiling $10</text>
+          <text class="plot-label" x="138" y="134" fill="#c9504d">shortage 40</text>
+          <text class="tick-label" x="106" y="194" text-anchor="middle" fill="#378a61">Q<tspan font-size="8" dy="2">s</tspan><tspan dy="-2"> = 20</tspan></text>
+          <text class="tick-label" x="237" y="194" text-anchor="middle" fill="#2f80c9">Q<tspan font-size="8" dy="2">d</tspan><tspan dy="-2"> = 60</tspan></text>
+          <text class="plot-label" x="274" y="129">D</text>
+          <text class="plot-label" x="274" y="38">S</text>
+        </svg>
+        <div class="control-readout">
+          <div class="control-stat"><strong>$10</strong><span>Price</span></div>
+          <div class="control-stat"><strong>20</strong><span>Traded</span></div>
+          <div class="control-stat"><strong>40</strong><span>Shortage</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:14px;">
+      <strong>Short-side rule:</strong> when a control binds, quantity traded is the <strong>smaller</strong> of Q<sub>d</sub> and Q<sub>s</sub>. Here 20 flats change hands—<strong>fewer</strong> than the 36 that traded before the law.
+    </div>
+  </section>
+
+  <!-- 23 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Price floors · same market, P* = $14</div>
+    <h1>A floor only bites if it sits above the equilibrium price</h1>
+    <div class="control-pair">
+      <div class="control-case">
+        <h2>Floor at $10</h2>
+        <p>Below P*. Buyers were already paying $14, so nobody is pushed against the law. <strong>Nothing happens.</strong></p>
+        <svg class="control-plot" viewBox="0 0 300 210" role="img" aria-label="A price floor below the equilibrium price has no effect">
+          <line class="axis" x1="40" y1="180" x2="290" y2="180"/>
+          <line class="axis" x1="40" y1="180" x2="40" y2="20"/>
+          <path class="demand-line" d="M40 51 L270 126" stroke-width="3"/>
+          <path class="supply-line" d="M40 148 L270 35" stroke-width="3"/>
+          <line class="ceiling-line" x1="40" y1="115" x2="285" y2="115"/>
+          <line class="projection" x1="158" y1="90" x2="158" y2="180"/>
+          <circle cx="158" cy="90" r="6" fill="#EB811B" stroke="#fff" stroke-width="3"/>
+          <text class="plot-label" x="44" y="107" fill="#c9504d">floor $10</text>
+          <text class="plot-label" x="168" y="142" fill="#EB811B">E unchanged</text>
+          <text class="tick-label" x="158" y="194" text-anchor="middle">36</text>
+          <text class="plot-label" x="274" y="129">D</text>
+          <text class="plot-label" x="274" y="38">S</text>
+        </svg>
+        <div class="control-readout">
+          <div class="control-stat"><strong>$14</strong><span>Price</span></div>
+          <div class="control-stat"><strong>36</strong><span>Traded</span></div>
+          <div class="control-stat"><strong>0</strong><span>Surplus</span></div>
+        </div>
+      </div>
+      <div class="control-case bites">
+        <h2>Floor at $17</h2>
+        <p>Above P*. The price is held up and sellers want to sell far more than buyers will take. <strong>A surplus piles up.</strong></p>
+        <svg class="control-plot" viewBox="0 0 300 210" role="img" aria-label="A binding price floor above equilibrium creates a surplus of thirty units">
+          <line class="axis" x1="40" y1="180" x2="290" y2="180"/>
+          <line class="axis" x1="40" y1="180" x2="40" y2="20"/>
+          <path class="demand-line" d="M40 51 L270 126" stroke-width="3"/>
+          <path class="supply-line" d="M40 148 L270 35" stroke-width="3"/>
+          <line class="ceiling-line" x1="40" y1="70" x2="285" y2="70"/>
+          <line class="projection" x1="99" y1="70" x2="99" y2="180"/>
+          <line class="projection" x1="198" y1="70" x2="198" y2="180"/>
+          <line class="gap-bracket" x1="99" y1="70" x2="198" y2="70"/>
+          <line class="gap-bracket" x1="99" y1="64" x2="99" y2="76"/>
+          <line class="gap-bracket" x1="198" y1="64" x2="198" y2="76"/>
+          <circle cx="99" cy="70" r="4.5" fill="#2f80c9"/>
+          <circle cx="198" cy="70" r="4.5" fill="#378a61"/>
+          <circle cx="158" cy="90" r="5" fill="#fff" stroke="#9aa3ab" stroke-width="2.5"/>
+          <text class="plot-label" x="283" y="88" text-anchor="end" fill="#c9504d">floor $17</text>
+          <text class="plot-label" x="110" y="56" fill="#c9504d">surplus 30</text>
+          <text class="tick-label" x="99" y="194" text-anchor="middle" fill="#2f80c9">Q<tspan font-size="8" dy="2">d</tspan><tspan dy="-2"> = 18</tspan></text>
+          <text class="tick-label" x="198" y="194" text-anchor="middle" fill="#378a61">Q<tspan font-size="8" dy="2">s</tspan><tspan dy="-2"> = 48</tspan></text>
+          <text class="plot-label" x="274" y="129">D</text>
+          <text class="plot-label" x="274" y="38">S</text>
+        </svg>
+        <div class="control-readout">
+          <div class="control-stat"><strong>$17</strong><span>Price</span></div>
+          <div class="control-stat"><strong>18</strong><span>Traded</span></div>
+          <div class="control-stat"><strong>30</strong><span>Surplus</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:14px;">
+      Short side again: only <strong>18</strong> flats trade. Notice the pattern—<strong>every binding control, ceiling or floor, shrinks the quantity traded.</strong> Next class we put a dollar value on what that costs.
+    </div>
+  </section>
+
+  <!-- 24 -->
+  <section class="slide interactive" data-day="1" id="checkpointSlide">
+    <div class="section-kicker">Class 1 checkpoint</div>
+    <h1>Three moves you should now be able to make</h1>
+    <div class="final-checks">
+      <div class="lo-card">
+        <strong>LO 5.1</strong>
+        <p>Say why the height of demand is a buyer’s WTP and the height of supply is a seller’s cost—and why that makes surplus an <em>area</em>.</p>
+      </div>
+      <div class="lo-card">
+        <strong>LO 5.2</strong>
+        <p>Compute CS, PS, and total surplus two ways: buyer-by-buyer from a table, and ½ × base × height from a graph.</p>
+      </div>
+      <div class="lo-card">
+        <strong>LO 5.3</strong>
+        <p>Decide whether a ceiling or floor binds, and read off the shortage or surplus and the quantity actually traded.</p>
+      </div>
+    </div>
+    <div class="definition-strip">
+      <strong>Exit ticket.</strong> Go back to Ana, Ben, Carlos, and Dee. The price rises from <strong>$14 to $16</strong>. What is consumer surplus now, and name the <em>two separate things</em> that caused it to fall.
+    </div>
+    <div class="button-row" style="margin-top:14px;">
+      <button type="button" class="exit-reveal" data-target="exitAnswer">Reveal model answer</button>
+    </div>
+    <div class="exit-answer" id="exitAnswer">
+      <p><strong>CS = $8.</strong> Ana keeps $22 − $16 = $6; Ben keeps $18 − $16 = $2; Carlos’s WTP of $15 is below $16, so he stops buying. Surplus falls from $13 to $8—and that $5 splits into two very different pieces: <strong>$4</strong> is what Ana and Ben still trade but no longer keep, while <strong>$1</strong> is Carlos’s gain that <em>simply disappears</em> because his trade never happens. Next class, that second piece gets a name.</p>
+    </div>
+  </section>
+
+</div>
+<div id="progress"></div>
+<div id="hint">← → / Space to navigate · P to print</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const stage = document.getElementById('stage');
+  const progress = document.getElementById('progress');
+  let idx = 0;
+
+  slides.forEach(function(slide, i){
+    const footer = document.createElement('div');
+    const day = slide.dataset.day || '1';
+    footer.className = 'footer';
+    footer.innerHTML = '<span>ARE 201 · Unit 5 · Class ' + day + '</span><span>' + (i + 1) + ' / ' + slides.length + '</span>';
+    slide.appendChild(footer);
+  });
+
+  function fit(){
+    const scale = Math.min(window.innerWidth / 960, window.innerHeight / 720);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+  }
+
+  function show(n){
+    idx = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(slide, i){ slide.classList.toggle('active', i === idx); });
+    progress.style.width = (((idx + 1) / slides.length) * 100) + '%';
+    history.replaceState(null, '', '#' + (idx + 1));
+  }
+
+  function setFeedback(element, message, state){
+    element.className = 'feedback' + (state ? ' ' + state : '');
+    element.innerHTML = message;
+  }
+
+  function resetButtons(buttons){
+    buttons.forEach(function(button){ button.classList.remove('correct', 'wrong', 'selected'); });
+  }
+
+  // Slide 3 — keep the volunteered numbers on this browser
+  document.querySelectorAll('.bid-input').forEach(function(input){
+    const storageKey = 'are201-unit5-bid-' + input.dataset.bid;
+    try {
+      const savedValue = localStorage.getItem(storageKey);
+      if (savedValue !== null) input.value = savedValue;
+    } catch (error) {
+      // The fields still work when browser privacy settings disable storage.
+    }
+    input.addEventListener('input', function(){
+      try { localStorage.setItem(storageKey, input.value); } catch (error) {}
+    });
+  });
+
+  // Slide 5 — who buys at $14?
+  const wtpButtons = document.querySelectorAll('[data-wtp]');
+  const wtpMessages = {
+    '1': 'Ben’s WTP of $18 is also above $14, so Ana is not alone. Compare <em>every</em> buyer’s WTP with the price.',
+    '2': 'Carlos is the one you dropped. His WTP is $15, which is still above $14—he buys, even though the gain is small.',
+    '3': '<strong>Correct.</strong> Ana, Ben, and Carlos all have WTP ≥ $14, so Q<sub>d</sub> = 3. Dee’s $11 is below the price, so she does not buy.',
+    '4': 'Dee’s WTP is $11. Buying at $14 would leave her worse off than not buying, so she stays out.'
+  };
+  wtpButtons.forEach(function(button){
+    button.addEventListener('click', function(){
+      const correct = button.dataset.wtp === '3';
+      resetButtons(wtpButtons);
+      button.classList.add(correct ? 'correct' : 'wrong');
+      setFeedback(document.getElementById('wtpPollFeedback'), wtpMessages[button.dataset.wtp], correct ? 'success' : 'error');
+    });
+  });
+
+  // Slide 15 — does CS rise or fall when demand shifts right?
+  const shiftButtons = document.querySelectorAll('[data-shift]');
+  shiftButtons.forEach(function(button){
+    button.addEventListener('click', function(){
+      const correct = button.dataset.shift === 'up';
+      resetButtons(shiftButtons);
+      button.classList.add(correct ? 'correct' : 'wrong');
+      document.getElementById('shiftSteps').classList.add('revealed');
+      document.getElementById('shiftSlide').querySelectorAll('.answer-layer').forEach(function(layer){
+        layer.classList.add('shown');
+      });
+      setFeedback(document.getElementById('shiftFeedback'), correct
+        ? '<strong>Correct—CS rises, from $150 to $294.</strong> The higher price pushes against consumer surplus, but the demand curve moved out from under it: more buyers, and buyers with higher willingness to pay.'
+        : '<strong>Not this time—CS rises, from $150 to $294.</strong> The price did go up. But consumer surplus is the area under the <em>new</em> demand curve, and that curve moved out.',
+        correct ? 'success' : 'error');
+    });
+  });
+
+  // Slide 16 — three concept traps
+  const cqItems = [
+    {
+      prompt: 'A buyer whose willingness to pay is $9 faces a price of $14. Her consumer surplus is:',
+      options: ['−$5', '$0', '$5'],
+      answer: 1,
+      explain: 'She simply does not buy. A buyer who stays out of the market earns <strong>zero</strong> surplus—never a negative amount. Nobody is forced into a trade that makes them worse off.'
+    },
+    {
+      prompt: 'The price of a good rises and consumer surplus rises too. Is that possible?',
+      options: ['Never', 'Yes, if demand shifted', 'Yes, if supply shifted'],
+      answer: 1,
+      explain: 'Exactly what we just computed: demand shifted right, the price went from $20 to $26, and CS still rose from $150 to $294. A rightward <em>supply</em> shift would have lowered the price instead.'
+    },
+    {
+      prompt: 'At Q = 10, the height of the demand curve tells you:',
+      options: ['the market price', 'the 10th buyer’s WTP', 'total revenue'],
+      answer: 1,
+      explain: 'The height is the <strong>marginal buyer’s willingness to pay</strong>. It equals the market price only at the equilibrium quantity; everywhere to the left the height is higher than the price, and that gap is consumer surplus.'
+    }
+  ];
+  const cqOptionButtons = document.querySelectorAll('#cqOptions .quiz-option');
+  let cqIdx = 0, cqScore = 0, cqAnswered = false;
+
+  function cqUpdateScore(){
+    document.getElementById('cqScore').textContent = cqScore + ' correct · ' + (cqIdx + 1) + ' of ' + cqItems.length;
+  }
+  function cqRender(){
+    const item = cqItems[cqIdx];
+    document.getElementById('cqLabel').textContent = 'Question ' + (cqIdx + 1) + ' of ' + cqItems.length;
+    document.getElementById('cqPrompt').innerHTML = item.prompt;
+    cqOptionButtons.forEach(function(button, i){ button.innerHTML = item.options[i]; });
+    resetButtons(cqOptionButtons);
+    cqAnswered = false;
+    setFeedback(document.getElementById('cqFeedback'), 'Answer, then say the rule out loud.');
+    cqUpdateScore();
+  }
+  cqOptionButtons.forEach(function(button){
+    button.addEventListener('click', function(){
+      if (cqAnswered) return;
+      cqAnswered = true;
+      const item = cqItems[cqIdx];
+      const correct = Number(button.dataset.i) === item.answer;
+      if (correct) cqScore += 1;
+      resetButtons(cqOptionButtons);
+      cqOptionButtons[item.answer].classList.add('correct');
+      if (!correct) button.classList.add('wrong');
+      setFeedback(document.getElementById('cqFeedback'),
+        '<strong>' + (correct ? 'Correct.' : 'The answer is “' + item.options[item.answer] + '.”') + '</strong> ' + item.explain,
+        correct ? 'success' : 'error');
+      cqUpdateScore();
+    });
+  });
+  document.getElementById('cqNext').addEventListener('click', function(){
+    cqIdx = (cqIdx + 1) % cqItems.length;
+    cqRender();
+  });
+  cqRender();
+
+  // Slides 11, 13 and 16 — reveal the computed surplus column
+  document.querySelectorAll('.calc-reveal').forEach(function(button){
+    const label = button.textContent;
+    button.addEventListener('click', function(){
+      const target = document.getElementById(button.dataset.target);
+      const shown = target.classList.toggle('revealed');
+      button.closest('.slide').querySelectorAll('.answer-layer').forEach(function(layer){
+        layer.classList.toggle('shown', shown);
+      });
+      button.textContent = shown ? label.replace(/^Reveal/, 'Hide') : label;
+    });
+  });
+
+  // Slide 14 — exit ticket
+  document.querySelectorAll('.exit-reveal').forEach(function(button){
+    button.addEventListener('click', function(){
+      const answer = document.getElementById(button.dataset.target);
+      const visible = answer.classList.toggle('visible');
+      button.textContent = visible ? 'Hide model answer' : 'Reveal model answer';
+    });
+  });
+
+  document.addEventListener('keydown', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea')) return;
+    if (['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(event.key)) { event.preventDefault(); show(idx + 1); }
+    else if (['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(event.key)) { event.preventDefault(); show(idx - 1); }
+    else if (event.key.toLowerCase() === 'p') { window.print(); }
+    else if (event.key === 'Home') { show(0); }
+    else if (event.key === 'End') { show(slides.length - 1); }
+  });
+
+  document.addEventListener('click', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea, .feedback, .plot-panel, .schedule-table, .exit-answer, .bid-board')) return;
+    if (event.clientX > window.innerWidth / 2) show(idx + 1); else show(idx - 1);
+  });
+
+  window.addEventListener('resize', fit);
+  const hash = parseInt(location.hash.replace('#',''), 10);
+  if (Number.isFinite(hash)) idx = Math.max(0, Math.min(slides.length - 1, hash - 1));
+  fit();
+  show(idx);
+})();
+</script>
+</body>
+</html>
