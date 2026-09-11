@@ -331,6 +331,116 @@
   .floor-examples .real-control-step.outcome { background: var(--purple); }
   .real-control-arrow { color: var(--muted); font-size: 19px; font-weight: 850; text-align: center; }
   .real-control-result { margin: 11px 0 0; color: var(--ink); font-size: 14px; line-height: 1.3; }
+  .historical-case { display: grid; grid-template-columns: .96fr 1.04fr; gap: 20px; margin-top: 14px; align-items: stretch; }
+  .historical-case .real-control-card { min-height: 0; padding: 16px 18px; }
+  .historical-case .real-control-context { min-height: 0; margin: 10px 0 12px; }
+  .historical-case .real-control-rule + .real-control-rule { margin-top: 9px; }
+  .historical-case .real-control-chain { margin-top: 13px; }
+  .historical-case .control-plot { height: 350px; }
+  .historical-case.floor-examples .real-control-card { border-top-color: var(--green); background: var(--green-soft); }
+  .historical-case.floor-examples .real-control-rule { border-left-color: var(--purple); }
+  .historical-case.floor-examples .real-control-step.outcome { background: var(--purple); }
+  .history-story { display: grid; grid-template-columns: .94fr 1.06fr; gap: 18px; margin-top: 13px; align-items: stretch; }
+  .history-steps { display: grid; grid-template-rows: repeat(3, 1fr); gap: 10px; }
+  .history-step { display: grid; grid-template-columns: 72px 1fr; gap: 11px; align-items: center; padding: 11px 13px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .history-step.process { border-left-color: var(--blue); background: var(--blue-soft); }
+  .history-step.result { border-left-color: var(--red); background: var(--red-soft); }
+  .floor-story .history-step.result { border-left-color: var(--purple); background: var(--purple-soft); }
+  .history-tag { padding: 7px 5px; color: #fff; background: var(--accent); font-size: 11px; font-weight: 850; letter-spacing: .07em; text-align: center; text-transform: uppercase; }
+  .history-step.process .history-tag { background: var(--blue); }
+  .history-step.result .history-tag { background: var(--red); }
+  .floor-story .history-step.result .history-tag { background: var(--purple); }
+  .history-copy strong { display: block; font-size: 17px; line-height: 1.2; }
+  .history-copy p { margin: 4px 0 0; color: var(--muted); font-size: 13px; line-height: 1.3; }
+  .history-photo { height: 355px; margin: 0; overflow: hidden; border: 1px solid rgba(31,41,51,.16); background: var(--soft); }
+  .history-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .video-embed { position: relative; background: #101820; }
+  .video-poster { position: relative; display: block; width: 100%; height: 100%; padding: 0; overflow: hidden; border: 0; background: #101820; cursor: pointer; }
+  .video-poster::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 54%, rgba(16,24,32,.72)); pointer-events: none; }
+  .video-play-icon { position: absolute; top: 50%; left: 50%; z-index: 2; display: flex; width: 68px; height: 68px; align-items: center; justify-content: center; padding-left: 5px; border: 3px solid rgba(255,255,255,.94); border-radius: 50%; color: #fff; background: rgba(201,80,77,.92); box-shadow: 0 5px 18px rgba(0,0,0,.32); font-size: 28px; transform: translate(-50%, -50%); transition: transform .16s ease, background .16s ease; pointer-events: none; }
+  .video-play-label { position: absolute; right: 14px; bottom: 13px; left: 14px; z-index: 2; color: #fff; font-size: 13px; font-weight: 820; letter-spacing: .02em; text-align: center; text-shadow: 0 2px 5px rgba(0,0,0,.75); pointer-events: none; }
+  .video-poster:hover .video-play-icon, .video-poster:focus-visible .video-play-icon { background: var(--red); transform: translate(-50%, -50%) scale(1.07); }
+  .video-credit { position: absolute; top: 8px; right: 9px; z-index: 3; padding: 4px 6px; color: #fff; background: rgba(16,24,32,.76); font-size: 9px; font-weight: 750; text-decoration: none; }
+  .video-frame { display: none; width: 100%; height: 100%; border: 0; background: #000; object-fit: contain; }
+  .video-embed.playing .video-poster { display: none; }
+  .video-embed.playing .video-frame { display: block; }
+  .video-embed.playing .video-credit { display: none; }
+
+  .day-two-banner {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 12px 15px;
+    border-left: 6px solid var(--purple);
+    background: var(--purple-soft);
+  }
+  .day-two-number { color: var(--purple); font-size: 34px; font-weight: 860; line-height: 1; }
+  .day-two-banner strong { display: block; font-size: 18px; }
+  .day-two-banner span { color: var(--muted); font-size: 13px; }
+
+  .welfare-layout { display: grid; grid-template-columns: .9fr 1.1fr; gap: 19px; align-items: start; }
+  .welfare-stack { display: grid; gap: 8px; }
+  .welfare-row {
+    display: grid;
+    grid-template-columns: 82px 1fr;
+    gap: 11px;
+    align-items: center;
+    min-height: 55px;
+    padding: 8px 11px;
+    background: var(--soft);
+  }
+  .welfare-row.cs-row { background: var(--blue-soft); }
+  .welfare-row.ps-row { background: var(--green-soft); }
+  .welfare-row.dwl-row { background: var(--red-soft); }
+  .welfare-row.ts-row { background: var(--accent-soft); }
+  .welfare-row strong { font-size: 18px; }
+  .welfare-row span { color: var(--muted); font-size: 12px; line-height: 1.25; }
+  .dwl-fill { fill: var(--red); fill-opacity: .36; }
+  .transfer-fill { fill: var(--purple); fill-opacity: .22; }
+
+  .reveal-step { visibility: hidden; opacity: 0; transition: opacity .18s ease; }
+  .reveal-step.visible { visibility: visible; opacity: 1; }
+  .check-answer { visibility: hidden; opacity: 0; transition: opacity .18s ease; }
+  .check-answer.visible { visibility: visible; opacity: 1; }
+  .interactive .step-reveal { min-width: 172px; background: var(--purple); }
+
+  .stakeholder-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; margin-top: 14px; }
+  .stakeholder-card { min-height: 217px; padding: 15px 16px; border-top: 5px solid var(--blue); background: var(--blue-soft); }
+  .stakeholder-card:nth-child(2) { border-top-color: var(--red); background: var(--red-soft); }
+  .stakeholder-card:nth-child(3) { border-top-color: var(--purple); background: var(--purple-soft); }
+  .stakeholder-card h2 { margin-bottom: 8px; font-size: 20px; }
+  .stakeholder-card p, .stakeholder-card li { font-size: 14px; line-height: 1.3; }
+  .stakeholder-card ul { margin-left: 17px; }
+
+  .policy-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 15px; text-align: center; }
+  .policy-table th { padding: 10px 8px; color: #fff; background: var(--ink); font-size: 13px; }
+  .policy-table td { padding: 10px 8px; border-bottom: 1px solid var(--line); }
+  .policy-table td:first-child { font-weight: 800; text-align: left; }
+  .policy-table tr:nth-child(2) { background: var(--blue-soft); }
+  .policy-table tr:nth-child(3) { background: var(--green-soft); }
+  .policy-table .loss { color: var(--red); font-weight: 820; }
+
+  .mechanism-flow { display: grid; grid-template-columns: 1fr 32px 1fr 32px 1fr; gap: 6px; align-items: stretch; }
+  .mechanism-box { display: flex; min-height: 91px; padding: 12px; align-items: center; justify-content: center; background: var(--soft); font-size: 15px; font-weight: 740; line-height: 1.28; text-align: center; }
+  .mechanism-box.blue-box { background: var(--blue-soft); }
+  .mechanism-box.red-box { color: #fff; background: var(--red); }
+  .mechanism-box.green-box { background: var(--green-soft); }
+  .mechanism-arrow { display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 25px; font-weight: 850; }
+
+  .compact-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-top: 13px; }
+  .compact-check { padding: 11px 13px; border-left: 4px solid var(--purple); background: var(--purple-soft); }
+  .compact-check strong { display: block; margin-bottom: 3px; font-size: 14px; }
+  .compact-check span { color: var(--muted); font-size: 12px; line-height: 1.25; }
+
+  .policy-table { width: 100%; margin-top: 15px; border-collapse: collapse; font-size: 16px; text-align: center; }
+  .policy-table th { padding: 11px 8px; color: #fff; background: var(--ink); font-size: 13px; }
+  .policy-table td { padding: 12px 8px; border-bottom: 1px solid var(--line); }
+  .policy-table tbody tr:nth-child(2) { background: var(--blue-soft); }
+  .policy-table tbody tr:nth-child(3) { background: var(--green-soft); }
+  .policy-table tbody td:first-child { font-weight: 800; text-align: left; }
+  .policy-table .loss { color: var(--red); font-weight: 840; }
 
   .final-checks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; margin: 16px 0; }
   .lo-card { min-height: 112px; padding: 14px 15px; border-top: 4px solid var(--accent); background: var(--soft); }
@@ -359,6 +469,10 @@
     .calc-answer { color: var(--ink) !important; }
     .out .calc-answer { color: #9aa3ab !important; }
     .answer-layer { opacity: 1 !important; }
+    .reveal-step { visibility: visible !important; opacity: 1 !important; }
+    .check-answer { visibility: visible !important; opacity: 1 !important; }
+    .video-embed.playing .video-poster { display: block !important; }
+    .video-frame { display: none !important; }
   }
 </style>
 </head>
@@ -1014,93 +1128,242 @@
 
   <!-- 19 -->
   <section class="slide" data-day="1">
-    <div class="section-kicker">New topic · LO 5.3</div>
-    <h1>What if the price is not allowed to settle at $14?</h1>
-    <div class="grid-2" style="margin-top:6px;">
-      <div class="card white" style="border-top:5px solid var(--red); border-radius:0 0 8px 8px;">
-        <h2 class="red">Price ceiling</h2>
-        <p style="font-size:19px;">A <strong>legal maximum</strong>. Charging more is illegal.</p>
-        <p class="small muted" style="margin-top:9px;">Rent control, capped insulin prices, anti-gouging rules after a hurricane.</p>
+    <div class="section-kicker">Review · read the curves vertically · LO 5.1</div>
+    <h1>Demand records value; supply records cost</h1>
+    <div class="welfare-layout" style="grid-template-columns:.92fr 1.08fr; margin-top:6px;">
+      <div>
+        <div class="card white" style="border-top:5px solid var(--blue);">
+          <h2 class="blue">Height of demand</h2>
+          <p>At quantity <em>Q</em>, the demand curve shows the <strong>marginal buyer’s willingness to pay</strong>—the value of that next unit to the last buyer willing to purchase it.</p>
+        </div>
+        <div class="card white" style="margin-top:13px; border-top:5px solid var(--green);">
+          <h2 class="green">Height of supply</h2>
+          <p>At quantity <em>Q</em>, the supply curve shows the <strong>marginal seller’s cost</strong>—the opportunity cost of producing that next unit.</p>
+        </div>
       </div>
-      <div class="card white" style="border-top:5px solid var(--red); border-radius:0 0 8px 8px;">
-        <h2 class="red">Price floor</h2>
-        <p style="font-size:19px;">A <strong>legal minimum</strong>. Paying less is illegal.</p>
-        <p class="small muted" style="margin-top:9px;">The minimum wage, the farm-labor AEWR, agricultural price supports.</p>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Demand and supply curves showing marginal willingness to pay and marginal cost at quantity three">
+          <line class="axis" x1="55" y1="260" x2="390" y2="260"/>
+          <line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <path class="demand-line" d="M55 35 L365 205"/>
+          <path class="supply-line" d="M55 230 L365 65"/>
+          <line class="projection" x1="200" y1="260" x2="200" y2="115"/>
+          <circle cx="200" cy="115" r="7" fill="#2f80c9" stroke="#fff" stroke-width="3"/>
+          <circle cx="200" cy="153" r="7" fill="#378a61" stroke="#fff" stroke-width="3"/>
+          <text class="plot-label" x="211" y="107" fill="#2f80c9">marginal buyer: WTP = $15</text>
+          <text class="plot-label" x="211" y="171" fill="#378a61">marginal seller: cost = $12</text>
+          <text class="tick-label" x="200" y="278" text-anchor="middle">Q = 3</text>
+          <text class="plot-label" x="370" y="208">D</text>
+          <text class="plot-label" x="370" y="68">S</text>
+          <text class="plot-label" x="178" y="295">Quantity</text>
+          <text class="plot-label" x="14" y="165" transform="rotate(-90 14 165)">Price, value, or cost</text>
+        </svg>
       </div>
     </div>
-    <div class="definition-strip" style="margin-top:20px;">
-      Both are <strong>price controls</strong>: a law that replaces the price the market would have reached. Neither one moves the demand curve or the supply curve—<strong>the curves stay exactly where they were.</strong>
+    <div class="definition-strip" style="margin-top:18px; text-align:center; font-size:21px;">
+      At the same quantity, the vertical gap <strong>WTP − cost</strong> is the potential gain from trading that unit.
     </div>
-    <p class="small muted" style="margin-top:16px;">That last sentence is the most-missed point of the whole unit. A price control changes <em>quantity demanded</em> and <em>quantity supplied</em>—movements <strong>along</strong> the curves you drew in Unit 4, never shifts of them.</p>
   </section>
 
   <!-- 20 -->
   <section class="slide" data-day="1">
-    <div class="section-kicker">Price ceiling · real settings, illustrative numbers</div>
-    <h1>“The price cannot go above this amount”</h1>
-    <div class="real-control-grid">
-      <div class="real-control-card">
-        <div class="real-control-heading"><div class="real-control-icon">🏠</div><h2>Rent cap</h2></div>
-        <p class="real-control-context">A city limits the monthly rent a landlord may legally charge.</p>
-        <div class="real-control-rule"><strong>Legal maximum:</strong> $1,200 per month</div>
-        <div class="real-control-reference">Suppose the market-clearing rent without the cap would be $1,600.</div>
-        <div class="real-control-chain">
-          <div class="real-control-step">Rent held below P*</div><div class="real-control-arrow">→</div>
-          <div class="real-control-step">Q<sub>d</sub> &gt; Q<sub>s</sub></div><div class="real-control-arrow">→</div>
-          <div class="real-control-step outcome">Apartment shortage</div>
+    <div class="section-kicker">Review · one trade, two gains</div>
+    <h1>The market price divides the gain from trade</h1>
+    <div class="calc-layout" style="grid-template-columns:1fr 1fr; margin-top:8px;">
+      <div>
+        <div class="card white" style="border-left:5px solid var(--blue);">
+          <h2 class="blue">Buyer: Carlos</h2>
+          <p>WTP = $15 and price = $14</p>
+          <p style="font-size:23px; margin-top:12px;"><strong>CS = WTP − P = $1</strong></p>
         </div>
-        <p class="real-control-result">More renters search for apartments than landlords offer: longer searches, waitlists, and non-price screening.</p>
+        <div class="card white" style="margin-top:13px; border-left:5px solid var(--green);">
+          <h2 class="green">Seller: Farm Y</h2>
+          <p>Price = $14 and cost = $12</p>
+          <p style="font-size:23px; margin-top:12px;"><strong>PS = P − cost = $2</strong></p>
+        </div>
       </div>
-      <div class="real-control-card">
-        <div class="real-control-heading"><div class="real-control-icon">🧴</div><h2>Emergency essentials</h2></div>
-        <p class="real-control-context">After a hurricane, an emergency rule limits the price of bottled water.</p>
-        <div class="real-control-rule"><strong>Legal maximum:</strong> $6 per case</div>
-        <div class="real-control-reference">Suppose emergency demand would otherwise produce a market-clearing price of $15.</div>
-        <div class="real-control-chain">
-          <div class="real-control-step">Price held below P*</div><div class="real-control-arrow">→</div>
-          <div class="real-control-step">Q<sub>d</sub> &gt; Q<sub>s</sub></div><div class="real-control-arrow">→</div>
-          <div class="real-control-step outcome">Shortage</div>
-        </div>
-        <p class="real-control-result">At the capped price, people want more water than stores have available: shelves empty and lines form.</p>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="A one-unit trade with willingness to pay fifteen, price fourteen, cost twelve, consumer surplus one, and producer surplus two">
+          <rect class="cs-fill" x="135" y="55" width="150" height="45"/>
+          <rect class="ps-fill" x="135" y="100" width="150" height="90"/>
+          <line class="axis" x1="90" y1="245" x2="330" y2="245"/>
+          <line class="axis" x1="90" y1="245" x2="90" y2="30"/>
+          <line x1="110" y1="55" x2="315" y2="55" stroke="#2f80c9" stroke-width="3"/>
+          <line class="price-line" x1="110" y1="100" x2="315" y2="100"/>
+          <line x1="110" y1="190" x2="315" y2="190" stroke="#378a61" stroke-width="3"/>
+          <text class="plot-label" x="48" y="59" fill="#2f80c9">$15</text>
+          <text class="plot-label" x="48" y="104" fill="#EB811B">$14</text>
+          <text class="plot-label" x="48" y="194" fill="#378a61">$12</text>
+          <text class="plot-label" x="294" y="59" fill="#2f80c9">WTP</text>
+          <text class="plot-label" x="294" y="104" fill="#EB811B">P</text>
+          <text class="plot-label" x="289" y="194" fill="#378a61">cost</text>
+          <text class="plot-label" x="190" y="84" fill="#2f80c9">CS = $1</text>
+          <text class="plot-label" x="190" y="150" fill="#378a61">PS = $2</text>
+          <text class="plot-label" x="176" y="268">One unit</text>
+        </svg>
       </div>
     </div>
-    <div class="definition-strip" style="margin-top:14px;"><strong>Memory rule:</strong> “maximum” identifies a ceiling; a ceiling is binding only when it is <strong>below P*</strong>.</div>
+    <div class="sum-strip" style="margin-top:16px;">
+      <div class="sum-box"><strong>$1</strong><span>Consumer surplus</span></div>
+      <div class="sum-symbol">+</div>
+      <div class="sum-box supply"><strong>$2</strong><span>Producer surplus</span></div>
+      <div class="sum-symbol">=</div>
+      <div class="sum-box total"><strong>$3</strong><span>Gain from trade</span></div>
+    </div>
+    <p class="table-note" style="margin-top:11px;">Changing the transaction price reallocates the $3 between buyer and seller; as long as the trade occurs, the total gain remains WTP − cost.</p>
   </section>
 
   <!-- 21 -->
-  <section class="slide" data-day="1">
-    <div class="section-kicker">Price floor · real settings, illustrative numbers</div>
-    <h1>“The price cannot go below this amount”</h1>
-    <div class="real-control-grid floor-examples">
-      <div class="real-control-card">
-        <div class="real-control-heading"><div class="real-control-icon">💵</div><h2>Minimum wage</h2></div>
-        <p class="real-control-context">In a labor market, the “price” is the hourly wage paid for labor.</p>
-        <div class="real-control-rule"><strong>Legal minimum:</strong> $15 per hour</div>
-        <div class="real-control-reference">Suppose the market-clearing wage for this job would be $12 per hour.</div>
-        <div class="real-control-chain">
-          <div class="real-control-step">Wage held above P*</div><div class="real-control-arrow">→</div>
-          <div class="real-control-step">Labor Q<sub>s</sub> &gt; Q<sub>d</sub></div><div class="real-control-arrow">→</div>
-          <div class="real-control-step outcome">Labor surplus</div>
+  <section class="slide interactive" data-day="1" id="surplusReviewSlide">
+    <div class="section-kicker">Review check · compute from a graph · LO 5.2</div>
+    <h1>Can you rebuild both surplus areas?</h1>
+    <div class="calc-layout">
+      <div>
+        <div class="definition-strip" style="font-size:17px;">
+          Demand: <strong>Q<sub>D</sub> = 90 − 3P</strong><br>
+          Supply: <strong>Q<sub>S</sub> = 2P − 10</strong><br><br>
+          At equilibrium, which statement is correct?
         </div>
-        <p class="real-control-result">More people want to work than firms want to hire at that wage. If binding, the gap appears as fewer available jobs or hours.</p>
+        <div class="quiz-options" style="grid-template-columns:1fr;">
+          <button type="button" class="quiz-option" data-check-target="surplusReviewFeedback">CS = $300; PS = $150; TS = $450</button>
+          <button type="button" class="quiz-option" data-check-target="surplusReviewFeedback" data-correct="true">CS = $150; PS = $225; TS = $375</button>
+          <button type="button" class="quiz-option" data-check-target="surplusReviewFeedback">CS = $225; PS = $150; TS = $375</button>
+        </div>
+        <div class="feedback" id="surplusReviewFeedback" style="margin-top:11px; min-height:84px;" aria-live="polite"
+             data-correct-message="<strong>Correct.</strong> P* = $20 and Q* = 30. Demand intercept = $30 and supply intercept = $5, so CS = ½(30)(10) = $150 and PS = ½(30)(15) = $225."
+             data-wrong-message="First solve P* = $20 and Q* = 30. Then use the vertical heights—not the full intercepts: CS height = 30 − 20; PS height = 20 − 5.">Solve for P* and Q*, then read both vertical intercepts.</div>
       </div>
-      <div class="real-control-card">
-        <div class="real-control-heading"><div class="real-control-icon">🌽</div><h2>Agricultural price support</h2></div>
-        <p class="real-control-context">A support program prevents a crop price from falling below a stated level.</p>
-        <div class="real-control-rule"><strong>Legal minimum:</strong> $5 per bushel</div>
-        <div class="real-control-reference">Suppose the market-clearing price without support would be $3.50 per bushel.</div>
-        <div class="real-control-chain">
-          <div class="real-control-step">Price held above P*</div><div class="real-control-arrow">→</div>
-          <div class="real-control-step">Q<sub>s</sub> &gt; Q<sub>d</sub></div><div class="real-control-arrow">→</div>
-          <div class="real-control-step outcome">Crop surplus</div>
-        </div>
-        <p class="real-control-result">Farms offer more while buyers purchase less, leaving unsold output unless someone buys or stores the excess.</p>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Review market with equilibrium price twenty, equilibrium quantity thirty, and hidden consumer and producer surplus areas">
+          <g class="check-answer">
+            <polygon class="cs-fill" points="55,30 215,107 55,107"/>
+            <polygon class="ps-fill" points="55,222 215,107 55,107"/>
+            <text class="plot-label" x="119" y="83" fill="#2f80c9">CS = $150</text>
+            <text class="plot-label" x="116" y="169" fill="#378a61">PS = $225</text>
+          </g>
+          <line class="axis" x1="55" y1="260" x2="395" y2="260"/>
+          <line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <path class="demand-line" d="M55 30 L375 183"/>
+          <path class="supply-line" d="M55 222 L322 30"/>
+          <line class="projection" x1="215" y1="107" x2="215" y2="260"/>
+          <line class="projection" x1="55" y1="107" x2="215" y2="107"/>
+          <circle cx="215" cy="107" r="7" fill="#EB811B" stroke="#fff" stroke-width="3"/>
+          <text class="plot-label" x="20" y="34" fill="#2f80c9">$30</text>
+          <text class="plot-label" x="20" y="111" fill="#EB811B">$20</text>
+          <text class="plot-label" x="24" y="226" fill="#378a61">$5</text>
+          <text class="plot-label" x="203" y="278" fill="#EB811B">30</text>
+          <text class="plot-label" x="379" y="186">D</text>
+          <text class="plot-label" x="326" y="34">S</text>
+          <text class="plot-label" x="200" y="295">Quantity</text>
+        </svg>
       </div>
     </div>
-    <div class="definition-strip" style="margin-top:14px;"><strong>Memory rule:</strong> “minimum” identifies a floor; a floor is binding only when it is <strong>above P*</strong>.</div>
   </section>
 
   <!-- 22 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">New topic · LO 5.3</div>
+    <h1>What if the government places a legal limit on price?</h1>
+    <div class="grid-2" style="margin-top:54px;">
+      <div class="card white" style="min-height:230px; padding:25px 26px; border-top:5px solid var(--red); border-radius:0 0 8px 8px;">
+        <h2 class="red">Price ceiling</h2>
+        <p style="font-size:19px;">A <strong>legal maximum</strong>. Transactions above the limit are not permitted.</p>
+        <p class="small muted" style="margin-top:9px;">Rent caps, regulated maximum prices, and emergency limits on price increases.</p>
+      </div>
+      <div class="card white" style="min-height:230px; padding:25px 26px; border-top:5px solid var(--red); border-radius:0 0 8px 8px;">
+        <h2 class="red">Price floor</h2>
+        <p style="font-size:19px;">A <strong>legal minimum</strong>. Transactions below the limit are not permitted.</p>
+        <p class="small muted" style="margin-top:9px;">Minimum wages, H-2A wage requirements such as the AEWR, and crop-support programs modeled as floors.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 23 -->
+  <section class="slide interactive" data-day="1" id="priceControlShiftReviewSlide">
+    <div class="section-kicker">Review before drawing the control · LO 5.3</div>
+    <h1>Does a government price limit shift demand or supply?</h1>
+    <div class="quiz-scenario" style="min-height:86px;">
+      <p>Assume tastes, income, technology, input costs, expectations, and the numbers of buyers and sellers have not changed.</p>
+    </div>
+    <div class="quiz-options" style="margin-top:16px;">
+      <button type="button" class="quiz-option" data-check-target="priceControlShiftFeedback">Demand shifts</button>
+      <button type="button" class="quiz-option" data-check-target="priceControlShiftFeedback">Supply shifts</button>
+      <button type="button" class="quiz-option" data-check-target="priceControlShiftFeedback" data-correct="true">Neither curve shifts</button>
+    </div>
+    <div class="feedback" id="priceControlShiftFeedback" style="margin-top:14px; min-height:72px;" aria-live="polite"
+         data-correct-message="<strong>Correct.</strong> The policy changes the legal price, not any demand or supply shifter. Buyers and sellers choose new quantities along the curves already on the graph."
+         data-wrong-message="The price limit is not a demand shifter or a supply shifter. Keep both curves fixed, mark the legal price, and read Qd and Qs from the existing curves.">Commit to an answer before revealing the graph-reading rule.</div>
+    <div class="mechanism-flow check-answer" style="margin-top:15px;">
+      <div class="mechanism-box red-box">Government sets a legal price limit</div>
+      <div class="mechanism-arrow">→</div>
+      <div class="mechanism-box blue-box">Move to the controlled price on the same D and S curves</div>
+      <div class="mechanism-arrow">→</div>
+      <div class="mechanism-box green-box">Read the new Q<sub>d</sub>&nbsp;and Q<sub>s</sub></div>
+    </div>
+    <p class="small muted check-answer" style="margin-top:13px; text-align:center;"><strong>Movement along a curve ≠ shift of the curve.</strong></p>
+  </section>
+
+  <!-- 24 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Historical case · United States · 1973–1974</div>
+    <h1>Gasoline price controls during the oil crisis</h1>
+    <div class="history-story">
+      <div class="history-steps" aria-label="Cause, process, and result of the gasoline price-control case">
+        <div class="history-step cause">
+          <div class="history-tag">Cause</div>
+          <div class="history-copy"><strong>Oil supply suddenly fell.</strong><p>The 1973 Arab oil embargo reduced crude oil reaching the United States, pushing the market-clearing gasoline price upward.</p></div>
+        </div>
+        <div class="history-step process">
+          <div class="history-tag">Process</div>
+          <div class="history-copy"><strong>Federal price controls blocked full adjustment.</strong><p>At the controlled price, motorists wanted more gasoline than stations could provide.</p></div>
+        </div>
+        <div class="history-step result">
+          <div class="history-tag">Result</div>
+          <div class="history-copy"><strong>Scarcity was rationed without price.</strong><p>Drivers faced long lines, purchase limits, and—in some states—odd–even license-plate rules.</p></div>
+        </div>
+      </div>
+      <figure class="history-photo video-embed" data-video-end="109">
+        <button type="button" class="video-poster" aria-label="Play the embedded video clip from 0 minutes to 1 minute 49 seconds">
+          <img src="Fig/ARE201_Unit5_Gasoline_Queue_1973_Generated.png" alt="Generated historical scene of 1970s cars waiting in a long line at a United States gas station">
+          <span class="video-play-icon" aria-hidden="true">▶</span>
+          <span class="video-play-label">Play video · 0:00–1:49</span>
+        </button>
+        <a class="video-credit" href="https://learn.mru.org/lessons/price-controls-definition-nixon" target="_blank" rel="noopener">MRU · CC BY-ND 4.0</a>
+        <video class="video-frame" controls preload="metadata" playsinline aria-label="Price Ceilings: The US Economy Flounders in the 1970s">
+          <source src="Video/ARE201_Unit5_MRU_Price_Ceilings_1970s.mp4" type="video/mp4">
+        </video>
+      </figure>
+    </div>
+    <div class="definition-strip" style="margin-top:14px;"><strong>The key distinction:</strong> the embargo changed the market; the price ceiling changed how the resulting scarcity was allocated.</div>
+  </section>
+
+  <!-- 25 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Historical case · European agriculture · 1970s–1980s</div>
+    <h1>Europe’s “butter mountains”</h1>
+    <div class="history-story floor-story">
+      <div class="history-steps" aria-label="Cause, process, and result of the European butter price-support case">
+        <div class="history-step cause">
+          <div class="history-tag">Cause</div>
+          <div class="history-copy"><strong>Europe sought to stabilize farm income.</strong><p>The Common Agricultural Policy used an intervention price to keep butter prices above the market-clearing level.</p></div>
+        </div>
+        <div class="history-step process">
+          <div class="history-tag">Process</div>
+          <div class="history-copy"><strong>Public agencies bought the unsold output.</strong><p>The supported price encouraged more production than private consumers wanted to purchase.</p></div>
+        </div>
+        <div class="history-step result">
+          <div class="history-tag">Result</div>
+          <div class="history-copy"><strong>Warehouses filled with surplus butter.</strong><p>The stocks became “butter mountains”: farmers gained support while taxpayers financed buying and storage.</p></div>
+        </div>
+      </div>
+      <figure class="history-photo">
+        <img src="Fig/ARE201_Unit5_Butter_Mountain_Generated.png" alt="Generated historical scene of a European cold-storage warehouse filled with stacks of surplus butter">
+      </figure>
+    </div>
+    <div class="definition-strip" style="margin-top:14px;"><strong>Why the surplus persisted:</strong> the supported price could continue because the government stood ready to buy what private consumers did not.</div>
+  </section>
+
+  <!-- 26 -->
   <section class="slide" data-day="1">
     <div class="section-kicker">Price ceilings · strawberries, P* = $14</div>
     <h1>A ceiling only bites if it sits below the equilibrium price</h1>
@@ -1164,7 +1427,7 @@
     </div>
   </section>
 
-  <!-- 23 -->
+  <!-- 27 -->
   <section class="slide" data-day="1">
     <div class="section-kicker">Price floors · same market, P* = $14</div>
     <h1>A floor only bites if it sits above the equilibrium price</h1>
@@ -1224,37 +1487,589 @@
       </div>
     </div>
     <div class="definition-strip" style="margin-top:14px;">
-      Short side again: only <strong>18</strong> flats trade. Notice the pattern—<strong>every binding control, ceiling or floor, shrinks the quantity traded.</strong> Next class we put a dollar value on what that costs.
+      Short side again: only <strong>18</strong> flats trade. Without a government or other third-party buyer, <strong>every binding control shrinks private buyer–seller transactions.</strong> Next class we put a dollar value on what that costs.
     </div>
   </section>
 
-  <!-- 24 -->
-  <section class="slide interactive" data-day="1" id="checkpointSlide">
-    <div class="section-kicker">Class 1 checkpoint</div>
-    <h1>Three moves you should now be able to make</h1>
-    <div class="final-checks">
-      <div class="lo-card">
-        <strong>LO 5.1</strong>
-        <p>Say why the height of demand is a buyer’s WTP and the height of supply is a seller’s cost—and why that makes surplus an <em>area</em>.</p>
+  <!-- ===== CLASS 2 — LO 5.4–LO 5.8 ===== -->
+
+  <!-- 28 -->
+  <section class="slide interactive" data-day="2" id="controlReviewSlide">
+    <div class="section-kicker">Class 2 · retrieval before new material</div>
+    <h1>Read the control before you calculate anything else</h1>
+    <div class="calc-layout" style="margin-top:4px;">
+      <div>
+        <div class="quiz-options" style="grid-template-columns:1fr; margin-top:0;">
+          <button type="button" class="quiz-option" data-check-target="controlReviewFeedback">Non-binding ceiling; Q = 10</button>
+          <button type="button" class="quiz-option" data-check-target="controlReviewFeedback" data-correct="true">Binding ceiling; shortage = 8; 6 units trade</button>
+          <button type="button" class="quiz-option" data-check-target="controlReviewFeedback">Demand shifts left; 14 units trade</button>
+        </div>
+        <div class="feedback" id="controlReviewFeedback" style="margin-top:12px;" aria-live="polite"
+             data-correct-message="<strong>Correct.</strong> At P = $6, Qs = 6 and Qd = 14. The short side determines actual trade, so only 6 units change hands."
+             data-wrong-message="The ceiling is below P* = $10, so it binds. Move along the unchanged curves: Qs = 6, Qd = 14, and only 6 units trade.">Choose one statement, then defend every number from the graph.</div>
       </div>
-      <div class="lo-card">
-        <strong>LO 5.2</strong>
-        <p>Compute CS, PS, and total surplus two ways: buyer-by-buyer from a table, and ½ × base × height from a graph.</p>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Demand and supply with equilibrium at ten dollars and a price ceiling at six dollars">
+          <line class="axis" x1="55" y1="260" x2="385" y2="260"/>
+          <line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <path class="demand-line" d="M55 30 L335 230"/>
+          <path class="supply-line" d="M55 230 L335 30"/>
+          <line class="ceiling-line" x1="55" y1="170" x2="345" y2="170"/>
+          <line class="projection" x1="195" y1="130" x2="195" y2="260"/>
+          <circle cx="195" cy="130" r="7" fill="#EB811B" stroke="#fff" stroke-width="3"/>
+          <text class="plot-label" x="18" y="134" fill="#EB811B">$10</text>
+          <text class="plot-label" x="20" y="174" fill="#c9504d">$6</text>
+          <text class="plot-label" x="205" y="119" fill="#EB811B">E</text>
+          <text class="plot-label" x="340" y="234">D</text>
+          <text class="plot-label" x="340" y="34">S</text>
+          <text class="plot-label" x="170" y="292">Quantity</text>
+          <text class="plot-label" x="14" y="165" transform="rotate(-90 14 165)">Price</text>
+        </svg>
       </div>
-      <div class="lo-card">
-        <strong>LO 5.3</strong>
-        <p>Decide whether a ceiling or floor binds, and read off the shortage or surplus and the quantity actually traded.</p>
+    </div>
+    <div class="definition-strip" style="margin-top:14px;"><strong>Nothing shifted.</strong> A legal price changes the quantities chosen <em>along</em> demand and supply; it does not move either curve.</div>
+  </section>
+
+  <!-- 29 -->
+  <section class="slide interactive" data-day="2" id="lostTradeSlide">
+    <div class="section-kicker">From lost surplus to deadweight loss · LO 5.4</div>
+    <h1>Carlos’s missing $1 was only half of the lost trade</h1>
+    <div class="two-thirds" style="margin-top:7px; grid-template-columns:1fr 1fr;">
+      <div>
+        <table class="schedule-table" aria-label="The third strawberry trade before and after a sixteen dollar price floor">
+          <thead><tr><th></th><th>Third buyer</th><th>Third farm</th></tr></thead>
+          <tbody>
+            <tr><td class="buyer-name">Identity</td><td>Carlos</td><td>Farm Y</td></tr>
+            <tr><td class="buyer-name">Value or cost</td><td>WTP = $15</td><td>Cost = $12</td></tr>
+            <tr><td class="buyer-name">At P* = $14</td><td>CS = $1</td><td>PS = $2</td></tr>
+            <tr><td class="buyer-name">With floor = $16</td><td colspan="2"><strong>No third trade</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="button-row" style="margin-top:15px;">
+          <button type="button" class="step-reveal" data-step-group="lostTrade">Reveal next piece</button>
+        </div>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Step demand and supply curves showing Carlos's one dollar of consumer surplus and Farm Y's two dollars of producer surplus on the third trade">
+          <g class="reveal-step" data-step-group="lostTrade" data-step="1">
+            <rect class="cs-fill" x="183" y="116" width="64" height="10"/>
+          </g>
+          <g class="reveal-step" data-step-group="lostTrade" data-step="2">
+            <rect class="ps-fill" x="183" y="126" width="64" height="19"/>
+          </g>
+          <line class="axis" x1="55" y1="260" x2="395" y2="260"/>
+          <line class="axis" x1="55" y1="260" x2="55" y2="30"/>
+          <path class="demand-line" d="M55 49 H119 V88 H183 V116 H247 V155 H311 V260"/>
+          <path class="supply-line" d="M55 212 H119 V174 H183 V145 H247 V107 H311 V40"/>
+          <line class="price-line" x1="55" y1="126" x2="365" y2="126"/>
+          <line class="projection" x1="247" y1="260" x2="247" y2="107"/>
+          <text class="plot-label" x="18" y="130" fill="#EB811B">$14</text>
+          <text class="plot-label" x="369" y="130" fill="#EB811B">P*</text>
+          <text class="plot-label" x="318" y="230">D</text>
+          <text class="plot-label" x="318" y="55">S</text>
+          <text class="tick-label" x="247" y="277" text-anchor="middle">Q = 3</text>
+          <text class="plot-label" x="185" y="295">Flats of strawberries</text>
+          <text class="plot-label" x="14" y="165" transform="rotate(-90 14 165)">Price per flat</text>
+          <g class="reveal-step" data-step-group="lostTrade" data-step="1">
+            <circle cx="247" cy="116" r="6" fill="#2f80c9" stroke="#fff" stroke-width="3"/>
+            <line x1="252" y1="112" x2="271" y2="92" stroke="#2f80c9" stroke-width="2"/>
+            <text class="plot-label" x="274" y="87" fill="#2f80c9">Carlos: WTP = $15</text>
+            <text class="plot-label" x="274" y="104" fill="#2f80c9">CS = $15 − $14 = $1</text>
+          </g>
+          <g class="reveal-step" data-step-group="lostTrade" data-step="2">
+            <circle cx="247" cy="145" r="6" fill="#378a61" stroke="#fff" stroke-width="3"/>
+            <line x1="252" y1="149" x2="271" y2="168" stroke="#378a61" stroke-width="2"/>
+            <text class="plot-label" x="274" y="173" fill="#378a61">Farm Y: cost = $12</text>
+            <text class="plot-label" x="274" y="190" fill="#378a61">PS = $14 − $12 = $2</text>
+          </g>
+          <g class="reveal-step" data-step-group="lostTrade" data-step="3">
+            <rect x="183" y="116" width="64" height="29" fill="none" stroke="#c9504d" stroke-width="3"/>
+            <text class="plot-label" x="274" y="218" fill="#c9504d">Lost CS + PS = $3</text>
+          </g>
+        </svg>
       </div>
     </div>
-    <div class="definition-strip">
-      <strong>Exit ticket.</strong> Go back to Ana, Ben, Carlos, and Dee. The price rises from <strong>$14 to $16</strong>. What is consumer surplus now, and name the <em>two separate things</em> that caused it to fall.
+    <div class="definition-strip reveal-step" data-step-group="lostTrade" data-step="3" style="margin-top:20px; border-left-color:var(--red); background:var(--red-soft);">
+      <strong>Deadweight loss:</strong> the reduction in total surplus caused by trades that no longer occur—or by units produced whose cost exceeds their value.
     </div>
-    <div class="button-row" style="margin-top:14px;">
-      <button type="button" class="exit-reveal" data-target="exitAnswer">Reveal model answer</button>
+  </section>
+
+  <!-- 30 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">Why Q* is efficient</div>
+    <h1>Keep trading while the next buyer values the unit more than it costs</h1>
+    <div class="schedule-layout" style="grid-template-columns:1.05fr .95fr; margin-top:9px;">
+      <div>
+        <table class="schedule-table" style="font-size:16px;" aria-label="Gains from four possible strawberry trades">
+          <thead><tr><th>Possible trade</th><th>Buyer WTP</th><th>Seller cost</th><th>Gain from trade</th></tr></thead>
+          <tbody>
+            <tr><td class="buyer-name">1 · Ana + Farm W</td><td>$22</td><td>$5</td><td><strong>$17</strong></td></tr>
+            <tr><td class="buyer-name">2 · Ben + Farm X</td><td>$18</td><td>$9</td><td><strong>$9</strong></td></tr>
+            <tr><td class="buyer-name">3 · Carlos + Farm Y</td><td>$15</td><td>$12</td><td><strong>$3</strong></td></tr>
+            <tr class="out"><td class="buyer-name">4 · Dee + Farm Z</td><td>$11</td><td>$16</td><td><strong>−$5</strong></td></tr>
+            <tr class="total"><td class="buyer-name">Efficient market</td><td colspan="2">Stop after trade 3</td><td><strong>TS = $29</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="card white" style="border-top:5px solid var(--green);">
+          <h2 class="green">Before Q*</h2>
+          <p>Demand lies above supply: marginal WTP &gt; marginal cost. Each additional trade creates surplus.</p>
+        </div>
+        <div class="card white" style="margin-top:12px; border-top:5px solid var(--red);">
+          <h2 class="red">After Q*</h2>
+          <p>Supply lies above demand: marginal cost &gt; marginal WTP. Forcing another unit would destroy surplus.</p>
+        </div>
+      </div>
     </div>
-    <div class="exit-answer" id="exitAnswer">
-      <p><strong>CS = $8.</strong> Ana keeps $22 − $16 = $6; Ben keeps $18 − $16 = $2; Carlos’s WTP of $15 is below $16, so he stops buying. Surplus falls from $13 to $8—and that $5 splits into two very different pieces: <strong>$4</strong> is what Ana and Ben still trade but no longer keep, while <strong>$1</strong> is Carlos’s gain that <em>simply disappears</em> because his trade never happens. Next class, that second piece gets a name.</p>
+    <div class="definition-strip" style="margin-top:19px; text-align:center; font-size:22px;"><strong>At Q*:</strong> all positive gains from trade are captured, so total surplus is maximized.</div>
+  </section>
+
+  <!-- 31 -->
+  <section class="slide interactive" data-day="2" id="ceilingPredictSlide">
+    <div class="section-kicker">Price ceiling · predict before welfare shading</div>
+    <h1>A $6 ceiling blocks which trades?</h1>
+    <div class="calc-layout">
+      <div>
+        <div class="definition-strip blue-strip" style="font-size:18px;">
+          Market demand: <strong>P = 20 − Q</strong><br>
+          Market supply: <strong>P = Q</strong><br>
+          Free-market equilibrium: <strong>P* = $10, Q* = 10</strong>
+        </div>
+        <div class="quiz-options" style="grid-template-columns:1fr;">
+          <button type="button" class="quiz-option" data-check-target="ceilingPredictFeedback">14 units trade; the shortage is 8</button>
+          <button type="button" class="quiz-option" data-check-target="ceilingPredictFeedback" data-correct="true">6 units trade; trades 7–10 disappear</button>
+          <button type="button" class="quiz-option" data-check-target="ceilingPredictFeedback">10 units trade; only the price changes</button>
+        </div>
+        <div class="feedback" id="ceilingPredictFeedback" style="margin-top:12px;" aria-live="polite"
+             data-correct-message="<strong>Correct.</strong> Sellers offer only 6 units. Buyers want 14, but wanting a unit does not make one available. Trades 7–10 disappear relative to Q* = 10."
+             data-wrong-message="At $6, Qs = 6 and Qd = 14. The short side is supply, so 6 units trade. Compare 6 with Q* = 10 to find the four lost trades.">First find Qs and Qd. Then apply the short-side rule.</div>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="A price ceiling at six dollars in a market with equilibrium price and quantity equal to ten">
+          <line class="axis" x1="55" y1="260" x2="385" y2="260"/>
+          <line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <path class="demand-line" d="M55 30 L335 230"/>
+          <path class="supply-line" d="M55 230 L335 30"/>
+          <line class="ceiling-line" x1="55" y1="170" x2="350" y2="170"/>
+          <line class="projection" x1="195" y1="130" x2="195" y2="260"/>
+          <circle cx="195" cy="130" r="7" fill="#EB811B" stroke="#fff" stroke-width="3"/>
+          <text class="plot-label" x="18" y="134" fill="#EB811B">$10</text>
+          <text class="plot-label" x="20" y="174" fill="#c9504d">$6</text>
+          <text class="tick-label" x="195" y="277" text-anchor="middle">10</text>
+          <text class="plot-label" x="340" y="234">D</text>
+          <text class="plot-label" x="340" y="34">S</text>
+          <text class="plot-label" x="175" y="294">Quantity</text>
+        </svg>
+      </div>
     </div>
+  </section>
+
+  <!-- 32 -->
+  <section class="slide interactive" data-day="2" id="ceilingWelfareSlide">
+    <div class="section-kicker">Price ceiling · surplus before and after · LO 5.4</div>
+    <h1>The lower price transfers surplus—and the lost trades destroy some</h1>
+    <div class="welfare-layout">
+      <div>
+        <div class="welfare-stack">
+          <div class="welfare-row reveal-step" data-step-group="ceilingWelfare" data-step="1"><strong>Q = 6</strong><span>Qs = 6, Qd = 14, shortage = 8.</span></div>
+          <div class="welfare-row cs-row reveal-step" data-step-group="ceilingWelfare" data-step="2"><strong>CS = $66</strong><span>Successful buyers pay $6. Efficient rationing is assumed.</span></div>
+          <div class="welfare-row ps-row reveal-step" data-step-group="ceilingWelfare" data-step="2"><strong>PS = $18</strong><span>Sellers receive $6 on the six units produced.</span></div>
+          <div class="welfare-row ts-row reveal-step" data-step-group="ceilingWelfare" data-step="3"><strong>TS = $84</strong><span>Before the ceiling, TS was $100.</span></div>
+          <div class="welfare-row dwl-row reveal-step" data-step-group="ceilingWelfare" data-step="4"><strong>DWL = $16</strong><span>The gains from trades 7–10 disappear.</span></div>
+        </div>
+        <div class="button-row" style="margin-top:13px;"><button type="button" class="step-reveal" data-step-group="ceilingWelfare">Reveal next step</button></div>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Consumer surplus, producer surplus, and deadweight loss under a binding price ceiling">
+          <g class="reveal-step" data-step-group="ceilingWelfare" data-step="2">
+            <polygon class="cs-fill" points="55,30 139,90 139,170 55,170"/>
+            <polygon class="ps-fill" points="55,230 139,170 55,170"/>
+          </g>
+          <g class="reveal-step" data-step-group="ceilingWelfare" data-step="4"><polygon class="dwl-fill" points="139,90 195,130 139,170"/></g>
+          <line class="axis" x1="55" y1="260" x2="385" y2="260"/>
+          <line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <path class="demand-line" d="M55 30 L335 230"/>
+          <path class="supply-line" d="M55 230 L335 30"/>
+          <line class="ceiling-line" x1="55" y1="170" x2="350" y2="170"/>
+          <circle cx="195" cy="130" r="6" fill="#fff" stroke="#9aa3ab" stroke-width="2.5"/>
+          <g class="reveal-step" data-step-group="ceilingWelfare" data-step="1">
+            <line class="projection" x1="139" y1="170" x2="139" y2="260"/>
+            <line class="projection" x1="251" y1="170" x2="251" y2="260"/>
+            <text class="tick-label" x="139" y="277" text-anchor="middle" fill="#378a61">Qs = 6</text>
+            <text class="tick-label" x="251" y="277" text-anchor="middle" fill="#2f80c9">Qd = 14</text>
+          </g>
+          <g class="reveal-step" data-step-group="ceilingWelfare" data-step="2">
+            <text class="plot-label" x="84" y="111" fill="#2f80c9">CS</text>
+            <text class="plot-label" x="83" y="194" fill="#378a61">PS</text>
+          </g>
+          <g class="reveal-step" data-step-group="ceilingWelfare" data-step="4"><text class="plot-label" x="151" y="134" fill="#c9504d">DWL</text></g>
+          <text class="plot-label" x="19" y="174" fill="#c9504d">$6</text>
+          <text class="tick-label" x="195" y="277" text-anchor="middle">10</text>
+          <text class="plot-label" x="340" y="234">D</text>
+          <text class="plot-label" x="340" y="34">S</text>
+        </svg>
+      </div>
+    </div>
+    <p class="table-note" style="margin-top:9px;">Baseline at P* = $10 and Q* = 10: CS = $50, PS = $50, TS = $100. The ceiling changes who receives surplus and reduces the total.</p>
+  </section>
+
+  <!-- 33 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">Price ceiling · winners, losers, and rationing · LO 5.6–5.7</div>
+    <h1>“Consumers win” is too simple—some never get the good</h1>
+    <div class="stakeholder-grid">
+      <div class="stakeholder-card">
+        <h2 class="blue">Possible winners</h2>
+        <p>Buyers who obtain the good pay less. In our efficient-rationing calculation, their total CS rises from $50 to $66.</p>
+        <p><strong>But the low price does not guarantee access.</strong></p>
+      </div>
+      <div class="stakeholder-card">
+        <h2 class="red">Losers</h2>
+        <ul>
+          <li>Sellers receive less and sell fewer units.</li>
+          <li>Buyers who would have traded at equilibrium may be shut out.</li>
+          <li>Future buyers may face lower quality or less investment.</li>
+        </ul>
+      </div>
+      <div class="stakeholder-card">
+        <h2 style="color:var(--purple);">Who gets the six units?</h2>
+        <p>Without price rationing, another rule takes over: first-come-first-served, waiting, purchase limits, lotteries, or seller discretion.</p>
+        <p>If the highest-WTP buyers are not served, actual CS is lower and DWL is larger than our graph shows.</p>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:18px;"><strong>Assumption behind the shaded graph:</strong> the six available units reach the six buyers with the highest willingness to pay.</div>
+  </section>
+
+  <!-- 34 -->
+  <section class="slide interactive" data-day="2" id="floorPredictSlide">
+    <div class="section-kicker">Price floor · same market, mirrored prediction</div>
+    <h1>A $14 floor blocks which trades?</h1>
+    <div class="calc-layout">
+      <div>
+        <div class="definition-strip green-strip" style="font-size:18px;">
+          Market demand: <strong>P = 20 − Q</strong><br>
+          Market supply: <strong>P = Q</strong><br>
+          Free-market equilibrium: <strong>P* = $10, Q* = 10</strong>
+        </div>
+        <div class="quiz-options" style="grid-template-columns:1fr;">
+          <button type="button" class="quiz-option" data-check-target="floorPredictFeedback">14 units trade; surplus = 8</button>
+          <button type="button" class="quiz-option" data-check-target="floorPredictFeedback" data-correct="true">6 units trade; trades 7–10 disappear</button>
+          <button type="button" class="quiz-option" data-check-target="floorPredictFeedback">10 units trade; sellers divide the surplus</button>
+        </div>
+        <div class="feedback" id="floorPredictFeedback" style="margin-top:12px;" aria-live="polite"
+             data-correct-message="<strong>Correct.</strong> Buyers purchase only 6 units. Sellers offer 14, but producing an unsold unit does not create a market transaction."
+             data-wrong-message="At $14, Qd = 6 and Qs = 14. Demand is the short side, so private buyers purchase 6 units. The remaining eight units are excess supply.">Find Qd first: buyers determine how many units are sold in the private market.</div>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="A price floor at fourteen dollars in a market with equilibrium price and quantity equal to ten">
+          <line class="axis" x1="55" y1="260" x2="385" y2="260"/>
+          <line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <path class="demand-line" d="M55 30 L335 230"/>
+          <path class="supply-line" d="M55 230 L335 30"/>
+          <line class="ceiling-line" x1="55" y1="90" x2="350" y2="90"/>
+          <line class="projection" x1="195" y1="130" x2="195" y2="260"/>
+          <circle cx="195" cy="130" r="7" fill="#EB811B" stroke="#fff" stroke-width="3"/>
+          <text class="plot-label" x="18" y="134" fill="#EB811B">$10</text>
+          <text class="plot-label" x="17" y="94" fill="#c9504d">$14</text>
+          <text class="tick-label" x="195" y="277" text-anchor="middle">10</text>
+          <text class="plot-label" x="340" y="234">D</text>
+          <text class="plot-label" x="340" y="34">S</text>
+          <text class="plot-label" x="175" y="294">Quantity</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 35 -->
+  <section class="slide interactive" data-day="2" id="floorWelfareSlide">
+    <div class="section-kicker">Price floor · surplus before and after · LO 5.4</div>
+    <h1>The higher price transfers surplus—but cannot save the lost trades</h1>
+    <div class="welfare-layout">
+      <div>
+        <div class="welfare-stack">
+          <div class="welfare-row reveal-step" data-step-group="floorWelfare" data-step="1"><strong>Q = 6</strong><span>Qd = 6, Qs = 14, surplus = 8.</span></div>
+          <div class="welfare-row cs-row reveal-step" data-step-group="floorWelfare" data-step="2"><strong>CS = $18</strong><span>Buyers pay $14 on the six units purchased.</span></div>
+          <div class="welfare-row ps-row reveal-step" data-step-group="floorWelfare" data-step="2"><strong>PS = $66</strong><span>Assume the six lowest-cost sellers make the sales.</span></div>
+          <div class="welfare-row ts-row reveal-step" data-step-group="floorWelfare" data-step="3"><strong>TS = $84</strong><span>Before the floor, TS was $100.</span></div>
+          <div class="welfare-row dwl-row reveal-step" data-step-group="floorWelfare" data-step="4"><strong>DWL = $16</strong><span>The gains from trades 7–10 disappear.</span></div>
+        </div>
+        <div class="button-row" style="margin-top:13px;"><button type="button" class="step-reveal" data-step-group="floorWelfare">Reveal next step</button></div>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Consumer surplus, producer surplus, and deadweight loss under a binding price floor">
+          <g class="reveal-step" data-step-group="floorWelfare" data-step="2">
+            <polygon class="cs-fill" points="55,30 139,90 55,90"/>
+            <polygon class="ps-fill" points="55,90 139,90 139,170 55,230"/>
+          </g>
+          <g class="reveal-step" data-step-group="floorWelfare" data-step="4"><polygon class="dwl-fill" points="139,90 195,130 139,170"/></g>
+          <line class="axis" x1="55" y1="260" x2="385" y2="260"/>
+          <line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <path class="demand-line" d="M55 30 L335 230"/>
+          <path class="supply-line" d="M55 230 L335 30"/>
+          <line class="ceiling-line" x1="55" y1="90" x2="350" y2="90"/>
+          <circle cx="195" cy="130" r="6" fill="#fff" stroke="#9aa3ab" stroke-width="2.5"/>
+          <g class="reveal-step" data-step-group="floorWelfare" data-step="1">
+            <line class="projection" x1="139" y1="90" x2="139" y2="260"/>
+            <line class="projection" x1="251" y1="90" x2="251" y2="260"/>
+            <text class="tick-label" x="139" y="277" text-anchor="middle" fill="#2f80c9">Qd = 6</text>
+            <text class="tick-label" x="251" y="277" text-anchor="middle" fill="#378a61">Qs = 14</text>
+          </g>
+          <g class="reveal-step" data-step-group="floorWelfare" data-step="2">
+            <text class="plot-label" x="81" y="65" fill="#2f80c9">CS</text>
+            <text class="plot-label" x="82" y="143" fill="#378a61">PS</text>
+          </g>
+          <g class="reveal-step" data-step-group="floorWelfare" data-step="4"><text class="plot-label" x="151" y="134" fill="#c9504d">DWL</text></g>
+          <text class="plot-label" x="17" y="94" fill="#c9504d">$14</text>
+          <text class="tick-label" x="195" y="277" text-anchor="middle">10</text>
+          <text class="plot-label" x="340" y="234">D</text>
+          <text class="plot-label" x="340" y="34">S</text>
+        </svg>
+      </div>
+    </div>
+    <p class="table-note" style="margin-top:9px;">The six sellers who make a sale may gain from the higher price. Sellers left with unsold output do not automatically benefit.</p>
+  </section>
+
+  <!-- 36 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">Put the two policies side by side · LO 5.6</div>
+    <h1>Transfers change who gets the surplus; DWL changes how much exists</h1>
+    <table class="policy-table" aria-label="Comparison of the free market, a price ceiling, and a price floor">
+      <thead><tr><th>Outcome</th><th>Price</th><th>Quantity traded</th><th>CS</th><th>PS</th><th>TS</th><th>DWL</th></tr></thead>
+      <tbody>
+        <tr><td>Free market</td><td>$10</td><td>10</td><td>$50</td><td>$50</td><td>$100</td><td>0</td></tr>
+        <tr><td>Binding ceiling</td><td>$6</td><td>6</td><td>$66</td><td>$18</td><td>$84</td><td class="loss">$16</td></tr>
+        <tr><td>Binding floor</td><td>$14</td><td>6</td><td>$18</td><td>$66</td><td>$84</td><td class="loss">$16</td></tr>
+      </tbody>
+    </table>
+    <div class="grid-3" style="margin-top:18px;">
+      <div class="card blue-top"><h2>Transfer</h2><p>One participant’s gain is another participant’s loss. Total surplus does not change from the transfer alone.</p></div>
+      <div class="card green-top"><h2>Lost trade</h2><p>Both the buyer’s potential gain and the seller’s potential gain disappear. Total surplus falls.</p></div>
+      <div class="card accent-top"><h2>Policy evaluation</h2><p>Name the intended beneficiary, calculate who actually gains, and then identify who pays.</p></div>
+    </div>
+    <p class="table-note">CS under the ceiling assumes the scarce units reach the highest-WTP buyers; PS under the floor assumes the lowest-cost sellers make the sales.</p>
+  </section>
+
+  <!-- 37 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">Labor markets · minimum wage · LO 5.5</div>
+    <h1>In a labor market, the wage is the price</h1>
+    <div class="calc-layout">
+      <div>
+        <div class="mirror-grid" style="grid-template-columns:1fr; margin-top:0; gap:10px;">
+          <div class="mirror-col"><h2>Labor demand</h2><p class="mirror-line"><strong>Firms</strong> decide how many workers or hours to hire at each wage. A higher wage reduces quantity of labor demanded.</p></div>
+          <div class="mirror-col seller-col"><h2>Labor supply</h2><p class="mirror-line"><strong>Workers</strong> decide how much labor to offer at each wage. A higher wage raises quantity of labor supplied.</p></div>
+        </div>
+        <div class="definition-strip" style="margin-top:13px; font-size:17px;"><strong>Binding minimum wage:</strong> employment is the short side, L<sub>d</sub>. The gap L<sub>s</sub> − L<sub>d</sub> is a labor surplus—not a shortage of workers.</div>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Labor market with a binding minimum wage and a labor surplus">
+          <line class="axis" x1="55" y1="260" x2="385" y2="260"/>
+          <line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <path class="demand-line" d="M55 30 L335 230"/>
+          <path class="supply-line" d="M55 230 L335 30"/>
+          <line class="ceiling-line" x1="55" y1="90" x2="350" y2="90"/>
+          <line class="gap-bracket" x1="139" y1="90" x2="251" y2="90"/>
+          <line class="projection" x1="139" y1="90" x2="139" y2="260"/>
+          <line class="projection" x1="251" y1="90" x2="251" y2="260"/>
+          <circle cx="195" cy="130" r="6" fill="#fff" stroke="#9aa3ab" stroke-width="2.5"/>
+          <text class="plot-label" x="16" y="94" fill="#c9504d">Wmin</text>
+          <text class="tick-label" x="139" y="277" text-anchor="middle">Ld</text>
+          <text class="tick-label" x="251" y="277" text-anchor="middle">Ls</text>
+          <text class="plot-label" x="163" y="77" fill="#c9504d">labor surplus</text>
+          <text class="plot-label" x="340" y="234">D labor</text>
+          <text class="plot-label" x="340" y="34">S labor</text>
+          <text class="plot-label" x="168" y="295">Labor</text>
+          <text class="plot-label" x="14" y="165" transform="rotate(-90 14 165)">Hourly wage</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 38 -->
+  <section class="slide interactive" data-day="2" id="aewrSlide">
+    <div class="section-kicker">Farm labor policy · AEWR · LO 5.5</div>
+    <h1>The AEWR applies the wage-floor logic to H-2A farm labor</h1>
+    <div class="two-thirds" style="grid-template-columns:1.02fr .98fr;">
+      <div>
+        <div class="definition-strip green-strip">
+          <strong>Adverse Effect Wage Rate (AEWR):</strong> a required wage benchmark used in the H-2A temporary agricultural worker program to help prevent the employment of temporary foreign workers from depressing U.S. farm wages.
+        </div>
+        <div class="card white" style="margin-top:14px; border-top:5px solid var(--green);">
+          <h2>Hypothetical North Carolina farm-labor market</h2>
+          <p>Suppose the market-clearing wage is $13 per hour and the applicable required wage is $16.</p>
+          <p><strong>Predict:</strong> what happens to the wage, labor demanded, labor supplied, and the gap between them?</p>
+        </div>
+      </div>
+      <div>
+        <div class="quiz-options" style="grid-template-columns:1fr; margin-top:0;">
+          <button type="button" class="quiz-option" data-check-target="aewrFeedback">Non-binding; employment rises automatically</button>
+          <button type="button" class="quiz-option" data-check-target="aewrFeedback" data-correct="true">Binding; farms hire less labor and a labor surplus appears</button>
+          <button type="button" class="quiz-option" data-check-target="aewrFeedback">Demand for farm labor shifts right</button>
+        </div>
+        <div class="feedback" id="aewrFeedback" style="margin-top:13px; min-height:108px;" aria-live="polite"
+             data-correct-message="<strong>Correct in the basic model.</strong> The required wage is above the hypothetical market wage, so it binds: farms move up their labor-demand curve and hire less; workers move up labor supply and offer more."
+             data-wrong-message="The policy changes the legal wage, not either curve. Because $16 is above the hypothetical $13 equilibrium, it is a binding wage floor in the basic model.">Use the same four-step price-floor test—only the axis labels have changed.</div>
+      </div>
+    </div>
+    <p class="small muted" style="margin-top:17px;">The diagram is a simplified policy model. H-2A recruitment rules, corresponding employment, housing, transportation, visas, and other required wage rules also shape actual outcomes.</p>
+  </section>
+
+  <!-- 39 -->
+  <section class="slide interactive" data-day="2" id="agSupportSlide">
+    <div class="section-kicker">Agricultural price supports · the government becomes a buyer · LO 5.8</div>
+    <h1>A supported crop price changes the short-side rule</h1>
+    <div class="welfare-layout">
+      <div>
+        <div class="welfare-stack">
+          <div class="welfare-row cs-row reveal-step" data-step-group="agSupport" data-step="1" style="grid-template-columns:128px 1fr;"><strong>CS = $18</strong><span>Consumers buy 6: ½ × 6 × ($20 − $14).</span></div>
+          <div class="welfare-row ps-row reveal-step" data-step-group="agSupport" data-step="1" style="grid-template-columns:128px 1fr;"><strong>PS = $98</strong><span>Farms sell all 14 units: ½ × 14 × $14.</span></div>
+          <div class="welfare-row ts-row reveal-step" data-step-group="agSupport" data-step="2" style="grid-template-columns:128px 1fr;"><strong>Government expenditure = $112</strong><span>Government buys the 8-unit excess: $14 × (14 − 6).</span></div>
+          <div class="welfare-row dwl-row reveal-step" data-step-group="agSupport" data-step="3" style="grid-template-columns:128px 1fr;"><strong>DWL = $96</strong><span>Policy TS = $18 + $98 − $112 = $4, versus TS* = $100.</span></div>
+        </div>
+        <div class="button-row" style="margin-top:12px;"><button type="button" class="step-reveal" data-step-group="agSupport">Reveal next step</button></div>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Agricultural price support with consumer surplus eighteen dollars, producer surplus ninety-eight dollars, government expenditure one hundred twelve dollars, and deadweight loss ninety-six dollars">
+          <g class="reveal-step" data-step-group="agSupport" data-step="1">
+            <polygon class="cs-fill" points="55,30 55,90 139,90"/>
+            <polygon class="ps-fill" points="55,230 55,90 251,90"/>
+          </g>
+          <g class="reveal-step" data-step-group="agSupport" data-step="2">
+            <rect x="139" y="90" width="112" height="140" fill="#7657a5" fill-opacity=".07" stroke="#7657a5" stroke-width="3" stroke-dasharray="7 4"/>
+          </g>
+          <g class="reveal-step" data-step-group="agSupport" data-step="3">
+            <polygon class="dwl-fill" points="139,90 195,130 195,230 139,230"/>
+            <polygon class="dwl-fill" points="195,130 251,90 251,230 195,230"/>
+          </g>
+          <line class="axis" x1="55" y1="260" x2="385" y2="260"/>
+          <line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <path class="demand-line" d="M55 30 L335 230"/>
+          <path class="supply-line" d="M55 230 L335 30"/>
+          <line class="ceiling-line" x1="55" y1="90" x2="350" y2="90"/>
+          <circle cx="195" cy="130" r="6" fill="#EB811B" stroke="#fff" stroke-width="3"/>
+          <text class="plot-label" x="204" y="124" fill="#EB811B">E</text>
+          <text class="plot-label" x="205" y="146" fill="#EB811B">P* = $10, Q* = 10</text>
+          <g class="reveal-step" data-step-group="agSupport" data-step="1">
+            <line class="projection" x1="139" y1="90" x2="139" y2="260"/>
+            <line class="projection" x1="251" y1="90" x2="251" y2="260"/>
+            <text class="tick-label" x="139" y="277" text-anchor="middle" fill="#2f80c9">Qd = 6</text>
+            <text class="tick-label" x="251" y="277" text-anchor="middle" fill="#378a61">Qs = 14</text>
+            <text class="plot-label" x="73" y="72" fill="#2f80c9">CS = $18</text>
+            <text class="plot-label" x="78" y="175" fill="#378a61">PS = $98</text>
+          </g>
+          <g class="reveal-step" data-step-group="agSupport" data-step="2">
+            <line class="gap-bracket" x1="139" y1="90" x2="251" y2="90"/>
+            <text class="plot-label" x="161" y="76" fill="#7657a5">government buys 8</text>
+            <text class="plot-label" x="195" y="211" text-anchor="middle" fill="#7657a5">G = $112</text>
+          </g>
+          <g class="reveal-step" data-step-group="agSupport" data-step="3">
+            <text class="plot-label" x="195" y="244" text-anchor="middle" fill="#c9504d">DWL = $96</text>
+          </g>
+          <text class="plot-label" x="17" y="94" fill="#c9504d">$14</text>
+          <text class="plot-label" x="340" y="234">D</text>
+          <text class="plot-label" x="340" y="34">S</text>
+          <text class="plot-label" x="173" y="295">Crop quantity</text>
+        </svg>
+      </div>
+    </div>
+    <p class="table-note" style="margin-top:8px;"><strong>Welfare assumption:</strong>&nbsp; government-held crops have no use or resale value, and storage costs are ignored. If the crops create value later, subtract that value from net government cost. Historical example in the 3B reading: European wheat price supports.</p>
+  </section>
+
+  <!-- 40 -->
+  <section class="slide interactive" data-day="2" id="gougingSlide">
+    <div class="section-kicker">Emergency price caps · information and incentives · LO 5.7</div>
+    <h1>After a hurricane, a high price is both a burden and a signal</h1>
+    <div class="grid-2" style="margin-top:8px;">
+      <div class="card white" style="border-top:5px solid var(--accent);">
+        <h2 class="accent">If price can rise</h2>
+        <ul>
+          <li>Consumers have a stronger reason to conserve scarce water.</li>
+          <li>Stores and outside suppliers see a reason to bring in more.</li>
+          <li>But low-income households may be unable to afford essentials.</li>
+        </ul>
+      </div>
+      <div class="card white" style="border-top:5px solid var(--blue);">
+        <h2 class="blue">If an emergency cap binds</h2>
+        <ul>
+          <li>The posted price stays affordable for buyers who find water.</li>
+          <li>Qd exceeds Qs, so shelves empty and a shortage appears.</li>
+          <li>Waiting, purchase limits, or first-come-first-served replace price.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="quiz-scenario" style="margin-top:15px; min-height:72px;"><p style="font-size:19px;">If price is no longer allowed to ration the scarce water, what determines who receives it?</p></div>
+    <div class="quiz-options" style="margin-top:10px;">
+      <button type="button" class="quiz-option" data-check-target="gougingFeedback">Everyone who wants it</button>
+      <button type="button" class="quiz-option" data-check-target="gougingFeedback">Only the highest-WTP buyers</button>
+      <button type="button" class="quiz-option" data-check-target="gougingFeedback" data-correct="true">A non-price rationing rule</button>
+    </div>
+    <div class="feedback" id="gougingFeedback" style="margin-top:10px;" aria-live="polite"
+         data-correct-message="<strong>Correct.</strong> Lines, purchase limits, lotteries, timing, or seller discretion decide access. A lower money price can come with a higher waiting cost."
+         data-wrong-message="A binding cap creates more buyers than available units. Something other than price—such as waiting, limits, timing, or a lottery—must ration the supply.">Choose an allocation mechanism, not a slogan.</div>
+    <p class="small muted" style="margin-top:11px;"><strong>Efficiency is not the only value.</strong> WTP reflects both preferences and ability to pay, so emergency policy involves a real efficiency–equity tradeoff.</p>
+  </section>
+
+  <!-- 41 -->
+  <section class="slide interactive" data-day="2" id="integratedPracticeSlide">
+    <div class="section-kicker">Integrated practice · LO 5.3–5.6</div>
+    <h1>One graph, six decisions</h1>
+    <div class="calc-layout">
+      <div>
+        <div class="definition-strip" style="font-size:17px;">
+          Demand: <strong>P = 24 − Q</strong><br>
+          Supply: <strong>P = Q</strong><br>
+          Government sets a <strong>$8 price ceiling</strong>.<br><br>
+          Which complete statement is correct?
+        </div>
+        <div class="quiz-options" style="grid-template-columns:1fr;">
+          <button type="button" class="quiz-option" data-check-target="integratedFeedback">Non-binding; Q = 12; DWL = 0</button>
+          <button type="button" class="quiz-option" data-check-target="integratedFeedback" data-correct="true">Binding; Q = 8; shortage = 8; DWL = $16</button>
+          <button type="button" class="quiz-option" data-check-target="integratedFeedback">Binding; Q = 16; shortage = 8; DWL = $32</button>
+        </div>
+        <div class="feedback" id="integratedFeedback" style="margin-top:11px; min-height:82px;" aria-live="polite"
+             data-correct-message="<strong>Correct.</strong> P* = $12 and Q* = 12. At $8, Qs = 8 and Qd = 16, so 8 trade. TS falls from $144 to $128; the missing triangle has base 4 and height 8, so DWL = $16."
+             data-wrong-message="Start at equilibrium: 24 − Q = Q gives P* = Q* = 12. Then evaluate both curves at $8 and use the smaller quantity. DWL is the triangle over lost trades Q = 8 to 12.">Work in this order: equilibrium → binding? → Qd and Qs → actual trade → surplus → DWL.</div>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 420 300" role="img" aria-label="Practice price ceiling market with equilibrium twelve and ceiling eight">
+          <g class="check-answer"><polygon class="dwl-fill" points="155,96.7 205,130 155,163.3"/></g>
+          <line class="axis" x1="55" y1="260" x2="385" y2="260"/>
+          <line class="axis" x1="55" y1="260" x2="55" y2="25"/>
+          <path class="demand-line" d="M55 30 L355 230"/>
+          <path class="supply-line" d="M55 230 L355 30"/>
+          <line class="ceiling-line" x1="55" y1="163.3" x2="375" y2="163.3"/>
+          <line class="projection" x1="155" y1="163.3" x2="155" y2="260"/>
+          <line class="projection" x1="255" y1="163.3" x2="255" y2="260"/>
+          <circle cx="205" cy="130" r="6" fill="#EB811B" stroke="#fff" stroke-width="3"/>
+          <text class="plot-label" x="18" y="134" fill="#EB811B">$12</text>
+          <text class="plot-label" x="20" y="167" fill="#c9504d">$8</text>
+          <text class="tick-label" x="155" y="277" text-anchor="middle">8</text>
+          <text class="tick-label" x="205" y="277" text-anchor="middle">12</text>
+          <text class="tick-label" x="255" y="277" text-anchor="middle">16</text>
+          <g class="check-answer"><text class="plot-label" x="162" y="133" fill="#c9504d">DWL</text></g>
+          <text class="plot-label" x="360" y="234">D</text>
+          <text class="plot-label" x="360" y="34">S</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 42 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">Unit 5 checkpoint · explain, calculate, evaluate</div>
+    <h1>Five moves complete the unit</h1>
+    <div class="compact-checks">
+      <div class="compact-check"><strong>LO 5.4 · Trace the welfare loss</strong><span>Find actual quantity traded, recompute TS, and identify the DWL from missing trades.</span></div>
+      <div class="compact-check"><strong>LO 5.5 · Translate the labor market</strong><span>Wage is price; firms demand labor; workers supply it; apply the floor logic to minimum wage and AEWR.</span></div>
+      <div class="compact-check"><strong>LO 5.6 · Name people, not just areas</strong><span>Identify successful buyers or sellers, excluded participants, taxpayers, and the size of each surplus change.</span></div>
+      <div class="compact-check"><strong>LO 5.7 · Ask what replaces price</strong><span>Explain rationing, quality, conservation, supply incentives, and the efficiency–equity tradeoff.</span></div>
+      <div class="compact-check" style="grid-column:1 / -1; border-left-color:var(--green); background:var(--green-soft);"><strong>LO 5.8 · Follow the institution</strong><span>A crop support may make government the buyer of the surplus; H-2A farm labor policy uses a required wage benchmark. The graph is the beginning of the analysis, not the end.</span></div>
+    </div>
+    <div class="definition-strip" style="margin-top:17px; font-size:18px;">
+      <strong>Exit ticket:</strong> A crop price support is above P*. Consumers buy 40 units and farms supply 70. If government buys the excess, how many units does government purchase, who benefits, who pays, and why is the government’s expenditure not automatically equal to deadweight loss?
+    </div>
+    <div class="footer-note small muted" style="margin-top:14px;">Use the four labels every time: <strong>transfer</strong>, <strong>lost trade or overproduction</strong>, <strong>deadweight loss</strong>, and <strong>distribution</strong>.</div>
   </section>
 
 </div>
@@ -1281,8 +2096,21 @@
     stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
   }
 
+  function resetEmbeddedVideos(activeSlide){
+    document.querySelectorAll('.video-embed.playing').forEach(function(embed){
+      if (activeSlide && embed.closest('.slide') === activeSlide) return;
+      const video = embed.querySelector('video');
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+      }
+      embed.classList.remove('playing');
+    });
+  }
+
   function show(n){
     idx = Math.max(0, Math.min(slides.length - 1, n));
+    resetEmbeddedVideos(slides[idx]);
     slides.forEach(function(slide, i){ slide.classList.toggle('active', i === idx); });
     progress.style.width = (((idx + 1) / slides.length) * 100) + '%';
     history.replaceState(null, '', '#' + (idx + 1));
@@ -1296,6 +2124,30 @@
   function resetButtons(buttons){
     buttons.forEach(function(button){ button.classList.remove('correct', 'wrong', 'selected'); });
   }
+
+  // Slide 24 — load the 0:00–1:49 case-study clip only after the poster is clicked
+  document.querySelectorAll('.video-poster').forEach(function(button){
+    button.addEventListener('click', function(){
+      const embed = button.closest('.video-embed');
+      const video = embed.querySelector('video');
+      video.currentTime = 0;
+      embed.classList.add('playing');
+      const playPromise = video.play();
+      if (playPromise && typeof playPromise.catch === 'function') playPromise.catch(function(){});
+      button.blur();
+    });
+  });
+  document.querySelectorAll('.video-embed video').forEach(function(video){
+    video.addEventListener('timeupdate', function(){
+      const embed = video.closest('.video-embed');
+      const endTime = Number(embed.dataset.videoEnd);
+      if (Number.isFinite(endTime) && video.currentTime >= endTime) {
+        video.pause();
+        video.currentTime = 0;
+        embed.classList.remove('playing');
+      }
+    });
+  });
 
   // Slide 3 — keep the volunteered numbers on this browser
   document.querySelectorAll('.bid-input').forEach(function(input){
@@ -1424,6 +2276,52 @@
       const answer = document.getElementById(button.dataset.target);
       const visible = answer.classList.toggle('visible');
       button.textContent = visible ? 'Hide model answer' : 'Reveal model answer';
+    });
+  });
+
+  // Class 2 — reusable prediction checks
+  document.querySelectorAll('[data-check-target]').forEach(function(button){
+    button.addEventListener('click', function(){
+      const targetId = button.dataset.checkTarget;
+      const feedback = document.getElementById(targetId);
+      const groupButtons = Array.from(document.querySelectorAll('[data-check-target]')).filter(function(candidate){
+        return candidate.dataset.checkTarget === targetId;
+      });
+      const correctButton = groupButtons.find(function(candidate){ return candidate.dataset.correct === 'true'; });
+      const correct = button.dataset.correct === 'true';
+      resetButtons(groupButtons);
+      if (correctButton) correctButton.classList.add('correct');
+      if (!correct) button.classList.add('wrong');
+      button.closest('.slide').querySelectorAll('.check-answer').forEach(function(answer){
+        answer.classList.add('visible');
+      });
+      setFeedback(feedback,
+        correct ? feedback.dataset.correctMessage : feedback.dataset.wrongMessage,
+        correct ? 'success' : 'error');
+    });
+  });
+
+  // Class 2 — reveal each welfare result separately
+  document.querySelectorAll('.step-reveal').forEach(function(button){
+    const group = button.dataset.stepGroup;
+    const elements = Array.from(document.querySelectorAll('.reveal-step')).filter(function(element){
+      return element.dataset.stepGroup === group;
+    });
+    const stepNumbers = Array.from(new Set(elements.map(function(element){ return Number(element.dataset.step); }))).sort(function(a, b){ return a - b; });
+    let revealedCount = 0;
+    button.addEventListener('click', function(){
+      if (revealedCount >= stepNumbers.length) {
+        elements.forEach(function(element){ element.classList.remove('visible'); });
+        revealedCount = 0;
+        button.textContent = 'Reveal next step';
+        return;
+      }
+      const nextStep = stepNumbers[revealedCount];
+      elements.forEach(function(element){
+        if (Number(element.dataset.step) === nextStep) element.classList.add('visible');
+      });
+      revealedCount += 1;
+      button.textContent = revealedCount >= stepNumbers.length ? 'Reset reveals' : 'Reveal next step (' + revealedCount + '/' + stepNumbers.length + ')';
     });
   });
 
