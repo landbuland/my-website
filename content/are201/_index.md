@@ -33,3 +33,8 @@ description: "ARE 201: Introduction to Agricultural and Resource Economics, Fall
 ### Unit 5: Consumer and Producer Surplus and Price Controls
 
 - [Consumer and Producer Surplus and Price Controls Slides](https://zihanzhang.me/assets/are201/ARE201_Unit5_Surplus_Price_Controls_Fall2026.html)
+
+### Exam 1 Review
+
+- [Exam 1 Review Slides (No Answers)](https://zihanzhang.me/assets/are201/ARE201_Exam1_Review_Fall2026_No_Answers.html)
+- [Exam 1 Review Slides (With Answers)](https://zihanzhang.me/assets/are201/ARE201_Exam1_Review_Fall2026.html)

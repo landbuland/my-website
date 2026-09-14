@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARE 201 — Exam 1 Review</title>
+<style>
+:root{--accent:#EB811B;--accent-soft:#fff4e8;--ink:#1f2933;--muted:#5f6b76;--paper:#fff;--soft:#f3f4f6;--line:#d8dde3;--blue:#2f80c9;--blue-soft:#eef5fb;--green:#378a61;--green-soft:#e9f6ef;--red:#c9504d;--red-soft:#fcedec;--purple:#7657a5;--purple-soft:#f3effa}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111}body{font-family:"Avenir Next","Helvetica Neue",Arial,sans-serif;color:var(--ink)}
+#stage{position:absolute;left:50%;top:50%;width:960px;height:720px;transform:translate(-50%,-50%);transform-origin:center;background:var(--paper);box-shadow:0 12px 40px #0006}
+.slide{position:absolute;inset:0;display:none;width:960px;height:720px;padding:50px 62px 56px;overflow:hidden;background:var(--paper)}.slide.active{display:block}.title-slide.active{display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding-bottom:100px}
+h1,h2,h3,p{margin-top:0}h1{font-size:37px;line-height:1.12;letter-spacing:-.4px;margin-bottom:19px}h2{font-size:24px;line-height:1.2;margin-bottom:10px}h3{font-size:19px;line-height:1.2;margin-bottom:8px}p,li{font-size:19px;line-height:1.36}p{margin-bottom:13px}strong{font-weight:780}sub{line-height:0}.muted{color:var(--muted)}.small{font-size:16px;line-height:1.36}.tiny{font-size:13px;line-height:1.3}.blue{color:var(--blue)}.green{color:var(--green)}.orange{color:var(--accent)}.red{color:var(--red)}
+.section-kicker{color:var(--accent);font-size:14px;font-weight:820;letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px}.title-kicker{color:var(--accent);font-size:17px;font-weight:780;letter-spacing:.11em;text-transform:uppercase;margin-bottom:16px}.title-main{font-size:58px;line-height:1.03;margin:0 0 15px}.title-rule{width:150px;height:6px;background:var(--accent);margin:23px auto}.title-sub{font-size:23px;color:var(--muted);line-height:1.38;margin:0}.title-path{margin-top:40px;font-size:17px;color:var(--muted)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.wide-left{display:grid;grid-template-columns:1.12fr .88fr;gap:24px}.card{padding:18px 20px;background:var(--soft);border-radius:8px}.card p{font-size:17px}.card p:last-child{margin-bottom:0}.blue-top{border-top:4px solid var(--blue);border-radius:0 0 8px 8px}.green-top{border-top:4px solid var(--green);border-radius:0 0 8px 8px}.accent-top{border-top:4px solid var(--accent);border-radius:0 0 8px 8px}.strip{padding:13px 16px;border-left:5px solid var(--accent);background:var(--accent-soft);font-size:19px;line-height:1.36;margin:16px 0}.strip.blue-strip{border-color:var(--blue);background:var(--blue-soft)}.strip.green-strip{border-color:var(--green);background:var(--green-soft)}.strip p:last-child{margin-bottom:0}
+.lead{font-size:21px;line-height:1.36}.space{margin-top:20px}.compact{margin-top:12px}.row{display:grid;grid-template-columns:145px 1fr;gap:20px;padding:16px 0;border-bottom:1px solid var(--line)}.row:first-of-type{border-top:1px solid var(--line)}.row h2{font-size:23px;margin-bottom:0}.row p{font-size:18px;margin:0 0 7px}.row .reveal{font-size:18px}.big-number{font-size:35px;font-weight:800;line-height:1.15}.equation{font-family:Georgia,"Times New Roman",serif;font-size:25px;line-height:1.4}.equation-box{background:var(--purple-soft);border-left:5px solid var(--purple);padding:12px 17px;margin:16px 0}.equation-box p{margin:0}
+table{width:100%;border-collapse:collapse;font-size:18px;line-height:1.3;margin:13px 0}th{text-align:left;font-weight:780;background:var(--soft)}td,th{padding:12px 13px;border-bottom:1px solid var(--line);vertical-align:middle}td.num,th.num{text-align:center;font-variant-numeric:tabular-nums}.tight td,.tight th{padding:10px 12px}.tiny-table{font-size:16px}.highlight-row{background:var(--green-soft)}.table-label{color:var(--muted);font-size:14px;margin-bottom:0}
+button,select{font-family:inherit}button{cursor:pointer}button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #eb811b88;outline-offset:3px}.action{background:var(--accent);border:0;border-radius:7px;padding:10px 15px;color:white;font-weight:780;font-size:15px;min-height:39px}.action.secondary{background:var(--soft);color:var(--ink);border:1px solid var(--line)}.action:disabled{opacity:.55;cursor:default}.button-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:15px 0}.button-row .small{margin:0}.reveal{visibility:hidden;opacity:0;transition:opacity .15s}.reveal.shown{visibility:visible;opacity:1}.reveal.cell{display:inline-block}.answer-box{min-height:78px;margin-top:16px;padding:14px 17px;border-left:5px solid var(--green);background:var(--green-soft);font-size:18px;line-height:1.38}.answer-box p{font-size:18px;margin:0 0 6px}.answer-box p:last-child{margin-bottom:0}
+.choices{display:grid;grid-template-columns:1fr;gap:11px;margin:17px 0}.choices.two{grid-template-columns:1fr 1fr}.choice{display:flex;align-items:center;gap:13px;text-align:left;border:2px solid var(--line);border-radius:9px;padding:13px 16px;background:white;color:var(--ink);font-weight:680;font-size:18px;line-height:1.32;min-height:62px}.choice:hover{border-color:var(--accent)}.choice .letter{display:inline-flex;flex-shrink:0;align-items:center;justify-content:center;background:var(--accent);width:30px;height:30px;border-radius:50%;font-size:15px;font-weight:800;color:#fff}.choice.correct{background:var(--green-soft);border-color:var(--green)}.choice.wrong{background:var(--red-soft);border-color:var(--red)}.feedback{min-height:66px;padding:12px 16px;background:var(--soft);border-left:5px solid var(--line);font-size:18px;line-height:1.35;margin-top:14px}.feedback.success{border-color:var(--green);background:var(--green-soft)}.feedback.error{border-color:var(--red);background:var(--red-soft)}
+.tabs{display:flex;gap:8px;margin:15px 0}.tab{flex:1;border:1px solid var(--line);background:var(--soft);padding:11px 9px;font-size:16px;font-weight:730;border-radius:7px}.tab.selected{background:var(--accent);border-color:var(--accent);color:white}.graph{width:100%;display:block}.plot-frame{padding:12px 5px 0;background:#fafbfc;border:1px solid #e9edf0;border-radius:8px}.graph text{font-family:"Avenir Next","Helvetica Neue",Arial,sans-serif;fill:var(--ink);font-size:15px}.graph .axis{stroke:var(--ink);stroke-width:2;fill:none}.graph .guide{stroke:#9aa5af;stroke-width:1.2;stroke-dasharray:5 4;fill:none}.graph .demand{stroke:var(--blue);stroke-width:3.5;fill:none}.graph .supply{stroke:var(--green);stroke-width:3.5;fill:none}.graph .ppf{stroke:var(--accent);stroke-width:3.5;fill:none}.graph .old{stroke:#9aa5af;stroke-width:2.3;stroke-dasharray:6 4;fill:none}.graph .point{fill:var(--ink)}.graph .new-point{fill:var(--accent)}.graph .tick{font-size:13px;fill:var(--muted)}.graph .curve-label{font-weight:780;font-size:16px}.legend{display:flex;gap:16px;font-size:14px;color:var(--muted);margin:5px 10px 11px}.legend span:before{content:'';display:inline-block;width:18px;height:3px;vertical-align:middle;margin-right:6px;background:var(--accent)}.legend .green-key:before{background:var(--green)}.legend .blue-key:before{background:var(--blue)}.graph-caption{font-size:14px;line-height:1.3;color:var(--muted);margin:4px 10px 12px}.step{display:flex;align-items:flex-start;gap:12px;margin:15px 0}.step-num{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:30px;height:30px;background:var(--accent);border-radius:50%;color:white;font-size:16px;font-weight:800}.step p{font-size:18px;margin:2px 0 0}.arrow-result{font-size:24px;font-weight:780;line-height:1.4}.mini-question{padding:15px 17px;border-left:4px solid var(--accent);background:var(--accent-soft);margin:13px 0}.mini-question p{font-size:18px;margin-bottom:8px}.mini-question .reveal{font-size:18px;color:#246b49;font-weight:750}
+.footer{position:absolute;left:62px;right:62px;bottom:18px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#8a949e}.source-note{position:absolute;left:62px;right:62px;bottom:42px;font-size:11px;color:#87919a}.slide-index{border:0;background:transparent;color:inherit;font-size:13px;padding:3px}.footer-tools{display:flex;align-items:center;gap:12px}.footer-btn{font-size:13px;border:0;background:transparent;color:#78838e;padding:4px}.footer-btn:hover{color:var(--accent)}#progress{position:fixed;bottom:0;left:0;height:4px;background:var(--accent);z-index:20}#hint{position:fixed;bottom:9px;left:50%;transform:translateX(-50%);color:#ffffff88;font:12px Arial,sans-serif;white-space:nowrap}#toc{display:none;position:absolute;inset:30px;z-index:30;background:white;box-shadow:0 5px 45px #0005;border:1px solid var(--line);border-radius:10px;padding:28px;overflow:auto}#toc.open{display:block}.toc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.toc-item{text-align:left;background:var(--soft);border:0;padding:11px 12px;border-radius:5px;font-size:16px;color:var(--ink)}.toc-item:hover{background:var(--accent-soft)}.toc-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.toc-heading h2{margin:0}
+@page{size:10in 7.5in;margin:0}@media print{html,body{width:auto;height:auto;overflow:visible;background:white;-webkit-print-color-adjust:exact;print-color-adjust:exact}#stage{position:static;width:960px;height:auto;transform:none!important;box-shadow:none}.slide,.slide.title-slide{position:relative;display:block!important;break-after:page;page-break-after:always}.slide:last-of-type{break-after:auto;page-break-after:auto}.title-slide{text-align:center;padding-top:220px}.reveal{visibility:visible!important;opacity:1!important}.feedback{display:none}.action,.tabs,.footer-tools,#hint,#progress,#toc{display:none!important}.button-row{min-height:39px}.source-note{bottom:42px}.print-answer{display:block!important}.choice[data-correct="true"]{border-color:var(--green);background:var(--green-soft)}}.print-answer{display:none}
+.strip.small{font-size:16px;line-height:1.34;padding:11px 14px;margin:12px 0}
+.card{padding:15px 17px}.card h2{margin-bottom:8px}.card p{margin-bottom:9px}
+.tight td,.tight th{padding:9px 11px}.button-row{margin:12px 0}
+.answer-box{padding:12px 15px;margin-top:12px}
+#ppfRead,#ppfChange,#opposingSupply{height:290px}
+#tradeA,#tradeB{height:230px}#welfareGraph{height:300px}
+.legend .plain-key:before{display:none}.footer{background:#fff;z-index:2;isolation:isolate}
+.slide .footer{visibility:hidden}@media print{.slide .footer{visibility:visible}.live-footer{display:none!important}}
+.slide[data-topic="Absolute & comparative advantage"] table td,.slide[data-topic="Absolute & comparative advantage"] table th{padding-top:8px;padding-bottom:8px}
+.slide[data-topic="Specialization & total output"] .card{padding:12px 16px}
+.slide[data-topic="Simultaneous demand & supply shifts"] .strip{font-size:18px;padding-top:10px;padding-bottom:10px}
+.slide[data-topic="Mixed practice & final checklist"] .mini-question{padding:12px 16px;margin:11px 0}
+.slide[data-topic="Mixed practice & final checklist"] .strip{font-size:18px;margin:12px 0;padding-top:10px;padding-bottom:10px}
+.practice-source{position:absolute;left:62px;right:62px;bottom:43px;font-size:12px;line-height:1.3;color:var(--muted)}
+.practice-slide .lead{font-size:20px}.practice-slide .mini-question{margin:11px 0;padding:12px 16px}
+.practice-slide .answer-box{font-size:17px;line-height:1.34}.practice-slide .answer-box p{font-size:17px}
+.practice-slide .practice-prompt{padding:14px 17px;border-left:5px solid var(--accent);background:var(--accent-soft);font-size:20px;line-height:1.36;margin:15px 0}
+.practice-slide .practice-prompt p{font-size:18px;margin:0 0 9px}.practice-slide .practice-prompt p:last-child{margin-bottom:0}
+#jmSurplusGraph{height:285px}.practice-slide .graph-caption{margin-bottom:9px}
+@media print{.practice-source{bottom:43px}}
+</style>
+</head>
+<body>
+<main id="stage" aria-label="ARE 201 Exam 1 review slides">
+<!-- Original review examples plus explicitly attributed Jiaming Mao practice problems.
+     Concept sequence and visual system follow the course's Unit 2–5 HTML lectures.
+     [Sources] ARE201_Unit2_Scarcity_Opportunity_Cost_Fall2026.html; ARE201_Unit3_Social_Choice_PPF_Fall2026.html;
+     ARE201_Unit4_Supply_Demand_Fall2026.html; ARE201_Unit5_Surplus_Price_Controls_Fall2026.html.
+     Underlying Unit 2 definitions retain the course's attribution to OpenStax, Principles of Economics, Chapters 1–2.
+     Added sources: Jiaming Mao, Homework 3 Problem 1; Homework 4 Problem 6(2)–(3);
+     2021 Midterm Part II Problem 2 and Problem 3(1). Source originals remain read-only.
+     The wage-floor follow-up is an ARE 201 addition. No ARE 201 exam question or figure is reproduced.
+     All numerical markets and farm profiles in this review are hypothetical practice examples. -->
+
+<section class="slide title-slide active" data-topic="Exam 1 Review">
+  <div class="title-kicker">ARE 201 · Fall 2026</div>
+  <h1 class="title-main">Exam 1 Review</h1>
+  <div class="title-rule"></div>
+</section>
+
+<section class="slide" data-topic="Exam 1 logistics">
+  <div class="section-kicker">Before we begin</div>
+  <h1>Exam 1 · Friday, September 18</h1>
+  <div class="grid-3">
+    <div class="card blue-top"><div class="big-number" style="font-size:30px">Fri, Sep 18</div><p>In class, on paper</p></div>
+    <div class="card blue-top"><div class="big-number" style="font-size:30px">1:55–2:45 PM</div><p>50 minutes. Arrive on time; late arrival does not add testing time.</p></div>
+    <div class="card blue-top"><div class="big-number" style="font-size:30px">25 questions</div><p>Multiple choice, 1 point each</p></div>
+  </div>
+  <h2 class="space">Bring to the exam</h2>
+  <div class="grid-2">
+    <div class="card accent-top"><h2>One 4×6 index card</h2><p>Handwritten, <strong>front and back</strong>. Put graphs and worked examples on it; exam questions focus on applying the concepts.</p><p class="small muted">You keep your card after the exam. Take a photo of it anyway, so you can reuse your notes when preparing for the final.</p></div>
+    <div class="card accent-top"><h2>A basic calculator</h2><p>No scientific or graphing calculators. Phones, watches, and printed notes are not allowed during the exam.</p></div>
+  </div>
+  <div class="strip">Checklist for Friday: <strong>one 4×6 note card</strong> + <strong>one basic calculator</strong>. That is all you need.</div>
+</section>
+
+
+<section class="slide" data-topic="Scarcity, cost & incentives">
+  <div class="section-kicker">Foundations · identify the economic idea</div>
+  <h1>Every choice uses scarce resources</h1>
+  <div class="row"><h2>Scarcity</h2><div><p>One greenhouse can grow herbs or seedlings. Its space cannot satisfy every possible use.</p><div class="reveal" id="foundation1"><strong>Scarcity:</strong> limited resources have competing uses. A <strong>shortage</strong> instead means Qd &gt; Qs at a particular price.</div></div></div>
+  <div class="row"><h2>Opportunity<br>cost</h2><div><p>You choose to study. Your next-best option is a shift paying $54 with $14 in extra travel costs.</p><div class="reveal" id="foundation2"><strong>OC = $40</strong>, the net benefit of that next-best option. Do not add every rejected alternative.</div></div></div>
+  <div class="row"><h2>Incentives</h2><div><p>A payment for installing drip irrigation makes adoption more attractive to farms.</p><div class="reveal" id="foundation3"><strong>People respond to incentives:</strong> a higher net benefit can change the choice.</div></div></div>
+  <div class="button-row"><button class="action" data-steps="foundation1 foundation2 foundation3">Reveal next idea</button><span class="small muted">Name the concept before revealing it.</span></div>
+  <div class="strip small">A nonrefundable payment already made is a <strong>sunk cost</strong>. Ignore it when deciding what to do now.</div>
+</section>
+
+<section class="slide" data-topic="Positive vs. normative">
+  <div class="section-kicker">Foundations · facts and value judgments</div>
+  <h1>Could evidence test the statement?</h1>
+  <div class="grid-2"><div class="card blue-top"><h2>Positive</h2><p>A claim about what happens.<br>Evidence could support or reject it.</p><p><strong>Testable does not mean true.</strong></p></div><div class="card accent-top"><h2>Normative</h2><p>A claim about what should happen.<br>It includes a value judgment.</p><p><strong>“Fair,” “should,” and “deserve” are clues.</strong></p></div></div>
+  <div class="strip">Which statement is <strong>positive</strong>?</div>
+  <div class="quiz" data-explanation="B makes a testable prediction. A and C judge fairness or what the government should do.">
+    <div class="choices"><button class="choice" data-correct="false"><span class="letter">A</span>It is unfair for food prices to rise after a drought.</button><button class="choice" data-correct="true"><span class="letter">B</span>A drought will reduce this region’s vegetable supply.</button><button class="choice" data-correct="false"><span class="letter">C</span>The government should guarantee affordable vegetables.</button></div>
+    <div class="feedback" aria-live="polite">Choose a statement and give the reason.</div>
+    <p class="print-answer small">Answer: B. It makes a testable prediction; it does not have to be correct to be positive.</p>
+  </div>
+</section>
+
+<section class="slide practice-slide" data-topic="Practice: positive or normative?">
+  <div class="section-kicker">Practice · positive and normative analysis</div>
+  <h1>Classify the claim and explain why</h1>
+  <p class="lead">For each statement, decide whether it is <strong>positive</strong> or <strong>normative</strong>. Do not decide whether you agree with it.</p>
+  <div class="mini-question"><p><strong>1.</strong> A $0.50-per-pack cigarette tax will cut teenage smoking by 12%.</p><div class="reveal" id="jmPositive1">Positive: a prediction that could be checked against evidence.</div></div>
+  <div class="mini-question"><p><strong>2.</strong> The government should spend more on AI research.</p><div class="reveal" id="jmPositive2">Normative: it recommends what the government should do.</div></div>
+  <div class="mini-question"><p><strong>3.</strong> Rising paper prices will increase textbook prices.</p><div class="reveal" id="jmPositive3">Positive: a testable claim about how one price affects another.</div></div>
+  <div class="mini-question"><p><strong>4.</strong> The price of housing in China is too high.</p><div class="reveal" id="jmPositive4">Normative: “too high” requires a judgment about an acceptable price.</div></div>
+  <button class="action" data-steps="jmPositive1 jmPositive2 jmPositive3 jmPositive4">Check the next statement</button>
+</section>
+
+<section class="slide" data-topic="Read and calculate a PPF">
+  <div class="section-kicker">PPF · read the constraint</div>
+  <h1>Read the endpoints before calculating</h1>
+  <p class="lead">A farm can produce <strong>48 crates of berries or 24 crates of beans</strong>, with a constant trade-off.</p>
+  <div class="wide-left"><div class="plot-frame"><svg class="graph" id="ppfRead" viewBox="0 0 430 340" role="img" aria-label="Linear PPF with endpoints 48 berries and 24 beans, and an interior point I."></svg><p class="graph-caption">Both axes measure crates. Resources and technology are fixed.</p></div><div><div class="step"><span class="step-num">1</span><p>What is the OC of one more crate of berries?</p></div><div class="step"><span class="step-num">2</span><p>If the farm produces 10 crates of beans, what is its maximum berry output?</p></div><div class="step"><span class="step-num">3</span><p>Is point I feasible? Is it productively efficient?</p></div><button class="action" data-reveal="ppfReadAnswer ppfReadPoint">Reveal the calculation</button></div></div>
+  <div class="answer-box reveal" id="ppfReadAnswer"><strong>OC of 1 berry = 24/48 = 0.5 bean.</strong><br>Berries = 48 − 2(10) = <strong>28</strong>. Point I is feasible but inefficient: resources are idle or poorly used.</div>
+</section>
+
+<section class="slide" data-topic="PPF changes & rising OC">
+  <div class="section-kicker">PPF · distinguish choice from capacity</div>
+  <h1>What changed: use, capacity, or cost?</h1>
+  <div class="tabs" aria-label="PPF scenarios"><button class="tab selected" data-ppf="idle">Idle resources</button><button class="tab" data-ppf="resources">More resources</button><button class="tab" data-ppf="disease">Berry disease</button><button class="tab" data-ppf="returns">Rising OC</button></div>
+  <div class="wide-left"><div class="plot-frame"><svg class="graph" id="ppfChange" viewBox="0 0 430 340" role="img" aria-label="PPF scenario diagram"></svg><p class="graph-caption" id="ppfChangeCaption">The frontier stays fixed when existing capacity is put back to work.</p></div><div><div class="section-kicker" id="ppfChangeLabel">Resource use</div><h2 id="ppfChangeTitle">Reopen an idle greenhouse</h2><p id="ppfChangeText">With the same resources and technology, move from inside the PPF toward the frontier.</p><div class="strip small" id="ppfChangeRule">Recovering unused capacity can increase both outputs without a trade-off.</div></div></div>
+  <div class="strip blue-strip small"><strong>Along the frontier:</strong> more of one good requires giving up another.<br><strong>Beyond the frontier:</strong> production is currently unattainable.</div>
+</section>
+
+<section class="slide" data-topic="Absolute & comparative advantage">
+  <div class="section-kicker">Trade · one example across three slides</div>
+  <h1>Specialize where opportunity cost is lower</h1>
+  <p class="lead">Each farm has the same growing season. All resources go to one crop or the other.</p>
+  <table><thead><tr><th>Maximum output</th><th class="num">Strawberries</th><th class="num">Beans</th></tr></thead><tbody><tr><th>Farm A</th><td class="num">72 crates</td><td class="num">36 crates</td></tr><tr><th>Farm B</th><td class="num">24 crates</td><td class="num">48 crates</td></tr></tbody></table>
+  <div class="grid-2"><div class="card blue-top"><h2>Absolute advantage</h2><p>Who produces more with the same resources?</p><p class="reveal" id="absoluteAnswer"><strong>A → strawberries. B → beans.</strong></p></div><div class="card accent-top"><h2>Comparative advantage</h2><p>Who gives up less of the other good?</p><p class="reveal" id="comparativeAnswer"><strong>A → strawberries. B → beans.</strong></p></div></div>
+  <table class="tight"><thead><tr><th>Opportunity cost</th><th class="num">1 strawberry crate</th><th class="num">1 bean crate</th></tr></thead><tbody><tr><th>A</th><td class="num"><span class="reveal cell" id="ocA1">36/72 = <strong>0.5 bean</strong></span></td><td class="num"><span class="reveal cell" id="ocA2">72/36 = <strong>2 strawberries</strong></span></td></tr><tr><th>B</th><td class="num"><span class="reveal cell" id="ocB1">48/24 = <strong>2 beans</strong></span></td><td class="num"><span class="reveal cell" id="ocB2">24/48 = <strong>0.5 strawberry</strong></span></td></tr></tbody></table>
+  <div class="button-row"><button class="action" data-reveal="absoluteAnswer comparativeAnswer ocA1 ocA2 ocB1 ocB2">Check both comparisons</button></div>
+  <p class="small muted">Even if one producer is better at both goods, specialization still depends on <strong>relative opportunity cost</strong>.</p>
+</section>
+
+<section class="slide" data-topic="Specialization & total output">
+  <div class="section-kicker">Trade · compare production bundles</div>
+  <h1>Use each farm’s comparative advantage</h1>
+  <p class="lead">Start with each farm splitting its resources <strong>50–50</strong> between strawberries and beans.</p>
+  <table><thead><tr><th>Allocation</th><th class="num">Farm A<br><span class="tiny">strawberries, beans</span></th><th class="num">Farm B<br><span class="tiny">strawberries, beans</span></th><th class="num">Combined<br><span class="tiny">strawberries, beans</span></th></tr></thead><tbody><tr><th>50–50 split</th><td class="num">(36, 18)</td><td class="num">(12, 24)</td><td class="num"><strong>(48, 42)</strong></td></tr><tr class="highlight-row"><th>Specialize</th><td class="num"><span class="reveal cell" id="specialA">(72, 0)</span></td><td class="num"><span class="reveal cell" id="specialB">(0, 48)</span></td><td class="num"><span class="reveal cell" id="specialTotal"><strong>(72, 48)</strong></span></td></tr></tbody></table>
+  <div class="button-row"><button class="action" data-reveal="specialA specialB specialTotal specialGain berryGain beanGain">Reveal the new allocation</button></div>
+  <div class="grid-2 space"><div class="card blue-top"><h2>Strawberries</h2><div class="big-number">48 → <span class="reveal" id="berryGain">72</span></div><p class="muted compact">Crates produced by both farms</p></div><div class="card green-top"><h2>Beans</h2><div class="big-number">42 → <span class="reveal" id="beanGain">48</span></div><p class="muted compact">Crates produced by both farms</p></div></div>
+  <div class="answer-box reveal" id="specialGain"><strong>24 more strawberry crates and 6 more bean crates.</strong><br>Both outputs rise with the same resources and technology. Report each good separately; their sum is not a measure of total value.</div>
+</section>
+
+<section class="slide" data-topic="Trade & consumption beyond PPF">
+  <div class="section-kicker">Trade · separate production from consumption</div>
+  <h1>Trade expands consumption possibilities</h1>
+  <p class="lead">After specialization, A trades <strong>22 strawberry crates for 22 bean crates</strong> from B.</p>
+  <div class="grid-2"><div class="plot-frame"><h3 style="margin:0 14px">Farm A</h3><svg class="graph" id="tradeA" viewBox="0 0 390 275" role="img" aria-label="Farm A PPF with specialized production at 72 strawberries and consumption at 50 strawberries and 22 beans."></svg></div><div class="plot-frame"><h3 style="margin:0 14px">Farm B</h3><svg class="graph" id="tradeB" viewBox="0 0 390 275" role="img" aria-label="Farm B PPF with specialized production at 48 beans and consumption at 22 strawberries and 26 beans."></svg></div></div>
+  <div class="legend"><span>Own production PPF</span><span class="green-key">C = consumption after exchange</span><span class="plain-key">P = production · B = 50–50</span></div>
+  <button class="action" data-reveal="tradeAnswer tradeAResult tradeBResult">Check consumption and the trading rate</button>
+  <div class="answer-box reveal" id="tradeAnswer"><strong>A consumes (50, 22); B consumes (22, 26).</strong> Each gets more of both goods than in the 50–50 allocation.<br>Trading rate: <strong>0.5 &lt; 1 bean per strawberry &lt; 2</strong>. Both gain because the rate lies between their OCs.</div>
+  <p class="small muted compact">Trade changes consumption. Each PPF stays fixed; combined production remains (72, 48).</p>
+</section>
+
+<section class="slide" data-topic="Shift or movement?">
+  <div class="section-kicker">Supply &amp; demand · use the same-price test</div>
+  <h1>A curve is a relationship; Q is one point</h1>
+  <div class="grid-2"><div class="card blue-top"><h2>Own price changes</h2><p>Move to a different point on the <strong>same curve</strong>, other things equal.</p></div><div class="card accent-top"><h2>Another determinant changes</h2><p>If buyers or sellers choose a different Q <strong>at the same price</strong>, the curve shifts.</p></div></div>
+  <div class="mini-question"><p><strong>1 · Oat-milk market:</strong> the price of oat milk falls.</p><div class="reveal" id="movement1">Quantity demanded rises along D. This alone is not an increase in demand.</div></div>
+  <div class="mini-question"><p><strong>2 · Oat-milk market:</strong> dairy milk becomes more expensive; the two are substitutes.</p><div class="reveal" id="movement2">Demand for oat milk shifts right. The other good’s price changed.</div></div>
+  <div class="mini-question"><p><strong>3 · Oat-milk market:</strong> the price of oats used in production rises.</p><div class="reveal" id="movement3">Supply shifts left. Oats are an input, so production becomes costlier.</div></div>
+  <button class="action" data-steps="movement1 movement2 movement3">Check the next scenario</button>
+  <p class="small muted space">First name the market. Then ask whose decision changes: buyers or sellers?</p>
+</section>
+
+<section class="slide" data-topic="Demand determinants">
+  <div class="section-kicker">Supply &amp; demand · buyers’ choices</div>
+  <h1>What changes demand at every price?</h1>
+  <p class="lead">Hold this good’s price fixed while you identify the change.</p>
+  <table class="tight"><thead><tr><th style="width:24%">Determinant</th><th style="width:49%">Change in the market</th><th>Demand</th></tr></thead><tbody>
+    <tr><th>Number of buyers</th><td>More students move near a coffee shop.</td><td><span class="reveal cell" id="demand1"><strong>Right →</strong></span></td></tr>
+    <tr><th>Income</th><td>Income falls; dining out is a normal good.</td><td><span class="reveal cell" id="demand2"><strong>← Left</strong></span></td></tr>
+    <tr><th>Income</th><td>Income falls; canned soup is an inferior good.</td><td><span class="reveal cell" id="demand3"><strong>Right →</strong></span></td></tr>
+    <tr><th>Related prices</th><td>Cheaper tea (a substitute for coffee). Consider coffee.</td><td><span class="reveal cell" id="demand4"><strong>← Left</strong></span></td></tr>
+    <tr><th>Related prices</th><td>Costlier printers (a complement to ink). Consider ink.</td><td><span class="reveal cell" id="demand5"><strong>← Left</strong></span></td></tr>
+    <tr><th>Tastes</th><td>A new preference for fresh fruit develops.</td><td><span class="reveal cell" id="demand6"><strong>Right →</strong></span></td></tr>
+  </tbody></table>
+  <div class="button-row"><button class="action" data-steps="demand1 demand2 demand3 demand4 demand5 demand6">Reveal the next direction</button></div>
+  <div class="strip small"><strong>Normal / inferior:</strong> classify the response to income.<br><strong>Substitutes / complements:</strong> classify the response to the other good’s price.</div>
+</section>
+
+<section class="slide" data-topic="Supply determinants & expectations">
+  <div class="section-kicker">Supply &amp; demand · sellers’ choices</div>
+  <h1>Translate the event into cost or capacity</h1>
+  <table><thead><tr><th style="width:55%">Event</th><th>Mechanism and supply shift</th></tr></thead><tbody>
+    <tr><td>Packaging material becomes cheaper.</td><td><span class="reveal cell" id="supply1">Cost falls → <strong>S right</strong></span></td></tr>
+    <tr><td>A sorting machine reduces wasted produce.</td><td><span class="reveal cell" id="supply2">Productivity rises → <strong>S right</strong></span></td></tr>
+    <tr><td>A frost destroys part of the harvest.</td><td><span class="reveal cell" id="supply3">Capacity falls → <strong>S left</strong></span></td></tr>
+    <tr><td>A cost-reducing payment makes each unit cheaper to produce.</td><td><span class="reveal cell" id="supply4">Effective cost falls → <strong>S right</strong></span></td></tr>
+    <tr><td>Apple sellers expect a higher price next month and store more apples now.</td><td><span class="reveal cell" id="supply5">Less offered <em>today</em> → <strong>S left</strong></span></td></tr>
+  </tbody></table>
+  <button class="action" data-steps="supply1 supply2 supply3 supply4 supply5">Reveal the next mechanism</button>
+  <div class="strip blue-strip"><strong>Keep the time labels straight.</strong><br>Expected future price ↑ can reduce current supply of a storable good.</div>
+  <p class="small muted">A higher current selling price instead raises <strong>quantity supplied along S</strong>, with other determinants fixed.</p>
+</section>
+
+<section class="slide" data-topic="Equilibrium & a supply shift">
+  <div class="section-kicker">Supply &amp; demand · calculate the intersection</div>
+  <h1>A supply shift changes the market price</h1>
+  <div class="grid-2"><div><p class="small muted">Cucumbers · quantities in crates</p><table class="tight"><thead><tr><th>Price</th><th class="num">Qd</th><th class="num">Qs</th></tr></thead><tbody><tr><td>$4</td><td class="num">80</td><td class="num">40</td></tr><tr class="highlight-row"><td>$6</td><td class="num">60</td><td class="num">60</td></tr><tr><td>$8</td><td class="num">40</td><td class="num">80</td></tr></tbody></table></div><div><h2>Read the market condition</h2><p>At $4: shortage or surplus?<br>At $8: which way does price move?</p><div class="reveal" id="marketTableAnswer"><p><strong>$4:</strong> shortage = 40; P rises.</p><p><strong>$8:</strong> surplus = 40; P falls.</p><p><strong>Equilibrium: P* = $6, Q* = 60.</strong></p></div></div></div>
+  <div class="equation-box"><p class="equation">Qd = 120 − 10P &nbsp;&nbsp; Qs = 10P</p></div>
+  <p class="lead">Higher input costs reduce supply by <strong>20 crates at every price</strong>. Demand stays fixed. Find the new equilibrium.</p>
+  <div class="button-row"><button class="action secondary" data-reveal="marketTableAnswer">Check the table</button><button class="action" data-reveal="marketShiftAnswer">Solve the supply shift</button></div>
+  <div class="answer-box reveal" id="marketShiftAnswer">New supply: <strong>Qs′ = 10P − 20</strong>.<br>120 − 10P = 10P − 20 → <strong>P* = $7, Q* = 50</strong>.<br>The 20-crate supply shift reduces Q* by <strong>10</strong>, because price adjusts.</div>
+</section>
+
+<section class="slide" data-topic="Simultaneous demand & supply shifts">
+  <div class="section-kicker">Supply &amp; demand · separate, then combine</div>
+  <h1>Which outcome is certain?</h1>
+  <div class="grid-2"><div class="card blue-top"><h2>Case A · Frozen yogurt</h2><p>Consumers lose interest in frozen yogurt.<br>Milk used to make it becomes costlier.</p><div class="reveal" id="twoShockA"><p><strong>D left:</strong> P ↓, Q ↓<br><strong>S left:</strong> P ↑, Q ↓</p><div class="arrow-result">Q ↓ · P ambiguous</div></div></div><div class="card green-top"><h2>Case B · Fish</h2><p>Chicken becomes costlier; fish is a substitute.<br>Fuel costs for fishing boats rise.</p><div class="reveal" id="twoShockB"><p><strong>D right:</strong> P ↑, Q ↑<br><strong>S left:</strong> P ↑, Q ↓</p><div class="arrow-result">P ↑ · Q ambiguous</div></div></div></div>
+  <div class="button-row"><button class="action" data-steps="twoShockA twoShockB twoShockMatrix">Reveal next result</button></div>
+  <div class="reveal" id="twoShockMatrix"><table class="tight"><thead><tr><th>Combine the shifts</th><th class="num">S increases</th><th class="num">S decreases</th></tr></thead><tbody><tr><th>D increases</th><td class="num">Q ↑; P ambiguous</td><td class="num">P ↑; Q ambiguous</td></tr><tr><th>D decreases</th><td class="num">P ↓; Q ambiguous</td><td class="num">Q ↓; P ambiguous</td></tr></tbody></table></div>
+  <div class="strip"><strong>Ambiguous ≠ unchanged.</strong><br>The direction depends on the relative sizes of the shifts.</div>
+  <p class="small muted">For Case B, trace the linked market first: chicken price ↑ → demand for fish ↑.</p>
+</section>
+
+<section class="slide" data-topic="Opposing shifts of the same curve">
+  <div class="section-kicker">Supply &amp; demand · two causes, one curve</div>
+  <h1>Two shocks can push supply opposite ways</h1>
+  <p class="lead">New greenhouses add <strong>30 crates at every price</strong>. Disease removes some output. Demand stays fixed.</p>
+  <div class="tabs" aria-label="Supply loss scenarios"><button class="tab selected" data-supply-loss="10">Disease removes 10</button><button class="tab" data-supply-loss="30">Disease removes 30</button><button class="tab" data-supply-loss="50">Disease removes 50</button></div>
+  <div class="wide-left"><div class="plot-frame"><svg class="graph" id="opposingSupply" viewBox="0 0 430 325" role="img" aria-label="Fixed demand with the original and net-shifted supply curve"></svg><p class="graph-caption">Dashed gray: original supply. Green: supply after both shocks.</p></div><div><div class="section-kicker">Net change at each price</div><h2 id="supplyNet">+30 − 10 = +20 crates</h2><p class="arrow-result" id="supplyNetResult">Supply right<br>P ↓ · Q ↑</p><p id="supplyNetNumbers" class="small">P: $6 → $5<br>Q: 60 → 70 crates</p><div class="strip small">Without knowing the two magnitudes, the net direction is <strong>ambiguous</strong>.</div></div></div>
+  <p class="small muted compact">Do not force one event onto demand just because the story contains two events.</p>
+</section>
+<section class="slide practice-slide" data-topic="Practice: housing & land markets">
+  <div class="section-kicker">Practice · one shock, two related markets</div>
+  <h1>Follow developers into both markets</h1>
+  <div class="practice-prompt"><p>Tighter borrowing restrictions raise developers’ financing costs and reduce their planned home-building projects.</p><p>Hold home demand and land supply fixed. <strong>Draw both markets.</strong></p></div>
+  <div class="grid-2 space"><div class="card blue-top"><h2>1 · Newly built homes</h2><p>Identify developers’ role, the curve shift, and the changes in P* and Q*.</p><div class="reveal" id="jmHousing"><p>Developers <strong>supply homes</strong>.<br>Higher financing costs shift <strong>S left</strong>.</p><div class="arrow-result">Home P ↑ · Q ↓</div></div></div><div class="card green-top"><h2>2 · Buildable land</h2><p>Identify developers’ role, the curve shift, and the changes in P* and Q*.</p><div class="reveal" id="jmLand"><p>Developers <strong>demand land</strong>.<br>Fewer planned projects shift <strong>D left</strong>.</p><div class="arrow-result">Land P ↓ · Q ↓</div></div></div></div>
+  <div class="button-row"><button class="action" data-steps="jmHousing jmLand">Reveal the next market</button></div>
+  <div class="strip small"><strong>The market determines the role.</strong> A home seller can be a land buyer. Do not use the same curve label automatically in both diagrams.</div>
+</section>
+
+<section class="slide" data-topic="Individual & market surplus">
+  <div class="section-kicker">Welfare · the gains from each completed trade</div>
+  <h1>Add the surplus of those who trade</h1>
+  <div class="strip">Market price = <strong>$16</strong>. Each buyer wants at most one unit; each seller can supply at most one.</div>
+  <div class="grid-2"><div><h2 class="blue">CS = willingness to pay − P</h2><table class="tight tiny-table"><thead><tr><th>Buyer</th><th class="num">WTP</th><th class="num">CS</th></tr></thead><tbody><tr><td>A</td><td class="num">$32</td><td class="num"><span class="reveal cell buyers">$16</span></td></tr><tr><td>B</td><td class="num">$26</td><td class="num"><span class="reveal cell buyers">$10</span></td></tr><tr><td>C</td><td class="num">$18</td><td class="num"><span class="reveal cell buyers">$2</span></td></tr><tr><td>D</td><td class="num">$10</td><td class="num"><span class="reveal cell buyers">$0 · no trade</span></td></tr></tbody></table><div class="reveal buyers arrow-result">Market CS = $28</div></div><div><h2 class="green">PS = P − opportunity cost</h2><table class="tight tiny-table"><thead><tr><th>Seller</th><th class="num">Cost</th><th class="num">PS</th></tr></thead><tbody><tr><td>W</td><td class="num">$4</td><td class="num"><span class="reveal cell sellers">$12</span></td></tr><tr><td>X</td><td class="num">$9</td><td class="num"><span class="reveal cell sellers">$7</span></td></tr><tr><td>Y</td><td class="num">$14</td><td class="num"><span class="reveal cell sellers">$2</span></td></tr><tr><td>Z</td><td class="num">$20</td><td class="num"><span class="reveal cell sellers">$0 · no trade</span></td></tr></tbody></table><div class="reveal sellers arrow-result">Market PS = $21</div></div></div>
+  <div class="button-row"><button class="action" data-reveal-selector=".buyers">Check buyers</button><button class="action" data-reveal-selector=".sellers">Check sellers</button><button class="action secondary" data-reveal="surplusTotal">Add the market gains</button></div>
+  <div class="answer-box reveal" id="surplusTotal"><strong>3 units trade. Total surplus = $28 + $21 = $49.</strong><br>A nonparticipant’s surplus is zero. The demand curve records buyers’ WTP; supply records sellers’ costs.</div>
+</section>
+
+<section class="slide practice-slide" data-topic="Practice: equilibrium CS & PS">
+  <div class="section-kicker">Practice · consumer and producer surplus</div>
+  <h1>Find the price, then measure the areas</h1>
+  <div class="equation-box"><p class="equation">Qd = 72 − 2P &nbsp;&nbsp; Qs = 2P</p></div>
+  <div class="wide-left"><div class="plot-frame"><svg class="graph" id="jmSurplusGraph" viewBox="0 0 430 330" role="img" aria-label="Demand has a price intercept of 36 and supply starts at zero. Reveal the market equilibrium and the consumer and producer surplus areas."></svg><p class="graph-caption">Price in dollars; quantity in units.</p></div><div><div class="step"><span class="step-num">1</span><p>Calculate P* and Q*.</p></div><div class="step"><span class="step-num">2</span><p>Find market consumer surplus.</p></div><div class="step"><span class="step-num">3</span><p>Find market producer surplus.</p></div><button class="action" data-steps="jmEqAnswer jmCSAnswer jmPSAnswer">Reveal next calculation</button><div class="reveal compact" id="jmEqAnswer"><p class="small"><strong>72 − 2P = 2P</strong><br>P* = $18; Q* = 36.</p></div></div></div>
+  <div class="grid-2 compact"><div class="answer-box reveal" id="jmCSAnswer"><strong class="blue">CS = ½ × 36 × (36 − 18)<br>= $324</strong></div><div class="answer-box reveal" id="jmPSAnswer"><strong class="green">PS = ½ × 36 × (18 − 0)<br>= $324</strong></div></div>
+</section>
+
+<section class="slide practice-slide" data-topic="Practice: demand falls & surplus">
+  <div class="section-kicker">Practice · continue with the same market</div>
+  <h1>Does a lower price mean more surplus?</h1>
+  <p class="lead">Demand falls by <strong>12 units at every price</strong>; supply stays Qs = 2P.</p>
+  <p class="small">Find the new equilibrium, CS, PS, and TS. Then explain the effect on consumers.</p>
+  <div class="reveal" id="jmDemandAnswer"><div class="equation-box"><p class="equation">Qd′ = 60 − 2P &nbsp;→&nbsp; P* = $15, Q* = 30</p></div><p class="small">New demand intercept: $30. CS = ½(30)(30 − 15); PS = ½(30)(15 − 0).</p></div>
+  <table class="tight"><thead><tr><th>Market</th><th class="num">P*</th><th class="num">Q*</th><th class="num">CS</th><th class="num">PS</th><th class="num">TS</th></tr></thead><tbody><tr><th>Original demand</th><td class="num">$18</td><td class="num">36</td><td class="num">$324</td><td class="num">$324</td><td class="num">$648</td></tr><tr><th>Lower demand</th><td class="num"><span class="reveal jm-demand-results">$15</span></td><td class="num"><span class="reveal jm-demand-results">30</span></td><td class="num"><span class="reveal jm-demand-results">$225</span></td><td class="num"><span class="reveal jm-demand-results">$225</span></td><td class="num"><span class="reveal jm-demand-results">$450</span></td></tr></tbody></table>
+  <div class="button-row"><button class="action" data-reveal="jmDemandAnswer">Check equilibrium</button><button class="action" data-reveal-selector=".jm-demand-results">Check the surplus comparison</button></div>
+  <div class="strip small reveal jm-demand-results"><strong>No.</strong> Price falls, but CS also falls because demand changed. The drop in total surplus is <strong>not</strong> a policy-created DWL; the new market still clears efficiently in this model.</div>
+</section>
+
+<section class="slide" data-topic="Binding controls & actual trade">
+  <div class="section-kicker">Price controls · identify the legal limit</div>
+  <h1>Check whether the control binds</h1>
+  <div class="equation-box"><p class="equation">Demand: P = 30 − 2Q &nbsp;&nbsp; Supply: P = 6 + Q</p></div>
+  <p class="lead">Equilibrium: 30 − 2Q = 6 + Q → <strong>Q* = 8, P* = $14</strong>.</p>
+  <table class="tight"><thead><tr><th>Policy</th><th>Binding?</th><th>Effect on private trade</th></tr></thead><tbody>
+    <tr><td>Maximum price of $18</td><td><span class="reveal cell control-results">No · ceiling above P*</span></td><td><span class="reveal cell control-results">No change: P = $14, Q = 8</span></td></tr>
+    <tr><td>Minimum price of $10</td><td><span class="reveal cell control-results">No · floor below P*</span></td><td><span class="reveal cell control-results">No change: P = $14, Q = 8</span></td></tr>
+    <tr><td>Maximum price of $10</td><td><span class="reveal cell control-results">Yes · binding ceiling</span></td><td><span class="reveal cell control-results">Qs = 4, Qd = 10 → Q = 4</span></td></tr>
+    <tr class="highlight-row"><td>Minimum price of $18</td><td><span class="reveal cell control-results">Yes · binding floor</span></td><td><span class="reveal cell control-results">Qd = 6, Qs = 12 → Q = 6</span></td></tr>
+  </tbody></table>
+  <button class="action" data-reveal-selector=".control-results">Check the four policies</button>
+  <div class="strip"><strong>Actual private trade = min(Qd, Qs)</strong> when the control binds.<br>A legal price limit by itself does not shift D or S.</div>
+  <p class="small muted">Assume no government purchase of unsold output. Government buying the surplus changes the calculation.</p>
+</section>
+
+<section class="slide" data-topic="Price-floor CS, PS & DWL">
+  <div class="section-kicker">Price floor · calculate in the right order</div>
+  <h1>Calculate surplus over actual sales</h1>
+  <p class="small">D: <strong>P = 30 − 2Q</strong> · S: <strong>P = 6 + Q</strong> · Floor: <strong>$18</strong> · Lowest-cost sellers trade.</p>
+  <div class="wide-left"><div class="plot-frame"><svg class="graph" id="welfareGraph" viewBox="0 0 430 360" role="img" aria-label="Demand and supply with a binding price floor at 18; reveal actual sales, consumer surplus, producer surplus, and deadweight loss in sequence."></svg><div class="legend"><span class="blue-key">CS</span><span class="green-key">PS</span><span>DWL</span></div></div><div>
+    <div class="reveal" id="welfareQty"><h3>1 · Find actual sales</h3><p class="small">Qd = (30 − 18)/2 = <strong>6</strong><br>Qs = 18 − 6 = <strong>12</strong><br>Only <strong>6 units</strong> trade.</p></div>
+    <div class="reveal" id="welfareCS"><h3 class="blue">2 · Consumer surplus</h3><p class="small">CS = ½ × 6 × (30 − 18)<br><strong>= $36</strong></p></div>
+    <div class="reveal" id="welfarePS"><h3 class="green">3 · Producer surplus</h3><p class="small">Cost at Q = 6 is $12.<br>PS = ½ × [(18 − 6) + (18 − 12)] × 6<br><strong>= $54 · a trapezoid</strong></p></div>
+    <div class="reveal" id="welfareDWL"><h3 class="orange">4 · Deadweight loss</h3><p class="small">DWL = ½ × (8 − 6) × (18 − 12)<br><strong>= $6</strong></p></div>
+  </div></div>
+  <div class="button-row"><button class="action" data-steps="welfareQty welfareCS welfarePS welfareDWL">Reveal next calculation</button></div>
+  <div class="strip small reveal" id="welfareCheck"><strong>Check:</strong> before, TS = 64 + 32 = $96. After, TS = 36 + 54 = $90. Lost surplus = <strong>$6</strong>.</div>
+</section>
+
+<section class="slide" data-topic="Transfers, lost trades & distribution">
+  <div class="section-kicker">Welfare · explain who gains and who loses</div>
+  <h1>A transfer is not a deadweight loss</h1>
+  <p class="small muted">Same market: P = 30 − 2Q and P = 6 + Q. No government purchases.</p>
+  <table class="tight"><thead><tr><th>Outcome</th><th class="num">Q traded</th><th class="num">CS</th><th class="num">PS</th><th class="num">TS</th><th class="num">DWL</th></tr></thead><tbody><tr><th>Free market · P = $14</th><td class="num">8</td><td class="num">$64</td><td class="num">$32</td><td class="num">$96</td><td class="num">$0</td></tr><tr><th>Ceiling · P = $10</th><td class="num">4</td><td class="num">$64</td><td class="num">$8</td><td class="num">$72</td><td class="num">$24</td></tr><tr><th>Floor · P = $18</th><td class="num">6</td><td class="num">$36</td><td class="num">$54</td><td class="num">$90</td><td class="num">$6</td></tr></tbody></table>
+  <div class="grid-2 space"><div class="card blue-top"><h2>Transfer</h2><p>A different price redistributes the gains on units that still trade.</p><p><strong>One side’s gain is the other’s loss.</strong></p></div><div class="card accent-top"><h2>Lost trade</h2><p>A buyer values a unit more than it costs, but the transaction no longer occurs.</p><p><strong>The potential total gain disappears.</strong></p></div></div>
+  <div class="strip small"><strong>“All producers benefit” is too strong.</strong><br>A higher floor helps some sellers who sell, but excludes others.</div>
+  <p class="small">A ceiling helps some buyers but excludes others. Lines or lotteries may ration access.</p>
+  <p class="tiny muted">Areas assume the highest-WTP buyers and lowest-cost sellers trade. Other rationing can reduce surplus further.</p>
+</section>
+
+<section class="slide" data-topic="Labor markets & emergency prices">
+  <div class="section-kicker">Policy applications · identify the market first</div>
+  <h1>The same model explains new settings</h1>
+  <div class="grid-2"><div class="card blue-top"><h2>A minimum wage</h2><p>Suppose a required wage is <strong>$20</strong> while the market-clearing wage is <strong>$16</strong>.</p><table class="tight tiny-table"><tbody><tr><th>Vertical axis</th><td>Wage</td></tr><tr><th>Demand for labor</th><td>Employers hiring</td></tr><tr><th>Supply of labor</th><td>Workers offering work</td></tr></tbody></table><p><strong>Classify the policy and predict employment.</strong></p><div class="reveal" id="laborAnswer"><p>Binding <strong>price floor</strong>.<br>Labor demanded falls; labor supplied rises. Employment is Ld.</p><p><strong>Ls − Ld is a labor surplus.</strong></p></div></div><div class="card green-top"><h2>Water after a storm</h2><p>A storm raises demand for bottled water and disrupts deliveries.</p><p><strong>What can a higher price encourage?</strong></p><div class="reveal" id="stormAnswer"><p>Buyers conserve water.<br>Stores and outside suppliers have a stronger reason to bring in more.</p><p>A binding cap can create a shortage and shift rationing to waiting or purchase limits.</p></div><div class="strip small" style="margin-bottom:0">Low-income buyers may struggle to pay. Efficiency and fairness are distinct questions.</div></div></div>
+  <div class="button-row"><button class="action" data-reveal="laborAnswer">Reveal the labor-market result</button><button class="action" data-reveal="stormAnswer">Reveal the price signals</button></div>
+  <p class="small muted">Use the basic competitive model and the stated assumptions. The policy’s name does not tell you which curve or market to draw.</p>
+</section>
+
+<section class="slide practice-slide" data-topic="Practice: wages & employment">
+  <div class="section-kicker">Practice · translate quantities into employment</div>
+  <h1>Count the workers who actually get jobs</h1>
+  <div class="equation-box"><p class="equation">Labor demand: Ld = 400 − W<br>Labor supply: Ls = 3W</p></div>
+  <p class="small muted">Stylized market: W is dollars per work period; L is the number of workers.</p>
+  <div class="grid-2"><div class="card blue-top"><h2>1 · Free market</h2><p>Find the equilibrium wage and the number employed.</p><div class="reveal" id="jmLaborEq"><p>400 − W = 3W<br><strong>W* = $100</strong><br><strong>Employment = 300</strong></p></div></div><div class="card accent-top"><h2>2 · Wage-floor follow-up</h2><p>A minimum wage is set at $120.<br>Find Ld, Ls, employment, and the labor surplus.</p><div class="reveal" id="jmLaborFloor"><p>Ld = 280; Ls = 360<br><strong>Employment = 280</strong><br><strong>Labor surplus = 80</strong></p></div></div></div>
+  <div class="button-row"><button class="action" data-steps="jmLaborEq jmLaborFloor jmLaborExplain">Reveal next step</button></div>
+  <div class="strip small reveal" id="jmLaborExplain">The floor binds because $120 &gt; $100. Employers hire <strong>20 fewer workers</strong>, while <strong>60 more</strong> want to work. Together, these changes create an 80-worker gap.</div>
+</section>
+
+<section class="slide" data-topic="Mixed practice & final checklist">
+  <div class="section-kicker">Final check · choose, calculate, explain</div>
+  <h1>Can you explain every step?</h1>
+  <div class="mini-question"><p><strong>1 · Trade:</strong> Farm C can produce 40 apples or 20 pears; D can produce 30 apples or 10 pears. Who has comparative advantage in pears?</p><div class="reveal" id="final1">C: 1 pear costs 2 apples, versus 3 for D. Compare opportunity costs, not just output.</div></div>
+  <div class="mini-question"><p><strong>2 · Markets:</strong> Cheaper pasta reduces demand for substitute rice. At the same time, higher fuel costs reduce rice supply. What happens to P and Q?</p><div class="reveal" id="final2">D left and S left: Q falls; P is ambiguous. The quantity effects agree, but the price effects oppose.</div></div>
+  <div class="mini-question"><p><strong>3 · Price floor:</strong> Qd = 36 − 2P and Qs = P. A floor sets P = $15. How many units trade, and how much excess supply is there?</p><div class="reveal" id="final3">P* = $12. At the binding floor, Qd = 6 and Qs = 15: 6 units trade; excess supply = 9.</div></div>
+  <button class="action" data-steps="final1 final2 final3">Reveal the next explanation</button>
+  <div class="strip blue-strip"><strong>Before choosing an answer:</strong><br>Name the market → identify the constraint or shift → calculate → check units and actual trade → explain the result.</div>
+</section>
+<nav id="toc" aria-label="Slide contents"><div class="toc-heading"><h2>Exam 1 Review</h2><button class="action secondary" id="closeToc">Close</button></div><div class="toc-grid" id="tocItems"></div></nav>
+</main>
+<div id="progress"></div><div id="hint">← / → Navigate · R Reveal next · T Contents · F Full screen · P Print with answers</div>
+<script>
+'use strict';
+(() => {
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const stage = document.getElementById('stage');
+  const toc = document.getElementById('toc');
+  let index = 0;
+  const $ = id => document.getElementById(id);
+  const n = v => Number(v.toFixed(2));
+  const line = (x1,y1,x2,y2,cls='guide',extra='') => `<line x1="${n(x1)}" y1="${n(y1)}" x2="${n(x2)}" y2="${n(y2)}" class="${cls}" ${extra}/>`;
+  const text = (x,y,label,cls='',anchor='start') => `<text x="${n(x)}" y="${n(y)}" class="${cls}" text-anchor="${anchor}">${label}</text>`;
+  const point = (x,y,cls='point',r=4.5) => `<circle cx="${n(x)}" cy="${n(y)}" r="${r}" class="${cls}"/>`;
+  function plot(w,h,xmax,ymax,xlabel,ylabel){
+    const l=52,r=w-24,t=27,b=h-44;
+    const x=v=>l+(r-l)*v/xmax,y=v=>b-(b-t)*v/ymax;
+    const axes=line(l,t,l,b,'axis')+line(l,b,r,b,'axis')+text(l-9,b+18,'0','tick','end')+text((l+r)/2,h-7,xlabel,'','middle')+text(l-8,16,ylabel);
+    return {x,y,l,r,t,b,axes,w,h};
+  }
+  function guides(g,q,p){return line(g.x(0),g.y(p),g.x(q),g.y(p))+line(g.x(q),g.y(0),g.x(q),g.y(p));}
+  function xtick(g,q,label=q){return text(g.x(q),g.b+18,String(label),'tick','middle');}
+  function ytick(g,p,label=p){return text(g.l-9,g.y(p)+4,String(label),'tick','end');}
+  function ppf(g,xint,yint,cls='ppf'){return line(g.x(0),g.y(yint),g.x(xint),g.y(0),cls);}
+  function drawReadPPF(){
+    const g=plot(430,340,54,28,'Berries','Beans');
+    $('ppfRead').innerHTML=g.axes+ppf(g,48,24)+xtick(g,48)+ytick(g,24)+point(g.x(12),g.y(8))+text(g.x(12)+8,g.y(8)-8,'I')+
+      `<g class="reveal" id="ppfReadPoint">${guides(g,28,10)+xtick(g,28)+ytick(g,10)+point(g.x(28),g.y(10),'new-point')+text(g.x(28)+8,g.y(10)-9,'(28, 10)')}</g>`;
+  }
+  const ppfScenarios={
+    idle:{label:'Resource use',title:'Reopen an idle greenhouse',body:'With the same resources and technology, move from inside the PPF toward the frontier.',rule:'Recovering unused capacity can increase both outputs without a trade-off.',caption:'The frontier stays fixed when existing capacity is put back to work.'},
+    resources:{label:'Total capacity',title:'More land and equipment',body:'An increase in productive resources expands the maximum feasible output of both crops.',rule:'Both intercepts move outward. A loss of resources would move the frontier inward.',caption:'Illustration: resources expand both maximum outputs proportionally.'},
+    disease:{label:'Crop-specific productivity',title:'Disease harms only berries',body:'Maximum berry production falls. Bean productivity and the bean intercept stay unchanged.',rule:'The PPF pivots inward on the berry axis. This is a capacity loss, not just unused capacity.',caption:'Only the berry intercept moves: 48 → 32 crates; beans remain at 24.'},
+    returns:{label:'Shape and opportunity cost',title:'Each extra berry costs more beans',body:'As resources move toward berries, the additional berry output from each input eventually shrinks. More beans must be given up per extra berry.',rule:'Diminishing marginal returns can generate rising opportunity cost and a bowed-out PPF.',caption:'Moving right, the frontier becomes steeper: the OC of berries rises.'}
+  };
+  function drawPPFChange(kind){
+    const c=ppfScenarios[kind],g=plot(430,340,66,34,'Berries','Beans');
+    let s=g.axes;
+    if(kind==='returns'){
+      const coords=Array.from({length:49},(_,q)=>`${q?'L':'M'}${n(g.x(q))},${n(g.y(24*(1-(q/48)**2)))}`).join(' ');
+      s+=`<path class="ppf" d="${coords}"/>`+xtick(g,48)+ytick(g,24);
+      s+=point(g.x(12),g.y(22.5),'new-point')+point(g.x(36),g.y(10.5),'new-point');
+      s+=text(g.x(12)+10,g.y(22.5)-10,'Lower OC','tick')+text(g.x(36)+9,g.y(10.5)-9,'Higher OC','tick');
+    }else{
+      s+=ppf(g,48,24,kind==='idle'?'ppf':'old')+xtick(g,48)+ytick(g,24);
+      if(kind==='idle')s+=line(g.x(12),g.y(8),g.x(28),g.y(10),'supply')+point(g.x(12),g.y(8))+point(g.x(28),g.y(10),'new-point')+text(g.x(12)-9,g.y(8)+22,'Idle','tick')+text(g.x(28)+8,g.y(10)-8,'Efficient','tick');
+      if(kind==='resources')s+=ppf(g,60,30)+xtick(g,60)+ytick(g,30)+text(g.x(47),g.y(12),'New PPF','curve-label');
+      if(kind==='disease')s+=ppf(g,32,24)+xtick(g,32)+text(g.x(35),g.y(14),'New PPF','curve-label');
+    }
+    $('ppfChange').innerHTML=s;
+    $('ppfChange').setAttribute('aria-label',c.title+'. '+c.caption);
+    $('ppfChangeLabel').textContent=c.label;$('ppfChangeTitle').textContent=c.title;$('ppfChangeText').textContent=c.body;$('ppfChangeRule').textContent=c.rule;$('ppfChangeCaption').textContent=c.caption;
+    document.querySelectorAll('[data-ppf]').forEach(b=>{b.classList.toggle('selected',b.dataset.ppf===kind);b.setAttribute('aria-pressed',String(b.dataset.ppf===kind));});
+  }
+  function drawTrade(id,xint,yint,pq,py,cq,cy,bq,by,resultId){
+    const g=plot(390,275,84,56,'Strawberries','Beans');
+    let s=g.axes+ppf(g,xint,yint)+xtick(g,xint)+ytick(g,yint)+point(g.x(pq),g.y(py),'new-point')+point(g.x(bq),g.y(by),'',3.5)+text(g.x(bq)-8,g.y(by)-8,'B','tick');
+    s+=text(g.x(pq)+9,g.y(py)-(py?9:12),pq?'P':`P (${pq}, ${py})`);
+    s+=`<g class="reveal" id="${resultId}">${line(g.x(pq),g.y(py),g.x(cq),g.y(cy),'guide','style="stroke:var(--green)"')+point(g.x(cq),g.y(cy),'',5)+text(g.x(cq)+8,g.y(cy)-8,`C (${cq}, ${cy})`,'curve-label')}</g>`;
+    $(id).innerHTML=s;$(id).querySelector(`#${resultId} circle`).style.fill='var(--green)';
+  }
+  function drawOpposing(loss){
+    const g=plot(430,325,140,15,'Quantity (crates)','Price ($)');
+    const delta=30-loss,p=(120-delta)/20,q=120-10*p;
+    let s=g.axes+line(g.x(0),g.y(12),g.x(120),g.y(0),'demand')+line(g.x(0),g.y(0),g.x(140),g.y(14),'old');
+    const q0=Math.max(0,delta),p0=Math.max(0,-delta/10),q1=Math.min(140,150+delta),p1=(q1-delta)/10;
+    s+=line(g.x(q0),g.y(p0),g.x(q1),g.y(p1),'supply')+guides(g,60,6)+point(g.x(60),g.y(6))+xtick(g,60)+ytick(g,6);
+    if(delta!==0)s+=guides(g,q,p)+point(g.x(q),g.y(p),'new-point')+xtick(g,q)+ytick(g,p);
+    s+=text(g.x(116),g.y(.5),'D','curve-label')+text(g.x(110),g.y((110-delta)/10)-11,'S₁','curve-label')+text(g.x(87),g.y(8.7)-10,'S₀','tick');
+    $('opposingSupply').innerHTML=s;
+    $('supplyNet').textContent=`+30 − ${loss} = ${delta>0?'+':''}${delta} crates`;
+    $('supplyNetResult').innerHTML=delta>0?'Supply right<br>P ↓ · Q ↑':delta<0?'Supply left<br>P ↑ · Q ↓':'No net shift<br>P and Q unchanged';
+    $('supplyNetNumbers').innerHTML=`P: $6 → $${p}<br>Q: 60 → ${q} crates`;
+    $('opposingSupply').setAttribute('aria-label',`Disease removes ${loss} crates. Net supply change ${delta}. Equilibrium price ${p}, quantity ${q}.`);
+    document.querySelectorAll('[data-supply-loss]').forEach(b=>{b.classList.toggle('selected',Number(b.dataset.supplyLoss)===loss);b.setAttribute('aria-pressed',String(Number(b.dataset.supplyLoss)===loss));});
+  }
+  function drawJiamingSurplus(){
+    const g=plot(430,330,80,42,'Quantity (units)','Price ($)');
+    const polygon=(pts,color,id)=>`<polygon points="${pts.map(([q,p])=>`${n(g.x(q))},${n(g.y(p))}`).join(' ')}" fill="${color}" fill-opacity=".26" class="reveal" id="${id}"/>`;
+    let s=polygon([[0,36],[0,18],[36,18]],'#2f80c9','jmCSArea')+polygon([[0,0],[0,18],[36,18]],'#378a61','jmPSArea');
+    s+=g.axes+line(g.x(0),g.y(36),g.x(72),g.y(0),'demand')+line(g.x(0),g.y(0),g.x(72),g.y(36),'supply')+xtick(g,72)+ytick(g,36);
+    s+=text(g.x(68),g.y(34)-12,'S','curve-label')+text(g.x(66),g.y(3)-9,'D','curve-label');
+    s+=`<g class="reveal" id="jmEqGraph">${guides(g,36,18)+point(g.x(36),g.y(18),'new-point')+xtick(g,36)+ytick(g,18)}</g>`;
+    s+=`<g class="reveal" id="jmCSLabel">${text(g.x(9),g.y(25),'CS','curve-label')}</g><g class="reveal" id="jmPSLabel">${text(g.x(9),g.y(10),'PS','curve-label')}</g>`;
+    $('jmSurplusGraph').innerHTML=s;
+  }
+  function drawWelfare(){
+    const g=plot(430,360,14,34,'Quantity (units)','Price ($)');
+    const polygon=(pts,fill,id)=>`<polygon points="${pts.map(([q,p])=>`${n(g.x(q))},${n(g.y(p))}`).join(' ')}" fill="${fill}" fill-opacity=".26" class="reveal" id="${id}"/>`;
+    let s=polygon([[0,30],[0,18],[6,18]],'#2f80c9','areaCS')+polygon([[0,18],[6,18],[6,12],[0,6]],'#378a61','areaPS')+polygon([[6,18],[8,14],[6,12]],'#EB811B','areaDWL');
+    s+=g.axes+line(g.x(0),g.y(30),g.x(14),g.y(2),'demand')+line(g.x(0),g.y(6),g.x(14),g.y(20),'supply');
+    s+=line(g.x(0),g.y(18),g.x(13.6),g.y(18),'axis','style="stroke:var(--accent);stroke-width:2"');
+    s+=text(g.x(9),g.y(18)-12,'Floor: $18','curve-label')+text(g.x(12.8),g.y(4.4)+21,'D','curve-label')+text(g.x(13.3),g.y(19.3)-12,'S','curve-label');
+    s+=guides(g,8,14)+point(g.x(8),g.y(14))+xtick(g,8)+ytick(g,14)+ytick(g,30)+ytick(g,6)+ytick(g,18);
+    s+=`<g class="reveal" id="welfareQuantityLines">${line(g.x(6),g.y(0),g.x(6),g.y(18))+line(g.x(12),g.y(0),g.x(12),g.y(18))+xtick(g,6)+xtick(g,12)+point(g.x(6),g.y(18),'new-point')+point(g.x(12),g.y(18),'new-point')}</g>`;
+    s+=`<g class="reveal" id="welfareCostLine">${line(g.x(0),g.y(12),g.x(6),g.y(12))+ytick(g,12)+point(g.x(6),g.y(12),'new-point')}</g>`;
+    s+=`<g class="reveal" id="welfareCSLabel">${text(g.x(1.5),g.y(21),'CS','curve-label')}</g><g class="reveal" id="welfarePSLabel">${text(g.x(1.5),g.y(12),'PS','curve-label')}</g>`;
+    $('welfareGraph').innerHTML=s;
+  }
+  drawReadPPF();drawPPFChange('idle');drawTrade('tradeA',72,36,72,0,50,22,36,18,'tradeAResult');drawTrade('tradeB',24,48,0,48,22,26,12,24,'tradeBResult');drawOpposing(10);drawJiamingSurplus();drawWelfare();
+  const dependentReveals={welfareQty:['welfareQuantityLines'],welfareCS:['areaCS','welfareCSLabel'],welfarePS:['areaPS','welfarePSLabel','welfareCostLine'],welfareDWL:['areaDWL','welfareCheck'],jmEqAnswer:['jmEqGraph'],jmCSAnswer:['jmCSArea','jmCSLabel'],jmPSAnswer:['jmPSArea','jmPSLabel']};
+  function reveal(id){const e=$(id);if(!e)return;e.classList.add('shown');(dependentReveals[id]||[]).forEach(reveal);}
+  document.querySelectorAll('[data-reveal]').forEach(b=>b.addEventListener('click',()=>{b.dataset.reveal.split(' ').forEach(reveal);b.disabled=true;}));
+  document.querySelectorAll('[data-steps]').forEach(b=>b.addEventListener('click',()=>{const ids=b.dataset.steps.split(' ');const next=ids.find(id=>!$(id).classList.contains('shown'));if(next)reveal(next);b.disabled=ids.every(id=>$(id).classList.contains('shown'));}));
+  document.querySelectorAll('[data-reveal-selector]').forEach(b=>b.addEventListener('click',()=>{b.closest('.slide').querySelectorAll(b.dataset.revealSelector).forEach(e=>e.classList.add('shown'));b.disabled=true;}));
+  document.querySelectorAll('[data-ppf]').forEach(b=>b.addEventListener('click',()=>drawPPFChange(b.dataset.ppf)));
+  document.querySelectorAll('[data-supply-loss]').forEach(b=>b.addEventListener('click',()=>drawOpposing(Number(b.dataset.supplyLoss))));
+  document.querySelectorAll('.quiz').forEach(quiz=>{
+    const feedback=quiz.querySelector('.feedback');feedback.dataset.initial=feedback.textContent;
+    quiz.querySelectorAll('.choice').forEach(b=>b.addEventListener('click',()=>{
+      quiz.querySelectorAll('.choice').forEach(c=>{c.classList.remove('correct','wrong');c.setAttribute('aria-pressed','false');});
+      const correct=b.dataset.correct==='true';b.classList.add(correct?'correct':'wrong');b.setAttribute('aria-pressed','true');
+      feedback.className='feedback '+(correct?'success':'error');
+      feedback.textContent=correct?'Correct. '+quiz.dataset.explanation:'Try again. Ask whether evidence could test the claim, or whether it states what should be fair or desirable.';
+    }));
+  });
+  function resetSlide(slide){
+    slide.querySelectorAll('.reveal').forEach(e=>e.classList.remove('shown'));
+    slide.querySelectorAll('[data-reveal],[data-steps],[data-reveal-selector]').forEach(b=>b.disabled=false);
+    slide.querySelectorAll('.choice').forEach(b=>{b.classList.remove('correct','wrong');b.setAttribute('aria-pressed','false');});
+    slide.querySelectorAll('.feedback').forEach(e=>{e.className='feedback';e.textContent=e.dataset.initial;});
+    if(slide.contains($('ppfChange')))drawPPFChange('idle');
+    if(slide.contains($('opposingSupply')))drawOpposing(10);
+  }
+  function fit(){const scale=Math.min(innerWidth/960,innerHeight/720);stage.style.transform=`translate(-50%,-50%) scale(${scale})`;}
+  function show(i){index=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>{s.classList.toggle('active',j===index);s.setAttribute('aria-hidden',String(j!==index));});$('progress').style.width=`${(index+1)/slides.length*100}%`;$('livePageCount').textContent=`${index+1} / ${slides.length}`;history.replaceState(null,'','#'+(index+1));toc.classList.remove('open');}
+  function toggleToc(){toc.classList.toggle('open');if(toc.classList.contains('open'))$('closeToc').focus();}
+  slides.forEach((slide,i)=>{
+    const footer=document.createElement('footer');footer.className='footer';
+    footer.innerHTML=`<span>ARE 201 · Exam 1 Review</span><div class="footer-tools"><button class="footer-btn" data-reset>Reset slide</button><button class="footer-btn" data-contents>Contents</button><button class="footer-btn" data-prev aria-label="Previous slide">←</button><button class="footer-btn" data-next aria-label="Next slide">→</button></div><span>${i+1} / ${slides.length}</span>`;
+    footer.querySelector('[data-reset]').addEventListener('click',()=>resetSlide(slide));footer.querySelector('[data-contents]').addEventListener('click',toggleToc);footer.querySelector('[data-prev]').addEventListener('click',()=>show(index-1));footer.querySelector('[data-next]').addEventListener('click',()=>show(index+1));
+    slide.appendChild(footer);
+    const entry=document.createElement('button');entry.className='toc-item';entry.textContent=`${String(i+1).padStart(2,'0')} · ${slide.dataset.topic}`;entry.addEventListener('click',()=>show(i));$('tocItems').appendChild(entry);
+  });
+  const liveFooter=slides[0].querySelector('.footer').cloneNode(true);liveFooter.classList.add('live-footer');liveFooter.lastElementChild.id='livePageCount';
+  liveFooter.querySelector('[data-reset]').addEventListener('click',()=>resetSlide(slides[index]));liveFooter.querySelector('[data-contents]').addEventListener('click',toggleToc);liveFooter.querySelector('[data-prev]').addEventListener('click',()=>show(index-1));liveFooter.querySelector('[data-next]').addEventListener('click',()=>show(index+1));stage.insertBefore(liveFooter,toc);
+  $('closeToc').addEventListener('click',()=>{toc.classList.remove('open');liveFooter.querySelector('[data-contents]').focus();});
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){toc.classList.remove('open');return;}
+    if(e.ctrlKey||e.metaKey||e.altKey||e.target.closest('input,select,textarea'))return;
+    const key=e.key.toLowerCase();
+    if(key==='t'){e.preventDefault();toggleToc();return;}
+    if(toc.classList.contains('open'))return;
+    if(key==='r'){e.preventDefault();const b=slides[index].querySelector('.action:not(:disabled):not(.secondary),[data-reveal]:not(:disabled)');if(b)b.click();else slides[index].querySelector('.choice[data-correct="true"]')?.click();return;}
+    if(key==='p'){e.preventDefault();window.print();return;}
+    if(key==='f'){e.preventDefault();if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});else document.documentElement.requestFullscreen?.().catch(()=>{});return;}
+    if(e.target.closest('button,a')){if(!['ArrowRight','ArrowLeft','PageDown','PageUp','Home','End'].includes(e.key))return;}
+    if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();show(index+1);}
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();show(index-1);}
+    else if(e.key==='Home'){e.preventDefault();show(0);}else if(e.key==='End'){e.preventDefault();show(slides.length-1);}
+  });
+  document.addEventListener('click',e=>{if(e.target.classList?.contains('slide'))show(index+(e.clientX>innerWidth/2?1:-1));});
+  addEventListener('resize',fit);addEventListener('hashchange',()=>{const v=parseInt(location.hash.slice(1),10);if(Number.isFinite(v))show(v-1);});
+  const start=parseInt(location.hash.slice(1),10);fit();show(Number.isFinite(start)?start-1:0);
+})();
+</script>
+</body>
+</html>
