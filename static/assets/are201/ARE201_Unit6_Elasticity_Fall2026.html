@@ -1,0 +1,2225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARE 201 — Unit 6: Elasticity</title>
+<style>
+  :root {
+    --accent: #EB811B;
+    --accent-soft: #fff4e8;
+    --ink: #1f2933;
+    --muted: #5f6b76;
+    --paper: #ffffff;
+    --soft: #f3f4f6;
+    --line: #d8dde3;
+    --blue: #2f80c9;
+    --blue-soft: #eef5fb;
+    --green: #378a61;
+    --green-soft: #e9f6ef;
+    --red: #c9504d;
+    --red-soft: #fcedec;
+    --purple: #7657a5;
+    --purple-soft: #f3effa;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #111; }
+  body { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+
+  #stage {
+    position: absolute; left: 50%; top: 50%;
+    width: 960px; height: 720px;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+    background: var(--paper);
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  }
+
+  .slide {
+    position: absolute; inset: 0; display: none;
+    width: 960px; height: 720px;
+    padding: 50px 62px 48px;
+    overflow: hidden; color: var(--ink); background: var(--paper);
+  }
+  .slide.active { display: block; }
+  .slide.center { text-align: center; }
+  .slide.middle { align-items: center; justify-content: center; flex-direction: column; }
+  .slide.middle.active { display: flex; }
+
+  h1, h2, h3, p { margin-top: 0; }
+  h1 { margin-bottom: 16px; font-size: 37px; line-height: 1.12; letter-spacing: -.4px; }
+  h2 { margin-bottom: 10px; font-size: 25px; line-height: 1.2; }
+  h3 { margin-bottom: 7px; font-size: 19px; line-height: 1.2; }
+  p, li { font-size: 19px; line-height: 1.34; }
+  ul { margin: 7px 0 0 22px; padding: 0; }
+  li { margin: 6px 0; }
+  strong { font-weight: 780; }
+  .small { font-size: 16px; line-height: 1.34; }
+  .tiny { font-size: 13px; line-height: 1.3; }
+  .muted { color: var(--muted); }
+  .accent { color: var(--accent); }
+  .blue { color: var(--blue); }
+  .green { color: var(--green); }
+  .red { color: var(--red); }
+  .purple { color: var(--purple); }
+
+  .section-kicker {
+    margin-bottom: 7px; color: var(--accent);
+    font-size: 14px; font-weight: 820; letter-spacing: .1em; text-transform: uppercase;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .two-thirds { display: grid; grid-template-columns: 1.12fr .88fr; gap: 23px; align-items: start; }
+  .thirds-two { display: grid; grid-template-columns: .88fr 1.12fr; gap: 23px; align-items: start; }
+
+  .card { padding: 17px 19px; border-radius: 8px; background: var(--soft); }
+  .card.white { border: 1px solid var(--line); background: #fff; }
+  .card.accent-top { border-top: 4px solid var(--accent); border-radius: 0 0 8px 8px; }
+  .card.blue-top { border-top: 4px solid var(--blue); border-radius: 0 0 8px 8px; }
+  .card.green-top { border-top: 4px solid var(--green); border-radius: 0 0 8px 8px; }
+  .card.red-top { border-top: 4px solid var(--red); border-radius: 0 0 8px 8px; }
+  .card.purple-top { border-top: 4px solid var(--purple); border-radius: 0 0 8px 8px; }
+  .card p, .card li { font-size: 16px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  .definition-strip {
+    padding: 13px 16px; border-left: 5px solid var(--accent);
+    background: var(--accent-soft); font-size: 19px; line-height: 1.36;
+  }
+  .definition-strip.blue-strip { border-left-color: var(--blue); background: var(--blue-soft); }
+  .definition-strip.green-strip { border-left-color: var(--green); background: var(--green-soft); }
+  .definition-strip.red-strip { border-left-color: var(--red); background: var(--red-soft); }
+  .definition-strip.purple-strip { border-left-color: var(--purple); background: var(--purple-soft); }
+
+  .interactive button {
+    min-height: 41px; padding: 9px 14px; border: 0; border-radius: 7px;
+    color: #fff; background: var(--accent);
+    font: 730 15px "Avenir Next", "Helvetica Neue", Arial, sans-serif; cursor: pointer;
+  }
+  .interactive button:hover { filter: brightness(.96); }
+  .interactive button:focus-visible { outline: 3px solid rgba(235,129,27,.35); outline-offset: 2px; }
+  .interactive button.secondary { color: var(--ink); background: #e5e8eb; }
+  .interactive button.blue-button { background: var(--blue); }
+  .interactive button.green-button { background: var(--green); }
+  .interactive button.purple-button { background: var(--purple); }
+  .interactive button.selected { box-shadow: inset 0 0 0 3px rgba(255,255,255,.65); }
+  .interactive button.correct { background: var(--green); }
+  .interactive button.wrong { background: var(--red); }
+
+  .button-row { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
+  .feedback {
+    min-height: 54px; padding: 10px 13px;
+    border-left: 4px solid var(--line); background: var(--soft);
+    font-size: 15px; line-height: 1.33;
+  }
+  .feedback.success { border-left-color: var(--green); background: var(--green-soft); }
+  .feedback.error { border-left-color: var(--red); background: var(--red-soft); }
+  .feedback.info { border-left-color: var(--blue); background: var(--blue-soft); }
+
+  .title-slide { padding-bottom: 150px; }
+  .title-kicker { margin-bottom: 13px; color: var(--accent); font-size: 17px; font-weight: 780; letter-spacing: .11em; text-transform: uppercase; }
+  .title-main { max-width: 780px; margin: 0 auto 12px; font-size: 57px; line-height: 1.02; }
+  .title-sub { color: var(--muted); font-size: 24px; line-height: 1.35; }
+  .title-graphic { position: absolute; right: 65px; bottom: 38px; width: 470px; height: 170px; }
+
+  .poll-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; margin-top: 20px; }
+  .poll-grid.four { grid-template-columns: repeat(4, 1fr); }
+  .poll-grid.two { grid-template-columns: repeat(2, 1fr); }
+  .interactive .poll-option { min-height: 108px; padding: 16px 15px; border: 2px solid var(--line); color: var(--ink); background: #fff; text-align: left; }
+  .interactive .poll-option:hover { border-color: var(--accent); }
+  .poll-letter { display: inline-flex; width: 31px; height: 31px; margin-bottom: 9px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--accent); }
+  .poll-option strong { display: block; font-size: 17px; }
+  .poll-option span:last-child { display: block; margin-top: 5px; color: var(--muted); font-size: 13px; line-height: 1.28; }
+
+  .quiz-scenario { min-height: 84px; padding: 15px 18px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .quiz-scenario .market-label { color: var(--accent); font-size: 13px; font-weight: 820; letter-spacing: .07em; text-transform: uppercase; }
+  .quiz-scenario p { margin: 5px 0 0; font-size: 21px; line-height: 1.28; }
+  .quiz-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+  .quiz-options.two { grid-template-columns: repeat(2, 1fr); }
+  .quiz-options.four { grid-template-columns: repeat(4, 1fr); }
+  .interactive .quiz-option { min-height: 62px; font-size: 15px; line-height: 1.22; }
+  .quiz-toolbar { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; }
+  .score-pill { padding: 8px 12px; border-radius: 999px; background: var(--soft); font-size: 14px; font-weight: 800; }
+
+  /* ---- plots ---- */
+  .plot-panel { padding: 10px 12px 8px; border: 1px solid var(--line); background: #fff; }
+  .plot { display: block; width: 100%; height: 300px; }
+  .plot.tall { height: 340px; }
+  .plot.short { height: 196px; }
+  .axis { fill: none; stroke: var(--ink); stroke-width: 2; }
+  .gridline { fill: none; stroke: #e8ebee; stroke-width: 1; }
+  .demand-line { fill: none; stroke: var(--blue); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+  .demand-line.thin { stroke-width: 3; }
+  .supply-line { fill: none; stroke: var(--green); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+  .old-line { fill: none; stroke: #9aa3ab; stroke-width: 3; stroke-dasharray: 7 6; }
+  .price-line { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-dasharray: 6 4; }
+  .projection { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 5 4; }
+  .plot-label { fill: var(--ink); font: 700 13px Arial, sans-serif; }
+  .plot-label.sm { font-size: 11px; }
+  .tick-label { fill: var(--muted); font: 11px Arial, sans-serif; }
+  .dot { fill: var(--accent); stroke: #fff; stroke-width: 2; }
+  .dot.blue-dot { fill: var(--blue); }
+  .dot.green-dot { fill: var(--green); }
+
+  .tr-fill { fill: var(--accent); fill-opacity: .22; }
+  .tr-gain { fill: var(--green); fill-opacity: .34; }
+  .tr-loss { fill: var(--red); fill-opacity: .34; }
+  .dwl-fill { fill: var(--red); fill-opacity: .36; }
+  .buyer-fill { fill: var(--blue); fill-opacity: .30; }
+  .seller-fill { fill: var(--green); fill-opacity: .30; }
+  .revenue-fill { fill: var(--purple); fill-opacity: .26; }
+  .wedge-line { fill: none; stroke: var(--purple); stroke-width: 2.5; }
+  .zone-elastic { fill: var(--blue); fill-opacity: .13; }
+  .zone-inelastic { fill: var(--red); fill-opacity: .13; }
+
+  /* ---- reveal machinery ---- */
+  .answer-layer { opacity: 0; transition: opacity .2s ease; }
+  .answer-layer.shown { opacity: 1; }
+  .reveal-step { visibility: hidden; opacity: 0; transition: opacity .18s ease; }
+  .reveal-step.visible { visibility: visible; opacity: 1; }
+  .check-answer { visibility: hidden; opacity: 0; transition: opacity .18s ease; }
+  .check-answer.visible { visibility: visible; opacity: 1; }
+  .interactive .step-reveal { min-width: 182px; background: var(--purple); }
+  .calc-answer { color: transparent; }
+  .revealed .calc-answer { color: var(--ink); }
+
+  /* ---- unit 6 specific ---- */
+  .formula-box {
+    padding: 15px 18px; border: 2px solid var(--accent); border-radius: 8px;
+    background: var(--accent-soft); text-align: center;
+  }
+  .formula-box .frac { display: inline-block; vertical-align: middle; text-align: center; }
+  .formula-box .frac .num { display: block; padding: 0 9px 3px; border-bottom: 2.5px solid var(--ink); font-size: 20px; font-weight: 800; }
+  .formula-box .frac .den { display: block; padding: 3px 9px 0; font-size: 20px; font-weight: 800; }
+  .formula-box .lhs { display: inline-block; vertical-align: middle; margin-right: 10px; font-size: 22px; font-weight: 840; }
+  .formula-box.blue-box { border-color: var(--blue); background: var(--blue-soft); }
+  .formula-box.green-box { border-color: var(--green); background: var(--green-soft); }
+  .formula-box.purple-box { border-color: var(--purple); background: var(--purple-soft); }
+  .formula-note { margin-top: 8px; color: var(--muted); font-size: 13px; line-height: 1.3; }
+
+  .elas-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 16px; }
+  .elas-table th { padding: 9px 10px; color: #fff; background: var(--ink); font-size: 13px; text-align: left; }
+  .elas-table td { padding: 10px; border-bottom: 1px solid var(--line); }
+  .elas-table td:first-child { width: 128px; font-weight: 840; font-size: 18px; text-align: center; }
+  .elas-table td:nth-child(2) { width: 186px; font-weight: 800; }
+  .elas-table tr.r-elastic td:first-child, .elas-table tr.r-elastic td:nth-child(2) { color: var(--blue); }
+  .elas-table tr.r-inelastic td:first-child, .elas-table tr.r-inelastic td:nth-child(2) { color: var(--red); }
+  .elas-table tr.r-unit td:first-child, .elas-table tr.r-unit td:nth-child(2) { color: var(--accent); }
+  .elas-table tr.r-polar { background: var(--soft); }
+  .elas-table tr.r-polar td { font-size: 14px; }
+
+  .calc-run { display: grid; gap: 9px; margin-top: 4px; }
+  .calc-line {
+    display: grid; grid-template-columns: 30px 1fr; gap: 11px; align-items: center;
+    padding: 9px 13px; background: var(--soft);
+  }
+  .calc-line.hi { background: var(--accent-soft); }
+  .calc-line.bad { background: var(--red-soft); }
+  .calc-line.good { background: var(--green-soft); }
+  .calc-num { display: flex; width: 26px; height: 26px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--ink); font-size: 12px; font-weight: 820; }
+  .calc-line.hi .calc-num { background: var(--accent); }
+  .calc-line.bad .calc-num { background: var(--red); }
+  .calc-line.good .calc-num { background: var(--green); }
+  .calc-line strong { display: block; font-size: 16px; }
+  .calc-line span { display: block; margin-top: 2px; color: var(--muted); font-size: 13px; line-height: 1.28; }
+
+  .det-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 14px; }
+  .det-card { padding: 15px 17px; border-top: 5px solid var(--blue); background: var(--blue-soft); }
+  .det-card:nth-child(2) { border-top-color: var(--green); background: var(--green-soft); }
+  .det-card:nth-child(3) { border-top-color: var(--accent); background: var(--accent-soft); }
+  .det-card:nth-child(4) { border-top-color: var(--purple); background: var(--purple-soft); }
+  .det-num { color: var(--muted); font-size: 12px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .det-card h2 { margin: 4px 0 8px; font-size: 21px; }
+  .det-versus { display: grid; grid-template-columns: 1fr 26px 1fr; gap: 6px; align-items: center; margin: 10px 0 8px; }
+  .det-side { display: flex; min-height: 54px; flex-direction: column; align-items: center; justify-content: center; padding: 9px 8px; background: #fff; font-size: 13px; font-weight: 760; line-height: 1.25; text-align: center; }
+  .det-side em { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; font-style: normal; font-weight: 640; }
+  .det-vs { color: var(--muted); font-size: 13px; font-weight: 840; text-align: center; }
+  .det-rule { margin: 0; font-size: 14px; line-height: 1.3; }
+
+  .rank-board { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 16px; }
+  .rank-item { padding: 13px 10px; border: 2px solid var(--line); background: #fff; text-align: center; }
+  .rank-item strong { display: block; min-height: 46px; font-size: 15px; line-height: 1.2; }
+  .rank-value { display: block; margin-top: 9px; padding: 6px 4px; background: var(--soft); color: var(--muted); font-size: 20px; font-weight: 850; }
+  .rank-item.shown .rank-value { color: #fff; background: var(--blue); }
+  .rank-item.shown.inel .rank-value { background: var(--red); }
+  .rank-label { display: block; margin-top: 5px; color: var(--muted); font-size: 11px; }
+
+  .tr-rule-table { width: 100%; border-collapse: collapse; margin-top: 13px; font-size: 17px; text-align: center; }
+  .tr-rule-table th { padding: 10px 8px; color: #fff; background: var(--ink); font-size: 13px; }
+  .tr-rule-table td { padding: 13px 8px; border-bottom: 1px solid var(--line); font-weight: 800; }
+  .tr-rule-table td:first-child { font-weight: 840; text-align: left; padding-left: 14px; }
+  .tr-rule-table tbody tr:nth-child(1) { background: var(--blue-soft); }
+  .tr-rule-table tbody tr:nth-child(2) { background: var(--red-soft); }
+  .tr-rule-table tbody tr:nth-child(3) { background: var(--accent-soft); }
+  .up { color: var(--green); }
+  .down { color: var(--red); }
+
+  .split-bar { margin-top: 12px; }
+  .split-track { display: flex; height: 54px; overflow: hidden; border-radius: 6px; }
+  .split-seg { display: flex; align-items: center; justify-content: center; color: #fff; font-size: 17px; font-weight: 840; }
+  .split-seg.buyers { background: var(--blue); }
+  .split-seg.sellers { background: var(--green); }
+  .split-legend { display: flex; justify-content: space-between; margin-top: 6px; color: var(--muted); font-size: 13px; }
+
+  .mechanism-flow { display: grid; grid-template-columns: 1fr 30px 1fr 30px 1fr; gap: 6px; align-items: stretch; margin-top: 14px; }
+  .mechanism-box { display: flex; min-height: 86px; padding: 11px; align-items: center; justify-content: center; background: var(--soft); font-size: 15px; font-weight: 740; line-height: 1.28; text-align: center; }
+  .mechanism-box.blue-box { background: var(--blue-soft); }
+  .mechanism-box.green-box { background: var(--green-soft); }
+  .mechanism-box.red-box { color: #fff; background: var(--red); }
+  .mechanism-box.accent-box { color: #fff; background: var(--accent); }
+  .mechanism-arrow { display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 24px; font-weight: 850; }
+
+  .mirror-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 14px; }
+  .mirror-col { padding: 16px 17px; border-top: 5px solid var(--blue); background: var(--blue-soft); }
+  .mirror-col.seller-col { border-top-color: var(--green); background: var(--green-soft); }
+  .mirror-col h2 { margin-bottom: 8px; color: var(--blue); font-size: 21px; }
+  .mirror-col.seller-col h2 { color: var(--green); }
+  .mirror-line { margin: 0 0 10px; font-size: 15px; line-height: 1.3; }
+  .mirror-line:last-child { margin-bottom: 0; }
+
+  .case-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 6px; }
+  .case-card { padding: 14px 16px; border-top: 5px solid var(--blue); background: var(--blue-soft); }
+  .case-card.b { border-top-color: var(--red); background: var(--red-soft); }
+  .case-card h2 { margin-bottom: 3px; font-size: 20px; }
+  .case-card > p.sub { min-height: 36px; margin: 0 0 9px; color: var(--muted); font-size: 13px; line-height: 1.27; }
+  .case-readout { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px; margin-top: 9px; }
+  .case-stat { padding: 7px 5px; background: #fff; text-align: center; }
+  .case-stat strong { display: block; color: var(--ink); font-size: 17px; }
+  .case-stat span { color: var(--muted); font-size: 10px; line-height: 1.2; }
+
+  .day-two-banner {
+    display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: center;
+    margin-bottom: 16px; padding: 12px 15px;
+    border-left: 6px solid var(--purple); background: var(--purple-soft);
+  }
+  .day-two-number { color: var(--purple); font-size: 34px; font-weight: 860; line-height: 1; }
+  .day-two-banner strong { display: block; font-size: 18px; }
+  .day-two-banner span { color: var(--muted); font-size: 13px; }
+
+  .lo-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .lo-row { display: grid; grid-template-columns: 58px 1fr; gap: 10px; align-items: center; padding: 9px 12px; background: var(--soft); }
+  .lo-row.today { background: var(--accent-soft); }
+  .lo-row.next { background: var(--purple-soft); }
+  .lo-tag { padding: 5px 4px; color: #fff; background: var(--muted); font-size: 11px; font-weight: 850; text-align: center; }
+  .lo-row.today .lo-tag { background: var(--accent); }
+  .lo-row.next .lo-tag { background: var(--purple); }
+  .lo-row span { font-size: 13px; line-height: 1.25; }
+
+  .compact-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-top: 13px; }
+  .compact-check { padding: 11px 13px; border-left: 4px solid var(--purple); background: var(--purple-soft); }
+  .compact-check strong { display: block; margin-bottom: 3px; font-size: 14px; }
+  .compact-check span { color: var(--muted); font-size: 12px; line-height: 1.25; }
+
+  .exit-answer { min-height: 58px; margin-top: 12px; padding: 12px 14px; border-left: 4px solid var(--green); background: var(--green-soft); visibility: hidden; opacity: 0; }
+  .exit-answer.visible { visibility: visible; opacity: 1; }
+  .exit-answer p { margin: 0; font-size: 15px; line-height: 1.34; }
+
+  .illus-tag {
+    display: inline-block; margin-left: 8px; padding: 2px 7px; border-radius: 3px;
+    background: var(--soft); color: var(--muted); font-size: 11px; font-weight: 800;
+    letter-spacing: .05em; text-transform: uppercase; vertical-align: middle;
+  }
+  .source-note { margin-top: 11px; color: var(--muted); font-size: 12px; line-height: 1.3; }
+  .footer-note { margin-top: 14px; }
+
+  .photo-frame {
+    position: relative; display: flex; min-height: 430px;
+    align-items: center; justify-content: center; overflow: hidden;
+    border: 1px solid var(--line); border-radius: 8px; background: var(--soft);
+  }
+  .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+  .photo-fallback { display: none; flex-direction: column; align-items: center; justify-content: center; width: 100%; padding: 22px; text-align: center; }
+  .photo-fallback svg { width: 212px; height: 212px; }
+  .photo-fallback p { margin: 14px 0 0; color: var(--muted); font-size: 12px; line-height: 1.32; }
+
+  .know-badge { display: inline-block; padding: 4px 10px; border-radius: 3px; color: #fff; font-size: 11px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .know-badge.yes { background: var(--muted); }
+  .know-badge.no { background: var(--accent); }
+  .know-card { padding: 16px 18px; border-top: 5px solid var(--muted); background: var(--soft); }
+  .know-card.unknown { border-top-color: var(--accent); background: var(--accent-soft); }
+  .know-card h2 { margin: 9px 0 6px; font-size: 22px; }
+  .know-card p { margin: 0; font-size: 16px; line-height: 1.3; }
+  .law-line { margin: 10px 0 0; padding: 9px 12px; background: #fff; font-size: 19px; font-weight: 840; text-align: center; }
+  .scale-panel { margin-top: 15px; padding: 8px 14px 2px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+
+  .trade-tile { display: grid; grid-template-columns: 76px 1fr; gap: 12px; align-items: center; padding: 11px 13px; background: #fff; }
+  .trade-tile + .trade-tile { margin-top: 9px; }
+  .trade-num { font-size: 27px; font-weight: 860; line-height: 1; text-align: center; }
+  .trade-tile .lbl { display: block; color: var(--muted); font-size: 11px; font-weight: 820; letter-spacing: .06em; text-transform: uppercase; }
+  .trade-tile p { margin: 3px 0 0; font-size: 14px; line-height: 1.28; }
+  .verdict { margin-top: 11px; padding: 10px 12px; color: #fff; font-size: 15px; line-height: 1.3; text-align: center; }
+  .verdict.good { background: var(--blue); }
+  .verdict.bad { background: var(--red); }
+
+  .det-col { padding: 14px 15px; border-top: 5px solid var(--red); background: var(--red-soft); }
+  .det-col.elastic { border-top-color: var(--blue); background: var(--blue-soft); }
+  .det-photo { position: relative; height: 232px; overflow: hidden; border-radius: 6px; background: var(--soft); }
+  .det-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .photo-credit { margin: 5px 0 0; color: var(--muted); font-size: 10px; line-height: 1.3; }
+  .det-tag { display: inline-block; padding: 3px 9px; border-radius: 3px; color: #fff; background: var(--red); font-size: 10px; font-weight: 850; letter-spacing: .07em; text-transform: uppercase; }
+  .det-col.elastic .det-tag { background: var(--blue); }
+  .det-col h3 { margin: 9px 0 5px; font-size: 19px; }
+  .det-col p { margin: 0; font-size: 15px; line-height: 1.3; }
+
+  .option-row { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: center; padding: 12px 15px; background: var(--soft); }
+  .option-row + .option-row { margin-top: 9px; }
+  .option-letter { display: flex; width: 26px; height: 26px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--blue); font-size: 12px; font-weight: 820; }
+  .green-options .option-letter { background: var(--green); }
+  .option-row span:last-child { font-size: 16px; font-weight: 700; }
+  .price-jump { margin: 2px 0 14px; font-size: 30px; font-weight: 860; letter-spacing: -.5px; }
+
+  #polarInelasticSlide .plot, #polarElasticSlide .plot { height: 284px; }
+  #polarInelasticSlide .photo-frame, #polarElasticSlide .photo-frame { min-height: 286px !important; }
+
+  #tradeSlide .card { padding: 14px 16px; }
+  #tradeSlide .trade-tile { padding: 9px 12px; }
+  #tradeSlide .trade-tile p { font-size: 13.5px; }
+  #tradeSlide .trade-num { font-size: 24px; }
+  #tradeSlide .verdict { margin-top: 9px; padding: 8px 11px; font-size: 14px; }
+  #tradeSlide .definition-strip { padding: 11px 14px; font-size: 16px; }
+
+  #detTimeSlide .det-photo { height: 204px; }
+
+  /* slide-scoped density adjustments, verified against the 720px stage */
+  #trCompareSlide .tr-rule-table { margin-top: 10px; font-size: 15px; }
+  #trCompareSlide .tr-rule-table td { padding: 9px 8px; }
+  #trCompareSlide .case-card > p.sub { min-height: 0; }
+  #shoesSlide .calc-run { gap: 7px; }
+  #shoesSlide .calc-line { padding: 7px 13px; }
+  #oilSlide .case-readout { margin-top: 7px; }
+  #oilSlide .case-card > p.sub { min-height: 0; }
+  #taxDwlSlide .card { padding: 14px 17px; }
+  #bumperSlide .calc-run { gap: 7px; }
+  #bumperSlide .calc-line { padding: 7px 13px; }
+  #checkpointSlide h1 { margin-bottom: 10px; }
+  #checkpointSlide .compact-checks { gap: 8px; }
+  #checkpointSlide .compact-check { padding: 9px 12px; }
+  #checkpointSlide .definition-strip { padding: 11px 15px; }
+  #checkpointSlide .exit-answer { min-height: 44px; margin-top: 10px; padding: 10px 14px; }
+
+  .footer { position: absolute; right: 62px; bottom: 18px; left: 62px; display: flex; justify-content: space-between; color: #8a949e; font-size: 12px; }
+  #progress { position: fixed; bottom: 0; left: 0; z-index: 20; height: 4px; background: var(--accent); transition: width .18s ease; }
+  #hint { position: fixed; right: 14px; bottom: 9px; z-index: 20; color: rgba(255,255,255,.52); font: 12px Arial, sans-serif; }
+
+  @page { size: 10in 7.5in; margin: 0; }
+  @media print {
+    html, body { width: auto; height: auto; overflow: visible; background: #fff; }
+    #stage { position: static; width: auto; height: auto; transform: none !important; box-shadow: none; }
+    .slide { position: relative; display: block !important; page-break-after: always; break-after: page; }
+    #progress, #hint { display: none; }
+    .exit-answer { visibility: visible !important; opacity: 1 !important; }
+    .calc-answer { color: var(--ink) !important; }
+    .answer-layer { opacity: 1 !important; }
+    .reveal-step { visibility: visible !important; opacity: 1 !important; }
+    .check-answer { visibility: visible !important; opacity: 1 !important; }
+    .rank-item .rank-value { color: #fff !important; background: var(--blue) !important; }
+    .rank-item.inel .rank-value { background: var(--red) !important; }
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- ===================== CLASS 1 — LO 6.1–6.4 ===================== -->
+
+  <!-- 1 -->
+  <section class="slide title-slide center middle active" data-day="1">
+    <div>
+      <div class="title-kicker">ARE 201 · Unit 6</div>
+      <h1 class="title-main">Elasticity</h1>
+      <p class="title-sub">How much? Measuring responsiveness</p>
+    </div>
+    <svg class="title-graphic" viewBox="0 0 470 170" role="img" aria-label="A steep demand curve and a flat demand curve crossing">
+      <path class="axis" d="M 30 150 L 30 15" /><path class="axis" d="M 30 150 L 450 150" />
+      <path class="demand-line" d="M 180 20 L 260 144" />
+      <path class="demand-line thin" style="stroke:var(--accent)" d="M 45 55.75 L 440 115" />
+      <circle class="dot" cx="220" cy="82" r="5" />
+      <text class="plot-label" x="268" y="140" fill="#2f80c9">steep</text>
+      <text class="plot-label" x="392" y="108" fill="#EB811B">flat</text>
+      <text class="tick-label" x="36" y="26">P</text><text class="tick-label" x="440" y="165">Q</text>
+    </svg>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Where we are going</div>
+    <h1>Unit 6 in nine objectives</h1>
+    <div class="lo-list">
+      <div class="lo-row today"><div class="lo-tag">6.1</div><span>Define price elasticity of demand and say what a number means</span></div>
+      <div class="lo-row next"><div class="lo-tag">6.5</div><span>Price elasticity of supply; why supply is more elastic in the long run</span></div>
+      <div class="lo-row today"><div class="lo-tag">6.2</div><span>Calculate it with the midpoint method; classify the result</span></div>
+      <div class="lo-row next"><div class="lo-tag">6.6</div><span>Cross-price and income elasticity</span></div>
+      <div class="lo-row today"><div class="lo-tag">6.3</div><span>What makes demand elastic or inelastic</span></div>
+      <div class="lo-row next"><div class="lo-tag">6.7</div><span>Tax incidence: who actually bears a tax</span></div>
+      <div class="lo-row today"><div class="lo-tag">6.4</div><span>Elasticity and total revenue</span></div>
+      <div class="lo-row next"><div class="lo-tag">6.8</div><span>Agricultural markets and the bumper-crop paradox</span></div>
+      <div class="lo-row" style="grid-column:1 / -1; background:var(--soft);"><div class="lo-tag">6.9</div><span>Real pricing and policy events: the gas tax, corporate pricing power, pharmaceutical pricing</span></div>
+    </div>
+    <p class="footer-note small muted"><strong class="accent">Today (Class 1):</strong> LO 6.1–6.4, the demand side. <strong class="purple">Wednesday (Class 2):</strong> LO 6.5–6.9.</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Before any theory &middot; question 1 of 2 &middot; hands up</div>
+    <h1>A slice of pizza on campus goes up 20%</h1>
+    <div class="thirds-two" style="margin-top:14px;">
+      <div class="photo-frame">
+        <img src="Fig/ARE201_Unit6_Pizza_Slice.jpg" alt="A slice of pizza"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="photo-fallback">
+          <svg viewBox="0 0 100 100" role="img" aria-label="Illustration of a slice of pizza">
+            <path d="M 50 90 L 19 27 L 81 27 Z" fill="#f2c14e"/>
+            <path d="M 17 27 Q 50 8 83 27" fill="none" stroke="#d9a441" stroke-width="11" stroke-linecap="round"/>
+            <circle cx="41" cy="42" r="5" fill="#c9504d"/>
+            <circle cx="60" cy="41" r="4.5" fill="#c9504d"/>
+            <circle cx="50" cy="61" r="4.5" fill="#c9504d"/>
+            <circle cx="37" cy="58" r="3.4" fill="#c9504d"/>
+          </svg>
+        </div>
+      </div>
+      <div>
+        <p class="price-jump blue">$3.00 &nbsp;&rarr;&nbsp; $3.60</p>
+        <p style="font-size:20px;">Over the next month, how many fewer slices would you buy?</p>
+        <div style="margin-top:14px;">
+          <div class="option-row"><span class="option-letter">A</span><span>About the same number</span></div>
+          <div class="option-row"><span class="option-letter">B</span><span>A few fewer</span></div>
+          <div class="option-row"><span class="option-letter">C</span><span>A lot fewer</span></div>
+          <div class="option-row"><span class="option-letter">D</span><span>I would stop buying them</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="footer-note small muted">Hands up for each one. Remember roughly where the room lands&mdash;the next question is the same price change on a different good.</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Before any theory &middot; question 2 of 2 &middot; hands up</div>
+    <h1>Gasoline at your station goes up 20%</h1>
+    <div class="thirds-two green-options" style="margin-top:14px;">
+      <div class="photo-frame">
+        <img src="Fig/ARE201_Unit6_Gasoline_Pump.jpg" alt="A gasoline pump at a filling station"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="photo-fallback">
+          <svg viewBox="0 0 100 100" role="img" aria-label="Illustration of a gasoline pump">
+            <rect x="20" y="86" width="50" height="7" rx="2.5" fill="#1f2933"/>
+            <rect x="24" y="18" width="42" height="70" rx="6" fill="#378a61"/>
+            <rect x="31" y="27" width="28" height="19" rx="2.5" fill="#ffffff"/>
+            <rect x="35" y="32" width="20" height="3" rx="1.5" fill="#9aa3ab"/>
+            <rect x="35" y="38" width="13" height="3" rx="1.5" fill="#9aa3ab"/>
+            <rect x="33" y="56" width="24" height="5" rx="2.5" fill="#ffffff" opacity=".55"/>
+            <path d="M 66 34 Q 82 36 82 50 L 82 64" fill="none" stroke="#5f6b76" stroke-width="5" stroke-linecap="round"/>
+            <rect x="75" y="62" width="14" height="10" rx="3" fill="#5f6b76"/>
+          </svg>
+        </div>
+      </div>
+      <div>
+        <p class="price-jump green">$3.00 &nbsp;&rarr;&nbsp; $3.60</p>
+        <p style="font-size:20px;">Over the next month, how many fewer gallons would you buy?</p>
+        <div style="margin-top:14px;">
+          <div class="option-row"><span class="option-letter">A</span><span>About the same number</span></div>
+          <div class="option-row"><span class="option-letter">B</span><span>A few fewer</span></div>
+          <div class="option-row"><span class="option-letter">C</span><span>A lot fewer</span></div>
+          <div class="option-row"><span class="option-letter">D</span><span>I would stop buying it</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="footer-note small muted">Exactly the same percentage increase, over exactly the same month. Any difference in the room is about the two goods, not about the price change.</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">What your two answers reveal</div>
+    <h1>Same 20% increase, two different worlds</h1>
+    <div class="grid-2" style="margin-top:14px;">
+      <div class="card blue-top" style="min-height:240px;">
+        <h2 class="blue">Pizza</h2>
+        <p>Lots of close alternatives within a five-minute walk.</p>
+        <p style="margin-top:10px;">Most hands moved <strong>down</strong> the list, so <strong>quantity falls a lot</strong>.</p>
+        <p class="small muted" style="margin-top:12px;">Buyers had somewhere else to go, and they went.</p>
+      </div>
+      <div class="card green-top" style="min-height:240px;">
+        <h2 class="green">Gasoline</h2>
+        <p>Same commute, same car, same month.</p>
+        <p style="margin-top:10px;">Most hands stayed <strong>at the top</strong>, so buyers <strong>pay more and buy almost the same amount</strong>.</p>
+        <p class="small muted" style="margin-top:12px;">Buyers had nowhere else to go, so they simply paid.</p>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:24px;">
+      Both answers obeyed the law of demand&mdash;quantity fell either way. Yet the two responses were nothing alike.
+      <strong>So what exactly is the difference you just observed?</strong>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">The question the law of demand leaves open</div>
+    <h1>Direction is not the same as size</h1>
+    <div class="grid-2" style="margin-top:14px;">
+      <div class="know-card">
+        <span class="know-badge yes">You already know this</span>
+        <h2 class="muted">Which way?</h2>
+        <p>The <strong>law of demand</strong>, from Unit 4.</p>
+        <p class="law-line">price &uarr; &nbsp;&rArr;&nbsp; quantity demanded &darr;</p>
+        <p class="small muted" style="margin-top:9px;">True for pizza. True for gasoline. True for every good on the list.</p>
+      </div>
+      <div class="know-card unknown">
+        <span class="know-badge no">You cannot answer this yet</span>
+        <h2 class="accent">How much?</h2>
+        <p>A rounding error, or a collapse?</p>
+        <p class="law-line accent">quantity demanded &darr; &nbsp;<span style="font-size:25px;">by ???</span></p>
+        <p class="small muted" style="margin-top:9px;">The law of demand is completely silent here&mdash;and this is the half that decides every real decision.</p>
+      </div>
+    </div>
+    <div class="scale-panel">
+      <svg viewBox="0 0 880 128" style="display:block; width:100%; height:128px;" role="img" aria-label="A scale from quantity barely moves to quantity collapses, with gasoline sitting near the left end and pizza near the right end">
+        <text class="plot-label" x="185" y="20" text-anchor="middle" fill="#378a61">Gasoline</text>
+        <path d="M 175 30 L 195 30 L 185 44 Z" fill="#378a61" />
+        <text class="plot-label" x="655" y="20" text-anchor="middle" fill="#2f80c9">Pizza</text>
+        <path d="M 645 30 L 665 30 L 655 44 Z" fill="#2f80c9" />
+        <rect x="60" y="50" width="760" height="24" rx="12" fill="#f3f4f6" stroke="#d8dde3" />
+        <circle cx="185" cy="62" r="9" fill="#378a61" />
+        <circle cx="655" cy="62" r="9" fill="#2f80c9" />
+        <text class="tick-label" x="60" y="96" font-size="13">quantity barely moves</text>
+        <text class="tick-label" x="820" y="96" font-size="13" text-anchor="end">quantity collapses</text>
+        <text class="plot-label" x="440" y="118" text-anchor="middle" fill="#5f6b76">Every good sits somewhere on this line. Where?</text>
+      </svg>
+    </div>
+    <div class="definition-strip" style="margin-top:13px; font-size:18px;">
+      <strong>Elasticity is the number that places a good on that line.</strong> It is the whole content of this unit&mdash;every
+      calculation, every graph and every policy question from here on is a way of asking <em>how much</em>.
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">A question we will answer on Wednesday · vote now</div>
+    <h1>North Carolina grows more sweet potatoes than any other state</h1>
+    <div class="quiz-scenario" style="margin-top:16px;">
+      <div class="market-label">The setup</div>
+      <p>A near-perfect growing season means NC farms harvest <strong>25% more</strong> sweet potatoes than usual, at every price they could have charged.</p>
+    </div>
+    <div class="poll-grid" style="margin-top:22px;">
+      <div class="card white" style="border-top:5px solid var(--green);"><h2 class="green">Good news</h2><p class="small">More to sell means more income for NC sweet potato farmers.</p></div>
+      <div class="card white" style="border-top:5px solid var(--red);"><h2 class="red">Bad news</h2><p class="small">Farmers end up with <em>less</em> income than in a normal year.</p></div>
+      <div class="card white" style="border-top:5px solid var(--purple);"><h2 class="purple">It depends</h2><p class="small">On something we have not learned yet.</p></div>
+    </div>
+    <div class="definition-strip purple-strip" style="margin-top:20px; font-size:18px;">
+      <strong>Take the vote and write the three numbers on the board.</strong> We come back to them on Wednesday, and by then you will be able to prove the answer.
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">LO 6.1 · the definition</div>
+    <h1>Elasticity measures how responsive one thing is to another</h1>
+    <div class="definition-strip" style="margin-top:4px;">
+      <strong>Price elasticity of demand</strong> is the percentage change in <strong>quantity demanded</strong> divided by the percentage change in <strong>price</strong>.
+    </div>
+    <div class="formula-box" style="margin-top:20px;">
+      <span class="lhs">E<sub>d</sub> &nbsp;=</span>
+      <span class="frac"><span class="num">% change in quantity demanded</span><span class="den">% change in price</span></span>
+    </div>
+    <div class="grid-3" style="margin-top:20px;">
+      <div class="card blue-top"><h3 class="blue">It is a ratio</h3><p>Two percentages divided by each other. The answer carries <strong>no units</strong>&mdash;not dollars, not pounds.</p></div>
+      <div class="card green-top"><h3 class="green">It is a movement <em>along</em> a curve</h3><p>Price changed; the curve did not move. This is the Unit 4 language rule again.</p></div>
+      <div class="card accent-top"><h3 class="accent">It is local</h3><p>It describes one stretch of the demand curve, not the whole curve. More on that shortly.</p></div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">LO 6.1 · why percentages and not dollars</div>
+    <h1>Percentages let you compare markets that have nothing in common</h1>
+    <div class="grid-2" style="margin-top:8px;">
+      <div class="card red-top" style="min-height:196px;">
+        <h2 class="red">Hard to use</h2>
+        <p style="font-size:18px;">&ldquo;A <strong>$1,000</strong> cut in the price of a Ford sells <strong>30,000</strong> more cars.&rdquo;</p>
+        <p class="small muted" style="margin-top:10px;">Is that a big response? You cannot say without knowing the price of a Ford and how many Fords are normally sold.</p>
+      </div>
+      <div class="card green-top" style="min-height:196px;">
+        <h2 class="green">Easy to use</h2>
+        <p style="font-size:18px;">&ldquo;A <strong>5%</strong> cut in the price of a Ford raises Ford sales <strong>20%</strong>.&rdquo;</p>
+        <p class="small muted" style="margin-top:10px;">E<sub>d</sub> = 20 &divide; 5 = <strong>4</strong>. Now it can be compared with anything.</p>
+      </div>
+    </div>
+    <div class="definition-strip blue-strip" style="margin-top:18px;">
+      Because elasticity has no units, you can put <strong>cars next to strawberries</strong>, or <strong>North Carolina next to the whole country</strong>, on the same scale.
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="slide interactive" data-day="1" id="readingSlide">
+    <div class="section-kicker">LO 6.1 · the sign, and how to say it out loud</div>
+    <h1>Every price elasticity of demand is negative. We report it anyway.</h1>
+    <div class="grid-2" style="margin-top:6px;">
+      <div class="card white"><h3>Why it is negative</h3><p>Along a demand curve, price and quantity always move in <strong>opposite</strong> directions. The ratio is always below zero.</p></div>
+      <div class="card white"><h3>Our class convention</h3><p>Report the <strong>absolute value</strong>: write 0.45, not &minus;0.45. Either is accepted on an exam&mdash;<strong>the interpretation must be right.</strong></p></div>
+    </div>
+    <p class="small muted" style="margin-top:16px;">Translate each number into a sentence that starts &ldquo;A 10% price increase would&hellip;&rdquo;</p>
+    <div class="button-row" style="margin-top:8px;">
+      <button type="button" class="read-btn" data-msg="|E<sub>d</sub>| = 0.28 &rarr; <strong>A 10% price increase reduces quantity demanded by 2.8%.</strong> Quantity barely moves.">|E<sub>d</sub>| = 0.28</button>
+      <button type="button" class="read-btn blue-button" data-msg="|E<sub>d</sub>| = 1.17 &rarr; <strong>A 10% price increase reduces quantity demanded by 11.7%.</strong> Quantity moves a bit more than price.">|E<sub>d</sub>| = 1.17</button>
+      <button type="button" class="read-btn green-button" data-msg="|E<sub>d</sub>| = 2.27 &rarr; <strong>A 10% price increase reduces quantity demanded by 22.7%.</strong> Quantity moves much more than price.">|E<sub>d</sub>| = 2.27</button>
+      <button type="button" class="read-btn secondary" data-msg="Pick a number above.">Reset</button>
+    </div>
+    <div class="feedback info" id="readFeedback" style="margin-top:14px;">Pick a number above.</div>
+    <p class="footer-note small muted">If you can say the sentence, you understand the number. If you can only say &ldquo;demand is elastic,&rdquo; you do not yet.</p>
+  </section>
+
+  <!-- 9 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">LO 6.2 &middot; before we touch elasticity, a fact about percentages</div>
+    <h1>A percentage has to ask: compared to what?</h1>
+    <p class="small muted" style="margin-top:-6px;">A price goes $10 &rarr; $20, then back $20 &rarr; $10. Ask the room: are those the same percentage change?</p>
+    <div style="margin-top:8px;">
+      <svg viewBox="0 0 880 182" style="display:block; width:100%; height:168px;" role="img" aria-label="Going from ten dollars to twenty dollars is a one hundred percent increase, but coming back from twenty to ten is only a fifty percent decrease">
+        <defs>
+          <marker id="pctUp" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path d="M 0 0 L 9 4.5 L 0 9 Z" fill="#378a61"/></marker>
+          <marker id="pctDown" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path d="M 0 0 L 9 4.5 L 0 9 Z" fill="#c9504d"/></marker>
+        </defs>
+        <rect x="130" y="56" width="126" height="54" rx="8" fill="#ffffff" stroke="#d8dde3" stroke-width="2"/>
+        <text x="193" y="95" text-anchor="middle" font-size="27" font-weight="860" fill="#1f2933">$10</text>
+        <rect x="624" y="56" width="126" height="54" rx="8" fill="#ffffff" stroke="#d8dde3" stroke-width="2"/>
+        <text x="687" y="95" text-anchor="middle" font-size="27" font-weight="860" fill="#1f2933">$20</text>
+        <path d="M 262 60 Q 440 10 618 60" fill="none" stroke="#378a61" stroke-width="3.5" marker-end="url(#pctUp)"/>
+        <text x="440" y="26" text-anchor="middle" font-size="21" font-weight="860" fill="#378a61">+100%</text>
+        <path d="M 618 106 Q 440 160 262 106" fill="none" stroke="#c9504d" stroke-width="3.5" marker-end="url(#pctDown)"/>
+        <text x="440" y="160" text-anchor="middle" font-size="21" font-weight="860" fill="#c9504d">&minus;50%</text>
+      </svg>
+    </div>
+    <div class="grid-2" style="margin-top:6px; gap:16px;">
+      <div class="card white" style="padding:12px 15px;"><p class="small"><strong class="green">Going up:</strong> the $10 gap &divide; <strong>$10</strong> = <strong>100%</strong>. You divided by the <strong>small</strong> end.</p></div>
+      <div class="card white" style="padding:12px 15px;"><p class="small"><strong class="red">Coming back:</strong> the $10 gap &divide; <strong>$20</strong> = <strong>50%</strong>. You divided by the <strong>big</strong> end.</p></div>
+    </div>
+    <div class="definition-strip red-strip" style="margin-top:13px; font-size:17px;">
+      <strong>The gap never changed. The denominator did.</strong> That is the entire reason&mdash;and it infects every elasticity we try to compute.
+    </div>
+    <div class="quiz-scenario" style="margin-top:12px; min-height:0; padding:11px 16px;">
+      <div class="market-label">The same trap, in our strawberry market</div>
+      <p style="font-size:16px; margin-top:3px;">At <strong>$12</strong> buyers want <strong>700</strong> flats; at <strong>$16</strong> they want <strong>500</strong>.
+      Going up gives <strong class="red">|E<sub>d</sub>| = 0.86</strong>, inelastic. Coming back gives <strong class="red">|E<sub>d</sub>| = 1.60</strong>, elastic. Same two points, opposite conclusions.</p>
+    </div>
+    <p class="footer-note small muted" style="margin-top:10px;">Same arithmetic in a costume you have seen: a <strong>50% off</strong> sale has to be followed by a <strong>100% increase</strong> just to get back to the original price.</p>
+  </section>
+
+  <!-- 10 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">LO 6.2 · the fix</div>
+    <h1>The midpoint method uses the average as the base, so direction stops mattering</h1>
+    <div class="grid-2" style="margin-top:2px; gap:18px;">
+      <div class="formula-box blue-box">
+        <span class="lhs">%&Delta;Q =</span>
+        <span class="frac"><span class="num">Q<sub>2</sub> &minus; Q<sub>1</sub></span><span class="den">(Q<sub>1</sub> + Q<sub>2</sub>) &divide; 2</span></span>
+      </div>
+      <div class="formula-box">
+        <span class="lhs">%&Delta;P =</span>
+        <span class="frac"><span class="num">P<sub>2</sub> &minus; P<sub>1</sub></span><span class="den">(P<sub>1</sub> + P<sub>2</sub>) &divide; 2</span></span>
+      </div>
+    </div>
+    <div class="calc-run" style="margin-top:18px;">
+      <div class="calc-line"><div class="calc-num">1</div><div><strong>Average quantity = (700 + 500) &divide; 2 = 600 &nbsp;&middot;&nbsp; average price = ($12 + $16) &divide; 2 = $14</strong><span>The same two averages are used no matter which direction you travel.</span></div></div>
+      <div class="calc-line"><div class="calc-num">2</div><div><strong>%&Delta;Q = 200 &divide; 600 = 33.3% &nbsp;&middot;&nbsp; %&Delta;P = $4 &divide; $14 = 28.6%</strong><span>Signs dropped because we report the absolute value.</span></div></div>
+      <div class="calc-line hi"><div class="calc-num">3</div><div><strong>|E<sub>d</sub>| = 33.3% &divide; 28.6% = 1.17 &nbsp;&rarr;&nbsp; elastic</strong><span>Going up or going down, the answer is now 1.17 either way.</span></div></div>
+    </div>
+    <p class="source-note">The same formula is called <em>arc elasticity</em> in other textbooks&mdash;it is the same calculation.</p>
+  </section>
+
+  <!-- 11 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">LO 6.2 · classification</div>
+    <h1>Compare the number to one. That is the whole classification.</h1>
+    <table class="elas-table">
+      <thead><tr><th>Value of |E<sub>d</sub>|</th><th>Name</th><th>What it means in words</th></tr></thead>
+      <tbody>
+        <tr class="r-elastic"><td>&gt; 1</td><td>Elastic</td><td>Quantity responds <strong>more</strong> than proportionally. A 10% price rise cuts quantity by more than 10%.</td></tr>
+        <tr class="r-inelastic"><td>&lt; 1</td><td>Inelastic</td><td>Quantity responds <strong>less</strong> than proportionally. It still responds&mdash;just not by much.</td></tr>
+        <tr class="r-unit"><td>= 1</td><td>Unit elastic</td><td>Quantity and price move by the <strong>same</strong> percentage.</td></tr>
+        <tr class="r-polar"><td>= 0</td><td>Perfectly inelastic</td><td>Quantity does not change at all. The demand curve is vertical.</td></tr>
+        <tr class="r-polar"><td>&rarr; &infin;</td><td>Perfectly elastic</td><td>Any price increase drives quantity to zero. The demand curve is horizontal.</td></tr>
+      </tbody>
+    </table>
+    <div class="definition-strip red-strip" style="margin-top:16px; font-size:17px;">
+      <strong>The most common error on this unit:</strong> reading &ldquo;inelastic&rdquo; as &ldquo;quantity does not change.&rdquo; Inelastic means quantity changes <em>by a smaller percentage than price</em>. Only <strong>perfectly</strong> inelastic means no change at all.
+    </div>
+  </section>
+
+  <!-- 12 -->
+  <section class="slide" data-day="1" id="polarInelasticSlide">
+    <div class="section-kicker">LO 6.2 &middot; polar case 1 of 2</div>
+    <h1>Perfectly inelastic: the quantity does not move at all</h1>
+    <div class="grid-2" style="margin-top:12px; gap:20px;">
+      <div class="photo-frame" style="min-height:300px;">
+        <img src="Fig/ARE201_Unit6_D2_Insulin.jpg" alt="A vial of human insulin for injection"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="photo-fallback">
+          <svg viewBox="0 0 100 100" role="img" aria-label="Illustration of an insulin vial and a syringe">
+            <rect x="26" y="34" width="28" height="48" rx="3" fill="#ffffff" stroke="#9aa3ab" stroke-width="2"/>
+            <rect x="28" y="52" width="24" height="28" rx="2" fill="#2f80c9" opacity=".32"/>
+            <rect x="33" y="28" width="14" height="7" fill="#d8dde3"/>
+            <rect x="30" y="20" width="20" height="9" rx="2" fill="#c9504d"/>
+            <rect x="29" y="58" width="22" height="13" rx="1.5" fill="#ffffff" opacity=".92"/>
+            <rect x="32" y="62" width="16" height="2" rx="1" fill="#9aa3ab"/>
+            <rect x="32" y="66" width="10" height="2" rx="1" fill="#9aa3ab"/>
+            <rect x="64" y="14" width="18" height="5" rx="2" fill="#5f6b76"/>
+            <rect x="70" y="18" width="6" height="14" fill="#5f6b76"/>
+            <rect x="66" y="31" width="14" height="42" rx="2" fill="#ffffff" stroke="#9aa3ab" stroke-width="2"/>
+            <rect x="68" y="50" width="10" height="22" fill="#2f80c9" opacity=".38"/>
+            <rect x="72" y="73" width="2" height="14" fill="#9aa3ab"/>
+          </svg>
+        </div>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 440 300" role="img" aria-label="A vertical demand curve: the price changes a great deal while quantity stays at two vials">
+          <path class="axis" d="M 54 24 L 54 252 L 412 252" />
+          <path class="demand-line" style="stroke:var(--red)" d="M 250 34 L 250 252" />
+          <path class="projection" d="M 54 62 L 250 62" /><circle class="dot" style="fill:var(--red)" cx="250" cy="62" r="6"/>
+          <path class="projection" d="M 54 140 L 250 140" /><circle class="dot" style="fill:var(--red)" cx="250" cy="140" r="6"/>
+          <path class="projection" d="M 54 212 L 250 212" /><circle class="dot" style="fill:var(--red)" cx="250" cy="212" r="6"/>
+          <text class="tick-label" x="8" y="66">$300</text>
+          <text class="tick-label" x="8" y="144">$100</text>
+          <text class="tick-label" x="14" y="216">$30</text>
+          <text class="tick-label" x="222" y="270">2 vials</text>
+          <text class="plot-label" x="268" y="120" fill="#c9504d">the price can do</text>
+          <text class="plot-label" x="268" y="138" fill="#c9504d">whatever it likes</text>
+          <text class="plot-label" x="268" y="166" fill="#5f6b76">the quantity does not</text>
+          <text class="tick-label" x="60" y="34">P</text><text class="tick-label" x="396" y="272">Q</text>
+        </svg>
+      </div>
+    </div>
+    <div class="definition-strip red-strip" style="margin-top:14px;">
+      <strong>Insulin, for the patient who needs it.</strong> The dose is set by the body, not by the price. At $30 a vial or $300 a vial,
+      the same two vials get bought&mdash;there is no substitute, and the purchase cannot be postponed.
+    </div>
+    <p class="footer-note small muted"><span style="font-size:10px;">Photo: John Campbell &middot; CC0.</span> Nothing is <em>exactly</em> vertical in reality; at some price a patient is forced to ration. But this is the closest real demand comes, and it is why insulin pricing became a policy fight. <strong>We return to it on Wednesday.</strong></p>
+  </section>
+
+  <section class="slide" data-day="1" id="polarElasticSlide">
+    <div class="section-kicker">LO 6.2 &middot; polar case 2 of 2</div>
+    <h1>Perfectly elastic: one penny more and you sell nothing</h1>
+    <div class="grid-2" style="margin-top:12px; gap:20px;">
+      <div class="photo-frame" style="min-height:300px;">
+        <img src="Fig/ARE201_Unit6_Soybean_Farm.jpg" alt="Grain silos on a soybean farm"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="photo-fallback">
+          <svg viewBox="0 0 100 100" role="img" aria-label="Illustration of three grain silos, one of thousands of identical farms">
+            <rect x="10" y="50" width="17" height="35" rx="1.5" fill="#e9f6ef" stroke="#378a61" stroke-width="1.5" opacity=".55"/>
+            <path d="M 10 50 Q 18.5 39 27 50 Z" fill="#378a61" opacity=".45"/>
+            <rect x="68" y="44" width="21" height="41" rx="1.5" fill="#e9f6ef" stroke="#378a61" stroke-width="1.5" opacity=".75"/>
+            <path d="M 68 44 Q 78.5 31 89 44 Z" fill="#378a61" opacity=".65"/>
+            <rect x="32" y="34" width="31" height="51" rx="2" fill="#e9f6ef" stroke="#378a61" stroke-width="2.5"/>
+            <path d="M 32 34 Q 47.5 16 63 34 Z" fill="#378a61"/>
+            <path d="M 32 48 L 63 48 M 32 60 L 63 60 M 32 72 L 63 72" stroke="#378a61" stroke-width="1.5" opacity=".45"/>
+            <rect x="6" y="85" width="88" height="6" rx="2" fill="#1f2933"/>
+          </svg>
+        </div>
+      </div>
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 440 300" role="img" aria-label="A horizontal demand curve at the market price: above it quantity is zero, at it the farm can sell any amount">
+          <path class="axis" d="M 54 24 L 54 252 L 412 252" />
+          <path class="demand-line" d="M 54 150 L 412 150" />
+          <path class="old-line" style="stroke:var(--red); stroke-dasharray:5 4" d="M 54 82 L 112 82" />
+          <path d="M 116 74 L 132 90 M 132 74 L 116 90" fill="none" stroke="#c9504d" stroke-width="3.5" stroke-linecap="round"/>
+          <text class="tick-label" x="6" y="154">$11.00</text>
+          <text class="tick-label" x="6" y="86">$11.25</text>
+          <text class="plot-label" x="146" y="79" fill="#c9504d">ask $11.25 &rarr; quantity = 0</text>
+          <text class="plot-label" x="150" y="140" fill="#2f80c9">sell every bushel you have</text>
+          <path class="projection" style="stroke:var(--blue)" d="M 150 160 L 380 160" />
+          <path d="M 372 155 L 382 160 L 372 165 Z" fill="#2f80c9"/>
+          <text class="plot-label" x="150" y="186" fill="#5f6b76">at exactly this one price</text>
+          <text class="tick-label" x="60" y="34">P</text><text class="tick-label" x="396" y="272">Q</text>
+        </svg>
+      </div>
+    </div>
+    <div class="definition-strip blue-strip" style="margin-top:14px;">
+      <strong>One North Carolina soybean farm.</strong> Thousands of farms sell a bushel that is physically identical to yours.
+      Ask a quarter above the market price and buyers simply go next door&mdash;so your quantity falls to zero.
+    </div>
+    <p class="footer-note small muted"><strong>Do not confuse the two.</strong> Demand for soybeans <em>as a whole market</em> slopes down normally. What is flat here is the demand curve facing <strong>one seller</strong>. That distinction is the foundation of perfect competition later in this course.</p>
+  </section>
+
+  <!-- 13 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">LO 6.2 &middot; the single most tested idea in this unit</div>
+    <h1>Same slope, same step&mdash;and a sixteen-fold difference in elasticity</h1>
+    <div class="two-thirds" style="margin-top:6px;">
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 440 300" role="img" aria-label="A straight-line demand curve with two identical step triangles, one near the top giving an elasticity of four and one near the bottom giving an elasticity of zero point two five">
+          <path class="axis" d="M 54 24 L 54 252 L 412 252" />
+          <path class="demand-line" d="M 54 24 L 412 252" />
+          <path d="M 89.8 46.8 L 161.4 46.8 L 161.4 92.4 Z" fill="#2f80c9" fill-opacity=".14" stroke="#2f80c9" stroke-width="2" />
+          <path d="M 304.6 183.6 L 376.2 183.6 L 376.2 229.2 Z" fill="#c9504d" fill-opacity=".14" stroke="#c9504d" stroke-width="2" />
+          <circle class="dot blue-dot" cx="89.8" cy="46.8" r="5" /><circle class="dot blue-dot" cx="161.4" cy="92.4" r="5" />
+          <circle class="dot" style="fill:var(--red)" cx="304.6" cy="183.6" r="5" /><circle class="dot" style="fill:var(--red)" cx="376.2" cy="229.2" r="5" />
+          <circle class="dot" cx="233" cy="138" r="6" />
+          <text class="plot-label" x="170" y="62" fill="#2f80c9">|E| = 4.0</text>
+          <text class="plot-label sm" x="170" y="78" fill="#5f6b76">elastic</text>
+          <text class="plot-label" x="246" y="216" fill="#c9504d">|E| = 0.25</text>
+          <text class="plot-label sm" x="246" y="232" fill="#5f6b76">inelastic</text>
+          <text class="plot-label sm" x="243" y="134" fill="#EB811B">unit elastic</text>
+          <text class="tick-label" x="14" y="51">$90</text><text class="tick-label" x="14" y="97">$70</text>
+          <text class="tick-label" x="14" y="188">$30</text><text class="tick-label" x="14" y="234">$10</text>
+          <text class="tick-label" x="84" y="268">10</text><text class="tick-label" x="154" y="268">30</text>
+          <text class="tick-label" x="298" y="268">70</text><text class="tick-label" x="370" y="268">90</text>
+          <text class="tick-label" x="60" y="34">P</text><text class="tick-label" x="396" y="248">Q</text>
+        </svg>
+        <p class="tiny muted" style="margin:4px 0 0; text-align:center;">Both triangles are the same size: <strong>20 units across, $20 down.</strong> The slope is &minus;1 in both places.</p>
+      </div>
+      <div>
+        <div class="card blue-top">
+          <h3 class="blue">Up top &nbsp;Q: 10&rarr;30 &nbsp;P: $90&rarr;$70</h3>
+          <p class="small">%&Delta;Q = 20 &divide; 20 = <strong>100%</strong><br>%&Delta;P = $20 &divide; $80 = <strong>25%</strong></p>
+          <p style="margin-top:7px; font-size:20px; font-weight:860;" class="blue">|E<sub>d</sub>| = 4.0</p>
+        </div>
+        <div class="card red-top" style="margin-top:11px;">
+          <h3 class="red">Down low &nbsp;Q: 70&rarr;90 &nbsp;P: $30&rarr;$10</h3>
+          <p class="small">%&Delta;Q = 20 &divide; 80 = <strong>25%</strong><br>%&Delta;P = $20 &divide; $20 = <strong>100%</strong></p>
+          <p style="margin-top:7px; font-size:20px; font-weight:860;" class="red">|E<sub>d</sub>| = 0.25</p>
+        </div>
+        <div class="card white" style="margin-top:11px;">
+          <p class="small"><strong>The same lesson as the $10&harr;$20 slide:</strong> 20 units is 100% of a base of 20, but only 25% of a base of 80. <strong>The step never changed. The base did.</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-day="1" id="tradeSlide">
+    <div class="section-kicker">LO 6.2 &middot; the economics behind it</div>
+    <h1>A bargain up top, a disaster down low</h1>
+    <p class="small muted" style="margin-top:-4px;">Put yourself on the selling side. In both cases you cut the price by <strong>$20</strong> and you win <strong>20 new customers</strong>&mdash;identical numbers. Look at what they are worth.</p>
+    <div class="grid-2" style="margin-top:12px; gap:20px;">
+      <div class="card blue-top">
+        <h2 class="blue" style="margin-bottom:2px;">At the top</h2>
+        <p class="small muted" style="margin:0 0 11px;">P = $90 &middot; you have 10 buyers</p>
+        <div class="trade-tile">
+          <div class="trade-num red">$20</div>
+          <div><span class="lbl">What you give up</span><p>A modest slice off a <strong>$90</strong> price. You still keep $70 of it.</p></div>
+        </div>
+        <div class="trade-tile">
+          <div class="trade-num green">+20</div>
+          <div><span class="lbl">What you get</span><p>New buyers&mdash;when you only had <strong>10</strong>. You just <strong>tripled</strong> your business.</p></div>
+        </div>
+        <div class="verdict good">Tiny price sacrifice, huge customer gain &rarr; <strong>elastic</strong></div>
+      </div>
+      <div class="card red-top">
+        <h2 class="red" style="margin-bottom:2px;">At the bottom</h2>
+        <p class="small muted" style="margin:0 0 11px;">P = $30 &middot; you have 70 buyers</p>
+        <div class="trade-tile">
+          <div class="trade-num red">$20</div>
+          <div><span class="lbl">What you give up</span><p><strong>Two-thirds</strong> of a $30 price. You are left with $10.</p></div>
+        </div>
+        <div class="trade-tile">
+          <div class="trade-num green">+20</div>
+          <div><span class="lbl">What you get</span><p>The same new buyers&mdash;but you already had <strong>70</strong>. Barely a dent.</p></div>
+        </div>
+        <div class="verdict bad">Huge price sacrifice, tiny customer gain &rarr; <strong>inelastic</strong></div>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:14px; font-size:17px;">
+      <strong>Top of the curve:</strong> big price, small customer base &mdash; plenty of price to give away, plenty of room to grow.
+      <strong>Bottom:</strong> small price, big customer base &mdash; you give away most of your price to reach almost no one new.
+    </div>
+    <p class="footer-note small muted">Hold on to this slide: it is also why <strong>total revenue</strong> rises when you cut the price up top and falls when you cut it down low&mdash;where we go next.</p>
+  </section>
+
+  <!-- 14 -->
+  <section class="slide interactive" data-day="1" id="crossSlide">
+    <div class="section-kicker">LO 6.2 · concept check</div>
+    <h1>Two demand curves cross. Which one is more elastic there?</h1>
+    <div class="two-thirds" style="margin-top:4px;">
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 440 300" role="img" aria-label="A steep and a flat demand curve crossing at a common point">
+          <path class="axis" d="M 54 24 L 54 252 L 412 252" />
+          <path class="demand-line" style="stroke:var(--red)" d="M 150 24 L 316 252" />
+          <path class="demand-line" d="M 54 90 L 412 186" />
+          <circle class="dot" cx="233" cy="138" r="6" />
+          <path class="projection" d="M 54 138 L 233 138" /><path class="projection" d="M 233 138 L 233 252" />
+          <text class="plot-label" x="322" y="248" fill="#c9504d">D<tspan font-size="10">steep</tspan></text>
+          <text class="plot-label" x="356" y="180" fill="#2f80c9">D<tspan font-size="10">flat</tspan></text>
+          <text class="tick-label" x="20" y="142">P = $50</text>
+          <text class="tick-label" x="212" y="268">Q = 50</text>
+          <text class="tick-label" x="60" y="34">P</text><text class="tick-label" x="396" y="272">Q</text>
+        </svg>
+      </div>
+      <div>
+        <p class="small">At the crossing point both curves have the <strong>same price</strong> and the <strong>same quantity</strong>. Only one thing differs.</p>
+        <div class="button-row" style="margin-top:14px; flex-direction:column; align-items:stretch;">
+          <button type="button" class="cross-opt" data-correct="false">The steep one (red)</button>
+          <button type="button" class="cross-opt blue-button" data-correct="true">The flat one (blue)</button>
+          <button type="button" class="cross-opt secondary" data-correct="false">They are equally elastic</button>
+        </div>
+        <div class="feedback" id="crossFeedback" style="margin-top:14px;"
+             data-correct-message="<strong>The flat one.</strong> At that point P and Q are identical for both, so the only difference is how far quantity travels for a given price change. The flat curve delivers a bigger quantity response &rarr; larger |E|."
+             data-wrong-message="<strong>Not quite&mdash;the flat one is more elastic.</strong> P and Q are identical for both curves at the crossing point, so only the quantity response differs. The flat curve gives more quantity movement per dollar of price change.">Pick one.</div>
+      </div>
+    </div>
+    <p class="footer-note small muted">Rule of thumb, true only <em>at a shared point</em>: <strong>flatter is more elastic</strong>. It is not a rule about whole curves.</p>
+  </section>
+
+  <!-- 15 -->
+  <section class="slide interactive" data-day="1" id="gasCalcSlide">
+    <div class="section-kicker">LO 6.2 · your turn · predict first</div>
+    <h1>Now compute one yourself</h1>
+    <div class="quiz-scenario" style="margin-top:4px;">
+      <div class="market-label">Gasoline, one month</div>
+      <p>Price rises from <strong>$3.00</strong> to <strong>$3.60</strong> per gallon. A typical student's purchases fall from <strong>1,000</strong> to <strong>950</strong> gallons per year.</p>
+    </div>
+    <p class="small muted" style="margin-top:14px;">Before we reveal anything: is this elastic or inelastic? Commit to an answer.</p>
+    <div class="calc-run" style="margin-top:10px;">
+      <div class="reveal-step" data-step-group="gas" data-step="1">
+        <div class="calc-line"><div class="calc-num">1</div><div><strong>Averages: Q&#773; = (1,000 + 950) &divide; 2 = 975 &nbsp;&middot;&nbsp; P&#773; = ($3.00 + $3.60) &divide; 2 = $3.30</strong><span>Always build the two averages first.</span></div></div>
+      </div>
+      <div class="reveal-step" data-step-group="gas" data-step="2">
+        <div class="calc-line"><div class="calc-num">2</div><div><strong>%&Delta;Q = 50 &divide; 975 = 5.1% &nbsp;&middot;&nbsp; %&Delta;P = $0.60 &divide; $3.30 = 18.2%</strong><span>Quantity moved far less, in percentage terms, than price did.</span></div></div>
+      </div>
+      <div class="reveal-step" data-step-group="gas" data-step="3">
+        <div class="calc-line hi"><div class="calc-num">3</div><div><strong>|E<sub>d</sub>| = 5.1% &divide; 18.2% = 0.28 &nbsp;&rarr;&nbsp; inelastic</strong><span>A 10% price rise would cut gasoline purchases by only about 2.8%.</span></div></div>
+      </div>
+    </div>
+    <div class="button-row" style="margin-top:16px;">
+      <button type="button" class="step-reveal" data-step-group="gas">Reveal next step</button>
+      <span class="small muted">Strawberries came out at 1.17. Gasoline comes out at 0.28. Why the difference?</span>
+    </div>
+  </section>
+
+  <!-- 16 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">LO 6.3 · the question the last two slides raise</div>
+    <h1>Why is one 1.17 and the other 0.28?</h1>
+    <div class="grid-2" style="margin-top:14px;">
+      <div class="card blue-top" style="min-height:150px;"><h2 class="blue">Strawberries &nbsp;1.17</h2><p>In June there are blueberries, peaches, frozen berries, and the farm down the road. Skipping strawberries this week costs you almost nothing.</p></div>
+      <div class="card red-top" style="min-height:150px;"><h2 class="red">Gasoline &nbsp;0.28</h2><p>Same car, same commute, same month. There is no close substitute available to you between now and Friday.</p></div>
+    </div>
+    <div class="definition-strip" style="margin-top:22px;">
+      Elasticity is not a personality trait of a product. It comes from <strong>the alternatives a buyer actually has</strong>&mdash;and four things determine those.
+    </div>
+    <p class="footer-note small muted">Next: substitutes &middot; necessity or luxury &middot; share of income &middot; time horizon.</p>
+  </section>
+
+  <!-- 17 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">LO 6.3 &middot; determinant 1 of 4</div>
+    <h1>How many other things would do just as well?</h1>
+    <div class="grid-2" style="margin-top:12px; gap:20px;">
+      <div class="det-col">
+        <div class="det-photo"><img src="Fig/ARE201_Unit6_D1_Hubble.jpg" alt="The Hubble Space Telescope in orbit"></div>
+        <p class="photo-credit">NASA &middot; public domain</p>
+        <span class="det-tag">inelastic</span>
+        <h3 class="red">The Hubble telescope</h3>
+        <p>There is exactly one, and nothing else does the job. Raise its cost and the quantity anyone wants does not budge.</p>
+      </div>
+      <div class="det-col elastic">
+        <div class="det-photo"><img src="Fig/ARE201_Unit6_D1_Cheeseburger.jpg" alt="A cheeseburger on a plate"></div>
+        <p class="photo-credit">Ewan Munro &middot; CC BY-SA 2.0</p>
+        <span class="det-tag">elastic</span>
+        <h3 class="blue">A cheeseburger</h3>
+        <p>Dozens of near-identical options within a five-minute walk. Raise the price and buyers simply pick another one.</p>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:14px; font-size:17px;"><strong>More substitutes &rarr; more elastic.</strong> If the price rises and you can walk next door, you walk next door. This is the determinant that does the most work in practice.</div>
+  </section>
+
+  <section class="slide" data-day="1">
+    <div class="section-kicker">LO 6.3 &middot; determinant 2 of 4</div>
+    <h1>Can the purchase simply be skipped?</h1>
+    <div class="grid-2" style="margin-top:12px; gap:20px;">
+      <div class="det-col">
+        <div class="det-photo"><img src="Fig/ARE201_Unit6_D2_Insulin.jpg" alt="A vial of human insulin for injection"></div>
+        <p class="photo-credit">John Campbell &middot; CC0</p>
+        <span class="det-tag">inelastic</span>
+        <h3 class="red">Insulin</h3>
+        <p>The dose is set by the body, not by the budget. It gets bought this month whatever it costs.</p>
+      </div>
+      <div class="det-col elastic">
+        <div class="det-photo"><img src="Fig/ARE201_Unit6_D2_Cruise.jpg" alt="A large cruise ship in port"></div>
+        <p class="photo-credit">Marc Ryckaert &middot; CC BY 4.0</p>
+        <span class="det-tag">elastic</span>
+        <h3 class="blue">A Caribbean cruise</h3>
+        <p>It can wait until next year, or never happen at all. A price rise is easy to answer with &ldquo;not this time.&rdquo;</p>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:14px; font-size:17px;"><strong>Necessities are inelastic; luxuries are elastic.</strong> The test is not how expensive the thing is&mdash;it is whether saying &ldquo;no&rdquo; is an option.</div>
+  </section>
+
+  <section class="slide" data-day="1">
+    <div class="section-kicker">LO 6.3 &middot; determinant 3 of 4</div>
+    <h1>Is it even worth shopping around over?</h1>
+    <div class="grid-2" style="margin-top:12px; gap:20px;">
+      <div class="det-col">
+        <div class="det-photo"><img src="Fig/ARE201_Unit6_D3_Salt.jpg" alt="A shaker of table salt"></div>
+        <p class="photo-credit">Susan Slater &middot; CC BY-SA 4.0</p>
+        <span class="det-tag">inelastic</span>
+        <h3 class="red">Table salt</h3>
+        <p>A few dollars a year. If the price doubled you might not notice&mdash;and you certainly would not drive across town to save forty cents.</p>
+      </div>
+      <div class="det-col elastic">
+        <div class="det-photo"><img src="Fig/ARE201_Unit6_D3_CarDealer.jpg" alt="A new car in a dealership showroom"></div>
+        <p class="photo-credit">Pava &middot; CC BY-SA 3.0 IT</p>
+        <span class="det-tag">elastic</span>
+        <h3 class="blue">A new car</h3>
+        <p>Months of income. A 20% difference is thousands of dollars, so buyers compare, wait, negotiate, and walk away.</p>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:14px; font-size:17px;"><strong>Bigger share of income &rarr; more elastic.</strong> The bigger the bill, the more effort a buyer will spend avoiding it.</div>
+  </section>
+
+  <section class="slide" data-day="1" id="detTimeSlide">
+    <div class="section-kicker">LO 6.3 &middot; determinant 4 of 4</div>
+    <h1>How long does the buyer have to adjust?</h1>
+    <div class="grid-2" style="margin-top:12px; gap:20px;">
+      <div class="det-col">
+        <div class="det-photo"><img src="Fig/ARE201_Unit6_D4_GasPump.jpg" alt="Fuel pump nozzles at a filling station"></div>
+        <p class="photo-credit">Tony Webster &middot; CC BY 2.0</p>
+        <span class="det-tag">inelastic</span>
+        <h3 class="red">Gasoline, this month</h3>
+        <p>Same car, same commute, same house. There is almost nothing you can change by Friday, so you pay and drive.</p>
+      </div>
+      <div class="det-col elastic">
+        <div class="det-photo"><img src="Fig/ARE201_Unit6_D4_EVCharging.jpg" alt="An electric car plugged into a public charging station"></div>
+        <p class="photo-credit">Julian Herzog &middot; CC BY 4.0</p>
+        <span class="det-tag">elastic</span>
+        <h3 class="blue">Gasoline, over ten years</h3>
+        <p>Different vehicle, different job, different home. Substitutes appear that simply did not exist for you this week.</p>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:14px; font-size:17px;"><strong>Longer horizon &rarr; more elastic.</strong> &ldquo;Gasoline demand is inelastic&rdquo; is only true over a <em>short</em> horizon. It is the same good and the same buyers&mdash;only the time to adjust has changed.</div>
+    <p class="footer-note small muted">This is the determinant students forget, and it decides Wednesday&rsquo;s tax question: <strong>the longer a tax stays in place, the smaller the share buyers end up bearing.</strong></p>
+  </section>
+
+  <!-- 19 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">LO 6.3 · a warning before you use these</div>
+    <h1>The four determinants can point in opposite directions</h1>
+    <div class="quiz-scenario" style="margin-top:4px;">
+      <div class="market-label">Worked example &middot; housing</div>
+      <p>Apply the determinants to housing and you get a contradiction.</p>
+    </div>
+    <div class="grid-2" style="margin-top:16px;">
+      <div class="card blue-top"><h3 class="blue">Says elastic</h3><p><strong>Share of income:</strong> housing is the largest single item in most household budgets. That argues for a large response.</p></div>
+      <div class="card red-top"><h3 class="red">Says inelastic</h3><p><strong>Necessity, few substitutes:</strong> you have to live somewhere, and moving is expensive and slow.</p></div>
+    </div>
+    <div class="definition-strip green-strip" style="margin-top:18px;">
+      Measured elasticity of housing demand is about <strong>0.12</strong>&mdash;strongly inelastic. The necessity effect wins.
+    </div>
+    <p class="footer-note small muted">
+      <strong>So use the determinants to reason, not to conclude.</strong> They tell you which forces are at work and which way each one pushes.
+      Which force dominates is an <strong>empirical</strong> question, settled by data, not by argument.
+      <span class="illus-tag">exam tip</span> A question that gives you one determinant expects one direction; a question that gives you two conflicting ones is asking you to notice the conflict.
+    </p>
+  </section>
+
+  <!-- 20 -->
+  <section class="slide interactive" data-day="1" id="rankSlide">
+    <div class="section-kicker">LO 6.3 · rank them before you see the numbers</div>
+    <h1>Order these from most elastic to least elastic</h1>
+    <p class="small muted">Use the four determinants. Argue for your ordering before anything is revealed.</p>
+    <div class="rank-board">
+      <div class="rank-item" data-order="1"><strong>Restaurant meals</strong><span class="rank-value">?</span><span class="rank-label">published estimate</span></div>
+      <div class="rank-item" data-order="2"><strong>NC strawberries</strong><span class="rank-value">?</span><span class="rank-label">our class example</span></div>
+      <div class="rank-item inel" data-order="3"><strong>Cigarettes<br>(adult smokers)</strong><span class="rank-value">?</span><span class="rank-label">published estimate</span></div>
+      <div class="rank-item inel" data-order="4"><strong>Gasoline<br>(one month)</strong><span class="rank-value">?</span><span class="rank-label">our class example</span></div>
+      <div class="rank-item inel" data-order="5"><strong>Housing</strong><span class="rank-value">?</span><span class="rank-label">published estimate</span></div>
+    </div>
+    <div class="button-row" style="margin-top:18px;">
+      <button type="button" id="rankReveal">Reveal next value</button>
+      <button type="button" class="secondary" id="rankReset">Reset</button>
+      <span class="small muted" id="rankNote">Five goods. Most elastic first.</span>
+    </div>
+    <div class="feedback info" id="rankFeedback" style="margin-top:12px;">Restaurant meals are a luxury with unlimited substitutes&mdash;you can always eat at home. Housing is a necessity you cannot postpone. Everything else sits in between.</div>
+    <div class="grid-4" style="margin-top:16px;">
+      <div class="card white" style="padding:11px 13px;"><h3 style="font-size:14px; margin-bottom:4px;">1 &middot; Substitutes</h3><p class="tiny muted">What else could this buyer use instead?</p></div>
+      <div class="card white" style="padding:11px 13px;"><h3 style="font-size:14px; margin-bottom:4px;">2 &middot; Necessity?</h3><p class="tiny muted">Can the purchase simply be skipped?</p></div>
+      <div class="card white" style="padding:11px 13px;"><h3 style="font-size:14px; margin-bottom:4px;">3 &middot; Budget share</h3><p class="tiny muted">Is it worth shopping around over?</p></div>
+      <div class="card white" style="padding:11px 13px;"><h3 style="font-size:14px; margin-bottom:4px;">4 &middot; Time</h3><p class="tiny muted">How long does the buyer have to adjust?</p></div>
+    </div>
+    <p class="footer-note small muted">Two of these five are close together. When you get there, say <em>why</em> gasoline and cigarettes land in nearly the same place.</p>
+  </section>
+
+  <!-- 21 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">LO 6.4 · the question every seller asks</div>
+    <h1>If you raise the price, does your revenue go up or down?</h1>
+    <div class="formula-box purple-box" style="margin-top:6px;">
+      <span class="lhs" style="font-size:24px;">Total revenue &nbsp;=&nbsp; P &times; Q</span>
+    </div>
+    <p class="small muted" style="margin-top:16px;">Raising the price sets two forces against each other:</p>
+    <div class="grid-2" style="margin-top:10px;">
+      <div class="card green-top"><h2 class="green">Price effect &nbsp;&uarr;</h2><p>Every unit you still sell now earns more. This <strong>raises</strong> revenue.</p></div>
+      <div class="card red-top"><h2 class="red">Quantity effect &nbsp;&darr;</h2><p>By the law of demand you sell fewer units. This <strong>lowers</strong> revenue.</p></div>
+    </div>
+    <div class="definition-strip" style="margin-top:20px;">
+      Revenue rises or falls depending on <strong>which effect is bigger</strong>&mdash;and that is exactly what the price elasticity of demand measures.
+    </div>
+  </section>
+
+  <!-- 22 -->
+  <section class="slide" data-day="1" id="trCompareSlide">
+    <div class="section-kicker">LO 6.4 · the rule, and the picture behind it</div>
+    <h1>Same $4 increase, opposite revenue outcomes</h1>
+    <div class="case-pair" style="margin-top:4px;">
+      <div class="case-card b">
+        <h2 class="red">Inelastic demand</h2>
+        <p class="sub">$10 &rarr; $14 &nbsp;&middot;&nbsp; Q falls 100 &rarr; 92</p>
+        <svg class="plot short" viewBox="0 0 330 214" role="img" aria-label="With steep inelastic demand a price rise adds a large revenue gain and a small revenue loss">
+          <rect class="tr-gain" x="44" y="67.4" width="205.4" height="31.6" />
+          <rect class="tr-loss" x="249.4" y="99" width="17.9" height="79" />
+          <path class="axis" d="M 44 20 L 44 178 L 312 178" />
+          <path class="demand-line" style="stroke:var(--red)" d="M 222.6 20 L 312 177" />
+          <path class="projection" d="M 44 67.4 L 249.4 67.4" /><path class="projection" d="M 249.4 67.4 L 249.4 178" />
+          <path class="projection" d="M 44 99 L 267.3 99" /><path class="projection" d="M 267.3 99 L 267.3 178" />
+          <text class="tick-label" x="12" y="71">$14</text><text class="tick-label" x="12" y="103">$10</text>
+          <text class="tick-label" x="238" y="194">92</text><text class="tick-label" x="258" y="194">100</text>
+        </svg>
+        <div class="case-readout">
+          <div class="case-stat"><strong>$1,000</strong><span>TR before</span></div>
+          <div class="case-stat"><strong>$1,288</strong><span>TR after</span></div>
+          <div class="case-stat"><strong class="up">rises</strong><span>gain &gt; loss</span></div>
+        </div>
+      </div>
+      <div class="case-card">
+        <h2 class="blue">Elastic demand</h2>
+        <p class="sub">$10 &rarr; $14 &nbsp;&middot;&nbsp; Q falls 100 &rarr; 60</p>
+        <svg class="plot short" viewBox="0 0 330 214" role="img" aria-label="With flat elastic demand the same price rise adds a small revenue gain and a large revenue loss">
+          <rect class="tr-gain" x="44" y="67.4" width="134" height="31.6" />
+          <rect class="tr-loss" x="178" y="99" width="89.3" height="79" />
+          <path class="axis" d="M 44 20 L 44 178 L 312 178" />
+          <path class="demand-line" d="M 44 20 L 312 114.8" />
+          <path class="projection" d="M 44 67.4 L 178 67.4" /><path class="projection" d="M 178 67.4 L 178 178" />
+          <path class="projection" d="M 44 99 L 267.3 99" /><path class="projection" d="M 267.3 99 L 267.3 178" />
+          <text class="tick-label" x="12" y="71">$14</text><text class="tick-label" x="12" y="103">$10</text>
+          <text class="tick-label" x="170" y="194">60</text><text class="tick-label" x="258" y="194">100</text>
+        </svg>
+        <div class="case-readout">
+          <div class="case-stat"><strong>$1,000</strong><span>TR before</span></div>
+          <div class="case-stat"><strong>$840</strong><span>TR after</span></div>
+          <div class="case-stat"><strong class="down">falls</strong><span>loss &gt; gain</span></div>
+        </div>
+      </div>
+    </div>
+    <table class="tr-rule-table">
+      <thead><tr><th>Demand at that price</th><th>Raise the price</th><th>Lower the price</th></tr></thead>
+      <tbody>
+        <tr><td>Elastic &nbsp;|E| &gt; 1</td><td class="down">TR falls &darr;</td><td class="up">TR rises &uarr;</td></tr>
+        <tr><td>Inelastic &nbsp;|E| &lt; 1</td><td class="up">TR rises &uarr;</td><td class="down">TR falls &darr;</td></tr>
+        <tr><td>Unit elastic &nbsp;|E| = 1</td><td>TR unchanged</td><td>TR unchanged</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 23 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">LO 6.4 · putting the linear demand curve and the revenue rule together</div>
+    <h1>Revenue peaks exactly where demand turns unit elastic</h1>
+    <div class="grid-2" style="margin-top:2px; gap:16px;">
+      <div class="plot-panel">
+        <h3 class="muted" style="font-size:13px; text-align:center;">Demand</h3>
+        <svg viewBox="0 0 440 170" style="display:block; width:100%; height:162px;" role="img" aria-label="A straight-line demand curve with the elastic region above the midpoint and the inelastic region below">
+          <path class="axis" d="M 54 20 L 54 140 L 412 140" />
+          <path class="demand-line" d="M 54 20 L 412 140" />
+          <circle class="dot" cx="233" cy="80" r="5" />
+          <path class="projection" d="M 233 80 L 233 140" />
+          <text class="plot-label sm" x="96" y="58" fill="#2f80c9">elastic</text>
+          <text class="plot-label sm" x="300" y="122" fill="#c9504d">inelastic</text>
+          <text class="tick-label" x="212" y="156">Q = 50</text>
+          <text class="tick-label" x="60" y="30">P</text><text class="tick-label" x="398" y="158">Q</text>
+        </svg>
+      </div>
+      <div class="plot-panel">
+        <h3 class="muted" style="font-size:13px; text-align:center;">Total revenue = P &times; Q</h3>
+        <svg viewBox="0 0 440 170" style="display:block; width:100%; height:162px;" role="img" aria-label="Total revenue rises, peaks at the midpoint quantity, then falls">
+          <path class="axis" d="M 54 20 L 54 140 L 412 140" />
+          <path d="M 54 140 Q 233 -100 412 140" fill="none" stroke="#7657a5" stroke-width="4" stroke-linecap="round" />
+          <circle class="dot" style="fill:#7657a5" cx="233" cy="20" r="5" />
+          <path class="projection" d="M 233 20 L 233 140" />
+          <text class="plot-label sm" x="240" y="34" fill="#7657a5">maximum TR</text>
+          <text class="tick-label" x="212" y="156">Q = 50</text>
+          <text class="tick-label" x="58" y="30">TR</text><text class="tick-label" x="398" y="158">Q</text>
+        </svg>
+      </div>
+    </div>
+    <div class="grid-3" style="margin-top:16px;">
+      <div class="card blue-top"><h3 class="blue">Above the midpoint</h3><p>Demand is elastic, so <strong>cutting</strong> the price raises revenue. Move right.</p></div>
+      <div class="card accent-top"><h3 class="accent">At the midpoint</h3><p>Unit elastic. Revenue is at its peak; no price move improves it.</p></div>
+      <div class="card red-top"><h3 class="red">Below the midpoint</h3><p>Demand is inelastic, so <strong>raising</strong> the price raises revenue. Move left.</p></div>
+    </div>
+  </section>
+
+  <!-- 24 -->
+  <section class="slide interactive" data-day="1" id="netflixSlide">
+    <div class="section-kicker">LO 6.4 · a real pricing decision · 2011</div>
+    <h1>Netflix raised its price about 60%. Did revenue rise?</h1>
+    <div class="two-thirds" style="margin-top:4px;">
+      <div>
+        <div class="quiz-scenario">
+          <div class="market-label">July 2011</div>
+          <p>Keeping both streaming and DVDs went from about <strong>$10</strong> to <strong>$15.98</strong> a month. U.S. subscribers fell from <strong>24.6 million</strong> to <strong>23.79 million</strong>&mdash;810,000 cancellations.</p>
+        </div>
+        <div class="calc-run" style="margin-top:14px;">
+          <div class="reveal-step" data-step-group="nflx" data-step="1">
+            <div class="calc-line"><div class="calc-num">1</div><div><strong>%&Delta;Q = 0.81 &divide; 24.195 = 3.3%</strong><span>Tiny, considering the size of the price change.</span></div></div>
+          </div>
+          <div class="reveal-step" data-step-group="nflx" data-step="2">
+            <div class="calc-line"><div class="calc-num">2</div><div><strong>%&Delta;P = $5.98 &divide; $12.99 = 46.0%</strong><span>Midpoint method, so the base is the average price.</span></div></div>
+          </div>
+          <div class="reveal-step" data-step-group="nflx" data-step="3">
+            <div class="calc-line hi"><div class="calc-num">3</div><div><strong>|E<sub>d</sub>| = 3.3 &divide; 46.0 = 0.07 &nbsp;&rarr;&nbsp; extremely inelastic</strong><span>Revenue rose sharply: about $246M to about $380M per month.</span></div></div>
+          </div>
+        </div>
+        <div class="button-row" style="margin-top:14px;">
+          <button type="button" class="step-reveal" data-step-group="nflx">Reveal next step</button>
+        </div>
+      </div>
+      <div>
+        <div class="card red-top"><h3 class="red">And yet</h3><p>Over the following year the company's share price fell from about <strong>$300</strong> to just under <strong>$54</strong>.</p></div>
+        <div class="definition-strip purple-strip" style="margin-top:14px; font-size:17px;">
+          <strong>Discuss:</strong> revenue went up. Why would the market punish the decision?
+        </div>
+        <div class="card white" style="margin-top:14px;"><p class="small"><strong>The elasticity you measure this quarter is not the elasticity you will face in three years.</strong> Vudu, Amazon Prime, Hulu and Redbox were all becoming close substitutes. Determinant 1 and determinant 4, working together.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 25 -->
+  <section class="slide interactive" data-day="1" id="shoesSlide">
+    <div class="section-kicker">LO 6.2 + 6.4 · your turn · the full chain</div>
+    <h1>One problem, four questions</h1>
+    <div class="quiz-scenario" style="margin-top:4px;">
+      <div class="market-label">Running shoes</div>
+      <p>Price rises from <strong>$100</strong> to <strong>$150</strong>. Quantity demanded falls from <strong>1,200</strong> to <strong>900</strong> pairs.</p>
+    </div>
+    <div class="calc-run" style="margin-top:14px;">
+      <div class="reveal-step" data-step-group="shoes" data-step="1">
+        <div class="calc-line"><div class="calc-num">1</div><div><strong>%&Delta;Q = 300 &divide; 1,050 = 28.6% &nbsp;&middot;&nbsp; %&Delta;P = $50 &divide; $125 = 40.0%</strong><span>Averages: 1,050 pairs and $125.</span></div></div>
+      </div>
+      <div class="reveal-step" data-step-group="shoes" data-step="2">
+        <div class="calc-line hi"><div class="calc-num">2</div><div><strong>|E<sub>d</sub>| = 28.6 &divide; 40.0 = 0.71 &nbsp;&rarr;&nbsp; inelastic</strong><span>Quantity moved less, in percentage terms, than price.</span></div></div>
+      </div>
+      <div class="reveal-step" data-step-group="shoes" data-step="3">
+        <div class="calc-line good"><div class="calc-num">3</div><div><strong>TR before = $120,000 &nbsp;&rarr;&nbsp; TR after = $135,000. Revenue rises.</strong><span>Inelastic + price increase &rarr; TR up. The rule and the arithmetic agree, as they must.</span></div></div>
+      </div>
+      <div class="reveal-step" data-step-group="shoes" data-step="4">
+        <div class="calc-line bad"><div class="calc-num">4</div><div><strong>&ldquo;If price rises another 5%, how much does quantity fall?&rdquo; &mdash; You cannot answer without an extra assumption.</strong><span>You would have to assume |E| stays at 0.71. But we saw that elasticity <em>changes</em> as you move up a demand curve. Saying so is part of the correct answer.</span></div></div>
+      </div>
+    </div>
+    <div class="button-row" style="margin-top:14px;">
+      <button type="button" class="step-reveal" data-step-group="shoes">Reveal next step</button>
+      <span class="small muted">Work all four before revealing anything.</span>
+    </div>
+  </section>
+
+  <!-- 26 -->
+  <section class="slide" data-day="1">
+    <div class="section-kicker">Class 1 checkpoint</div>
+    <h1>Three things to take away, one question still open</h1>
+    <div class="grid-3" style="margin-top:12px;">
+      <div class="card blue-top" style="min-height:174px;"><h3 class="blue">1 &middot; It is a ratio of percentages</h3><p>Unit-free, so any two markets can be compared. Always report what it means in a sentence, not just a number.</p></div>
+      <div class="card green-top" style="min-height:174px;"><h3 class="green">2 &middot; Use the midpoint method</h3><p>Average quantity and average price as the bases. Then the answer is the same going up or going down.</p></div>
+      <div class="card accent-top" style="min-height:174px;"><h3 class="accent">3 &middot; Compare to one</h3><p>Above one, a price increase cuts revenue. Below one, a price increase raises it. That single comparison drives the whole unit.</p></div>
+    </div>
+    <div class="definition-strip purple-strip" style="margin-top:20px;">
+      <strong>Still open:</strong> the NC sweet potato question from the start of class. You now have every tool you need except one&mdash;what happens on the <em>supply</em> side.
+    </div>
+    <p class="footer-note small muted"><strong>Wednesday:</strong> price elasticity of supply, cross-price and income elasticity, who really pays a gas tax&mdash;and the sweet potato answer.</p>
+  </section>
+
+  <!-- ===================== CLASS 2 — LO 6.5–6.9 ===================== -->
+
+  <!-- 27 -->
+  <section class="slide" data-day="2">
+    <div class="day-two-banner">
+      <div class="day-two-number">2</div>
+      <div><strong>Class 2 &middot; Supply, other elasticities, and who pays</strong><span>LO 6.5 &rarr; LO 6.9</span></div>
+    </div>
+    <h1>One question from Monday is still on the board</h1>
+    <div class="quiz-scenario" style="margin-top:8px;">
+      <div class="market-label">Unfinished business</div>
+      <p>NC farms harvest <strong>25% more</strong> sweet potatoes than usual. Good news or bad news for NC sweet potato farmers?</p>
+    </div>
+    <div class="grid-3" style="margin-top:20px;">
+      <div class="card white"><h3>What you already have</h3><p class="small">The midpoint method, the classification, and the revenue rule.</p></div>
+      <div class="card white"><h3>What is missing</h3><p class="small">A bumper crop is a <strong>supply</strong> event. We have only measured the demand side.</p></div>
+      <div class="card accent-top"><h3 class="accent">Today</h3><p class="small">Supply elasticity first, then taxes, then the answer.</p></div>
+    </div>
+    <p class="footer-note small muted">Keep Monday's class vote visible. We compare it to the answer in about thirty-five minutes.</p>
+  </section>
+
+  <!-- 28 -->
+  <section class="slide interactive" data-day="2" id="warmupSlide">
+    <div class="section-kicker">Retrieval before new material</div>
+    <h1>One problem, from memory</h1>
+    <div class="quiz-scenario" style="margin-top:4px;">
+      <div class="market-label">Warm-up</div>
+      <p>Price rises from <strong>$20</strong> to <strong>$25</strong>. Quantity demanded falls from <strong>400</strong> to <strong>300</strong>.<br>Find |E<sub>d</sub>|, classify it, then predict what happens to total revenue <em>before</em> you multiply.</p>
+    </div>
+    <div class="quiz-options" style="margin-top:16px;">
+      <button type="button" class="warm-opt quiz-option" data-correct="false">|E| = 0.78, inelastic, TR rises</button>
+      <button type="button" class="warm-opt quiz-option" data-correct="true">|E| = 1.29, elastic, TR falls</button>
+      <button type="button" class="warm-opt quiz-option" data-correct="false">|E| = 1.29, elastic, TR rises</button>
+    </div>
+    <div class="feedback" id="warmFeedback" style="margin-top:14px;"
+         data-correct-message="<strong>Correct.</strong> %&Delta;Q = 100 &divide; 350 = 28.6%. %&Delta;P = $5 &divide; $22.50 = 22.2%. |E| = 1.29, elastic. Elastic plus a price increase means revenue falls&mdash;and it does: $8,000 &rarr; $7,500."
+         data-wrong-message="<strong>Check the bases.</strong> Averages are 350 units and $22.50. %&Delta;Q = 28.6%, %&Delta;P = 22.2%, so |E| = 1.29 &rarr; elastic. Elastic plus a price increase means revenue <em>falls</em>: $8,000 &rarr; $7,500.">Commit to an answer.</div>
+    <p class="footer-note small muted">If the rule and your arithmetic ever disagree, one of them is wrong&mdash;check both before moving on.</p>
+  </section>
+
+  <!-- 29 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">LO 6.5 · the supply side</div>
+    <h1>Sellers respond to price too&mdash;and we measure it the same way</h1>
+    <div class="formula-box green-box" style="margin-top:6px;">
+      <span class="lhs">E<sub>s</sub> &nbsp;=</span>
+      <span class="frac"><span class="num">% change in quantity supplied</span><span class="den">% change in price</span></span>
+    </div>
+    <div class="grid-3" style="margin-top:20px;">
+      <div class="card green-top"><h3 class="green">Always positive</h3><p>Along a supply curve, price and quantity move the <strong>same</strong> direction. No absolute value needed.</p></div>
+      <div class="card blue-top"><h3 class="blue">Same thresholds</h3><p>Above 1 is elastic, below 1 is inelastic, exactly as on the demand side.</p></div>
+      <div class="card accent-top"><h3 class="accent">Same midpoint method</h3><p>Average quantity and average price as the bases. Nothing new to memorize.</p></div>
+    </div>
+    <div class="definition-strip green-strip" style="margin-top:20px;">
+      <strong>Worked example.</strong> Rent rises from $650 to $700 a month and the number of units supplied goes from 10,000 to 13,000.<br>
+      %&Delta;Q = 3,000 &divide; 11,500 = 26.1% &nbsp;&middot;&nbsp; %&Delta;P = $50 &divide; $675 = 7.4% &nbsp;&rarr;&nbsp; <strong>E<sub>s</sub> &asymp; 3.5, elastic.</strong>
+    </div>
+  </section>
+
+  <!-- 30 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">LO 6.5 · the range</div>
+    <h1>How fast can the seller actually make more of it?</h1>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="card red-top" style="min-height:250px;">
+        <h2 class="red">Nearly perfectly inelastic</h2>
+        <ul>
+          <li><strong>Land on Manhattan.</strong> No price makes more of it.</li>
+          <li><strong>The Mona Lisa.</strong> Quantity is one, permanently.</li>
+          <li><strong>Beachfront property.</strong> The coastline is what it is.</li>
+        </ul>
+        <p class="small muted" style="margin-top:12px;">A price increase brings in no additional quantity&mdash;only a higher price.</p>
+      </div>
+      <div class="card green-top" style="min-height:250px;">
+        <h2 class="green">Highly elastic</h2>
+        <ul>
+          <li><strong>Budweiser in a small town.</strong> More trucks arrive tomorrow.</li>
+          <li><strong>Bread, pencils, books.</strong> Inputs are ordinary and available.</li>
+        </ul>
+        <p class="small muted" style="margin-top:12px;">A small price increase pulls in a large additional quantity, because production can simply be expanded.</p>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:18px;">
+      The question behind supply elasticity is always: <strong>how quickly and how cheaply can output be expanded?</strong>
+    </div>
+  </section>
+
+  <!-- 31 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">LO 6.5 · why supply elasticity changes along the curve</div>
+    <h1>Spare capacity is cheap. Building new capacity is not.</h1>
+    <div class="two-thirds" style="margin-top:4px;">
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 440 300" role="img" aria-label="A supply curve that is flat at low quantities and becomes very steep as it approaches capacity">
+          <path class="axis" d="M 54 24 L 54 252 L 412 252" />
+          <path class="supply-line" d="M 62 240 L 160 224 L 240 202 L 296 166 L 334 110 L 356 30" />
+          <path class="price-line" d="M 356 252 L 356 30" />
+          <text class="plot-label sm" x="300" y="268" fill="#EB811B">capacity</text>
+          <text class="plot-label sm" x="96" y="212" fill="#378a61">idle capacity:</text>
+          <text class="plot-label sm" x="96" y="226" fill="#378a61">elastic</text>
+          <text class="plot-label sm" x="300" y="80" fill="#c9504d">at capacity:</text>
+          <text class="plot-label sm" x="300" y="94" fill="#c9504d">inelastic</text>
+          <text class="tick-label" x="60" y="34">P</text><text class="tick-label" x="396" y="272">Q</text>
+        </svg>
+      </div>
+      <div>
+        <div class="card green-top"><h3 class="green">Below capacity</h3><p>Firms run an extra shift or use idle equipment. A small price increase buys a lot of extra output.</p></div>
+        <div class="card red-top" style="margin-top:12px;"><h3 class="red">At capacity</h3><p>Producing more now means building a new plant, clearing new ground, or planting new trees. The price has to rise a <strong>lot</strong> to justify that.</p></div>
+        <div class="definition-strip green-strip" style="margin-top:12px; font-size:16px;">
+          Just as on the demand side, <strong>one curve has many elasticities</strong> along its length.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 32 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">LO 6.5 · the long run, in agricultural terms</div>
+    <h1>Why supply is always more elastic given more time</h1>
+    <div class="mechanism-flow" style="margin-top:2px;">
+      <div class="mechanism-box red-box">This season<br><span style="font-size:12px;">the crop is already in the ground</span></div>
+      <div class="mechanism-arrow">&rarr;</div>
+      <div class="mechanism-box blue-box">Next year<br><span style="font-size:12px;">switch acreage: corn &harr; soybeans &harr; cotton</span></div>
+      <div class="mechanism-arrow">&rarr;</div>
+      <div class="mechanism-box green-box">Over a decade<br><span style="font-size:12px;">new orchards, new entrants, new land</span></div>
+    </div>
+    <div class="two-thirds" style="margin-top:16px;">
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 440 300" role="img" aria-label="An identical demand increase raises price sharply against short-run supply but raises quantity more against long-run supply">
+          <path class="axis" d="M 54 24 L 54 252 L 412 252" />
+          <path class="supply-line" style="stroke:var(--red)" d="M 180 252 L 229.6 24" />
+          <path class="supply-line" d="M 80 252 L 377.3 24" />
+          <path class="demand-line" d="M 54 43.2 L 315 252" />
+          <path class="demand-line" style="stroke:#9aa3ab; stroke-dasharray:7 6; stroke-width:3" d="M 144 43.2 L 405 252" />
+          <circle class="dot" cx="200" cy="160" r="5.5" />
+          <circle class="dot" style="fill:var(--red)" cx="213.3" cy="98.7" r="5.5" />
+          <circle class="dot green-dot" cx="246" cy="124.8" r="5.5" />
+          <text class="plot-label sm" x="234" y="30" fill="#c9504d">S short run</text>
+          <text class="plot-label sm" x="330" y="40" fill="#378a61">S long run</text>
+          <text class="plot-label sm" x="222" y="90" fill="#c9504d">price jumps</text>
+          <text class="plot-label sm" x="254" y="140" fill="#378a61">quantity adjusts</text>
+          <text class="tick-label" x="60" y="34">P</text><text class="tick-label" x="396" y="272">Q</text>
+        </svg>
+      </div>
+      <div>
+        <div class="card red-top"><h3 class="red">Short run</h3><p>Supply is steep. The same demand increase shows up mostly as a <strong>higher price</strong>.</p></div>
+        <div class="card green-top" style="margin-top:12px;"><h3 class="green">Long run</h3><p>Supply is flat. The same demand increase shows up mostly as a <strong>larger quantity</strong>.</p></div>
+        <div class="definition-strip" style="margin-top:12px; font-size:16px;">
+          In most markets, <strong>prices move more than quantities in the short run, and quantities move more than prices in the long run.</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 33 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">LO 6.5 · one case worth remembering</div>
+    <h1>Why roses spike on Valentine's Day and chocolate barely moves</h1>
+    <div class="grid-2" style="margin-top:14px;">
+      <div class="card red-top" style="min-height:214px;">
+        <h2 class="red">Roses</h2>
+        <p>Demand surges for one day. Roses <strong>cannot be stored</strong>&mdash;they have to be growing in a greenhouse months earlier.</p>
+        <p class="small muted" style="margin-top:10px;">Supply is inelastic &rarr; the surge lands almost entirely on <strong>price</strong>.</p>
+      </div>
+      <div class="card green-top" style="min-height:214px;">
+        <h2 class="green">Chocolate</h2>
+        <p>Demand surges by a similar amount. Chocolate <strong>stores well</strong>, so producers simply build inventory in advance.</p>
+        <p class="small muted" style="margin-top:10px;">Supply is elastic &rarr; the surge lands mostly on <strong>quantity</strong>.</p>
+      </div>
+    </div>
+    <div class="definition-strip green-strip" style="margin-top:20px;">
+      Same holiday, same demand shift, opposite outcomes. <strong>The difference is entirely on the supply side</strong>&mdash;and storability is what drives it.
+      This is the single most useful question to ask about any agricultural commodity.
+    </div>
+  </section>
+
+  <!-- 34 -->
+  <section class="slide" data-day="2" id="oilSlide">
+    <div class="section-kicker">LO 6.5 · the payoff · United States, 1973</div>
+    <h1>The same supply shock, against two different demand curves</h1>
+    <p class="small muted" style="margin-top:-4px;">In 1973 OPEC cut oil exports to the United States. Crude was $12 a barrel and the U.S. used 17 million barrels a day. Both panels show the <strong>identical</strong> leftward supply shift.</p>
+    <div class="case-pair" style="margin-top:12px;">
+      <div class="case-card b">
+        <h2 class="red">Inelastic demand &mdash; the short run</h2>
+        <p class="sub">What actually happened in 1973&ndash;75.</p>
+        <svg class="plot short" viewBox="0 0 330 214" role="img" aria-label="With steep inelastic demand the leftward supply shift doubles the price and barely reduces quantity">
+          <path class="axis" d="M 44 22 L 44 178 L 312 178" />
+          <path class="old-line" d="M 228 178 L 312 58.4" />
+          <path class="supply-line" d="M 167.1 178 L 276.7 22" />
+          <path class="demand-line" style="stroke:var(--red)" d="M 253.2 22 L 284.2 178" />
+          <circle class="dot" cx="271.8" cy="115.6" r="5" />
+          <circle class="dot" style="fill:var(--red)" cx="258.4" cy="48" r="5" />
+          <path class="projection" d="M 44 48 L 258.4 48" /><path class="projection" d="M 44 115.6 L 271.8 115.6" />
+          <text class="tick-label" x="12" y="52">$25</text><text class="tick-label" x="12" y="119">$12</text>
+          <text class="tick-label" x="246" y="194">16</text><text class="tick-label" x="276" y="194">17</text>
+        </svg>
+        <div class="case-readout">
+          <div class="case-stat"><strong>+108%</strong><span>price</span></div>
+          <div class="case-stat"><strong>&minus;6%</strong><span>quantity</span></div>
+          <div class="case-stat"><strong class="red">price absorbs it</strong><span>outcome</span></div>
+        </div>
+      </div>
+      <div class="case-card">
+        <h2 class="blue">Elastic demand &mdash; the long run</h2>
+        <p class="sub">What the same shock would have done with more adjustment time.</p>
+        <svg class="plot short" viewBox="0 0 330 214" role="img" aria-label="With flat elastic demand the identical supply shift raises price only slightly and cuts quantity substantially">
+          <path class="axis" d="M 44 22 L 44 178 L 312 178" />
+          <path class="old-line" d="M 228 178 L 312 58.4" />
+          <path class="supply-line" d="M 167.1 178 L 276.7 22" />
+          <path class="demand-line" d="M 44 71.4 L 312 123.4" />
+          <circle class="dot" cx="271.8" cy="115.6" r="5" />
+          <circle class="dot blue-dot" cx="218.2" cy="105.2" r="5" />
+          <path class="projection" d="M 44 105.2 L 218.2 105.2" /><path class="projection" d="M 44 115.6 L 271.8 115.6" />
+          <text class="tick-label" x="12" y="109">$14</text><text class="tick-label" x="12" y="126">$12</text>
+          <text class="tick-label" x="206" y="194">13</text><text class="tick-label" x="276" y="194">17</text>
+        </svg>
+        <div class="case-readout">
+          <div class="case-stat"><strong>+17%</strong><span>price</span></div>
+          <div class="case-stat"><strong>&minus;24%</strong><span>quantity</span></div>
+          <div class="case-stat"><strong class="blue">quantity absorbs it</strong><span>outcome</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="source-note">By 1983 U.S. petroleum use was 15.3 million barrels a day&mdash;below 1973, despite an economy about a quarter larger. A decade of adjustment had made demand more elastic.</p>
+  </section>
+
+  <!-- 35 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">LO 6.6 · price is not the only thing that changes</div>
+    <h1>Income elasticity puts a number on a Unit 4 idea</h1>
+    <div class="formula-box blue-box" style="margin-top:6px;">
+      <span class="lhs">E<sub>income</sub> &nbsp;=</span>
+      <span class="frac"><span class="num">% change in quantity demanded</span><span class="den">% change in income</span></span>
+    </div>
+    <div class="grid-2" style="margin-top:20px;">
+      <div class="card green-top"><h2 class="green">Positive &nbsp;E &gt; 0</h2><p><strong>Normal good.</strong> Income rises, you buy more. In Unit 4 language: the demand curve shifts <strong>right</strong>.</p></div>
+      <div class="card red-top"><h2 class="red">Negative &nbsp;E &lt; 0</h2><p><strong>Inferior good.</strong> Income rises, you buy <em>less</em>&mdash;you trade up to something else. The demand curve shifts <strong>left</strong>.</p></div>
+    </div>
+    <div class="definition-strip" style="margin-top:18px; font-size:17px;">
+      <strong>Refinement, for normal goods only:</strong> if E is above 1, spending on the good grows faster than income&mdash;economists call that a <strong>luxury</strong>. Between 0 and 1, it is a <strong>necessity</strong>.
+    </div>
+    <p class="footer-note small muted">Notice what the sign is doing: it is not measuring how nice the product is. It is measuring <strong>which direction the demand curve moves</strong> when incomes change.</p>
+  </section>
+
+  <!-- 36 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">LO 6.6 · the price of a different good</div>
+    <h1>Cross-price elasticity does the same job for related goods</h1>
+    <div class="formula-box purple-box" style="margin-top:6px;">
+      <span class="lhs">E<sub>cross</sub> &nbsp;=</span>
+      <span class="frac"><span class="num">% change in quantity demanded of good X</span><span class="den">% change in the price of good Y</span></span>
+    </div>
+    <div class="grid-2" style="margin-top:20px;">
+      <div class="card green-top">
+        <h2 class="green">Positive &nbsp;E &gt; 0</h2>
+        <p><strong>Substitutes.</strong> Beef gets more expensive, so people buy more chicken.</p>
+        <p class="small muted" style="margin-top:8px;">Price of one up &rarr; quantity of the other up. Same direction, positive sign.</p>
+      </div>
+      <div class="card red-top">
+        <h2 class="red">Negative &nbsp;E &lt; 0</h2>
+        <p><strong>Complements.</strong> Gasoline gets more expensive, so people buy fewer pickup trucks.</p>
+        <p class="small muted" style="margin-top:8px;">Price of one up &rarr; quantity of the other down. Opposite directions, negative sign.</p>
+      </div>
+    </div>
+    <div class="definition-strip purple-strip" style="margin-top:18px;">
+      <strong>The sign is the whole answer.</strong> You are not asked to judge whether two goods &ldquo;feel&rdquo; related&mdash;you read the sign and report substitutes or complements.
+    </div>
+  </section>
+
+  <!-- 37 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">LO 6.6 · what this actually bought us</div>
+    <h1>Unit 4 told you which way the curve moves. Now you can say how far.</h1>
+    <table class="tr-rule-table" style="font-size:16px;">
+      <thead><tr><th style="width:240px;">Unit 4 said</th><th>Unit 6 adds</th><th style="width:200px;">The measure</th></tr></thead>
+      <tbody>
+        <tr><td>Income up &rarr; normal good demand shifts right</td><td>How far right depends on the size of the number</td><td><strong>Income elasticity</strong></td></tr>
+        <tr><td>Substitute's price up &rarr; demand shifts right</td><td>How far right depends on how close a substitute it is</td><td><strong>Cross-price elasticity</strong></td></tr>
+        <tr><td>Own price up &rarr; move along the curve</td><td>How far along depends on the four determinants</td><td><strong>Price elasticity</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="definition-strip blue-strip" style="margin-top:20px;">
+      All three answer the same question in different directions: <strong>a percentage change in one thing causes what percentage change in another?</strong>
+      Everything in this unit is that one idea, pointed at different variables.
+    </div>
+    <p class="footer-note small muted">Friday's review session has the sign-identification practice. Bring the three formulas.</p>
+  </section>
+
+  <!-- 38 -->
+  <section class="slide interactive" data-day="2" id="gasTaxSlide">
+    <div class="section-kicker">LO 6.7 + LO 6.9 · a tax you already pay</div>
+    <h1>Every gallon of gas carries a tax. Who actually pays it?</h1>
+    <div class="quiz-scenario" style="margin-top:6px;">
+      <div class="market-label">How the law is written</div>
+      <p>Federal and North Carolina motor fuels taxes are collected from the <strong>supplier</strong>, not from you at the pump. No line on your receipt says &ldquo;tax.&rdquo;</p>
+    </div>
+    <p class="small muted" style="margin-top:16px;">Vote before we draw anything. Of each dollar of gasoline tax, who ends up worse off by more?</p>
+    <div class="quiz-options" style="margin-top:10px;">
+      <button type="button" class="gastax-opt quiz-option" data-correct="true">Buyers bear most of it</button>
+      <button type="button" class="gastax-opt quiz-option" data-correct="false">Sellers bear most of it</button>
+      <button type="button" class="gastax-opt quiz-option" data-correct="false">It splits about evenly</button>
+    </div>
+    <div class="feedback" id="gasTaxFeedback" style="margin-top:14px;"
+         data-correct-message="<strong>Buyers&mdash;and by a lot.</strong> Hold that thought: over the next four slides we will derive exactly why, and put a number on it."
+         data-wrong-message="<strong>Buyers bear most of it.</strong> That is not obvious yet&mdash;over the next four slides we derive why, and put a number on it. Keep your reasoning; we will come back to it.">Commit to an answer.</div>
+    <p class="footer-note small muted">Remember Monday's number: the price elasticity of gasoline demand over a month came out at <strong>0.28</strong>.</p>
+  </section>
+
+  <!-- 39 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">LO 6.7 · two pictures of the same tax</div>
+    <h1>You can draw a tax two ways. They give identical answers.</h1>
+    <div class="case-pair" style="margin-top:6px;">
+      <div class="case-card">
+        <h2 class="blue">Way 1 &middot; shift the supply curve</h2>
+        <p class="sub">A $1 tax is a $1 addition to the seller's cost of every unit, so supply shifts up by exactly $1.</p>
+        <svg class="plot short" viewBox="0 0 330 214" role="img" aria-label="A one dollar tax shifts the supply curve vertically upward by one dollar">
+          <path class="axis" d="M 44 22 L 44 178 L 312 178" />
+          <path class="old-line" d="M 44 121.8 L 312 71.9" />
+          <path class="supply-line" d="M 44 90.6 L 312 40.7" />
+          <path class="demand-line" d="M 161.2 22 L 312 134.3" />
+          <path class="wedge-line" d="M 100 118.1 L 100 86.9" />
+          <path class="wedge-line" d="M 96 118.1 L 104 118.1" /><path class="wedge-line" d="M 96 86.9 L 104 86.9" />
+          <text class="plot-label sm" x="108" y="106" fill="#7657a5">$1</text>
+          <text class="plot-label sm" x="266" y="36" fill="#378a61">S with tax</text>
+          <text class="plot-label sm" x="258" y="74" fill="#9aa3ab">S before</text>
+          <text class="plot-label sm" x="128" y="34" fill="#2f80c9">D</text>
+          <circle class="dot" cx="245" cy="84.4" r="4.5" />
+          <circle class="dot" style="fill:var(--purple)" cx="211.5" cy="59.4" r="4.5" />
+          <text class="tick-label" x="50" y="32">P</text><text class="tick-label" x="296" y="196">Q</text>
+        </svg>
+      </div>
+      <div class="case-card b" style="border-top-color:var(--purple); background:var(--purple-soft);">
+        <h2 class="purple">Way 2 &middot; drive a wedge</h2>
+        <p class="sub">Leave both curves alone. Find the quantity where the vertical gap between them is exactly $1.</p>
+        <svg class="plot short" viewBox="0 0 330 214" role="img" aria-label="Leaving both curves in place and finding the quantity where the vertical gap equals the tax">
+          <path class="axis" d="M 44 22 L 44 178 L 312 178" />
+          <path class="supply-line" d="M 44 121.8 L 312 71.9" />
+          <path class="demand-line" d="M 161.2 22 L 312 134.3" />
+          <path class="wedge-line" style="stroke-width:4" d="M 211.5 59.4 L 211.5 90.6" />
+          <circle class="dot" style="fill:var(--blue)" cx="211.5" cy="59.4" r="4.5" />
+          <circle class="dot green-dot" cx="211.5" cy="90.6" r="4.5" />
+          <circle class="dot" cx="245" cy="84.4" r="4.5" />
+          <text class="plot-label sm" x="266" y="70" fill="#378a61">S</text>
+          <text class="plot-label sm" x="128" y="34" fill="#2f80c9">D</text>
+          <text class="plot-label sm" x="218" y="58" fill="#2f80c9">P buyers pay</text>
+          <text class="plot-label sm" x="218" y="98" fill="#378a61">P sellers keep</text>
+          <text class="tick-label" x="50" y="32">P</text><text class="tick-label" x="296" y="196">Q</text>
+        </svg>
+      </div>
+    </div>
+    <div class="definition-strip purple-strip" style="margin-top:16px;">
+      Same quantity traded, same price to buyers, same price to sellers. <strong>We will use Way 2 for the rest of today</strong>&mdash;it makes the split visible, which is the whole point.
+    </div>
+    <p class="source-note">Your textbook draws it the same way&mdash;the supply shift is left out there too, for the same reason.</p>
+  </section>
+
+  <!-- 40 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">LO 6.7 · now with numbers <span class="illus-tag">illustrative</span></div>
+    <h1>A $1.00 tax does not raise the price by $1.00</h1>
+    <div class="two-thirds" style="margin-top:4px;">
+      <div class="plot-panel">
+        <svg class="plot tall" viewBox="0 0 440 300" role="img" aria-label="A one dollar per gallon tax raises the buyer price by eighty cents and lowers the seller price by twenty cents">
+          <rect class="buyer-fill" x="54" y="78.7" width="223.7" height="36.5" />
+          <rect class="seller-fill" x="54" y="115.2" width="223.7" height="9.1" />
+          <path class="axis" d="M 54 24 L 54 252 L 412 252" />
+          <path class="supply-line" d="M 54 169.9 L 412 97" />
+          <path class="demand-line" d="M 210.6 24 L 412 188.2" />
+          <path class="wedge-line" style="stroke-width:4" d="M 277.7 78.7 L 277.7 124.3" />
+          <path class="projection" d="M 54 78.7 L 277.7 78.7" /><path class="projection" d="M 54 124.3 L 277.7 124.3" />
+          <path class="projection" d="M 54 115.2 L 322.5 115.2" /><path class="projection" d="M 277.7 124.3 L 277.7 252" />
+          <circle class="dot" cx="322.5" cy="115.2" r="5.5" />
+          <circle class="dot blue-dot" cx="277.7" cy="78.7" r="5.5" />
+          <circle class="dot green-dot" cx="277.7" cy="124.3" r="5.5" />
+          <text class="tick-label" x="12" y="82">$3.80</text><text class="tick-label" x="12" y="112">$3.00</text><text class="tick-label" x="12" y="136">$2.80</text>
+          <text class="tick-label" x="262" y="270">75</text><text class="tick-label" x="308" y="270">90</text>
+          <text class="plot-label sm" x="288" y="72" fill="#2f80c9">P buyers pay</text>
+          <text class="plot-label sm" x="288" y="134" fill="#378a61">P sellers keep</text>
+          <text class="tick-label" x="60" y="34">P</text><text class="tick-label" x="410" y="244" text-anchor="end">Q (million gallons)</text>
+        </svg>
+      </div>
+      <div>
+        <div class="calc-run">
+          <div class="calc-line"><div class="calc-num">1</div><div><strong>Before the tax: $3.00, 90 million gallons</strong><span>One price for everyone.</span></div></div>
+          <div class="calc-line"><div class="calc-num">2</div><div><strong>After: buyers pay $3.80, sellers keep $2.80</strong><span>The $1.00 gap is the tax. Quantity falls to 75 million.</span></div></div>
+          <div class="calc-line hi"><div class="calc-num">3</div><div><strong>Buyers bear $0.80. Sellers bear $0.20.</strong><span>Measured against the original $3.00, not against each other.</span></div></div>
+        </div>
+        <div class="split-bar">
+          <div class="split-track">
+            <div class="split-seg buyers" style="width:80%;">Buyers $0.80</div>
+            <div class="split-seg sellers" style="width:20%;">$0.20</div>
+          </div>
+          <div class="split-legend"><span>80% of the tax</span><span>20%</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="source-note">Numbers chosen for illustration; they are not current federal or North Carolina rates.</p>
+  </section>
+
+  <!-- 41 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">LO 6.7 · the result that surprises everyone</div>
+    <h1>Who writes the check does not determine who bears the burden</h1>
+    <div class="grid-2" style="margin-top:10px;">
+      <div class="card green-top" style="min-height:230px;">
+        <h2 class="green">Tax the seller $1.00</h2>
+        <p class="small">Supply shifts up by $1.00. The market price becomes <strong>$3.80</strong>.</p>
+        <ul class="small">
+          <li>Buyers pay <strong>$3.80</strong></li>
+          <li>Sellers collect $3.80, remit $1.00, keep <strong>$2.80</strong></li>
+          <li>Quantity: <strong>75 million</strong></li>
+        </ul>
+      </div>
+      <div class="card blue-top" style="min-height:230px;">
+        <h2 class="blue">Tax the buyer $1.00</h2>
+        <p class="small">Demand shifts down by $1.00. The market price becomes <strong>$2.80</strong>.</p>
+        <ul class="small">
+          <li>Buyers pay $2.80 plus $1.00 tax = <strong>$3.80</strong></li>
+          <li>Sellers keep <strong>$2.80</strong></li>
+          <li>Quantity: <strong>75 million</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="definition-strip purple-strip" style="margin-top:20px;">
+      <strong>Identical outcome.</strong> The law decides who <em>remits</em> the money&mdash;that is <strong>statutory incidence</strong>.
+      The market decides who is actually made worse off&mdash;that is <strong>economic incidence</strong>. Only the second one matters for welfare.
+    </div>
+    <p class="footer-note small muted">So &ldquo;we will tax the oil companies, not drivers&rdquo; is a claim about the wrong kind of incidence.</p>
+  </section>
+
+  <!-- 42 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">LO 6.7 · the rule</div>
+    <h1>The more inelastic side of the market bears more of the tax</h1>
+    <div class="definition-strip" style="margin-top:6px; font-size:21px;">
+      If <strong>demand</strong> is more inelastic than supply, <strong>buyers</strong> bear most of the burden.<br>
+      If <strong>supply</strong> is more inelastic than demand, <strong>sellers</strong> bear most of the burden.
+    </div>
+    <div class="mechanism-flow" style="margin-top:22px;">
+      <div class="mechanism-box">Elasticity measures<br><strong>escape routes</strong></div>
+      <div class="mechanism-arrow">&rarr;</div>
+      <div class="mechanism-box blue-box">The inelastic side<br>has <strong>nowhere to go</strong></div>
+      <div class="mechanism-arrow">&rarr;</div>
+      <div class="mechanism-box red-box">So it absorbs<br>the tax</div>
+    </div>
+    <div class="grid-2" style="margin-top:20px;">
+      <div class="card white"><h3>Gasoline, one month</h3><p class="small">Buyers cannot change car, commute, or home by Friday. Sellers can redirect fuel to other markets. <strong>Buyers are the trapped side.</strong></p></div>
+      <div class="card white"><h3>The same tax over ten years</h3><p class="small">Buyers get a more efficient car, move closer to work, change jobs. The trapped side becomes less trapped, and <strong>the buyers' share falls</strong>.</p></div>
+    </div>
+  </section>
+
+  <!-- 43 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">LO 6.7 · the same $1.00 tax, the mirror case</div>
+    <h1>Flip which side is trapped and the burden flips with it</h1>
+    <div class="case-pair" style="margin-top:6px;">
+      <div class="case-card">
+        <h2 class="blue">Inelastic demand, elastic supply</h2>
+        <p class="sub">Gasoline. Buyers have no short-run alternative; sellers do.</p>
+        <svg class="plot short" viewBox="0 0 330 214" role="img" aria-label="With inelastic demand and elastic supply the buyer price band is much larger than the seller band">
+          <rect class="buyer-fill" x="44" y="59.4" width="167.5" height="25" />
+          <rect class="seller-fill" x="44" y="84.4" width="167.5" height="6.2" />
+          <path class="axis" d="M 44 22 L 44 178 L 312 178" />
+          <path class="supply-line" d="M 44 121.8 L 312 71.9" />
+          <path class="demand-line" d="M 161.2 22 L 312 134.3" />
+          <path class="wedge-line" style="stroke-width:4" d="M 211.5 59.4 L 211.5 90.6" />
+          <circle class="dot" cx="245" cy="84.4" r="4.5" />
+          <text class="plot-label sm" x="218" y="52" fill="#2f80c9">buyers</text>
+          <text class="plot-label sm" x="218" y="106" fill="#378a61">sellers</text>
+        </svg>
+        <div class="split-bar" style="margin-top:9px;">
+          <div class="split-track" style="height:38px;">
+            <div class="split-seg buyers" style="width:80%; font-size:14px;">Buyers $0.80</div>
+            <div class="split-seg sellers" style="width:20%; font-size:14px;">$0.20</div>
+          </div>
+        </div>
+      </div>
+      <div class="case-card b" style="border-top-color:var(--green); background:var(--green-soft);">
+        <h2 class="green">Elastic demand, inelastic supply</h2>
+        <p class="sub">Beachfront hotel rooms, or prime farmland. Sellers cannot move; buyers can vacation elsewhere.</p>
+        <svg class="plot short" viewBox="0 0 330 214" role="img" aria-label="With elastic demand and inelastic supply the seller price band is much larger than the buyer band">
+          <rect class="buyer-fill" x="44" y="81" width="163.7" height="3.4" />
+          <rect class="seller-fill" x="44" y="84.4" width="163.7" height="27.8" />
+          <path class="axis" d="M 44 22 L 44 178 L 312 178" />
+          <path class="supply-line" d="M 119.5 178 L 312 34.5" />
+          <path class="demand-line" d="M 44 65.7 L 312 90.6" />
+          <path class="wedge-line" style="stroke-width:4" d="M 207.7 81 L 207.7 112.2" />
+          <circle class="dot" cx="245" cy="84.4" r="4.5" />
+          <text class="plot-label sm" x="214" y="74" fill="#2f80c9">buyers</text>
+          <text class="plot-label sm" x="214" y="124" fill="#378a61">sellers</text>
+        </svg>
+        <div class="split-bar" style="margin-top:9px;">
+          <div class="split-track" style="height:38px;">
+            <div class="split-seg buyers" style="width:11%; font-size:13px;">$0.11</div>
+            <div class="split-seg sellers" style="width:89%; font-size:14px;">Sellers $0.89</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="footer-note small muted">Identical $1.00 tax. Identical arithmetic. The only thing that changed is <strong>which side had somewhere else to go</strong>.</p>
+  </section>
+
+  <!-- 44 -->
+  <section class="slide interactive" data-day="2" id="incidenceQuizSlide">
+    <div class="section-kicker">LO 6.7 · predict before revealing</div>
+    <h1>Two excise taxes. Predict who bears each one.</h1>
+    <div class="grid-2" style="margin-top:8px;">
+      <div class="card white">
+        <h2>A · Cigarettes</h2>
+        <p class="small">A new tax on cigarette manufacturers. Adult smokers' demand elasticity is about <strong>0.3</strong>. Producers can adjust output freely.</p>
+        <div class="check-answer" data-step-group="inc">
+          <div class="definition-strip red-strip" style="margin-top:10px; font-size:15px;"><strong>Buyers bear most.</strong> Demand is far more inelastic than supply, so the tax mostly shows up as a higher shelf price with little drop in quantity. Good for revenue; weak as a way to reduce smoking.</div>
+        </div>
+      </div>
+      <div class="card white">
+        <h2>B · Restaurant meals</h2>
+        <p class="small">A new tax on restaurants. Demand elasticity is about <strong>2.27</strong>&mdash;diners can cook at home. Restaurants have limited ability to exit quickly.</p>
+        <div class="check-answer" data-step-group="inc">
+          <div class="definition-strip green-strip" style="margin-top:10px; font-size:15px;"><strong>Sellers bear most.</strong> Demand is highly elastic, so raising menu prices drives customers away. Much of the tax comes out of the restaurant's margin&mdash;and quantity falls a lot.</div>
+        </div>
+      </div>
+    </div>
+    <div class="button-row" style="margin-top:16px;">
+      <button type="button" class="inc-check" data-correct="true">A: buyers &nbsp;&middot;&nbsp; B: sellers</button>
+      <button type="button" class="inc-check secondary" data-correct="false">A: sellers &nbsp;&middot;&nbsp; B: buyers</button>
+      <button type="button" class="inc-check secondary" data-correct="false">Both split evenly</button>
+    </div>
+    <div class="feedback" id="incFeedback" style="margin-top:12px;"
+         data-correct-message="<strong>Correct.</strong> In each market, find the more inelastic side&mdash;that side bears more. Notice the policy implication: the tax that raises the most revenue is the one that changes behavior the least."
+         data-wrong-message="<strong>Apply the rule to each market separately.</strong> Cigarette demand (0.3) is far more inelastic than supply &rarr; buyers bear more. Restaurant demand (2.27) is far more elastic than supply &rarr; sellers bear more.">Commit before revealing.</div>
+  </section>
+
+  <!-- 45 -->
+  <section class="slide" data-day="2" id="taxDwlSlide">
+    <div class="section-kicker">LO 6.7 · connecting back to Unit 5</div>
+    <h1>Revenue collected, and trades destroyed</h1>
+    <div class="two-thirds" style="margin-top:4px;">
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 440 300" role="img" aria-label="Tax revenue is the rectangle between the buyer and seller prices and deadweight loss is the triangle to the right of it">
+          <rect class="revenue-fill" x="54" y="78.7" width="223.7" height="45.6" />
+          <path class="dwl-fill" d="M 277.7 78.7 L 277.7 124.3 L 322.5 115.2 Z" />
+          <path class="axis" d="M 54 24 L 54 252 L 412 252" />
+          <path class="supply-line" d="M 54 169.9 L 412 97" />
+          <path class="demand-line" d="M 210.6 24 L 412 188.2" />
+          <path class="wedge-line" style="stroke-width:4" d="M 277.7 78.7 L 277.7 124.3" />
+          <circle class="dot" cx="322.5" cy="115.2" r="5.5" />
+          <text class="plot-label sm" x="120" y="106" fill="#7657a5">TAX REVENUE</text>
+          <text class="plot-label sm" x="292" y="150" fill="#c9504d">deadweight loss</text>
+          <path class="projection" d="M 300 142 L 295 122" />
+          <text class="tick-label" x="262" y="270">75</text><text class="tick-label" x="308" y="270">90</text>
+          <text class="tick-label" x="60" y="34">P</text><text class="tick-label" x="396" y="272">Q</text>
+        </svg>
+      </div>
+      <div>
+        <div class="card purple-top"><h3 class="purple">Revenue = tax &times; Q<sub>traded</sub></h3><p>$1.00 &times; 75 million = <strong>$75 million</strong>. A <strong>transfer</strong>&mdash;it moves from buyers and sellers to the government, and nothing is destroyed.</p></div>
+        <div class="card red-top" style="margin-top:12px;"><h3 class="red">Deadweight loss</h3><p>The 15 million gallons between 75 and 90 were worth <em>more</em> to buyers than they cost sellers. Those trades no longer happen, and <strong>nobody</strong> gets that surplus&mdash;not even the government.</p></div>
+        <div class="definition-strip red-strip" style="margin-top:12px; font-size:16px;">
+          Exactly the Unit 5 distinction: <strong>transfers move surplus; lost trades destroy it.</strong>
+        </div>
+      </div>
+    </div>
+    <p class="footer-note small muted">Corollary: the <strong>more inelastic</strong> both sides are, the <strong>smaller</strong> the deadweight loss and the <strong>larger</strong> the revenue. That is the efficiency case for taxing inelastic goods&mdash;and it collides with the fairness case, since inelastic goods are often necessities.</p>
+  </section>
+
+  <!-- 46 -->
+  <section class="slide" data-day="2" id="bumperSlide">
+    <div class="section-kicker">LO 6.8 · the answer to Monday's question</div>
+    <h1>Good news for yields, bad news for revenue</h1>
+    <div class="two-thirds" style="margin-top:4px;">
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 440 300" role="img" aria-label="A rightward supply shift against steep inelastic demand causes a large price fall, a small quantity rise, and lower total revenue">
+          <rect class="tr-loss" x="54" y="81" width="179" height="34.2" />
+          <rect class="tr-gain" x="233" y="115.2" width="17.9" height="136.8" />
+          <path class="axis" d="M 54 24 L 54 252 L 412 252" />
+          <path class="old-line" d="M 54 252 L 292 24" />
+          <path class="supply-line" d="M 54 252 L 382.1 24" />
+          <path class="demand-line" style="stroke:var(--red)" d="M 203.1 24 L 322.5 252" />
+          <circle class="dot" cx="233" cy="81" r="5.5" />
+          <circle class="dot" style="fill:var(--red)" cx="250.9" cy="115.2" r="5.5" />
+          <path class="projection" d="M 54 81 L 233 81" /><path class="projection" d="M 54 115.2 L 250.9 115.2" />
+          <path class="projection" d="M 233 81 L 233 252" /><path class="projection" d="M 250.9 115.2 L 250.9 252" />
+          <text class="tick-label" x="14" y="85">$15</text><text class="tick-label" x="14" y="119">$12</text>
+          <text class="tick-label" x="216" y="270">100</text><text class="tick-label" x="256" y="270">110</text>
+          <text class="plot-label sm" x="300" y="40" fill="#378a61">S after the bumper crop</text>
+          <text class="plot-label sm" x="326" y="230" fill="#c9504d">D (food: inelastic)</text>
+          <text class="tick-label" x="60" y="34">$ / cwt</text><text class="tick-label" x="330" y="272">million cwt</text>
+        </svg>
+      </div>
+      <div>
+        <div class="calc-run">
+          <div class="calc-line bad"><div class="calc-num">1</div><div><strong>Price falls 20%: $15.00 &rarr; $12.00</strong><span>The big red band: every unit they were already selling now earns less.</span></div></div>
+          <div class="calc-line good"><div class="calc-num">2</div><div><strong>Quantity rises 10%: 100 &rarr; 110 million cwt</strong><span>The thin green sliver: a few extra units sold.</span></div></div>
+          <div class="calc-line hi"><div class="calc-num">3</div><div><strong>|E<sub>d</sub>| = 9.5% &divide; 22.2% = 0.43 &rarr; inelastic</strong><span>Food demand is inelastic: people do not eat much more just because it is cheaper.</span></div></div>
+          <div class="calc-line bad"><div class="calc-num">4</div><div><strong>TR: $1,500M &rarr; $1,320M. Down $180 million.</strong><span>Inelastic demand + a price fall &rarr; revenue falls. Monday's rule, applied directly.</span></div></div>
+        </div>
+        <div class="definition-strip red-strip" style="margin-top:12px; font-size:16px;">
+          The red band is far bigger than the green sliver. <strong>That is the whole result.</strong>
+        </div>
+      </div>
+    </div>
+    <p class="footer-note small muted">Compare this with the class vote still on the board from Monday. <span class="illus-tag">illustrative</span> Price and quantity figures are constructed for the example, not measured NC data.</p>
+  </section>
+
+  <!-- 47 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">LO 6.8 · the part that makes it an economics problem</div>
+    <h1>If the good harvest hurts farmers, why plant the higher-yield variety?</h1>
+    <div class="mirror-grid" style="margin-top:6px;">
+      <div class="mirror-col">
+        <h2 class="blue">For one farm</h2>
+        <p class="mirror-line">A single NC farm is a <strong>price taker</strong>: it is far too small to move the market price of sweet potatoes.</p>
+        <p class="mirror-line">So from its own point of view the market price is simply given, and producing more at that price is <strong>unambiguously better</strong>.</p>
+        <p class="mirror-line"><strong>Planting the better variety is the right decision.</strong></p>
+      </div>
+      <div class="mirror-col seller-col">
+        <h2 class="green">For all farms together</h2>
+        <p class="mirror-line">When every farm reasons that way, total supply shifts right&mdash;and now the price <em>does</em> move.</p>
+        <p class="mirror-line">With inelastic demand the price falls more, in percentage terms, than quantity rises.</p>
+        <p class="mirror-line"><strong>Every farm is worse off than before.</strong></p>
+      </div>
+    </div>
+    <div class="definition-strip purple-strip" style="margin-top:18px;">
+      Individually rational, collectively self-defeating. No one behaved foolishly and no one can fix it alone&mdash;which is precisely why <strong>agricultural policy exists</strong>:
+      price supports, marketing orders, and supply management are all attempts to solve a problem no individual farmer can solve.
+    </div>
+    <p class="footer-note small muted">You saw one of those instruments in Unit 5: a crop price support, with the government buying the surplus. Now you can explain <em>why</em> farmers ask for it.</p>
+  </section>
+
+  <!-- 48 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">LO 6.9 · corporate pricing power</div>
+    <h1>&ldquo;Pricing power&rdquo; is just another name for inelastic demand</h1>
+    <div class="mechanism-flow" style="margin-top:6px;">
+      <div class="mechanism-box blue-box">Few close substitutes,<br>necessity, small budget share</div>
+      <div class="mechanism-arrow">&rarr;</div>
+      <div class="mechanism-box">Demand is <strong>inelastic</strong><br>in the relevant range</div>
+      <div class="mechanism-arrow">&rarr;</div>
+      <div class="mechanism-box accent-box">Raising price<br><strong>raises revenue</strong></div>
+    </div>
+    <div class="grid-2" style="margin-top:20px;">
+      <div class="card white">
+        <h3>The test, stated precisely</h3>
+        <p class="small">When a firm raises prices, ask: <strong>did quantity fall enough to cut revenue?</strong></p>
+        <ul class="small"><li>Revenue rose &rarr; demand was inelastic there</li><li>Revenue fell &rarr; demand was elastic, and the firm misjudged</li></ul>
+      </div>
+      <div class="card accent-top">
+        <h3 class="accent">Netflix, 2011</h3>
+        <p class="small">A 46% price increase cost only 3.3% of subscribers. |E| &asymp; 0.07 &rarr; revenue rose sharply. The firm had pricing power <strong>at that moment</strong>.</p>
+        <p class="small" style="margin-top:8px;">What it did not have was pricing power <strong>in five years</strong>, once substitutes arrived.</p>
+      </div>
+    </div>
+    <div class="definition-strip purple-strip" style="margin-top:18px; font-size:17px;">
+      <strong>Discussion.</strong> In 2021&ndash;2023 many firms raised prices sharply and commentators disagreed about whether that was cost pass-through or market power.
+      Elasticity does not settle the argument&mdash;but it tells you the right question to ask, and what evidence would answer it.
+    </div>
+  </section>
+
+  <!-- 49 -->
+  <section class="slide" data-day="2">
+    <div class="section-kicker">LO 6.9 · pharmaceutical pricing</div>
+    <h1>A patent works by removing the buyer's substitutes</h1>
+    <div class="grid-2" style="margin-top:10px;">
+      <div class="card red-top" style="min-height:236px;">
+        <h2 class="red">Under patent</h2>
+        <ul class="small">
+          <li><strong>No close substitutes</strong> &mdash; by law, no one else may make it</li>
+          <li><strong>A necessity</strong> &mdash; for the patient who needs it, not optional</li>
+          <li><strong>Short horizon</strong> &mdash; a sick patient cannot wait for alternatives</li>
+        </ul>
+        <p class="small" style="margin-top:12px;">Three of the four determinants point the same way. Demand is <strong>extremely inelastic</strong>, and price can be set far above production cost.</p>
+      </div>
+      <div class="card green-top" style="min-height:236px;">
+        <h2 class="green">After generic entry</h2>
+        <ul class="small">
+          <li><strong>Close substitutes appear</strong> &mdash; chemically equivalent, different label</li>
+          <li>Pharmacists and insurers <strong>substitute automatically</strong></li>
+        </ul>
+        <p class="small" style="margin-top:12px;">Determinant 1 flips. The <em>same molecule</em>, for the <em>same patients</em>, now faces <strong>elastic</strong> demand&mdash;and the price falls sharply.</p>
+      </div>
+    </div>
+    <div class="definition-strip" style="margin-top:18px;">
+      <strong>Nothing about the drug changed.</strong> What changed is the buyer's set of alternatives&mdash;which is what elasticity has been measuring all along.
+    </div>
+    <p class="footer-note small muted">This is also why drug pricing debates are really debates about the determinants: patent length, generic approval speed, importation, and insurance design all work by changing substitutes.</p>
+  </section>
+
+  <!-- 50 -->
+  <section class="slide interactive" data-day="2" id="checkpointSlide">
+    <div class="section-kicker">Unit 6 checkpoint · explain, calculate, apply</div>
+    <h1>Six moves complete the unit</h1>
+    <div class="compact-checks">
+      <div class="compact-check" style="border-left-color:var(--accent); background:var(--accent-soft);"><strong>LO 6.1&ndash;6.2 · Compute and say it</strong><span>Midpoint method, then a sentence: &ldquo;a 10% price increase would&hellip;&rdquo; Never report a bare number.</span></div>
+      <div class="compact-check" style="border-left-color:var(--blue); background:var(--blue-soft);"><strong>LO 6.3 · Reason with four forces</strong><span>Substitutes, necessity, budget share, time. When they conflict, say so&mdash;the answer is empirical.</span></div>
+      <div class="compact-check" style="border-left-color:var(--green); background:var(--green-soft);"><strong>LO 6.4 · Compare to one</strong><span>Above one, a price rise cuts revenue. Below one, it raises revenue. Check the rule against your arithmetic.</span></div>
+      <div class="compact-check" style="border-left-color:var(--red); background:var(--red-soft);"><strong>LO 6.5&ndash;6.6 · Read the sign</strong><span>Supply elasticity is positive; longer horizon means more elastic. Income and cross-price signs give the classification.</span></div>
+      <div class="compact-check"><strong>LO 6.7 · Find the trapped side</strong><span>The more inelastic side bears more. Who remits the tax is irrelevant to who bears it.</span></div>
+      <div class="compact-check" style="border-left-color:var(--accent); background:var(--accent-soft);"><strong>LO 6.8&ndash;6.9 · Follow it into the world</strong><span>Inelastic demand turns good harvests into lower farm revenue, and turns missing substitutes into pricing power.</span></div>
+    </div>
+    <div class="definition-strip" style="margin-top:14px; font-size:16px;">
+      <strong>Exit ticket.</strong> A $0.40 per-gallon tax, where demand is inelastic and supply is elastic.<br>
+      (a) Who bears more, and why? &nbsp;(b) Much or little revenue? &nbsp;(c) After ten years, is the buyers' share bigger or smaller?
+    </div>
+    <div class="button-row" style="margin-top:12px;">
+      <button type="button" id="exitReveal" class="green-button">Reveal the answer</button>
+    </div>
+    <div class="exit-answer" id="exitAnswer">
+      <p><strong>(a) Buyers</strong>&mdash;they are the more inelastic side, so they have the fewest ways to escape the tax.
+      <strong>(b) A lot of revenue</strong>, because inelastic demand means quantity barely falls, and revenue is tax &times; quantity traded.
+      <strong>(c) Smaller.</strong> Over ten years buyers find substitutes&mdash;different vehicles, homes, commutes&mdash;so demand becomes more elastic and the burden shifts toward sellers.</p>
+    </div>
+  </section>
+
+</div>
+<div id="progress"></div>
+<div id="hint">&larr; &rarr; / Space to navigate &middot; P to print</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const stage = document.getElementById('stage');
+  const progress = document.getElementById('progress');
+  let idx = 0;
+
+  slides.forEach(function(slide, i){
+    const footer = document.createElement('div');
+    const day = slide.dataset.day || '1';
+    footer.className = 'footer';
+    footer.innerHTML = '<span>ARE 201 &middot; Unit 6 &middot; Class ' + day + '</span><span>' + (i + 1) + ' / ' + slides.length + '</span>';
+    slide.appendChild(footer);
+  });
+
+  function fit(){
+    const scale = Math.min(window.innerWidth / 960, window.innerHeight / 720);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+  }
+
+  function show(n){
+    idx = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(slide, i){ slide.classList.toggle('active', i === idx); });
+    progress.style.width = (((idx + 1) / slides.length) * 100) + '%';
+    history.replaceState(null, '', '#' + (idx + 1));
+  }
+
+  function setFeedback(element, message, state){
+    element.className = 'feedback' + (state ? ' ' + state : '');
+    element.innerHTML = message;
+  }
+
+  function resetButtons(buttons){
+    buttons.forEach(function(button){ button.classList.remove('correct', 'wrong', 'selected'); });
+  }
+
+  // Sign-and-interpretation slide — translate an elasticity into a sentence
+  const readButtons = Array.from(document.querySelectorAll('.read-btn'));
+  const readFeedback = document.getElementById('readFeedback');
+  readButtons.forEach(function(button){
+    button.addEventListener('click', function(){
+      readButtons.forEach(function(other){ other.classList.remove('selected'); });
+      button.classList.add('selected');
+      setFeedback(readFeedback, button.dataset.msg, 'info');
+    });
+  });
+
+  // Single-answer multiple choice groups
+  [
+    { selector: '.cross-opt', feedback: 'crossFeedback' },
+    { selector: '.warm-opt', feedback: 'warmFeedback' },
+    { selector: '.gastax-opt', feedback: 'gasTaxFeedback' }
+  ].forEach(function(group){
+    const buttons = Array.from(document.querySelectorAll(group.selector));
+    const feedback = document.getElementById(group.feedback);
+    if (!buttons.length || !feedback) return;
+    const correctButton = buttons.find(function(button){ return button.dataset.correct === 'true'; });
+    buttons.forEach(function(button){
+      button.addEventListener('click', function(){
+        const correct = button.dataset.correct === 'true';
+        resetButtons(buttons);
+        if (correctButton) correctButton.classList.add('correct');
+        if (!correct) button.classList.add('wrong');
+        setFeedback(feedback,
+          correct ? feedback.dataset.correctMessage : feedback.dataset.wrongMessage,
+          correct ? 'success' : 'error');
+      });
+    });
+  });
+
+  // Tax-incidence prediction — answering also reveals both explanation panels
+  const incButtons = Array.from(document.querySelectorAll('.inc-check'));
+  const incFeedback = document.getElementById('incFeedback');
+  if (incButtons.length && incFeedback) {
+    const incCorrect = incButtons.find(function(button){ return button.dataset.correct === 'true'; });
+    incButtons.forEach(function(button){
+      button.addEventListener('click', function(){
+        const correct = button.dataset.correct === 'true';
+        resetButtons(incButtons);
+        if (incCorrect) incCorrect.classList.add('correct');
+        if (!correct) button.classList.add('wrong');
+        document.querySelectorAll('.check-answer[data-step-group="inc"]').forEach(function(panel){
+          panel.classList.add('visible');
+        });
+        setFeedback(incFeedback,
+          correct ? incFeedback.dataset.correctMessage : incFeedback.dataset.wrongMessage,
+          correct ? 'success' : 'error');
+      });
+    });
+  }
+
+  // Step-by-step reveals (gasoline, Netflix, running shoes)
+  document.querySelectorAll('.step-reveal').forEach(function(button){
+    const group = button.dataset.stepGroup;
+    const elements = Array.from(document.querySelectorAll('.reveal-step')).filter(function(element){
+      return element.dataset.stepGroup === group;
+    });
+    const stepNumbers = Array.from(new Set(elements.map(function(element){ return Number(element.dataset.step); })))
+      .sort(function(a, b){ return a - b; });
+    let revealedCount = 0;
+    button.addEventListener('click', function(){
+      if (revealedCount >= stepNumbers.length) {
+        elements.forEach(function(element){ element.classList.remove('visible'); });
+        revealedCount = 0;
+        button.textContent = 'Reveal next step';
+        return;
+      }
+      const nextStep = stepNumbers[revealedCount];
+      elements.forEach(function(element){
+        if (Number(element.dataset.step) === nextStep) element.classList.add('visible');
+      });
+      revealedCount += 1;
+      button.textContent = revealedCount >= stepNumbers.length
+        ? 'Reset reveals'
+        : 'Reveal next step (' + revealedCount + '/' + stepNumbers.length + ')';
+    });
+  });
+
+  // Ranking activity — reveal measured elasticities one at a time, most elastic first
+  const rankItems = Array.from(document.querySelectorAll('.rank-item'))
+    .sort(function(a, b){ return Number(a.dataset.order) - Number(b.dataset.order); });
+  const rankValues = ['2.27', '1.17', '0.30', '0.28', '0.12'];
+  const rankReveal = document.getElementById('rankReveal');
+  const rankReset = document.getElementById('rankReset');
+  const rankNote = document.getElementById('rankNote');
+  let rankShown = 0;
+  function renderRank(){
+    rankItems.forEach(function(item, i){
+      const value = item.querySelector('.rank-value');
+      if (i < rankShown) { item.classList.add('shown'); value.textContent = rankValues[i]; }
+      else { item.classList.remove('shown'); value.textContent = '?'; }
+    });
+    if (rankNote) {
+      rankNote.textContent = rankShown === 0
+        ? 'Five goods. Most elastic first.'
+        : (rankShown >= rankValues.length ? 'All five revealed.' : rankShown + ' of 5 revealed.');
+    }
+    if (rankReveal) rankReveal.textContent = rankShown >= rankValues.length ? 'All revealed' : 'Reveal next value';
+  }
+  if (rankReveal) {
+    rankReveal.addEventListener('click', function(){
+      if (rankShown < rankValues.length) rankShown += 1;
+      renderRank();
+    });
+  }
+  if (rankReset) {
+    rankReset.addEventListener('click', function(){ rankShown = 0; renderRank(); });
+  }
+  renderRank();
+
+  // Unit checkpoint — exit ticket
+  const exitReveal = document.getElementById('exitReveal');
+  const exitAnswer = document.getElementById('exitAnswer');
+  if (exitReveal && exitAnswer) {
+    exitReveal.addEventListener('click', function(){
+      const nowVisible = exitAnswer.classList.toggle('visible');
+      exitReveal.textContent = nowVisible ? 'Hide the answer' : 'Reveal the answer';
+    });
+  }
+
+  document.addEventListener('keydown', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea')) return;
+    if (['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(event.key)) { event.preventDefault(); show(idx + 1); }
+    else if (['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(event.key)) { event.preventDefault(); show(idx - 1); }
+    else if (event.key.toLowerCase() === 'p') { window.print(); }
+    else if (event.key === 'Home') { show(0); }
+    else if (event.key === 'End') { show(slides.length - 1); }
+  });
+
+  document.addEventListener('click', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea, .feedback, .plot-panel, .exit-answer, .rank-board, .elas-table, .tr-rule-table')) return;
+    if (event.clientX > window.innerWidth / 2) show(idx + 1); else show(idx - 1);
+  });
+
+  window.addEventListener('resize', fit);
+  const hash = parseInt(location.hash.replace('#',''), 10);
+  if (Number.isFinite(hash)) idx = Math.max(0, Math.min(slides.length - 1, hash - 1));
+  fit();
+  show(idx);
+})();
+</script>
+</body>
+</html>

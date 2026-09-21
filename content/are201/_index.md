@@ -34,6 +34,10 @@ description: "ARE 201: Introduction to Agricultural and Resource Economics, Fall
 
 - [Consumer and Producer Surplus and Price Controls Slides](https://zihanzhang.me/assets/are201/ARE201_Unit5_Surplus_Price_Controls_Fall2026.html)
 
+### Unit 6: Elasticity
+
+- [Elasticity Slides](https://zihanzhang.me/assets/are201/ARE201_Unit6_Elasticity_Fall2026.html)
+
 ### Exam 1 Review
 
 - [Exam 1 Review Slides (No Answers)](https://zihanzhang.me/assets/are201/ARE201_Exam1_Review_Fall2026_No_Answers.html)
