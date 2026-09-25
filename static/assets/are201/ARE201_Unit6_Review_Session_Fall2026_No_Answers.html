@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARE 201 - Unit 6 Review Session - No Answers</title>
+<style>
+  :root {
+    --accent: #EB811B;
+    --accent-soft: #fff4e8;
+    --ink: #1f2933;
+    --muted: #5f6b76;
+    --paper: #ffffff;
+    --soft: #f3f4f6;
+    --line: #d8dde3;
+    --blue: #2f80c9;
+    --blue-soft: #eef5fb;
+    --green: #378a61;
+    --green-soft: #e9f6ef;
+    --red: #c9504d;
+    --red-soft: #fcedec;
+    --purple: #7657a5;
+    --purple-soft: #f3effa;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: #111;
+  }
+  body { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+
+  #stage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 960px;
+    height: 720px;
+    background: var(--paper);
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    width: 960px;
+    height: 720px;
+    padding: 50px 62px 48px;
+    overflow: hidden;
+    color: var(--ink);
+    background: var(--paper);
+  }
+  .slide.active { display: block; }
+  .slide.center { text-align: center; }
+  .slide.middle { align-items: center; justify-content: center; flex-direction: column; }
+  .slide.middle.active { display: flex; }
+
+  h1, h2, h3, p { margin-top: 0; }
+  h1 { margin-bottom: 16px; font-size: 37px; line-height: 1.12; letter-spacing: -.4px; }
+  h2 { margin-bottom: 10px; font-size: 24px; line-height: 1.2; }
+  h3 { margin-bottom: 7px; font-size: 18px; line-height: 1.2; }
+  p, li { font-size: 18px; line-height: 1.35; }
+  strong { font-weight: 780; }
+  sub { line-height: 0; }
+  .muted { color: var(--muted); }
+  .small { font-size: 15px; line-height: 1.32; }
+  .tiny { font-size: 12px; line-height: 1.3; }
+  .blue { color: var(--blue); }
+  .green { color: var(--green); }
+  .red { color: var(--red); }
+  .orange { color: var(--accent); }
+
+  .section-kicker {
+    margin-bottom: 7px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 820;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  /* ---- title and roadmap (Unit 4 review pattern) ---- */
+  .title-slide { padding-bottom: 130px; }
+  .title-kicker {
+    margin-bottom: 13px;
+    color: var(--accent);
+    font-size: 17px;
+    font-weight: 780;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+  }
+  .title-main { max-width: 820px; margin: 0 auto 14px; font-size: 54px; line-height: 1.03; }
+  .title-rule { width: 150px; height: 6px; margin: 29px auto 24px; background: var(--accent); }
+  .title-sub { margin: 0; color: var(--muted); font-size: 22px; line-height: 1.38; }
+  .title-graph { position: absolute; right: 64px; bottom: 34px; width: 390px; height: 145px; }
+
+  .roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 11px;
+    margin-top: 28px;
+  }
+  .roadmap-card {
+    min-height: 262px;
+    padding: 17px 14px;
+    border-top: 5px solid var(--accent);
+    background: var(--soft);
+  }
+  .roadmap-card:nth-child(2), .roadmap-card:nth-child(5) { border-top-color: var(--blue); }
+  .roadmap-card:nth-child(3) { border-top-color: var(--green); }
+  .roadmap-card:nth-child(4) { border-top-color: var(--purple); }
+  .roadmap-num { color: var(--accent); font-size: 27px; font-weight: 850; }
+  .roadmap-card h2 { min-height: 64px; margin: 8px 0; font-size: 17px; }
+  .roadmap-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.32; }
+  .roadmap-q {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: var(--ink);
+    background: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .04em;
+  }
+
+  /* ---- reference card ---- */
+  .ref-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+  .ref-card { min-height: 188px; padding: 14px 15px; border-top: 5px solid var(--accent); background: var(--soft); }
+  .ref-card:nth-child(2) { border-top-color: var(--blue); }
+  .ref-card:nth-child(3) { border-top-color: var(--green); }
+  .ref-card:nth-child(4) { border-top-color: var(--purple); }
+  .ref-card:nth-child(5) { border-top-color: var(--blue); }
+  .ref-card:nth-child(6) { border-top-color: var(--red); }
+  .ref-title { margin-bottom: 9px; color: var(--muted); font-size: 12px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .ref-card p { margin: 0 0 6px; font-size: 15px; line-height: 1.3; }
+  .ref-card p.ref-formula { font: 700 16px/1.4 Georgia, "Times New Roman", serif; }
+  .ref-note {
+    margin-top: 14px;
+    padding: 11px 15px;
+    border-left: 5px solid var(--accent);
+    background: var(--accent-soft);
+    font-size: 15px;
+    line-height: 1.32;
+  }
+
+  /* ---- one question per slide (Unit 4 review pattern) ---- */
+  .question-panel {
+    padding: 15px 18px;
+    border-left: 6px solid var(--accent);
+    background: var(--accent-soft);
+  }
+  .question-panel h2 { margin: 0; font-size: 22px; line-height: 1.32; }
+  .answer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 15px;
+  }
+  .answer-choice {
+    display: grid;
+    grid-template-columns: 38px 1fr;
+    min-height: 72px;
+    padding: 11px 14px;
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    align-items: center;
+    color: var(--ink);
+    background: #fff;
+    text-align: left;
+    font: 700 16px/1.27 "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+    cursor: pointer;
+    transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+  }
+  .answer-grid.numbers .answer-choice { min-height: 62px; font-size: 22px; }
+  .answer-choice:hover:not(:disabled) {
+    border-color: var(--accent);
+    box-shadow: 0 5px 12px rgba(31,41,51,.10);
+    transform: translateY(-2px);
+  }
+  .answer-choice:focus-visible, .action-button:focus-visible, .reveal-button:focus-visible, .mini-choice:focus-visible {
+    outline: 3px solid rgba(235,129,27,.35);
+    outline-offset: 2px;
+  }
+  .option-label {
+    display: flex;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--accent);
+    font-size: 14px;
+    font-weight: 850;
+  }
+  .answer-choice:nth-child(2) .option-label, .mini-choice:nth-child(2) .option-label { background: var(--blue); }
+  .answer-choice:nth-child(3) .option-label, .mini-choice:nth-child(3) .option-label { background: var(--green); }
+  .answer-choice:nth-child(4) .option-label, .mini-choice:nth-child(4) .option-label { background: #68737d; }
+  .answer-choice:disabled { cursor: default; opacity: .42; }
+  .answer-choice.correct { border-color: #246b49; color: #fff; background: var(--green); opacity: 1; }
+  .answer-choice.wrong { border-color: #9f3634; color: #fff; background: var(--red); opacity: 1; }
+  .answer-choice.correct .option-label, .answer-choice.wrong .option-label { color: var(--ink); background: #fff; }
+
+  .feedback-panel {
+    display: grid;
+    min-height: 104px;
+    margin-top: 14px;
+    padding: 12px 15px;
+    border-left: 5px solid var(--line);
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: center;
+    border-radius: 9px;
+    background: var(--soft);
+    opacity: 0;
+    transform: translateY(6px);
+    visibility: hidden;
+    transition: opacity .16s ease, transform .16s ease;
+  }
+  .feedback-panel.visible { opacity: 1; transform: translateY(0); visibility: visible; }
+  .feedback-panel.success { border-left-color: var(--green); background: var(--green-soft); }
+  .feedback-panel.error { border-left-color: var(--red); background: var(--red-soft); }
+  .feedback-heading { margin-bottom: 3px; font-size: 18px; font-weight: 850; }
+  .feedback-answer, .feedback-explanation { margin: 0; font-size: 14px; line-height: 1.3; }
+  .feedback-answer { margin-bottom: 3px; font-weight: 760; }
+  .reset-button, .mini-reset {
+    min-height: 36px;
+    padding: 8px 11px;
+    border: 0;
+    border-radius: 7px;
+    color: var(--ink);
+    background: #e1e5e9;
+    font: 750 12px "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .action-button {
+    min-height: 42px;
+    padding: 9px 15px;
+    border: 0;
+    border-radius: 7px;
+    color: #fff;
+    background: var(--accent);
+    font: 760 15px "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+    cursor: pointer;
+  }
+  .action-button.purple-button { background: var(--purple); }
+  .step-reveal { min-width: 206px; margin-top: 12px; }
+
+  .question-row { display: grid; grid-template-columns: 260px 1fr; gap: 16px; align-items: stretch; }
+  .schedule-mini { width: 100%; border-collapse: collapse; text-align: center; background: var(--soft); }
+  .schedule-mini th { padding: 8px 6px; color: #fff; background: var(--ink); font-size: 13px; }
+  .schedule-mini td { padding: 9px 6px; border-bottom: 1px solid var(--line); font-size: 19px; font-weight: 780; }
+
+  /* ---- worked problems (Unit 6 lecture pattern) ---- */
+  .work-grid { display: grid; grid-template-columns: .92fr 1.08fr; gap: 22px; margin-top: 14px; align-items: start; }
+  .graph-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 12px; align-items: start; }
+  .graph-grid.wide-right { grid-template-columns: .9fr 1.1fr; }
+  .scenario { padding: 13px 16px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .scenario .label { color: var(--accent); font-size: 12px; font-weight: 840; letter-spacing: .08em; text-transform: uppercase; }
+  .scenario p { margin: 5px 0 0; font-size: 18px; line-height: 1.32; }
+  .task {
+    margin-top: 12px;
+    padding: 11px 15px;
+    border-left: 5px solid var(--blue);
+    background: var(--blue-soft);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.32;
+  }
+  .graph-grid .task, .work-grid .task.first { margin-top: 0; }
+  .formula-mini {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border: 2px solid var(--purple);
+    border-radius: 8px;
+    background: var(--purple-soft);
+    font: 700 16px/1.5 Georgia, "Times New Roman", serif;
+    text-align: center;
+  }
+  .note-line { margin: 10px 0 0; color: var(--muted); font-size: 13px; line-height: 1.3; }
+
+  .calc-run { display: grid; gap: 9px; margin-top: 12px; }
+  .work-grid .calc-run { margin-top: 0; }
+  .calc-line {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 11px;
+    align-items: center;
+    padding: 9px 13px;
+    background: var(--soft);
+  }
+  .calc-line.hi { background: var(--accent-soft); }
+  .calc-line.good { background: var(--green-soft); }
+  .calc-num { display: flex; width: 26px; height: 26px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--ink); font-size: 12px; font-weight: 820; }
+  .calc-line.hi .calc-num { background: var(--accent); }
+  .calc-line.good .calc-num { background: var(--green); }
+  .calc-line strong { display: block; font-size: 16px; line-height: 1.3; }
+  .calc-line span.why { display: block; margin-top: 2px; color: var(--muted); font-size: 13px; line-height: 1.28; }
+
+  .reveal-step { visibility: hidden; opacity: 0; transition: opacity .18s ease; }
+  .reveal-step.visible { visibility: visible; opacity: 1; }
+
+  /* ---- plots ---- */
+  .plot-card { padding: 8px 10px 6px; border: 1px solid var(--line); background: #fff; }
+  .plot { display: block; width: 100%; height: 318px; }
+  .axis { fill: none; stroke: var(--ink); stroke-width: 2; }
+  .demand-line { fill: none; stroke: var(--blue); stroke-width: 4; stroke-linecap: round; }
+  .supply-line { fill: none; stroke: var(--green); stroke-width: 4; stroke-linecap: round; }
+  .new-supply { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; }
+  .projection { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 5 4; }
+  .ref-line { fill: none; stroke: #9aa3ab; stroke-width: 1.6; stroke-dasharray: 5 4; }
+  .wedge-line { fill: none; stroke: var(--purple); stroke-width: 3; }
+  .shift-arrow { fill: none; stroke: var(--accent); stroke-width: 3; }
+  .plot-label { fill: var(--ink); font: 700 13px Arial, sans-serif; }
+  .tick-label { fill: var(--muted); font: 11px Arial, sans-serif; }
+  .band-note { font: 800 12px Arial, sans-serif; }
+  .blue-text { fill: var(--blue); }
+  .green-text { fill: var(--green); }
+  .red-text { fill: var(--red); }
+  .purple-text { fill: var(--purple); }
+  .accent-text { fill: var(--accent); }
+  .dot { fill: var(--accent); stroke: #fff; stroke-width: 2; }
+  .dot.blue-dot { fill: var(--blue); }
+  .buyer-fill { fill: var(--blue); fill-opacity: .28; }
+  .seller-fill { fill: var(--green); fill-opacity: .34; }
+  .dwl-fill { fill: var(--red); fill-opacity: .36; }
+  .tr-gain { fill: var(--green); fill-opacity: .30; }
+  .tr-loss { fill: var(--red); fill-opacity: .36; }
+  .chart-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; justify-content: center; margin: 4px 0 2px; }
+  .chart-legend span { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .chart-legend i { width: 15px; height: 10px; border-radius: 2px; }
+
+  /* ---- published-estimate table ---- */
+  .table-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 22px; margin-top: 12px; align-items: start; }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  .data-table caption { padding-bottom: 6px; color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: .06em; text-align: left; text-transform: uppercase; }
+  .data-table th { padding: 7px 9px; color: #fff; background: var(--ink); font-size: 12px; text-align: right; }
+  .data-table th:first-child { text-align: left; }
+  .data-table td { padding: 5px 9px; border-bottom: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; }
+  .data-table td:first-child { text-align: left; font-weight: 700; }
+  .data-table th.focus-col { background: var(--accent); }
+  .data-table td.focus-col { background: var(--accent-soft); font-weight: 800; }
+  .data-table .dim-col { color: #a1a9b1; }
+  .data-table th.dim-col { color: #cfd5da; }
+  .table-note { margin: 7px 0 0; color: var(--muted); font-size: 12px; line-height: 1.3; }
+
+  /* ---- reveal cards ---- */
+  .reveal-grid { display: grid; gap: 11px; }
+  .reveal-card { padding: 12px 14px; border-left: 5px solid var(--blue); background: var(--soft); }
+  .reveal-card:nth-child(2) { border-left-color: var(--green); }
+  .reveal-card:nth-child(3) { border-left-color: var(--purple); }
+  .reveal-card .prompt { margin: 0 0 9px; font-size: 16px; font-weight: 740; line-height: 1.3; }
+  .part { color: var(--accent); font-weight: 850; }
+  .reveal-row { display: grid; grid-template-columns: 76px 1fr; gap: 10px; align-items: start; }
+  .reveal-button {
+    min-height: 32px;
+    padding: 6px 10px;
+    border: 0;
+    border-radius: 6px;
+    color: #fff;
+    background: var(--accent);
+    font: 760 13px "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+    cursor: pointer;
+  }
+  .reveal-button.muted-button { color: var(--ink); background: #e1e5e9; }
+  .reveal-answer {
+    min-height: 32px;
+    padding: 7px 10px;
+    border-left: 4px solid var(--green);
+    background: #fff;
+    font-size: 14px;
+    line-height: 1.32;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .16s ease;
+  }
+  .reveal-answer.visible { opacity: 1; visibility: visible; }
+  .reveal-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+  .reveal-pair .reveal-card:nth-child(2) { border-left-color: var(--purple); }
+
+  /* ---- rapid-round cards ---- */
+  .call-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 18px; }
+  .call-card { display: flex; min-height: 318px; flex-direction: column; padding: 15px 14px; border-top: 5px solid var(--blue); background: var(--soft); }
+  .call-card:nth-child(2) { border-top-color: var(--green); }
+  .call-card:nth-child(3) { border-top-color: var(--accent); }
+  .call-card:nth-child(4) { border-top-color: var(--purple); }
+  .call-tag { color: var(--muted); font-size: 12px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .call-prompt { min-height: 108px; margin: 9px 0 12px; font-size: 18px; font-weight: 760; line-height: 1.3; }
+  .call-card .reveal-button { align-self: flex-start; }
+  .call-card .reveal-answer { margin-top: 10px; }
+
+  /* ---- several small questions per slide ---- */
+  .quiz-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 12px; align-items: start; }
+  .mini-quiz { padding: 13px 15px; border-top: 5px solid var(--blue); background: var(--soft); }
+  .quiz-pair .mini-quiz:nth-child(2) { border-top-color: var(--green); }
+  .mini-quiz.wide { margin-top: 12px; border-top-color: var(--purple); }
+  .mini-tag { margin-bottom: 5px; color: var(--muted); font-size: 12px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .mini-prompt { margin: 0 0 10px; font-size: 16.5px; font-weight: 720; line-height: 1.32; }
+  .headline { margin: 0 0 9px; padding: 9px 11px; border-left: 4px solid var(--ink); background: #fff; font: italic 700 16px/1.35 Georgia, "Times New Roman", serif; }
+  .mini-options { display: grid; gap: 7px; }
+  .mini-options.row { grid-template-columns: repeat(3, 1fr); }
+  .mini-choice {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 6px;
+    min-height: 40px;
+    padding: 6px 10px;
+    border: 2px solid var(--line);
+    border-radius: 8px;
+    align-items: center;
+    color: var(--ink);
+    background: #fff;
+    text-align: left;
+    font: 700 14.5px/1.25 "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+    cursor: pointer;
+    transition: border-color .12s ease;
+  }
+  .mini-options.row .mini-choice { font-size: 20px; }
+  .mini-choice .option-label { width: 24px; height: 24px; font-size: 12px; }
+  .mini-choice:hover:not(:disabled) { border-color: var(--accent); }
+  .mini-choice:disabled { cursor: default; opacity: .45; }
+  .mini-choice.correct { border-color: #246b49; color: #fff; background: var(--green); opacity: 1; }
+  .mini-choice.wrong { border-color: #9f3634; color: #fff; background: var(--red); opacity: 1; }
+  .mini-choice.correct .option-label, .mini-choice.wrong .option-label { color: var(--ink); background: #fff; }
+  .mini-feedback {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: start;
+    min-height: 58px;
+    margin-top: 9px;
+    padding: 8px 10px;
+    border-left: 4px solid var(--line);
+    background: #fff;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .16s ease;
+  }
+  .mini-feedback.visible { opacity: 1; visibility: visible; }
+  .mini-feedback.success { border-left-color: var(--green); background: var(--green-soft); }
+  .mini-feedback.error { border-left-color: var(--red); background: var(--red-soft); }
+  .mini-feedback p { margin: 0; font-size: 13.5px; line-height: 1.32; }
+  .mini-verdict { font-weight: 850; }
+  .mini-reset { min-height: 28px; padding: 5px 9px; font-size: 11px; }
+
+
+  /* ---- true / false cards ---- */
+  .tf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+  .tf-grid.three { grid-template-columns: repeat(3, 1fr); gap: 11px; margin-top: 12px; }
+  .tf-card { display: flex; flex-direction: column; padding: 12px 14px; border: 2px solid var(--line); border-radius: 9px; background: #fff; }
+  .tf-statement { flex: 1; margin: 0 0 10px; font-size: 16px; font-weight: 720; line-height: 1.32; }
+  .tf-grid.three .tf-statement { font-size: 15px; }
+  .tf-letter {
+    display: inline-flex;
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--ink);
+    font-size: 12px;
+    font-weight: 850;
+    vertical-align: 2px;
+  }
+  .tf-card .reveal-button { align-self: flex-start; }
+  .tf-answer {
+    min-height: 52px;
+    margin-top: 8px;
+    padding: 7px 10px;
+    border-left: 4px solid var(--line);
+    font-size: 13.5px;
+    line-height: 1.3;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .16s ease;
+  }
+  .tf-answer.visible { opacity: 1; visibility: visible; }
+  .tf-answer.true { border-left-color: var(--green); background: var(--green-soft); }
+  .tf-answer.false { border-left-color: var(--red); background: var(--red-soft); }
+  .tf-answer strong { margin-right: 3px; }
+  .tf-answer.true strong { color: var(--green); }
+  .tf-answer.false strong { color: var(--red); }
+
+  .given-strip {
+    margin-top: 4px;
+    padding: 11px 15px;
+    border-left: 6px solid var(--purple);
+    background: var(--purple-soft);
+    font: 700 18px/1.35 Georgia, "Times New Roman", serif;
+  }
+  .rule-strip {
+    margin-top: 14px;
+    padding: 11px 15px;
+    border-left: 6px solid var(--accent);
+    background: var(--accent-soft);
+    font-size: 16px;
+    font-weight: 760;
+    line-height: 1.32;
+  }
+  .explain-row { display: grid; grid-template-columns: 100px 1fr; gap: 12px; align-items: start; margin-top: 12px; }
+  .rule-row { display: grid; grid-template-columns: 112px 1fr; gap: 12px; align-items: center; margin-top: 14px; }
+  .rule-row .rule-strip { margin-top: 0; }
+  .rule-strip.hideable { opacity: 0; visibility: hidden; transition: opacity .16s ease; }
+  .rule-strip.hideable.visible { opacity: 1; visibility: visible; }
+  .explain-row .reveal-answer { font-size: 14px; }
+
+  /* ---- closing summary (Unit 4 review pattern) ---- */
+  .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; margin-top: 20px; }
+  .summary-card { min-height: 196px; padding: 16px 16px; border-top: 5px solid var(--accent); background: var(--soft); }
+  .summary-card:nth-child(2) { border-top-color: var(--blue); }
+  .summary-card:nth-child(3) { border-top-color: var(--green); }
+  .summary-card:nth-child(4) { border-top-color: var(--purple); }
+  .summary-card:nth-child(5) { border-top-color: var(--red); }
+  .summary-card:nth-child(6) { border-top-color: var(--green); }
+  .summary-card h2 { margin-bottom: 6px; font-size: 18px; }
+  .summary-card p { margin-bottom: 6px; color: var(--muted); font-size: 14px; }
+  .summary-tag { display: inline-block; margin-top: 6px; padding: 6px 9px; color: #fff; background: var(--accent); font-size: 12px; font-weight: 780; letter-spacing: .03em; }
+
+  .footer {
+    position: absolute;
+    right: 62px;
+    bottom: 18px;
+    left: 62px;
+    display: flex;
+    justify-content: space-between;
+    color: #8a949e;
+    font-size: 13px;
+  }
+  #progress { position: fixed; bottom: 0; left: 0; z-index: 20; height: 4px; background: var(--accent); transition: width .18s ease; }
+  #hint { position: fixed; right: 14px; bottom: 10px; z-index: 20; color: rgba(255,255,255,.5); font: 12px Arial, sans-serif; }
+
+  @page { size: 10in 7.5in; margin: 0; }
+  @media print {
+    html, body { width: auto; height: auto; overflow: visible; background: #fff; }
+    #stage { position: static; width: auto; height: auto; transform: none !important; box-shadow: none; }
+    .slide { position: relative; display: block !important; page-break-after: always; break-after: page; }
+    .feedback-panel, .mini-feedback, .reveal-answer, .tf-answer, .reveal-step, .rule-strip.hideable { opacity: 1 !important; visibility: visible !important; transform: none !important; }
+    .feedback-heading, .mini-verdict { display: none; }
+    .reset-button, .mini-reset, .step-reveal, .reveal-button { visibility: hidden !important; }
+    .answer-choice[data-key], .mini-choice[data-key] { border-color: var(--green); background: var(--green-soft); }
+    #progress, #hint { display: none; }
+  }
+  /* ---- student version ---- */
+  .static-choice { cursor: default; }
+  .answer-choice.static-choice:hover { border-color: var(--line); box-shadow: none; transform: none; }
+  .mini-choice.static-choice:hover { border-color: var(--line); }
+  .response-blank { min-height: 34px; border: 2px dashed var(--line); border-radius: 6px; background: #fff; }
+  .work-blank { position: relative; min-height: 300px; border: 2px dashed var(--line); border-radius: 8px; background: #fff; }
+  .graph-grid .work-blank { min-height: 250px; margin-top: 12px; }
+  .work-blank span { position: absolute; top: 10px; left: 14px; color: var(--muted); font-size: 12px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .choice-pills { display: flex; gap: 8px; }
+  .call-card .choice-pills { margin-top: 2px; }
+  .choice-pills span { padding: 5px 13px; border: 2px solid var(--line); border-radius: 999px; background: #fff; font-size: 14px; font-weight: 780; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <section class="slide title-slide center middle active">
+    <div style="width:100%; max-width:850px;">
+      <div class="title-kicker">ARE 201 · Unit 6</div>
+      <h1 class="title-main">Elasticity<br>Review Session</h1>
+      <div class="title-rule"></div>
+      <p class="title-sub">Measure it · Explain it · Revenue · Sellers &amp; related goods · Taxes &amp; farm income</p>
+    </div>
+    <svg class="title-graph" viewBox="0 0 390 145" aria-hidden="true">
+      <path d="M22 10 L22 125 L375 125" fill="none" stroke="#1f2933" stroke-width="2"/>
+      <path d="M52 16 L199 70" fill="none" stroke="#2f80c9" stroke-width="5" stroke-linecap="round"/>
+      <path d="M199 70 L346 124" fill="none" stroke="#c9504d" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="199" cy="70" r="7" fill="#EB811B"/>
+      <text x="64" y="52" fill="#2f80c9" font-family="Arial, sans-serif" font-size="13" font-weight="700">elastic</text>
+      <text x="254" y="80" fill="#c9504d" font-family="Arial, sans-serif" font-size="13" font-weight="700">inelastic</text>
+      <text x="208" y="57" fill="#EB811B" font-family="Arial, sans-serif" font-size="13" font-weight="700">|E| = 1</text>
+    </svg>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Today's route</div>
+    <h1>Twenty questions, five big ideas</h1>
+    <div class="roadmap-grid">
+      <div class="roadmap-card"><div class="roadmap-num">1</div><h2>How big is the response?</h2><p>Compute and classify |E<sub>d</sub>| from words, a table, and a graph.</p><span class="roadmap-q">Q1–Q4</span></div>
+      <div class="roadmap-card"><div class="roadmap-num">2</div><h2>What do real estimates say?</h2><p>Read published elasticities and explain why goods differ.</p><span class="roadmap-q">Q5–Q8</span></div>
+      <div class="roadmap-card"><div class="roadmap-num">3</div><h2>Does revenue rise or fall?</h2><p>The total-revenue rule and the unit-elastic peak.</p><span class="roadmap-q">Q9–Q11</span></div>
+      <div class="roadmap-card"><div class="roadmap-num">4</div><h2>What about sellers and related goods?</h2><p>Supply elasticity, time, and the signs of income and cross-price elasticities.</p><span class="roadmap-q">Q12–Q14</span></div>
+      <div class="roadmap-card"><div class="roadmap-num">5</div><h2>Who pays, and why do farmers care?</h2><p>Tax incidence, tax revenue, and farm revenue after a supply shock.</p><span class="roadmap-q">Q15–Q20</span></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Reference card · keep it in view</div>
+    <h1>Six tools cover every question today</h1>
+    <div class="ref-grid">
+      <div class="ref-card">
+        <div class="ref-title">1 · Midpoint method</div>
+        <p class="ref-formula">%ΔQ = ΔQ ÷ average Q</p>
+        <p class="ref-formula">%ΔP = ΔP ÷ average P</p>
+        <p class="ref-formula">|E<sub>d</sub>| = %ΔQ ÷ %ΔP</p>
+      </div>
+      <div class="ref-card">
+        <div class="ref-title">2 · Compare to 1</div>
+        <p><strong>&gt; 1</strong> elastic · <strong>&lt; 1</strong> inelastic</p>
+        <p><strong>= 1</strong> unit elastic</p>
+        <p><strong>0</strong> perfectly inelastic (vertical)</p>
+        <p><strong>∞</strong> perfectly elastic (horizontal)</p>
+      </div>
+      <div class="ref-card">
+        <div class="ref-title">3 · Total revenue</div>
+        <p><strong>Elastic:</strong> price ↑ → TR ↓</p>
+        <p><strong>Inelastic:</strong> price ↑ → TR ↑</p>
+        <p><strong>Unit elastic:</strong> TR unchanged</p>
+      </div>
+      <div class="ref-card">
+        <div class="ref-title">4 · Supply</div>
+        <p class="ref-formula">E<sub>s</sub> = %ΔQ<sub>s</sub> ÷ %ΔP</p>
+        <p>Always positive—no absolute value needed.</p>
+        <p>More elastic the more time sellers have.</p>
+      </div>
+      <div class="ref-card">
+        <div class="ref-title">5 · Read the sign</div>
+        <p><strong>E<sub>income</sub></strong> &gt; 0 normal · &lt; 0 inferior</p>
+        <p><strong>E<sub>cross</sub></strong> &gt; 0 substitutes · &lt; 0 complements</p>
+      </div>
+      <div class="ref-card">
+        <div class="ref-title">6 · Taxes</div>
+        <p>The more inelastic side of the market bears more of the tax—no matter who writes the check.</p>
+      </div>
+    </div>
+    <div class="ref-note"><strong>Class convention:</strong> report |E<sub>d</sub>|—write 0.45, not −0.45. Published tables often keep the minus sign: read the size first, then the sign.</div>
+  </section>
+
+  <section class="slide static-question">
+    <div class="section-kicker">Q1 · Measure it · Warm-up</div>
+    <h1>Price falls 4%. Quantity demanded rises 8%.</h1>
+    <div class="question-panel"><h2>What is the price elasticity of demand?</h2></div>
+    <div class="answer-grid numbers">
+      <div class="answer-choice static-choice"><span class="option-label">A</span><span>−2</span></div>
+      <div class="answer-choice static-choice"><span class="option-label">B</span><span>2%</span></div>
+      <div class="answer-choice static-choice"><span class="option-label">C</span><span>0.5</span></div>
+      <div class="answer-choice static-choice"><span class="option-label">D</span><span>−0.5</span></div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Q2 · Measure it · From words</div>
+    <h1>Wheat: the price rises from $10 to $12</h1>
+    <div class="work-grid">
+      <div>
+        <div class="scenario">
+          <div class="label">The market</div>
+          <p>The price of a bushel of wheat rises from <strong>$10 to $12</strong>. Quantity demanded falls from <strong>1,000 to 800 bushels</strong>.</p>
+        </div>
+        <div class="task">Use the midpoint method to find |E<sub>d</sub>|. Is demand elastic or inelastic?</div>
+        <div class="formula-mini">%ΔQ = (Q<sub>2</sub> − Q<sub>1</sub>) ÷ [(Q<sub>1</sub> + Q<sub>2</sub>) ÷ 2]<br>%ΔP = (P<sub>2</sub> − P<sub>1</sub>) ÷ [(P<sub>1</sub> + P<sub>2</sub>) ÷ 2]</div>
+      </div>
+      <div class="work-blank"><span>Your work</span></div>
+    </div>
+  </section>
+
+  <section class="slide static-question">
+    <div class="section-kicker">Q3 · Measure it · From a table</div>
+    <h1>A demand schedule: price falls to $6</h1>
+    <div class="question-row">
+      <table class="schedule-mini">
+        <thead><tr><th>Price</th><th>Quantity demanded</th></tr></thead>
+        <tbody><tr><td>$8</td><td>120</td></tr><tr><td>$6</td><td>150</td></tr></tbody>
+      </table>
+      <div class="question-panel"><h2>Using the midpoint method, what is |E<sub>d</sub>| between these two prices?</h2></div>
+    </div>
+    <div class="answer-grid numbers">
+      <div class="answer-choice static-choice"><span class="option-label">A</span><span>0.60</span></div>
+      <div class="answer-choice static-choice"><span class="option-label">B</span><span>1.00</span></div>
+      <div class="answer-choice static-choice"><span class="option-label">C</span><span>0.78</span></div>
+      <div class="answer-choice static-choice"><span class="option-label">D</span><span>1.29</span></div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Q4 · Measure it · From a graph</div>
+    <h1>Find the elasticity between A and B</h1>
+    <div class="graph-grid">
+      <div class="plot-card">
+        <svg class="plot" viewBox="0 0 420 320" role="img" aria-label="A straight-line demand curve with point B at quantity 80 and price $3, and point A at quantity 100 and price $2">
+          <path class="axis" d="M50 18 L50 290 L408 290"/>
+          <path class="demand-line" d="M74 56 L374 281"/>
+          <text class="plot-label" x="380" y="279">D</text>
+          <path class="projection" d="M50 182 L242 182 L242 290"/>
+          <path class="projection" d="M50 218 L290 218 L290 290"/>
+          <circle class="dot" cx="242" cy="182" r="7"/>
+          <circle class="dot" cx="290" cy="218" r="7"/>
+          <text class="plot-label" x="249" y="174">B</text>
+          <text class="plot-label" x="297" y="210">A</text>
+          <text class="tick-label" x="26" y="186">$3</text>
+          <text class="tick-label" x="26" y="222">$2</text>
+          <text class="tick-label" x="235" y="306">80</text>
+          <text class="tick-label" x="281" y="306">100</text>
+          <text class="plot-label" x="8" y="14">Price</text>
+          <text class="plot-label" x="344" y="314">Quantity</text>
+        </svg>
+      </div>
+      <div>
+        <div class="task">Use the midpoint method. Is demand elastic or inelastic between A and B?</div>
+        <div class="work-blank"><span>Your work</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Q5 · Explain it · Reading published estimates</div>
+    <h1>Published estimates: own-price elasticities</h1>
+    <div class="table-grid">
+      <div>
+        <table class="data-table">
+          <caption>Retail-level estimates for U.S. foods</caption>
+          <thead><tr><th>Food</th><th class="focus-col">Own-price</th><th class="dim-col">Income</th></tr></thead>
+          <tbody>
+            <tr><td>Grapes</td><td class="focus-col">−1.3780</td><td class="dim-col">0.4407</td></tr>
+            <tr><td>Oranges</td><td class="focus-col">−0.9996</td><td class="dim-col">0.4866</td></tr>
+            <tr><td>Pork</td><td class="focus-col">−0.7297</td><td class="dim-col">0.4427</td></tr>
+            <tr><td>Canned peas</td><td class="focus-col">−0.6926</td><td class="dim-col">0.3295</td></tr>
+            <tr><td>Beef and veal</td><td class="focus-col">−0.6166</td><td class="dim-col">0.4549</td></tr>
+            <tr><td>Fruit juice</td><td class="focus-col">−0.5612</td><td class="dim-col">1.1254</td></tr>
+            <tr><td>Chicken</td><td class="focus-col">−0.5308</td><td class="dim-col">0.3645</td></tr>
+            <tr><td>Apples</td><td class="focus-col">−0.2015</td><td class="dim-col">−0.3514</td></tr>
+            <tr><td>Rice</td><td class="focus-col">−0.1467</td><td class="dim-col">−0.3664</td></tr>
+            <tr><td>Cabbage</td><td class="focus-col">−0.0385</td><td class="dim-col">−0.3767</td></tr>
+            <tr><td>Sweeteners</td><td class="focus-col">−0.0045</td><td class="dim-col">−0.0928</td></tr>
+          </tbody>
+        </table>
+        <p class="table-note">Published estimates keep the minus sign on own-price elasticities.</p>
+      </div>
+      <div class="reveal-grid">
+        <div class="reveal-card">
+          <p class="prompt"><span class="part">(a)</span> Which food in the table has the most elastic demand?</p>
+          <div class="response-blank"></div>
+        </div>
+        <div class="reveal-card">
+          <p class="prompt"><span class="part">(b)</span> Which has the most inelastic demand?</p>
+          <div class="response-blank"></div>
+        </div>
+        <div class="reveal-card">
+          <p class="prompt"><span class="part">(c)</span> The price of canned peas rises 5%. Predict the change in quantity demanded.</p>
+          <div class="response-blank"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Q6 · Explain it · Income elasticity from the same table</div>
+    <h1>Same table, income column: normal or inferior?</h1>
+    <div class="table-grid">
+      <div>
+        <table class="data-table">
+          <caption>Retail-level estimates for U.S. foods</caption>
+          <thead><tr><th>Food</th><th class="dim-col">Own-price</th><th class="focus-col">Income</th></tr></thead>
+          <tbody>
+            <tr><td>Grapes</td><td class="dim-col">−1.3780</td><td class="focus-col">0.4407</td></tr>
+            <tr><td>Oranges</td><td class="dim-col">−0.9996</td><td class="focus-col">0.4866</td></tr>
+            <tr><td>Pork</td><td class="dim-col">−0.7297</td><td class="focus-col">0.4427</td></tr>
+            <tr><td>Canned peas</td><td class="dim-col">−0.6926</td><td class="focus-col">0.3295</td></tr>
+            <tr><td>Beef and veal</td><td class="dim-col">−0.6166</td><td class="focus-col">0.4549</td></tr>
+            <tr><td>Fruit juice</td><td class="dim-col">−0.5612</td><td class="focus-col">1.1254</td></tr>
+            <tr><td>Chicken</td><td class="dim-col">−0.5308</td><td class="focus-col">0.3645</td></tr>
+            <tr><td>Apples</td><td class="dim-col">−0.2015</td><td class="focus-col">−0.3514</td></tr>
+            <tr><td>Rice</td><td class="dim-col">−0.1467</td><td class="focus-col">−0.3664</td></tr>
+            <tr><td>Cabbage</td><td class="dim-col">−0.0385</td><td class="focus-col">−0.3767</td></tr>
+            <tr><td>Sweeteners</td><td class="dim-col">−0.0045</td><td class="focus-col">−0.0928</td></tr>
+          </tbody>
+        </table>
+        <p class="table-note">For income elasticity, the sign is the whole story: + normal, − inferior.</p>
+      </div>
+      <div class="reveal-grid">
+        <div class="reveal-card">
+          <p class="prompt"><span class="part">(a)</span> Which food is the best example of a normal good?</p>
+          <div class="response-blank"></div>
+        </div>
+        <div class="reveal-card">
+          <p class="prompt"><span class="part">(b)</span> Which is the best example of an inferior good?</p>
+          <div class="response-blank"></div>
+        </div>
+        <div class="reveal-card">
+          <p class="prompt"><span class="part">(c)</span> Incomes fall 7%. What happens to the demand for apples?</p>
+          <div class="response-blank"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide static-question">
+    <div class="section-kicker">Q7 · Explain it · Determinants</div>
+    <h1>Locally grown organic vegetables</h1>
+    <div class="question-panel"><h2>Which change would make the demand for locally grown organic vegetables <em>more</em> elastic?</h2></div>
+    <div class="answer-grid">
+      <div class="answer-choice static-choice"><span class="option-label">A</span><span>Supermarkets begin offering a wider variety of imported organic vegetables at lower prices.</span></div>
+      <div class="answer-choice static-choice"><span class="option-label">B</span><span>A new farming technology reduces the cost of producing organic vegetables.</span></div>
+      <div class="answer-choice static-choice"><span class="option-label">C</span><span>Consumers increasingly view organic vegetables as a necessary part of a healthy diet.</span></div>
+      <div class="answer-choice static-choice"><span class="option-label">D</span><span>The government taxes non-organic vegetables, making organic vegetables relatively cheaper.</span></div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Q8 · Explain it · Rapid round</div>
+    <h1>Elastic or inelastic? Four quick calls</h1>
+    <div class="call-grid">
+      <div class="call-card">
+        <div class="call-tag">Substitutes</div>
+        <p class="call-prompt">A good with many close substitutes</p>
+        <div class="choice-pills"><span>Elastic</span><span>Inelastic</span></div>
+      </div>
+      <div class="call-card">
+        <div class="call-tag">Necessity or luxury</div>
+        <p class="call-prompt">A luxury good</p>
+        <div class="choice-pills"><span>Elastic</span><span>Inelastic</span></div>
+      </div>
+      <div class="call-card">
+        <div class="call-tag">Share of income</div>
+        <p class="call-prompt">An item that takes 67% of your income</p>
+        <div class="choice-pills"><span>Elastic</span><span>Inelastic</span></div>
+      </div>
+      <div class="call-card">
+        <div class="call-tag">Time horizon</div>
+        <p class="call-prompt">Two estimates for gasoline, 0.4 and 1.8. Which is the short-run one?</p>
+        <div class="choice-pills"><span>0.4</span><span>1.8</span></div>
+      </div>
+    </div>
+    <div class="rule-strip">When the determinants disagree—housing is a large budget share <em>and</em> a necessity—the measured number settles it.</div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Q9 · Revenue · Read the revenue signal</div>
+    <h1>Corn: price and revenue in two different years</h1>
+    <div class="quiz-pair">
+      <div class="mini-quiz">
+        <div class="mini-tag">Year A</div>
+        <p class="mini-prompt">The price of corn <strong>rises</strong>. Farm revenue <strong>rises</strong>. Consumer demand for corn must be…</p>
+        <div class="mini-options">
+          <div class="mini-choice static-choice"><span class="option-label">A</span><span>Inelastic</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">B</span><span>Elastic</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">C</span><span>Unit elastic</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">D</span><span>Perfectly elastic</span></div>
+        </div>
+      </div>
+      <div class="mini-quiz">
+        <div class="mini-tag">Year B</div>
+        <p class="mini-prompt">The price of corn <strong>falls</strong>. Farm revenue <strong>rises</strong>. Consumer demand for corn must be…</p>
+        <div class="mini-options">
+          <div class="mini-choice static-choice"><span class="option-label">A</span><span>Inelastic</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">B</span><span>Elastic</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">C</span><span>Unit elastic</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">D</span><span>Perfectly inelastic</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide static-question">
+    <div class="section-kicker">Q10 · Revenue · Predict, then check</div>
+    <h1>A farm stand raises its apple price 10%</h1>
+    <div class="question-panel"><h2>The manager estimates |E<sub>d</sub>| = 1.5 for organic apples. After a 10% price increase, quantity sold falls by ____ and total revenue ____.</h2></div>
+    <div class="answer-grid">
+      <div class="answer-choice static-choice"><span class="option-label">A</span><span>15%; rises</span></div>
+      <div class="answer-choice static-choice"><span class="option-label">B</span><span>10%; stays the same</span></div>
+      <div class="answer-choice static-choice"><span class="option-label">C</span><span>15%; falls</span></div>
+      <div class="answer-choice static-choice"><span class="option-label">D</span><span>7.5%; falls</span></div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Q11 · Revenue · True or false?</div>
+    <h1>Four statements that trip people up</h1>
+    <div class="tf-grid">
+      <div class="tf-card">
+        <p class="tf-statement"><span class="tf-letter">a</span>Along a straight-line demand curve, the price elasticity of demand is the same at every point.</p>
+        <div class="choice-pills"><span>True</span><span>False</span></div>
+      </div>
+      <div class="tf-card">
+        <p class="tf-statement"><span class="tf-letter">b</span>Total revenue is highest where |E<sub>d</sub>| = 1.</p>
+        <div class="choice-pills"><span>True</span><span>False</span></div>
+      </div>
+      <div class="tf-card">
+        <p class="tf-statement"><span class="tf-letter">c</span>Raising the price always increases total revenue.</p>
+        <div class="choice-pills"><span>True</span><span>False</span></div>
+      </div>
+      <div class="tf-card">
+        <p class="tf-statement"><span class="tf-letter">d</span>“I would pay any amount for my morning coffee.” For this buyer, |E<sub>d</sub>| = 0.</p>
+        <div class="choice-pills"><span>True</span><span>False</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Q12 · Sellers · Supply elasticity</div>
+    <h1>Milk: price and quantity supplied both rise</h1>
+    <div class="work-grid">
+      <div>
+        <div class="scenario">
+          <div class="label">The market</div>
+          <p>The price of milk rises from <strong>$3.90 to $4.10</strong> per gallon. Quantity supplied rises from <strong>10,000 to 14,000 gallons</strong>.</p>
+        </div>
+        <div class="task">Use the midpoint method to find E<sub>s</sub>. Is supply elastic or inelastic?</div>
+        <div class="formula-mini">E<sub>s</sub> = %ΔQ<sub>s</sub> ÷ %ΔP<br>same midpoint bases as on the demand side</div>
+      </div>
+      <div class="work-blank"><span>Your work</span></div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Q13 · Sellers · Time and supply</div>
+    <h1>Christmas trees: why supply can’t keep up</h1>
+    <div class="scenario">
+      <div class="label">The market</div>
+      <p>Real Christmas tree prices have risen because of supply shortages.</p>
+    </div>
+    <div class="mini-quiz wide">
+      <p class="mini-prompt"><span class="part">(a)</span> Which is the most likely short-run price elasticity of supply for real Christmas trees?</p>
+      <div class="mini-options row">
+        <div class="mini-choice static-choice"><span class="option-label">A</span><span>2.0</span></div>
+        <div class="mini-choice static-choice"><span class="option-label">B</span><span>1.0</span></div>
+        <div class="mini-choice static-choice"><span class="option-label">C</span><span>0.1</span></div>
+      </div>
+    </div>
+    <div class="reveal-pair">
+      <div class="reveal-card">
+        <p class="prompt"><span class="part">(b)</span> Why is short-run supply so inelastic?</p>
+        <div class="response-blank"></div>
+      </div>
+      <div class="reveal-card">
+        <p class="prompt"><span class="part">(c)</span> If high prices last for years, what happens to E<sub>s</sub>?</p>
+        <div class="response-blank"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Q14 · Related goods · Read the headline</div>
+    <h1>Two headlines, two signs</h1>
+    <div class="quiz-pair">
+      <div class="mini-quiz">
+        <p class="headline">“In Florida, rising menu prices for UberEats and GrubHub have pumped up demand for DoorDash.”</p>
+        <p class="mini-prompt">Which elasticity concept is most relevant?</p>
+        <div class="mini-options">
+          <div class="mini-choice static-choice"><span class="option-label">A</span><span>Price elasticity of demand</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">B</span><span>Cross-price elasticity: substitutes, positive</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">C</span><span>Cross-price elasticity: complements, negative</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">D</span><span>Income elasticity: a normal good</span></div>
+        </div>
+      </div>
+      <div class="mini-quiz">
+        <p class="headline">“In the Midwest, rising gas prices dent demand for tractors.”</p>
+        <p class="mini-prompt">The cross-price elasticity here is negative because…</p>
+        <div class="mini-options">
+          <div class="mini-choice static-choice"><span class="option-label">A</span><span>demand curves slope downward</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">B</span><span>gas and tractors are substitutes</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">C</span><span>gas and tractors are complements</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">D</span><span>of the income effect</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Q15 · Taxes · Who bears the burden?</div>
+    <h1>Apply the incidence rule</h1>
+    <div class="quiz-pair">
+      <div class="mini-quiz">
+        <div class="mini-tag">Alcohol</div>
+        <p class="mini-prompt">Demand for alcohol is highly inelastic. The burden of a higher alcohol tax falls mainly on…</p>
+        <div class="mini-options">
+          <div class="mini-choice static-choice"><span class="option-label">A</span><span>alcohol consumers</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">B</span><span>alcohol sellers</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">C</span><span>the government</span></div>
+        </div>
+      </div>
+      <div class="mini-quiz">
+        <div class="mini-tag">Fuel, at the extremes</div>
+        <p class="mini-prompt">A fuel tax is imposed where the price elasticity of supply is 0 and demand is perfectly elastic. Who pays the tax?</p>
+        <div class="mini-options">
+          <div class="mini-choice static-choice"><span class="option-label">A</span><span>the government</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">B</span><span>fuel consumers</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">C</span><span>fuel producers</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="rule-strip">The law decides who writes the check. Elasticity decides who bears the burden.</div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Q16 · Taxes · Put numbers on it</div>
+    <h1>A $2.00 tax per bottle: who pays how much?</h1>
+    <div class="graph-grid wide-right">
+      <div>
+        <div class="plot-card">
+          <svg class="plot" viewBox="0 0 420 320" role="img" aria-label="Tax wedge: buyers pay $11.60, sellers keep $9.60, and quantity falls from 100 to 96 thousand bottles">
+            <rect class="buyer-fill" x="62" y="90" width="200" height="80"/>
+            <rect class="seller-fill" x="62" y="170" width="200" height="20"/>
+            <path class="dwl-fill" d="M262 90 L302 170 L262 190 Z"/>
+            <path class="axis" d="M62 18 L62 290 L408 290"/>
+            <path class="ref-line" d="M62 90 L262 90"/>
+            <path class="ref-line" d="M62 170 L302 170 L302 290"/>
+            <path class="ref-line" d="M62 190 L262 190 L262 290"/>
+            <path class="supply-line" d="M150 246 L390 126"/>
+            <path class="demand-line" d="M242 50 L342 250"/>
+            <path class="wedge-line" d="M262 90 L262 190"/>
+            <circle class="dot" cx="302" cy="170" r="6"/>
+            <text class="plot-label" x="394" y="124">S</text>
+            <text class="plot-label" x="348" y="258">D</text>
+            <text class="tick-label" x="14" y="94">$11.60</text>
+            <text class="tick-label" x="14" y="174">$10.00</text>
+            <text class="tick-label" x="20" y="194">$9.60</text>
+            <text class="tick-label" x="255" y="304">96</text>
+            <text class="tick-label" x="293" y="304">100</text>
+            <text class="band-note purple-text" x="270" y="84">tax $2.00</text>
+            <text class="band-note red-text" x="312" y="150">DWL</text>
+            <text class="plot-label" x="8" y="14">Price per bottle</text>
+            <text class="plot-label" x="226" y="318">Quantity (thousand bottles)</text>
+          </svg>
+        </div>
+        <p class="note-line">Numbers chosen for illustration.</p>
+      </div>
+      <div>
+        <div class="scenario">
+          <p style="margin-top:0">Before: <strong>$10.00</strong> and 100,000 bottles. After a $2.00 tax: buyers pay <strong>$11.60</strong>, sellers keep <strong>$9.60</strong>, and 96,000 bottles sell.</p>
+        </div>
+        <div class="work-blank"><span>Your work</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Q17 · Taxes · Revenue or behavior?</div>
+    <h1>Same tax, two different goals</h1>
+    <div class="quiz-pair">
+      <div class="mini-quiz">
+        <div class="mini-tag">Goal: raise revenue</div>
+        <p class="mini-prompt">A city wants the most revenue from one tax, and a tax works like a price increase. Using the published |E<sub>d</sub>| values, which good should it tax?</p>
+        <div class="mini-options">
+          <div class="mini-choice static-choice"><span class="option-label">A</span><span>Cabbage · |E<sub>d</sub>| = 0.0385</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">B</span><span>Fruit juice · |E<sub>d</sub>| = 0.5612</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">C</span><span>Grapes · |E<sub>d</sub>| = 1.3780</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">D</span><span>Sweeteners · |E<sub>d</sub>| = 0.0045</span></div>
+        </div>
+      </div>
+      <div class="mini-quiz">
+        <div class="mini-tag">Goal: change behavior</div>
+        <p class="mini-prompt">A state taxes junk food so that people eat less of it. For the tax to actually deter consumption, demand for junk food should be…</p>
+        <div class="mini-options">
+          <div class="mini-choice static-choice"><span class="option-label">A</span><span>Elastic</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">B</span><span>Inelastic</span></div>
+          <div class="mini-choice static-choice"><span class="option-label">C</span><span>Unit elastic</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Q18 · Farm income · Explain it in words</div>
+    <h1>“A drought could raise farm revenue.” How?</h1>
+    <div class="graph-grid">
+      <div>
+        <div class="scenario">
+          <div class="label">Talk to a neighbor for one minute</div>
+          <p>Using supply, demand, and elasticity, explain how a drought could lead to a substantial <em>increase</em> in farm total revenue.</p>
+        </div>
+        <div class="work-blank"><span>Your work</span></div>
+      </div>
+      <div class="plot-card">
+        <svg class="plot" viewBox="0 0 420 320" role="img" aria-label="Supply and an inelastic demand curve for a farm crop; the market starts at $12 per cwt and 110 million cwt">
+          <defs><marker id="arrowQ18" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#EB811B"/></marker></defs>
+          <path class="axis" d="M62 18 L62 290 L408 290"/>
+          <path class="ref-line" d="M62 200 L292 200 L292 290"/>
+          <path class="supply-line" d="M257 270 L362 60"/>
+          <path class="demand-line" d="M235 50 L315 260"/>
+          <circle class="dot" cx="292" cy="200" r="6"/>
+          <text class="plot-label" x="368" y="64">S₀</text>
+          <text class="plot-label" x="320" y="264">D (inelastic)</text>
+          <text class="tick-label" x="34" y="204">$12</text>
+          <text class="tick-label" x="283" y="306">110</text>
+          <text class="plot-label" x="8" y="14">$ / cwt</text>
+          <text class="plot-label" x="330" y="316">million cwt</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Q19 · Farm income · Select all that apply</div>
+    <h1>Fertilizer gets cheaper and corn revenue rises</h1>
+    <div class="given-strip">Fertilizer costs fall significantly, and corn farmers’ total revenue rises. What must have happened?</div>
+    <div class="tf-grid">
+      <div class="tf-card">
+        <p class="tf-statement"><span class="tf-letter">A</span>Supply shifted to an inelastic part of the demand curve.</p>
+        <div class="choice-pills"><span>True</span><span>False</span></div>
+      </div>
+      <div class="tf-card">
+        <p class="tf-statement"><span class="tf-letter">B</span>Supply shifted to an elastic part of the demand curve.</p>
+        <div class="choice-pills"><span>True</span><span>False</span></div>
+      </div>
+      <div class="tf-card">
+        <p class="tf-statement"><span class="tf-letter">C</span>In percentage terms, the change in price exceeded the change in quantity demanded.</p>
+        <div class="choice-pills"><span>True</span><span>False</span></div>
+      </div>
+      <div class="tf-card">
+        <p class="tf-statement"><span class="tf-letter">D</span>In percentage terms, the change in price was less than the change in quantity demanded.</p>
+        <div class="choice-pills"><span>True</span><span>False</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide interactive">
+    <div class="section-kicker">Q20 · Put it all together · Select all that apply</div>
+    <h1>One good, four elasticities</h1>
+    <div class="given-strip">Good X: |E<sub>d</sub>| = 2 · E<sub>cross</sub> (X with Y) = −3 · E<sub>s</sub> = 1 · E<sub>income</sub> = 4</div>
+    <div class="tf-grid three">
+      <div class="tf-card">
+        <p class="tf-statement"><span class="tf-letter">A</span>Good X is a normal good.</p>
+        <div class="choice-pills"><span>True</span><span>False</span></div>
+      </div>
+      <div class="tf-card">
+        <p class="tf-statement"><span class="tf-letter">B</span>Good X is an inferior good.</p>
+        <div class="choice-pills"><span>True</span><span>False</span></div>
+      </div>
+      <div class="tf-card">
+        <p class="tf-statement"><span class="tf-letter">C</span>If the price of good Y rises 5%, the quantity demanded of X falls 15%.</p>
+        <div class="choice-pills"><span>True</span><span>False</span></div>
+      </div>
+      <div class="tf-card">
+        <p class="tf-statement"><span class="tf-letter">D</span>If the price of X rises 5%, the quantity supplied of X rises 5%.</p>
+        <div class="choice-pills"><span>True</span><span>False</span></div>
+      </div>
+      <div class="tf-card">
+        <p class="tf-statement"><span class="tf-letter">E</span>If the price of X rises 5%, total revenue from X rises.</p>
+        <div class="choice-pills"><span>True</span><span>False</span></div>
+      </div>
+      <div class="tf-card">
+        <p class="tf-statement"><span class="tf-letter">F</span>This market sits at the midpoint of a straight-line demand curve.</p>
+        <div class="choice-pills"><span>True</span><span>False</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="section-kicker">Before you leave</div>
+    <h1>Six habits prevent most elasticity mistakes</h1>
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h2>Use the midpoint, every time</h2>
+        <p>Average P and average Q are the bases, so the answer is the same in both directions.</p>
+        <div class="summary-tag">MEASURE</div>
+      </div>
+      <div class="summary-card">
+        <h2>Compare |E| to 1</h2>
+        <p>That one comparison gives both the label and the total-revenue rule.</p>
+        <div class="summary-tag" style="background:var(--blue);">CLASSIFY</div>
+      </div>
+      <div class="summary-card">
+        <h2>Say the number as a sentence</h2>
+        <p>|E<sub>d</sub>| = 0.7: a 10% price rise cuts quantity demanded 7%. Inelastic is not zero.</p>
+        <div class="summary-tag" style="background:var(--green);">INTERPRET</div>
+      </div>
+      <div class="summary-card">
+        <h2>Read the sign</h2>
+        <p>Income: + normal, − inferior. Cross: + substitutes, − complements. Supply: always +.</p>
+        <div class="summary-tag" style="background:var(--purple);">SIGNS</div>
+      </div>
+      <div class="summary-card">
+        <h2>Find the trapped side</h2>
+        <p>The more inelastic side bears more of a tax, no matter who writes the check.</p>
+        <div class="summary-tag" style="background:var(--red);">TAXES</div>
+      </div>
+      <div class="summary-card">
+        <h2>Supply shocks meet inelastic food demand</h2>
+        <p>Price moves more than quantity, so farm revenue moves against the size of the harvest.</p>
+        <div class="summary-tag" style="background:var(--green);">FARM INCOME</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+<div id="progress"></div>
+<div id="hint">← → / Space to navigate · P to print</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const stage = document.getElementById('stage');
+  const progress = document.getElementById('progress');
+  let idx = 0;
+
+  slides.forEach(function(slide, i){
+    const footer = document.createElement('div');
+    footer.className = 'footer';
+    footer.innerHTML = '<span>ARE 201 · Unit 6 Review</span><span>' + (i + 1) + ' / ' + slides.length + '</span>';
+    slide.appendChild(footer);
+  });
+
+  function fit(){
+    const scale = Math.min(window.innerWidth / 960, window.innerHeight / 720);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+  }
+
+  function show(n){
+    idx = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(slide, i){ slide.classList.toggle('active', i === idx); });
+    progress.style.width = (((idx + 1) / slides.length) * 100) + '%';
+    history.replaceState(null, '', '#' + (idx + 1));
+  }
+
+  // One question per slide (same behaviour as the Unit 4 review)
+  Array.from(document.querySelectorAll('.question-slide')).forEach(function(slide){
+    const buttons = Array.from(slide.querySelectorAll('.answer-choice'));
+    const panel = slide.querySelector('.feedback-panel');
+    const heading = slide.querySelector('.feedback-heading');
+    const reset = slide.querySelector('.reset-button');
+    const correctIndex = Number(slide.dataset.correct);
+    if (!buttons.length || !panel || !heading || !reset) return;
+    if (buttons[correctIndex]) buttons[correctIndex].dataset.key = 'true';
+
+    function clearQuestion(){
+      slide.dataset.answered = '';
+      buttons.forEach(function(button){ button.disabled = false; button.classList.remove('correct', 'wrong'); });
+      panel.classList.remove('visible', 'success', 'error');
+      heading.textContent = '';
+    }
+
+    buttons.forEach(function(button){
+      button.addEventListener('click', function(){
+        if (slide.dataset.answered) return;
+        const isCorrect = Number(button.dataset.option) === correctIndex;
+        slide.dataset.answered = 'true';
+        buttons.forEach(function(choice, choiceIndex){
+          choice.disabled = true;
+          if (choiceIndex === correctIndex) choice.classList.add('correct');
+        });
+        if (!isCorrect) button.classList.add('wrong');
+        heading.textContent = isCorrect ? 'Correct' : 'Not quite';
+        panel.classList.add('visible', isCorrect ? 'success' : 'error');
+      });
+    });
+    reset.addEventListener('click', clearQuestion);
+    clearQuestion();
+  });
+
+  // Several small questions on one slide
+  Array.from(document.querySelectorAll('.mini-quiz')).forEach(function(quiz){
+    const buttons = Array.from(quiz.querySelectorAll('.mini-choice'));
+    const feedback = quiz.querySelector('.mini-feedback');
+    const verdict = quiz.querySelector('.mini-verdict');
+    const reset = quiz.querySelector('.mini-reset');
+    const correctIndex = Number(quiz.dataset.correct);
+    if (!buttons.length || !feedback || !verdict) return;
+    if (buttons[correctIndex]) buttons[correctIndex].dataset.key = 'true';
+
+    function clearQuiz(){
+      quiz.dataset.answered = '';
+      buttons.forEach(function(button){ button.disabled = false; button.classList.remove('correct', 'wrong'); });
+      feedback.classList.remove('visible', 'success', 'error');
+      verdict.textContent = '';
+    }
+
+    buttons.forEach(function(button){
+      button.addEventListener('click', function(){
+        if (quiz.dataset.answered) return;
+        const isCorrect = Number(button.dataset.option) === correctIndex;
+        quiz.dataset.answered = 'true';
+        buttons.forEach(function(choice, choiceIndex){
+          choice.disabled = true;
+          if (choiceIndex === correctIndex) choice.classList.add('correct');
+        });
+        if (!isCorrect) button.classList.add('wrong');
+        verdict.textContent = isCorrect ? 'Correct.' : 'Not quite.';
+        feedback.classList.add('visible', isCorrect ? 'success' : 'error');
+      });
+    });
+    if (reset) reset.addEventListener('click', clearQuiz);
+    clearQuiz();
+  });
+
+  // Reveal / hide one answer
+  Array.from(document.querySelectorAll('[data-reveal]')).forEach(function(button){
+    const target = document.getElementById(button.dataset.reveal);
+    const label = button.textContent;
+    if (!target) return;
+    button.addEventListener('click', function(){
+      const shown = target.classList.toggle('visible');
+      button.textContent = shown ? 'Hide' : label;
+      button.classList.toggle('muted-button', shown);
+    });
+  });
+
+  // Step-by-step reveals (same pattern as the Unit 6 lecture)
+  document.querySelectorAll('.step-reveal').forEach(function(button){
+    const group = button.dataset.stepGroup;
+    const elements = Array.from(document.querySelectorAll('.reveal-step')).filter(function(element){
+      return element.dataset.stepGroup === group;
+    });
+    const stepNumbers = Array.from(new Set(elements.map(function(element){ return Number(element.dataset.step); })))
+      .sort(function(a, b){ return a - b; });
+    let revealedCount = 0;
+    button.addEventListener('click', function(){
+      if (revealedCount >= stepNumbers.length) {
+        elements.forEach(function(element){ element.classList.remove('visible'); });
+        revealedCount = 0;
+        button.textContent = 'Reveal next step';
+        return;
+      }
+      const nextStep = stepNumbers[revealedCount];
+      elements.forEach(function(element){
+        if (Number(element.dataset.step) === nextStep) element.classList.add('visible');
+      });
+      revealedCount += 1;
+      button.textContent = revealedCount >= stepNumbers.length
+        ? 'Reset reveals'
+        : 'Reveal next step (' + revealedCount + '/' + stepNumbers.length + ')';
+    });
+  });
+
+  document.addEventListener('keydown', function(event){
+    const target = event.target;
+    if (target.closest && target.closest('input, select, textarea')) return;
+    if (target.closest && target.closest('button, a') && (event.key === ' ' || event.key === 'Enter')) return;
+    if (['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(event.key)) {
+      event.preventDefault(); show(idx + 1);
+    } else if (['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(event.key)) {
+      event.preventDefault(); show(idx - 1);
+    } else if (event.key.toLowerCase() === 'p') {
+      window.print();
+    } else if (event.key === 'Home') {
+      show(0);
+    } else if (event.key === 'End') {
+      show(slides.length - 1);
+    }
+  });
+
+  document.addEventListener('click', function(event){
+    if (event.target.closest && event.target.closest('button, input, label, a, .feedback-panel, .question-panel, .question-row, .mini-quiz, .reveal-card, .call-card, .tf-card, .calc-run, .plot-card, .scenario, .task, .data-table, .given-strip, .rule-strip, .rule-row, .explain-row, .ref-grid, .summary-grid, .roadmap-grid')) return;
+    if (event.clientX > window.innerWidth / 2) show(idx + 1);
+    else show(idx - 1);
+  });
+
+  window.addEventListener('resize', fit);
+  const hash = parseInt(location.hash.replace('#',''), 10);
+  if (Number.isFinite(hash)) idx = Math.max(0, Math.min(slides.length - 1, hash - 1));
+  fit();
+  show(idx);
+})();
+</script>
+</body>
+</html>
