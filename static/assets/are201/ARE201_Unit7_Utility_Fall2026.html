@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARE 201 — Unit 7: Utility &amp; Consumer Choice</title>
+<style>
+  :root {
+    --accent: #EB811B;
+    --accent-soft: #fff4e8;
+    --ink: #1f2933;
+    --muted: #5f6b76;
+    --paper: #ffffff;
+    --soft: #f3f4f6;
+    --line: #d8dde3;
+    --blue: #2f80c9;
+    --blue-soft: #eef5fb;
+    --green: #378a61;
+    --green-soft: #e9f6ef;
+    --red: #c9504d;
+    --red-soft: #fcedec;
+    --purple: #7657a5;
+    --purple-soft: #f3effa;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #111; }
+  body { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+
+  #stage {
+    position: absolute; left: 50%; top: 50%;
+    width: 960px; height: 720px;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+    background: var(--paper);
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  }
+
+  .slide {
+    position: absolute; inset: 0; display: none;
+    width: 960px; height: 720px;
+    padding: 50px 62px 48px;
+    overflow: hidden; color: var(--ink); background: var(--paper);
+  }
+  .slide.active { display: block; }
+  .slide.center { text-align: center; }
+  .slide.middle { align-items: center; justify-content: center; flex-direction: column; }
+  .slide.middle.active { display: flex; }
+
+  h1, h2, h3, p { margin-top: 0; }
+  h1 { margin-bottom: 16px; font-size: 37px; line-height: 1.12; letter-spacing: -.4px; }
+  h2 { margin-bottom: 10px; font-size: 25px; line-height: 1.2; }
+  h3 { margin-bottom: 7px; font-size: 19px; line-height: 1.2; }
+  p, li { font-size: 19px; line-height: 1.34; }
+  ul { margin: 7px 0 0 22px; padding: 0; }
+  li { margin: 6px 0; }
+  strong { font-weight: 780; }
+  .small { font-size: 16px; line-height: 1.34; }
+  .tiny { font-size: 13px; line-height: 1.3; }
+  .muted { color: var(--muted); }
+  .accent { color: var(--accent); }
+  .blue { color: var(--blue); }
+  .green { color: var(--green); }
+  .red { color: var(--red); }
+  .purple { color: var(--purple); }
+
+  .section-kicker {
+    margin-bottom: 7px; color: var(--accent);
+    font-size: 14px; font-weight: 820; letter-spacing: .1em; text-transform: uppercase;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  .two-thirds { display: grid; grid-template-columns: 1.12fr .88fr; gap: 23px; align-items: start; }
+  .thirds-two { display: grid; grid-template-columns: .88fr 1.12fr; gap: 23px; align-items: start; }
+
+  .card { padding: 17px 19px; border-radius: 8px; background: var(--soft); }
+  .card.white { border: 1px solid var(--line); background: #fff; }
+  .card.accent-top { border-top: 4px solid var(--accent); border-radius: 0 0 8px 8px; }
+  .card.blue-top { border-top: 4px solid var(--blue); border-radius: 0 0 8px 8px; }
+  .card.green-top { border-top: 4px solid var(--green); border-radius: 0 0 8px 8px; }
+  .card.red-top { border-top: 4px solid var(--red); border-radius: 0 0 8px 8px; }
+  .card.purple-top { border-top: 4px solid var(--purple); border-radius: 0 0 8px 8px; }
+  .card p, .card li { font-size: 16px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  .definition-strip {
+    padding: 13px 16px; border-left: 5px solid var(--accent);
+    background: var(--accent-soft); font-size: 19px; line-height: 1.36;
+  }
+  .definition-strip.blue-strip { border-left-color: var(--blue); background: var(--blue-soft); }
+  .definition-strip.green-strip { border-left-color: var(--green); background: var(--green-soft); }
+  .definition-strip.red-strip { border-left-color: var(--red); background: var(--red-soft); }
+  .definition-strip.purple-strip { border-left-color: var(--purple); background: var(--purple-soft); }
+
+  .interactive button {
+    min-height: 41px; padding: 9px 14px; border: 0; border-radius: 7px;
+    color: #fff; background: var(--accent);
+    font: 730 15px "Avenir Next", "Helvetica Neue", Arial, sans-serif; cursor: pointer;
+  }
+  .interactive button:hover { filter: brightness(.96); }
+  .interactive button:focus-visible { outline: 3px solid rgba(235,129,27,.35); outline-offset: 2px; }
+  .interactive button:disabled { opacity: .45; cursor: default; filter: none; }
+  .interactive button.secondary { color: var(--ink); background: #e5e8eb; }
+  .interactive button.blue-button { background: var(--blue); }
+  .interactive button.green-button { background: var(--green); }
+  .interactive button.purple-button { background: var(--purple); }
+  .interactive button.selected { box-shadow: inset 0 0 0 3px rgba(255,255,255,.65); }
+  .interactive button.correct { color: #fff; background: var(--green); }
+  .interactive button.wrong { color: #fff; background: var(--red); }
+
+  .button-row { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
+  .feedback {
+    min-height: 54px; padding: 10px 13px;
+    border-left: 4px solid var(--line); background: var(--soft);
+    font-size: 15px; line-height: 1.33;
+  }
+  .feedback.success { border-left-color: var(--green); background: var(--green-soft); }
+  .feedback.error { border-left-color: var(--red); background: var(--red-soft); }
+  .feedback.info { border-left-color: var(--blue); background: var(--blue-soft); }
+
+  .title-slide { padding-bottom: 150px; }
+  .title-kicker { margin-bottom: 13px; color: var(--accent); font-size: 17px; font-weight: 780; letter-spacing: .11em; text-transform: uppercase; }
+  .title-main { max-width: 780px; margin: 0 auto 12px; font-size: 57px; line-height: 1.02; }
+  .title-sub { color: var(--muted); font-size: 24px; line-height: 1.35; }
+  .title-graphic { position: absolute; right: 65px; bottom: 38px; width: 470px; height: 170px; }
+
+  .poll-letter { display: inline-flex; width: 31px; height: 31px; margin-bottom: 9px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--accent); font-weight: 820; }
+
+  .quiz-scenario { min-height: 84px; padding: 15px 18px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .quiz-scenario .market-label { color: var(--accent); font-size: 13px; font-weight: 820; letter-spacing: .07em; text-transform: uppercase; }
+  .quiz-scenario p { margin: 5px 0 0; font-size: 21px; line-height: 1.28; }
+
+  /* ---- plots ---- */
+  .plot-panel { padding: 10px 12px 8px; border: 1px solid var(--line); background: #fff; }
+  .plot-title { margin: 0 0 2px; font-size: 14px; font-weight: 800; text-align: center; }
+  .plot { display: block; width: 100%; height: 300px; }
+  .plot.mid { height: 250px; }
+  .plot.demand-h { height: 222px; }
+  .plot.half { height: 196px; }
+  .plot.mini { height: 106px; }
+  .axis { fill: none; stroke: var(--ink); stroke-width: 2; }
+  .gridline { fill: none; stroke: #e8ebee; stroke-width: 1; }
+  .demand-line { fill: none; stroke: var(--blue); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+  .old-line { fill: none; stroke: #9aa3ab; stroke-width: 3; stroke-dasharray: 7 6; }
+  .projection { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 5 4; }
+  .ref-line { fill: none; stroke: var(--muted); stroke-width: 1.6; stroke-dasharray: 5 4; }
+  .leader { fill: none; stroke: var(--muted); stroke-width: 1.2; }
+  .plot-label { fill: var(--ink); font: 700 13px Arial, sans-serif; }
+  .plot-label.sm { font-size: 11px; }
+  .tick-label { fill: var(--muted); font: 11px Arial, sans-serif; }
+  .dot { fill: var(--accent); stroke: #fff; stroke-width: 2; }
+  .dot.blue-dot { fill: var(--blue); }
+  .dot.green-dot { fill: var(--green); }
+  .dot.red-dot { fill: var(--red); }
+  .dot.purple-dot { fill: var(--purple); }
+  .dot.hollow-dot { fill: #fff; stroke: var(--green); stroke-width: 3; }
+
+  /* ---- reveal machinery ---- */
+  .reveal-step { visibility: hidden; opacity: 0; transition: opacity .18s ease; }
+  .reveal-step.visible { visibility: visible; opacity: 1; }
+  .check-answer { visibility: hidden; opacity: 0; transition: opacity .18s ease; }
+  .check-answer.visible { visibility: visible; opacity: 1; }
+
+  .formula-box {
+    padding: 15px 18px; border: 2px solid var(--accent); border-radius: 8px;
+    background: var(--accent-soft); text-align: center;
+  }
+  .formula-box .frac { display: inline-block; vertical-align: middle; text-align: center; }
+  .formula-box .frac .num { display: block; padding: 0 9px 3px; border-bottom: 2.5px solid var(--ink); font-size: 20px; font-weight: 800; }
+  .formula-box .frac .den { display: block; padding: 3px 9px 0; font-size: 20px; font-weight: 800; }
+  .formula-box .lhs { display: inline-block; vertical-align: middle; margin-right: 10px; font-size: 22px; font-weight: 840; }
+  .formula-box.purple-box { border-color: var(--purple); background: var(--purple-soft); }
+
+  .calc-run { display: grid; gap: 9px; margin-top: 4px; }
+  .calc-line {
+    display: grid; grid-template-columns: 30px 1fr; gap: 11px; align-items: center;
+    padding: 9px 13px; background: var(--soft);
+  }
+  .calc-line.hi { background: var(--accent-soft); }
+  .calc-line.bad { background: var(--red-soft); }
+  .calc-line.good { background: var(--green-soft); }
+  .calc-num { display: flex; width: 26px; height: 26px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--ink); font-size: 12px; font-weight: 820; }
+  .calc-line.hi .calc-num { background: var(--accent); }
+  .calc-line.bad .calc-num { background: var(--red); }
+  .calc-line.good .calc-num { background: var(--green); }
+  .calc-line strong { display: block; font-size: 16px; }
+  .calc-line span { display: block; margin-top: 2px; color: var(--muted); font-size: 13px; line-height: 1.28; }
+  .calc-line .ans { margin-top: 3px; color: var(--ink); font-size: 14px; font-weight: 700; line-height: 1.3; }
+
+  .lo-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .lo-row { display: grid; grid-template-columns: 58px 1fr; gap: 10px; align-items: center; padding: 9px 12px; background: var(--soft); }
+  .lo-row.today { background: var(--accent-soft); }
+  .lo-tag { padding: 5px 4px; color: #fff; background: var(--muted); font-size: 11px; font-weight: 850; text-align: center; }
+  .lo-row.today .lo-tag { background: var(--accent); }
+  .lo-row span { font-size: 13px; line-height: 1.25; }
+
+  .mechanism-box { display: flex; min-height: 86px; padding: 11px; align-items: center; justify-content: center; background: var(--soft); font-size: 15px; font-weight: 740; line-height: 1.28; text-align: center; }
+  .mechanism-box.blue-box { background: var(--blue-soft); }
+  .mechanism-box.green-box { background: var(--green-soft); }
+  .mechanism-box.purple-box { background: var(--purple-soft); }
+  .mechanism-box.accent-box { background: var(--accent-soft); }
+  .mechanism-arrow { display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 24px; font-weight: 850; }
+
+  .compact-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-top: 13px; }
+  .compact-check { padding: 11px 13px; border-left: 4px solid var(--purple); background: var(--purple-soft); }
+  .compact-check strong { display: block; margin-bottom: 3px; font-size: 14px; }
+  .compact-check span { color: var(--muted); font-size: 12px; line-height: 1.25; }
+
+  .exit-answer { min-height: 58px; margin-top: 12px; padding: 12px 14px; border-left: 4px solid var(--green); background: var(--green-soft); visibility: hidden; opacity: 0; }
+  .exit-answer.visible { visibility: visible; opacity: 1; }
+  .exit-answer p { margin: 0; font-size: 15px; line-height: 1.34; }
+
+  .illus-tag {
+    display: inline-block; margin-left: 8px; padding: 2px 7px; border-radius: 3px;
+    background: var(--soft); color: var(--muted); font-size: 11px; font-weight: 800;
+    letter-spacing: .05em; text-transform: uppercase; vertical-align: middle;
+  }
+  .footer-note { margin-top: 14px; }
+
+  .know-badge { display: inline-block; padding: 4px 10px; border-radius: 3px; color: #fff; font-size: 11px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .know-badge.yes { background: var(--muted); }
+  .know-badge.no { background: var(--accent); }
+  .know-card { padding: 14px 16px 10px; border-top: 5px solid var(--muted); background: var(--soft); }
+  .know-card.unknown { border-top-color: var(--accent); background: var(--accent-soft); }
+  .know-card h2 { margin: 8px 0 4px; font-size: 21px; }
+
+  .option-row { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: center; padding: 12px 15px; background: var(--soft); }
+  .option-row + .option-row { margin-top: 9px; }
+  .option-letter { display: flex; width: 26px; height: 26px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--blue); font-size: 12px; font-weight: 820; }
+  .option-row span:last-child { font-size: 17px; font-weight: 700; }
+
+  /* ---- unit 7 specific ---- */
+  .budget-line { fill: none; stroke: var(--purple); stroke-width: 4; stroke-linecap: round; }
+  .budget-line.thin { stroke-width: 3; }
+  .tu-line { fill: none; stroke: var(--blue); stroke-width: 3.5; stroke-linejoin: round; stroke-linecap: round; }
+  .mu-bar { fill: var(--accent); }
+  .mu-bar.neg { fill: var(--red); }
+  .zero-line { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+
+  .flow-4 { display: grid; grid-template-columns: 1fr 24px 1fr 24px 1fr 24px 1fr; gap: 4px; align-items: stretch; margin-top: 18px; }
+  .flow-4 .mechanism-box { min-height: 80px; }
+  .flow-sub { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; font-weight: 700; }
+
+  .u7-table { width: 100%; border-collapse: collapse; font-size: 16px; text-align: center; }
+  .u7-table caption { caption-side: top; padding: 0 0 6px; color: var(--muted); font-size: 12px; font-weight: 820; letter-spacing: .07em; text-align: left; text-transform: uppercase; }
+  .u7-table th { padding: 8px 8px; color: #fff; background: var(--ink); font-size: 13px; font-weight: 800; line-height: 1.2; }
+  .u7-table td { padding: 7px 8px; border-bottom: 1px solid var(--line); font-weight: 700; }
+  .u7-table td.lead { color: var(--muted); font-weight: 840; }
+  .u7-table td.muted-cell { color: #b3bac1; }
+  .u7-table tr.hl td { background: var(--accent-soft); }
+  .u7-table.compact th { padding: 6px 6px; }
+  .u7-table.compact td { padding: 5px 6px; font-size: 15px; }
+  .u7-table.left-first th:first-child, .u7-table.left-first td:first-child { padding-left: 10px; text-align: left; }
+  .best-tag { display: inline-block; margin-left: 6px; padding: 2px 6px; border-radius: 3px; color: #fff; background: var(--green); font-size: 10px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; vertical-align: middle; }
+
+  .sign-table { width: 100%; border-collapse: collapse; font-size: 16px; text-align: center; }
+  .sign-table th { padding: 9px 8px; color: #fff; background: var(--ink); font-size: 13px; line-height: 1.2; }
+  .sign-table td { padding: 12px 8px; border-bottom: 1px solid var(--line); font-weight: 840; }
+  .sign-table td:first-child { padding-left: 12px; font-size: 15px; font-weight: 760; text-align: left; }
+  .sign-table tbody tr:nth-child(1) { background: var(--blue-soft); }
+  .sign-table tbody tr:nth-child(2) { background: var(--green-soft); }
+  .sign-table tbody tr:nth-child(3) { background: var(--red-soft); }
+  .up { color: var(--green); }
+  .down { color: var(--red); }
+
+  .interactive .stmt-option { min-height: 58px; padding: 12px 16px; font-size: 16px; line-height: 1.3; text-align: left; }
+
+  .shop-panel { padding: 14px 15px; border-top: 4px solid var(--accent); border-radius: 0 0 8px 8px; background: var(--accent-soft); }
+  .shop-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .shop-stat { padding: 9px 8px; background: #fff; text-align: center; }
+  .shop-stat strong { display: block; font-size: 25px; line-height: 1.1; }
+  .shop-stat span { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+  .spend-track { height: 12px; margin-top: 10px; overflow: hidden; border-radius: 6px; background: #fff; }
+  .spend-fill { width: 0; height: 100%; background: var(--accent); transition: width .2s ease; }
+  .shop-cell { position: relative; transition: background .15s ease, color .15s ease; }
+  .shop-cell.bought { color: #fff; background: var(--accent); }
+  .shop-cell.bought::after { content: '#' attr(data-order); position: absolute; top: 1px; right: 4px; font-size: 9px; font-weight: 850; }
+  #shopStatus { min-height: 118px; margin-top: 10px; }
+  .print-only { display: none; }
+  .op { font-family: Arial, sans-serif; font-weight: 400; }
+  .calc-line span.op { display: inline; margin: 0; color: inherit; font-size: inherit; line-height: inherit; }
+
+  /* slide 3: generated photorealistic toy images */
+  .toy-row { margin-top: 12px; gap: 18px; }
+  .toy-panel { overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: var(--soft); }
+  .toy-panel img { display: block; width: 100%; height: 214px; object-fit: cover; }
+  .toy-cap { margin: 0; padding: 6px 10px 7px; border-top: 1px solid var(--line); background: #fff; color: var(--muted); font-size: 13px; font-weight: 820; letter-spacing: .07em; text-align: center; text-transform: uppercase; }
+  .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px 18px; margin-top: 12px; }
+  .option-grid .option-row + .option-row { margin-top: 0; }
+  #hookSlide .quiz-scenario { min-height: 0; padding: 10px 16px; }
+  #hookSlide .quiz-scenario p { margin-top: 3px; font-size: 17px; }
+  #hookSlide .option-row { padding: 10px 15px; }
+  #hookSlide .option-row span:last-child { font-size: 16px; }
+  #hookSlide .footer-note { margin-top: 11px; }
+
+  /* slide 7: pizza illustrations */
+  #diminishingMuSlide .pizza-examples { display: grid; grid-template-columns: 1fr 1fr .86fr; gap: 14px; margin-top: 14px; }
+  #diminishingMuSlide .pizza-scene { margin: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  #diminishingMuSlide .pizza-scene img { display: block; width: 100%; height: 198px; object-fit: contain; }
+  #diminishingMuSlide .pizza-scene figcaption { padding: 9px 11px; border-top: 1px solid var(--line); background: var(--accent-soft); }
+  #diminishingMuSlide .pizza-scene strong { display: block; font-size: 17px; line-height: 1.2; }
+  #diminishingMuSlide .pizza-scene span { display: block; margin-top: 4px; color: var(--muted); font-size: 14px; line-height: 1.25; }
+  #diminishingMuSlide .other-examples { display: grid; grid-template-rows: 1fr 1fr; gap: 12px; }
+  #diminishingMuSlide .other-examples .card { padding: 13px 14px; }
+
+  /* slide 9: total vs. marginal utility with the slide 3 Labubu photos */
+  #labubuSlide .toy-row { margin-top: 4px; }
+  #labubuSlide .toy-body { padding: 10px 16px 12px; border-top: 1px solid var(--line); background: #fff; }
+  #labubuSlide .toy-body h2 { margin-bottom: 5px; font-size: 22px; }
+  #labubuSlide .toy-body p { margin: 0; font-size: 16px; line-height: 1.34; }
+  #labubuSlide .toy-body p + p { margin-top: 4px; }
+  #labubuSlide .definition-strip { margin-top: 12px; font-size: 18px; }
+  #labubuSlide .definition-strip.green-strip { margin-top: 9px; padding: 11px 16px; font-size: 16px; }
+  #labubuSlide .button-row { margin-top: 11px; }
+
+  /* slide 10: compare the next regular toy with a desired limited edition */
+  #limitedLabubuSlide .collection-context { display: grid; grid-template-columns: 132px 1fr; gap: 14px; align-items: center; padding: 8px 13px 8px 8px; background: var(--soft); border-radius: 8px; }
+  #limitedLabubuSlide .collection-context img { display: block; width: 132px; height: 70px; border-radius: 5px; object-fit: cover; }
+  #limitedLabubuSlide .collection-context p { margin: 0; font-size: 17px; line-height: 1.3; }
+  #limitedLabubuSlide .collection-context strong { display: block; margin-top: 4px; color: var(--purple); }
+  #limitedLabubuSlide .toy-row { margin-top: 12px; }
+  #limitedLabubuSlide .toy-panel > img { height: 180px; object-fit: contain; background: #e5e5e5; }
+  #limitedLabubuSlide .choice-body { padding: 10px 14px 11px; border-top: 1px solid var(--line); background: #fff; }
+  #limitedLabubuSlide .choice-body h2 { margin-bottom: 5px; font-size: 21px; }
+  #limitedLabubuSlide .choice-body p { margin: 0; font-size: 16px; line-height: 1.3; }
+  #limitedLabubuSlide .definition-strip { margin-top: 12px; padding: 11px 15px; font-size: 17px; }
+  #limitedLabubuSlide .version-note { margin: 9px 0 0; color: var(--muted); font-size: 14px; line-height: 1.3; }
+  #limitedLabubuSlide .button-row { margin-top: 10px; }
+
+  /* slide 17: derive the continuous rule, then check whole-item trades */
+  #allocationRuleSlide h1 { margin-bottom: 12px; font-size: 34px; }
+  #allocationRuleSlide .allocation-setup { padding: 10px 14px; font-size: 17px; }
+  #allocationRuleSlide .allocation-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 18px; margin-top: 12px; }
+  #allocationRuleSlide .allocation-values { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  #allocationRuleSlide .allocation-good { padding: 10px; border-top: 4px solid var(--blue); background: var(--blue-soft); text-align: center; }
+  #allocationRuleSlide .allocation-good.fruit { border-top-color: var(--green); background: var(--green-soft); }
+  #allocationRuleSlide .allocation-good h2 { margin-bottom: 3px; font-size: 20px; }
+  #allocationRuleSlide .allocation-good strong { display: block; font-size: 29px; line-height: 1.1; }
+  #allocationRuleSlide .allocation-good span { font-size: 13px; }
+  #allocationRuleSlide .allocation-predict { margin: 9px 0 0; font-size: 17px; line-height: 1.3; }
+  #allocationRuleSlide .allocation-answer { padding: 10px 14px; }
+  #allocationRuleSlide .allocation-answer h3 { margin-bottom: 5px; }
+  #allocationRuleSlide .allocation-answer p { margin: 0; font-size: 16px; line-height: 1.3; }
+  #allocationRuleSlide .allocation-adjust { margin-top: 9px; font-size: 15px; line-height: 1.3; }
+  #allocationRuleSlide .allocation-equilibrium { display: grid; grid-template-columns: 205px 1fr; gap: 16px; align-items: center; margin-top: 11px; padding: 10px 14px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  #allocationRuleSlide .allocation-formula { display: flex; gap: 12px; align-items: center; justify-content: center; font-size: 23px; font-weight: 800; }
+  #allocationRuleSlide .allocation-frac { display: inline-flex; flex-direction: column; text-align: center; }
+  #allocationRuleSlide .allocation-frac span:first-child { padding: 0 5px 3px; border-bottom: 2px solid var(--ink); }
+  #allocationRuleSlide .allocation-frac span:last-child { padding-top: 3px; }
+  #allocationRuleSlide .allocation-equilibrium p { margin: 0; font-size: 16px; line-height: 1.3; }
+  #allocationRuleSlide .allocation-assumptions { margin-top: 4px !important; color: var(--muted); font-size: 13px !important; }
+  #allocationRuleSlide .allocation-discrete { margin-top: 11px; padding: 10px 14px; border-left: 5px solid var(--purple); background: var(--purple-soft); }
+  #allocationRuleSlide .allocation-discrete h3 { margin-bottom: 6px; font-size: 17px; }
+  #allocationRuleSlide .allocation-swaps { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  #allocationRuleSlide .allocation-swaps p { margin: 0; font-size: 15px; line-height: 1.3; }
+  #allocationRuleSlide .allocation-boundary { margin: 6px 0 0; font-size: 14px; line-height: 1.3; }
+  #allocationRuleSlide .button-row { margin-top: 10px; }
+  #allocationRuleSlide .allocation-alias { color: var(--muted); font-size: 12px; }
+
+  /* slide 21: definitions before the price-change example */
+  #priceEffectsSlide h1 { margin-bottom: 12px; }
+  #priceEffectsSlide .effects-intro { margin: 0 0 12px; font-size: 18px; }
+  #priceEffectsSlide .effect-card { padding: 15px 17px; }
+  #priceEffectsSlide .effect-card h2 { margin-bottom: 10px; font-size: 25px; }
+  #priceEffectsSlide .effect-card .effect-definition { margin: 0; font-size: 18px; line-height: 1.35; }
+  #priceEffectsSlide .effect-question { margin: 12px 0 10px; padding: 9px 11px; background: #fff; font-size: 16px; line-height: 1.3; }
+  #priceEffectsSlide .effect-direction { margin: 0; font-size: 16px; line-height: 1.3; }
+  #priceEffectsSlide .effects-check-title { margin: 15px 0 9px; font-size: 17px; line-height: 1.3; }
+  #priceEffectsSlide .effect-check { padding: 11px 14px; border: 1px solid var(--line); border-radius: 8px; }
+  #priceEffectsSlide .effect-check p { min-height: 43px; margin: 0; font-size: 17px; line-height: 1.3; }
+  #priceEffectsSlide .effect-check .reveal-step { display: block; margin-top: 6px; font-size: 17px; font-weight: 800; }
+  #priceEffectsSlide .button-row { margin-top: 12px; }
+  #priceEffectsSlide .effects-total { color: var(--muted); font-size: 15px; }
+
+  /* slide-scoped density adjustments, verified against the 720px stage */
+  #checkpointSlide h1 { margin-bottom: 10px; }
+  #checkpointSlide .compact-checks { gap: 8px; }
+  #checkpointSlide .compact-check { padding: 9px 12px; }
+  #checkpointSlide .definition-strip { padding: 11px 15px; }
+  #checkpointSlide .exit-answer { min-height: 44px; margin-top: 10px; padding: 10px 14px; }
+
+  .footer { position: absolute; right: 62px; bottom: 18px; left: 62px; display: flex; justify-content: space-between; color: #8a949e; font-size: 12px; }
+  #progress { position: fixed; bottom: 0; left: 0; z-index: 20; height: 4px; background: var(--accent); transition: width .18s ease; }
+  #hint { position: fixed; right: 14px; bottom: 9px; z-index: 20; color: rgba(255,255,255,.52); font: 12px Arial, sans-serif; }
+
+  @page { size: 10in 7.5in; margin: 0; }
+  @media print {
+    html, body { width: auto; height: auto; overflow: visible; background: #fff; }
+    #stage { position: static; width: auto; height: auto; transform: none !important; box-shadow: none; }
+    .slide { position: relative; display: block !important; page-break-after: always; break-after: page; }
+    #progress, #hint { display: none; }
+    .exit-answer { visibility: visible !important; opacity: 1 !important; }
+    .reveal-step { visibility: visible !important; opacity: 1 !important; }
+    .check-answer { visibility: visible !important; opacity: 1 !important; }
+    .print-only { display: block; }
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- ===================== UNIT 7 — ONE CLASS, LO 7.1–7.6 ===================== -->
+
+  <!-- 1 -->
+  <section class="slide title-slide center middle active">
+    <div>
+      <div class="title-kicker">ARE 201 · Unit 7</div>
+      <h1 class="title-main">Utility &amp; Consumer Choice</h1>
+      <p class="title-sub">How consumers choose under a limited budget</p>
+    </div>
+    <svg class="title-graphic" viewBox="0 0 470 170" role="img" aria-label="A budget line with the best affordable bundle marked, and an arrow to a downward-sloping demand curve">
+      <defs><marker id="titleArrow" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path d="M 0 0 L 9 4.5 L 0 9 Z" fill="#EB811B"/></marker></defs>
+      <path class="axis" d="M 30 20 L 30 150 L 200 150" />
+      <path class="budget-line" d="M 30 40 L 180 150" />
+      <circle class="dot" cx="70" cy="69.3" r="6" />
+      <text class="plot-label" x="80" y="62" fill="#EB811B">best bundle</text>
+      <path d="M 210 92 L 248 92" stroke="#EB811B" stroke-width="3" marker-end="url(#titleArrow)" />
+      <path class="axis" d="M 268 20 L 268 150 L 450 150" />
+      <path class="demand-line" d="M 288 35 L 440 138" />
+      <circle class="dot blue-dot" cx="320" cy="56.7" r="5" /><circle class="dot blue-dot" cx="360" cy="83.8" r="5" /><circle class="dot blue-dot" cx="400" cy="110.9" r="5" />
+      <text class="tick-label" x="36" y="30">movies</text><text class="tick-label" x="198" y="165" text-anchor="end">T-shirts</text>
+      <text class="tick-label" x="274" y="30">P</text><text class="tick-label" x="446" y="165" text-anchor="end">Q</text>
+    </svg>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide">
+    <div class="section-kicker">Where we are going</div>
+    <h1>Unit 7 in six objectives&mdash;all of them today</h1>
+    <div class="lo-list">
+      <div class="lo-row today"><div class="lo-tag">7.1</div><span>Describe utility, and how consumers spend to maximize it</span></div>
+      <div class="lo-row today"><div class="lo-tag">7.5</div><span>Calculate the utility-maximizing choice using marginal utility per dollar</span></div>
+      <div class="lo-row today"><div class="lo-tag">7.4</div><span>Contrast and compute total utility and marginal utility</span></div>
+      <div class="lo-row today"><div class="lo-tag">7.2</div><span>Identify and contrast the substitution effect and the income effect</span></div>
+      <div class="lo-row today"><div class="lo-tag">7.3</div><span>Find consumer equilibrium using a budget constraint</span></div>
+      <div class="lo-row today"><div class="lo-tag">7.6</div><span>Describe how demand curves are derived from consumer equilibrium</span></div>
+    </div>
+    <div class="flow-4">
+      <div class="mechanism-box blue-box"><div>What do I like?<span class="flow-sub">utility</span></div></div>
+      <div class="mechanism-arrow">&rarr;</div>
+      <div class="mechanism-box purple-box"><div>What can I afford?<span class="flow-sub">the budget line</span></div></div>
+      <div class="mechanism-arrow">&rarr;</div>
+      <div class="mechanism-box accent-box"><div>What is the best I can do?<span class="flow-sub">utility per dollar</span></div></div>
+      <div class="mechanism-arrow">&rarr;</div>
+      <div class="mechanism-box green-box"><div>What if a price changes?<span class="flow-sub">the demand curve</span></div></div>
+    </div>
+    <p class="footer-note small muted">Read the objectives down the left column, then down the right: that is the order the story needs.</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide" id="hookSlide">
+    <div class="section-kicker">Before any theory &middot; hands up</div>
+    <h1>When a price goes up, why do you buy less?</h1>
+    <div class="quiz-scenario" style="margin-top:4px;">
+      <div class="market-label">What Unit 4 told you</div>
+      <p>&ldquo;Ceteris paribus, a higher price leads to a lower quantity demanded.&rdquo; Unit 4 <strong>stated</strong> the law of demand. Today we find out <strong>why</strong> it holds.</p>
+    </div>
+    <div class="grid-2 toy-row">
+      <div class="toy-panel">
+        <img src="Fig/ARE201_Unit7_Labubu_One_Photo_Generated.png" width="1726" height="911" alt="Photorealistic generated image of one beige Labubu plush toy on a neutral studio background.">
+        <p class="toy-cap">One Labubu</p>
+      </div>
+      <div class="toy-panel">
+        <img src="Fig/ARE201_Unit7_Labubu_Many_Photo_Generated.png" width="1726" height="911" alt="Photorealistic generated image of many matching beige Labubu plush toys arranged together in rows.">
+        <p class="toy-cap">Many, many Labubus</p>
+      </div>
+    </div>
+    <div class="option-grid">
+      <div class="option-row"><span class="option-letter">A</span><span>I can't afford as much anymore</span></div>
+      <div class="option-row"><span class="option-letter">B</span><span>Other things become the better deal</span></div>
+      <div class="option-row"><span class="option-letter">C</span><span>The last few weren't worth that much to me anyway</span></div>
+      <div class="option-row"><span class="option-letter">D</span><span>All of the above</span></div>
+    </div>
+    <p class="footer-note small muted">Hands up for each one, and put the counts on the board. We come back to them at the end of class&mdash;each letter turns out to be a piece of economics.</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide">
+    <div class="section-kicker">LO 7.1 &middot; the building block</div>
+    <h1>Utility is the satisfaction you get from consuming</h1>
+    <div class="definition-strip">
+      <strong>Utility</strong>: the satisfaction, or happiness, a person gets from consuming a good or service. We count it in
+      <strong>utils</strong>&mdash;a classroom unit, not something you can buy or read off a meter.
+    </div>
+    <div class="grid-3" style="margin-top:20px;">
+      <div class="card blue-top"><h3 class="blue">It is personal</h3><p>The same NC State&ndash;UNC ticket gives a die-hard Wolfpack fan many utils and a friend tagging along very few. Unit 5 said it in dollars: willingness to pay differs by person.</p></div>
+      <div class="card green-top"><h3 class="green">It is not money</h3><p>Utils are not dollars. They are also not a verdict on whether a good is healthy, worthy or important.</p></div>
+      <div class="card accent-top"><h3 class="accent">Compare within a person</h3><p>You can rank <strong>your own</strong> options. You cannot say that your 5 utils are more than your roommate's 3.</p></div>
+    </div>
+    <div class="definition-strip blue-strip" style="margin-top:20px;">
+      Economics does not tell people what to like. It takes preferences as given and asks:
+      <strong>with a limited budget, which choice gives the most satisfaction?</strong>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide interactive" id="utilCheckSlide">
+    <div class="section-kicker">LO 7.1 &middot; concept check</div>
+    <h1>Which statement can an economist actually make?</h1>
+    <div class="button-row" style="margin-top:12px; flex-direction:column; align-items:stretch;">
+      <button type="button" class="util-opt stmt-option" data-correct="true">&ldquo;I get 2 utils from a movie and 4 from dinner with friends, so I would rather have dinner.&rdquo;</button>
+      <button type="button" class="util-opt stmt-option blue-button" data-correct="false">&ldquo;I get 5 utils from pizza and my roommate gets 3, so I enjoy pizza more than my roommate does.&rdquo;</button>
+      <button type="button" class="util-opt stmt-option secondary" data-correct="false">&ldquo;Salad gives me fewer utils than pizza, so salad is the worse good.&rdquo;</button>
+    </div>
+    <div class="feedback" id="utilFeedback" style="margin-top:16px;"
+         data-correct-message="<strong>Right.</strong> Utils can rank <strong>one person's</strong> own options. Comparing utils across people, or using them to judge the good itself, goes beyond what utility can say."
+         data-wrong-message="<strong>Not that one.</strong> Utils can rank <strong>one person's</strong> own options&mdash;the movie-versus-dinner statement. They cannot be compared across people, and they say nothing about whether a good is &lsquo;better.&rsquo;">Pick one.</div>
+    <p class="footer-note small muted">This is also why Unit 5 added up <strong>dollars</strong> of consumer surplus rather than utils: dollars can be added across buyers; utils cannot.</p>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide interactive" id="muTableSlide">
+    <div class="section-kicker">LO 7.4 &middot; two ways to count satisfaction</div>
+    <h1>Total utility adds up; marginal utility is the extra from one more</h1>
+    <div class="thirds-two" style="margin-top:4px;">
+      <table class="u7-table compact">
+        <caption>José's T-shirts</caption>
+        <thead><tr><th>T-shirts</th><th>Total utility (TU)</th><th>Marginal utility (MU)</th></tr></thead>
+        <tbody>
+          <tr><td class="lead">1</td><td>22</td><td><span class="reveal-step" data-step-group="mu" data-step="2">22</span></td></tr>
+          <tr><td class="lead">2</td><td>43</td><td><span class="reveal-step" data-step-group="mu" data-step="2">21</span></td></tr>
+          <tr class="hl"><td class="lead">3</td><td>63</td><td><span class="reveal-step" data-step-group="mu" data-step="1">20</span></td></tr>
+          <tr><td class="lead">4</td><td>81</td><td><span class="reveal-step" data-step-group="mu" data-step="2">18</span></td></tr>
+          <tr><td class="lead">5</td><td>97</td><td><span class="reveal-step" data-step-group="mu" data-step="2">16</span></td></tr>
+          <tr><td class="lead">6</td><td>111</td><td><span class="reveal-step" data-step-group="mu" data-step="2">14</span></td></tr>
+          <tr><td class="lead">7</td><td>123</td><td><span class="reveal-step" data-step-group="mu" data-step="2">12</span></td></tr>
+          <tr><td class="lead">8</td><td>133</td><td><span class="reveal-step" data-step-group="mu" data-step="2">10</span></td></tr>
+        </tbody>
+      </table>
+      <div>
+        <div class="formula-box">
+          <span class="lhs">MU =</span>
+          <span class="frac"><span class="num">change in total utility</span><span class="den">change in quantity</span></span>
+        </div>
+        <div class="calc-run" style="margin-top:12px;">
+          <div class="reveal-step" data-step-group="mu" data-step="1"><div class="calc-line hi"><div class="calc-num">1</div><div><strong>3rd T-shirt: 63 &minus; 43 = 20 utils</strong><span>What does one more T-shirt add to the total?</span></div></div></div>
+          <div class="reveal-step" data-step-group="mu" data-step="2"><div class="calc-line"><div class="calc-num">2</div><div><strong>Fill the whole column the same way</strong><span>Each MU is one TU minus the TU just above it.</span></div></div></div>
+          <div class="reveal-step" data-step-group="mu" data-step="3"><div class="calc-line good"><div class="calc-num">3</div><div><strong>Going back: TU is the sum of the MUs</strong><span>22 + 21 + 20 = 63, the TU of three T-shirts.</span></div></div></div>
+        </div>
+        <div class="button-row" style="margin-top:12px;"><button type="button" class="step-reveal" data-step-group="mu">Reveal next step</button></div>
+      </div>
+    </div>
+    <p class="footer-note small muted">TU is the whole pile; MU is only the newest piece. Read the finished MU column from top to bottom&mdash;what do you notice?</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="slide" id="diminishingMuSlide">
+    <div class="section-kicker">LO 7.4 &middot; the pattern in that MU column</div>
+    <h1>The law of diminishing marginal utility</h1>
+    <div class="definition-strip">
+      Each additional unit of a good tends to add <strong>less</strong> satisfaction than the unit before it.
+      José's MU column: 22, 21, 20, 18, 16, 14, 12, 10.
+    </div>
+    <div class="pizza-examples">
+      <figure class="pizza-scene">
+        <img src="Fig/ARE201_Unit7_Pizza_First_Slice.png" width="1448" height="1086" alt="A hungry student happily eating their first slice of pizza.">
+        <figcaption><strong>First slice: delicious!</strong><span>Wonderful when you are hungry.</span></figcaption>
+      </figure>
+      <figure class="pizza-scene">
+        <img src="Fig/ARE201_Unit7_Pizza_After_Five_Slices.png" width="1448" height="1086" alt="The same student leaning back with a hand on their full stomach after five slices, with five pizza crusts on the plate.">
+        <figcaption><strong>After five slices: full!</strong><span>No desire for another slice.</span></figcaption>
+      </figure>
+      <div class="other-examples">
+        <div class="card white"><h3>Coffee</h3><p>The first cup wakes you up. The fourth cup of the morning barely registers.</p></div>
+        <div class="card white"><h3>Study hours</h3><p>The first hour before an exam helps a lot. The seventh hour in a row adds much less.</p></div>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:16px;">
+      <div class="card blue-top"><h3 class="blue">Why it happens</h3><p>You put the first unit to its most important use. Each later unit goes to a less important one.</p></div>
+      <div class="card red-top"><h3 class="red">What it does not mean</h3><p>Total satisfaction does not fall. Each extra unit adds <strong>less</strong>&mdash;TU still rises as long as MU is positive.</p></div>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="slide interactive" id="tuMuSlide">
+    <div class="section-kicker">LO 7.4 &middot; reading the two curves together</div>
+    <h1>TU keeps climbing as long as MU is positive</h1>
+    <div class="two-thirds" style="margin-top:0;">
+      <div class="plot-panel">
+        <svg class="plot half" viewBox="0 0 440 200" role="img" aria-label="Total utility from pizza rises to 60 utils by the fourth slice, stays at 60 for the fifth, and falls to 54 at the sixth">
+          <path class="gridline" d="M 54 128 L 412 128 M 54 84 L 412 84 M 54 40 L 412 40" />
+          <path class="axis" d="M 54 10 L 54 172 L 412 172" />
+          <path class="tu-line" d="M 54 172 L 110 119.2 L 166 79.6 L 222 53.2 L 278 40 L 334 40" />
+          <circle class="dot blue-dot" cx="110" cy="119.2" r="5" /><circle class="dot blue-dot" cx="166" cy="79.6" r="5" />
+          <circle class="dot blue-dot" cx="222" cy="53.2" r="5" /><circle class="dot blue-dot" cx="278" cy="40" r="5" />
+          <circle class="dot blue-dot" cx="334" cy="40" r="5" />
+          <g class="reveal-step" data-step-group="pizza" data-step="1">
+            <path class="tu-line" style="stroke:var(--red)" d="M 334 40 L 390 53.2" />
+            <circle class="dot red-dot" cx="390" cy="53.2" r="5" />
+          </g>
+          <text class="plot-label" x="62" y="20">Total utility (TU)</text>
+          <text class="tick-label" x="46" y="132" text-anchor="end">20</text>
+          <text class="tick-label" x="46" y="88" text-anchor="end">40</text>
+          <text class="tick-label" x="46" y="44" text-anchor="end">60</text>
+          <text class="tick-label" x="110" y="188" text-anchor="middle">1</text><text class="tick-label" x="166" y="188" text-anchor="middle">2</text>
+          <text class="tick-label" x="222" y="188" text-anchor="middle">3</text><text class="tick-label" x="278" y="188" text-anchor="middle">4</text>
+          <text class="tick-label" x="334" y="188" text-anchor="middle">5</text><text class="tick-label" x="390" y="188" text-anchor="middle">6</text>
+        </svg>
+        <svg class="plot half" viewBox="0 0 440 200" role="img" aria-label="Marginal utility bars of 24, 18, 12, 6, 0 and minus 6 utils for slices one through six">
+          <path class="axis" d="M 54 10 L 54 176" />
+          <path class="zero-line" d="M 54 130 L 412 130" />
+          <rect class="mu-bar" x="96" y="29.2" width="28" height="100.8" />
+          <rect class="mu-bar" x="152" y="54.4" width="28" height="75.6" />
+          <rect class="mu-bar" x="208" y="79.6" width="28" height="50.4" />
+          <rect class="mu-bar" x="264" y="104.8" width="28" height="25.2" />
+          <rect class="mu-bar" x="320" y="128.5" width="28" height="3" />
+          <text class="plot-label sm" x="110" y="23" text-anchor="middle">24</text>
+          <text class="plot-label sm" x="166" y="48" text-anchor="middle">18</text>
+          <text class="plot-label sm" x="222" y="73" text-anchor="middle">12</text>
+          <text class="plot-label sm" x="278" y="98" text-anchor="middle">6</text>
+          <text class="plot-label sm" x="334" y="122" text-anchor="middle">0</text>
+          <g class="reveal-step" data-step-group="pizza" data-step="1">
+            <rect class="mu-bar neg" x="376" y="130" width="28" height="25.2" />
+            <text class="plot-label sm" x="390" y="170" text-anchor="middle" fill="#c9504d">&minus;6</text>
+          </g>
+          <text class="plot-label" x="412" y="20" text-anchor="end">Marginal utility (MU)</text>
+          <text class="tick-label" x="412" y="122" text-anchor="end">slices</text>
+          <text class="tick-label" x="110" y="192" text-anchor="middle">1</text><text class="tick-label" x="166" y="192" text-anchor="middle">2</text>
+          <text class="tick-label" x="222" y="192" text-anchor="middle">3</text><text class="tick-label" x="278" y="192" text-anchor="middle">4</text>
+          <text class="tick-label" x="334" y="192" text-anchor="middle">5</text><text class="tick-label" x="390" y="192" text-anchor="middle">6</text>
+        </svg>
+      </div>
+      <div>
+        <table class="u7-table compact left-first">
+          <thead><tr><th>Slice</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead>
+          <tbody>
+            <tr><td class="lead">MU</td><td>24</td><td>18</td><td>12</td><td>6</td><td>0</td><td class="red">&minus;6</td></tr>
+            <tr><td class="lead">TU</td><td>24</td><td>42</td><td>54</td><td>60</td><td>60</td><td><span class="reveal-step" data-step-group="pizza" data-step="1">54</span></td></tr>
+          </tbody>
+        </table>
+        <p class="small" style="margin:12px 0 10px;"><strong>Predict:</strong> the 6th slice has MU = &minus;6. What is TU after six slices?</p>
+        <div class="calc-run">
+          <div class="calc-line good"><div class="calc-num">+</div><div><strong>MU &gt; 0 &rarr; TU rises</strong><span>more slowly as MU shrinks</span></div></div>
+          <div class="calc-line hi"><div class="calc-num">0</div><div><strong>MU = 0 &rarr; TU is at its peak</strong><span>the 5th slice adds nothing</span></div></div>
+          <div class="reveal-step" data-step-group="pizza" data-step="1"><div class="calc-line bad"><div class="calc-num">&minus;</div><div><strong>MU &lt; 0 &rarr; TU falls: 60 &minus; 6 = 54</strong><span>the 6th slice makes you worse off</span></div></div></div>
+        </div>
+        <div class="button-row" style="margin-top:12px;"><button type="button" class="step-reveal" data-step-group="pizza">Reveal next step</button></div>
+      </div>
+    </div>
+    <p class="footer-note small muted">MU is the <strong>slope</strong> of TU: big steps early, flat at the top, downhill after that.</p>
+  </section>
+
+  <!-- 9 -->
+  <section class="slide interactive" id="labubuSlide">
+    <div class="section-kicker">LO 7.4 &middot; total utility vs. marginal utility</div>
+    <h1>Why pay less for your 30th Labubu?</h1>
+    <div class="grid-2 toy-row">
+      <div class="toy-panel">
+        <img src="Fig/ARE201_Unit7_Labubu_One_Photo_Generated.png" width="1726" height="911" alt="Photorealistic generated image of one beige Labubu plush toy on a neutral studio background.">
+        <div class="toy-body">
+          <h2 class="accent">Your 1st Labubu</h2>
+          <div class="reveal-step" data-step-group="toy" data-step="1">
+            <p><strong>Total utility: small.</strong> You own just one.</p>
+            <p><strong>Marginal utility: large.</strong> You wanted it badly.</p>
+          </div>
+        </div>
+      </div>
+      <div class="toy-panel">
+        <img src="Fig/ARE201_Unit7_Labubu_Many_Photo_Generated.png" width="1726" height="911" alt="Photorealistic generated image of many matching beige Labubu plush toys arranged together in rows.">
+        <div class="toy-body">
+          <h2 class="blue">Your 30th Labubu</h2>
+          <div class="reveal-step" data-step-group="toy" data-step="1">
+            <p><strong>Total utility: large.</strong> You now own 30.</p>
+            <p><strong>Marginal utility: tiny.</strong> One more adds little.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="definition-strip reveal-step" data-step-group="toy" data-step="2">
+      <strong>What you will pay follows marginal utility, not total utility.</strong> You never buy the whole shelf at once&mdash;you decide on the next one.
+    </div>
+    <div class="definition-strip green-strip reveal-step" data-step-group="toy" data-step="3">
+      <strong>Same logic in markets.</strong> A rare Labubu is pricey because few exist. Water is essential yet cheap&mdash;until a drought makes one more acre-inch of irrigation water precious.
+    </div>
+    <div class="button-row"><button type="button" class="step-reveal" data-step-group="toy">Reveal next step</button></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="slide interactive" id="limitedLabubuSlide">
+    <div class="section-kicker">LO 7.4 &middot; marginal utility and willingness to pay</div>
+    <h1>What if the next Labubu is special?</h1>
+    <div class="collection-context">
+      <img src="Fig/ARE201_Unit7_Labubu_Many_Photo_Generated.png" width="1726" height="911" alt="A collection of many regular beige Labubus that you already own.">
+      <p>You already own many regular Labubus. You especially want this limited edition.<strong>Which would you pay more for as your next one?</strong></p>
+    </div>
+    <div class="grid-2 toy-row">
+      <div class="toy-panel">
+        <img src="Fig/ARE201_Unit7_Labubu_One_Photo_Generated.png" width="1726" height="911" alt="One more regular beige Labubu, matching the ones in your collection.">
+        <div class="choice-body">
+          <h2 class="blue">Another regular Labubu</h2>
+          <p class="reveal-step" data-step-group="limited" data-step="1"><strong>Lower MU:</strong> one more like the ones you own adds little satisfaction.</p>
+        </div>
+      </div>
+      <div class="toy-panel">
+        <img src="Fig/ARE201_Unit7_Labubu_Limited_Edition_Generated.png" width="1726" height="911" alt="Generated illustration of a hypothetical limited-edition Labubu with purple fur and a gold star.">
+        <div class="choice-body">
+          <h2 class="purple">A limited edition you want</h2>
+          <p class="reveal-step" data-step-group="limited" data-step="1"><strong>Higher MU:</strong> this version adds more satisfaction because you especially want it.</p>
+        </div>
+      </div>
+    </div>
+    <div class="definition-strip purple-strip reveal-step" data-step-group="limited" data-step="2">
+      <strong>Higher MU &rarr; higher willingness to pay.</strong> You would pay more for this limited edition than for another regular Labubu.
+    </div>
+    <p class="version-note reveal-step" data-step-group="limited" data-step="2">These are different versions. Diminishing MU concerns additional units of the <strong>same</strong> good.</p>
+    <div class="button-row"><button type="button" class="step-reveal purple-button" data-step-group="limited">Reveal next step</button></div>
+  </section>
+
+  <!-- 11 -->
+  <section class="slide">
+    <div class="section-kicker">LO 7.3 &middot; you have seen this graph before</div>
+    <h1>A budget line is a PPF for a shopper</h1>
+    <div class="grid-2" style="margin-top:4px; gap:18px;">
+      <div class="know-card">
+        <span class="know-badge yes">Unit 3</span>
+        <h2 class="muted">The volunteer's PPF</h2>
+        <svg class="plot mini" viewBox="0 0 300 120" role="img" aria-label="A straight-line production possibilities frontier between dish racks and chicken wraps">
+          <path class="axis" d="M 36 10 L 36 100 L 290 100" />
+          <path class="demand-line thin" style="stroke:var(--muted); stroke-width:3.5" d="M 36 22 L 236 100" />
+          <circle class="dot" style="fill:var(--muted)" cx="116" cy="53.2" r="5" />
+          <text class="plot-label sm" x="124" y="48" fill="#5f6b76">V</text>
+          <text class="tick-label" x="44" y="16">Chicken Wraps</text>
+          <text class="tick-label" x="290" y="116" text-anchor="end">Dish racks</text>
+        </svg>
+      </div>
+      <div class="know-card unknown">
+        <span class="know-badge no">Unit 7</span>
+        <h2 class="accent">José's budget line</h2>
+        <svg class="plot mini" viewBox="0 0 300 120" role="img" aria-label="A straight budget line between T-shirts and movies">
+          <path class="axis" d="M 36 10 L 36 100 L 290 100" />
+          <path class="budget-line" style="stroke-width:3.5" d="M 36 22 L 236 100" />
+          <circle class="dot" cx="86" cy="41.5" r="5" />
+          <text class="plot-label sm" x="94" y="36">S</text>
+          <text class="tick-label" x="44" y="16">Movies</text>
+          <text class="tick-label" x="290" y="116" text-anchor="end">T-shirts</text>
+        </svg>
+      </div>
+    </div>
+    <table class="u7-table compact left-first" style="margin-top:12px;">
+      <thead><tr><th></th><th>Unit 3 &middot; the PPF</th><th>Unit 7 &middot; the budget line</th></tr></thead>
+      <tbody>
+        <tr><td class="lead">Fixed resource</td><td>hours in the shift</td><td>dollars of income</td></tr>
+        <tr><td class="lead">Every point on the line</td><td>uses the whole shift</td><td>spends the whole budget</td></tr>
+        <tr><td class="lead">Slope</td><td>opportunity cost</td><td>opportunity cost, set by the two prices</td></tr>
+        <tr><td class="lead">Shifts out when</td><td>there is more work time</td><td>income rises</td></tr>
+        <tr><td class="lead">Rotates when</td><td>one task gets faster</td><td>one price changes</td></tr>
+      </tbody>
+    </table>
+    <div class="definition-strip" style="margin-top:12px; font-size:17px;">
+      Unit 3's PPF showed what was <em>possible</em>, not which point the volunteer preferred. <strong>Utility is the missing piece:</strong>
+      the budget line shows what José <em>can</em> buy; utility tells us what he <em>will</em> buy.
+    </div>
+  </section>
+
+  <!-- 12 -->
+  <section class="slide interactive" id="budgetSlide">
+    <div class="section-kicker">LO 7.3 &middot; José's budget constraint</div>
+    <h1>José has $56 for T-shirts ($14) and movies ($7)</h1>
+    <div class="two-thirds" style="margin-top:2px;">
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 440 300" role="img" aria-label="José's budget line from 8 movies to 4 T-shirts, with bundles P, Q, R, S and T on the line">
+          <path class="gridline" d="M 54 210 L 412 210 M 54 168 L 412 168 M 54 126 L 412 126 M 54 84 L 412 84 M 54 42 L 412 42" />
+          <path class="axis" d="M 54 30 L 54 252 L 412 252" />
+          <path class="budget-line" d="M 54 84 L 326 252" />
+          <circle class="dot" cx="326" cy="252" r="5.5" /><circle class="dot" cx="258" cy="210" r="5.5" />
+          <circle class="dot" cx="190" cy="168" r="5.5" /><circle class="dot" cx="122" cy="126" r="5.5" />
+          <circle class="dot" cx="54" cy="84" r="5.5" />
+          <text class="plot-label" x="332" y="244">P (4, 0)</text>
+          <text class="plot-label" x="264" y="202">Q (3, 2)</text>
+          <text class="plot-label" x="196" y="160">R (2, 4)</text>
+          <text class="plot-label" x="128" y="118">S (1, 6)</text>
+          <text class="plot-label" x="62" y="76">T (0, 8)</text>
+          <g class="reveal-step" data-step-group="afford" data-step="1">
+            <circle class="dot red-dot" cx="394" cy="252" r="6" />
+            <text class="plot-label sm" x="394" y="222" text-anchor="middle" fill="#c9504d">$70</text>
+          </g>
+          <g class="reveal-step" data-step-group="afford" data-step="2">
+            <circle class="dot hollow-dot" cx="190" cy="189" r="6" />
+            <text class="plot-label sm" x="180" y="208" text-anchor="end" fill="#378a61">$49</text>
+          </g>
+          <g class="reveal-step" data-step-group="afford" data-step="3">
+            <circle class="dot red-dot" cx="258" cy="189" r="6" />
+            <text class="plot-label sm" x="268" y="180" fill="#c9504d">$63</text>
+          </g>
+          <text class="tick-label" x="122" y="268" text-anchor="middle">1</text><text class="tick-label" x="190" y="268" text-anchor="middle">2</text>
+          <text class="tick-label" x="258" y="268" text-anchor="middle">3</text><text class="tick-label" x="326" y="268" text-anchor="middle">4</text>
+          <text class="tick-label" x="394" y="268" text-anchor="middle">5</text>
+          <text class="tick-label" x="46" y="214" text-anchor="end">2</text><text class="tick-label" x="46" y="172" text-anchor="end">4</text>
+          <text class="tick-label" x="46" y="130" text-anchor="end">6</text><text class="tick-label" x="46" y="88" text-anchor="end">8</text>
+          <text class="tick-label" x="46" y="46" text-anchor="end">10</text>
+          <text class="plot-label" x="60" y="24">Movies</text>
+          <text class="plot-label" x="412" y="290" text-anchor="end">T-shirts</text>
+        </svg>
+      </div>
+      <div>
+        <div class="formula-box purple-box" style="padding:10px 14px;"><span style="font-size:25px; font-weight:860;">14T + 7M = 56</span></div>
+        <div class="card white" style="margin-top:10px; padding:11px 14px;">
+          <p class="small"><strong>Intercepts:</strong> all T-shirts, 56 <span class="op">&divide;</span> 14 = <strong>4</strong>; all movies, 56 <span class="op">&divide;</span> 7 = <strong>8</strong>.</p>
+          <p class="small" style="margin-top:6px;"><strong>Slope:</strong> 1 T-shirt costs <strong>2 movies</strong>; 1 movie costs &frac12; T-shirt.</p>
+        </div>
+        <p class="small" style="margin:12px 0 6px;"><strong>Can José afford&hellip;</strong></p>
+        <div class="calc-run">
+          <div class="calc-line"><div class="calc-num">a</div><div><strong>5 T-shirts?</strong><span class="ans reveal-step" data-step-group="afford" data-step="1">$70 &gt; $56 &mdash; <b class="red">no</b>, outside the line</span></div></div>
+          <div class="calc-line"><div class="calc-num">b</div><div><strong>2 T-shirts + 3 movies?</strong><span class="ans reveal-step" data-step-group="afford" data-step="2">$49 &mdash; <b class="green">yes</b>, inside, with $7 left over</span></div></div>
+          <div class="calc-line"><div class="calc-num">c</div><div><strong>3 T-shirts + 3 movies?</strong><span class="ans reveal-step" data-step-group="afford" data-step="3">$63 &gt; $56 &mdash; <b class="red">no</b>, outside</span></div></div>
+        </div>
+        <div class="button-row" style="margin-top:10px;"><button type="button" class="step-reveal" data-step-group="afford">Reveal next step</button></div>
+      </div>
+    </div>
+    <p class="footer-note small muted">We assume José spends this $56 and no more&mdash;no borrowing, no saving. On the line: all $56 spent. Inside: money left over. Outside: unaffordable.</p>
+  </section>
+
+  <!-- 13 -->
+  <section class="slide interactive" id="shiftSlide">
+    <div class="section-kicker">LO 7.3 &middot; what moves the budget line</div>
+    <h1>Did the choice change&mdash;or the constraint?</h1>
+    <p class="small muted" style="margin-top:-6px;">The same question we asked of the PPF in Unit 3. Predict each picture before it appears.</p>
+    <div class="grid-2" style="margin-top:8px; gap:18px;">
+      <div class="plot-panel">
+        <p class="plot-title">José's income rises: $56 &rarr; $70</p>
+        <svg class="plot mid" viewBox="0 0 440 300" role="img" aria-label="An increase in income shifts the budget line out in parallel">
+          <path class="axis" d="M 54 30 L 54 252 L 412 252" />
+          <path class="old-line" d="M 54 84 L 326 252" />
+          <text class="plot-label" x="150" y="172" fill="#5f6b76">$56</text>
+          <g class="reveal-step" data-step-group="shift" data-step="1">
+            <path class="budget-line" d="M 54 42 L 394 252" />
+            <text class="plot-label" x="262" y="150" fill="#7657a5">$70</text>
+            <text class="tick-label" x="394" y="268" text-anchor="middle">5</text>
+            <text class="tick-label" x="46" y="46" text-anchor="end">10</text>
+          </g>
+          <text class="tick-label" x="326" y="268" text-anchor="middle">4</text>
+          <text class="tick-label" x="46" y="88" text-anchor="end">8</text>
+          <text class="plot-label" x="60" y="24">Movies</text>
+          <text class="plot-label" x="412" y="290" text-anchor="end">T-shirts</text>
+        </svg>
+      </div>
+      <div class="plot-panel">
+        <p class="plot-title">The movie price falls: $7 &rarr; $6</p>
+        <svg class="plot mid" viewBox="0 0 440 300" role="img" aria-label="A fall in the movie price rotates the budget line outward along the movie axis, pivoting at 4 T-shirts">
+          <path class="axis" d="M 54 30 L 54 252 L 412 252" />
+          <path class="old-line" d="M 54 84 L 326 252" />
+          <text class="plot-label" x="130" y="184" fill="#5f6b76">movies $7</text>
+          <g class="reveal-step" data-step-group="shift" data-step="2">
+            <path class="budget-line" d="M 54 56 L 326 252" />
+            <text class="plot-label" x="170" y="120" fill="#7657a5">movies $6</text>
+            <text class="tick-label" x="46" y="60" text-anchor="end">9&#8531;</text>
+          </g>
+          <circle class="dot purple-dot" cx="326" cy="252" r="5.5" />
+          <text class="plot-label sm" x="336" y="242">pivot: 4 T-shirts</text>
+          <text class="tick-label" x="326" y="268" text-anchor="middle">4</text>
+          <text class="tick-label" x="46" y="88" text-anchor="end">8</text>
+          <text class="plot-label" x="60" y="24">Movies</text>
+          <text class="plot-label" x="412" y="290" text-anchor="end">T-shirts</text>
+        </svg>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:10px; gap:18px;">
+      <div class="card purple-top reveal-step" data-step-group="shift" data-step="1" style="padding:12px 15px;"><p class="small"><strong>Parallel shift.</strong> Prices did not change, so neither did the slope (1 T-shirt = 2 movies). New intercepts: 5 T-shirts or 10 movies.</p></div>
+      <div class="card purple-top reveal-step" data-step-group="shift" data-step="2" style="padding:12px 15px;"><p class="small"><strong>Rotation.</strong> The T-shirt intercept stays at 4; the movie intercept grows to 56 <span class="op">&divide;</span> 6 = 9&#8531;. One price changed, so the slope changed.</p></div>
+    </div>
+    <div class="button-row" style="margin-top:10px;"><button type="button" class="step-reveal" data-step-group="shift">Reveal next step</button></div>
+  </section>
+
+  <!-- 14 -->
+  <section class="slide interactive" id="method1Slide">
+    <div class="section-kicker">LO 7.3 &middot; consumer equilibrium, the slow way</div>
+    <h1>Which affordable bundle gives José the most utility?</h1>
+    <div class="thirds-two" style="margin-top:4px;">
+      <table class="u7-table compact">
+        <caption>José's total utility</caption>
+        <thead><tr><th>Units</th><th>T-shirts</th><th>Movies</th></tr></thead>
+        <tbody>
+          <tr><td class="lead">1</td><td>22</td><td>16</td></tr>
+          <tr><td class="lead">2</td><td>43</td><td>31</td></tr>
+          <tr><td class="lead">3</td><td>63</td><td>45</td></tr>
+          <tr><td class="lead">4</td><td>81</td><td>58</td></tr>
+          <tr><td class="lead">5</td><td class="muted-cell">&mdash;</td><td>70</td></tr>
+          <tr><td class="lead">6</td><td class="muted-cell">&mdash;</td><td>81</td></tr>
+          <tr><td class="lead">7</td><td class="muted-cell">&mdash;</td><td>91</td></tr>
+          <tr><td class="lead">8</td><td class="muted-cell">&mdash;</td><td>100</td></tr>
+        </tbody>
+      </table>
+      <div>
+        <table class="u7-table">
+          <caption>Every bundle on the budget line</caption>
+          <thead><tr><th>Point</th><th>Bundle (T, M)</th><th>TU from T-shirts + movies</th><th>Total utility</th></tr></thead>
+          <tbody>
+            <tr><td class="lead">P</td><td>(4,&nbsp;0)</td><td><span class="reveal-step" data-step-group="m1" data-step="1">81 + 0</span></td><td><span class="reveal-step" data-step-group="m1" data-step="1">81</span></td></tr>
+            <tr><td class="lead">Q</td><td>(3,&nbsp;2)</td><td><span class="reveal-step" data-step-group="m1" data-step="2">63 + 31</span></td><td><span class="reveal-step" data-step-group="m1" data-step="2">94</span></td></tr>
+            <tr><td class="lead">R</td><td>(2,&nbsp;4)</td><td><span class="reveal-step" data-step-group="m1" data-step="3">43 + 58</span></td><td><span class="reveal-step" data-step-group="m1" data-step="3">101</span></td></tr>
+            <tr><td class="lead">S</td><td>(1,&nbsp;6)</td><td><span class="reveal-step" data-step-group="m1" data-step="4">22 + 81</span></td><td><span class="reveal-step" data-step-group="m1" data-step="4">103</span><span class="best-tag reveal-step" data-step-group="m1" data-step="6">best</span></td></tr>
+            <tr><td class="lead">T</td><td>(0,&nbsp;8)</td><td><span class="reveal-step" data-step-group="m1" data-step="5">0 + 100</span></td><td><span class="reveal-step" data-step-group="m1" data-step="5">100</span></td></tr>
+          </tbody>
+        </table>
+        <div class="definition-strip green-strip reveal-step" data-step-group="m1" data-step="6" style="margin-top:12px; font-size:17px;">
+          <strong>S = 1 T-shirt and 6 movies, 103 utils.</strong> That is José's <strong>consumer equilibrium</strong>: the affordable bundle with the highest total utility. T has the most stuff, yet only 100 utils.
+        </div>
+        <div class="button-row" style="margin-top:10px;"><button type="button" class="step-reveal" data-step-group="m1">Reveal next step</button></div>
+      </div>
+    </div>
+    <p class="footer-note small muted">Checking every bundle works when there are five of them. It is slow&mdash;and it does not tell us <em>why</em> S wins. Next: a faster rule.</p>
+  </section>
+
+  <!-- 15 -->
+  <section class="slide interactive" id="perDollarSlide">
+    <div class="section-kicker">LO 7.5 &middot; a faster rule</div>
+    <h1>Compare utility per dollar, not utility</h1>
+    <div class="formula-box" style="margin-top:2px;">
+      <span class="lhs">MU per dollar =</span>
+      <span class="frac"><span class="num">marginal utility</span><span class="den">price</span></span>
+    </div>
+    <div class="grid-2" style="margin-top:16px;">
+      <div class="card blue-top">
+        <h2 class="blue">José's 1st T-shirt</h2>
+        <p>MU = <strong>22</strong> utils &nbsp;&middot;&nbsp; price <strong>$14</strong></p>
+        <p class="check-answer" data-step-group="pd" style="margin-top:8px; font-size:21px; font-weight:860;">22 <span class="op">&divide;</span> 14 = 1.57 utils per $</p>
+      </div>
+      <div class="card green-top">
+        <h2 class="green">José's 1st movie</h2>
+        <p>MU = <strong>16</strong> utils &nbsp;&middot;&nbsp; price <strong>$7</strong></p>
+        <p class="check-answer" data-step-group="pd" style="margin-top:8px; font-size:21px; font-weight:860;">16 <span class="op">&divide;</span> 7 = 2.29 utils per $</p>
+      </div>
+    </div>
+    <p style="margin:18px 0 10px;"><strong>Which should José buy first?</strong></p>
+    <div class="button-row">
+      <button type="button" class="first-opt" data-correct="false">The T-shirt&mdash;it gives more utility</button>
+      <button type="button" class="first-opt blue-button" data-correct="true">The movie</button>
+    </div>
+    <div class="feedback" id="firstFeedback" style="margin-top:12px;"
+         data-correct-message="<strong>The movie.</strong> The T-shirt gives more utility (22 against 16), but it costs twice as much. Per dollar, the movie delivers 2.29 utils and the T-shirt only 1.57."
+         data-wrong-message="<strong>Not quite&mdash;the movie.</strong> 22 utils does beat 16, but the T-shirt costs twice as much. Per dollar, the movie delivers 2.29 utils and the T-shirt only 1.57.">Pick one.</div>
+  </section>
+
+  <!-- 16 -->
+  <section class="slide interactive" id="shopSlide">
+    <div class="section-kicker">LO 7.5 &middot; spend the $56 one purchase at a time</div>
+    <h1>Build José's bundle using MU per dollar</h1>
+    <div class="two-thirds" style="margin-top:2px;">
+      <div class="grid-2" style="gap:12px; align-items:start;">
+        <table class="u7-table compact">
+          <caption>T-shirts &middot; $14 each</caption>
+          <thead><tr><th>Unit</th><th>MU</th><th>MU per $</th></tr></thead>
+          <tbody>
+            <tr data-good="T" data-unit="1"><td class="lead">1st</td><td>22</td><td class="shop-cell">1.57</td></tr>
+            <tr data-good="T" data-unit="2"><td class="lead">2nd</td><td>21</td><td class="shop-cell">1.50</td></tr>
+            <tr data-good="T" data-unit="3"><td class="lead">3rd</td><td>20</td><td class="shop-cell">1.43</td></tr>
+            <tr data-good="T" data-unit="4"><td class="lead">4th</td><td>18</td><td class="shop-cell">1.29</td></tr>
+          </tbody>
+        </table>
+        <table class="u7-table compact">
+          <caption>Movies &middot; $7 each</caption>
+          <thead><tr><th>Unit</th><th>MU</th><th>MU per $</th></tr></thead>
+          <tbody>
+            <tr data-good="M" data-unit="1"><td class="lead">1st</td><td>16</td><td class="shop-cell">2.29</td></tr>
+            <tr data-good="M" data-unit="2"><td class="lead">2nd</td><td>15</td><td class="shop-cell">2.14</td></tr>
+            <tr data-good="M" data-unit="3"><td class="lead">3rd</td><td>14</td><td class="shop-cell">2.00</td></tr>
+            <tr data-good="M" data-unit="4"><td class="lead">4th</td><td>13</td><td class="shop-cell">1.86</td></tr>
+            <tr data-good="M" data-unit="5"><td class="lead">5th</td><td>12</td><td class="shop-cell">1.71</td></tr>
+            <tr data-good="M" data-unit="6"><td class="lead">6th</td><td>11</td><td class="shop-cell">1.57</td></tr>
+            <tr data-good="M" data-unit="7"><td class="lead">7th</td><td>10</td><td class="shop-cell">1.43</td></tr>
+            <tr data-good="M" data-unit="8"><td class="lead">8th</td><td>9</td><td class="shop-cell">1.29</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="shop-panel">
+        <div class="shop-stats">
+          <div class="shop-stat"><strong id="shopSpent">$0</strong><span>spent of $56</span></div>
+          <div class="shop-stat"><strong id="shopBundle">(0,&nbsp;0)</strong><span>T-shirts, movies</span></div>
+        </div>
+        <div class="spend-track"><div class="spend-fill" id="shopFill"></div></div>
+        <div class="feedback info" id="shopStatus">Spent $0 so far.</div>
+        <div class="button-row" style="margin-top:10px;">
+          <button type="button" id="shopBuy">Buy next &rarr;</button>
+          <button type="button" id="shopReset" class="secondary">Reset</button>
+        </div>
+      </div>
+    </div>
+    <p class="footer-note small muted">Where the numbers come from: the 2nd movie's MU is 31 &minus; 16 = 15, and 15 <span class="op">&divide;</span> $7 = 2.14. Every cell is built the same way.</p>
+    <p class="print-only small">Purchase order: movies 1&ndash;5, then the 1st T-shirt and the 6th movie (tied at 1.57). All $56 spent at (1 T-shirt, 6 movies) = S.</p>
+  </section>
+
+  <!-- 17 -->
+  <section class="slide interactive" id="allocationRuleSlide">
+    <div class="section-kicker">LO 7.5 &middot; the utility-maximizing rule</div>
+    <h1>Could reallocating spending raise utility?</h1>
+    <div class="definition-strip allocation-setup">
+      <strong>Your budget is fully spent.</strong> Rice and fruit are bought by weight, so you can adjust either purchase by a small amount.
+    </div>
+    <div class="allocation-grid">
+      <div>
+        <div class="allocation-values">
+          <div class="allocation-good"><h2 class="blue">Rice</h2><strong>4</strong><span>utils per dollar</span></div>
+          <div class="allocation-good fruit"><h2 class="green">Fruit</h2><strong>2</strong><span>utils per dollar</span></div>
+        </div>
+        <p class="allocation-predict"><strong>Predict:</strong> which way should a little money move?</p>
+      </div>
+      <div>
+        <div class="card allocation-answer reveal-step" data-step-group="allocation" data-step="1">
+          <h3 class="accent">Move spending: fruit &rarr; rice</h3>
+          <p>A small shift gains more utility from rice than it gives up from fruit.</p>
+        </div>
+        <div class="allocation-adjust reveal-step" data-step-group="allocation" data-step="2">
+          <strong>More rice &rarr; rice's MU falls.</strong><br>
+          <strong>Less fruit &rarr; fruit's MU rises.</strong><br>
+          The marginal benefits per dollar move closer together.
+        </div>
+      </div>
+    </div>
+    <div class="allocation-equilibrium reveal-step" data-step-group="allocation" data-step="2">
+      <div class="allocation-formula" aria-label="Marginal utility of rice divided by its price equals marginal utility of fruit divided by its price">
+        <span class="allocation-frac"><span>MU<sub>rice</sub></span><span>P<sub>rice</sub></span></span>
+        <span>=</span>
+        <span class="allocation-frac"><span>MU<sub>fruit</sub></span><span>P<sub>fruit</sub></span></span>
+      </div>
+      <div>
+        <p><strong>At an interior optimum, no small shift can improve utility.</strong> Equalize MU per dollar, not MU itself.</p>
+        <p class="allocation-assumptions">Budget fully spent &middot; divisible goods &middot; diminishing MU &middot; both goods consumed</p>
+      </div>
+    </div>
+    <div class="allocation-discrete reveal-step" data-step-group="allocation" data-step="3">
+      <h3 class="purple">Back to José: at S = 1 T-shirt + 6 movies, check whole-item trades</h3>
+      <div class="allocation-swaps">
+        <p>1 fewer T-shirt, 2 more movies:<br><strong>&minus;22 + 10 + 9 = &minus;3 utils</strong></p>
+        <p>2 fewer movies, 1 more T-shirt:<br><strong>&minus;12 &minus; 11 + 21 = &minus;2 utils</strong></p>
+      </div>
+      <p class="allocation-boundary">Both trades make him worse off. For whole items, compare feasible bundles; <strong>exact MU/P equality need not occur.</strong></p>
+    </div>
+    <div class="button-row">
+      <button type="button" class="step-reveal" data-step-group="allocation">Reveal next step</button>
+      <span class="allocation-alias">Also called the optimal consumption rule; the best bundle is consumer equilibrium.</span>
+    </div>
+  </section>
+
+  <!-- 18 -->
+  <section class="slide interactive" id="twoUsesSlide">
+    <div class="section-kicker">LO 7.5 &middot; two ways the rule shows up on a quiz</div>
+    <h1>Use the rule to fix a choice&mdash;or to find a price</h1>
+    <div class="grid-2" style="margin-top:6px;">
+      <div class="card white">
+        <h2 style="font-size:21px;">A &middot; Not at the best bundle yet</h2>
+        <p class="small">Coffee costs <strong>$4 per cup</strong>, with current MU = <strong>20 utils per cup</strong>. Tea costs <strong>$2 per cup</strong>, with MU = <strong>6</strong>. Your budget is fully spent; amounts are adjustable. Which way should spending move?</p>
+        <div class="calc-run" style="margin-top:10px;">
+          <div class="reveal-step" data-step-group="uses" data-step="1"><div class="calc-line"><div class="calc-num">1</div><div><strong>Coffee: 20 <span class="op">&divide;</span> 4 = 5 &nbsp;&middot;&nbsp; Tea: 6 <span class="op">&divide;</span> 2 = 3</strong><span>utils per dollar</span></div></div></div>
+          <div class="reveal-step" data-step-group="uses" data-step="2"><div class="calc-line hi"><div class="calc-num">2</div><div><strong>Move spending from tea to coffee</strong><span>As you do, coffee's MU falls and tea's MU rises, until the two ratios meet.</span></div></div></div>
+        </div>
+      </div>
+      <div class="card white">
+        <h2 style="font-size:21px;">B &middot; Work backward to a price</h2>
+        <p class="small"><strong>Assume equal MU per dollar at the best bundle.</strong> The last concert ticket gave <strong>90</strong> utils and cost <strong>$30</strong>; the last movie gave <strong>36</strong> utils. What must a movie cost?</p>
+        <div class="calc-run" style="margin-top:10px;">
+          <div class="reveal-step" data-step-group="uses" data-step="3"><div class="calc-line"><div class="calc-num">1</div><div><strong>Concert: 90 <span class="op">&divide;</span> $30 = 3 utils per $</strong><span>Use the stated equal-MU/P assumption.</span></div></div></div>
+          <div class="reveal-step" data-step-group="uses" data-step="4"><div class="calc-line hi"><div class="calc-num">2</div><div><strong>36 <span class="op">&divide;</span> P = 3 &nbsp;&rarr;&nbsp; P = $12</strong><span>The movie must cost $12.</span></div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="button-row" style="margin-top:16px;"><button type="button" class="step-reveal" data-step-group="uses">Reveal next step</button></div>
+  </section>
+
+  <!-- 19 -->
+  <section class="slide interactive" id="fairSlide">
+    <div class="section-kicker">LO 7.5 &middot; your turn &middot; work it on paper first</div>
+    <h1>$30 at the NC State Fair</h1>
+    <div class="thirds-two" style="margin-top:2px;">
+      <div>
+        <div class="quiz-scenario" style="min-height:0; padding:12px 16px;">
+          <div class="market-label">The setup <span class="illus-tag">illustrative numbers</span></div>
+          <p style="font-size:18px;">A ride costs <strong>$4</strong>. An order of fried Oreos costs <strong>$6</strong>. You have <strong>$30</strong>.</p>
+        </div>
+        <table class="u7-table compact" style="margin-top:12px;">
+          <thead><tr><th>Unit</th><th>MU of rides</th><th>MU of Oreos</th></tr></thead>
+          <tbody>
+            <tr><td class="lead">1</td><td>40</td><td>72</td></tr>
+            <tr><td class="lead">2</td><td>32</td><td>48</td></tr>
+            <tr><td class="lead">3</td><td>24</td><td>36</td></tr>
+            <tr><td class="lead">4</td><td>20</td><td>24</td></tr>
+            <tr><td class="lead">5</td><td>16</td><td>12</td></tr>
+            <tr><td class="lead">6</td><td>8</td><td class="muted-cell">&mdash;</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="calc-run">
+          <div class="calc-line"><div class="calc-num">a</div><div><strong>What do you buy first?</strong><span class="ans reveal-step" data-step-group="fair" data-step="1">Oreos: 72 <span class="op">&divide;</span> 6 = 12 per $ beats 40 <span class="op">&divide;</span> 4 = 10 per $.</span></div></div>
+          <div class="calc-line"><div class="calc-num">b</div><div><strong>What do you buy second?</strong><span class="ans reveal-step" data-step-group="fair" data-step="2">A ride: 10 per $, the best of what is left.</span></div></div>
+          <div class="calc-line"><div class="calc-num">c</div><div><strong>Final bundle, and money spent?</strong><span class="ans reveal-step" data-step-group="fair" data-step="3">Then a ride and an Oreo tie at 8 per $, and tie again at 6 per $. Final: 3 rides + 3 Oreos = $12 + $18 = $30.</span></div></div>
+          <div class="calc-line"><div class="calc-num">d</div><div><strong>Does the rule check out?</strong><span class="ans reveal-step" data-step-group="fair" data-step="4">Last ride: 24 <span class="op">&divide;</span> 4 = 6. Last Oreo: 36 <span class="op">&divide;</span> 6 = 6. Equal, all $30 spent: TU = 252, and no other affordable bundle beats it (next best: 236).</span></div></div>
+        </div>
+        <div class="button-row" style="margin-top:12px;"><button type="button" class="step-reveal" data-step-group="fair">Reveal next step</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20 -->
+  <section class="slide interactive" id="incomeSlide">
+    <div class="section-kicker">Income changes &middot; normal or inferior?</div>
+    <h1>Kimberly's income doubles. Where does her new choice land?</h1>
+    <div class="two-thirds" style="margin-top:2px;">
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 440 300" role="img" aria-label="Kimberly's budget line shifts out when income doubles; points P, N and Q on the new line lie in different quadrants around her original choice M">
+          <path class="axis" d="M 54 30 L 54 252 L 412 252" />
+          <path class="ref-line" d="M 54 212 L 404 212" />
+          <path class="ref-line" d="M 156 252 L 156 40" />
+          <path class="old-line" d="M 54 152 L 224 252" />
+          <path class="budget-line" d="M 54 52 L 394 252" />
+          <circle class="dot" cx="156" cy="212" r="6" />
+          <text class="plot-label" x="140" y="232" text-anchor="end">M</text>
+          <circle class="dot blue-dot" cx="224" cy="152" r="6" />
+          <text class="plot-label" x="232" y="146" fill="#2f80c9">N</text>
+          <circle class="dot purple-dot" cx="122" cy="92" r="6" />
+          <text class="plot-label" x="130" y="86" fill="#7657a5">P</text>
+          <circle class="dot green-dot" cx="360" cy="232" r="6" />
+          <text class="plot-label" x="366" y="224" fill="#378a61">Q</text>
+          <text class="plot-label sm" x="66" y="196" fill="#5f6b76">$1,000</text>
+          <text class="plot-label sm" x="300" y="182" fill="#7657a5">$2,000</text>
+          <text class="tick-label" x="122" y="268" text-anchor="middle">2</text><text class="tick-label" x="190" y="268" text-anchor="middle">4</text>
+          <text class="tick-label" x="258" y="268" text-anchor="middle">6</text><text class="tick-label" x="326" y="268" text-anchor="middle">8</text>
+          <text class="tick-label" x="394" y="268" text-anchor="middle">10</text>
+          <text class="tick-label" x="46" y="206" text-anchor="end">10</text><text class="tick-label" x="46" y="156" text-anchor="end">20</text>
+          <text class="tick-label" x="46" y="106" text-anchor="end">30</text><text class="tick-label" x="46" y="56" text-anchor="end">40</text>
+          <text class="plot-label" x="60" y="24">Concert tickets</text>
+          <text class="plot-label" x="412" y="290" text-anchor="end">Overnight stays</text>
+        </svg>
+      </div>
+      <div>
+        <div class="quiz-scenario" style="min-height:0; padding:11px 15px;">
+          <p style="margin:0; font-size:16px;">Concert tickets <strong>$50</strong>, overnight stays <strong>$200</strong>. Income <strong>$1,000 &rarr; $2,000</strong>. She was at <strong>M</strong>: 3 stays and 8 tickets.</p>
+        </div>
+        <div class="calc-run" style="margin-top:10px;">
+          <div class="calc-line"><div class="calc-num">N</div><div><strong>More of both</strong><span class="ans reveal-step" data-step-group="inc" data-step="1">Both goods are normal.</span></div></div>
+          <div class="calc-line"><div class="calc-num">P</div><div><strong>Fewer overnight stays</strong><span class="ans reveal-step" data-step-group="inc" data-step="1">For her, overnight stays are inferior.</span></div></div>
+          <div class="calc-line"><div class="calc-num">Q</div><div><strong>Fewer concert tickets</strong><span class="ans reveal-step" data-step-group="inc" data-step="1">For her, concert tickets are inferior.</span></div></div>
+        </div>
+        <div class="button-row" style="margin-top:10px;"><button type="button" class="step-reveal" data-step-group="inc">Reveal next step</button></div>
+        <div class="definition-strip blue-strip" style="margin-top:10px; padding:10px 13px; font-size:15px;">
+          Unit 4's definition: a <strong>normal</strong> good is bought more when income rises; an <strong>inferior</strong> good, less. The dashed lines through M make the comparison easy.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21 -->
+  <!-- Definitions adapted from Reference/6 Consumer Choices.md, discussion of substitution and income effects. -->
+  <section class="slide interactive" id="priceEffectsSlide">
+    <div class="section-kicker">LO 7.2 &middot; substitution effect and income effect</div>
+    <h1>A price change works through two effects</h1>
+    <p class="effects-intro">Hold <strong>money income</strong> fixed; let the price of one good change.</p>
+    <div class="grid-2">
+      <div class="card blue-top effect-card">
+        <h2 class="blue">Substitution effect</h2>
+        <p class="effect-definition">The change in consumption caused by a change in <strong>relative prices</strong>, holding purchasing power constant.</p>
+        <p class="effect-question"><strong>Ask:</strong> which good is now relatively cheaper?</p>
+        <p class="effect-direction">Consumers substitute <strong>toward relatively cheaper goods</strong> and away from relatively more expensive ones.</p>
+      </div>
+      <div class="card green-top effect-card">
+        <h2 class="green">Income effect</h2>
+        <p class="effect-definition">The change in consumption caused by a price change altering the <strong>purchasing power</strong> of your money income.</p>
+        <p class="effect-question"><strong>Same dollars, different buying power.</strong> A lower price lets your money buy more.</p>
+        <p class="effect-direction">When buying power rises: <strong>normal goods &uarr;; inferior goods &darr;.</strong> Reverse when it falls.</p>
+      </div>
+    </div>
+    <p class="effects-check-title"><strong>Quick check:</strong> movies get cheaper. Which effect does each statement describe?</p>
+    <div class="grid-2">
+      <div class="effect-check">
+        <p>&ldquo;Movies are cheaper relative to T-shirts.&rdquo;</p>
+        <span class="blue reveal-step" data-step-group="effectsDefinition" data-step="1">Substitution effect</span>
+      </div>
+      <div class="effect-check">
+        <p>&ldquo;The same $56 now buys more.&rdquo;</p>
+        <span class="green reveal-step" data-step-group="effectsDefinition" data-step="1">Income effect</span>
+      </div>
+    </div>
+    <div class="button-row">
+      <button type="button" class="step-reveal" data-step-group="effectsDefinition">Reveal next step</button>
+      <span class="effects-total">The actual change in consumption combines both effects.</span>
+    </div>
+  </section>
+
+  <!-- 22 -->
+  <section class="slide">
+    <div class="section-kicker">LO 7.2 &middot; one price change, two effects</div>
+    <h1>Movies drop from $7 to $6. Two things happen at once.</h1>
+    <div class="two-thirds" style="margin-top:2px;">
+      <div class="plot-panel">
+        <svg class="plot" viewBox="0 0 440 300" role="img" aria-label="The budget line rotates outward when the movie price falls; José's old bundle S now lies inside the new line">
+          <path class="axis" d="M 54 30 L 54 252 L 412 252" />
+          <path class="old-line" d="M 54 84 L 326 252" />
+          <path class="budget-line" d="M 54 56 L 326 252" />
+          <circle class="dot" cx="122" cy="126" r="6" />
+          <path class="leader" d="M 116 132 L 92 196" />
+          <text class="plot-label" x="62" y="212">S = (1, 6)</text>
+          <text class="plot-label sm" x="62" y="227" fill="#5f6b76">now costs only $50</text>
+          <text class="plot-label" x="176" y="118" fill="#7657a5">movies $6</text>
+          <text class="plot-label" x="158" y="216" fill="#5f6b76">movies $7</text>
+          <circle class="dot purple-dot" cx="326" cy="252" r="5.5" />
+          <text class="plot-label sm" x="336" y="242">pivot: 4 T-shirts</text>
+          <text class="tick-label" x="122" y="268" text-anchor="middle">1</text><text class="tick-label" x="190" y="268" text-anchor="middle">2</text>
+          <text class="tick-label" x="258" y="268" text-anchor="middle">3</text><text class="tick-label" x="326" y="268" text-anchor="middle">4</text>
+          <text class="tick-label" x="46" y="130" text-anchor="end">6</text><text class="tick-label" x="46" y="88" text-anchor="end">8</text>
+          <text class="tick-label" x="46" y="60" text-anchor="end">9&#8531;</text>
+          <text class="plot-label" x="60" y="24">Movies</text>
+          <text class="plot-label" x="412" y="290" text-anchor="end">T-shirts</text>
+        </svg>
+      </div>
+      <div>
+        <div class="card blue-top"><h3 class="blue">1 &middot; Substitution effect</h3><p><strong>Relative prices changed.</strong> A T-shirt used to cost 2 movies; now it costs 14 <span class="op">&divide;</span> 6 = 2.33. Movies are <em>relatively</em> cheaper, so José substitutes toward movies.</p></div>
+        <div class="card green-top" style="margin-top:12px;"><h3 class="green">2 &middot; Income effect</h3><p><strong>More buying power, the same $56 income.</strong> His old bundle S now costs only $50, leaving <strong>$6</strong>. The rise in buying power favors more of normal goods and less of inferior goods.</p></div>
+      </div>
+    </div>
+    <p class="footer-note small muted">Unit 6 link: the income effect is large when a good takes a big share of the budget (housing) and tiny when it does not (salt).</p>
+  </section>
+
+  <!-- 23 -->
+  <section class="slide">
+    <div class="section-kicker">LO 7.2 &middot; adding up the two effects</div>
+    <h1>At $6 a movie, José moves from (1,&nbsp;6) to (1,&nbsp;7)</h1>
+    <div class="grid-2" style="margin-top:6px; align-items:start;">
+      <div>
+        <div class="calc-run">
+          <div class="calc-line good"><div class="calc-num">M</div><div><strong>Movies: 6 to 7 in the best bundle</strong><span>Substitution favors more movies. If movies are normal, greater buying power also favors more.</span></div></div>
+          <div class="calc-line"><div class="calc-num">T</div><div><strong>T-shirts: still 1 in the best bundle</strong><span>For a normal good, the effects point in opposite directions. Whole-item quantities can stay unchanged.</span></div></div>
+        </div>
+        <p class="small muted" style="margin-top:12px;">Why seven movies and not eight: at $6, the 7th movie gives 10 <span class="op">&divide;</span> 6 = 1.67 per $, above the 1st T-shirt's 1.57; the 8th gives only 9 <span class="op">&divide;</span> 6 = 1.50.</p>
+      </div>
+      <table class="sign-table">
+        <thead><tr><th></th><th>Good that got cheaper</th><th>The other good</th></tr></thead>
+        <tbody>
+          <tr><td>Substitution effect</td><td class="up">+ more</td><td class="down">&minus; less</td></tr>
+          <tr><td>Income effect, normal good</td><td class="up">+ more</td><td class="up">+ more</td></tr>
+          <tr><td>Income effect, inferior good</td><td class="down">&minus; less</td><td class="down">&minus; less</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="definition-strip" style="margin-top:18px; font-size:17px;">
+      <strong>Substitution effect:</strong> always toward the good that became relatively cheaper.
+      <strong>Income effect:</strong> its direction depends on normal versus inferior.
+      If a price <em>rises</em>, flip every sign in the table. With whole items, an unchanged quantity does not prove exact cancellation.
+    </div>
+  </section>
+
+  <!-- 24 -->
+  <section class="slide interactive" id="wonSlide">
+    <div class="section-kicker">LO 7.2 &middot; predict before we reveal</div>
+    <h1>Coffee gets more expensive. You buy less coffee&mdash;and less tea.</h1>
+    <div class="quiz-scenario" style="margin-top:4px; min-height:0;">
+      <div class="market-label">Your question</div>
+      <p>For <strong>tea</strong>, which effect was bigger?</p>
+    </div>
+    <div class="button-row" style="margin-top:14px;">
+      <button type="button" class="won-opt" data-correct="false">The substitution effect</button>
+      <button type="button" class="won-opt blue-button" data-correct="true">The income effect</button>
+      <button type="button" class="won-opt secondary" data-correct="false">Neither&mdash;they cancelled</button>
+    </div>
+    <div class="feedback" id="wonFeedback" style="margin-top:12px;"
+         data-correct-message="<strong>Right&mdash;the income effect.</strong> The two effects pushed tea in opposite directions, and tea fell, so the income effect was the bigger push."
+         data-wrong-message="<strong>Look at the directions.</strong> The substitution effect pushes toward <em>more</em> tea; the income effect pushes toward <em>less</em>. Tea fell, so the income effect must have been bigger.">Pick one.</div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="card blue-top check-answer" data-step-group="won" style="padding:12px 15px;"><p class="small"><strong>Substitution effect on tea:</strong> tea is now relatively cheaper than coffee &rarr; <strong>more</strong> tea.</p></div>
+      <div class="card green-top check-answer" data-step-group="won" style="padding:12px 15px;"><p class="small"><strong>Income effect on tea:</strong> your budget now buys less &rarr; <strong>less</strong> tea, a normal good.</p></div>
+    </div>
+    <p class="footer-note small muted">Mirror image: pizza gets cheaper; you buy more pizza but <strong>fewer</strong> tacos. For tacos, the substitution effect won.</p>
+  </section>
+
+  <!-- 25 -->
+  <section class="slide interactive" id="demandSlide">
+    <div class="section-kicker">LO 7.6 &middot; from choices to a demand curve</div>
+    <h1>Change only the movie price, re-run the list, record the quantity</h1>
+    <div class="grid-2" style="margin-top:2px; gap:16px;">
+      <div class="plot-panel">
+        <p class="plot-title">José's best bundle at each movie price</p>
+        <svg class="plot demand-h" viewBox="0 0 440 300" role="img" aria-label="Three budget lines for movie prices of 8, 7 and 6 dollars, with José's best bundle on each at 5, 6 and 7 movies">
+          <path class="axis" d="M 54 30 L 54 252 L 412 252" />
+          <g class="reveal-step" data-step-group="dem" data-step="1">
+            <path class="budget-line thin" d="M 54 84 L 326 252" />
+            <path class="projection" style="stroke:var(--purple)" d="M 54 126 L 122 126" />
+            <circle class="dot purple-dot" cx="122" cy="126" r="6" />
+          </g>
+          <g class="reveal-step" data-step-group="dem" data-step="2">
+            <path class="budget-line thin" style="stroke:var(--green)" d="M 54 56 L 326 252" />
+            <path class="projection" style="stroke:var(--green)" d="M 54 105 L 122 105" />
+            <circle class="dot green-dot" cx="122" cy="105" r="6" />
+          </g>
+          <g class="reveal-step" data-step-group="dem" data-step="3">
+            <path class="budget-line thin" style="stroke:var(--red)" d="M 54 105 L 326 252" />
+            <path class="projection" style="stroke:var(--red)" d="M 54 147 L 122 147" />
+            <circle class="dot red-dot" cx="122" cy="147" r="6" />
+          </g>
+          <path d="M 318 44 L 342 44" stroke="#c9504d" stroke-width="3" /><text class="plot-label sm" x="348" y="48">movies $8</text>
+          <path d="M 318 62 L 342 62" stroke="#7657a5" stroke-width="3" /><text class="plot-label sm" x="348" y="66">movies $7</text>
+          <path d="M 318 80 L 342 80" stroke="#378a61" stroke-width="3" /><text class="plot-label sm" x="348" y="84">movies $6</text>
+          <text class="tick-label" x="122" y="268" text-anchor="middle">1</text><text class="tick-label" x="190" y="268" text-anchor="middle">2</text>
+          <text class="tick-label" x="258" y="268" text-anchor="middle">3</text><text class="tick-label" x="326" y="268" text-anchor="middle">4</text>
+          <text class="tick-label" x="46" y="151" text-anchor="end">5</text><text class="tick-label" x="46" y="130" text-anchor="end">6</text>
+          <text class="tick-label" x="46" y="109" text-anchor="end">7</text>
+          <text class="plot-label" x="60" y="24">Movies</text>
+          <text class="plot-label" x="412" y="290" text-anchor="end">T-shirts</text>
+        </svg>
+      </div>
+      <div class="plot-panel">
+        <p class="plot-title">José's demand for movies</p>
+        <svg class="plot demand-h" viewBox="0 0 440 300" role="img" aria-label="José's demand curve for movies through 5 movies at 8 dollars, 6 movies at 7 dollars and 7 movies at 6 dollars">
+          <path class="axis" d="M 54 30 L 54 252 L 412 252" />
+          <g class="reveal-step" data-step-group="dem" data-step="4">
+            <path class="demand-line" d="M 225 73.5 L 339 136.5" />
+            <text class="plot-label" x="346" y="146" fill="#2f80c9">D</text>
+          </g>
+          <g class="reveal-step" data-step-group="dem" data-step="1">
+            <path class="projection" style="stroke:var(--purple)" d="M 54 105 L 282 105 L 282 252" />
+            <circle class="dot purple-dot" cx="282" cy="105" r="6" />
+          </g>
+          <g class="reveal-step" data-step-group="dem" data-step="2">
+            <path class="projection" style="stroke:var(--green)" d="M 54 126 L 320 126 L 320 252" />
+            <circle class="dot green-dot" cx="320" cy="126" r="6" />
+          </g>
+          <g class="reveal-step" data-step-group="dem" data-step="3">
+            <path class="projection" style="stroke:var(--red)" d="M 54 84 L 244 84 L 244 252" />
+            <circle class="dot red-dot" cx="244" cy="84" r="6" />
+          </g>
+          <text class="tick-label" x="244" y="268" text-anchor="middle">5</text><text class="tick-label" x="282" y="268" text-anchor="middle">6</text>
+          <text class="tick-label" x="320" y="268" text-anchor="middle">7</text>
+          <text class="tick-label" x="46" y="88" text-anchor="end">$8</text><text class="tick-label" x="46" y="109" text-anchor="end">$7</text>
+          <text class="tick-label" x="46" y="130" text-anchor="end">$6</text>
+          <text class="plot-label" x="60" y="24">Price of a movie</text>
+          <text class="plot-label" x="412" y="290" text-anchor="end">Movies</text>
+        </svg>
+      </div>
+    </div>
+    <table class="u7-table compact" style="margin-top:10px;">
+      <thead><tr><th>Movie price</th><th>Best bundle (T, M)</th><th>Money spent</th><th>Movies demanded</th></tr></thead>
+      <tbody>
+        <tr class="reveal-step" data-step-group="dem" data-step="1"><td>$7</td><td>(1,&nbsp;6)</td><td>$56</td><td>6</td></tr>
+        <tr class="reveal-step" data-step-group="dem" data-step="2"><td>$6</td><td>(1,&nbsp;7)</td><td>$56</td><td>7</td></tr>
+        <tr class="reveal-step" data-step-group="dem" data-step="3"><td>$8</td><td>(1,&nbsp;5)</td><td>$54 &mdash; the last $2 buys nothing</td><td>5</td></tr>
+      </tbody>
+    </table>
+    <div class="button-row" style="margin-top:10px;">
+      <button type="button" class="step-reveal" data-step-group="dem">Reveal next step</button>
+      <span class="small muted">Held fixed: income $56, the T-shirt price $14, José's tastes.</span>
+    </div>
+  </section>
+
+  <!-- 26 -->
+  <section class="slide interactive" id="whySlide">
+    <div class="section-kicker">LO 7.6 &middot; why demand slopes down &middot; back to the start of class</div>
+    <h1>A, B and C were all right</h1>
+    <div class="grid-3" style="margin-top:6px;">
+      <div class="card green-top reveal-step" data-step-group="why" data-step="1">
+        <span class="poll-letter" style="background:var(--green);">A</span>
+        <h3>&ldquo;I can't afford as much&rdquo;</h3>
+        <p>= the <strong>income effect</strong>. A higher price shrinks what the budget can buy, so you buy less of a normal good.</p>
+      </div>
+      <div class="card blue-top reveal-step" data-step-group="why" data-step="2">
+        <span class="poll-letter" style="background:var(--blue);">B</span>
+        <h3>&ldquo;Other things are the better deal&rdquo;</h3>
+        <p>= the <strong>substitution effect</strong>. The good is now relatively pricier, so you shift toward others. It always pushes quantity down.</p>
+      </div>
+      <div class="card accent-top reveal-step" data-step-group="why" data-step="3">
+        <span class="poll-letter">C</span>
+        <h3>&ldquo;The last few weren't worth it&rdquo;</h3>
+        <p>= <strong>diminishing marginal utility</strong>. Each extra unit is worth less, so only a lower price gets you to buy more. The height of demand is marginal WTP (Unit 5).</p>
+      </div>
+    </div>
+    <div class="definition-strip reveal-step" data-step-group="why" data-step="4" style="margin-top:14px; font-size:17px;">
+      <strong>Every point on a demand curve comes from a consumer's best affordable bundle.</strong>
+      Income, other prices and tastes are held fixed&mdash;change one of them and the whole curve shifts (Unit 4).
+    </div>
+    <div class="button-row" style="margin-top:12px;"><button type="button" class="step-reveal" data-step-group="why">Reveal next step</button></div>
+  </section>
+
+  <!-- 27 -->
+  <section class="slide interactive" id="checkpointSlide">
+    <div class="section-kicker">Unit 7 checkpoint &middot; exit ticket</div>
+    <h1>Six moves complete the unit</h1>
+    <div class="compact-checks">
+      <div class="compact-check" style="border-left-color:var(--blue); background:var(--blue-soft);"><strong>LO 7.1 &middot; Utility is personal</strong><span>Rank options within one person; never compare utils across people.</span></div>
+      <div class="compact-check" style="border-left-color:var(--accent); background:var(--accent-soft);"><strong>LO 7.5 &middot; Allocate spending using MU/P</strong><span>Divisible goods, both consumed: equalize MU/P at the optimum. Whole items: compare feasible bundles.</span></div>
+      <div class="compact-check" style="border-left-color:var(--blue); background:var(--blue-soft);"><strong>LO 7.4 &middot; TU adds up; MU is the extra</strong><span>MU = change in TU; TU = the sum of the MUs. TU rises while MU is positive.</span></div>
+      <div class="compact-check" style="border-left-color:var(--green); background:var(--green-soft);"><strong>LO 7.2 &middot; Separate two price effects</strong><span>Substitution: relative prices change. Income: purchasing power changes, even with the same money income.</span></div>
+      <div class="compact-check"><strong>LO 7.3 &middot; Draw the budget line</strong><span>Intercept = income <span class="op">&divide;</span> price. Income shifts the line; one price change rotates it.</span></div>
+      <div class="compact-check" style="border-left-color:var(--green); background:var(--green-soft);"><strong>LO 7.6 &middot; Read demand as choices</strong><span>Each point on a demand curve is a consumer equilibrium at that price.</span></div>
+    </div>
+    <div class="definition-strip" style="margin-top:12px; font-size:16px;">
+      <strong>Exit ticket.</strong> For (a)&ndash;(b), use the continuous-model rule. Coffee costs $2 and bagels $3; you spend all your money. Their marginal utilities are 10 and 15.<br>
+      (a) Are you maximizing utility? &nbsp;(b) If the last bagel gave 12 utils instead, what should you buy more of?
+      &nbsp;(c) Bagels get cheaper, and you buy more bagels but <em>less coffee</em>. For coffee, which effect was bigger?
+    </div>
+    <div class="button-row" style="margin-top:10px;">
+      <button type="button" id="exitReveal" class="green-button">Reveal the answer</button>
+    </div>
+    <div class="exit-answer" id="exitAnswer">
+      <p><strong>(a) Yes</strong>: 10 <span class="op">&divide;</span> 2 = 5 = 15 <span class="op">&divide;</span> 3. <strong>(b) Coffee</strong>: 10 <span class="op">&divide;</span> 2 = 5 beats 12 <span class="op">&divide;</span> 3 = 4, so move dollars toward coffee.
+      <strong>(c) The substitution effect</strong>: it pushed coffee down (bagels became relatively cheaper), the income effect pushed coffee up, and coffee fell.</p>
+    </div>
+  </section>
+
+</div>
+<div id="progress"></div>
+<div id="hint">&larr; &rarr; / Space to navigate &middot; P to print</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const stage = document.getElementById('stage');
+  const progress = document.getElementById('progress');
+  let idx = 0;
+
+  slides.forEach(function(slide, i){
+    const footer = document.createElement('div');
+    footer.className = 'footer';
+    footer.innerHTML = '<span>ARE 201 &middot; Unit 7 &middot; Utility &amp; Consumer Choice</span><span>' + (i + 1) + ' / ' + slides.length + '</span>';
+    slide.appendChild(footer);
+  });
+
+  function fit(){
+    const scale = Math.min(window.innerWidth / 960, window.innerHeight / 720);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+  }
+
+  function show(n){
+    idx = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(slide, i){ slide.classList.toggle('active', i === idx); });
+    progress.style.width = (((idx + 1) / slides.length) * 100) + '%';
+    history.replaceState(null, '', '#' + (idx + 1));
+  }
+
+  function setFeedback(element, message, state){
+    element.className = 'feedback' + (state ? ' ' + state : '');
+    element.innerHTML = message;
+  }
+
+  function resetButtons(buttons){
+    buttons.forEach(function(button){ button.classList.remove('correct', 'wrong', 'selected'); });
+  }
+
+  // Single-answer multiple choice; answering can also uncover the explanation panels
+  [
+    { selector: '.util-opt', feedback: 'utilFeedback' },
+    { selector: '.first-opt', feedback: 'firstFeedback', reveal: 'pd' },
+    { selector: '.won-opt', feedback: 'wonFeedback', reveal: 'won' }
+  ].forEach(function(group){
+    const buttons = Array.from(document.querySelectorAll(group.selector));
+    const feedback = document.getElementById(group.feedback);
+    if (!buttons.length || !feedback) return;
+    const correctButton = buttons.find(function(button){ return button.dataset.correct === 'true'; });
+    buttons.forEach(function(button){
+      button.addEventListener('click', function(){
+        const correct = button.dataset.correct === 'true';
+        resetButtons(buttons);
+        if (correctButton) correctButton.classList.add('correct');
+        if (!correct) button.classList.add('wrong');
+        if (group.reveal) {
+          document.querySelectorAll('.check-answer[data-step-group="' + group.reveal + '"]').forEach(function(panel){
+            panel.classList.add('visible');
+          });
+        }
+        setFeedback(feedback,
+          correct ? feedback.dataset.correctMessage : feedback.dataset.wrongMessage,
+          correct ? 'success' : 'error');
+      });
+    });
+  });
+
+  // Step-by-step reveals
+  document.querySelectorAll('.step-reveal').forEach(function(button){
+    const group = button.dataset.stepGroup;
+    const elements = Array.from(document.querySelectorAll('.reveal-step')).filter(function(element){
+      return element.dataset.stepGroup === group;
+    });
+    const stepNumbers = Array.from(new Set(elements.map(function(element){ return Number(element.dataset.step); })))
+      .sort(function(a, b){ return a - b; });
+    let revealedCount = 0;
+    button.addEventListener('click', function(){
+      if (revealedCount >= stepNumbers.length) {
+        elements.forEach(function(element){ element.classList.remove('visible'); });
+        revealedCount = 0;
+        button.textContent = 'Reveal next step';
+        return;
+      }
+      const nextStep = stepNumbers[revealedCount];
+      elements.forEach(function(element){
+        if (Number(element.dataset.step) === nextStep) element.classList.add('visible');
+      });
+      revealedCount += 1;
+      button.textContent = revealedCount >= stepNumbers.length
+        ? 'Reset reveals'
+        : 'Reveal next step (' + revealedCount + '/' + stepNumbers.length + ')';
+    });
+  });
+
+  // Shopping list — buy the unit with the highest MU per dollar that still fits in the budget
+  const shopSlide = document.getElementById('shopSlide');
+  if (shopSlide) {
+    const budget = 56;
+    const goods = {
+      T: { price: 14, mu: [22, 21, 20, 18], label: 'T-shirt' },
+      M: { price: 7, mu: [16, 15, 14, 13, 12, 11, 10, 9], label: 'movie' }
+    };
+    const buyButton = document.getElementById('shopBuy');
+    const resetButton = document.getElementById('shopReset');
+    const statusBox = document.getElementById('shopStatus');
+    const spentText = document.getElementById('shopSpent');
+    const bundleText = document.getElementById('shopBundle');
+    const fill = document.getElementById('shopFill');
+    let bought = { T: 0, M: 0 };
+    let spent = 0;
+    let order = 0;
+
+    function ordinal(n){
+      const suffix = ['th', 'st', 'nd', 'rd'];
+      const v = n % 100;
+      return n + (suffix[(v - 20) % 10] || suffix[v] || suffix[0]);
+    }
+    function options(){
+      return Object.keys(goods).map(function(key){
+        const good = goods[key];
+        const next = bought[key];
+        if (next >= good.mu.length || spent + good.price > budget) return null;
+        return { key: key, unit: next + 1, ratio: good.mu[next] / good.price };
+      }).filter(Boolean).sort(function(a, b){ return b.ratio - a.ratio; });
+    }
+    function describe(option){
+      return 'the ' + ordinal(option.unit) + ' ' + goods[option.key].label + ' (' + option.ratio.toFixed(2) + ' utils per $)';
+    }
+    function nextMessage(){
+      const list = options();
+      if (!list.length) return '';
+      const best = list[0];
+      const other = list[1];
+      let text = 'Next best: <strong>' + describe(best) + '</strong>';
+      if (other && Math.abs(other.ratio - best.ratio) < 1e-9) text += ', tied with ' + describe(other) + '&mdash;buy both.';
+      else if (other) text += '. It beats ' + describe(other) + '.';
+      else text += '.';
+      return text;
+    }
+    function render(message){
+      spentText.textContent = '$' + spent;
+      bundleText.textContent = '(' + bought.T + ', ' + bought.M + ')';
+      fill.style.width = (spent / budget * 100) + '%';
+      statusBox.innerHTML = message;
+    }
+    function reset(){
+      bought = { T: 0, M: 0 };
+      spent = 0;
+      order = 0;
+      shopSlide.querySelectorAll('.shop-cell').forEach(function(cell){
+        cell.classList.remove('bought');
+        cell.removeAttribute('data-order');
+      });
+      buyButton.disabled = false;
+      render('Nothing bought yet. ' + nextMessage());
+    }
+    buyButton.addEventListener('click', function(){
+      const list = options();
+      if (!list.length) return;
+      const best = list[0];
+      bought[best.key] += 1;
+      spent += goods[best.key].price;
+      order += 1;
+      const cell = shopSlide.querySelector('tr[data-good="' + best.key + '"][data-unit="' + best.unit + '"] .shop-cell');
+      if (cell) {
+        cell.classList.add('bought');
+        cell.setAttribute('data-order', order);
+      }
+      const next = nextMessage();
+      if (next) {
+        render('Bought ' + describe(best) + '. ' + next);
+      } else {
+        buyButton.disabled = true;
+        render('Bought ' + describe(best) + '. <strong>All $56 spent: José ends at 1 T-shirt and 6 movies&mdash;bundle S</strong>, the same answer as the slow way. Last units: 22 <span class="op">&divide;</span> 14 = 11 <span class="op">&divide;</span> 7 &asymp; 1.57.');
+      }
+    });
+    resetButton.addEventListener('click', reset);
+    reset();
+  }
+
+  // Unit checkpoint — exit ticket
+  const exitReveal = document.getElementById('exitReveal');
+  const exitAnswer = document.getElementById('exitAnswer');
+  if (exitReveal && exitAnswer) {
+    exitReveal.addEventListener('click', function(){
+      const nowVisible = exitAnswer.classList.toggle('visible');
+      exitReveal.textContent = nowVisible ? 'Hide the answer' : 'Reveal the answer';
+    });
+  }
+
+  document.addEventListener('keydown', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea')) return;
+    if (['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(event.key)) { event.preventDefault(); show(idx + 1); }
+    else if (['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(event.key)) { event.preventDefault(); show(idx - 1); }
+    else if (event.key.toLowerCase() === 'p') { window.print(); }
+    else if (event.key === 'Home') { show(0); }
+    else if (event.key === 'End') { show(slides.length - 1); }
+  });
+
+  document.addEventListener('click', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea, .feedback, .plot-panel, .exit-answer, .u7-table, .sign-table, .shop-panel')) return;
+    if (event.clientX > window.innerWidth / 2) show(idx + 1); else show(idx - 1);
+  });
+
+  window.addEventListener('resize', fit);
+  const hash = parseInt(location.hash.replace('#',''), 10);
+  if (Number.isFinite(hash)) idx = Math.max(0, Math.min(slides.length - 1, hash - 1));
+  fit();
+  show(idx);
+})();
+</script>
+</body>
+</html>
