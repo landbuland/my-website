@@ -1,0 +1,38 @@
+{{ define "main" }}
+<div class="home-layout">
+  <aside class="profile-panel" aria-label="Personal information">
+    <img class="portrait" src="{{ .Params.portrait | relURL }}" alt="Zihan Zhang" width="208" height="208" fetchpriority="high">
+    <h1>{{ site.Title }}</h1>
+    <p class="profile-role">{{ .Params.role }}</p>
+    <a class="profile-institution" href="{{ .Params.institutionURL }}">{{ .Params.institution }}</a>
+    <p class="profile-location">Raleigh, North Carolina</p>
+    <a class="profile-email" href="mailto:{{ .Params.email }}">{{ .Params.email }}</a>
+    <div class="profile-links">
+      <a href="{{ .Params.github }}">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="{{ "location/" | relURL }}">Office <span aria-hidden="true">↗</span></a>
+      {{ if fileExists "static/cv.pdf" }}<a href="{{ "cv.pdf" | relURL }}">CV <span aria-hidden="true">↗</span></a>{{ end }}
+    </div>
+  </aside>
+  <div class="home-content">
+    <section class="about-section" aria-labelledby="about-title">
+      <p class="eyebrow">Welcome</p>
+      <h2 id="about-title">About me</h2>
+      <div class="home-biography">{{ .Content }}</div>
+    </section>
+    <section class="interests-section" aria-labelledby="interests-title">
+      <h2 class="section-label" id="interests-title">Research interests</h2>
+      <ul class="interest-list">{{ range .Params.interests }}<li>{{ . }}</li>{{ end }}</ul>
+      <a class="text-link" href="{{ "research/" | relURL }}">Research <span aria-hidden="true">→</span></a>
+    </section>
+    <section class="home-teaching" aria-labelledby="teaching-title">
+      <div class="section-heading"><h2 class="section-label" id="teaching-title">Teaching</h2><a class="text-link" href="{{ "courses/" | relURL }}">All teaching <span aria-hidden="true">→</span></a></div>
+      <a class="featured-course" href="{{ "are201/" | relURL }}">
+        <div class="course-kicker"><span>ARE 201</span><span>Fall 2026</span></div>
+        <h3>Introduction to Agricultural<br class="desktop-break"> and Resource Economics</h3>
+        <span class="course-action">Course materials <span aria-hidden="true">↗</span></span>
+      </a>
+      <a class="secondary-course" href="{{ "mathcamp/" | relURL }}"><span>Math Camp <span class="muted">· Summer 2025</span></span><span aria-hidden="true">↗</span></a>
+    </section>
+  </div>
+</div>
+{{ end }}

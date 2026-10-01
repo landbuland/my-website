@@ -1,0 +1,17 @@
+{{ define "main" }}
+<header class="course-page-header">
+  <a class="back-link" href="{{ "courses/" | relURL }}"><span aria-hidden="true">←</span> Teaching</a>
+  <p class="eyebrow">{{ .Params.term }} · North Carolina State University</p>
+  <h1>{{ .Title }}</h1>
+  <p class="course-description">{{ .Params.courseTitle }}</p>
+</header>
+<div class="course-layout">
+  <aside class="course-sidebar" aria-label="Course contents">
+    <details open>
+      <summary>On this page</summary>
+      {{ .TableOfContents }}
+    </details>
+  </aside>
+  <div class="post-content course-materials">{{ .Content }}</div>
+</div>
+{{ end }}

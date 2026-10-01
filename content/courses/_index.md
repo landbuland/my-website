@@ -1,41 +1,48 @@
 ---
 title: "Teaching"
-description: "."
+description: "Courses taught at North Carolina State University and Xiamen University."
+groups:
+  - role: "Instructor"
+    institutions:
+      - name: "North Carolina State University"
+        courses:
+          - code: "ARE 201"
+            name: "Introduction to Agricultural and Resource Economics"
+            term: "Fall 2026"
+            url: "/are201/"
+          - code: "EC 202"
+            name: "Principles of Macroeconomics"
+            term: "Fall 2025"
+          - name: "Math Camp for new PhD students"
+            term: "Summer 2025"
+            url: "/mathcamp/"
+  - role: "Graduate Teaching Assistant"
+    institutions:
+      - name: "North Carolina State University"
+        courses:
+          - code: "EC 448"
+            name: "International Trade"
+            term: "Spring 2026"
+          - code: "ECG 701"
+            name: "Microeconomics I (PhD core)"
+            term: "Fall 2024"
+            url: "https://zihanzhang.me/advanced_micro/2024/11/08/Micro1-lab-24Fall.html"
+            linkLabel: "Lecture notes"
+          - code: "ARE 301"
+            name: "Intermediate Microeconomics"
+            term: "Fall 2024"
+          - code: "EC 201"
+            name: "Principles of Microeconomics"
+            term: "Spring 2024"
+          - code: "EC 205"
+            name: "Fundamentals of Economics"
+            term: "Fall 2023"
+      - name: "Xiamen University"
+        courses:
+          - name: "Applied Microeconometrics"
+            term: "Spring 2023"
+          - name: "Labor Economics"
+            term: "Spring 2022"
+          - name: "Economic Growth"
+            term: "Fall 2021"
 ---
-
-
-
-## Instructor
-
-<u>North Carolina State University</u>
-
-- ARE 201: Introduction to Agricultural and Resource Economics, 2026 Fall. [Course](https://zihanzhang.me/are201/)
-
-- EC 202: Principles of Macroeconomics, 2025 Fall
-
-- Math Camp for new PhD students, 2025 Summer [Course](https://zihanzhang.me/mathcamp/)
-
-
-## Graduate Teaching Assistant
-
-<u>North Carolina State University</u>
-
-- EC 448: International Trade, 2026 Spring
-
-- ECG 701: Microeconomics I (PhD core), 2024 Fall. [Lecture Notes](https://zihanzhang.me/advanced_micro/2024/11/08/Micro1-lab-24Fall.html)
-
-- ARE 301: Intermediate Microeconomics, 2024 Fall
-
-- EC 201: Principle of Microeconomics, 2024 Spring
-
-- EC 205: Fundamentals of Economics, 2023 Fall
-
-
-
-<u>Xiamen University</u>
-
-- Applied Microeconometrics, 2023 Spring
-
-- Labor Economics, 2022 Spring
-
-- Economic Growth, 2021 Fall

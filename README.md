@@ -1,4 +1,22 @@
-# Minimalist Hugo Template for Academic Websites
+# Zihan Zhang's Academic Website
+
+## Editing this site
+
+- Homepage biography, contact details, and research interests: `content/_index.md`.
+- Research text: `content/research/_index.md`.
+- Teaching history: the `groups` entries in `content/courses/_index.md`.
+- Course materials: `content/are201/_index.md` and `content/mathcamp/_index.md`. Keep the existing material URLs when changing their presentation.
+- Navigation: `config.yml`. The header and homepage automatically show a CV link when `static/cv.pdf` exists.
+- Visual styles: `assets/css/extended/academic.css`; homepage: `layouts/index.html`; course layout: `layouts/_default/course.html`.
+- Background: `assets/images/campus-pencil-background.png`, an AI-generated sepia pencil illustration on ivory. From left to right: the Beijing National Day School entrance sculpture, Xiamen University Song’en/Jiageng buildings, and the NC State wolf. It appears only beneath the page content; `.campus-illustration` controls its placement. Hugo generates 1920px and 960px WebP versions in `layouts/partials/head.html`.
+- Colors: ivory `#f8f4eb`, warm brown body text, and deep red `#812735` for accents, configured in `assets/css/extended/academic.css`.
+- Drawing references: [Beijing National Day School](https://www.bnds.cn/index.php?a=show&catid=41&id=13&m=content), [Xiamen University architecture](https://archt.xmu.edu.cn/info/1016/3702.htm), and [NC State Libraries mascot history](https://www.lib.ncsu.edu/news/special-collections/mascot-mania-evolution-nc-states-mascot-part-iii).
+
+Build with Hugo Extended 0.147.2 (the version pinned in the deployment workflow), or run `hugo server` for a local preview. Standalone slides under `static/assets/` keep their own styling.
+
+The existing Math Camp lecture/solution files and Micro1 lecture notes are missing from this checkout; their original links are retained. Add the source files at the linked paths before treating those downloads as available. A CV and research project details also remain to be supplied.
+
+## Original template
 
 This repository contains a [Hugo](https://github.com/gohugoio/hugo) template to create a personal academic website. The template uses the [PaperMod theme](https://github.com/adityatelange/hugo-PaperMod) but modifies it in various ways to be more minimalist and better suited for academic websites. The website is hosted on [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages).
 

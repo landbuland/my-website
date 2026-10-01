@@ -71,6 +71,15 @@
 {{- end }}
 
 {{- /* Search */}}
+{{- with resources.Get "images/campus-pencil-background.png" }}
+{{- $wide := .Resize "1920x webp q85" }}
+{{- $small := .Resize "960x webp q80" }}
+<style>
+  :root { --campus-illustration: url('{{ $wide.RelPermalink }}'); }
+  @media (max-width: 640px) { :root { --campus-illustration: url('{{ $small.RelPermalink }}'); } }
+</style>
+{{- end }}
+
 {{- if (eq .Layout `search`) -}}
 <link crossorigin="anonymous" rel="preload" as="fetch" href="../index.json">
 {{- $fastsearch := resources.Get "js/fastsearch.js" | js.Build (dict "params" (dict "fuseOpts" site.Params.fuseOpts)) | resources.Minify }}
@@ -152,4 +161,3 @@
 {{ if or .Page.Params.math .Site.Params.math }}
 {{- partial "math.html" .}}
 {{ end }} 
-

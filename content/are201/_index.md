@@ -1,9 +1,10 @@
 ---
 title: "ARE 201"
 description: "ARE 201: Introduction to Agricultural and Resource Economics, Fall 2026"
+layout: "course"
+term: "Fall 2026"
+courseTitle: "Introduction to Agricultural and Resource Economics"
 ---
-
-# ARE 201: Introduction to Agricultural and Resource Economics
 
 ### Course Information
 

@@ -30,12 +30,9 @@ menu:
         - name: Math Camp
           url: mathcamp/
           weight: 5
-        - name: Blog
-          url: https://zihanzhang.me/
-          weight: 6
 
 params:
-    description: "Zihan's website"
+    description: "Zihan Zhang — Economics PhD student at North Carolina State University. Research interests in international and environmental economics."
     author: Zihan Zhang
     googleAnalyticsID: "UA-145837376-1"
     DateFormat: "January 2006"
@@ -58,57 +55,9 @@ params:
     UseHugoToc: true
     comments: false
     math: true
-    profileMode:
-          enabled: true
-          title: Zihan Zhang
-          subtitle: "I am a third-year Economic PhD student at North Carolina State University. My research interests include international economics and environmental economics."
-          imageUrl: "picture.png"
-          imageWidth: 160
-          imageHeight: 160
-          buttons:
-            - name: CV
-              url: cv.pdf
-            - name: Research
-              url: research/
-#            - name: Data
-#              url: data/
-#            - name: Books
-#              url: books/
-            - name: Teaching
-              url: courses/
- #           - name: Tags
- #             url: tags/
- #           - name: Archive
- #             url: archive/
-            - name: Blog
-              url: https://zihanzhang.me/
-
-    socialIcons:
-        - name: CV
-          url: cv.pdf
-        - name: Email
-          url: mailto:zzhan223@ncsu.edu
-#        - name: Zoom
-#          url: https://www.zoom.us/my/igelfeld
-        - name: Location
-          url: location/
-#        - name: Office Hours
-#          url: officehours/
-#        - name: Google Scholar
-#          url: https://scholar.google.com/citations?user=cL23w-4AAAAJ
-        - name: GitHub
-          url: https://github.com/landbuland
-#        - name: Substack
-#          url: https://pmichaillat.substack.com
-#        - name: YouTube
-#          url: https://www.youtube.com/@pmichaillat
-#        - name: Twitter
-#          url: https://x.com/pmichaillat
-#        - name: Bluesky
-#          url: https://bsky.app/profile/pmichaillat.bsky.social
-
     assets:
         disableScrollBarStyle: true
+        theme_color: "#f8f4eb"
     cover:
         hiddenInList: false
         hiddenInSingle: true
@@ -125,6 +74,6 @@ markup:
         guessSyntax: true
         style: autumn 
     tableOfContents:
-        endLevel: 2
+        endLevel: 3
         ordered: false
         startLevel: 2

@@ -1,0 +1,27 @@
+{{ define "main" }}
+<header class="page-header teaching-header">
+  <p class="eyebrow">Courses &amp; materials</p>
+  <h1>{{ .Title }}</h1>
+  <p>Teaching at North Carolina State University and Xiamen University.</p>
+</header>
+<div class="teaching-content">
+  {{ range .Params.groups }}
+  <section class="teaching-group">
+    <h2>{{ .role }}</h2>
+    {{ range .institutions }}
+    <h3 class="institution-heading">{{ .name }}</h3>
+    <ul class="teaching-list">
+      {{ range .courses }}
+      <li class="teaching-row">
+        <div><h4>{{ with .code }}<span class="course-code">{{ . }}</span>{{ end }}{{ .name }}</h4>
+          {{ if .url }}<a class="text-link course-resource" href="{{ .url | relURL }}">{{ .linkLabel | default "Course materials" }} <span aria-hidden="true">↗</span></a>{{ end }}
+        </div>
+        <span class="course-term">{{ .term }}</span>
+      </li>
+      {{ end }}
+    </ul>
+    {{ end }}
+  </section>
+  {{ end }}
+</div>
+{{ end }}

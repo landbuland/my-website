@@ -1,9 +1,10 @@
 ---
 title: "Math Camp"
 description: "NCSU Math Camp 2025"
+layout: "course"
+term: "Summer 2025"
+courseTitle: "Mathematical preparation for incoming PhD students"
 ---
-
-# NCSU Math Camp 2025
 
 ### Lecture Notes
 
