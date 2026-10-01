@@ -17,9 +17,10 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
   flex: none;
   width: 75%;
   max-width: 1050px;
-  height: clamp(98px, 17.625vw, 248px);
+  height: clamp(78px, 13vw, 185px);
   margin: 0 auto;
-  background: var(--campus-illustration) center bottom / 100% auto no-repeat;
+  background: var(--campus-illustration) center bottom / 92% auto no-repeat;
+  mix-blend-mode: darken;
   mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 92%, transparent);
   pointer-events: none;
 }
