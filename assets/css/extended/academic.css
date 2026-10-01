@@ -12,6 +12,13 @@
 html { scroll-behavior: smooth; scroll-padding-top: 105px; }
 body, body.list { background: #f8f4eb; font-size: 16px; }
 body { min-height: 100vh; display: flex; flex-direction: column; }
+.footer-divider {
+  flex: none;
+  width: calc(100% - 80px);
+  max-width: 1120px;
+  margin: 18px auto 0;
+  border-top: 1px dashed #bca58e;
+}
 /* The page stays ivory; the illustration sits below all content on one baseline. */
 .campus-illustration {
   flex: none;
@@ -140,6 +147,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   .featured-course { padding: 18px; }
   .featured-course h3 { font-size: 17px; }
   .desktop-break { display: none; }
+  .footer-divider { width: calc(100% - 48px); }
   .site-footer { width: calc(100% - 48px); flex-wrap: wrap; gap: 5px; font-size: 11px; }
   .teaching-row { flex-direction: column; gap: 6px; }
   .course-term { order: -1; padding: 0; font-size: 12px; }

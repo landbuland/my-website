@@ -8,9 +8,9 @@
 - Course materials: `content/are201/_index.md` and `content/mathcamp/_index.md`. Keep the existing material URLs when changing their presentation.
 - Navigation: `config.yml`. The header and homepage automatically show a CV link when `static/cv.pdf` exists.
 - Visual styles: `assets/css/extended/academic.css`; homepage: `layouts/index.html`; course layout: `layouts/_default/course.html`.
-- Background: `assets/images/campus-pencil-background.png`, an AI-generated sepia pencil illustration on ivory. From left to right: the Beijing National Day School entrance sculpture, Xiamen University Song’en/Jiageng buildings, and the NC State wolf. It appears only beneath the page content; `.campus-illustration` controls its placement. Hugo generates 1920px and 960px WebP versions in `layouts/partials/head.html`.
+- Background: `assets/images/campus-pencil-background.png`, an AI-generated sepia pencil illustration on ivory. From left to right: the Beijing National Day School entrance sculpture, Xiamen University Danan Gate (architecture only, without lettering), and the NC State wolf. The small motifs are separated by generous gaps. A dashed `.footer-divider` separates the illustration from the page content; `.campus-illustration` controls its placement. Hugo generates 1920px and 960px WebP versions in `layouts/partials/head.html`.
 - Colors: ivory `#f8f4eb`, warm brown body text, and deep red `#812735` for accents, configured in `assets/css/extended/academic.css`.
-- Drawing references: [Beijing National Day School](https://www.bnds.cn/index.php?a=show&catid=41&id=13&m=content), [Xiamen University architecture](https://archt.xmu.edu.cn/info/1016/3702.htm), and [NC State Libraries mascot history](https://www.lib.ncsu.edu/news/special-collections/mascot-mania-evolution-nc-states-mascot-part-iii).
+- Drawing references: [Beijing National Day School](https://www.bnds.cn/index.php?a=show&catid=41&id=13&m=content), [Xiamen University Danan Gate](https://jjc.xmu.edu.cn/info/1018/53941.htm), and [NC State Libraries mascot history](https://www.lib.ncsu.edu/news/special-collections/mascot-mania-evolution-nc-states-mascot-part-iii).
 
 Build with Hugo Extended 0.147.2 (the version pinned in the deployment workflow), or run `hugo server` for a local preview. Standalone slides under `static/assets/` keep their own styling.
 
