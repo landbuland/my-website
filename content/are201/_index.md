@@ -35,6 +35,11 @@ courseTitle: "Introduction to Agricultural and Resource Economics"
 
 - [Consumer and Producer Surplus and Price Controls Slides](https://zihanzhang.me/assets/are201/ARE201_Unit5_Surplus_Price_Controls_Fall2026.html)
 
+### Exam 1 Review
+
+- [Exam 1 Review Slides (No Answers)](https://zihanzhang.me/assets/are201/ARE201_Exam1_Review_Fall2026_No_Answers.html)
+- [Exam 1 Review Slides (With Answers)](https://zihanzhang.me/assets/are201/ARE201_Exam1_Review_Fall2026.html)
+
 ### Unit 6: Elasticity
 
 - [Elasticity Slides](https://zihanzhang.me/assets/are201/ARE201_Unit6_Elasticity_Fall2026.html)
@@ -42,11 +47,7 @@ courseTitle: "Introduction to Agricultural and Resource Economics"
 - [Review Session Slides (No Answers)](https://zihanzhang.me/assets/are201/ARE201_Unit6_Review_Session_Fall2026_No_Answers.html)
 - [Review Session Slides (With Answers)](https://zihanzhang.me/assets/are201/ARE201_Unit6_Review_Session_Fall2026.html)
 
-### Exam 1 Review
-
-- [Exam 1 Review Slides (No Answers)](https://zihanzhang.me/assets/are201/ARE201_Exam1_Review_Fall2026_No_Answers.html)
-- [Exam 1 Review Slides (With Answers)](https://zihanzhang.me/assets/are201/ARE201_Exam1_Review_Fall2026.html)
-
 ### Unit 7: Utility and Consumer Choice
 
 - [Utility and Consumer Choice Slides](https://zihanzhang.me/assets/are201/ARE201_Unit7_Utility_Fall2026.html)
+- [Review Session Slides](https://zihanzhang.me/assets/are201/ARE201_Unit7_Review_Session_Fall2026.html)
