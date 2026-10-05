@@ -51,3 +51,8 @@ courseTitle: "Introduction to Agricultural and Resource Economics"
 
 - [Utility and Consumer Choice Slides](https://zihanzhang.me/assets/are201/ARE201_Unit7_Utility_Fall2026.html)
 - [Review Session Slides](https://zihanzhang.me/assets/are201/ARE201_Unit7_Review_Session_Fall2026.html)
+
+### Unit 8a: Production
+
+- [Production Slides (Class 1)](https://zihanzhang.me/assets/are201/ARE201_Unit8a_Class1_Production_Fall2026.html)
+- [Harvest Boss Game Slides](https://zihanzhang.me/assets/are201/ARE201_Unit8a_Harvest_Boss_Game_Fall2026.html)

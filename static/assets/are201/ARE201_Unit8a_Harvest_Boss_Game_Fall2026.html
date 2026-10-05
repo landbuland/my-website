@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harvest Boss — ARE 201 Unit 8a</title>
+<style>
+:root {
+  --accent: #EB811B; --accent-soft: #fff4e8; --ink: #1f2933; --muted: #5f6b76; --line: #d8dde3; --soft: #f3f4f6;
+  --blue: #2f80c9; --blue-soft: #eef5fb; --green: #378a61; --green-soft: #e9f6ef; --red: #c9504d; --red-soft: #fcedec;
+  --purple: #7657a5; --purple-soft: #f3effa; --gold: #f2b632; --paper: #fffaf2;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #111; }
+body { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+button { font-family: inherit; }
+b, strong { font-weight: 800; }
+
+#stage { position: absolute; left: 50%; top: 50%; width: 960px; height: 720px; transform: translate(-50%, -50%);
+  background: var(--paper); overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,.35); }
+
+/* ---------- scene ---------- */
+#sceneWrap { position: absolute; left: 0; top: 0; width: 960px; height: 430px; overflow: hidden; }
+#scene { display: block; width: 960px; height: 430px; }
+#sceneWrap.shake { animation: shake .6s linear; }
+@keyframes shake { 0%,100% { transform: translate(0,0); } 15% { transform: translate(-7px,2px); } 30% { transform: translate(6px,-2px); }
+  45% { transform: translate(-5px,1px); } 60% { transform: translate(4px,0); } 80% { transform: translate(-2px,1px); } }
+.cloud { animation: drift linear infinite; }
+@keyframes drift { from { transform: translateX(-260px); } to { transform: translateX(1140px); } }
+#sun { animation: sunPulse 5s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes sunPulse { 50% { transform: scale(1.06); } }
+.crate { transform-box: fill-box; transform-origin: 50% 100%; }
+.crate.pop { animation: pop .5s cubic-bezier(.3,1.7,.5,1) both; }
+@keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
+.crate.tip { animation: tip 1s ease-in forwards; }
+@keyframes tip { 0% { transform: rotate(0); } 35% { transform: translate(8px,0) rotate(40deg); } 100% { transform: translate(30px,64px) rotate(120deg); opacity: 0; } }
+.pot.gone { transition: opacity .25s, transform .25s; opacity: 0; }
+.bubble rect { fill: #fff; stroke: #1f2933; stroke-width: 1.4; }
+.bubble path { fill: #fff; stroke: #1f2933; stroke-width: 1.4; }
+.bubble text { font: 700 12px Arial, sans-serif; fill: #1f2933; }
+.bubble.warn rect, .bubble.warn path { fill: #fff1ef; stroke: #c9504d; }
+.bubble.warn text { fill: #a83c39; }
+.float { font: 900 20px "Avenir Next", Arial, sans-serif; paint-order: stroke; stroke: #fff; stroke-width: 4px; }
+
+/* HUD + notebook over the scene */
+#hud { position: absolute; right: 12px; top: 12px; width: 252px; z-index: 3; display: none; }
+#hud.on { display: block; }
+.hud-row { display: grid; grid-template-columns: .9fr 1.25fr; gap: 8px; }
+.hud-card { margin-bottom: 8px; padding: 7px 12px 8px; border-radius: 10px; background: rgba(255,255,255,.93); box-shadow: 0 3px 10px rgba(31,41,51,.14); }
+.hud-lab { display: block; color: var(--muted); font-size: 10.5px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+.hud-val { display: block; font-size: 27px; font-weight: 850; line-height: 1.08; font-variant-numeric: tabular-nums; }
+#hudSub { display: block; margin-top: 2px; color: var(--muted); font-size: 11px; font-weight: 700; }
+#hudDots { display: flex; gap: 3px; margin-top: 4px; }
+#hudDots i { width: 9px; height: 9px; border-radius: 50%; background: #e3e7eb; }
+#hudDots i.on { background: var(--accent); }
+.neg { color: var(--red); } .pos { color: var(--green); }
+
+#notebook { position: absolute; left: 12px; top: 12px; width: 222px; z-index: 3; display: none; padding: 9px 12px 9px; border-radius: 10px;
+  background: #fffdf3; box-shadow: 0 3px 10px rgba(31,41,51,.15); }
+#notebook.on { display: block; }
+#notebook h4 { margin: 0 0 3px; color: var(--accent); font-size: 10.5px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+.nb-row { display: grid; grid-template-columns: 16px 1fr auto; gap: 6px; align-items: center; height: 22px; border-bottom: 1px solid #eef1f5; font-size: 14px; font-weight: 750; }
+.nb-row .num { color: var(--muted); font-size: 11px; }
+.nb-row.gone .nm { color: #9aa3ab; text-decoration: line-through; }
+.chip { display: inline-block; min-width: 46px; padding: 1px 7px; border-radius: 10px; background: var(--green); color: #fff; font-size: 12px; font-weight: 850; text-align: center; }
+.chip.down { background: var(--accent); } .chip.neg { background: var(--red); } .chip.gone { background: #b8c0c8; }
+.nb-flag { margin-top: 5px; padding: 3px 7px; border-radius: 5px; background: var(--accent-soft); color: #b8600f; font-size: 11px; font-weight: 850; }
+.nb-foot { margin-top: 5px; color: var(--muted); font-size: 11px; font-weight: 700; }
+
+#banner { position: absolute; left: 50%; top: 78px; z-index: 4; padding: 10px 22px; border-radius: 999px; background: var(--accent); color: #fff;
+  font-size: 19px; font-weight: 850; white-space: nowrap; opacity: 0; transform: translate(-50%, -26px); transition: all .35s ease;
+  box-shadow: 0 6px 18px rgba(31,41,51,.25); pointer-events: none; }
+#banner.show { opacity: 1; transform: translate(-50%, 0); }
+#banner.red { background: var(--red); } #banner.green { background: var(--green); }
+
+/* ---------- dialogue panel ---------- */
+#panel { position: absolute; left: 0; top: 430px; width: 960px; height: 290px; padding: 18px 22px 14px; display: grid;
+  grid-template-columns: 104px 1fr; gap: 18px; border-top: 5px solid var(--accent); background: var(--paper); }
+#portrait { width: 104px; height: 104px; overflow: hidden; border: 3px solid var(--accent); border-radius: 50%; background: #fff; }
+#portrait svg { display: block; width: 100%; height: 100%; }
+#speech { min-width: 0; }
+#who { padding-right: 210px; color: var(--accent); font-size: 13px; font-weight: 850; letter-spacing: .09em; text-transform: uppercase; }
+.pill { display: inline-block; margin-left: 8px; padding: 2px 9px; border-radius: 999px; background: var(--blue); color: #fff; font-size: 10.5px; letter-spacing: .07em; vertical-align: 1px; }
+.pill.predict { background: var(--purple); }
+#text { margin-top: 8px; font-size: 18.5px; line-height: 1.38; }
+#text i { color: #44505c; }
+#text .concept, #text .aside, #text .note { display: block; margin-top: 7px; padding: 6px 11px; font-size: 15.5px; line-height: 1.33; }
+#text .concept { border-left: 4px solid var(--blue); background: var(--blue-soft); }
+#text .aside { border-left: 4px solid var(--purple); background: var(--purple-soft); }
+#text .note { border-left: 4px solid var(--gold); background: #fffbea; }
+.fb { display: inline-block; margin-bottom: 5px; padding: 2px 10px; border-radius: 999px; font-size: 13px; font-weight: 850; }
+.fb.ok { background: var(--green-soft); color: var(--green); } .fb.no { background: var(--red-soft); color: var(--red); }
+#choices { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.choice { display: inline-flex; align-items: center; gap: 10px; min-height: 50px; padding: 7px 16px 7px 9px; border: 0; border-radius: 12px;
+  background: var(--accent); color: #fff; font-size: 17px; font-weight: 800; line-height: 1.15; text-align: left; cursor: pointer;
+  box-shadow: 0 3px 0 #c56a12; transition: transform .08s, filter .15s; }
+.choice:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.choice:active { transform: translateY(2px); box-shadow: 0 1px 0 #c56a12; }
+.choice .key { display: inline-flex; flex: none; width: 24px; height: 24px; align-items: center; justify-content: center; border-radius: 50%;
+  background: rgba(255,255,255,.3); font-size: 12.5px; }
+.choice .sub { display: block; margin-top: 1px; font-size: 12px; font-weight: 700; opacity: .88; }
+.choice.alt { background: #fff; color: var(--ink); box-shadow: 0 3px 0 #c9d0d6, inset 0 0 0 2px #d8dde3; }
+.choice.alt .key { background: #e9edf1; }
+.choice.blue { background: var(--blue); box-shadow: 0 3px 0 #22649f; }
+.choice.purple { background: var(--purple); box-shadow: 0 3px 0 #5b4383; }
+.choice.green { background: var(--green); box-shadow: 0 3px 0 #276b4a; }
+.choice:disabled { opacity: .4; cursor: default; transform: none; filter: none; }
+#tools { position: absolute; right: 14px; top: 12px; z-index: 2; display: flex; gap: 6px; }
+.tool { width: 32px; height: 32px; padding: 0; border: 0; border-radius: 50%; background: #fff; color: var(--muted); font-size: 15px; font-weight: 850;
+  cursor: pointer; box-shadow: inset 0 0 0 1.5px var(--line); }
+.tool:hover { color: var(--accent); box-shadow: inset 0 0 0 1.5px var(--accent); }
+
+/* ---------- overlays ---------- */
+#overlay, #modal { position: absolute; inset: 0; display: none; }
+#overlay { z-index: 10; } #modal { z-index: 20; }
+#overlay.show, #modal.show { display: block; }
+.dim { position: absolute; inset: 0; background: rgba(17,24,32,.58); }
+.card { position: absolute; left: 50%; top: 50%; width: 660px; padding: 24px 30px 22px; transform: translate(-50%, -50%); border-radius: 18px;
+  background: #fff; box-shadow: 0 20px 50px rgba(0,0,0,.35); text-align: center; }
+.card.wide { width: 880px; }
+.card h1 { margin: 2px 0 6px; font-size: 40px; line-height: 1.05; letter-spacing: -.5px; }
+.card h2 { margin: 2px 0 8px; font-size: 28px; line-height: 1.12; }
+.card p { margin: 8px 0; font-size: 17px; line-height: 1.4; }
+.kicker { color: var(--accent); font-size: 12.5px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+.obtns { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 16px; }
+.stars { margin: 2px 0 4px; color: var(--gold); font-size: 30px; letter-spacing: 4px; }
+.stars .off { color: #e1e5e9; }
+.stats { display: inline-flex; gap: 16px; margin: 6px 0 4px; padding: 8px 16px; border-radius: 999px; background: var(--soft); font-size: 15px; font-weight: 750; }
+.lesson { margin-top: 10px; padding: 9px 14px; border-left: 5px solid var(--accent); border-radius: 0 8px 8px 0; background: var(--accent-soft);
+  font-size: 16px; font-weight: 750; text-align: left; }
+
+/* title */
+.title-card { position: absolute; left: 50%; top: 92px; width: 600px; padding: 20px 28px 22px; transform: translateX(-50%); border-radius: 20px;
+  background: rgba(255,255,255,.9); box-shadow: 0 14px 40px rgba(31,41,51,.25); text-align: center; }
+.t-main { margin: 4px 0 4px; color: var(--ink); font-size: 66px; font-weight: 900; line-height: 1; letter-spacing: 1px; }
+.t-main span { color: var(--accent); }
+.t-sub { margin: 6px 0 0; color: var(--muted); font-size: 20px; line-height: 1.35; }
+.title-strip { position: absolute; left: 0; top: 430px; width: 960px; height: 290px; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 14px; border-top: 5px solid var(--accent); background: var(--paper); }
+.title-strip .row { display: flex; gap: 12px; }
+.choice.big { min-height: 62px; padding: 10px 26px 10px 14px; font-size: 22px; }
+.title-note { color: var(--muted); font-size: 14px; font-weight: 650; }
+
+/* report */
+.page { position: absolute; inset: 0; padding: 22px 30px 18px; background: var(--paper); }
+.rep-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+.rep-head h2 { margin: 2px 0 0; font-size: 26px; line-height: 1.12; }
+.rep-chip { flex: none; padding: 7px 13px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1.5px var(--line); font-size: 13.5px; font-weight: 750; }
+.rep-grid { display: grid; grid-template-columns: 1.22fr .98fr; gap: 18px; margin-top: 14px; align-items: start; }
+.rtable { width: 100%; border-collapse: collapse; background: #fff; font-size: 14.5px; text-align: center; }
+.rtable th { padding: 7px 6px; background: var(--ink); color: #fff; font-size: 11.5px; font-weight: 800; line-height: 1.2; }
+.rtable td { padding: 5px 6px; border-bottom: 1px solid var(--line); font-weight: 750; }
+.rtable td.nm { text-align: left; }
+.rtable tr.dim td { color: #c2c8ce; }
+.rtable tr.first td { background: var(--accent-soft); }
+.rtable tr.negrow td { background: var(--red-soft); }
+.rtable .tagline { display: block; color: #b8600f; font-size: 10.5px; font-weight: 850; }
+.rtable tr.negrow .tagline { color: var(--red); }
+.yes { color: var(--green); } .no { color: var(--red); }
+.rep-tools { display: flex; gap: 8px; margin-top: 8px; }
+.mini { padding: 6px 11px; border: 0; border-radius: 8px; background: #fff; color: var(--ink); font-size: 12.5px; font-weight: 800; cursor: pointer;
+  box-shadow: inset 0 0 0 1.5px var(--line); }
+.mini:hover { box-shadow: inset 0 0 0 1.5px var(--accent); color: #b8600f; }
+.chart-box { padding: 8px 10px 4px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+.chart-box svg { display: block; width: 100%; height: auto; }
+.rep-lessons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+.lcard { padding: 10px 13px; border-top: 4px solid var(--blue); border-radius: 0 0 8px 8px; background: #fff; box-shadow: 0 1px 0 var(--line); }
+.lcard h4 { margin: 0 0 4px; font-size: 15px; }
+.lcard p { margin: 0; font-size: 13.5px; line-height: 1.33; }
+.lcard.l2 { border-top-color: var(--accent); } .lcard.l3 { border-top-color: var(--green); }
+.rep-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; }
+.rep-foot .facts { font-size: 13.5px; font-weight: 700; line-height: 1.35; }
+.rep-foot .obtns { margin-top: 0; flex-wrap: nowrap; }
+.rep-foot .choice { min-height: 44px; font-size: 15px; }
+
+/* long run */
+.lr-chips { display: flex; justify-content: center; gap: 8px; margin-top: 8px; }
+.lr-chip { padding: 6px 10px; border-radius: 8px; background: var(--soft); font-size: 13px; font-weight: 750; }
+.lr-chip b { display: block; font-size: 15px; }
+.foot-note { color: var(--muted); font-size: 12.5px !important; }
+
+/* gallery + help */
+.gal { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 12px; }
+.gtile { min-height: 118px; padding: 10px 9px; border-radius: 10px; background: var(--soft); text-align: center; }
+.gtile .n { color: var(--muted); font-size: 11px; font-weight: 850; }
+.gtile h3 { margin: 4px 0 2px; font-size: 15px; line-height: 1.15; }
+.gtile .st { color: var(--gold); font-size: 15px; letter-spacing: 2px; }
+.gtile .st .off { color: #d5dade; }
+.gtile .h { color: var(--muted); font-size: 12px; line-height: 1.25; }
+.gtile.found { background: var(--green-soft); box-shadow: inset 0 0 0 2px #b9dfc9; }
+.gtile.locked h3 { color: #9aa3ab; }
+.help-list { margin: 10px 0 0; padding: 0; list-style: none; text-align: left; }
+.help-list li { margin: 7px 0; font-size: 15.5px; line-height: 1.38; }
+.help-list li b { color: #b8600f; }
+.toggle { display: inline-flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 15px; font-weight: 750; cursor: pointer; }
+.toggle input { width: 18px; height: 18px; accent-color: var(--accent); }
+
+/* confetti */
+.confetti { position: absolute; top: -20px; width: 9px; height: 14px; border-radius: 2px; animation: fall linear forwards; pointer-events: none; }
+@keyframes fall { to { transform: translateY(780px) rotate(720deg); } }
+
+/* chart text */
+.ct { fill: #5f6b76; font: 800 11px Arial, sans-serif; }
+.cl { fill: #5f6b76; font: 600 10.5px Arial, sans-serif; }
+.cv { fill: #1f2933; font: 800 10.5px Arial, sans-serif; }
+.ca { fill: none; stroke: #1f2933; stroke-width: 1.6; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="sceneWrap">
+    <svg id="scene" viewBox="0 0 960 430" role="img" aria-label="An animated sweet potato farm with one tractor-drawn digger, a truck, and workers">
+      <defs>
+        <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#8fd0f5"/><stop offset=".62" stop-color="#d6eefb"/><stop offset="1" stop-color="#fbefd6"/>
+        </linearGradient>
+        <radialGradient id="gSun" cx=".5" cy=".5" r=".5">
+          <stop offset="0" stop-color="#fff3b8"/><stop offset=".5" stop-color="#ffe089" stop-opacity=".7"/><stop offset="1" stop-color="#ffe089" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="gSoil" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b8875a"/><stop offset="1" stop-color="#93633b"/></linearGradient>
+        <linearGradient id="gBarn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d0574f"/><stop offset="1" stop-color="#b4433c"/></linearGradient>
+      </defs>
+      <rect width="960" height="430" fill="url(#gSky)"/>
+      <g id="sun"><circle cx="560" cy="62" r="74" fill="url(#gSun)"/><circle cx="560" cy="62" r="27" fill="#ffd45c"/></g>
+      <g class="cloud" style="animation-duration:95s;animation-delay:-20s"><g fill="#fff" opacity=".92"><ellipse cx="0" cy="58" rx="38" ry="14"/><ellipse cx="22" cy="48" rx="24" ry="16"/><ellipse cx="-20" cy="52" rx="18" ry="12"/></g></g>
+      <g class="cloud" style="animation-duration:125s;animation-delay:-80s"><g fill="#fff" opacity=".85"><ellipse cx="0" cy="112" rx="46" ry="13"/><ellipse cx="18" cy="102" rx="26" ry="15"/><ellipse cx="-24" cy="106" rx="20" ry="11"/></g></g>
+      <g class="cloud" style="animation-duration:150s;animation-delay:-40s"><g fill="#fff" opacity=".8"><ellipse cx="0" cy="34" rx="30" ry="10"/><ellipse cx="14" cy="27" rx="18" ry="11"/></g></g>
+      <path d="M0 206 C 110 166 220 168 330 190 C 450 214 560 168 690 176 C 800 183 880 196 960 188 L960 262 L0 262 Z" fill="#b5d997"/>
+      <path d="M0 226 C 150 200 300 214 440 226 C 580 238 720 208 960 222 L960 262 L0 262 Z" fill="#97c77d"/>
+      <g fill="#6aa65a">
+        <rect x="601" y="206" width="4" height="16" fill="#7a5a3a"/><circle cx="603" cy="200" r="14"/>
+        <rect x="625" y="200" width="5" height="20" fill="#7a5a3a"/><circle cx="627" cy="192" r="18"/>
+        <rect x="653" y="208" width="4" height="14" fill="#7a5a3a"/><circle cx="655" cy="203" r="12" fill="#5c9a4f"/>
+        <rect x="698" y="204" width="4" height="16" fill="#7a5a3a"/><circle cx="700" cy="198" r="15" fill="#5c9a4f"/>
+        <rect x="471" y="214" width="4" height="12" fill="#7a5a3a"/><circle cx="473" cy="209" r="11"/>
+      </g>
+      <g transform="translate(250 146)">
+        <path d="M -6 42 L 60 -2 L 126 42 Z" fill="#8f3530"/>
+        <rect x="4" y="38" width="112" height="52" fill="url(#gBarn)"/>
+        <rect x="42" y="54" width="36" height="36" fill="#fff"/>
+        <path d="M 42 54 L 78 90 M 78 54 L 42 90" stroke="#c9504d" stroke-width="4"/>
+        <rect x="50" y="18" width="20" height="15" fill="#fff"/><rect x="54" y="22" width="12" height="11" fill="#8f3530"/>
+      </g>
+      <g><rect x="378" y="166" width="26" height="70" fill="#c9ced3"/><path d="M 378 166 Q 391 146 404 166 Z" fill="#9aa3ab"/>
+        <path d="M 378 184 H 404 M 378 204 H 404 M 378 224 H 404" stroke="#aeb5bc" stroke-width="2"/></g>
+      <g><rect x="476" y="206" width="5" height="30" fill="#7a5a3a"/><rect x="420" y="196" width="118" height="22" rx="3" fill="#8a6a44"/>
+        <text x="479" y="211" text-anchor="middle" font-family="Arial, sans-serif" font-size="10.5" font-weight="800" letter-spacing="1" fill="#fff4e0">PINE HOLLOW FARM</text></g>
+      <rect x="0" y="236" width="960" height="24" fill="#86bf6a"/>
+      <g id="fence" fill="#b08a5c"></g>
+      <rect x="0" y="258" width="960" height="172" fill="url(#gSoil)"/>
+      <path d="M 640 430 L 676 356 L 960 344 L 960 430 Z" fill="#c69d6d" opacity=".55"/>
+      <g id="rows"></g>
+      <g id="plants"></g>
+      <g id="truck">
+        <rect x="786" y="288" width="108" height="30" rx="4" fill="#2a6fae"/>
+        <rect x="786" y="282" width="108" height="8" rx="3" fill="#3b8fd6"/>
+        <path d="M 892 318 L 892 270 Q 894 258 906 257 L 930 257 Q 943 258 947 272 L 951 300 L 951 318 Z" fill="#2f80c9"/>
+        <path d="M 900 266 L 930 266 Q 938 266 940 276 L 942 289 L 900 289 Z" fill="#d7ecfa"/>
+        <rect x="945" y="296" width="8" height="6" rx="2" fill="#ffd45c"/>
+        <rect x="782" y="316" width="172" height="8" rx="4" fill="#1f2933"/>
+        <circle cx="812" cy="330" r="13" fill="#1f2933"/><circle cx="812" cy="330" r="5" fill="#9aa3ab"/>
+        <circle cx="922" cy="330" r="13" fill="#1f2933"/><circle cx="922" cy="330" r="5" fill="#9aa3ab"/>
+        <path d="M 788 300 L 748 352" stroke="#8a6a44" stroke-width="7" stroke-linecap="round"/>
+      </g>
+      <g id="pile"></g>
+      <g id="lyrPot"></g>
+      <g id="lyrCrates"></g>
+      <g id="lyrPeople"></g>
+      <g id="lyrFx"></g>
+    </svg>
+    <div id="notebook"></div>
+    <div id="hud">
+      <div class="hud-row">
+        <div class="hud-card"><span class="hud-lab">Crew</span><b class="hud-val" id="hudCrew">0</b><div id="hudDots"></div></div>
+        <div class="hud-card"><span class="hud-lab">Bushels / day</span><b class="hud-val" id="hudBu">0</b></div>
+      </div>
+      <div class="hud-card"><span class="hud-lab">Profit / day</span><b class="hud-val" id="hudProfit">−$900</b><span id="hudSub"></span></div>
+    </div>
+    <div id="banner"></div>
+  </div>
+  <div id="panel">
+    <div id="portrait"></div>
+    <div id="speech">
+      <div id="who"></div>
+      <div id="text"></div>
+      <div id="choices"></div>
+    </div>
+    <div id="tools">
+      <button type="button" class="tool" data-act="back" title="Back one step (B)">&#8630;</button>
+      <button type="button" class="tool" data-act="restart" title="Restart (R)">&#10227;</button>
+      <button type="button" class="tool" data-act="gallery" title="Endings (E)">&#9733;</button>
+      <button type="button" class="tool" data-act="help" title="How to play (H)">?</button>
+      <button type="button" class="tool" data-act="full" title="Full screen (F)">&#9974;</button>
+    </div>
+  </div>
+  <div id="overlay"></div>
+  <div id="modal"></div>
+</div>
+<script>
+(function () {
+'use strict';
+/* ---------- numbers: identical to the Unit 8a slides (Pine Hollow, one digger) ---------- */
+const PRICE = 8, WAGE = 120, FC = 900;
+const TP = [0, 40, 100, 150, 180, 200, 210, 200];
+const TP2 = [0, 40, 100, 160, 220, 270, 310, 340];   // illustrative: two diggers next season (slide C1-18)
+const MP = k => TP[k] - TP[k - 1];
+const profit = L => PRICE * TP[L] - WAGE * L - FC;
+const money = v => (v < 0 ? '−$' : '$') + Math.abs(v).toLocaleString('en-US');
+const signedMoney = v => (v < 0 ? '−$' : v > 0 ? '+$' : '$') + Math.abs(v).toLocaleString('en-US');
+const signedNum = v => (v < 0 ? '−' : '+') + Math.abs(v);
+const ORD = ['', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th'];
+const FAST = /[?&]fast=1/.test(location.search);
+const T = ms => FAST ? Math.max(1, Math.round(ms * 0.03)) : ms;
+const wait = ms => new Promise(r => setTimeout(r, T(ms)));
+
+const W = [
+  { name: 'Maria',  shirt: '#e4572e', pants: '#3b4a5a', skin: '#c68642', hat: 'straw',   hatC: '#e2c27a', hello: '' },
+  { name: 'Jamal',  shirt: '#2f80c9', pants: '#27323d', skin: '#7a4a2a', hat: 'cap',     hatC: '#f2b632', hello: '“Hi, boss—I’m Jamal. Need a second pair of hands?”' },
+  { name: 'Kenji',  shirt: '#378a61', pants: '#3b4a5a', skin: '#e8bf94', hat: 'cap',     hatC: '#1f2933', hello: '“I can box and load all day. Need a third hand?”' },
+  { name: 'Priya',  shirt: '#7657a5', pants: '#27323d', skin: '#a86b45', hat: 'bandana', hatC: '#e4572e', hello: '“I picked blueberries four summers in a row. I’m fast!”' },
+  { name: 'Luis',   shirt: '#f2b632', pants: '#3b4a5a', skin: '#b07a4f', hat: 'straw',   hatC: '#d9b56a', hello: '“Strong back, early riser. Put me anywhere.”' },
+  { name: 'Hannah', shirt: '#d1495b', pants: '#27323d', skin: '#f1c7a1', hat: 'cap',     hatC: '#2f80c9', hello: '“I’ll take any job you’ve got, boss.”' },
+  { name: 'Omar',   shirt: '#00a6a6', pants: '#3b4a5a', skin: '#8d5524', hat: 'straw',   hatC: '#e2c27a', hello: '“Everybody’s here. Room for one more?”' }
+];
+
+/* what happens on the field when worker k joins (the cause is always the one digger, never effort) */
+const HIRE_TEXT = {
+  1: '<i>“I’ll drive, pick, box and haul—all of it!”</i> Maria does every job herself. While she hauls crates to the truck, the digger just sits there. With Maria alone the farm digs <b>40 bushels</b> a day.',
+  2: 'Now Maria drives and Jamal picks right behind the digger—nobody runs back and forth. Output jumps to <b>100</b>. Jamal adds <b>60</b>, even more than Maria’s 40.' +
+     '<span class="concept"><b>Marginal product (MP)</b>: the extra output from one more worker. Jamal’s MP = 100 − 40 = 60.</span>',
+  3: 'Kenji boxes and loads—useful! But now and then he waits for the digger to bring up a fresh row. Output: <b>150</b>. Kenji adds <b>50</b>, fewer than Jamal’s 60.' +
+     '<span class="aside"><b>Is Kenji lazier than Jamal?</b> No—hire them in the other order and you get the same numbers. What changed: three people now share <b>one digger</b>.</span>',
+  4: 'Priya picks too, but only one row comes up at a time, so she spends part of the day waiting for the digger. Output: <b>180</b>. Priya adds <b>30</b>.',
+  5: 'Two pickers share one row, and three people share one truck ramp—crates wait in line. Output: <b>200</b>. Luis adds <b>20</b>. Total output still rises, just more slowly.',
+  6: 'Six people crowd around one digger and one ramp. Two crates get mixed up and tempers flare: <i>“That’s my crate!”</i> Output: <b>210</b>. Hannah adds just <b>10</b>.',
+  7: 'Omar steps into the row to help—and the digger has to stop. In the scramble a crate tips over. Output <b>falls</b> to <b>200</b>: Omar’s MP is <b>−10</b>. He’s a great worker; there’s just no room left for him to work.'
+};
+
+/* class predictions before each hire; ans = index of the right option */
+const PRED = {
+  2: { q: 'Before Jamal starts: will he add <b>more</b> bushels than Maria’s 40, <b>about the same</b>, or <b>fewer</b>?', opts: ['More', 'About the same', 'Fewer'], ans: 0 },
+  3: { q: 'Jamal added 60. Will Kenji add <b>more</b>, <b>about the same</b>, or <b>fewer</b>?', opts: ['More', 'About the same', 'Fewer'], ans: 2 },
+  4: { q: 'The crew digs 150 now. With Priya, total output will be about…', opts: ['200 (+50 again)', '180 (+30)', '150 (no change)'], ans: 1 },
+  5: { q: 'Each new worker adds less. With Luis, does total output still go <b>up</b>?', opts: ['Yes, a little', 'No—it stays at 180', 'No—it falls'], ans: 0 },
+  6: { q: 'Luis added 20. Hannah will add about…', opts: ['+20 again', '+10', '−10'], ans: 1 },
+  7: { q: 'With Omar, total output will…', opts: ['Rise', 'Stay at 210', 'Fall'], ans: 2 }
+};
+
+const ENDING_ORDER = ['fallow', 'lonely', 'cautious', 'early', 'almost', 'boss', 'comeback', 'onemore', 'crowded', 'chaos'];
+const ENDINGS = {
+  fallow:   { title: 'Fallow Field', stars: 0, hint: 'Never start digging.',
+              text: () => 'You left the digger in the shed. Zero bushels, zero wages—and you still lose <b>$900</b>. Rent, the digger lease and insurance are owed whether you dig or not.',
+              lesson: 'Fixed costs are paid even when output is zero.' },
+  lonely:   { title: 'The Lonely Digger', stars: 0, hint: 'Let one person do every job.',
+              text: s => (s.trimmed ? 'You sent everyone home except Maria. ' : '') + 'One person can’t drive, pick, box and haul at the same time, so the digger sat still half the day. A second worker adds <b>60 bushels ($480)</b> for a $120 wage.',
+              lesson: 'Compare what the next worker adds (MP × $8) with the wage.' },
+  cautious: { title: 'Too Cautious', stars: 1, hint: 'Stop after the dream team.',
+              text: s => (s.trimmed ? 'You trimmed the crew back to Maria and Jamal. ' : 'Maria and Jamal made a great team—then you sent five people home. ') + 'The 3rd worker still adds <b>50 bushels ($400)</b> for a $120 wage.',
+              lesson: 'Keep hiring while the extra bushels are worth more than the wage.' },
+  early:    { title: 'Stopped Too Soon', stars: 1, hint: 'Stop as soon as MP dips.',
+              text: s => (s.trimmed ? 'You sent home one worker too many. ' : 'Kenji added 50—fewer than Jamal’s 60—so diminishing returns had begun, and you stopped. ') + 'But the 4th worker still adds <b>30 bushels ($240)</b> for a $120 wage.',
+              lesson: 'Diminishing returns don’t mean “stop.” Stop when MP × $8 falls below the wage.' },
+  almost:   { title: 'Almost Boss', stars: 2, hint: 'Stop one hire short.',
+              text: () => 'So close! The 5th worker (Luis) adds <b>20 bushels ($160)</b> for a $120 wage—one more hire would raise profit by $40.',
+              lesson: 'Keep hiring while MP × $8 is at least the wage.' },
+  boss:     { title: 'Harvest Boss', stars: 3, hint: 'Find the sweet spot, one hire at a time.',
+              text: () => 'Five workers, 200 bushels: the best profit this farm can make with one digger. The 5th worker added 20 bushels ($160 &gt; $120). A 6th would add only 10 ($80 &lt; $120).',
+              lesson: 'Hire while MP × $8 ≥ the $120 wage—and not one worker more.' },
+  comeback: { title: 'Comeback Boss', stars: 3, hint: 'Hire everyone at once, then fix it.',
+              text: () => 'You hired everyone, watched the chaos, then sent people home one at a time—and sending Omar home actually <b>raised</b> output. You found the sweet spot the hard way: five workers.',
+              lesson: 'A worker with negative MP lowers total output.' },
+  onemore:  { title: 'One Hand Too Many', stars: 2, hint: 'Go one hire past the sweet spot.',
+              text: () => 'The 6th worker (Hannah) adds only <b>10 bushels ($80)</b> for a $120 wage, so profit is $40 lower than with five workers.',
+              lesson: 'Past the sweet spot, each worker costs more than they add.' },
+  crowded:  { title: 'Crowded Rows', stars: 1, hint: 'Hire all seven, one at a time.',
+              text: () => 'Seven people, one digger. The 7th worker’s MP was <b>−10</b>: output fell from 210 to 200. Too many hands on one fixed input.',
+              lesson: 'With a fixed input, enough extra workers can make total output fall.' },
+  chaos:    { title: 'Chaos at the Ramp', stars: 0, hint: 'Hire everyone at once—and keep them.',
+              text: () => 'You hired everyone at once and kept them all: 200 bushels, the same as five workers, with two extra wages to pay.',
+              lesson: 'More workers is not the same as more output.' }
+};
+
+function endingFor(s) {
+  const L = s.crew;
+  if (L === 0) return 'fallow';
+  if (L === 1) return 'lonely';
+  if (L === 2) return 'cautious';
+  if (L === 3) return 'early';
+  if (L === 4) return 'almost';
+  if (L === 5) return s.path === 'all' ? 'comeback' : 'boss';
+  if (L === 6) return 'onemore';
+  return s.path === 'all' ? 'chaos' : 'crowded';
+}
+
+/* ambient lines while the crew works (symptoms of crowding one digger) */
+const AMBIENT = {
+  1: [[0, 'Phew—so many jobs!'], [0, 'Back to the digger!']],
+  2: [[1, 'Got this row!'], [0, 'Nice teamwork!']],
+  3: [[2, 'Crate’s ready!'], [2, 'Waiting on the next row…']],
+  4: [[3, 'Waiting for the digger…'], [3, 'Any rows left?'], [2, 'Coming through!']],
+  5: [[4, 'Line for the ramp?'], [3, 'Still waiting…'], [4, 'Excuse me—']],
+  6: [[3, 'Too crowded here!'], [2, 'Watch the crates!']],
+  7: [[2, 'Too many people here!'], [3, 'Nothing left to pick…'], [6, 'Sorry—just trying to help!']]
+};
+
+/* ---------- animated farm scene ---------- */
+const NS = 'http://www.w3.org/2000/svg';
+function el(tag, a, p) { const e = document.createElementNS(NS, tag); if (a) for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+const $ = s => document.querySelector(s);
+const lyrPot = $('#lyrPot'), lyrCrates = $('#lyrCrates'), lyrPeople = $('#lyrPeople'), lyrFx = $('#lyrFx');
+const ROW_Y = 352, ROW_MIN = 170, ROW_MAX = 630;
+const QUEUE_X = 562, QUEUE_Y = 257;
+
+function crateShape(g) {
+  el('rect', { x: 0, y: 0, width: 21, height: 14, rx: 2, fill: '#b07a47', stroke: '#7a5230', 'stroke-width': 1.2 }, g);
+  el('path', { d: 'M 0 7 H 21', stroke: '#8c6038', 'stroke-width': 1 }, g);
+  el('ellipse', { cx: 5, cy: 0, rx: 3.6, ry: 2.4, fill: '#b5523b' }, g);
+  el('ellipse', { cx: 11, cy: -1, rx: 3.6, ry: 2.4, fill: '#c2603f' }, g);
+  el('ellipse', { cx: 16.5, cy: 0, rx: 3.4, ry: 2.3, fill: '#a94a34' }, g);
+  return g;
+}
+
+(function decorate() {
+  const fence = $('#fence');
+  for (let x = 6; x < 960; x += 46) el('rect', { x, y: 236, width: 4, height: 21, rx: 1 }, fence);
+  el('rect', { x: 0, y: 240, width: 960, height: 3 }, fence);
+  el('rect', { x: 0, y: 249, width: 960, height: 3 }, fence);
+  const rows = $('#rows');
+  [272, 306, 340, 374, 408].forEach((y, r) => el('rect', { x: 0, y, width: 960, height: 12, rx: 6, fill: r === 2 ? '#8a5c35' : '#c89b67', opacity: r === 2 ? .45 : .55 }, rows));
+  const plants = $('#plants');
+  [278, 312, 380, 414].forEach((y, r) => {
+    for (let x = 16 + (r % 2) * 22; x < 960; x += 44) {
+      if ((y < 330 && x > 772) || (y > 360 && x > 640)) continue;
+      el('path', { d: `M ${x} ${y} q -7 -9 -3 -15 q 4 6 3 15 z M ${x} ${y} q 7 -9 3 -15 q -4 6 -3 15 z`, fill: '#5c9a4b' }, plants);
+      el('path', { d: `M ${x} ${y} l 0 -16`, stroke: '#4f8a40', 'stroke-width': 2 }, plants);
+    }
+  });
+  const pile = $('#pile');
+  [[686, 338], [708, 338], [697, 324]].forEach(([x, y]) => crateShape(el('g', { transform: `translate(${x} ${y})` }, pile)));
+})();
+
+function drawHat(w, g) {
+  if (w.hat === 'straw') {
+    el('ellipse', { cx: 0, cy: -55, rx: 14, ry: 3.6, fill: w.hatC }, g);
+    el('path', { d: 'M -8 -55 Q -7 -66 0 -66 Q 7 -66 8 -55 Z', fill: w.hatC }, g);
+    el('path', { d: 'M -7.5 -57.5 L 7.5 -57.5', stroke: '#a5452e', 'stroke-width': 2 }, g);
+  } else if (w.hat === 'cap') {
+    el('path', { d: 'M -9 -53 Q -8 -64 0 -64 Q 8 -64 9 -53 Z', fill: w.hatC }, g);
+    el('rect', { x: 2, y: -55, width: 13, height: 3.6, rx: 1.8, fill: w.hatC }, g);
+  } else {
+    el('path', { d: 'M -9 -52 Q -8 -63 0 -63 Q 8 -63 9 -52 Z', fill: w.hatC }, g);
+    el('path', { d: 'M -8 -55 L -15 -50 L -10 -47 Z', fill: w.hatC }, g);
+  }
+}
+
+function makeSprite(i) {
+  const w = W[i];
+  const root = el('g', { visibility: 'hidden' }, lyrPeople);
+  const body = el('g', {}, root);
+  el('ellipse', { cx: 0, cy: 0, rx: 12, ry: 3.2, fill: 'rgba(0,0,0,.22)' }, body);
+  const l1 = el('rect', { x: -7, y: -19, width: 6, height: 19, rx: 2.6, fill: w.pants }, body);
+  const l2 = el('rect', { x: 1, y: -19, width: 6, height: 19, rx: 2.6, fill: w.pants }, body);
+  const torso = el('g', {}, body);
+  el('path', { d: 'M -6 -36 L -11 -24', stroke: w.skin, 'stroke-width': 5, 'stroke-linecap': 'round', fill: 'none' }, torso);
+  el('rect', { x: -10, y: -41, width: 20, height: 25, rx: 7, fill: w.shirt }, torso);
+  el('path', { d: 'M 6 -36 L 13 -24', stroke: w.skin, 'stroke-width': 5, 'stroke-linecap': 'round', fill: 'none' }, torso);
+  el('circle', { cx: 0, cy: -49, r: 9, fill: w.skin }, torso);
+  el('circle', { cx: 4.2, cy: -50, r: 1.4, fill: '#1f2933' }, torso);
+  drawHat(w, torso);
+  const crate = el('g', { visibility: 'hidden', transform: 'translate(5 -37) scale(.8)' }, torso);
+  crateShape(crate);
+  const icons = el('g', {}, root);
+  const hour = el('g', { visibility: 'hidden' }, icons);
+  el('path', { d: 'M -6 -90 h 12 l -6 7 l 6 7 h -12 l 6 -7 z', fill: '#f2b632', stroke: '#7a5b12', 'stroke-width': 1.4, 'stroke-linejoin': 'round' }, hour);
+  el('path', { d: 'M -3 -77 h 6 l -3 -3 z', fill: '#a8761a' }, hour);
+  const angry = el('g', { visibility: 'hidden' }, icons);
+  el('path', { d: 'M -11 -80 l 5 -9 l 3 7 l 5 -9 l 3 7 l 5 -9', stroke: '#c9504d', 'stroke-width': 2.8, fill: 'none', 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, angry);
+  const sweat = el('g', { visibility: 'hidden' }, icons);
+  el('path', { d: 'M 12 -62 q 3.5 5 0 7.5 q -3.5 -2.5 0 -7.5 z', fill: '#5aa9e6' }, sweat);
+  el('path', { d: 'M -13 -57 q 3 4.5 0 6.5 q -3 -2 0 -6.5 z', fill: '#5aa9e6' }, sweat);
+  const tag = el('g', { visibility: 'hidden' }, root);
+  const tw = w.name.length * 6.8 + 14;
+  el('rect', { x: -tw / 2, y: -92, width: tw, height: 16, rx: 8, fill: '#1f2933', opacity: .86 }, tag);
+  el('text', { x: 0, y: -80.5, 'text-anchor': 'middle', 'font-family': 'Arial, sans-serif', 'font-size': 11, 'font-weight': 800, fill: '#fff' }, tag).textContent = w.name;
+  return { i, w, root, body, l1, l2, torso, crate, hour, angry, sweat, tag, x: -60, y: 384, s: 1, face: 1, vis: false, role: null, qpos: 0,
+           inSeat: false, mode: 'follow', modeT: 0, phase: Math.random() * 6, hl: false, toB: true, lw: 0, lwIcon: false, walk: 0, bend: 0, bob: 0, rush: false, walking: false };
+}
+
+function makeTractor() {
+  const root = el('g', {}, lyrPeople);
+  const body = el('g', {}, root);
+  el('ellipse', { cx: -10, cy: 1, rx: 54, ry: 5, fill: 'rgba(0,0,0,.18)' }, body);
+  el('path', { d: 'M -36 -20 L -88 -6 L -88 0 L -40 -6 Z', fill: '#8d969e' }, body);
+  el('path', { d: 'M -86 -3 L -42 -12', stroke: '#5f6b76', 'stroke-width': 2 }, body);
+  const shaker = el('g', {}, body);
+  el('ellipse', { cx: -62, cy: -11, rx: 4, ry: 2.6, fill: '#b5523b' }, shaker);
+  el('ellipse', { cx: -73, cy: -8, rx: 3.6, ry: 2.4, fill: '#c2603f' }, shaker);
+  el('rect', { x: -42, y: -24, width: 10, height: 6, rx: 1, fill: '#5f6b76' }, body);
+  el('rect', { x: -34, y: -44, width: 74, height: 26, rx: 6, fill: '#378a61' }, body);
+  el('rect', { x: 10, y: -38, width: 32, height: 18, rx: 5, fill: '#2f7553' }, body);
+  el('rect', { x: 36, y: -32, width: 6, height: 5, rx: 1.5, fill: '#ffd45c' }, body);
+  el('rect', { x: 28, y: -66, width: 5, height: 24, rx: 2, fill: '#4b5560' }, body);
+  el('rect', { x: -31, y: -78, width: 36, height: 36, rx: 4, fill: 'rgba(215,236,250,.55)', stroke: '#2f7553', 'stroke-width': 4 }, body);
+  el('rect', { x: -34, y: -82, width: 42, height: 7, rx: 3, fill: '#2f7553' }, body);
+  const drv = el('g', { visibility: 'hidden' }, body);
+  el('rect', { x: -21, y: -54, width: 16, height: 12, rx: 4, fill: W[0].shirt }, drv);
+  el('circle', { cx: -13, cy: -60, r: 7.5, fill: W[0].skin }, drv);
+  el('circle', { cx: -9.5, cy: -61, r: 1.2, fill: '#1f2933' }, drv);
+  el('ellipse', { cx: -13, cy: -65.5, rx: 11.5, ry: 3, fill: W[0].hatC }, drv);
+  el('path', { d: 'M -19.5 -65.5 Q -19 -74 -13 -74 Q -7 -74 -6.5 -65.5 Z', fill: W[0].hatC }, drv);
+  const rw = el('g', { transform: 'translate(-16 -17)' }, body);
+  el('circle', { r: 17, fill: '#1f2933' }, rw);
+  const rsp = el('g', {}, rw);
+  for (let a = 0; a < 180; a += 45) el('rect', { x: -1.6, y: -14, width: 3.2, height: 28, fill: '#56616c', transform: `rotate(${a})` }, rsp);
+  el('circle', { r: 6.5, fill: '#e2c27a' }, rw);
+  const fw = el('g', { transform: 'translate(30 -10)' }, body);
+  el('circle', { r: 10, fill: '#1f2933' }, fw);
+  const fsp = el('g', {}, fw);
+  for (let a = 0; a < 180; a += 60) el('rect', { x: -1.3, y: -8, width: 2.6, height: 16, fill: '#56616c', transform: `rotate(${a})` }, fsp);
+  el('circle', { r: 4, fill: '#e2c27a' }, fw);
+  return { root, body, shaker, drv, rsp, fsp, x: 210, y: ROW_Y, dir: 1, stop: 0, wheel: 0, spawnT: 0, smokeT: 0, moving: false };
+}
+
+const SP = W.map((w, i) => makeSprite(i));
+const TR = makeTractor();
+const SC = { crew: 0, t: 0, argue: 0, argueT: 3, reply: 0, ambT: 3, block: { phase: 'idle', t: 4, x: 0 }, solo: { phase: 'drive', t: 0 } };
+let pots = [], smokes = [], bubbles = [], floats = [], crates = [];
+
+function rolesFor(L) {
+  const r = [];
+  if (L >= 1) r[0] = L === 1 ? 'solo' : 'driver';
+  if (L >= 2) r[1] = 'picker';
+  if (L >= 3) r[2] = 'loader';
+  if (L >= 4) r[3] = 'picker2';
+  if (L >= 5) r[4] = L >= 6 ? 'arguer' : 'crowd';
+  if (L >= 6) r[5] = 'arguer';
+  if (L >= 7) r[6] = 'blocker';
+  return r;
+}
+
+/* ---- where each worker wants to be ---- */
+function seat() { return { x: TR.x - TR.dir * 13, y: TR.y + 2 }; }
+function target(sp, t, dt) {
+  switch (sp.role) {
+    case 'queue': return { x: QUEUE_X + sp.qpos * 36, y: QUEUE_Y, s: .78, face: -1, tag: true, bob: sp.hl ? Math.abs(Math.sin(t * 5)) * 7 : 0, v: 150 };
+    case 'driver': { const p = seat(); return { x: p.x, y: p.y, s: 1, face: TR.dir, seat: true, v: 170 }; }
+    case 'solo': return soloTarget(sp);
+    case 'picker': return { x: TR.x - TR.dir * 88, y: TR.y + 12, s: 1, face: TR.dir, pick: true, v: 150 };
+    case 'picker2':
+      sp.modeT += dt;
+      if (sp.modeT > 2.8) { sp.modeT = 0; sp.mode = sp.mode === 'follow' ? 'wait' : 'follow'; }
+      if (sp.mode === 'wait') return { x: sp.x, y: sp.y, s: 1, face: sp.face, icon: 'hour', v: 0 };
+      return { x: TR.x - TR.dir * 136, y: TR.y + 22, s: 1, face: TR.dir, pick: true, v: 140 };
+    case 'loader': return loaderTarget(sp);
+    case 'crowd': return { x: 712 + Math.sin(t * 1.3 + sp.phase) * 3, y: 394, s: 1, face: 1, icon: 'hour', v: 90 };
+    case 'arguer': {
+      const left = sp.i === 4, a = SC.argue > 0;
+      return { x: (left ? 700 : 742) + (a ? Math.sin(t * 30 + sp.i) * 1.8 : 0), y: 396, s: 1, face: left ? 1 : -1, icon: a ? 'angry' : 'hour', v: 90 };
+    }
+    case 'blocker': return blockerTarget(sp, t);
+    case 'leave': return { x: -70, y: 384, s: 1, face: -1, v: 210 };
+  }
+  return { x: sp.x, y: sp.y, s: 1, face: sp.face, v: 0 };
+}
+function soloTarget(sp) {
+  const so = SC.solo;
+  if (so.phase === 'drive' || so.phase === 'back') { const p = seat(); return { x: p.x, y: p.y, s: 1, face: p.x >= sp.x ? 1 : -1, seat: true, v: 120, icon: so.phase === 'back' ? 'sweat' : null }; }
+  if (so.phase === 'pick') return { x: TR.x - TR.dir * 88, y: TR.y + 12, s: 1, face: TR.dir, pick: true, v: 120, icon: 'sweat' };
+  return { x: 700, y: 374, s: 1, face: 1, carry: true, icon: 'sweat', v: 120 };
+}
+function loaderTarget(sp) {
+  const A = { x: 698, y: 376 }, B = { x: 752, y: 360 };
+  if (sp.lw > 0) return { x: sp.x, y: sp.y, s: 1, face: sp.face, icon: sp.lwIcon ? 'hour' : null, carry: sp.toB, v: 0 };
+  const g = sp.toB ? B : A;
+  if (Math.hypot(sp.x - g.x, sp.y - g.y) < 3) {
+    if (sp.toB) { sp.toB = false; sp.lw = .45; sp.lwIcon = false; }
+    else { const crowded = SC.crew >= 5 && Math.random() < .45; sp.toB = true; sp.lw = crowded ? 1.8 : .5; sp.lwIcon = crowded; }
+  }
+  return { x: g.x, y: g.y, s: 1, face: g.x >= sp.x ? 1 : -1, carry: sp.toB, v: 62 };
+}
+function blockerTarget(sp, t) {
+  const b = SC.block;
+  if (b.phase === 'go' || b.phase === 'stand') return { x: b.x, y: TR.y + 8, s: 1, face: b.phase === 'stand' ? -TR.dir : (b.x >= sp.x ? 1 : -1), v: 230 };
+  if (b.phase === 'return') return { x: 668, y: 404, s: 1, face: 1, v: 200 };
+  return { x: 668 + Math.sin(t * 1.2) * 2, y: 404, s: 1, face: 1, icon: 'hour', v: 90 };
+}
+
+/* ---- controllers ---- */
+function turned() { if (SC.crew === 1) { SC.solo.phase = 'pick'; SC.solo.t = 0; } }
+function soloStep(dt) {
+  const so = SC.solo, m = SP[0];
+  if (so.phase === 'pick') { so.t += dt; if (so.t > 1.8) so.phase = 'haul'; }
+  else if (so.phase === 'haul') { if (Math.hypot(m.x - 700, m.y - 374) < 5) so.phase = 'back'; }
+  else if (so.phase === 'back') { if (m.inSeat) so.phase = 'drive'; }
+}
+function blockStep(dt) {
+  const b = SC.block, om = SP[6];
+  if (b.phase === 'idle') {
+    b.t -= dt;
+    if (b.t <= 0 && TR.moving) { const ax = TR.x + TR.dir * 120; if (ax > ROW_MIN + 20 && ax < ROW_MAX - 20) { b.phase = 'go'; b.x = ax; } }
+  } else if (b.phase === 'go') {
+    if (Math.abs(TR.x - b.x) < 66 || Math.hypot(om.x - b.x, om.y - (TR.y + 8)) < 6) {
+      b.phase = 'stand'; b.t = 1.6; TR.stop = 1.6; bubble('tr', 'Whoa! Out of the row!', 1700, 'warn');
+    }
+  } else if (b.phase === 'stand') {
+    b.t -= dt; if (b.t <= 0) { b.phase = 'return'; bubble(6, 'Sorry!', 1200); }
+  } else if (b.phase === 'return') {
+    if (Math.hypot(om.x - 668, om.y - 404) < 5) { b.phase = 'idle'; b.t = 5.5; }
+  }
+}
+function argueStep(dt) {
+  SC.argueT -= dt; if (SC.argue > 0) SC.argue -= dt;
+  if (SC.argueT <= 0 && SP[5].role === 'arguer') { SC.argue = 2.4; SC.argueT = 5; bubble(5, 'That’s my crate!', 1500, 'warn'); SC.reply = .9; }
+  if (SC.reply > 0) { SC.reply -= dt; if (SC.reply <= 0 && SP[4].role === 'arguer') bubble(4, 'No, it’s mine!', 1400, 'warn'); }
+}
+function ambientStep(dt) {
+  SC.ambT -= dt;
+  if (SC.ambT > 0 || !SC.crew) return;
+  SC.ambT = 3.8 + Math.random() * 1.6;
+  const lines = (AMBIENT[SC.crew] || []).filter(([i]) => SP[i].vis && SP[i].role && SP[i].role !== 'leave' && SP[i].role !== 'queue');
+  if (!lines.length) return;
+  const [i, txt] = lines[Math.floor(Math.random() * lines.length)];
+  bubble(i, txt, 1700);
+}
+
+/* ---- potatoes, smoke, bubbles, floating numbers, crates ---- */
+function spawnPot() {
+  const x = TR.x - TR.dir * (78 + Math.random() * 8), y = TR.y + 3 + Math.random() * 4;
+  const e = el('ellipse', { class: 'pot', cx: x.toFixed(1), cy: y.toFixed(1), rx: 4.4, ry: 2.8, fill: ['#b5523b', '#c2603f', '#a94a34'][Math.floor(Math.random() * 3)] }, lyrPot);
+  pots.push({ e, x, y, born: SC.t });
+  if (pots.length > 70) removePot(pots[0]);
+}
+function removePot(p) { const i = pots.indexOf(p); if (i >= 0) pots.splice(i, 1); p.e.classList.add('gone'); setTimeout(() => p.e.remove(), 260); }
+function pickNear(sp) {
+  const hx = sp.x + sp.face * 6;
+  let n = 0;
+  for (const p of pots.slice()) { if (Math.abs(p.x - hx) < 20 && Math.abs(p.y - sp.y) < 16) { removePot(p); if (++n >= 2) break; } }
+}
+function puff() { const x = TR.x + TR.dir * 30.5, y = TR.y - 68; smokes.push({ c: el('circle', { cx: x, cy: y, r: 4, fill: '#9aa3ab', opacity: .55 }, lyrFx), y, t: 0 }); }
+const measure = document.createElement('canvas').getContext('2d');
+measure.font = '700 12px Arial';
+function killBubble(b) { const i = bubbles.indexOf(b); if (i >= 0) bubbles.splice(i, 1); b.g.remove(); }
+function bubble(who, text, ms, kind) {
+  bubbles.filter(b => b.who === who).forEach(killBubble);
+  const g = el('g', { class: 'bubble' + (kind ? ' ' + kind : '') }, lyrFx);
+  const w = Math.ceil(measure.measureText(text).width) + 18;
+  el('rect', { x: -w / 2, y: -22, width: w, height: 22, rx: 10 }, g);
+  el('path', { d: 'M -5 -1 L 0 7 L 5 -1' }, g);
+  el('text', { x: 0, y: -7, 'text-anchor': 'middle' }, g).textContent = text;
+  bubbles.push({ g, who, w, until: SC.t + T(ms) / 1000 });
+}
+function floatText(x, y, text, color) {
+  const e = el('text', { class: 'float', x, y, 'text-anchor': 'middle', fill: color }, lyrFx);
+  e.textContent = text; floats.push({ e, y, t: 0 });
+}
+const SLOTS = [];
+for (let r = 0; r < 3; r++) for (let c = 0; c < 4; c++) SLOTS.push({ x: 790 + c * 24, y: 268 - r * 14 });
+function setCrates(n, anim) {
+  n = Math.max(0, Math.min(SLOTS.length, n));
+  let k = 0;
+  while (crates.length < n) {
+    const s = SLOTS[crates.length];
+    const outer = el('g', { transform: `translate(${s.x} ${s.y})` }, lyrCrates);
+    const inner = el('g', { class: 'crate' + (anim ? ' pop' : '') }, outer);
+    if (anim) inner.style.animationDelay = (k++ * .09) + 's';
+    crateShape(inner); crates.push({ outer, inner });
+  }
+  while (crates.length > n) {
+    const c = crates.pop();
+    if (anim) { c.inner.classList.add('tip'); setTimeout(() => c.outer.remove(), 1000); } else c.outer.remove();
+  }
+}
+
+/* ---- per-frame update ---- */
+function renderSprite(sp) {
+  sp.root.setAttribute('transform', `translate(${sp.x.toFixed(1)} ${(sp.y - sp.bob).toFixed(1)}) scale(${sp.s.toFixed(3)})`);
+  sp.body.setAttribute('transform', `scale(${sp.face} 1)`);
+  sp.torso.setAttribute('transform', `rotate(${sp.bend.toFixed(1)} 0 -18)`);
+  const lw = sp.walking ? Math.sin(sp.walk) * 3 : 0;
+  sp.l1.setAttribute('transform', `translate(0 ${(-Math.max(0, lw)).toFixed(1)})`);
+  sp.l2.setAttribute('transform', `translate(0 ${(-Math.max(0, -lw)).toFixed(1)})`);
+}
+let lastOrder = '';
+function sortPeople() {
+  const items = [{ n: TR.root, y: TR.y, k: 'T' }].concat(SP.map((sp, i) => ({ n: sp.root, y: sp.y, k: String(i) })));
+  items.sort((a, b) => a.y - b.y);
+  const key = items.map(it => it.k).join(',');
+  if (key !== lastOrder) { lastOrder = key; items.forEach(it => lyrPeople.appendChild(it.n)); }
+}
+function step(dt, t) {
+  const m0 = SP[0];
+  const ready = m0.inSeat && (m0.role === 'driver' || (m0.role === 'solo' && SC.solo.phase === 'drive'));
+  if (TR.stop > 0) TR.stop -= dt;
+  TR.moving = SC.crew >= 1 && ready && TR.stop <= 0;
+  if (TR.moving) {
+    const v = SC.crew === 1 ? 60 : 82;
+    TR.x += TR.dir * v * dt; TR.wheel += v * dt / 17 * 57.3;
+    if (TR.x > ROW_MAX) { TR.x = ROW_MAX; TR.dir = -1; turned(); } else if (TR.x < ROW_MIN) { TR.x = ROW_MIN; TR.dir = 1; turned(); }
+    TR.spawnT -= dt; if (TR.spawnT <= 0) { spawnPot(); TR.spawnT = .17; }
+    TR.smokeT -= dt; if (TR.smokeT <= 0) { puff(); TR.smokeT = .38; }
+  }
+  TR.root.setAttribute('transform', `translate(${TR.x.toFixed(1)} ${TR.y})`);
+  TR.body.setAttribute('transform', `scale(${TR.dir} 1)`);
+  TR.rsp.setAttribute('transform', `rotate(${(TR.wheel % 360).toFixed(1)})`);
+  TR.fsp.setAttribute('transform', `rotate(${(TR.wheel * 1.7 % 360).toFixed(1)})`);
+  TR.shaker.setAttribute('transform', `translate(0 ${TR.moving ? (Math.sin(t * 22) * 1.6).toFixed(1) : 0})`);
+  TR.drv.setAttribute('visibility', m0.vis && m0.inSeat ? 'visible' : 'hidden');
+
+  if (SC.crew === 1) soloStep(dt);
+  if (SC.crew === 7 && SP[6].role === 'blocker') blockStep(dt);
+  if (SC.crew >= 6) argueStep(dt);
+  ambientStep(dt);
+
+  for (const sp of SP) {
+    if (!sp.vis) { sp.root.setAttribute('visibility', 'hidden'); continue; }
+    const g = target(sp, t, dt);
+    const dx = g.x - sp.x, dy = g.y - sp.y, d = Math.hypot(dx, dy);
+    const v = (g.v || 0) * (FAST ? 8 : 1) * (sp.rush ? 1.7 : 1);
+    if (d > .5 && v > 0) { const k = Math.min(1, v * dt / d); sp.x += dx * k; sp.y += dy * k; }
+    sp.walking = d > 2 && v > 0;
+    if (sp.walking) { sp.walk += dt * 14; if (Math.abs(dx) > 1) sp.face = Math.sign(dx); } else if (g.face) sp.face = g.face;
+    if (sp.rush && d < 8) sp.rush = false;
+    sp.s += ((g.s || 1) - sp.s) * Math.min(1, dt * 6);
+    sp.bob = g.bob || 0;
+    if (g.seat) { if (d < 7) { sp.inSeat = true; sp.x = g.x; sp.y = g.y; } } else sp.inSeat = false;
+    const atWork = g.pick && d < 14;
+    sp.bend = atWork ? 32 * Math.max(0, Math.sin(t * 6 + sp.phase)) : Math.max(0, sp.bend - dt * 120);
+    if (atWork && sp.bend > 20) pickNear(sp);
+    sp.hour.setAttribute('visibility', g.icon === 'hour' ? 'visible' : 'hidden');
+    sp.angry.setAttribute('visibility', g.icon === 'angry' ? 'visible' : 'hidden');
+    sp.sweat.setAttribute('visibility', g.icon === 'sweat' ? 'visible' : 'hidden');
+    sp.tag.setAttribute('visibility', g.tag ? 'visible' : 'hidden');
+    sp.crate.setAttribute('visibility', g.carry ? 'visible' : 'hidden');
+    if (sp.role === 'leave' && sp.x < -50) { sp.vis = false; sp.role = null; }
+    sp.root.setAttribute('visibility', sp.vis && !sp.inSeat ? 'visible' : 'hidden');
+    renderSprite(sp);
+  }
+  sortPeople();
+
+  for (const p of pots.slice()) if (t - p.born > 12) removePot(p);
+  for (const s of smokes.slice()) {
+    s.t += dt;
+    if (s.t > 1.6) { s.c.remove(); smokes.splice(smokes.indexOf(s), 1); continue; }
+    s.c.setAttribute('cy', (s.y - s.t * 22).toFixed(1)); s.c.setAttribute('r', (4 + s.t * 5).toFixed(1)); s.c.setAttribute('opacity', (.55 * (1 - s.t / 1.6)).toFixed(2));
+  }
+  for (const f of floats.slice()) {
+    f.t += dt;
+    if (f.t > 2.2) { f.e.remove(); floats.splice(floats.indexOf(f), 1); continue; }
+    f.e.setAttribute('y', (f.y - f.t * 24).toFixed(1)); f.e.setAttribute('opacity', (1 - Math.max(0, (f.t - 1.4) / .8)).toFixed(2));
+  }
+  for (const b of bubbles.slice()) {
+    if (SC.t > b.until) { killBubble(b); continue; }
+    let x, y;
+    if (b.who === 'tr' || SP[b.who].inSeat) { x = TR.x - TR.dir * 13; y = TR.y - 100; }
+    else { const sp = SP[b.who]; if (!sp.vis) { killBubble(b); continue; } x = sp.x; y = sp.y - 100 * sp.s; }
+    x = Math.max(b.w / 2 + 6, Math.min(954 - b.w / 2, x));
+    if (y - 24 < 272) x = Math.max(x, 246 + b.w / 2);   // keep clear of the notebook card
+    b.g.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+  }
+}
+let lastT = performance.now();
+function frame(now) {
+  const dt = Math.min(.05, (now - lastT) / 1000) * (FAST ? 4 : 1);
+  lastT = now; SC.t += dt;
+  step(dt, SC.t);
+  requestAnimationFrame(frame);
+}
+
+/* ---- HUD, banner, shake ---- */
+const HUD = {
+  ensureDots() { const d = $('#hudDots'); if (!d.children.length) for (let i = 0; i < 7; i++) d.appendChild(document.createElement('i')); },
+  paint(L, bu, pr) {
+    this.ensureDots();
+    $('#hudCrew').textContent = L;
+    [...$('#hudDots').children].forEach((e, i) => e.classList.toggle('on', i < L));
+    $('#hudBu').textContent = Math.round(bu);
+    const p = $('#hudProfit'); const v = Math.round(pr);
+    p.textContent = signedMoney(v); p.className = 'hud-val ' + (v < 0 ? 'neg' : v > 0 ? 'pos' : '');
+    $('#hudSub').textContent = `revenue ${money(PRICE * TP[L])} − wages ${money(WAGE * L)} − fixed $900`;
+  },
+  set(L) { this.token = (this.token || 0) + 1; this.paint(L, TP[L], profit(L)); },
+  tween(L0, L1, ms) {
+    const token = this.token = (this.token || 0) + 1, t0 = performance.now(), dur = T(ms);
+    const b0 = TP[L0], b1 = TP[L1], p0 = profit(L0), p1 = profit(L1);
+    const tick = now => {
+      if (token !== this.token) return;
+      const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      this.paint(L1, b0 + (b1 - b0) * e, p0 + (p1 - p0) * e);
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+};
+function banner(text, color) { const b = $('#banner'); b.textContent = text; b.className = 'show' + (color ? ' ' + color : ''); }
+function hideBanner() { $('#banner').className = ''; }
+function shake() { const w = $('#sceneWrap'); w.classList.remove('shake'); void w.offsetWidth; w.classList.add('shake'); }
+
+/* ---- keep the scene in step with the story state ---- */
+function placeAt(sp) {
+  const g = target(sp, SC.t, 0);
+  sp.x = g.x; sp.y = g.y; sp.s = g.s || 1; sp.face = g.face || sp.face; sp.rush = false;
+  sp.inSeat = !!g.seat;
+}
+const Scene = {
+  async sync(S, opt) {
+    const animate = !!(opt && opt.animate), prev = opt && opt.prev, hl = opt ? opt.hl : null;
+    const place = !(opt && opt.place === false);
+    const L = S.crew, roles = rolesFor(L), prevL = prev ? prev.crew : L;
+    SC.crew = L;
+    if (L !== 1) SC.solo.phase = 'drive';
+    if (L !== 7) { SC.block.phase = 'idle'; SC.block.t = 4; }
+    let q = 0;
+    for (let i = 0; i < 7; i++) {
+      const sp = SP[i], oldRole = sp.role;
+      let role = null;
+      if (i < L) role = roles[i];
+      else if (i < S.arrived) role = 'queue';
+      else if (sp.vis && oldRole && (animate || (!place && oldRole === 'leave'))) role = 'leave';
+      if (role === 'queue') sp.qpos = q++;
+      sp.hl = i === hl;
+      if (!role) { sp.vis = false; sp.role = null; sp.inSeat = false; continue; }
+      if (!sp.vis) {
+        sp.vis = true; sp.inSeat = false; sp.s = role === 'queue' ? .78 : 1;
+        if (role === 'queue') { sp.x = animate ? 990 + sp.qpos * 20 : QUEUE_X + sp.qpos * 36; sp.y = QUEUE_Y; }
+        else { sp.x = -40; sp.y = 384; }
+        sp.rush = animate;
+      }
+      if (oldRole !== role) {
+        if (oldRole === 'queue' && role !== 'queue') sp.rush = true;
+        sp.role = role; sp.modeT = 0; sp.mode = 'follow'; sp.lw = 0; sp.toB = true;
+      }
+      if (!animate && place) placeAt(sp);
+    }
+    if (!animate) {
+      if (!place) return;
+      if (L === 0) { TR.x = 210; TR.dir = 1; }
+      HUD.set(L); setCrates(Math.round(TP[L] / 20), false); return;
+    }
+    const changed = L !== prevL, arrivals = S.arrived > (prev ? prev.arrived : 0);
+    if (!changed) { if (arrivals) await wait(1500); return; }
+    await wait(L > prevL ? 1500 : 1150);
+    HUD.tween(prevL, L, 1100);
+    setCrates(Math.round(TP[L] / 20), true);
+    const d = TP[L] - TP[prevL];
+    floatText(838, 232, (d >= 0 ? '+' : '−') + Math.abs(d) + ' bu', d >= 0 ? '#378a61' : '#c9504d');
+    await wait(1250);
+  },
+  reset() {
+    SC.crew = 0; SC.solo.phase = 'drive'; SC.block.phase = 'idle'; SC.argue = 0;
+    TR.x = 210; TR.dir = 1; TR.stop = 0;
+    SP.forEach(sp => { sp.vis = false; sp.role = null; sp.inSeat = false; sp.root.setAttribute('visibility', 'hidden'); });
+    pots.forEach(p => p.e.remove()); pots = [];
+    bubbles.slice().forEach(killBubble);
+    floats.forEach(f => f.e.remove()); floats = [];
+    setCrates(0, false); HUD.set(0); hideBanner();
+  }
+};
+
+/* ---------- story nodes ---------- */
+let PRED_ON = true;
+try { PRED_ON = localStorage.getItem('are201-harvest-boss-predict') !== 'off'; } catch (e) { /* storage blocked: keep default */ }
+
+const STORY = {
+  title: { overlay: 'title' },
+  welcome: {
+    who: 'ruth',
+    text: 'Welcome to <b>Pine Hollow Farm</b>, boss! The sweet potatoes are ready to dig. For this harvest you have <b>one digger</b>, one field and one truck. I’ll stick around and help you keep the books.',
+    choices: [{ label: 'Show me the numbers', go: 'rules' }]
+  },
+  rules: {
+    who: 'ruth',
+    text: 'Here’s the money. The packing house pays <b>$8 a bushel</b>. Each worker costs <b>$120 a day</b>. And every day costs <b>$900</b> before anyone digs: rent $400, the digger lease $350, insurance $150. One more thing: this season you <b>can’t</b> get a second digger.',
+    choices: [{ label: 'Got it', go: 'poll' }]
+  },
+  poll: {
+    who: 'ruth', vote: true,
+    text: 'Let’s make a bet. With this digger, one worker digs about <b>40 bushels</b> a day. If you hired <b>seven</b> workers, how many bushels would they dig?',
+    choices: [
+      { label: '280', sub: '7 × 40', go: 'day', fx: s => { s.poll = '280'; } },
+      { label: 'More than 280', go: 'day', fx: s => { s.poll = 'More than 280'; } },
+      { label: 'Less than 280', go: 'day', fx: s => { s.poll = 'Less than 280'; } }
+    ]
+  },
+  day: {
+    who: 'narrator', vote: true,
+    text: 'Day 1, 7 a.m. The digger is fueled up and nobody is hired yet. Look at the profit board: <b>−$900</b> already, with zero bushels dug.',
+    choices: [
+      { label: 'Hire your first worker', sub: 'Maria · $120 a day', go: 'hire1' },
+      { label: 'Leave the field idle today', style: 'alt', go: 'end:auto' }
+    ]
+  },
+  gate: {
+    who: 'ruth', vote: true, pending: '<i>Somebody’s at the gate…</i>',
+    apply: s => { s.arrived = 7; },
+    text: 'Word got around town. <b>Five more people</b> want a job: Kenji, Priya, Luis, Hannah and Omar—all hard workers. Still just <b>one digger</b>, though. What do you do?',
+    choices: [
+      { label: 'Interview them one at a time', go: 'ask3', fx: s => { s.path = 'one'; } },
+      { label: 'Hire all five right now!', style: 'blue', go: 'hireAll', fx: s => { s.path = 'all'; } },
+      { label: 'Two is plenty', sub: 'send them home', style: 'alt', go: 'end:auto' }
+    ]
+  },
+  hireAll: {
+    who: 'narrator', pending: '<i>Five people walk through the gate at once…</i>',
+    apply: s => { s.crew = 7; s.arrived = 7; s.observed = 7; s.last = { type: 'all' }; },
+    text: 'Seven people, one digger, one truck ramp. People wait for rows, bump into each other and argue over crates—and the digger keeps stopping because someone is standing in the row. Output: <b>200</b>. Five extra workers added only <b>100 bushels</b> together, for <b>$600</b> in wages.',
+    after: () => { shake(); banner('7 workers, 200 bushels', 'red'); },
+    choices: [
+      { label: 'Send one worker home', go: 'trim' },
+      { label: 'Keep all seven', style: 'alt', go: 'end:auto' }
+    ]
+  },
+  trim: {
+    who: 'ruth', pending: '<i>Someone heads home…</i>',
+    apply: s => { const k = s.crew; s.crew = k - 1; s.arrived = s.crew; s.trimmed = true; s.last = { type: 'trim', k }; },
+    text: s => trimText(s.last.k),
+    after: s => { if (s.last.k === 7) banner('Sending Omar home RAISED output', 'green'); },
+    choices: s => s.crew > 0
+      ? [{ label: 'Send another worker home', go: 'trim' }, { label: `Stop here: ${s.crew} worker${s.crew === 1 ? '' : 's'}`, style: 'alt', go: 'end:auto' }]
+      : [{ label: 'Stop here', style: 'alt', go: 'end:auto' }]
+  },
+  report: { overlay: 'report' },
+  longrun: { overlay: 'longrun' },
+  lrResult: { overlay: 'lrResult' }
+};
+
+function trimText(k) {
+  const w = W[k - 1], m = MP(k), d = PRICE * m - WAGE;
+  if (m < 0) return `${w.name} heads home—and output goes <b>up</b>, from ${TP[k]} to ${TP[k - 1]} bushels! With ${w.name} in the row, the crew dug less: the ${ORD[k]} worker’s MP was <b>−${-m}</b>. Profit rises by <b>$${-d}</b>.`;
+  const verdict = d < 0 ? `Profit goes <b>up $${-d}</b>.` : `Profit goes <b>down $${d}</b>.`;
+  return `${w.name} heads home. Output drops by <b>${m} bushels</b> (worth $${m * PRICE}), and you save a <b>$120</b> wage. ${verdict}`;
+}
+
+function hireNode(k) {
+  return {
+    who: k - 1, pending: `<i>${W[k - 1].name} heads to the field…</i>`,
+    apply: s => { s.crew = k; s.arrived = Math.max(s.arrived, k); s.observed = Math.max(s.observed, k); s.last = { type: 'hire', k }; },
+    text: s => predFeedback(s, k) + HIRE_TEXT[k],
+    after: () => {
+      if (k === 2) banner('MP rose: 40 → 60', 'green');
+      if (k === 3) banner('Diminishing returns begin: MP 60 → 50');
+      if (k === 7) { banner('Output fell! MP = −10', 'red'); shake(); }
+    },
+    choices: k === 1 ? [{ label: 'Next', go: 'ask2' }]
+      : k === 2 ? [{ label: 'Next', go: 'gate' }]
+      : k < 7 ? [{ label: 'Next applicant', go: 'ask' + (k + 1) }]
+      : [{ label: 'End the day with seven', go: 'end:auto' }, { label: 'Send someone home', style: 'alt', go: 'trim' }]
+  };
+}
+function askNode(k) {
+  const w = W[k - 1], p = W[k - 2], m = MP(k - 1);
+  return {
+    who: k - 1, vote: true,
+    apply: s => { s.arrived = Math.max(s.arrived, k); },
+    pending: k === 2 ? '<i>Somebody’s at the gate…</i>' : '',
+    text: () => `${w.hello}<span class="note"><b>Notebook:</b> ${p.name} added <b>${m} bushels</b> a day—$${m * PRICE} of sweet potatoes for a $120 wage.</span>`,
+    choices: [
+      { label: `Hire ${w.name}`, sub: '$120 a day', go: () => (PRED_ON ? 'pred' + k : 'hire' + k) },
+      { label: k === 2 ? 'No—Maria works alone' : 'Stop here', sub: k === 2 ? '' : 'send the rest home', style: 'alt', go: 'end:auto' }
+    ]
+  };
+}
+function predNode(k) {
+  const P = PRED[k];
+  return {
+    who: 'ruth', predict: true, text: P.q,
+    choices: P.opts.map((o, i) => ({ label: o, style: 'purple', go: 'hire' + k,
+      fx: s => { s.preds = s.preds.filter(x => x.k !== k); s.preds.push({ k, guess: o, ok: i === P.ans, right: P.opts[P.ans] }); } }))
+  };
+}
+function predFeedback(s, k) {
+  const p = s.preds.find(x => x.k === k);
+  if (!p) return '';
+  return p.ok ? `<span class="fb ok">Class prediction “${p.guess}” ✓</span><br>`
+              : `<span class="fb no">Class prediction “${p.guess}” ✗ — the answer was “${p.right}”</span><br>`;
+}
+function endNode(id) { return { overlay: 'ending', ending: id, apply: s => { s.ending = id; Gallery.add(id); } }; }
+
+function def(id) {
+  if (STORY[id]) return STORY[id];
+  let m;
+  if ((m = id.match(/^ask(\d)$/))) return askNode(+m[1]);
+  if ((m = id.match(/^pred(\d)$/))) return predNode(+m[1]);
+  if ((m = id.match(/^hire(\d)$/))) return hireNode(+m[1]);
+  if ((m = id.match(/^end:(\w+)$/))) return endNode(m[1]);
+  return null;
+}
+
+const Gallery = {
+  KEY: 'are201-harvest-boss-endings', found: new Set(),
+  load() { try { JSON.parse(localStorage.getItem(this.KEY) || '[]').forEach(x => this.found.add(x)); } catch (e) { /* ignore */ } },
+  save() { try { localStorage.setItem(this.KEY, JSON.stringify([...this.found])); } catch (e) { /* ignore */ } },
+  add(id) { this.found.add(id); this.save(); },
+  reset() { this.found.clear(); this.save(); }
+};
+
+/* ---------- story engine, panel, overlays ---------- */
+let S = fresh(), cur = null, busy = false;
+const hist = [];
+function fresh() { return { crew: 0, arrived: 0, path: null, poll: null, preds: [], observed: 0, trimmed: false, lr: null, last: null, ending: null, repAll: false, repMC: false }; }
+function clone(o) { return JSON.parse(JSON.stringify(o)); }
+
+async function go(id, fx) {
+  if (busy) return;
+  closeModal();
+  hist.push({ id: cur, s: clone(S) });
+  if (fx) fx(S);
+  if (id === 'end:auto') id = 'end:' + endingFor(S);
+  await enter(id, true);
+}
+function back() {
+  if (busy || !hist.length) return;
+  closeModal();
+  const h = hist.pop();
+  S = h.s;
+  enter(h.id || 'title', false);
+}
+function restart() {
+  closeModal(); busy = false; hist.length = 0; S = fresh(); Scene.reset(); enter('title', false);
+}
+
+async function enter(id, forward) {
+  const d = def(id);
+  if (!d) { console.error('Unknown story node: ' + id); return; }
+  cur = id;
+  const prev = clone(S);
+  if (forward && d.apply) d.apply(S);
+  hideBanner();
+  $('#hud').classList.toggle('on', !['title', 'welcome'].includes(id));
+  if (d.overlay) {
+    await Scene.sync(S, { animate: false, place: !forward });
+    renderNotebook();
+    showOverlay(d.overlay, d);
+    return;
+  }
+  closeOverlay();
+  renderSpeaker(d, id);
+  const hl = /^ask\d$/.test(id) ? +id.slice(3) - 1 : null;
+  const changes = forward && (prev.crew !== S.crew || prev.arrived !== S.arrived);
+  if (changes) {
+    busy = true;
+    $('#text').innerHTML = d.pending || '';
+    renderChoices([], false);
+    renderNotebook(prev);
+    await Scene.sync(S, { animate: true, prev, hl });
+    busy = false;
+    if (cur !== id) return;
+  } else {
+    await Scene.sync(S, { animate: false, place: !forward, hl });
+  }
+  $('#text').innerHTML = typeof d.text === 'function' ? d.text(S) : d.text;
+  renderChoices(typeof d.choices === 'function' ? d.choices(S) : d.choices, true);
+  renderNotebook();
+  if (forward && d.after) d.after(S);
+}
+
+/* ---- panel ---- */
+function hatPortrait(w) {
+  if (w.hat === 'straw') return `<ellipse cx="50" cy="31" rx="34" ry="8" fill="${w.hatC}"/><path d="M 31 31 Q 33 7 50 7 Q 67 7 69 31 Z" fill="${w.hatC}"/><path d="M 32 26 H 68" stroke="#a5452e" stroke-width="4"/>`;
+  if (w.hat === 'cap') return `<path d="M 27 35 Q 28 9 50 9 Q 72 9 73 35 Z" fill="${w.hatC}"/><rect x="52" y="30" width="32" height="8" rx="4" fill="${w.hatC}"/>`;
+  return `<path d="M 27 37 Q 28 10 50 10 Q 72 10 73 37 Z" fill="${w.hatC}"/><path d="M 30 31 L 13 41 L 26 47 Z" fill="${w.hatC}"/>`;
+}
+function portrait(who) {
+  if (who === 'ruth') return '<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#fdf1d8"/><path d="M 18 100 Q 20 70 50 68 Q 80 70 82 100 Z" fill="#378a61"/>' +
+    '<circle cx="50" cy="46" r="22" fill="#e8bf94"/><path d="M 27 44 Q 27 20 50 20 Q 73 20 73 44 Q 66 30 50 30 Q 34 30 27 44 Z" fill="#c9ced3"/><circle cx="50" cy="17" r="9" fill="#c9ced3"/>' +
+    '<circle cx="41" cy="47" r="6" fill="none" stroke="#5f6b76" stroke-width="2.2"/><circle cx="59" cy="47" r="6" fill="none" stroke="#5f6b76" stroke-width="2.2"/><path d="M 47 47 h 6" stroke="#5f6b76" stroke-width="2.2"/>' +
+    '<path d="M 42 57 Q 50 63 58 57" stroke="#a5452e" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg>';
+  if (who === 'narrator') return '<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#d6eefb"/><circle cx="68" cy="30" r="13" fill="#ffd45c"/>' +
+    '<path d="M 0 62 C 25 50 45 52 60 58 C 75 64 88 56 100 58 L 100 100 L 0 100 Z" fill="#97c77d"/><rect x="0" y="74" width="100" height="26" fill="#b8875a"/>' +
+    '<path d="M 0 82 H 100 M 0 92 H 100" stroke="#c89b67" stroke-width="4"/><g transform="translate(34 78)"><rect x="-14" y="-16" width="30" height="12" rx="3" fill="#378a61"/>' +
+    '<rect x="-12" y="-27" width="13" height="12" rx="2" fill="none" stroke="#2f7553" stroke-width="2.5"/><circle cx="-7" cy="-3" r="7" fill="#1f2933"/><circle cx="11" cy="-1" r="4.5" fill="#1f2933"/></g></svg>';
+  const w = W[who];
+  return `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#fff4e8"/><path d="M 18 100 Q 20 70 50 68 Q 80 70 82 100 Z" fill="${w.shirt}"/>` +
+    `<circle cx="50" cy="48" r="22" fill="${w.skin}"/><circle cx="42" cy="50" r="2.6" fill="#1f2933"/><circle cx="58" cy="50" r="2.6" fill="#1f2933"/>` +
+    `<path d="M 42 59 Q 50 65 58 59" stroke="#1f2933" stroke-width="2.4" fill="none" stroke-linecap="round"/>${hatPortrait(w)}</svg>`;
+}
+function renderSpeaker(d, id) {
+  const who = d.who;
+  $('#portrait').innerHTML = portrait(who);
+  let label = who === 'ruth' ? 'Aunt Ruth · your farm mentor' : who === 'narrator' ? 'Pine Hollow Farm'
+    : W[who].name + (/^ask/.test(id) ? ' · applicant' : ' · worker #' + (who + 1));
+  if (d.vote) label += '<span class="pill">Class vote</span>';
+  if (d.predict) label += '<span class="pill predict">Class prediction</span>';
+  $('#who').innerHTML = label;
+}
+function renderChoices(list, enabled) {
+  const box = $('#choices');
+  box.innerHTML = '';
+  list.forEach((c, i) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'choice' + (c.style ? ' ' + c.style : ''); b.dataset.cid = 'c' + i; b.disabled = !enabled;
+    b.innerHTML = `<span class="key">${i + 1}</span><span class="lbl">${c.label}${c.sub ? `<span class="sub">${c.sub}</span>` : ''}</span>`;
+    b.addEventListener('click', () => go(typeof c.go === 'function' ? c.go(S) : c.go, c.fx));
+    box.appendChild(b);
+  });
+}
+function renderNotebook(st) {
+  st = st || S;
+  const nb = $('#notebook');
+  if (!st.observed) { nb.classList.remove('on'); nb.innerHTML = ''; return; }
+  nb.classList.add('on');
+  let h = '<h4>Manager’s notebook</h4>';
+  for (let k = 1; k <= st.observed; k++) {
+    const m = MP(k), gone = k > st.crew;
+    const hidden = st.path === 'all' && k >= 3 && !gone;      // hired in one batch: individual MPs unknown until someone leaves
+    const cls = gone ? 'gone' : m < 0 ? 'neg' : (k > 1 && m < MP(k - 1)) ? 'down' : '';
+    h += `<div class="nb-row${gone ? ' gone' : ''}"><span class="num">${k}</span><span class="nm">${W[k - 1].name}</span>` +
+         `<span class="chip ${hidden ? 'gone' : cls}">${hidden ? '?' : signedNum(m) + ' bu'}</span></div>`;
+  }
+  if (st.path === 'all' && st.crew >= 3) h += `<div class="nb-flag">Hired together: +${TP[7] - TP[2]} bu from 5 people</div>`;
+  else if (st.observed >= 3) h += '<div class="nb-flag">MP started falling with worker #3</div>';
+  h += '<div class="nb-foot">Price $8 a bushel · wage $120 a day</div>';
+  nb.innerHTML = h;
+}
+
+/* ---- overlays ---- */
+function btn(act, label, style, key, sub) {
+  return `<button type="button" class="choice${style ? ' ' + style : ''}" data-act="${act}"><span class="key">${key}</span>` +
+         `<span class="lbl">${label}${sub ? `<span class="sub">${sub}</span>` : ''}</span></button>`;
+}
+function stars(n) { return '★'.repeat(n) + `<span class="off">${'★'.repeat(3 - n)}</span>`; }
+const OVERLAY = {
+  title: () => `<div class="title-card"><div class="kicker">ARE 201 · Unit 8a · Pine Hollow Farm</div><div class="t-main">HARVEST <span>BOSS</span></div>` +
+    `<p class="t-sub">One digger. Seven people who want a job.<br>How many will you hire?</p></div>` +
+    `<div class="title-strip"><div class="row">${btn('start', 'Start the harvest', 'big', 1)}</div>` +
+    `<div class="row">${btn('help', 'How to play', 'alt', 2)}${btn('gallery', `Endings found: ${Gallery.found.size} / 10`, 'alt', 3)}</div>` +
+    `<div class="title-note">Project this page · the class votes on every decision</div></div>`,
+  ending: d => {
+    const E = ENDINGS[d.ending], L = S.crew, pr = profit(L), n = ENDING_ORDER.indexOf(d.ending) + 1;
+    return `<div class="dim"></div><div class="card"><div class="kicker">Ending ${n} of 10</div><h1>${E.title}</h1><div class="stars">${stars(E.stars)}</div>` +
+      `<div class="stats"><span>Crew: <b>${L}</b></span><span>Bushels: <b>${TP[L]}</b></span><span>Profit: <b class="${pr < 0 ? 'neg' : 'pos'}">${signedMoney(pr)}</b> a day</span></div>` +
+      `<p>${E.text(S)}</p><div class="lesson">${E.lesson}</div>` +
+      `<div class="obtns">${btn('report', 'See the harvest report', '', 1)}${btn('restart', 'Play again', 'alt', 2)}${btn('gallery', `Endings ${Gallery.found.size}/10`, 'alt', 3)}${btn('back', 'Back', 'alt', 4)}</div></div>`;
+  },
+  report: () => {
+    const E = ENDINGS[S.ending] || { title: '—' }, L = S.crew, all = S.repAll || S.observed >= 7;
+    let rows = '';
+    for (let k = 1; k <= 7; k++) {
+      const m = MP(k), seen = all || k <= S.observed, worth = PRICE * m, ok = worth >= WAGE;
+      if (!seen) { rows += `<tr class="dim"><td>${k}</td><td class="nm">${W[k - 1].name}</td><td>?</td><td>?</td><td>?</td><td>?</td>${S.repMC ? '<td>?</td>' : ''}</tr>`; continue; }
+      const cls = k === 3 ? 'first' : m < 0 ? 'negrow' : '';
+      const tag = k === 3 ? '<span class="tagline">diminishing returns begin</span>' : m < 0 ? '<span class="tagline">output falls</span>' : '';
+      rows += `<tr class="${cls}"><td>${k}</td><td class="nm">${W[k - 1].name}${tag}</td><td>${TP[k]}</td><td>${signedNum(m)}</td>` +
+              `<td>${worth < 0 ? '−' : ''}$${Math.abs(worth)}</td><td class="${ok ? 'yes' : 'no'}">${ok ? '✓ worth it' : '✗ not worth it'}</td>` +
+              `${S.repMC ? `<td>${m > 0 ? '$' + (WAGE / m).toFixed(2) : '—'}</td>` : ''}</tr>`;
+    }
+    const np = S.preds.length, nok = S.preds.filter(p => p.ok).length;
+    const facts = [];
+    if (S.poll) facts.push(`Class bet: <b>${S.poll}</b>. Seven workers dig <b>200</b>${S.poll === 'Less than 280' ? ' — called it ✓' : ', less than 280 ✗'}`);
+    if (np) facts.push(`Class predictions: <b>${nok} of ${np}</b> right`);
+    return `<div class="page"><div class="rep-head"><div><div class="kicker">Harvest report</div><h2>What the numbers say</h2></div>` +
+      `<div class="rep-chip">Ending: <b>${E.title}</b> · crew ${L} · ${signedMoney(profit(L))} a day</div></div>` +
+      `<div class="rep-grid"><div><table class="rtable"><thead><tr><th>#</th><th>Worker</th><th>Total bushels</th><th>MP</th><th>MP × $8</th><th>vs. the $120 wage</th>` +
+      `${S.repMC ? '<th>$120 ÷ MP<br>per extra bushel</th>' : ''}</tr></thead><tbody>${rows}</tbody></table>` +
+      `<div class="rep-tools">${all ? '' : '<button type="button" class="mini" data-act="reveal">Show the workers you didn’t try</button>'}` +
+      `<button type="button" class="mini" data-act="mc">${S.repMC ? 'Hide' : 'Show'} the cost of one more bushel</button></div></div>` +
+      `<div class="chart-box">${chartTPMP(all ? 7 : S.observed)}</div></div>` +
+      `<div class="rep-lessons"><div class="lcard"><h4>Marginal product (MP)</h4><p>The extra bushels from one more worker. Jamal’s MP: 100 − 40 = 60.</p></div>` +
+      `<div class="lcard l2"><h4>Diminishing returns</h4><p>MP started falling with worker #3 (60 → 50)—not because Kenji was worse, but because everyone shared <b>one digger</b>, a fixed input.</p></div>` +
+      `<div class="lcard l3"><h4>When to stop hiring</h4><p>Hire while MP × $8 ≥ $120. Worker #5: $160 ✓. Worker #6: $80 ✗. Falling MP alone doesn’t mean “stop.”</p></div></div>` +
+      `<div class="rep-foot"><div class="facts">${facts.join('<br>')}</div><div class="obtns">${btn('longrun', 'Next season', 'green', 1, 'the long run')}` +
+      `${btn('restart', 'Play again', 'alt', 2)}${btn('back', 'Back', 'alt', 3)}</div></div></div>`;
+  },
+  longrun: () => `<div class="dim"></div><div class="card"><div class="kicker">Next season · the long run</div><h2>Now you can change <em>every</em> input</h2>` +
+    `<p>This season the digger was <b>fixed</b>: that’s the <b>short run</b>. Next season the lease is up, so you could rent a second digger for another <b>$350 a day</b>. In the <b>long run</b>, every input can change.</p>` +
+    `<div class="obtns">${btn('lease', 'Lease a second digger', 'green', 1, '+$350 a day')}${btn('keep', 'Keep one digger', 'alt', 2)}${btn('back', 'Back', 'alt', 3)}</div></div>`,
+  lrResult: () => {
+    const lease = S.lr === 'lease';
+    return `<div class="dim"></div><div class="card wide"><div class="kicker">Next season · the long run</div>` +
+      `<h2>${lease ? 'Two diggers: the whole curve moves up' : 'One digger: same curve, same sweet spot'}</h2>` +
+      `<div class="chart-box" style="width:600px; margin:6px auto 0;">${chartLR()}</div>` +
+      `<div class="lr-chips">${[3, 4, 5, 6, 7].map(k => `<div class="lr-chip">Worker #${k}<b>${signedNum(MP(k))} → ${signedNum(TP2[k] - TP2[k - 1])}</b></div>`).join('')}</div>` +
+      `<p>${lease ? 'With two diggers nobody waits for a row. The 6th worker now adds <b>40 bushels</b> instead of 10, so it pays to hire more people. Changing a fixed input shifts the <b>whole</b> production curve.'
+                  : 'With one digger nothing changes: five workers is still the sweet spot. The green line shows what a second digger would do—the whole curve moves up.'}</p>` +
+      `<p class="foot-note">Chips: MP with one digger → MP with two diggers. Second-digger numbers are illustrative.</p>` +
+      `<div class="obtns">${btn('report', 'Back to the report', '', 1)}${btn('restart', 'Play again', 'alt', 2)}${btn('gallery', `Endings ${Gallery.found.size}/10`, 'alt', 3)}</div></div>`;
+  }
+};
+function showOverlay(kind, d) {
+  const ov = $('#overlay');
+  ov.className = 'show';
+  ov.innerHTML = OVERLAY[kind](d);
+  if (kind === 'ending' && ENDINGS[d.ending].stars === 3) confetti(ov);
+}
+function closeOverlay() { const ov = $('#overlay'); ov.className = ''; ov.innerHTML = ''; }
+
+const MODAL = {
+  gallery: () => `<div class="dim" data-act="close"></div><div class="card wide"><div class="kicker">Endings found: ${Gallery.found.size} of 10</div><h2>Can your class find all ten?</h2>` +
+    `<div class="gal">${ENDING_ORDER.map((id, i) => { const E = ENDINGS[id], f = Gallery.found.has(id);
+      return `<div class="gtile ${f ? 'found' : 'locked'}"><div class="n">Ending ${i + 1}</div><h3>${f ? E.title : '? ? ?'}</h3><div class="st">${stars(E.stars)}</div>` +
+             `<div class="h">${f ? 'Found!' : 'Hint: ' + E.hint}</div></div>`; }).join('')}</div>` +
+    `<div class="obtns">${btn('close', 'Close', '', 1)}<button type="button" class="mini" data-act="resetgal">Reset the list</button></div></div>`,
+  help: () => `<div class="dim" data-act="close"></div><div class="card"><div class="kicker">How to play</div><h2>Run Pine Hollow as a class</h2><ul class="help-list">` +
+    '<li><b>Project this page.</b> At every decision, take a show of hands and click the majority choice.</li>' +
+    '<li><b>Purple questions are predictions.</b> Vote before the reveal; the report keeps score.</li>' +
+    '<li><b>One run takes 10–12 minutes.</b> There are ten endings; replays find the others.</li>' +
+    '<li><b>Keys:</b> 1–4 choose · B back · R restart · E endings · H help · F full screen</li>' +
+    '<li><b>Numbers</b> match the Unit 8a slides: one digger, $120 wage, $900 fixed cost, $8 a bushel.</li></ul>' +
+    `<label class="toggle"><input type="checkbox" data-act="predtoggle"${PRED_ON ? ' checked' : ''}> Ask the class to predict before each hire</label>` +
+    `<div class="obtns">${btn('close', 'Close', '', 1)}</div></div>`
+};
+function openModal(kind) { const m = $('#modal'); m.className = 'show'; m.innerHTML = MODAL[kind](); }
+function closeModal() { const m = $('#modal'); m.className = ''; m.innerHTML = ''; }
+
+/* ---- charts ---- */
+function chartTPMP(maxK) {
+  const X = k => 50 + k * 47, yT = v => 124 - v / 220 * 104, z = 228, yM = v => z - v / 70 * 50;
+  let s = '<svg viewBox="0 0 400 266" role="img" aria-label="Total bushels and marginal product by number of workers">';
+  s += '<text x="50" y="12" class="ct">Total bushels (TP)</text>';
+  [50, 100, 150, 200].forEach(v => { s += `<path d="M 50 ${yT(v).toFixed(1)} H 392" stroke="#eef1f5"/><text x="44" y="${(yT(v) + 4).toFixed(1)}" text-anchor="end" class="cl">${v}</text>`; });
+  s += '<path d="M 50 16 V 124 H 392" class="ca"/>';
+  for (let k = 1; k <= 7; k++) s += `<text x="${X(k)}" y="138" text-anchor="middle" class="cl">${k}</text>`;
+  if (maxK > 0) {
+    const pts = []; for (let k = 0; k <= maxK; k++) pts.push(`${X(k)},${yT(TP[k]).toFixed(1)}`);
+    s += `<polyline points="${pts.join(' ')}" fill="none" stroke="#2f80c9" stroke-width="3" stroke-linejoin="round"/>`;
+    for (let k = 1; k <= maxK; k++) s += `<circle cx="${X(k)}" cy="${yT(TP[k]).toFixed(1)}" r="4" fill="#2f80c9" stroke="#fff" stroke-width="1.5"/>`;
+  }
+  s += '<text x="50" y="160" class="ct">Extra bushels from each worker (MP)</text>';
+  s += `<path d="M 50 166 V 246" class="ca"/><path d="M 50 ${z} H 392" class="ca"/>`;
+  for (let k = 1; k <= maxK; k++) {
+    const m = MP(k), top = Math.min(yM(m), z), h = Math.max(Math.abs(yM(m) - z), 2), col = m < 0 ? '#c9504d' : k === 3 ? '#2f80c9' : '#EB811B';
+    s += `<rect x="${X(k) - 13}" y="${top.toFixed(1)}" width="26" height="${h.toFixed(1)}" fill="${col}"/>`;
+    s += `<text x="${X(k)}" y="${(m < 0 ? yM(m) + 12 : yM(m) - 4).toFixed(1)}" text-anchor="middle" class="cv"${m < 0 ? ' fill="#c9504d"' : ''}>${signedNum(m)}</text>`;
+  }
+  for (let k = 1; k <= 7; k++) s += `<text x="${X(k)}" y="262" text-anchor="middle" class="cl">${k}</text>`;
+  s += '<text x="392" y="150" text-anchor="end" class="cl">workers</text>';
+  return s + '</svg>';
+}
+function chartLR() {
+  const X = k => 56 + k * 62, Y = v => 196 - v / 360 * 176;
+  let s = '<svg viewBox="0 0 600 226" role="img" aria-label="Total bushels with one digger and with two diggers">';
+  [100, 200, 300].forEach(v => { s += `<path d="M 56 ${Y(v).toFixed(1)} H 590" stroke="#eef1f5"/><text x="50" y="${(Y(v) + 4).toFixed(1)}" text-anchor="end" class="cl">${v}</text>`; });
+  s += '<path d="M 56 14 V 196 H 590" class="ca"/>';
+  for (let k = 1; k <= 7; k++) s += `<text x="${X(k)}" y="212" text-anchor="middle" class="cl">${k}</text>`;
+  s += '<text x="590" y="224" text-anchor="end" class="cl">workers</text><text x="62" y="12" class="ct">Total bushels per day</text>';
+  [[TP, '#2f80c9', 'one digger'], [TP2, '#378a61', 'two diggers']].forEach(([arr, col, lab], j) => {
+    s += `<polyline points="${arr.map((v, k) => `${X(k)},${Y(v).toFixed(1)}`).join(' ')}" fill="none" stroke="${col}" stroke-width="3.2" stroke-linejoin="round"${j ? ' stroke-dasharray="0"' : ''}/>`;
+    arr.forEach((v, k) => { if (k) s += `<circle cx="${X(k)}" cy="${Y(v).toFixed(1)}" r="4" fill="${col}" stroke="#fff" stroke-width="1.5"/>`; });
+    s += `<text x="${X(7) + 8}" y="${(Y(arr[7]) + 4).toFixed(1)}" class="ct" fill="${col}">${lab}</text>`;
+  });
+  return s + '</svg>';
+}
+function confetti(root) {
+  const colors = ['#EB811B', '#2f80c9', '#378a61', '#f2b632', '#c9504d', '#7657a5'];
+  for (let i = 0; i < 70; i++) {
+    const c = document.createElement('i');
+    c.className = 'confetti';
+    c.style.left = (Math.random() * 960).toFixed(0) + 'px';
+    c.style.background = colors[i % colors.length];
+    c.style.animationDuration = (2.2 + Math.random() * 1.8).toFixed(2) + 's';
+    c.style.animationDelay = (Math.random() * .8).toFixed(2) + 's';
+    root.appendChild(c);
+  }
+}
+
+/* ---- input ---- */
+function toggleFull() {
+  try {
+    const p = document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+    if (p && p.catch) p.catch(() => {});
+  } catch (e) { /* not available */ }
+}
+const ACT = {
+  start: () => go('welcome'),
+  help: () => openModal('help'),
+  gallery: () => openModal('gallery'),
+  close: () => closeModal(),
+  report: () => go('report'),
+  restart: () => restart(),
+  back: () => back(),
+  longrun: () => go('longrun'),
+  lease: () => go('lrResult', s => { s.lr = 'lease'; }),
+  keep: () => go('lrResult', s => { s.lr = 'keep'; }),
+  reveal: () => { S.repAll = true; showOverlay('report', def('report')); },
+  mc: () => { S.repMC = !S.repMC; showOverlay('report', def('report')); },
+  full: () => toggleFull(),
+  resetgal: () => { Gallery.reset(); openModal('gallery'); },
+  predtoggle: t => { PRED_ON = t.checked; try { localStorage.setItem('are201-harvest-boss-predict', PRED_ON ? 'on' : 'off'); } catch (e) { /* ignore */ } }
+};
+$('#stage').addEventListener('click', e => {
+  const t = e.target.closest('[data-act]');
+  if (!t || (t.tagName === 'BUTTON' && t.disabled)) return;
+  if (ACT[t.dataset.act]) ACT[t.dataset.act](t, e);
+});
+document.addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if (/^[1-4]$/.test(k)) {
+    const scope = document.querySelector('#modal.show') || document.querySelector('#overlay.show') || $('#choices');
+    const b = [...scope.querySelectorAll('button.choice')].filter(x => !x.disabled)[+k - 1];
+    if (b) { e.preventDefault(); b.click(); }
+  } else if (k === 'b') back();
+  else if (k === 'r') restart();
+  else if (k === 'e') openModal('gallery');
+  else if (k === 'h') openModal('help');
+  else if (k === 'f') toggleFull();
+  else if (k === 'escape') closeModal();
+});
+function fit() { const s = Math.min(innerWidth / 960, innerHeight / 720); $('#stage').style.transform = `translate(-50%, -50%) scale(${s})`; }
+addEventListener('resize', fit);
+
+/* ---- start ---- */
+Gallery.load();
+fit();
+requestAnimationFrame(frame);
+enter('title', false);
+window.HarvestBoss = { get state() { return S; }, get node() { return cur; }, get busy() { return busy; } };
+
+})();
+</script>
+</body>
+</html>

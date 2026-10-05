@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARE 201 — Unit 8a, Class 1: Production</title>
+<style>
+  :root {
+    --accent: #EB811B;
+    --accent-soft: #fff4e8;
+    --ink: #1f2933;
+    --muted: #5f6b76;
+    --paper: #ffffff;
+    --soft: #f3f4f6;
+    --line: #d8dde3;
+    --blue: #2f80c9;
+    --blue-soft: #eef5fb;
+    --green: #378a61;
+    --green-soft: #e9f6ef;
+    --red: #c9504d;
+    --red-soft: #fcedec;
+    --purple: #7657a5;
+    --purple-soft: #f3effa;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #111; }
+  body { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+
+  #stage {
+    position: absolute; left: 50%; top: 50%;
+    width: 960px; height: 720px;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+    background: var(--paper);
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  }
+
+  .slide {
+    position: absolute; inset: 0; display: none;
+    width: 960px; height: 720px;
+    padding: 50px 62px 48px;
+    overflow: hidden; color: var(--ink); background: var(--paper);
+  }
+  .slide.active { display: block; }
+  .slide.center { text-align: center; }
+  .slide.middle { align-items: center; justify-content: center; flex-direction: column; }
+  .slide.middle.active { display: flex; }
+
+  h1, h2, h3, p { margin-top: 0; }
+  h1 { margin-bottom: 16px; font-size: 37px; line-height: 1.12; letter-spacing: -.4px; }
+  h2 { margin-bottom: 10px; font-size: 25px; line-height: 1.2; }
+  h3 { margin-bottom: 7px; font-size: 19px; line-height: 1.2; }
+  p, li { font-size: 19px; line-height: 1.34; }
+  ul { margin: 7px 0 0 22px; padding: 0; }
+  li { margin: 6px 0; }
+  strong { font-weight: 780; }
+  .small { font-size: 16px; line-height: 1.34; }
+  .tiny { font-size: 13px; line-height: 1.3; }
+  .muted { color: var(--muted); }
+  .accent { color: var(--accent); }
+  .blue { color: var(--blue); }
+  .green { color: var(--green); }
+  .red { color: var(--red); }
+  .purple { color: var(--purple); }
+
+  .section-kicker {
+    margin-bottom: 7px; color: var(--accent);
+    font-size: 14px; font-weight: 820; letter-spacing: .1em; text-transform: uppercase;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  .two-thirds { display: grid; grid-template-columns: 1.12fr .88fr; gap: 23px; align-items: start; }
+  .thirds-two { display: grid; grid-template-columns: .88fr 1.12fr; gap: 23px; align-items: start; }
+
+  .card { padding: 17px 19px; border-radius: 8px; background: var(--soft); }
+  .card.white { border: 1px solid var(--line); background: #fff; }
+  .card.accent-top { border-top: 4px solid var(--accent); border-radius: 0 0 8px 8px; }
+  .card.blue-top { border-top: 4px solid var(--blue); border-radius: 0 0 8px 8px; }
+  .card.green-top { border-top: 4px solid var(--green); border-radius: 0 0 8px 8px; }
+  .card.red-top { border-top: 4px solid var(--red); border-radius: 0 0 8px 8px; }
+  .card.purple-top { border-top: 4px solid var(--purple); border-radius: 0 0 8px 8px; }
+  .card p, .card li { font-size: 16px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  .definition-strip {
+    padding: 13px 16px; border-left: 5px solid var(--accent);
+    background: var(--accent-soft); font-size: 19px; line-height: 1.36;
+  }
+  .definition-strip.blue-strip { border-left-color: var(--blue); background: var(--blue-soft); }
+  .definition-strip.green-strip { border-left-color: var(--green); background: var(--green-soft); }
+  .definition-strip.red-strip { border-left-color: var(--red); background: var(--red-soft); }
+  .definition-strip.purple-strip { border-left-color: var(--purple); background: var(--purple-soft); }
+
+  .interactive button {
+    min-height: 41px; padding: 9px 14px; border: 0; border-radius: 7px;
+    color: #fff; background: var(--accent);
+    font: 730 15px "Avenir Next", "Helvetica Neue", Arial, sans-serif; cursor: pointer;
+  }
+  .interactive button:hover { filter: brightness(.96); }
+  .interactive button:focus-visible { outline: 3px solid rgba(235,129,27,.35); outline-offset: 2px; }
+  .interactive button:disabled { opacity: .45; cursor: default; filter: none; }
+  .interactive button.secondary { color: var(--ink); background: #e5e8eb; }
+  .interactive button.blue-button { background: var(--blue); }
+  .interactive button.green-button { background: var(--green); }
+  .interactive button.purple-button { background: var(--purple); }
+  .interactive button.selected { box-shadow: inset 0 0 0 3px rgba(255,255,255,.65); }
+  .interactive button.correct { color: #fff; background: var(--green); }
+  .interactive button.wrong { color: #fff; background: var(--red); }
+
+  .button-row { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
+  .feedback {
+    min-height: 54px; padding: 10px 13px;
+    border-left: 4px solid var(--line); background: var(--soft);
+    font-size: 15px; line-height: 1.33;
+  }
+  .feedback.success { border-left-color: var(--green); background: var(--green-soft); }
+  .feedback.error { border-left-color: var(--red); background: var(--red-soft); }
+  .feedback.info { border-left-color: var(--blue); background: var(--blue-soft); }
+
+  .title-slide { padding-bottom: 150px; }
+  .title-kicker { margin-bottom: 13px; color: var(--accent); font-size: 17px; font-weight: 780; letter-spacing: .11em; text-transform: uppercase; }
+  .title-main { max-width: 780px; margin: 0 auto 12px; font-size: 57px; line-height: 1.02; }
+  .title-sub { color: var(--muted); font-size: 24px; line-height: 1.35; }
+  .title-graphic { position: absolute; right: 65px; bottom: 38px; width: 470px; height: 170px; }
+
+  .poll-letter { display: inline-flex; width: 31px; height: 31px; margin-bottom: 9px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--accent); font-weight: 820; }
+
+  .quiz-scenario { min-height: 84px; padding: 15px 18px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .quiz-scenario .market-label { color: var(--accent); font-size: 13px; font-weight: 820; letter-spacing: .07em; text-transform: uppercase; }
+  .quiz-scenario p { margin: 5px 0 0; font-size: 21px; line-height: 1.28; }
+
+  /* ---- plots ---- */
+  .plot-panel { padding: 10px 12px 8px; border: 1px solid var(--line); background: #fff; }
+  .plot-title { margin: 0 0 2px; font-size: 14px; font-weight: 800; text-align: center; }
+  .plot { display: block; width: 100%; height: 300px; }
+  .plot.mid { height: 250px; }
+  .plot.demand-h { height: 222px; }
+  .plot.half { height: 196px; }
+  .plot.mini { height: 106px; }
+  .axis { fill: none; stroke: var(--ink); stroke-width: 2; }
+  .gridline { fill: none; stroke: #e8ebee; stroke-width: 1; }
+  .demand-line { fill: none; stroke: var(--blue); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+  .old-line { fill: none; stroke: #9aa3ab; stroke-width: 3; stroke-dasharray: 7 6; }
+  .projection { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 5 4; }
+  .ref-line { fill: none; stroke: var(--muted); stroke-width: 1.6; stroke-dasharray: 5 4; }
+  .leader { fill: none; stroke: var(--muted); stroke-width: 1.2; }
+  .plot-label { fill: var(--ink); font: 700 13px Arial, sans-serif; }
+  .plot-label.sm { font-size: 11px; }
+  .tick-label { fill: var(--muted); font: 11px Arial, sans-serif; }
+  .dot { fill: var(--accent); stroke: #fff; stroke-width: 2; }
+  .dot.blue-dot { fill: var(--blue); }
+  .dot.green-dot { fill: var(--green); }
+  .dot.red-dot { fill: var(--red); }
+  .dot.purple-dot { fill: var(--purple); }
+  .dot.hollow-dot { fill: #fff; stroke: var(--green); stroke-width: 3; }
+
+  /* ---- reveal machinery ---- */
+  .reveal-step { visibility: hidden; opacity: 0; transition: opacity .18s ease; }
+  .reveal-step.visible { visibility: visible; opacity: 1; }
+  .check-answer { visibility: hidden; opacity: 0; transition: opacity .18s ease; }
+  .check-answer.visible { visibility: visible; opacity: 1; }
+
+  .formula-box {
+    padding: 15px 18px; border: 2px solid var(--accent); border-radius: 8px;
+    background: var(--accent-soft); text-align: center;
+  }
+  .formula-box .frac { display: inline-block; vertical-align: middle; text-align: center; }
+  .formula-box .frac .num { display: block; padding: 0 9px 3px; border-bottom: 2.5px solid var(--ink); font-size: 20px; font-weight: 800; }
+  .formula-box .frac .den { display: block; padding: 3px 9px 0; font-size: 20px; font-weight: 800; }
+  .formula-box .lhs { display: inline-block; vertical-align: middle; margin-right: 10px; font-size: 22px; font-weight: 840; }
+  .formula-box.purple-box { border-color: var(--purple); background: var(--purple-soft); }
+
+  .calc-run { display: grid; gap: 9px; margin-top: 4px; }
+  .calc-line {
+    display: grid; grid-template-columns: 30px 1fr; gap: 11px; align-items: center;
+    padding: 9px 13px; background: var(--soft);
+  }
+  .calc-line.hi { background: var(--accent-soft); }
+  .calc-line.bad { background: var(--red-soft); }
+  .calc-line.good { background: var(--green-soft); }
+  .calc-num { display: flex; width: 26px; height: 26px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--ink); font-size: 12px; font-weight: 820; }
+  .calc-line.hi .calc-num { background: var(--accent); }
+  .calc-line.bad .calc-num { background: var(--red); }
+  .calc-line.good .calc-num { background: var(--green); }
+  .calc-line strong { display: block; font-size: 16px; }
+  .calc-line span { display: block; margin-top: 2px; color: var(--muted); font-size: 13px; line-height: 1.28; }
+  .calc-line .ans { margin-top: 3px; color: var(--ink); font-size: 14px; font-weight: 700; line-height: 1.3; }
+
+  .lo-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .lo-row { display: grid; grid-template-columns: 58px 1fr; gap: 10px; align-items: center; padding: 9px 12px; background: var(--soft); }
+  .lo-row.today { background: var(--accent-soft); }
+  .lo-tag { padding: 5px 4px; color: #fff; background: var(--muted); font-size: 11px; font-weight: 850; text-align: center; }
+  .lo-row.today .lo-tag { background: var(--accent); }
+  .lo-row span { font-size: 13px; line-height: 1.25; }
+
+  .mechanism-box { display: flex; min-height: 86px; padding: 11px; align-items: center; justify-content: center; background: var(--soft); font-size: 15px; font-weight: 740; line-height: 1.28; text-align: center; }
+  .mechanism-box.blue-box { background: var(--blue-soft); }
+  .mechanism-box.green-box { background: var(--green-soft); }
+  .mechanism-box.purple-box { background: var(--purple-soft); }
+  .mechanism-box.accent-box { background: var(--accent-soft); }
+  .mechanism-arrow { display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 24px; font-weight: 850; }
+
+  .compact-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-top: 13px; }
+  .compact-check { padding: 11px 13px; border-left: 4px solid var(--purple); background: var(--purple-soft); }
+  .compact-check strong { display: block; margin-bottom: 3px; font-size: 14px; }
+  .compact-check span { color: var(--muted); font-size: 12px; line-height: 1.25; }
+
+  .exit-answer { min-height: 58px; margin-top: 12px; padding: 12px 14px; border-left: 4px solid var(--green); background: var(--green-soft); visibility: hidden; opacity: 0; }
+  .exit-answer.visible { visibility: visible; opacity: 1; }
+  .exit-answer p { margin: 0; font-size: 15px; line-height: 1.34; }
+
+  .illus-tag {
+    display: inline-block; margin-left: 8px; padding: 2px 7px; border-radius: 3px;
+    background: var(--soft); color: var(--muted); font-size: 11px; font-weight: 800;
+    letter-spacing: .05em; text-transform: uppercase; vertical-align: middle;
+  }
+  .footer-note { margin-top: 14px; }
+
+  .know-badge { display: inline-block; padding: 4px 10px; border-radius: 3px; color: #fff; font-size: 11px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .know-badge.yes { background: var(--muted); }
+  .know-badge.no { background: var(--accent); }
+  .know-card { padding: 14px 16px 10px; border-top: 5px solid var(--muted); background: var(--soft); }
+  .know-card.unknown { border-top-color: var(--accent); background: var(--accent-soft); }
+  .know-card h2 { margin: 8px 0 4px; font-size: 21px; }
+
+  .option-row { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: center; padding: 12px 15px; background: var(--soft); }
+  .option-row + .option-row { margin-top: 9px; }
+  .option-letter { display: flex; width: 26px; height: 26px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--blue); font-size: 12px; font-weight: 820; }
+  .option-row span:last-child { font-size: 17px; font-weight: 700; }
+
+  .footer { position: absolute; right: 62px; bottom: 18px; left: 62px; display: flex; justify-content: space-between; color: #8a949e; font-size: 12px; }
+  #progress { position: fixed; bottom: 0; left: 0; z-index: 20; height: 4px; background: var(--accent); transition: width .18s ease; }
+  #hint { position: fixed; right: 14px; bottom: 9px; z-index: 20; color: rgba(255,255,255,.52); font: 12px Arial, sans-serif; }
+
+  @page { size: 10in 7.5in; margin: 0; }
+  @media print {
+    html, body { width: auto; height: auto; overflow: visible; background: #fff; }
+    #stage { position: static; width: auto; height: auto; transform: none !important; box-shadow: none; }
+    .slide { position: relative; display: block !important; page-break-after: always; break-after: page; }
+    #progress, #hint { display: none; }
+    .exit-answer { visibility: visible !important; opacity: 1 !important; }
+    .reveal-step { visibility: visible !important; opacity: 1 !important; }
+    .check-answer { visibility: visible !important; opacity: 1 !important; }
+    .print-only { display: block; }
+  }
+
+  /* ---- unit 8a specific ---- */
+  .mp-bar { fill: var(--accent); }
+  .mp-bar.neg { fill: var(--red); }
+  .mp-bar.hl { fill: var(--blue); }
+  .mp-bar.soft { fill: #f5c08f; }
+  .tp-line { fill: none; stroke: var(--blue); stroke-width: 3.5; stroke-linejoin: round; stroke-linecap: round; }
+  .tp-line.alt { stroke: var(--green); }
+  .tp-line.ghost { stroke: #9aa3ab; stroke-width: 2.5; stroke-dasharray: 7 6; }
+  .flow-sub { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .zero-line { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+  .c-line { fill: none; stroke-width: 3.5; stroke-linejoin: round; stroke-linecap: round; }
+  .c-line.mc { stroke: var(--red); }
+  .c-line.atc { stroke: var(--blue); }
+  .c-line.avc { stroke: var(--green); }
+  .c-line.afc { stroke: var(--purple); }
+  .c-line.tc { stroke: var(--ink); }
+  .c-line.vc { stroke: var(--green); }
+  .c-line.fc { stroke: var(--purple); }
+  .c-line.ghost { stroke-width: 2.4; stroke-dasharray: 7 6; opacity: .5; }
+  .c-label { font: 800 13px Arial, sans-serif; }
+  .c-label.mc { fill: var(--red); } .c-label.atc { fill: var(--blue); } .c-label.avc { fill: var(--green); }
+  .c-label.afc { fill: var(--purple); } .c-label.tc { fill: var(--ink); } .c-label.vc { fill: var(--green); } .c-label.fc { fill: var(--purple); }
+  .c-label.ghost { opacity: .6; font-weight: 700; }
+  .axis-title { fill: var(--muted); font: 700 12px Arial, sans-serif; }
+
+  .u8-table { width: 100%; border-collapse: collapse; font-size: 16px; text-align: center; }
+  .u8-table caption { caption-side: top; padding: 0 0 6px; color: var(--muted); font-size: 12px; font-weight: 820; letter-spacing: .07em; text-align: left; text-transform: uppercase; }
+  .u8-table th { padding: 8px 8px; color: #fff; background: var(--ink); font-size: 13px; font-weight: 800; line-height: 1.2; }
+  .u8-table td { padding: 7px 8px; border-bottom: 1px solid var(--line); font-weight: 700; }
+  .u8-table td.lead { color: var(--muted); font-weight: 840; }
+  .u8-table tr.hl td { background: var(--accent-soft); }
+  .u8-table tr.hl-blue td { background: var(--blue-soft); }
+  .u8-table tr.hl-green td { background: var(--green-soft); }
+  .u8-table tr.hl-red td { background: var(--red-soft); }
+  .u8-table td.cell-hl { background: var(--accent-soft); color: var(--accent); }
+  .u8-table td.cell-min { background: var(--green-soft); color: var(--green); }
+  .u8-table.compact th { padding: 6px 6px; }
+  .u8-table.compact td { padding: 5px 6px; font-size: 15px; }
+  .u8-table.tight td { padding: 4px 6px; font-size: 14px; }
+  .u8-table.tight th { padding: 5px 5px; font-size: 12px; }
+  .u8-table.left-first th:first-child, .u8-table.left-first td:first-child { padding-left: 10px; text-align: left; }
+  .u8-table .new { color: var(--red); }
+  .u8-table .same { color: #a3abb3; }
+
+  .sign-table { width: 100%; border-collapse: collapse; font-size: 16px; text-align: center; }
+  .sign-table th { padding: 9px 8px; color: #fff; background: var(--ink); font-size: 13px; line-height: 1.2; }
+  .sign-table td { padding: 11px 8px; border-bottom: 1px solid var(--line); font-weight: 840; font-size: 20px; }
+  .sign-table td:first-child { padding-left: 12px; font-size: 15px; font-weight: 760; text-align: left; }
+  .sign-table td .sub { display: block; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .up { color: var(--red); }
+  .down { color: var(--green); }
+  .flat { color: #a3abb3; }
+
+  .factor-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 16px; }
+  .factor { padding: 12px 11px; border-top: 4px solid var(--accent); background: var(--soft); }
+  .factor h3 { margin-bottom: 5px; font-size: 15px; }
+  .factor p { margin: 0; font-size: 14px; line-height: 1.3; }
+
+  .sort-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px; margin-top: 14px; }
+  .sort-card { min-height: 92px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  .sort-card p { margin: 0; font-size: 16px; font-weight: 700; line-height: 1.28; }
+  .sort-card .reveal-step { display: block; margin-top: 8px; }
+  .tag { display: inline-block; padding: 3px 9px; border-radius: 3px; color: #fff; font-size: 12px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+  .tag.fixed { background: var(--purple); }
+  .tag.variable { background: var(--green); }
+  .tag.prod { background: var(--blue); }
+  .tag.down-tag { background: var(--green); }
+  .tag-note { display: block; margin-top: 5px; color: var(--muted); font-size: 13px; line-height: 1.25; font-weight: 600; }
+
+  .event-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+  .event { min-height: 128px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  .event .num { display: inline-flex; width: 22px; height: 22px; margin-right: 6px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--ink); font-size: 11px; font-weight: 850; vertical-align: 1px; }
+  .event p { margin: 0; font-size: 15px; font-weight: 700; line-height: 1.27; }
+  .event .reveal-step { display: block; margin-top: 7px; }
+  .event .curves { display: block; margin-top: 4px; font-size: 13px; font-weight: 700; line-height: 1.25; }
+
+  .phase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+  .phase { padding: 13px 15px; border-top: 5px solid var(--green); background: var(--green-soft); }
+  .phase.mid { border-top-color: var(--accent); background: var(--accent-soft); }
+  .phase.neg { border-top-color: var(--red); background: var(--red-soft); }
+  .phase .who { color: var(--muted); font-size: 12px; font-weight: 850; letter-spacing: .07em; text-transform: uppercase; }
+  .phase h3 { margin: 4px 0 6px; font-size: 19px; }
+  .phase p { margin: 0; font-size: 15px; line-height: 1.32; }
+
+  .scene { display: block; width: 100%; height: auto; }
+  .stmt { display: grid; grid-template-columns: 1fr 230px; gap: 14px; align-items: center; padding: 12px 15px; background: var(--soft); }
+  .stmt + .stmt { margin-top: 9px; }
+  .stmt p { margin: 0; font-size: 17px; font-weight: 700; line-height: 1.3; }
+  .stmt .reveal-step { font-size: 14px; line-height: 1.3; }
+  .verdict { display: inline-block; margin-right: 6px; padding: 2px 8px; border-radius: 3px; color: #fff; background: var(--red); font-size: 12px; font-weight: 850; }
+  .verdict.ok { background: var(--green); }
+
+  .q-list { margin: 8px 0 0; padding: 0; list-style: none; }
+  .q-list li { margin: 5px 0; font-size: 16px; line-height: 1.3; }
+  .q-list li b { display: inline-block; width: 24px; color: var(--accent); }
+
+  .ans-box { margin-top: 10px; padding: 9px 13px; border-left: 4px solid var(--green); background: var(--green-soft); }
+  .ans-box p { margin: 3px 0; font-size: 15px; line-height: 1.3; }
+  .ans-box b { color: var(--green); }
+  .calc-line span b { color: var(--ink); font-size: 15px; }
+  .big-num { display: block; font-size: 44px; font-weight: 850; line-height: 1.05; }
+  .big-cap { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+  .stat-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .stat { padding: 14px 10px; background: var(--soft); text-align: center; }
+  .stat.accent-stat { background: var(--accent-soft); }
+  .stat.red-stat { background: var(--red-soft); }
+  .stat.green-stat { background: var(--green-soft); }
+  .stat.blue-stat { background: var(--blue-soft); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 6px; font-size: 13px; font-weight: 700; }
+  .legend span::before { content: ''; display: inline-block; width: 18px; height: 0; margin-right: 6px; border-top: 3.5px solid currentColor; vertical-align: 4px; }
+  .legend span.dash::before { border-top-style: dashed; opacity: .6; }
+
+  #debriefSlide .calc-run { gap: 9px; }
+  #debriefSlide .calc-line { padding: 9px 13px; }
+  #debriefSlide .calc-line strong { font-size: 17px; }
+  #debriefSlide .calc-line span { margin-top: 3px; color: var(--ink); font-size: 14.5px; line-height: 1.33; }
+  #debriefSlide .calc-line span b.k { color: #b8600f; font-size: inherit; }
+  .launch { display: inline-flex; align-items: center; justify-content: center; min-height: 58px; padding: 12px 22px; border-radius: 10px;
+    background: var(--accent); color: #fff; font-size: 21px; font-weight: 820; text-decoration: none; box-shadow: 0 3px 0 #c56a12; }
+  .launch:hover { filter: brightness(1.05); }
+  .interactive .choice-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+  .interactive .choice-row button { min-height: 50px; font-size: 18px; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1 -->
+  <section class="slide title-slide center middle active">
+    <div>
+      <div class="title-kicker">ARE 201 &middot; Unit 8a &middot; Class 1</div>
+      <h1 class="title-main">Production: One More Worker</h1>
+      <p class="title-sub">What happens to output when a farm adds one more worker?</p>
+    </div>
+    <svg class="title-graphic" viewBox="0 0 470 170" role="img" aria-label="Total product rises and flattens; marginal product bars rise, then fall below zero"><defs><clipPath id="clip1"><rect x="30" y="14" width="192" height="134"/></clipPath></defs><defs><clipPath id="clip2"><rect x="262" y="14" width="200" height="134"/></clipPath></defs><path class="axis" d="M 30 12 L 30 148"/><path class="axis" d="M 30 148 L 220 148"/><path class="tp-line" d="M 30 148 C 39 140.3 48.1 134.2 57.1 125 C 66.2 115.9 75.2 101 84.3 90.6 C 93.3 80.2 102.4 69.1 111.4 61.9 C 120.5 54.7 129.5 49.3 138.6 44.7 C 147.6 40.1 156.7 35.8 165.7 33.2 C 174.8 30.7 183.8 27.5 192.9 27.5 C 201.9 27.5 211 31.3 220 33.2" clip-path="url(#clip1)" /><circle class="dot blue-dot" cx="57.1" cy="125" r="3.5"/><circle class="dot blue-dot" cx="84.3" cy="90.6" r="3.5"/><circle class="dot blue-dot" cx="111.4" cy="61.9" r="3.5"/><circle class="dot blue-dot" cx="138.6" cy="44.7" r="3.5"/><circle class="dot blue-dot" cx="165.7" cy="33.2" r="3.5"/><circle class="dot blue-dot" cx="192.9" cy="27.5" r="3.5"/><circle class="dot blue-dot" cx="220" cy="33.2" r="3.5"/><text class="tick-label" x="36" y="14">output (TP)</text><text class="tick-label" x="218" y="164" text-anchor="end">workers</text><path class="axis" d="M 262 12 L 262 148"/><path class="axis" d="M 262 118.7 L 460 118.7"/><rect class="mp-bar" x="269.5" y="60" width="18" height="58.7"/><rect class="mp-bar" x="297" y="30.7" width="18" height="88"/><rect class="mp-bar" x="324.5" y="45.3" width="18" height="73.3"/><rect class="mp-bar" x="352" y="74.7" width="18" height="44"/><rect class="mp-bar" x="379.5" y="89.3" width="18" height="29.3"/><rect class="mp-bar" x="407" y="104" width="18" height="14.7"/><rect class="mp-bar neg" x="434.5" y="118.7" width="18" height="14.7"/><text class="tick-label" x="268" y="14">extra output (MP)</text><text class="tick-label" x="458" y="164" text-anchor="end">workers</text></svg>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide">
+    <div class="section-kicker">Where we are going</div>
+    <h1>Five objectives: two today, three next class</h1>
+    <div class="lo-list">
+      <div class="lo-row today"><div class="lo-tag">8a.1</div><span>Explain the law of diminishing returns; find where diminishing returns to labor begin in a table or graph</span></div>
+      <div class="lo-row"><div class="lo-tag">8a.3</div><span>Calculate fixed, variable, marginal and average total cost; explain how an input price change shifts ATC</span></div>
+      <div class="lo-row today"><div class="lo-tag">8a.2</div><span>Calculate marginal product, and use it to find total output</span></div>
+      <div class="lo-row"><div class="lo-tag">8a.4</div><span>Explain why ATC falls when MC is below it and rises when MC is above it</span></div>
+      <div class="lo-row" style="visibility:hidden"><div class="lo-tag"></div><span></span></div>
+      <div class="lo-row"><div class="lo-tag">8a.5</div><span>Apply production and cost ideas to farm and food events: input prices, weather, regulations</span></div>
+    </div>
+    <div class="flow-4" style="display:grid; grid-template-columns:1fr 24px 1fr 24px 1fr 24px 1fr; gap:4px; margin-top:20px;">
+      <div class="mechanism-box accent-box"><div>One more worker<span class="flow-sub">today</span></div></div>
+      <div class="mechanism-arrow">&rarr;</div>
+      <div class="mechanism-box accent-box"><div>How much more output?<span class="flow-sub">today: marginal product</span></div></div>
+      <div class="mechanism-arrow">&rarr;</div>
+      <div class="mechanism-box blue-box"><div>What does it cost?<span class="flow-sub">next class: cost curves</span></div></div>
+      <div class="mechanism-arrow">&rarr;</div>
+      <div class="mechanism-box green-box"><div>What moves costs?<span class="flow-sub">next class: wages, weather, rules</span></div></div>
+    </div>
+    <p class="footer-note small muted">Today ends with one formula that connects the two classes: the cost of one more bushel.</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide" id="hookSlide">
+    <div class="section-kicker">Before any theory &middot; play</div>
+    <h1>Harvest Boss: you run Pine Hollow Farm</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:11px 16px;">
+      <div class="market-label">The setup</div>
+      <p style="font-size:18px;">The crop is planted and the farm has <strong>one digger</strong> for this harvest. Seven people want a job. You decide how many to hire&mdash;and live with the results.</p>
+    </div>
+    <div class="card white" style="margin-top:12px; padding:10px 12px;"><svg class="scene" viewBox="0 0 840 146" role="img" aria-label="Left: one worker with a tractor-drawn potato digger digs 40 bushels a day. Right: seven workers share the same digger; output unknown."><rect x="10" y="96" width="370" height="44" rx="4" fill="#efe2d0"/><path d="M 10 104 L 380 104" stroke="#c49a6c" stroke-width="3" stroke-linecap="round"/><path d="M 10 113 L 380 113" stroke="#c49a6c" stroke-width="3" stroke-linecap="round"/><path d="M 10 122 L 380 122" stroke="#c49a6c" stroke-width="3" stroke-linecap="round"/><path d="M 10 131 L 380 131" stroke="#c49a6c" stroke-width="3" stroke-linecap="round"/><ellipse cx="28" cy="108" rx="7" ry="4" fill="#c9504d" opacity=".85"/><ellipse cx="65" cy="117" rx="7" ry="4" fill="#c9504d" opacity=".85"/><ellipse cx="102" cy="126" rx="7" ry="4" fill="#c9504d" opacity=".85"/><ellipse cx="139" cy="108" rx="7" ry="4" fill="#c9504d" opacity=".85"/><ellipse cx="176" cy="117" rx="7" ry="4" fill="#c9504d" opacity=".85"/><ellipse cx="213" cy="126" rx="7" ry="4" fill="#c9504d" opacity=".85"/><ellipse cx="250" cy="108" rx="7" ry="4" fill="#c9504d" opacity=".85"/><ellipse cx="287" cy="117" rx="7" ry="4" fill="#c9504d" opacity=".85"/><ellipse cx="324" cy="126" rx="7" ry="4" fill="#c9504d" opacity=".85"/><ellipse cx="361" cy="108" rx="7" ry="4" fill="#c9504d" opacity=".85"/><g transform="translate(190 96)"><rect x="0" y="-30" width="58" height="22" rx="4" fill="#378a61"/><rect x="34" y="-52" width="24" height="24" rx="3" fill="#378a61"/><rect x="38" y="-48" width="16" height="12" rx="2" fill="#e9f6ef"/><rect x="10" y="-40" width="5" height="12" fill="#5f6b76"/><circle cx="45" cy="-6" r="13" fill="#1f2933"/><circle cx="45" cy="-6" r="5" fill="#9aa3ab"/><circle cx="11" cy="-4" r="8" fill="#1f2933"/><circle cx="11" cy="-4" r="3" fill="#9aa3ab"/><path d="M 0 -18 L -14 -18 L -52 -2 L -10 -2 Z" fill="#9aa3ab"/><path d="M -52 -2 L -10 -2" stroke="#5f6b76" stroke-width="2"/></g><g transform="translate(300 88) scale(1.0)"><circle cx="0" cy="-26" r="7" fill="#EB811B"/><path d="M -9 -15 Q 0 -19 9 -15 L 8 4 L -8 4 Z" fill="#EB811B"/><rect x="-7" y="4" width="5" height="13" rx="2" fill="#EB811B"/><rect x="2" y="4" width="5" height="13" rx="2" fill="#EB811B"/></g><text class="plot-label" x="195" y="22" text-anchor="middle">1 worker + the digger</text><text class="plot-label" x="195" y="40" text-anchor="middle" fill="#EB811B">40 bushels a day</text><rect x="460" y="96" width="370" height="44" rx="4" fill="#efe2d0"/><path d="M 460 104 L 830 104" stroke="#c49a6c" stroke-width="3" stroke-linecap="round"/><path d="M 460 113 L 830 113" stroke="#c49a6c" stroke-width="3" stroke-linecap="round"/><path d="M 460 122 L 830 122" stroke="#c49a6c" stroke-width="3" stroke-linecap="round"/><path d="M 460 131 L 830 131" stroke="#c49a6c" stroke-width="3" stroke-linecap="round"/><ellipse cx="478" cy="108" rx="7" ry="4" fill="#c9504d" opacity=".85"/><ellipse cx="515" cy="117" rx="7" ry="4" fill="#c9504d" opacity=".85"/><ellipse cx="552" cy="126" rx="7" ry="4" fill="#c9504d" opacity=".85"/><ellipse cx="589" cy="108" rx="7" ry="4" fill="#c9504d" opacity=".85"/><ellipse cx="626" cy="117" rx="7" ry="4" fill="#c9504d" opacity=".85"/><ellipse cx="663" cy="126" rx="7" ry="4" fill="#c9504d" opacity=".85"/><ellipse cx="700" cy="108" rx="7" ry="4" fill="#c9504d" opacity=".85"/><ellipse cx="737" cy="117" rx="7" ry="4" fill="#c9504d" opacity=".85"/><ellipse cx="774" cy="126" rx="7" ry="4" fill="#c9504d" opacity=".85"/><ellipse cx="811" cy="108" rx="7" ry="4" fill="#c9504d" opacity=".85"/><g transform="translate(640 96)"><rect x="0" y="-30" width="58" height="22" rx="4" fill="#378a61"/><rect x="34" y="-52" width="24" height="24" rx="3" fill="#378a61"/><rect x="38" y="-48" width="16" height="12" rx="2" fill="#e9f6ef"/><rect x="10" y="-40" width="5" height="12" fill="#5f6b76"/><circle cx="45" cy="-6" r="13" fill="#1f2933"/><circle cx="45" cy="-6" r="5" fill="#9aa3ab"/><circle cx="11" cy="-4" r="8" fill="#1f2933"/><circle cx="11" cy="-4" r="3" fill="#9aa3ab"/><path d="M 0 -18 L -14 -18 L -52 -2 L -10 -2 Z" fill="#9aa3ab"/><path d="M -52 -2 L -10 -2" stroke="#5f6b76" stroke-width="2"/></g><g transform="translate(712 88) scale(0.8)"><circle cx="0" cy="-26" r="7" fill="#EB811B"/><path d="M -9 -15 Q 0 -19 9 -15 L 8 4 L -8 4 Z" fill="#EB811B"/><rect x="-7" y="4" width="5" height="13" rx="2" fill="#EB811B"/><rect x="2" y="4" width="5" height="13" rx="2" fill="#EB811B"/></g><g transform="translate(729 92) scale(0.8)"><circle cx="0" cy="-26" r="7" fill="#EB811B"/><path d="M -9 -15 Q 0 -19 9 -15 L 8 4 L -8 4 Z" fill="#EB811B"/><rect x="-7" y="4" width="5" height="13" rx="2" fill="#EB811B"/><rect x="2" y="4" width="5" height="13" rx="2" fill="#EB811B"/></g><g transform="translate(746 88) scale(0.8)"><circle cx="0" cy="-26" r="7" fill="#EB811B"/><path d="M -9 -15 Q 0 -19 9 -15 L 8 4 L -8 4 Z" fill="#EB811B"/><rect x="-7" y="4" width="5" height="13" rx="2" fill="#EB811B"/><rect x="2" y="4" width="5" height="13" rx="2" fill="#EB811B"/></g><g transform="translate(763 92) scale(0.8)"><circle cx="0" cy="-26" r="7" fill="#EB811B"/><path d="M -9 -15 Q 0 -19 9 -15 L 8 4 L -8 4 Z" fill="#EB811B"/><rect x="-7" y="4" width="5" height="13" rx="2" fill="#EB811B"/><rect x="2" y="4" width="5" height="13" rx="2" fill="#EB811B"/></g><g transform="translate(780 88) scale(0.8)"><circle cx="0" cy="-26" r="7" fill="#EB811B"/><path d="M -9 -15 Q 0 -19 9 -15 L 8 4 L -8 4 Z" fill="#EB811B"/><rect x="-7" y="4" width="5" height="13" rx="2" fill="#EB811B"/><rect x="2" y="4" width="5" height="13" rx="2" fill="#EB811B"/></g><g transform="translate(797 92) scale(0.8)"><circle cx="0" cy="-26" r="7" fill="#EB811B"/><path d="M -9 -15 Q 0 -19 9 -15 L 8 4 L -8 4 Z" fill="#EB811B"/><rect x="-7" y="4" width="5" height="13" rx="2" fill="#EB811B"/><rect x="2" y="4" width="5" height="13" rx="2" fill="#EB811B"/></g><g transform="translate(814 88) scale(0.8)"><circle cx="0" cy="-26" r="7" fill="#EB811B"/><path d="M -9 -15 Q 0 -19 9 -15 L 8 4 L -8 4 Z" fill="#EB811B"/><rect x="-7" y="4" width="5" height="13" rx="2" fill="#EB811B"/><rect x="2" y="4" width="5" height="13" rx="2" fill="#EB811B"/></g><text class="plot-label" x="645" y="22" text-anchor="middle">7 workers + the same digger</text><text class="plot-label" x="645" y="40" text-anchor="middle" fill="#2f80c9">? bushels a day</text><path d="M 420 20 L 420 136" stroke="#d8dde3" stroke-width="2" stroke-dasharray="5 5"/></svg></div>
+    <div class="grid-2" style="margin-top:14px; align-items:center;">
+      <a class="launch" href="ARE201_Unit8a_Harvest_Boss_Game_Fall2026.html" target="_blank" rel="noopener">&#9654;&nbsp; Launch the game</a>
+      <p class="small muted" style="margin:0;">Opens in a new tab. The class votes by show of hands at every decision; click the majority. About 10&ndash;12 minutes, ten possible endings.</p>
+    </div>
+    <p class="footer-note small muted" style="margin-top:10px;">After the game, the next slides turn what the class saw into a table and a graph.</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide">
+    <div class="section-kicker">You have seen this before &middot; Unit 3</div>
+    <h1>Diminishing marginal returns: Unit 3 named it</h1>
+    <div class="definition-strip">
+      <strong>Diminishing marginal returns</strong> occur when, with technology and other inputs held constant, successive units of one input
+      <strong>eventually</strong> generate smaller additions to total output.
+    </div>
+    <div class="grid-3" style="margin-top:16px;">
+      <div class="card green-top"><h3 class="green">Expand onto poorer land</h3><p>The best-watered, most fertile parcels are planted first. The next 20 acres add less.</p></div>
+      <div class="card accent-top"><h3 class="accent">Crowd one machine</h3><p>The first workers keep one harvester busy. Later workers wait, crowd, or duplicate tasks.</p></div>
+      <div class="card blue-top"><h3 class="blue">Pile on fertilizer</h3><p>The first application lifts yields a lot. Later applications lift them less, then not at all.</p></div>
+    </div>
+    <div class="definition-strip blue-strip" style="margin-top:16px;">
+      Unit 3 named the idea. <strong>Today we measure it</strong>&mdash;with a table and a graph&mdash;and at the end of class we
+      <strong>put a price on it</strong>.
+    </div>
+    <p class="footer-note small muted">Today's farm is the &ldquo;crowd one machine&rdquo; story, with numbers.</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide">
+    <div class="section-kicker">Background &middot; what a firm does</div>
+    <h1>A firm turns inputs into output</h1>
+    <div class="definition-strip">
+      <strong>Production</strong> is the process of combining inputs to produce outputs&mdash;ideally output worth more than the inputs.
+      A farm is a firm: it decides what to grow, how, how much, and how many people to hire.
+    </div>
+    <div class="factor-grid">
+      <div class="factor" style="border-top-color:var(--green)"><h3>Natural resources</h3><p>Land, water, sweet potato slips</p></div>
+      <div class="factor"><h3>Labor</h3><p>Harvest workers</p></div>
+      <div class="factor" style="border-top-color:var(--blue)"><h3>Capital</h3><p>The digger, the tractor, the trailer</p></div>
+      <div class="factor" style="border-top-color:var(--purple)"><h3>Technology</h3><p>When to dig, how to split the jobs</p></div>
+      <div class="factor" style="border-top-color:var(--red)"><h3>Entrepreneurship</h3><p>The farmer who puts it all together</p></div>
+    </div>
+    <div class="card white" style="margin-top:16px;">
+      <p style="font-size:17px;">Economists call &ldquo;technology&rdquo; any <strong>method</strong> of combining inputs&mdash;not only gadgets.
+      A better way to split jobs in the field is a change in technology.</p>
+    </div>
+    <p class="footer-note small muted">You met the factors of production in Unit 2. Today we hold most of them fixed and change just one: labor.</p>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide">
+    <div class="section-kicker">Background &middot; the time horizon</div>
+    <h1>Short run vs. long run</h1>
+    <div class="grid-2" style="margin-top:6px;">
+      <div class="card accent-top">
+        <h2 class="accent">Short run</h2>
+        <p style="font-size:17px;">At least one input is <strong>fixed</strong>.</p>
+        <p style="font-size:17px;">Pine Hollow, this harvest: one digger, and the field is already planted. Only the number of workers can change.</p>
+      </div>
+      <div class="card blue-top">
+        <h2 class="blue">Long run</h2>
+        <p style="font-size:17px;"><strong>All</strong> inputs can change.</p>
+        <p style="font-size:17px;">Next year: lease a second digger, plant more acres, build a bigger curing room&mdash;or sell the farm.</p>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:14px;">
+      <div class="card"><h3>Fixed input</h3><p>Cannot be changed quickly: the digger lease, the planted field, the building.</p></div>
+      <div class="card"><h3>Variable input</h3><p>Can be changed quickly: workers, diesel, boxes, fertilizer.</p></div>
+    </div>
+    <div class="definition-strip blue-strip" style="margin-top:14px;">
+      The long run is not a date on the calendar. It is <strong>&ldquo;long enough to change every input.&rdquo;</strong>
+      For a food truck that might be weeks; for an orchard, years.
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="slide interactive">
+    <div class="section-kicker">Hands up &middot; this harvest season</div>
+    <h1>Fixed or variable at Pine Hollow?</h1>
+    <div class="sort-grid">
+      <div class="sort-card"><p>The digger&rsquo;s lease for the season</p><span class="reveal-step" data-step-group="sort" data-step="1"><span class="tag fixed">Fixed</span><span class="tag-note">Paid whether 1 or 7 people dig.</span></span></div>
+      <div class="sort-card"><p>Daily wages of the harvest workers</p><span class="reveal-step" data-step-group="sort" data-step="2"><span class="tag variable">Variable</span><span class="tag-note">More workers, more wages.</span></span></div>
+      <div class="sort-card"><p>Diesel for the tractor</p><span class="reveal-step" data-step-group="sort" data-step="3"><span class="tag variable">Variable</span><span class="tag-note">More digging, more fuel.</span></span></div>
+      <div class="sort-card"><p>The farm&rsquo;s insurance premium</p><span class="reveal-step" data-step-group="sort" data-step="4"><span class="tag fixed">Fixed</span><span class="tag-note">Set for the year.</span></span></div>
+      <div class="sort-card"><p>Cardboard boxes for the sweet potatoes</p><span class="reveal-step" data-step-group="sort" data-step="5"><span class="tag variable">Variable</span><span class="tag-note">One box per bushel shipped.</span></span></div>
+      <div class="sort-card"><p>Land rent already signed for the year</p><span class="reveal-step" data-step-group="sort" data-step="6"><span class="tag fixed">Fixed</span><span class="tag-note">Owed no matter the harvest.</span></span></div>
+    </div>
+    <div class="definition-strip purple-strip" style="margin-top:14px; font-size:17px;">
+      <strong>Follow-up:</strong> if the time span were <strong>five years</strong>, would the digger still be fixed?
+      <span class="reveal-step" data-step-group="sort" data-step="7"><strong>No.</strong> Over five years the farm can lease more diggers or none&mdash;in the long run every input is variable.</span>
+    </div>
+    <div class="button-row" style="margin-top:12px;"><button type="button" class="step-reveal" data-step-group="sort">Reveal</button></div>
+  </section>
+
+  <!-- 8 -->
+  <section class="slide">
+    <div class="section-kicker">LO 8a.1&ndash;8a.2 &middot; same logic, new player</div>
+    <h1>The production function works like Unit 7&rsquo;s utility table</h1>
+    <div class="definition-strip">
+      A <strong>production function</strong> shows how much output a firm gets from its inputs. In the short run we change only one input&mdash;labor&mdash;and hold the rest fixed.
+    </div>
+    <table class="sign-table" style="margin-top:16px;">
+      <thead><tr><th style="text-align:left; padding-left:12px;">Unit 7 &middot; the consumer</th><th>Unit 8a &middot; the firm</th></tr></thead>
+      <tbody>
+        <tr style="background:var(--blue-soft)"><td>Total utility (TU)</td><td style="font-size:16px;">Total product (TP): total output</td></tr>
+        <tr style="background:var(--accent-soft)"><td>Marginal utility: MU = &Delta;TU &divide; &Delta;Q</td><td style="font-size:16px;">Marginal product: MP = &Delta;TP &divide; &Delta;L</td></tr>
+        <tr style="background:var(--green-soft)"><td>Diminishing marginal utility</td><td style="font-size:16px;">Diminishing marginal returns</td></tr>
+        <tr><td>MU is the slope of TU</td><td style="font-size:16px;">MP is the slope of TP</td></tr>
+      </tbody>
+    </table>
+    <div class="definition-strip blue-strip" style="margin-top:16px;">
+      <strong>Marginal product of labor (MP)</strong>: the extra output from hiring one more worker, holding the other inputs fixed.
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section class="slide interactive">
+    <div class="section-kicker">LO 8a.2 &middot; computing marginal product</div>
+    <h1>Pine Hollow&rsquo;s production table</h1>
+    <div class="thirds-two" style="margin-top:2px;">
+      <table class="u8-table compact">
+        <caption>One digger &middot; bushels per day</caption>
+        <thead><tr><th>Workers (L)</th><th>Total product (TP)</th><th>Marginal product (MP)</th></tr></thead>
+        <tbody><tr><td class="lead">0</td><td>0</td><td>&mdash;</td></tr><tr><td class="lead">1</td><td>40</td><td><span class="reveal-step" data-step-group="tp" data-step="2">40</span></td></tr><tr><td class="lead">2</td><td>100</td><td><span class="reveal-step" data-step-group="tp" data-step="2">60</span></td></tr><tr class="hl"><td class="lead">3</td><td>150</td><td><span class="reveal-step" data-step-group="tp" data-step="2">50</span></td></tr><tr><td class="lead">4</td><td><span class="reveal-step" data-step-group="tp" data-step="1">180</span></td><td><span class="reveal-step" data-step-group="tp" data-step="2">30</span></td></tr><tr><td class="lead">5</td><td><span class="reveal-step" data-step-group="tp" data-step="1">200</span></td><td><span class="reveal-step" data-step-group="tp" data-step="2">20</span></td></tr><tr><td class="lead">6</td><td><span class="reveal-step" data-step-group="tp" data-step="1">210</span></td><td><span class="reveal-step" data-step-group="tp" data-step="2">10</span></td></tr><tr><td class="lead">7</td><td><span class="reveal-step" data-step-group="tp" data-step="1">200</span></td><td><span class="reveal-step" data-step-group="tp" data-step="2">&minus;10</span></td></tr></tbody>
+      </table>
+      <div>
+        <div class="formula-box"><span class="lhs">MP =</span><span class="frac"><span class="num">change in total product</span><span class="den">change in workers</span></span></div>
+        <div class="calc-run" style="margin-top:12px;">
+          <div class="calc-line hi"><div class="calc-num">?</div><div><strong>Recall from the game: what did the 4th worker add?</strong><span>Three workers dig 150. Answer before we reveal.</span></div></div>
+          <div class="reveal-step" data-step-group="tp" data-step="1"><div class="calc-line"><div class="calc-num">1</div><div><strong>4th worker: 180 &minus; 150 = 30 bushels</strong><span>The rest of the TP column, too.</span></div></div></div>
+          <div class="reveal-step" data-step-group="tp" data-step="2"><div class="calc-line"><div class="calc-num">2</div><div><strong>MP column: 40, 60, 50, 30, 20, 10, &minus;10</strong><span>Each MP is one TP minus the TP just above it.</span></div></div></div>
+          <div class="reveal-step" data-step-group="tp" data-step="3"><div class="calc-line good"><div class="calc-num">3</div><div><strong>Seven workers dig 200, not 280</strong><span>The 7th worker even lowers output.</span></div></div></div>
+        </div>
+        <div class="button-row" style="margin-top:12px;"><button type="button" class="step-reveal" data-step-group="tp">Reveal next step</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="slide">
+    <div class="section-kicker">Back to the game&rsquo;s first bet</div>
+    <h1>Seven workers dig 200, not 280</h1>
+    <div class="two-thirds" style="margin-top:4px;">
+      <div class="plot-panel"><svg class="plot" style="height:210px" viewBox="0 0 400 210" role="img" aria-label="If every worker dug 40 bushels, seven would dig 280; they actually dig 200"><defs><clipPath id="clip3"><rect x="40" y="18" width="348" height="162"/></clipPath></defs><path class="axis" d="M 40 16 L 40 180"/><path class="axis" d="M 40 180 L 386 180"/><rect class="mp-bar soft" x="76.5" y="30.7" width="100" height="149.3"/><rect class="mp-bar hl" x="249.5" y="73.3" width="100" height="106.7"/><text class="plot-label" x="126.5" y="23.7" text-anchor="middle">280</text><text class="plot-label" x="299.5" y="66.3" text-anchor="middle" fill="#2f80c9">200</text><text class="tick-label" x="126.5" y="198" text-anchor="middle">7 &times; 40</text><text class="tick-label" x="299.5" y="198" text-anchor="middle">what 7 workers dig</text></svg></div>
+      <div>
+        <div class="stat-pair">
+          <div class="stat accent-stat"><span class="big-num">280</span><span class="big-cap">if every worker added 40</span></div>
+          <div class="stat blue-stat"><span class="big-num blue">200</span><span class="big-cap">what 7 workers dig</span></div>
+        </div>
+        <div class="definition-strip blue-strip" style="margin-top:14px; font-size:17px;">
+          Output does not grow in proportion to workers, because the <strong>digger does not grow</strong>.
+          Every worker shares the same machine and the same rows.
+        </div>
+        <p class="small" style="margin-top:12px;">The game asked this before anyone was hired: 280, more, or less? Seven workers dig <strong>less</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 -->
+  <section class="slide interactive" id="debriefSlide">
+    <div class="section-kicker">LO 8a.1 &middot; game debrief</div>
+    <h1>Game debrief: where&mdash;and why&mdash;MP fell</h1>
+    <div style="display:grid; grid-template-columns:.92fr 1.08fr; gap:20px; align-items:start;">
+      <div class="plot-panel"><svg class="plot" style="height:178px" viewBox="0 0 440 190" role="img" aria-label="Total product rises from 0 to 210 bushels at six workers, then falls to 200 at seven"><defs><clipPath id="clip4"><rect x="54" y="14" width="370" height="152"/></clipPath></defs><path class="gridline" d="M 54 133.4 L 422 133.4 M 54 100.8 L 422 100.8 M 54 68.2 L 422 68.2 M 54 35.6 L 422 35.6"/><path class="axis" d="M 54 12 L 54 166"/><path class="axis" d="M 54 166 L 422 166"/><path class="tp-line" d="M 54 166 C 70.8 157.3 87.6 150.3 104.4 139.9 C 121.2 129.5 138 112.6 154.8 100.8 C 171.6 88.9 188.4 76.3 205.2 68.2 C 222 60 238.8 53.8 255.6 48.6 C 272.4 43.4 289.3 38.5 306.1 35.6 C 322.9 32.7 339.7 29 356.5 29 C 373.3 29 390.1 33.4 406.9 35.6" clip-path="url(#clip4)" /><circle class="dot blue-dot" cx="104.4" cy="139.9" r="4.5"/><circle class="dot blue-dot" cx="154.8" cy="100.8" r="4.5"/><circle class="dot blue-dot" cx="205.2" cy="68.2" r="4.5"/><circle class="dot blue-dot" cx="255.6" cy="48.6" r="4.5"/><circle class="dot blue-dot" cx="306.1" cy="35.6" r="4.5"/><circle class="dot blue-dot" cx="356.5" cy="29" r="4.5"/><circle class="dot blue-dot" cx="406.9" cy="35.6" r="4.5"/><text class="tick-label" x="47" y="137.4" text-anchor="end">50</text><text class="tick-label" x="47" y="104.8" text-anchor="end">100</text><text class="tick-label" x="47" y="72.2" text-anchor="end">150</text><text class="tick-label" x="47" y="39.6" text-anchor="end">200</text><text class="tick-label" x="104.4" y="182" text-anchor="middle">1</text><text class="tick-label" x="154.8" y="182" text-anchor="middle">2</text><text class="tick-label" x="205.2" y="182" text-anchor="middle">3</text><text class="tick-label" x="255.6" y="182" text-anchor="middle">4</text><text class="tick-label" x="306.1" y="182" text-anchor="middle">5</text><text class="tick-label" x="356.5" y="182" text-anchor="middle">6</text><text class="tick-label" x="406.9" y="182" text-anchor="middle">7</text><text class="plot-label" x="61.6" y="25.2" text-anchor="start">Total product (TP, bushels)</text><g class="reveal-step" data-step-group="debrief" data-step="1"><path class="ref-line" d="M 205.2 166 L 205.2 68.2" /><text class="plot-label sm" x="211.2" y="84.2" text-anchor="start" fill="#EB811B">starts to flatten</text></g><g class="reveal-step" data-step-group="debrief" data-step="3"><circle class="dot" cx="356.5" cy="29" r="6.5"/><text class="plot-label sm" x="348.5" y="21" text-anchor="end" fill="#EB811B">peak: 210</text><text class="plot-label sm" x="406.9" y="55.6" text-anchor="middle" fill="#c9504d">falls</text></g></svg><svg class="plot" style="height:168px" viewBox="0 0 440 180" role="img" aria-label="Marginal product bars: 40, 60, 50, 30, 20, 10 and minus 10"><defs><clipPath id="clip5"><rect x="54" y="8" width="370" height="152"/></clipPath></defs><path class="axis" d="M 54 6 L 54 160"/><path class="axis" d="M 54 130.5 L 422 130.5"/><rect class="mp-bar" x="76.8" y="77" width="28" height="53.6"/><text class="plot-label sm" x="90.8" y="72" text-anchor="middle">40</text><rect class="mp-bar" x="129.4" y="50.2" width="28" height="80.4"/><text class="plot-label sm" x="143.4" y="45.2" text-anchor="middle">60</text><rect class="mp-bar" x="181.9" y="63.6" width="28" height="67"/><text class="plot-label sm" x="195.9" y="58.6" text-anchor="middle">50</text><rect class="mp-bar" x="234.5" y="90.4" width="28" height="40.2"/><text class="plot-label sm" x="248.5" y="85.4" text-anchor="middle">30</text><rect class="mp-bar" x="287.1" y="103.8" width="28" height="26.8"/><text class="plot-label sm" x="301.1" y="98.8" text-anchor="middle">20</text><rect class="mp-bar" x="339.7" y="117.1" width="28" height="13.4"/><text class="plot-label sm" x="353.7" y="112.1" text-anchor="middle">10</text><rect class="mp-bar neg" x="392.2" y="130.5" width="28" height="13.4"/><text class="plot-label sm" x="406.2" y="156.9" text-anchor="middle" fill="#c9504d">&minus;10</text><text class="tick-label" x="90.8" y="175" text-anchor="middle">1</text><text class="tick-label" x="143.4" y="175" text-anchor="middle">2</text><text class="tick-label" x="195.9" y="175" text-anchor="middle">3</text><text class="tick-label" x="248.5" y="175" text-anchor="middle">4</text><text class="tick-label" x="301.1" y="175" text-anchor="middle">5</text><text class="tick-label" x="353.7" y="175" text-anchor="middle">6</text><text class="tick-label" x="406.2" y="175" text-anchor="middle">7</text><text class="plot-label" x="59.3" y="18" text-anchor="start">Marginal product (MP)</text><g class="reveal-step" data-step-group="debrief" data-step="1"><rect x="176.9" y="46.6" width="38" height="88.0" rx="4" fill="none" stroke="#2f80c9" stroke-width="2.6"/><text class="plot-label sm" x="195.9" y="40.6" text-anchor="middle" fill="#2f80c9">first drop</text></g><g class="reveal-step" data-step-group="debrief" data-step="3"><rect x="387.2" y="126.5" width="38" height="34.4" rx="4" fill="none" stroke="#c9504d" stroke-width="2.6"/><text class="plot-label sm" x="382.2" y="144.5" text-anchor="end" fill="#c9504d">below zero</text></g></svg>
+        <p class="tiny muted" style="margin:2px 0 0; text-align:center;">Workers in hiring order: Maria 40 &middot; Jamal 60 &middot; Kenji 50 &middot; Priya 30 &middot; Luis 20 &middot; Hannah 10 &middot; Omar &minus;10</p></div>
+      <div>
+        <div class="calc-run">
+          <div class="calc-line hi"><div class="calc-num">1</div><div><strong>Where did diminishing returns begin?</strong>
+            <span class="reveal-step" data-step-group="debrief" data-step="1">Worker #3, Kenji: MP fell 60 &rarr; 50, the <b class="k">first MP smaller than the one before</b>. On the graph, that is where TP starts to flatten.</span></div></div>
+          <div class="calc-line"><div class="calc-num">2</div><div><strong>Why did MP rise, then fall?</strong>
+            <span class="reveal-step" data-step-group="debrief" data-step="2">Jamal let Maria specialize, so MP rose. After that everyone shared <b class="k">one digger</b>, a fixed input&mdash;not lazier workers. Any hiring order gives the same numbers.</span></div></div>
+          <div class="calc-line"><div class="calc-num">3</div><div><strong>When MP fell, did total output fall?</strong>
+            <span class="reveal-step" data-step-group="debrief" data-step="3">No. TP kept rising (150 &rarr; 210) while MP shrank. Only a <b class="k">negative</b> MP&mdash;Omar&rsquo;s &minus;10&mdash;made TP fall, 210 &rarr; 200.</span></div></div>
+          <div class="calc-line"><div class="calc-num">4</div><div><strong>Does MP always rise first?</strong>
+            <span class="reveal-step" data-step-group="debrief" data-step="4">No. Rise-then-fall is the typical shape; the law only says MP <b class="k">eventually</b> falls&mdash;sometimes from the very first unit, as the fertilizer exercise will show.</span></div></div>
+        </div>
+        <div class="button-row" style="margin-top:12px;"><button type="button" class="step-reveal" data-step-group="debrief">Reveal next answer</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 -->
+  <section class="slide interactive">
+    <div class="section-kicker">LO 8a.2 &middot; running the definition backwards</div>
+    <h1>From marginal product back to total output</h1>
+    <div class="formula-box" style="margin-top:2px;"><span class="lhs" style="margin:0;">Total product = starting output + the sum of the MPs so far</span></div>
+    <div class="grid-2" style="margin-top:14px;">
+      <div>
+        <p style="margin:0 0 8px; font-size:17px;"><strong>Pine Hollow:</strong> start at 0 bushels with 0 workers. MP = 40, 60, 50, 30, &hellip;</p>
+        <div class="calc-run">
+          <div class="reveal-step" data-step-group="back" data-step="1"><div class="calc-line"><div class="calc-num">1</div><div><strong>1 worker: 0 + 40 = 40</strong></div></div></div>
+          <div class="reveal-step" data-step-group="back" data-step="2"><div class="calc-line"><div class="calc-num">2</div><div><strong>2 workers: 40 + 60 = 100</strong></div></div></div>
+          <div class="reveal-step" data-step-group="back" data-step="3"><div class="calc-line"><div class="calc-num">3</div><div><strong>3 workers: 100 + 50 = 150</strong></div></div></div>
+          <div class="reveal-step" data-step-group="back" data-step="4"><div class="calc-line good"><div class="calc-num">4</div><div><strong>4 workers: 150 + 30 = 180</strong><span>Same numbers as the production table.</span></div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="card accent-top"><h3 class="accent">Watch the starting point</h3><p>If output is not zero when the input is zero, start from that number. A field with <strong>no fertilizer</strong> still grows some corn.</p></div>
+        <div class="card blue-top" style="margin-top:12px;"><h3 class="blue">Quiz format</h3><p>&ldquo;Here is the MP of each worker. What is total output with <em>n</em> workers?&rdquo; Add the first <em>n</em> MPs.</p></div>
+      </div>
+    </div>
+    <div class="button-row" style="margin-top:12px;"><button type="button" class="step-reveal" data-step-group="back">Reveal next step</button></div>
+  </section>
+
+  <!-- 13 -->
+  <section class="slide interactive">
+    <div class="section-kicker">Your turn &middot; LO 8a.1&ndash;8a.2 &middot; illustrative numbers</div>
+    <h1>Nitrogen fertilizer on one acre of corn</h1>
+    <table class="u8-table compact left-first">
+      <thead><tr><th>40-lb unit of nitrogen</th><th>1st</th><th>2nd</th><th>3rd</th><th>4th</th><th>5th</th><th>6th</th></tr></thead>
+      <tbody><tr><td class="lead">Marginal product (bushels)</td><td>40</td><td>30</td><td>20</td><td>10</td><td>0</td><td>&minus;5</td></tr></tbody>
+    </table>
+    <p style="margin:10px 0 4px; font-size:17px;">With <strong>no fertilizer</strong> the acre yields <strong>100 bushels</strong> (the soil already holds some nitrogen).</p>
+    <div class="grid-2" style="align-items:start; gap:18px; margin-top:4px;">
+      <div>
+        <ul class="q-list" style="margin-top:0;">
+          <li><b>(a)</b> Total yield with 3 units?</li>
+          <li><b>(b)</b> With which unit do diminishing returns begin?</li>
+          <li><b>(c)</b> Highest yield, and how many units reach it?</li>
+          <li><b>(d)</b> What does the 6th unit do?</li>
+        </ul>
+        <div class="ans-box reveal-step" data-step-group="fert" data-step="1">
+          <p><b>(a)</b> 100 + 40 + 30 + 20 = <strong>190</strong></p>
+          <p><b>(b)</b> The <strong>2nd</strong> unit: 30 &lt; 40. MP falls from the very first unit.</p>
+          <p><b>(c)</b> <strong>200</strong>, with 4 or 5 units (the 5th adds 0)</p>
+          <p><b>(d)</b> Yield drops to <strong>195</strong>: MP &lt; 0</p>
+        </div>
+      </div>
+      <div class="reveal-step" data-step-group="fert" data-step="2">
+        <div class="plot-panel" style="padding:6px 8px 4px;"><svg class="plot" style="height:170px" viewBox="0 0 380 170" role="img" aria-label="Corn yield starts at 100 and rises by 40, 30, 20, 10, 0, then falls by 5"><defs><clipPath id="clip6"><rect x="40" y="12" width="332" height="132"/></clipPath></defs><path class="gridline" d="M 40 104 L 370 104 M 40 64 L 370 64 M 40 24 L 370 24"/><path class="axis" d="M 40 10 L 40 144"/><path class="axis" d="M 40 144 L 370 144"/><path class="tp-line alt" d="M 40 124 C 57.5 110.7 74.9 95.4 92.4 84 C 109.8 72.6 127.3 62 144.8 54 C 162.2 46 179.7 38.4 197.1 34 C 214.6 29.6 232.1 24 249.5 24 C 267 24 284.4 24 301.9 24 C 319.4 24 336.8 27.3 354.3 29" clip-path="url(#clip6)" /><circle class="dot green-dot" cx="40" cy="124" r="4"/><circle class="dot green-dot" cx="92.4" cy="84" r="4"/><circle class="dot green-dot" cx="144.8" cy="54" r="4"/><circle class="dot green-dot" cx="197.1" cy="34" r="4"/><circle class="dot green-dot" cx="249.5" cy="24" r="4"/><circle class="dot green-dot" cx="301.9" cy="24" r="4"/><circle class="dot green-dot" cx="354.3" cy="29" r="4"/><text class="tick-label" x="33" y="108" text-anchor="end">120</text><text class="tick-label" x="33" y="68" text-anchor="end">160</text><text class="tick-label" x="33" y="28" text-anchor="end">200</text><text class="tick-label" x="92.4" y="160" text-anchor="middle">1</text><text class="tick-label" x="144.8" y="160" text-anchor="middle">2</text><text class="tick-label" x="197.1" y="160" text-anchor="middle">3</text><text class="tick-label" x="249.5" y="160" text-anchor="middle">4</text><text class="tick-label" x="301.9" y="160" text-anchor="middle">5</text><text class="tick-label" x="354.3" y="160" text-anchor="middle">6</text><text class="plot-label sm" x="45.2" y="22" text-anchor="start">corn yield, bu/acre</text><text class="tick-label" x="370" y="138" text-anchor="end">units of N</text></svg></div>
+        <p class="small" style="margin:8px 0 0; font-size:15px;">The Moodle fertilizer reading: where crops are no longer short of nutrients, <strong>more fertilizer barely moves yields</strong>&mdash;MP near zero. The extra nitrogen runs off; that cost returns in Unit 10.</p>
+      </div>
+    </div>
+    <div class="button-row" style="margin-top:8px;"><button type="button" class="step-reveal" data-step-group="fert">Reveal answers</button></div>
+  </section>
+
+  <!-- 14 -->
+  <section class="slide interactive">
+    <div class="section-kicker">LO 8a.2 &middot; one more question format</div>
+    <h1>How many workers to fill an order?</h1>
+    <div class="quiz-scenario">
+      <div class="market-label">Today&rsquo;s order</div>
+      <p>A grocery chain wants <strong>170 bushels</strong> from Pine Hollow today. MP of each worker: 40, 60, 50, 30, 20, 10. What is the <strong>smallest</strong> crew that fills the order?</p>
+    </div>
+    <div class="calc-run" style="margin-top:14px;">
+      <div class="reveal-step" data-step-group="order" data-step="1"><div class="calc-line"><div class="calc-num">1</div><div><strong>Add MPs until the total reaches 170</strong><span>40 &rarr; 100 &rarr; 150 &rarr; 180</span></div></div></div>
+      <div class="reveal-step" data-step-group="order" data-step="2"><div class="calc-line bad"><div class="calc-num">2</div><div><strong>3 workers: 150 &lt; 170</strong><span>Not enough.</span></div></div></div>
+      <div class="reveal-step" data-step-group="order" data-step="3"><div class="calc-line good"><div class="calc-num">3</div><div><strong>4 workers: 180 &ge; 170 &rarr; hire 4</strong><span>At $120 a day each, the crew costs $480.</span></div></div></div>
+    </div>
+    <div class="button-row" style="margin-top:12px;"><button type="button" class="step-reveal" data-step-group="order">Reveal next step</button></div>
+    <p class="footer-note small muted">&ldquo;Minimum workers to reach a target&rdquo; is just the running total from the last slide, read from the other side.</p>
+  </section>
+
+  <!-- 15 -->
+  <section class="slide">
+    <div class="section-kicker">Optional &middot; a peek at the long run</div>
+    <h1>Change a fixed input and the whole curve moves</h1>
+    <div class="two-thirds" style="margin-top:0;">
+      <div class="plot-panel"><svg class="plot" style="height:230px" viewBox="0 0 440 230" role="img" aria-label="With a second digger the whole total product curve is higher and flattens later"><defs><clipPath id="clip7"><rect x="54" y="14" width="370" height="190"/></clipPath></defs><path class="gridline" d="M 54 151.8 L 422 151.8 M 54 99.6 L 422 99.6 M 54 47.3 L 422 47.3"/><path class="axis" d="M 54 12 L 54 204"/><path class="axis" d="M 54 204 L 422 204"/><path class="tp-line" d="M 54 204 C 70.8 197 87.6 191.5 104.4 183.1 C 121.2 174.8 138 161.3 154.8 151.8 C 171.6 142.3 188.4 132.2 205.2 125.7 C 222 119.1 238.8 114.2 255.6 110 C 272.4 105.8 289.3 101.9 306.1 99.6 C 322.9 97.2 339.7 94.3 356.5 94.3 C 373.3 94.3 390.1 97.8 406.9 99.6" clip-path="url(#clip7)" /><path class="tp-line alt" d="M 54 204 C 70.8 197 87.6 191.5 104.4 183.1 C 121.2 174.8 138 162.2 154.8 151.8 C 171.6 141.3 188.4 130.9 205.2 120.4 C 222 110 238.8 98.6 255.6 89.1 C 272.4 79.6 289.3 70.7 306.1 63 C 322.9 55.3 339.7 48.1 356.5 42.1 C 373.3 36.1 390.1 31.7 406.9 26.4" clip-path="url(#clip7)" /><circle class="dot green-dot" cx="104.4" cy="183.1" r="3.8"/><circle class="dot green-dot" cx="154.8" cy="151.8" r="3.8"/><circle class="dot green-dot" cx="205.2" cy="120.4" r="3.8"/><circle class="dot green-dot" cx="255.6" cy="89.1" r="3.8"/><circle class="dot green-dot" cx="306.1" cy="63" r="3.8"/><circle class="dot green-dot" cx="356.5" cy="42.1" r="3.8"/><circle class="dot green-dot" cx="406.9" cy="26.4" r="3.8"/><circle class="dot blue-dot" cx="104.4" cy="183.1" r="3.8"/><circle class="dot blue-dot" cx="154.8" cy="151.8" r="3.8"/><circle class="dot blue-dot" cx="205.2" cy="125.7" r="3.8"/><circle class="dot blue-dot" cx="255.6" cy="110" r="3.8"/><circle class="dot blue-dot" cx="306.1" cy="99.6" r="3.8"/><circle class="dot blue-dot" cx="356.5" cy="94.3" r="3.8"/><circle class="dot blue-dot" cx="406.9" cy="99.6" r="3.8"/><text class="tick-label" x="47" y="155.8" text-anchor="end">100</text><text class="tick-label" x="47" y="103.6" text-anchor="end">200</text><text class="tick-label" x="47" y="51.3" text-anchor="end">300</text><text class="tick-label" x="104.4" y="220" text-anchor="middle">1</text><text class="tick-label" x="154.8" y="220" text-anchor="middle">2</text><text class="tick-label" x="205.2" y="220" text-anchor="middle">3</text><text class="tick-label" x="255.6" y="220" text-anchor="middle">4</text><text class="tick-label" x="306.1" y="220" text-anchor="middle">5</text><text class="tick-label" x="356.5" y="220" text-anchor="middle">6</text><text class="tick-label" x="406.9" y="220" text-anchor="middle">7</text><text class="plot-label sm" x="400.9" y="18.4" text-anchor="end" fill="#378a61">two diggers</text><text class="plot-label sm" x="402.9" y="117.6" text-anchor="end" fill="#2f80c9">one digger</text><text class="plot-label sm" x="61.6" y="22.2" text-anchor="start">bushels per day</text><text class="tick-label" x="422" y="226" text-anchor="end">workers</text></svg><p class="tiny muted" style="margin:2px 0 0;">Second curve is illustrative.</p></div>
+      <div>
+        <div class="card green-top"><h3 class="green">More capital</h3><p>Next season Pine Hollow leases a second digger. The same crews now dig more, and MP starts to fall <strong>later</strong>.</p></div>
+        <div class="card blue-top" style="margin-top:12px;"><h3 class="blue">Different technology</h3><p>Organic dairies cannot use growth hormones, so the same cows and feed give less milk: the organic production function sits <strong>lower</strong>.</p></div>
+      </div>
+    </div>
+    <p class="footer-note small muted">Today we stay on one curve: one digger, more or fewer workers.</p>
+  </section>
+
+  <!-- 16 -->
+  <section class="slide interactive">
+    <div class="section-kicker">The bridge to next class</div>
+    <h1>What does one more bushel cost?</h1>
+    <div class="thirds-two" style="margin-top:2px;">
+      <table class="u8-table compact">
+        <caption>Each worker costs $120 a day</caption>
+        <thead><tr><th>Worker</th><th>MP (bushels)</th><th>Extra cost per bushel</th></tr></thead>
+        <tbody><tr><td class="lead">1</td><td>40</td><td><span class="reveal-step" data-step-group="bridge" data-step="1">$3.00</span></td></tr><tr class="hl"><td class="lead">2</td><td>60</td><td><span class="reveal-step" data-step-group="bridge" data-step="1">$2.00</span></td></tr><tr><td class="lead">3</td><td>50</td><td><span class="reveal-step" data-step-group="bridge" data-step="1">$2.40</span></td></tr><tr><td class="lead">4</td><td>30</td><td><span class="reveal-step" data-step-group="bridge" data-step="1">$4.00</span></td></tr><tr><td class="lead">5</td><td>20</td><td><span class="reveal-step" data-step-group="bridge" data-step="1">$6.00</span></td></tr><tr class="hl"><td class="lead">6</td><td>10</td><td><span class="reveal-step" data-step-group="bridge" data-step="1">$12.00</span></td></tr></tbody>
+      </table>
+      <div>
+        <div class="calc-run">
+          <div class="calc-line hi"><div class="calc-num">2</div><div><strong>2nd worker: $120 for 60 more bushels</strong><span class="reveal-step" data-step-group="bridge" data-step="1">$120 &divide; 60 = <b>$2 per bushel</b></span></div></div>
+          <div class="calc-line hi"><div class="calc-num">6</div><div><strong>6th worker: $120 for 10 more bushels</strong><span class="reveal-step" data-step-group="bridge" data-step="1">$120 &divide; 10 = <b>$12 per bushel</b></span></div></div>
+        </div>
+        <div class="formula-box reveal-step" data-step-group="bridge" data-step="2" style="margin-top:14px;">
+          <span class="lhs">Marginal cost =</span><span class="frac"><span class="num">wage</span><span class="den">MP</span></span>
+        </div>
+        <div class="definition-strip reveal-step" data-step-group="bridge" data-step="3" style="margin-top:12px; font-size:17px;">
+          <strong>Diminishing returns in bushels = rising marginal cost in dollars.</strong> When MP falls, each extra bushel costs more.
+        </div>
+        <div class="button-row" style="margin-top:12px;"><button type="button" class="step-reveal" data-step-group="bridge">Reveal next step</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17 -->
+  <section class="slide">
+    <div class="section-kicker">Next class</div>
+    <h1>Add the fixed costs back in&mdash;then shake things up</h1>
+    <div class="definition-strip blue-strip">Pine Hollow also pays <strong>$900 a day</strong> no matter how many people dig: land rent, the digger lease, insurance. Next class we turn the production table into a full cost table.</div>
+    <p style="margin:16px 0 8px; font-size:18px;"><strong>Then we ask what each of these does to the cost of a bushel:</strong></p>
+    <div class="grid-3">
+      <div class="card accent-top"><h3 class="accent">Wages rise</h3><p>The minimum pay rate for H-2A farmworkers goes up.</p></div>
+      <div class="card red-top"><h3 class="red">A drought hits</h3><p>Each worker digs fewer bushels from the same rows.</p></div>
+      <div class="card purple-top"><h3 class="purple">The lease goes up</h3><p>The digger costs more to rent for the season.</p></div>
+    </div>
+    <p class="footer-note small muted">Hint: one of the three never changes the cost of the <em>next</em> bushel.</p>
+  </section>
+
+  <!-- 18 -->
+  <section class="slide">
+    <div class="section-kicker">Today in three lines</div>
+    <h1>Three ideas to take away</h1>
+    <div class="calc-run" style="margin-top:8px; gap:12px;">
+      <div class="calc-line hi"><div class="calc-num">1</div><div><strong>MP = &Delta;TP &divide; &Delta;L, and TP = starting output + the sum of the MPs</strong><span>Run the definition forward to get MP; backward to get total output.</span></div></div>
+      <div class="calc-line hi"><div class="calc-num">2</div><div><strong>Diminishing returns begin with the first MP that is smaller than the one before</strong><span>On the graph: where TP starts to flatten. The cause: a fixed input.</span></div></div>
+      <div class="calc-line hi"><div class="calc-num">3</div><div><strong>Marginal cost = wage &divide; MP</strong><span>Falling MP means each extra unit of output costs more.</span></div></div>
+    </div>
+    <div class="definition-strip blue-strip" style="margin-top:16px; font-size:17px;">
+      <strong>Before next class:</strong> read Lumen &ldquo;Costs in the Short Run&rdquo; and &ldquo;Average Costs and Curves.&rdquo;
+      One correction: where it says the ATC of 80 haircuts is $8, the table gives $560 &divide; 80 = <strong>$7</strong>.
+    </div>
+  </section>
+
+  <!-- 19 -->
+  <section class="slide interactive" id="exitSlide">
+    <div class="section-kicker">Exit ticket</div>
+    <h1>A blueberry farm with one picking machine</h1>
+    <table class="u8-table compact left-first">
+      <thead><tr><th>Workers</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+      <tbody><tr><td class="lead">Total pounds picked per day</td><td>200</td><td>500</td><td>700</td><td>800</td><td>850</td></tr></tbody>
+    </table>
+    <ul class="q-list" style="margin-top:12px;">
+      <li><b>(a)</b> What is the MP of each worker?</li>
+      <li><b>(b)</b> With which worker do diminishing returns begin?</li>
+      <li><b>(c)</b> A 6th worker would have MP = &minus;50. What is total output with 6 workers?</li>
+      <li><b>(d)</b> Each worker costs $150 a day. What does one extra pound cost when the 4th worker is hired?</li>
+    </ul>
+    <div class="button-row" style="margin-top:10px;"><button type="button" id="exitReveal" class="green-button">Reveal the answers</button></div>
+    <div class="exit-answer" id="exitAnswer">
+      <p><strong>(a)</strong> 200, 300, 200, 100, 50. &nbsp;<strong>(b)</strong> The 3rd worker (200 &lt; 300).
+      &nbsp;<strong>(c)</strong> 850 &minus; 50 = 800. &nbsp;<strong>(d)</strong> $150 &divide; 100 = <strong>$1.50</strong> per pound.</p>
+    </div>
+  </section>
+</div>
+<div id="progress"></div>
+<div id="hint">&larr; &rarr; / Space to navigate &middot; P to print</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const stage = document.getElementById('stage');
+  const progress = document.getElementById('progress');
+  let idx = 0;
+
+  slides.forEach(function(slide, i){
+    const footer = document.createElement('div');
+    footer.className = 'footer';
+    footer.innerHTML = '<span>ARE 201 &middot; Unit 8a &middot; Production &amp; Costs &middot; Class 1</span><span>' + (i + 1) + ' / ' + slides.length + '</span>';
+    slide.appendChild(footer);
+  });
+
+  function fit(){
+    const scale = Math.min(window.innerWidth / 960, window.innerHeight / 720);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+  }
+
+  function show(n){
+    idx = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(slide, i){ slide.classList.toggle('active', i === idx); });
+    progress.style.width = (((idx + 1) / slides.length) * 100) + '%';
+    history.replaceState(null, '', '#' + (idx + 1));
+  }
+
+  // Single-answer multiple choice: buttons share data-group; feedback box id = "fb-" + group
+  const groups = {};
+  document.querySelectorAll('button.choice').forEach(function(b){ (groups[b.dataset.group] = groups[b.dataset.group] || []).push(b); });
+  Object.keys(groups).forEach(function(g){
+    const buttons = groups[g];
+    const feedback = document.getElementById('fb-' + g);
+    const correctButton = buttons.find(function(b){ return b.dataset.correct === 'true'; });
+    buttons.forEach(function(button){
+      button.addEventListener('click', function(){
+        const correct = button.dataset.correct === 'true';
+        buttons.forEach(function(b){ b.classList.remove('correct', 'wrong'); });
+        if (correctButton) correctButton.classList.add('correct');
+        if (!correct) button.classList.add('wrong');
+        if (feedback) {
+          feedback.className = 'feedback ' + (correct ? 'success' : 'error');
+          feedback.innerHTML = correct ? feedback.dataset.correctMessage : feedback.dataset.wrongMessage;
+        }
+      });
+    });
+  });
+
+  // Step-by-step reveals
+  document.querySelectorAll('.step-reveal').forEach(function(button){
+    const group = button.dataset.stepGroup;
+    const elements = Array.from(document.querySelectorAll('.reveal-step')).filter(function(e){ return e.dataset.stepGroup === group; });
+    const steps = Array.from(new Set(elements.map(function(e){ return Number(e.dataset.step); }))).sort(function(a, b){ return a - b; });
+    const label = button.textContent;
+    let shown = 0;
+    button.addEventListener('click', function(){
+      if (shown >= steps.length) {
+        elements.forEach(function(e){ e.classList.remove('visible'); });
+        shown = 0;
+        button.textContent = label;
+        return;
+      }
+      const next = steps[shown];
+      elements.forEach(function(e){ if (Number(e.dataset.step) === next) e.classList.add('visible'); });
+      shown += 1;
+      button.textContent = shown >= steps.length ? 'Reset' : label + ' (' + shown + '/' + steps.length + ')';
+    });
+  });
+
+  // Exit ticket
+  const exitReveal = document.getElementById('exitReveal');
+  const exitAnswer = document.getElementById('exitAnswer');
+  if (exitReveal && exitAnswer) {
+    exitReveal.addEventListener('click', function(){
+      const on = exitAnswer.classList.toggle('visible');
+      exitReveal.textContent = on ? 'Hide the answers' : 'Reveal the answers';
+    });
+  }
+
+  document.addEventListener('keydown', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea')) return;
+    if (['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(event.key)) { event.preventDefault(); show(idx + 1); }
+    else if (['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(event.key)) { event.preventDefault(); show(idx - 1); }
+    else if (event.key.toLowerCase() === 'p') { window.print(); }
+    else if (event.key === 'Home') { show(0); }
+    else if (event.key === 'End') { show(slides.length - 1); }
+  });
+
+  document.addEventListener('click', function(event){
+    if (event.target.closest && event.target.closest('a, button, input, select, textarea, .feedback, .plot-panel, .exit-answer, .u8-table, .sign-table')) return;
+    if (event.clientX > window.innerWidth / 2) show(idx + 1); else show(idx - 1);
+  });
+
+  window.addEventListener('resize', fit);
+  const hash = parseInt(location.hash.replace('#',''), 10);
+  if (Number.isFinite(hash)) idx = Math.max(0, Math.min(slides.length - 1, hash - 1));
+  fit();
+  show(idx);
+})();
+</script>
+</body>
+</html>
