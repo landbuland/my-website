@@ -56,3 +56,4 @@ courseTitle: "Introduction to Agricultural and Resource Economics"
 
 - [Production and Costs Slides](https://zihanzhang.me/assets/are201/ARE201_Unit8a_Production_Costs_Fall2026.html)
 - [Harvest Boss Game Slides](https://zihanzhang.me/assets/are201/ARE201_Unit8a_Harvest_Boss_Game_Fall2026.html)
+- [Review Session Slides](https://zihanzhang.me/assets/are201/ARE201_Unit8a_Review_Session_Fall2026.html)

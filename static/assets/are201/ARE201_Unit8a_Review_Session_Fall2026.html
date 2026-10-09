@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARE 201 — Unit 8a Review Session</title>
+<style>
+  :root {
+    --accent: #EB811B;
+    --accent-soft: #fff4e8;
+    --ink: #1f2933;
+    --muted: #5f6b76;
+    --paper: #ffffff;
+    --soft: #f3f4f6;
+    --line: #d8dde3;
+    --blue: #2f80c9;
+    --blue-soft: #eef5fb;
+    --green: #378a61;
+    --green-soft: #e9f6ef;
+    --red: #c9504d;
+    --red-soft: #fcedec;
+    --purple: #7657a5;
+    --purple-soft: #f3effa;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #111; }
+  body { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+
+  #stage {
+    position: absolute; left: 50%; top: 50%;
+    width: 960px; height: 720px;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+    background: var(--paper);
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  }
+
+  .slide {
+    position: absolute; inset: 0; display: none;
+    width: 960px; height: 720px;
+    padding: 50px 62px 48px;
+    overflow: hidden; color: var(--ink); background: var(--paper);
+  }
+  .slide.active { display: block; }
+  .slide.center { text-align: center; }
+  .slide.middle { align-items: center; justify-content: center; flex-direction: column; }
+  .slide.middle.active { display: flex; }
+
+  h1, h2, h3, p { margin-top: 0; }
+  h1 { margin-bottom: 16px; font-size: 37px; line-height: 1.12; letter-spacing: -.4px; }
+  h2 { margin-bottom: 10px; font-size: 25px; line-height: 1.2; }
+  h3 { margin-bottom: 7px; font-size: 19px; line-height: 1.2; }
+  p, li { font-size: 19px; line-height: 1.34; }
+  ul { margin: 7px 0 0 22px; padding: 0; }
+  li { margin: 6px 0; }
+  strong { font-weight: 780; }
+  .small { font-size: 16px; line-height: 1.34; }
+  .tiny { font-size: 13px; line-height: 1.3; }
+  .muted { color: var(--muted); }
+  .accent { color: var(--accent); }
+  .blue { color: var(--blue); }
+  .green { color: var(--green); }
+  .red { color: var(--red); }
+  .purple { color: var(--purple); }
+
+  .section-kicker {
+    margin-bottom: 7px; color: var(--accent);
+    font-size: 14px; font-weight: 820; letter-spacing: .1em; text-transform: uppercase;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  .two-thirds { display: grid; grid-template-columns: 1.12fr .88fr; gap: 23px; align-items: start; }
+  .thirds-two { display: grid; grid-template-columns: .88fr 1.12fr; gap: 23px; align-items: start; }
+
+  .card { padding: 17px 19px; border-radius: 8px; background: var(--soft); }
+  .card.white { border: 1px solid var(--line); background: #fff; }
+  .card.accent-top { border-top: 4px solid var(--accent); border-radius: 0 0 8px 8px; }
+  .card.blue-top { border-top: 4px solid var(--blue); border-radius: 0 0 8px 8px; }
+  .card.green-top { border-top: 4px solid var(--green); border-radius: 0 0 8px 8px; }
+  .card.red-top { border-top: 4px solid var(--red); border-radius: 0 0 8px 8px; }
+  .card.purple-top { border-top: 4px solid var(--purple); border-radius: 0 0 8px 8px; }
+  .card p, .card li { font-size: 16px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  .definition-strip {
+    padding: 13px 16px; border-left: 5px solid var(--accent);
+    background: var(--accent-soft); font-size: 19px; line-height: 1.36;
+  }
+  .definition-strip.blue-strip { border-left-color: var(--blue); background: var(--blue-soft); }
+  .definition-strip.green-strip { border-left-color: var(--green); background: var(--green-soft); }
+  .definition-strip.red-strip { border-left-color: var(--red); background: var(--red-soft); }
+  .definition-strip.purple-strip { border-left-color: var(--purple); background: var(--purple-soft); }
+
+  .interactive button {
+    min-height: 41px; padding: 9px 14px; border: 0; border-radius: 7px;
+    color: #fff; background: var(--accent);
+    font: 730 15px "Avenir Next", "Helvetica Neue", Arial, sans-serif; cursor: pointer;
+  }
+  .interactive button:hover { filter: brightness(.96); }
+  .interactive button:focus-visible { outline: 3px solid rgba(235,129,27,.35); outline-offset: 2px; }
+  .interactive button:disabled { opacity: .45; cursor: default; filter: none; }
+  .interactive button.secondary { color: var(--ink); background: #e5e8eb; }
+  .interactive button.blue-button { background: var(--blue); }
+  .interactive button.green-button { background: var(--green); }
+  .interactive button.purple-button { background: var(--purple); }
+  .interactive button.selected { box-shadow: inset 0 0 0 3px rgba(255,255,255,.65); }
+  .interactive button.correct { color: #fff; background: var(--green); }
+  .interactive button.wrong { color: #fff; background: var(--red); }
+
+  .button-row { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
+  .feedback {
+    min-height: 54px; padding: 10px 13px;
+    border-left: 4px solid var(--line); background: var(--soft);
+    font-size: 15px; line-height: 1.33;
+  }
+  .feedback.success { border-left-color: var(--green); background: var(--green-soft); }
+  .feedback.error { border-left-color: var(--red); background: var(--red-soft); }
+  .feedback.info { border-left-color: var(--blue); background: var(--blue-soft); }
+
+  .title-slide { padding-bottom: 150px; }
+  .title-kicker { margin-bottom: 13px; color: var(--accent); font-size: 17px; font-weight: 780; letter-spacing: .11em; text-transform: uppercase; }
+  .title-main { max-width: 780px; margin: 0 auto 12px; font-size: 57px; line-height: 1.02; }
+  .title-sub { color: var(--muted); font-size: 24px; line-height: 1.35; }
+  .title-graphic { position: absolute; right: 65px; bottom: 38px; width: 470px; height: 170px; }
+
+  .poll-letter { display: inline-flex; width: 31px; height: 31px; margin-bottom: 9px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--accent); font-weight: 820; }
+
+  .quiz-scenario { min-height: 84px; padding: 15px 18px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .quiz-scenario .market-label { color: var(--accent); font-size: 13px; font-weight: 820; letter-spacing: .07em; text-transform: uppercase; }
+  .quiz-scenario p { margin: 5px 0 0; font-size: 21px; line-height: 1.28; }
+
+  /* ---- plots ---- */
+  .plot-panel { padding: 10px 12px 8px; border: 1px solid var(--line); background: #fff; }
+  .plot-title { margin: 0 0 2px; font-size: 14px; font-weight: 800; text-align: center; }
+  .plot { display: block; width: 100%; height: 300px; }
+  .plot.mid { height: 250px; }
+  .plot.demand-h { height: 222px; }
+  .plot.half { height: 196px; }
+  .plot.mini { height: 106px; }
+  .axis { fill: none; stroke: var(--ink); stroke-width: 2; }
+  .gridline { fill: none; stroke: #e8ebee; stroke-width: 1; }
+  .demand-line { fill: none; stroke: var(--blue); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+  .old-line { fill: none; stroke: #9aa3ab; stroke-width: 3; stroke-dasharray: 7 6; }
+  .projection { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 5 4; }
+  .ref-line { fill: none; stroke: var(--muted); stroke-width: 1.6; stroke-dasharray: 5 4; }
+  .leader { fill: none; stroke: var(--muted); stroke-width: 1.2; }
+  .plot-label { fill: var(--ink); font: 700 13px Arial, sans-serif; }
+  .plot-label.sm { font-size: 11px; }
+  .tick-label { fill: var(--muted); font: 11px Arial, sans-serif; }
+  .dot { fill: var(--accent); stroke: #fff; stroke-width: 2; }
+  .dot.blue-dot { fill: var(--blue); }
+  .dot.green-dot { fill: var(--green); }
+  .dot.red-dot { fill: var(--red); }
+  .dot.purple-dot { fill: var(--purple); }
+  .dot.hollow-dot { fill: #fff; stroke: var(--green); stroke-width: 3; }
+
+  /* ---- reveal machinery ---- */
+  .reveal-step { visibility: hidden; opacity: 0; transition: opacity .18s ease; }
+  .reveal-step.visible { visibility: visible; opacity: 1; }
+  .check-answer { visibility: hidden; opacity: 0; transition: opacity .18s ease; }
+  .check-answer.visible { visibility: visible; opacity: 1; }
+
+  .formula-box {
+    padding: 15px 18px; border: 2px solid var(--accent); border-radius: 8px;
+    background: var(--accent-soft); text-align: center;
+  }
+  .formula-box .frac { display: inline-block; vertical-align: middle; text-align: center; }
+  .formula-box .frac .num { display: block; padding: 0 9px 3px; border-bottom: 2.5px solid var(--ink); font-size: 20px; font-weight: 800; }
+  .formula-box .frac .den { display: block; padding: 3px 9px 0; font-size: 20px; font-weight: 800; }
+  .formula-box .lhs { display: inline-block; vertical-align: middle; margin-right: 10px; font-size: 22px; font-weight: 840; }
+  .formula-box.purple-box { border-color: var(--purple); background: var(--purple-soft); }
+
+  .calc-run { display: grid; gap: 9px; margin-top: 4px; }
+  .calc-line {
+    display: grid; grid-template-columns: 30px 1fr; gap: 11px; align-items: center;
+    padding: 9px 13px; background: var(--soft);
+  }
+  .calc-line.hi { background: var(--accent-soft); }
+  .calc-line.bad { background: var(--red-soft); }
+  .calc-line.good { background: var(--green-soft); }
+  .calc-num { display: flex; width: 26px; height: 26px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--ink); font-size: 12px; font-weight: 820; }
+  .calc-line.hi .calc-num { background: var(--accent); }
+  .calc-line.bad .calc-num { background: var(--red); }
+  .calc-line.good .calc-num { background: var(--green); }
+  .calc-line strong { display: block; font-size: 16px; }
+  .calc-line span { display: block; margin-top: 2px; color: var(--muted); font-size: 13px; line-height: 1.28; }
+  .calc-line .ans { margin-top: 3px; color: var(--ink); font-size: 14px; font-weight: 700; line-height: 1.3; }
+
+  .lo-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .lo-row { display: grid; grid-template-columns: 58px 1fr; gap: 10px; align-items: center; padding: 9px 12px; background: var(--soft); }
+  .lo-row.today { background: var(--accent-soft); }
+  .lo-tag { padding: 5px 4px; color: #fff; background: var(--muted); font-size: 11px; font-weight: 850; text-align: center; }
+  .lo-row.today .lo-tag { background: var(--accent); }
+  .lo-row span { font-size: 13px; line-height: 1.25; }
+
+  .mechanism-box { display: flex; min-height: 86px; padding: 11px; align-items: center; justify-content: center; background: var(--soft); font-size: 15px; font-weight: 740; line-height: 1.28; text-align: center; }
+  .mechanism-box.blue-box { background: var(--blue-soft); }
+  .mechanism-box.green-box { background: var(--green-soft); }
+  .mechanism-box.purple-box { background: var(--purple-soft); }
+  .mechanism-box.accent-box { background: var(--accent-soft); }
+  .mechanism-arrow { display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 24px; font-weight: 850; }
+
+  .compact-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-top: 13px; }
+  .compact-check { padding: 11px 13px; border-left: 4px solid var(--purple); background: var(--purple-soft); }
+  .compact-check strong { display: block; margin-bottom: 3px; font-size: 14px; }
+  .compact-check span { color: var(--muted); font-size: 12px; line-height: 1.25; }
+
+  .exit-answer { min-height: 58px; margin-top: 12px; padding: 12px 14px; border-left: 4px solid var(--green); background: var(--green-soft); visibility: hidden; opacity: 0; }
+  .exit-answer.visible { visibility: visible; opacity: 1; }
+  .exit-answer p { margin: 0; font-size: 15px; line-height: 1.34; }
+
+  .illus-tag {
+    display: inline-block; margin-left: 8px; padding: 2px 7px; border-radius: 3px;
+    background: var(--soft); color: var(--muted); font-size: 11px; font-weight: 800;
+    letter-spacing: .05em; text-transform: uppercase; vertical-align: middle;
+  }
+  .footer-note { margin-top: 14px; }
+
+  .know-badge { display: inline-block; padding: 4px 10px; border-radius: 3px; color: #fff; font-size: 11px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .know-badge.yes { background: var(--muted); }
+  .know-badge.no { background: var(--accent); }
+  .know-card { padding: 14px 16px 10px; border-top: 5px solid var(--muted); background: var(--soft); }
+  .know-card.unknown { border-top-color: var(--accent); background: var(--accent-soft); }
+  .know-card h2 { margin: 8px 0 4px; font-size: 21px; }
+
+  .option-row { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: center; padding: 12px 15px; background: var(--soft); }
+  .option-row + .option-row { margin-top: 9px; }
+  .option-letter { display: flex; width: 26px; height: 26px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--blue); font-size: 12px; font-weight: 820; }
+  .option-row span:last-child { font-size: 17px; font-weight: 700; }
+
+  .footer { position: absolute; right: 62px; bottom: 18px; left: 62px; display: flex; justify-content: space-between; color: #8a949e; font-size: 12px; }
+  #progress { position: fixed; bottom: 0; left: 0; z-index: 20; height: 4px; background: var(--accent); transition: width .18s ease; }
+  #hint { position: fixed; right: 14px; bottom: 9px; z-index: 20; color: rgba(255,255,255,.52); font: 12px Arial, sans-serif; }
+
+  @page { size: 10in 7.5in; margin: 0; }
+  @media print {
+    html, body { width: auto; height: auto; overflow: visible; background: #fff; }
+    #stage { position: static; width: auto; height: auto; transform: none !important; box-shadow: none; }
+    .slide { position: relative; display: block !important; page-break-after: always; break-after: page; }
+    #progress, #hint { display: none; }
+    .exit-answer { visibility: visible !important; opacity: 1 !important; }
+    .reveal-step { visibility: visible !important; opacity: 1 !important; }
+    .check-answer { visibility: visible !important; opacity: 1 !important; }
+    .print-only { display: block; }
+  }
+
+  /* ---- unit 8a specific ---- */
+  .mp-bar { fill: var(--accent); }
+  .mp-bar.neg { fill: var(--red); }
+  .mp-bar.hl { fill: var(--blue); }
+  .mp-bar.soft { fill: #f5c08f; }
+  .tp-line { fill: none; stroke: var(--blue); stroke-width: 3.5; stroke-linejoin: round; stroke-linecap: round; }
+  .tp-line.alt { stroke: var(--green); }
+  .tp-line.ghost { stroke: #9aa3ab; stroke-width: 2.5; stroke-dasharray: 7 6; }
+  .flow-sub { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .zero-line { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+  .c-line { fill: none; stroke-width: 3.5; stroke-linejoin: round; stroke-linecap: round; }
+  .c-line.mc { stroke: var(--red); }
+  .c-line.atc { stroke: var(--blue); }
+  .c-line.avc { stroke: var(--green); }
+  .c-line.afc { stroke: var(--purple); }
+  .c-line.tc { stroke: var(--ink); }
+  .c-line.vc { stroke: var(--green); }
+  .c-line.fc { stroke: var(--purple); }
+  .c-line.ghost { stroke-width: 2.4; stroke-dasharray: 7 6; opacity: .5; }
+  .c-label { font: 800 13px Arial, sans-serif; }
+  .c-label.mc { fill: var(--red); } .c-label.atc { fill: var(--blue); } .c-label.avc { fill: var(--green); }
+  .c-label.afc { fill: var(--purple); } .c-label.tc { fill: var(--ink); } .c-label.vc { fill: var(--green); } .c-label.fc { fill: var(--purple); }
+  .c-label.ghost { opacity: .6; font-weight: 700; }
+  .axis-title { fill: var(--muted); font: 700 12px Arial, sans-serif; }
+
+  .u8-table { width: 100%; border-collapse: collapse; font-size: 16px; text-align: center; }
+  .u8-table caption { caption-side: top; padding: 0 0 6px; color: var(--muted); font-size: 12px; font-weight: 820; letter-spacing: .07em; text-align: left; text-transform: uppercase; }
+  .u8-table th { padding: 8px 8px; color: #fff; background: var(--ink); font-size: 13px; font-weight: 800; line-height: 1.2; }
+  .u8-table td { padding: 7px 8px; border-bottom: 1px solid var(--line); font-weight: 700; }
+  .u8-table td.lead { color: var(--muted); font-weight: 840; }
+  .u8-table tr.hl td { background: var(--accent-soft); }
+  .u8-table tr.hl-blue td { background: var(--blue-soft); }
+  .u8-table tr.hl-green td { background: var(--green-soft); }
+  .u8-table tr.hl-red td { background: var(--red-soft); }
+  .u8-table td.cell-hl { background: var(--accent-soft); color: var(--accent); }
+  .u8-table td.cell-min { background: var(--green-soft); color: var(--green); }
+  .u8-table.compact th { padding: 6px 6px; }
+  .u8-table.compact td { padding: 5px 6px; font-size: 15px; }
+  .u8-table.tight td { padding: 4px 6px; font-size: 14px; }
+  .u8-table.tight th { padding: 5px 5px; font-size: 12px; }
+  .u8-table.left-first th:first-child, .u8-table.left-first td:first-child { padding-left: 10px; text-align: left; }
+  .u8-table .new { color: var(--red); }
+  .u8-table .same { color: #a3abb3; }
+
+  .sign-table { width: 100%; border-collapse: collapse; font-size: 16px; text-align: center; }
+  .sign-table th { padding: 9px 8px; color: #fff; background: var(--ink); font-size: 13px; line-height: 1.2; }
+  .sign-table td { padding: 11px 8px; border-bottom: 1px solid var(--line); font-weight: 840; font-size: 20px; }
+  .sign-table td:first-child { padding-left: 12px; font-size: 15px; font-weight: 760; text-align: left; }
+  .sign-table td .sub { display: block; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .up { color: var(--red); }
+  .down { color: var(--green); }
+  .flat { color: #a3abb3; }
+
+  .factor-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 16px; }
+  .factor { padding: 12px 11px; border-top: 4px solid var(--accent); background: var(--soft); }
+  .factor h3 { margin-bottom: 5px; font-size: 15px; }
+  .factor p { margin: 0; font-size: 14px; line-height: 1.3; }
+
+  .sort-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px; margin-top: 14px; }
+  .sort-card { min-height: 92px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  .sort-card p { margin: 0; font-size: 16px; font-weight: 700; line-height: 1.28; }
+  .sort-card .reveal-step { display: block; margin-top: 8px; }
+  .tag { display: inline-block; padding: 3px 9px; border-radius: 3px; color: #fff; font-size: 12px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+  .tag.fixed { background: var(--purple); }
+  .tag.variable { background: var(--green); }
+  .tag.prod { background: var(--blue); }
+  .tag.down-tag { background: var(--green); }
+  .tag-note { display: block; margin-top: 5px; color: var(--muted); font-size: 13px; line-height: 1.25; font-weight: 600; }
+
+  .event-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+  .event { min-height: 128px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  .event .num { display: inline-flex; width: 22px; height: 22px; margin-right: 6px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--ink); font-size: 11px; font-weight: 850; vertical-align: 1px; }
+  .event p { margin: 0; font-size: 15px; font-weight: 700; line-height: 1.27; }
+  .event .reveal-step { display: block; margin-top: 7px; }
+  .event .curves { display: block; margin-top: 4px; font-size: 13px; font-weight: 700; line-height: 1.25; }
+
+  .phase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+  .phase { padding: 13px 15px; border-top: 5px solid var(--green); background: var(--green-soft); }
+  .phase.mid { border-top-color: var(--accent); background: var(--accent-soft); }
+  .phase.neg { border-top-color: var(--red); background: var(--red-soft); }
+  .phase .who { color: var(--muted); font-size: 12px; font-weight: 850; letter-spacing: .07em; text-transform: uppercase; }
+  .phase h3 { margin: 4px 0 6px; font-size: 19px; }
+  .phase p { margin: 0; font-size: 15px; line-height: 1.32; }
+
+  .scene { display: block; width: 100%; height: auto; }
+  .stmt { display: grid; grid-template-columns: 1fr 230px; gap: 14px; align-items: center; padding: 12px 15px; background: var(--soft); }
+  .stmt + .stmt { margin-top: 9px; }
+  .stmt p { margin: 0; font-size: 17px; font-weight: 700; line-height: 1.3; }
+  .stmt .reveal-step { font-size: 14px; line-height: 1.3; }
+  .verdict { display: inline-block; margin-right: 6px; padding: 2px 8px; border-radius: 3px; color: #fff; background: var(--red); font-size: 12px; font-weight: 850; }
+  .verdict.ok { background: var(--green); }
+
+  .q-list { margin: 8px 0 0; padding: 0; list-style: none; }
+  .q-list li { margin: 5px 0; font-size: 16px; line-height: 1.3; }
+  .q-list li b { display: inline-block; width: 24px; color: var(--accent); }
+
+  .ans-box { margin-top: 10px; padding: 9px 13px; border-left: 4px solid var(--green); background: var(--green-soft); }
+  .ans-box p { margin: 3px 0; font-size: 15px; line-height: 1.3; }
+  .ans-box b { color: var(--green); }
+  .calc-line span b { color: var(--ink); font-size: 15px; }
+  .big-num { display: block; font-size: 44px; font-weight: 850; line-height: 1.05; }
+  .big-cap { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+  .stat-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .stat { padding: 14px 10px; background: var(--soft); text-align: center; }
+  .stat.accent-stat { background: var(--accent-soft); }
+  .stat.red-stat { background: var(--red-soft); }
+  .stat.green-stat { background: var(--green-soft); }
+  .stat.blue-stat { background: var(--blue-soft); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 6px; font-size: 13px; font-weight: 700; }
+  .legend span::before { content: ''; display: inline-block; width: 18px; height: 0; margin-right: 6px; border-top: 3.5px solid currentColor; vertical-align: 4px; }
+  .legend span.dash::before { border-top-style: dashed; opacity: .6; }
+
+  #debriefSlide .calc-run { gap: 9px; }
+  #debriefSlide .calc-line { padding: 9px 13px; }
+  #debriefSlide .calc-line strong { font-size: 17px; }
+  #debriefSlide .calc-line span { margin-top: 3px; color: var(--ink); font-size: 14.5px; line-height: 1.33; }
+  #debriefSlide .calc-line span b.k { color: #b8600f; font-size: inherit; }
+  .launch { display: inline-flex; align-items: center; justify-content: center; min-height: 58px; padding: 12px 22px; border-radius: 10px;
+    background: var(--accent); color: #fff; font-size: 21px; font-weight: 820; text-decoration: none; box-shadow: 0 3px 0 #c56a12; }
+  .launch:hover { filter: brightness(1.05); }
+  .interactive .choice-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+  .interactive .choice-row button { min-height: 50px; font-size: 18px; }
+
+  /* ---- review questions (components from the Unit 7 review deck) ---- */
+  .question-intro { margin: 0 0 12px; font-size: 18px; line-height: 1.34; }
+  .assumption-note { margin: 0 0 12px; padding: 8px 12px; border-left: 3px solid var(--blue); background: var(--blue-soft); font-size: 15.5px; line-height: 1.3; }
+  .answer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .answer-grid.one-col { grid-template-columns: 1fr; gap: 8px; }
+  .interactive .answer-grid:not(.one-col) .answer-choice:nth-child(5):last-child { grid-column: 1 / -1; }
+  .interactive .answer-choice {
+    display: grid; grid-template-columns: 32px 1fr; gap: 8px; align-items: center; min-height: 58px;
+    padding: 11px 13px; border: 2px solid var(--line); border-radius: 10px;
+    color: var(--ink); background: #fff; text-align: left;
+    font: 600 17px/1.3 "Avenir Next", "Helvetica Neue", Arial, sans-serif; cursor: pointer;
+  }
+  .interactive .answer-grid.one-col .answer-choice { min-height: 0; padding: 8px 12px; font-size: 16px; }
+  .interactive .answer-choice:hover { border-color: var(--accent); }
+  .option-label { display: flex; width: 29px; height: 29px; align-items: center; justify-content: center;
+    border-radius: 50%; background: var(--accent); color: #fff; font-size: 14px; font-weight: 850; }
+  .interactive .answer-choice:nth-child(2) .option-label { background: var(--blue); }
+  .interactive .answer-choice:nth-child(3) .option-label { background: var(--green); }
+  .interactive .answer-choice:nth-child(4) .option-label { background: var(--muted); }
+  .interactive .answer-choice:nth-child(5) .option-label { background: var(--purple); }
+  .interactive .answer-choice.selected { box-shadow: none; }
+  .interactive .answer-choice.selected:not(.correct):not(.wrong) { border-color: var(--blue); background: var(--blue-soft); }
+  .interactive .answer-choice.correct { border-color: var(--green); color: var(--ink); background: var(--green-soft); }
+  .interactive .answer-choice.wrong { border-color: var(--red); color: var(--ink); background: var(--red-soft); }
+  .interactive .answer-choice[aria-pressed="true"] .option-label { box-shadow: 0 0 0 3px var(--ink); }
+  .actions { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+  .action-button { min-height: 38px; padding: 8px 14px; border: 0; border-radius: 7px;
+    background: var(--accent); color: #fff; font: 750 15px "Avenir Next", "Helvetica Neue", Arial, sans-serif; cursor: pointer; }
+  .action-button.secondary { color: var(--ink); background: #e5e8eb; }
+  .answer-panel { margin-top: 12px; padding: 11px 15px; border-left: 5px solid var(--green);
+    background: var(--green-soft); visibility: hidden; }
+  .answer-panel.visible { visibility: visible; }
+  .answer-panel h2 { margin-bottom: 5px; font-size: 20px; }
+  .answer-panel p { margin: 0; font-size: 16.5px; line-height: 1.33; }
+  .answer-panel p + p { margin-top: 6px; }
+  .selection-result { font-weight: 750; }
+  .selection-result:empty { display: none; }
+
+  .review-table { width: 100%; border-collapse: collapse; margin: 0 0 10px; font-size: 17px; text-align: center; }
+  .review-table th, .review-table td { padding: 7px 9px; border: 1px solid var(--line); }
+  .review-table thead { background: var(--blue-soft); }
+  .review-table th:first-child { text-align: left; white-space: nowrap; }
+  .review-table td.ask { color: var(--accent); font-weight: 850; }
+
+  .qparts { display: grid; gap: 7px; }
+  .qpart { display: grid; grid-template-columns: 1fr auto; gap: 3px 12px; align-items: center;
+    padding: 7px 11px; border-radius: 6px; background: var(--soft); }
+  .qpart > p { margin: 0; font-size: 16.5px; line-height: 1.3; }
+  .qpart > p .opts { display: block; margin-top: 2px; color: var(--muted); font-size: 14.5px; font-weight: 650; }
+  .qpart .part-reveal { min-height: 30px; padding: 5px 11px; font-size: 13px; white-space: nowrap; }
+  .qpart .answer-panel { grid-column: 1 / -1; margin: 3px 0 1px; padding: 5px 10px; border-left-width: 4px; }
+  .qpart .answer-panel p { font-size: 15px; line-height: 1.3; }
+  .qparts.roomy .qpart { padding: 9px 12px; }
+  .qparts.roomy .qpart > p { font-size: 17.5px; }
+
+  #rq16 .qpart { padding: 5px 11px; } #rq16 .review-table { margin-bottom: 8px; }
+  .fig-panel { padding: 6px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  .fig-panel img { display: block; width: 100%; height: auto; }
+  .frame-box { padding: 12px 16px; border: 2px dashed var(--line); border-radius: 8px; background: #fff; font-size: 18px; line-height: 1.55; }
+  .term-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
+  .term-row span { padding: 4px 10px; border-radius: 4px; background: var(--accent-soft); color: #9a520f; font-size: 14px; font-weight: 800; }
+  .recap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; margin-top: 6px; }
+  .recap-grid .card p { font-size: 16.5px; }
+  .formula-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px 14px; margin-top: 6px; }
+  .formula-grid div { padding: 9px 13px; border-left: 4px solid var(--accent); background: var(--soft); font-size: 17px; line-height: 1.3; }
+  .formula-grid div b { display: block; font-size: 19px; }
+  .formula-grid div span { color: var(--muted); font-size: 14.5px; }
+
+  @media print {
+    .answer-panel { visibility: visible !important; }
+    .answer-choice { border-color: var(--line) !important; background: #fff !important; }
+    .answer-choice[data-key] { border-color: var(--green) !important; background: var(--green-soft) !important; }
+    .option-label { box-shadow: none !important; }
+    .actions, .part-reveal { visibility: hidden; }
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1 -->
+  <section class="slide title-slide center middle active">
+    <div>
+      <div class="title-kicker">ARE 201 &middot; Unit 8a &middot; Review Session</div>
+      <h1 class="title-main">Production &amp; Costs: Review</h1>
+      <p class="title-sub">Pine Hollow Farm, one digger, more and more workers</p>
+    </div>
+    <svg class="title-graphic" viewBox="0 0 470 170" role="img" aria-label="Total product rises and flattens; marginal product bars rise, then fall below zero"><defs><clipPath id="clip1"><rect x="30" y="14" width="192" height="134"/></clipPath></defs><defs><clipPath id="clip2"><rect x="262" y="14" width="200" height="134"/></clipPath></defs><path class="axis" d="M 30 12 L 30 148"/><path class="axis" d="M 30 148 L 220 148"/><path class="tp-line" d="M 30 148 C 39 140.3 48.1 134.2 57.1 125 C 66.2 115.9 75.2 101 84.3 90.6 C 93.3 80.2 102.4 69.1 111.4 61.9 C 120.5 54.7 129.5 49.3 138.6 44.7 C 147.6 40.1 156.7 35.8 165.7 33.2 C 174.8 30.7 183.8 27.5 192.9 27.5 C 201.9 27.5 211 31.3 220 33.2" clip-path="url(#clip1)" /><circle class="dot blue-dot" cx="57.1" cy="125" r="3.5"/><circle class="dot blue-dot" cx="84.3" cy="90.6" r="3.5"/><circle class="dot blue-dot" cx="111.4" cy="61.9" r="3.5"/><circle class="dot blue-dot" cx="138.6" cy="44.7" r="3.5"/><circle class="dot blue-dot" cx="165.7" cy="33.2" r="3.5"/><circle class="dot blue-dot" cx="192.9" cy="27.5" r="3.5"/><circle class="dot blue-dot" cx="220" cy="33.2" r="3.5"/><text class="tick-label" x="36" y="14">output (TP)</text><text class="tick-label" x="218" y="164" text-anchor="end">workers</text><path class="axis" d="M 262 12 L 262 148"/><path class="axis" d="M 262 118.7 L 460 118.7"/><rect class="mp-bar" x="269.5" y="60" width="18" height="58.7"/><rect class="mp-bar" x="297" y="30.7" width="18" height="88"/><rect class="mp-bar" x="324.5" y="45.3" width="18" height="73.3"/><rect class="mp-bar" x="352" y="74.7" width="18" height="44"/><rect class="mp-bar" x="379.5" y="89.3" width="18" height="29.3"/><rect class="mp-bar" x="407" y="104" width="18" height="14.7"/><rect class="mp-bar neg" x="434.5" y="118.7" width="18" height="14.7"/><text class="tick-label" x="268" y="14">extra output (MP)</text><text class="tick-label" x="458" y="164" text-anchor="end">workers</text></svg>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide" id="recapA">
+    <div class="section-kicker">Part A &middot; Diminishing returns &middot; LO 8a.1 &middot; recap</div>
+    <h1>Diminishing returns in one slide</h1>
+    <div class="definition-strip" style="font-size:18px;">With technology and other inputs held fixed, each added unit of one input <strong>eventually</strong> adds less to total output.</div>
+    <div class="recap-grid" style="margin-top:14px;">
+      <div class="card accent-top"><h3 class="accent">Where it begins</h3><p>At the <strong>first MP smaller than the one before</strong>.</p><p class="small">Pine Hollow: MP = 40, 60, <strong>50</strong>, &hellip; Kenji, the 3rd worker.</p></div>
+      <div class="card blue-top"><h3 class="blue">Why</h3><p>A <strong>fixed input</strong>: every worker shares the same digger and the same rows.</p><p class="small">Not lazier workers. A short-run story.</p></div>
+      <div class="card green-top"><h3 class="green">Trap</h3><p>MP falling &ne; output falling.</p><p class="small">TP keeps rising while MP &gt; 0. Only a <strong>negative</strong> MP makes TP fall.</p></div>
+    </div>
+    <div class="definition-strip green-strip" style="margin-top:14px; font-size:17px;"><strong>Typical shape:</strong> MP rises, then falls (Pine Hollow). <strong>The law itself:</strong> MP <em>eventually</em> falls&mdash;it can fall from the very first unit, as with fertilizer.</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide interactive review-q review-mcq" id="rq1">
+    <div class="section-kicker">Part A &middot; Diminishing returns &middot; LO 8a.1 &middot; Q1</div>
+    <h1>Does total output fall?</h1>
+    <p class="question-intro">&ldquo;The principle of diminishing returns implies that total production decreases when more units of a variable input are added.&rdquo;</p>
+    <div class="answer-grid" role="group">
+      <button type="button" class="answer-choice" data-option="A"><span class="option-label">A</span><span class="option-text">True</span></button>
+      <button type="button" class="answer-choice" data-option="B" data-key="true"><span class="option-label">B</span><span class="option-text">False</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: False.</h2><p>Diminishing returns means each extra unit adds <strong>less</strong> output, not that total output falls. TP keeps rising as long as MP &gt; 0.</p></div>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide interactive review-q review-mcq" id="rq2">
+    <div class="section-kicker">Part A &middot; Diminishing returns &middot; LO 8a.1 &middot; Q2</div>
+    <h1>Why do diminishing returns happen?</h1>
+    <p class="question-intro">Which of the following is the primary reason for experiencing diminishing returns to labor?</p>
+    <div class="answer-grid" role="group">
+      <button type="button" class="answer-choice" data-option="A"><span class="option-label">A</span><span class="option-text">Technological advancements in production methods.</span></button>
+      <button type="button" class="answer-choice" data-option="B"><span class="option-label">B</span><span class="option-text">Increasing demand for the product.</span></button>
+      <button type="button" class="answer-choice" data-option="C" data-key="true"><span class="option-label">C</span><span class="option-text">The presence of fixed inputs.</span></button>
+      <button type="button" class="answer-choice" data-option="D"><span class="option-label">D</span><span class="option-text">The presence of variable inputs.</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: C &middot; fixed inputs.</h2><p>Workers share a fixed input (land, a machine), so each extra worker eventually adds less. Demand has nothing to do with the production function.</p></div>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide interactive review-q review-mcq" id="rq3">
+    <div class="section-kicker">Part A &middot; Diminishing returns &middot; LO 8a.1 &middot; Q3</div>
+    <h1>Hiring more laborers on fixed acres</h1>
+    <p class="question-intro">You have a fixed amount of acres to harvest. As you hire more laborers, what does the law of diminishing returns predict?</p>
+    <div class="answer-grid" role="group">
+      <button type="button" class="answer-choice" data-option="A"><span class="option-label">A</span><span class="option-text">The MPL will increase at a constant rate.</span></button>
+      <button type="button" class="answer-choice" data-option="B"><span class="option-label">B</span><span class="option-text">The MPL will continue to rise, but at a decreasing rate.</span></button>
+      <button type="button" class="answer-choice" data-option="C"><span class="option-label">C</span><span class="option-text">The MPL will become negative when total output begins to increase at a decreasing rate.</span></button>
+      <button type="button" class="answer-choice" data-option="D" data-key="true"><span class="option-label">D</span><span class="option-text">The MPL will rise initially, but then begin to fall.</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: D &middot; the best option offered.</h2><p>The key point is that MP <strong>falls</strong>. &ldquo;Rises, then falls&rdquo; is the typical shape; the law only requires that MP eventually falls. C is wrong: MP turns negative only when total output starts to <em>fall</em>.</p></div>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide interactive review-q review-mcq" id="rq4">
+    <div class="section-kicker">Part A &middot; Diminishing returns &middot; LO 8a.1 &middot; Q4</div>
+    <h1>Which bagel shop shows diminishing returns?</h1>
+    <p class="question-intro">Which of the following is true about the law of diminishing returns? A small bagel shop hires more people for its busiest shift.</p>
+    <div class="answer-grid one-col" role="group">
+      <button type="button" class="answer-choice" data-option="A" data-key="true"><span class="option-label">A</span><span class="option-text">New hires fill 10, then 6, then 2 more orders an hour; the fourth bumps into the other three and starts a fire. This demonstrates the law of diminishing returns.</span></button>
+      <button type="button" class="answer-choice" data-option="B"><span class="option-label">B</span><span class="option-text">New hires fill 10, then 12, then 14 more orders an hour. This demonstrates the law of diminishing returns.</span></button>
+      <button type="button" class="answer-choice" data-option="C"><span class="option-label">C</span><span class="option-text">New hires fill 10, then 10, then 10 more orders an hour. This demonstrates the law of diminishing returns.</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: A.</h2><p>MP = 10, 6, 2, then negative: each hire adds less. B shows <strong>rising</strong> MP; C shows <strong>constant</strong> MP.</p></div>
+  </section>
+
+  <!-- 7 -->
+  <section class="slide interactive review-q review-mcq" id="rq5">
+    <div class="section-kicker">Part A &middot; Diminishing returns &middot; LO 8a.1 &middot; Q5</div>
+    <h1>Too much pesticide</h1>
+    <p class="question-intro">A farmer sprays pesticides to repel insects. The first spraying keeps insects from harming the crop. As the farmer sprays more and more, he eventually kills the crop. What economic principle does this best represent?</p>
+    <div class="answer-grid" role="group">
+      <button type="button" class="answer-choice" data-option="A" data-key="true"><span class="option-label">A</span><span class="option-text">Law of diminishing returns</span></button>
+      <button type="button" class="answer-choice" data-option="B"><span class="option-label">B</span><span class="option-text">Equilibrium</span></button>
+      <button type="button" class="answer-choice" data-option="C"><span class="option-label">C</span><span class="option-text">Supply and demand</span></button>
+      <button type="button" class="answer-choice" data-option="D"><span class="option-label">D</span><span class="option-text">Absolute advantage</span></button>
+      <button type="button" class="answer-choice" data-option="E"><span class="option-label">E</span><span class="option-text">Gains from trade</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: A.</h2><p>Each extra spraying adds less protection; eventually its marginal product is <strong>negative</strong> and output falls.</p></div>
+  </section>
+
+  <!-- 8 -->
+  <section class="slide interactive review-q review-mcq" id="rq6">
+    <div class="section-kicker">Part A &middot; Diminishing returns &middot; LO 8a.1 &middot; Q6</div>
+    <h1>No diminishing returns at all</h1>
+    <p class="question-intro">A production function always doubles output when the input doubles, with no diminishing returns to any input. With output on the vertical axis and input on the horizontal axis, what does it look like?</p>
+    <div class="answer-grid one-col" role="group">
+      <button type="button" class="answer-choice" data-option="A"><span class="option-label">A</span><span class="option-text">A downward-sloping line: output decreases as inputs increase.</span></button>
+      <button type="button" class="answer-choice" data-option="B"><span class="option-label">B</span><span class="option-text">A curve that flattens as inputs increase: output rises at a decreasing rate.</span></button>
+      <button type="button" class="answer-choice" data-option="C" data-key="true"><span class="option-label">C</span><span class="option-text">A straight line through the origin.</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: C &middot; a straight line through the origin.</h2><p>Constant MP means every unit adds the same amount, so TP rises in a straight line. B is what diminishing returns look like.</p></div>
+  </section>
+
+  <!-- 9 -->
+  <section class="slide interactive review-q review-mcq" id="rq7">
+    <div class="section-kicker">Part A &middot; Diminishing returns &middot; LO 8a.1 &middot; Q7</div>
+    <h1>Where do diminishing returns begin?</h1>
+    <p class="question-intro">At which point do we first witness diminishing returns to labor?</p>
+    <table class="review-table"><thead><tr><th scope="col">Workers</th><th scope="col">0</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th></tr></thead><tbody><tr><th scope="row">Toy production</th><td>0</td><td>10</td><td>22</td><td>30</td><td>35</td></tr></tbody></table>
+    <div class="answer-grid" role="group">
+      <button type="button" class="answer-choice" data-option="A"><span class="option-label">A</span><span class="option-text">There are no diminishing returns observed.</span></button>
+      <button type="button" class="answer-choice" data-option="B"><span class="option-label">B</span><span class="option-text">When you hire the 2nd worker.</span></button>
+      <button type="button" class="answer-choice" data-option="C" data-key="true"><span class="option-label">C</span><span class="option-text">When you hire the 3rd worker.</span></button>
+      <button type="button" class="answer-choice" data-option="D"><span class="option-label">D</span><span class="option-text">When you hire the 4th worker.</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: C &middot; the 3rd worker.</h2><p>MP = 10, 12, <strong>8</strong>, 5. The first MP smaller than the one before is the 3rd worker&rsquo;s (8 &lt; 12).</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="slide interactive">
+    <div class="section-kicker">Part B &middot; Marginal product &middot; LO 8a.2 &middot; recap</div>
+    <h1>From marginal product back to total output</h1>
+    <div class="formula-box" style="margin-top:2px;"><span class="lhs" style="margin:0;">Total product = starting output + the sum of the MPs so far</span></div>
+    <div class="grid-2" style="margin-top:14px;">
+      <div>
+        <p style="margin:0 0 8px; font-size:17px;"><strong>Pine Hollow:</strong> start at 0 bushels with 0 workers. MP = 40, 60, 50, 30, &hellip;</p>
+        <div class="calc-run">
+          <div class="reveal-step" data-step-group="back" data-step="1"><div class="calc-line"><div class="calc-num">1</div><div><strong>1 worker: 0 + 40 = 40</strong></div></div></div>
+          <div class="reveal-step" data-step-group="back" data-step="2"><div class="calc-line"><div class="calc-num">2</div><div><strong>2 workers: 40 + 60 = 100</strong></div></div></div>
+          <div class="reveal-step" data-step-group="back" data-step="3"><div class="calc-line"><div class="calc-num">3</div><div><strong>3 workers: 100 + 50 = 150</strong></div></div></div>
+          <div class="reveal-step" data-step-group="back" data-step="4"><div class="calc-line good"><div class="calc-num">4</div><div><strong>4 workers: 150 + 30 = 180</strong><span>Same numbers as the production table.</span></div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="card accent-top"><h3 class="accent">Watch the starting point</h3><p>If output is not zero when the input is zero, start from that number. A field with <strong>no fertilizer</strong> still grows some corn.</p></div>
+        <div class="card blue-top" style="margin-top:12px;"><h3 class="blue">Quiz format</h3><p>&ldquo;Here is the MP of each worker. What is total output with <em>n</em> workers?&rdquo; Add the first <em>n</em> MPs.</p></div>
+      </div>
+    </div>
+    <div class="button-row" style="margin-top:12px;"><button type="button" class="step-reveal" data-step-group="back">Reveal next step</button></div>
+  </section>
+
+  <!-- 11 -->
+  <section class="slide interactive">
+    <div class="section-kicker">Part B &middot; Marginal product &middot; LO 8a.2 &middot; worked example</div>
+    <h1>How many workers to fill an order?</h1>
+    <div class="quiz-scenario">
+      <div class="market-label">Today&rsquo;s order</div>
+      <p>A grocery chain wants <strong>170 bushels</strong> from Pine Hollow today. MP of each worker: 40, 60, 50, 30, 20, 10. What is the <strong>smallest</strong> crew that fills the order?</p>
+    </div>
+    <div class="calc-run" style="margin-top:14px;">
+      <div class="reveal-step" data-step-group="order" data-step="1"><div class="calc-line"><div class="calc-num">1</div><div><strong>Add MPs until the total reaches 170</strong><span>40 &rarr; 100 &rarr; 150 &rarr; 180</span></div></div></div>
+      <div class="reveal-step" data-step-group="order" data-step="2"><div class="calc-line bad"><div class="calc-num">2</div><div><strong>3 workers: 150 &lt; 170</strong><span>Not enough.</span></div></div></div>
+      <div class="reveal-step" data-step-group="order" data-step="3"><div class="calc-line good"><div class="calc-num">3</div><div><strong>4 workers: 180 &ge; 170 &rarr; hire 4</strong><span>At $120 a day each, the crew costs $480.</span></div></div></div>
+    </div>
+    <div class="button-row" style="margin-top:12px;"><button type="button" class="step-reveal" data-step-group="order">Reveal next step</button></div>
+    <p class="footer-note small muted">&ldquo;Minimum workers to reach a target&rdquo; is just the running total from the last slide, read from the other side.</p>
+  </section>
+
+  <!-- 12 -->
+  <section class="slide interactive">
+    <div class="section-kicker">Part B &middot; Your turn &middot; LO 8a.1&ndash;8a.2 &middot; illustrative numbers</div>
+    <h1>Nitrogen fertilizer on one acre of corn</h1>
+    <table class="u8-table compact left-first">
+      <thead><tr><th>40-lb unit of nitrogen</th><th>1st</th><th>2nd</th><th>3rd</th><th>4th</th><th>5th</th><th>6th</th></tr></thead>
+      <tbody><tr><td class="lead">Marginal product (bushels)</td><td>40</td><td>30</td><td>20</td><td>10</td><td>0</td><td>&minus;5</td></tr></tbody>
+    </table>
+    <p style="margin:10px 0 4px; font-size:17px;">With <strong>no fertilizer</strong> the acre yields <strong>100 bushels</strong> (the soil already holds some nitrogen).</p>
+    <div class="grid-2" style="align-items:start; gap:18px; margin-top:4px;">
+      <div>
+        <ul class="q-list" style="margin-top:0;">
+          <li><b>(a)</b> Total yield with 3 units?</li>
+          <li><b>(b)</b> With which unit do diminishing returns begin?</li>
+          <li><b>(c)</b> Highest yield, and how many units reach it?</li>
+          <li><b>(d)</b> What does the 6th unit do?</li>
+        </ul>
+        <div class="ans-box reveal-step" data-step-group="fert" data-step="1">
+          <p><b>(a)</b> 100 + 40 + 30 + 20 = <strong>190</strong></p>
+          <p><b>(b)</b> The <strong>2nd</strong> unit: 30 &lt; 40. MP falls from the very first unit.</p>
+          <p><b>(c)</b> <strong>200</strong>, with 4 or 5 units (the 5th adds 0)</p>
+          <p><b>(d)</b> Yield drops to <strong>195</strong>: MP &lt; 0</p>
+        </div>
+      </div>
+      <div class="reveal-step" data-step-group="fert" data-step="2">
+        <div class="plot-panel" style="padding:6px 8px 4px;"><svg class="plot" style="height:170px" viewBox="0 0 380 170" role="img" aria-label="Corn yield starts at 100 and rises by 40, 30, 20, 10, 0, then falls by 5"><defs><clipPath id="clip3"><rect x="40" y="12" width="332" height="132"/></clipPath></defs><path class="gridline" d="M 40 104 L 370 104 M 40 64 L 370 64 M 40 24 L 370 24"/><path class="axis" d="M 40 10 L 40 144"/><path class="axis" d="M 40 144 L 370 144"/><path class="tp-line alt" d="M 40 124 C 57.5 110.7 74.9 95.4 92.4 84 C 109.8 72.6 127.3 62 144.8 54 C 162.2 46 179.7 38.4 197.1 34 C 214.6 29.6 232.1 24 249.5 24 C 267 24 284.4 24 301.9 24 C 319.4 24 336.8 27.3 354.3 29" clip-path="url(#clip3)" /><circle class="dot green-dot" cx="40" cy="124" r="4"/><circle class="dot green-dot" cx="92.4" cy="84" r="4"/><circle class="dot green-dot" cx="144.8" cy="54" r="4"/><circle class="dot green-dot" cx="197.1" cy="34" r="4"/><circle class="dot green-dot" cx="249.5" cy="24" r="4"/><circle class="dot green-dot" cx="301.9" cy="24" r="4"/><circle class="dot green-dot" cx="354.3" cy="29" r="4"/><text class="tick-label" x="33" y="108" text-anchor="end">120</text><text class="tick-label" x="33" y="68" text-anchor="end">160</text><text class="tick-label" x="33" y="28" text-anchor="end">200</text><text class="tick-label" x="92.4" y="160" text-anchor="middle">1</text><text class="tick-label" x="144.8" y="160" text-anchor="middle">2</text><text class="tick-label" x="197.1" y="160" text-anchor="middle">3</text><text class="tick-label" x="249.5" y="160" text-anchor="middle">4</text><text class="tick-label" x="301.9" y="160" text-anchor="middle">5</text><text class="tick-label" x="354.3" y="160" text-anchor="middle">6</text><text class="plot-label sm" x="45.2" y="22" text-anchor="start">corn yield, bu/acre</text><text class="tick-label" x="370" y="138" text-anchor="end">units of N</text></svg></div>
+      </div>
+    </div>
+    <div class="button-row" style="margin-top:8px;"><button type="button" class="step-reveal" data-step-group="fert">Reveal answers</button></div>
+  </section>
+
+  <!-- 13 -->
+  <section class="slide interactive" id="rq9">
+    <div class="section-kicker">Part B &middot; Marginal product &middot; LO 8a.2 &middot; Q8</div>
+    <h1>Becky&rsquo;s Boutique Bakery</h1>
+    <p class="question-intro" style="font-size:16.5px; margin-bottom:8px;">Becky owns a commercial oven, dough mixers and utensils. Other inputs: flour, yeast, salt, water and skilled bakers. Flour and the other ingredients are adjusted with the number of bakers.</p>
+    <table class="review-table"><thead><tr><th scope="col">Bakers</th><th scope="col">0</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th><th scope="col">5</th><th scope="col">6</th></tr></thead><tbody><tr><th scope="row">Loaves of bread</th><td>0</td><td>50</td><td>120</td><td>180</td><td>230</td><td>270</td><td>300</td></tr></tbody></table>
+    <div class="qparts">
+      <div class="qpart"><p><b>(a)</b> Which are fixed costs? Select all: oven, dough mixers, bakers, flour.</p><button type="button" class="action-button part-reveal" aria-controls="q9p0" aria-expanded="false">Reveal (a)</button><div class="answer-panel" id="q9p0"><p><strong>Oven and dough mixers.</strong> Bakers and flour change with how much bread she makes.</p></div></div>
+      <div class="qpart"><p><b>(b)</b> Calculate the marginal product of expanding from 2 to 3 bakers.</p><button type="button" class="action-button part-reveal" aria-controls="q9p1" aria-expanded="false">Reveal (b)</button><div class="answer-panel" id="q9p1"><p>180 &minus; 120 = <strong>60 loaves</strong>. All MPs: 50, 70, 60, 50, 40, 30.</p></div></div>
+      <div class="qpart"><p><b>(c)</b> When do diminishing returns begin?<span class="opts">A. 2 &rarr; 3 bakers &middot; B. the 1st baker &middot; C. 1 &rarr; 2 bakers &middot; D. after 3 &rarr; 4 bakers</span></p><button type="button" class="action-button part-reveal" aria-controls="q9p2" aria-expanded="false">Reveal (c)</button><div class="answer-panel" id="q9p2"><p><strong>A.</strong> MP rises to 70 with the 2nd baker, then first falls with the 3rd (60 &lt; 70).</p></div></div>
+      <div class="qpart"><p><b>(d)</b> Shape of the total product curve?<span class="opts">A. straight line &middot; B. declines after the 1st baker &middot; C. rises steeply throughout &middot; D. rises quickly at first, then at a decreasing rate</span></p><button type="button" class="action-button part-reveal" aria-controls="q9p3" aria-expanded="false">Reveal (d)</button><div class="answer-panel" id="q9p3"><p><strong>D.</strong> TP rises fastest from 1 to 2 bakers, then each step adds less: diminishing returns.</p></div></div>
+    </div>
+  </section>
+
+  <!-- 14 -->
+  <section class="slide interactive" id="rq10">
+    <div class="section-kicker">Part B &middot; Marginal product &middot; LO 8a.2 &middot; Q9</div>
+    <h1>Wheat farm: from MPL to total output</h1>
+    <p class="question-intro" style="margin-bottom:8px;">The farm produces 0 bushels with no workers. Each worker is paid <strong>$50 a day</strong>.</p>
+    <table class="review-table"><thead><tr><th scope="col">Worker</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th><th scope="col">5</th><th scope="col">6</th><th scope="col">7</th><th scope="col">8</th></tr></thead><tbody><tr><th scope="row">MPL (bushels)</th><td>100</td><td>90</td><td>80</td><td>70</td><td>60</td><td>50</td><td>40</td><td>30</td></tr></tbody></table>
+    <div class="qparts roomy">
+      <div class="qpart"><p><b>(a)</b> Total wheat production after all 8 workers are hired?</p><button type="button" class="action-button part-reveal" aria-controls="q10p0" aria-expanded="false">Reveal (a)</button><div class="answer-panel" id="q10p0"><p>100 + 90 + &hellip; + 30 = <strong>520 bushels</strong>.</p></div></div>
+      <div class="qpart"><p><b>(b)</b> The production target is 400 bushels. Minimum number of workers to meet or exceed it?</p><button type="button" class="action-button part-reveal" aria-controls="q10p1" aria-expanded="false">Reveal (b)</button><div class="answer-panel" id="q10p1"><p>Running total: 100, 190, 270, 340, <strong>400</strong>. Four give 340 &lt; 400, so hire <strong>5</strong>.</p></div></div>
+      <div class="qpart"><p><b>(c)</b> Total wage cost of that minimum crew?</p><button type="button" class="action-button part-reveal" aria-controls="q10p2" aria-expanded="false">Reveal (c)</button><div class="answer-panel" id="q10p2"><p>5 &times; $50 = <strong>$250</strong>.</p></div></div>
+      <div class="qpart"><p><b>(d)</b> With which worker do diminishing returns begin?</p><button type="button" class="action-button part-reveal" aria-controls="q10p3" aria-expanded="false">Reveal (d)</button><div class="answer-panel" id="q10p3"><p>The <strong>2nd</strong> worker: 90 &lt; 100. MP falls from the start&mdash;no rising stage here.</p></div></div>
+    </div>
+  </section>
+
+  <!-- 15 -->
+  <section class="slide interactive" id="rq11">
+    <div class="section-kicker">Part B &middot; Marginal product &middot; LO 8a.2 &middot; Q10</div>
+    <h1>Wheat farm: MP, total cost and MC</h1>
+    <p class="question-intro" style="margin-bottom:8px;">One fixed input (land). Fixed cost is <strong>$400 a day</strong>; each worker costs <strong>$200 a day</strong>.</p>
+    <table class="review-table"><thead><tr><th scope="col">Point</th><th scope="col">A</th><th scope="col">B</th><th scope="col">C</th><th scope="col">D</th><th scope="col">E</th><th scope="col">F</th><th scope="col">G</th><th scope="col">H</th><th scope="col">I</th></tr></thead><tbody><tr><th scope="row">Workers</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td></tr><tr><th scope="row">Wheat (bushels)</th><td>0</td><td>19</td><td>36</td><td>51</td><td>64</td><td>75</td><td>84</td><td>91</td><td>96</td></tr></tbody></table>
+    <div class="qparts roomy">
+      <div class="qpart"><p><b>(a)</b> Marginal product of the 3rd worker?</p><button type="button" class="action-button part-reveal" aria-controls="q11p0" aria-expanded="false">Reveal (a)</button><div class="answer-panel" id="q11p0"><p>51 &minus; 36 = <strong>15 bushels</strong>. All MPs: 19, 17, 15, 13, 11, 9, 7, 5.</p></div></div>
+      <div class="qpart"><p><b>(b)</b> As the farm hires more workers, what happens to MP?<span class="opts">A. increases &middot; B. decreases &middot; C. stays the same</span></p><button type="button" class="action-button part-reveal" aria-controls="q11p1" aria-expanded="false">Reveal (b)</button><div class="answer-panel" id="q11p1"><p><strong>B. It decreases</strong>, from the very first worker.</p></div></div>
+      <div class="qpart"><p><b>(c)</b> Total cost at point C?<span class="opts">A. $400 &middot; B. $800</span></p><button type="button" class="action-button part-reveal" aria-controls="q11p2" aria-expanded="false">Reveal (c)</button><div class="answer-panel" id="q11p2"><p><strong>B.</strong> $400 + 2 &times; $200 = <strong>$800</strong>. $400 is only the fixed cost.</p></div></div>
+      <div class="qpart"><p><b>(d)</b> From B to C, what is the marginal cost of a bushel?</p><button type="button" class="action-button part-reveal" aria-controls="q11p3" aria-expanded="false">Reveal (d)</button><div class="answer-panel" id="q11p3"><p>MC = wage &divide; MP = $200 &divide; 17 &asymp; <strong>$11.76</strong> per bushel.</p></div></div>
+    </div>
+  </section>
+
+  <!-- 16 -->
+  <section class="slide" id="recapC">
+    <div class="section-kicker">Part C &middot; Fixed, variable and average cost &middot; LO 8a.3 &middot; recap</div>
+    <h1>Every cost formula on one page</h1>
+    <div class="formula-grid">
+      <div><b>TC = FC + VC</b><span>Total cost is the fixed bill plus the variable bill.</span></div>
+      <div><b>FC = TC at Q = 0</b><span>Quiz tables hide FC in the first row.</span></div>
+      <div><b>AFC = FC &divide; Q</b><span>Double Q, halve AFC. Always falls.</span></div>
+      <div><b>AVC = VC &divide; Q</b><span>VC = TC &minus; FC first, then divide.</span></div>
+      <div><b>ATC = TC &divide; Q = AFC + AVC</b><span>The full cost of a typical unit.</span></div>
+      <div><b>MC = &Delta;TC &divide; &Delta;Q</b><span>With &Delta;Q = 1, just the jump in TC. Also = wage &divide; MP.</span></div>
+    </div>
+    <div class="definition-strip" style="margin-top:14px; font-size:17px;"><strong>Working backward:</strong> VC = AVC &times; Q, TC = ATC &times; Q, FC = AFC &times; Q. <strong>Fixed or variable?</strong> Ask: does this cost change if we produce more this period?</div>
+  </section>
+
+  <!-- 17 -->
+  <section class="slide interactive">
+    <div class="section-kicker">Part C &middot; Cost per bushel &middot; LO 8a.3 &middot; worked example</div>
+    <h1>Pine Hollow, cost per bushel</h1>
+    <div class="thirds-two" style="grid-template-columns:1.15fr .85fr; margin-top:2px;">
+      <table class="u8-table compact">
+        <caption>MC is for the step into that row</caption>
+        <thead><tr><th>Q (bu)</th><th>TC</th><th>AFC</th><th>AVC</th><th>ATC</th><th>MC</th></tr></thead>
+        <tbody><tr><td class="lead">40</td><td>$1,020</td><td class=""><span class="reveal-step" data-step-group="pu" data-step="1">$22.50</span></td><td class=""><span class="reveal-step" data-step-group="pu" data-step="2">$3.00</span></td><td class=""><span class="reveal-step" data-step-group="pu" data-step="3">$25.50</span></td><td class=""><span class="reveal-step" data-step-group="pu" data-step="4">$3.00</span></td></tr><tr><td class="lead">100</td><td>$1,140</td><td class=""><span class="reveal-step" data-step-group="pu" data-step="1">$9.00</span></td><td class="cell-min"><span class="reveal-step" data-step-group="pu" data-step="2">$2.40</span></td><td class=""><span class="reveal-step" data-step-group="pu" data-step="3">$11.40</span></td><td class=""><span class="reveal-step" data-step-group="pu" data-step="4">$2.00</span></td></tr><tr><td class="lead">150</td><td>$1,260</td><td class=""><span class="reveal-step" data-step-group="pu" data-step="1">$6.00</span></td><td class="cell-min"><span class="reveal-step" data-step-group="pu" data-step="2">$2.40</span></td><td class=""><span class="reveal-step" data-step-group="pu" data-step="3">$8.40</span></td><td class=""><span class="reveal-step" data-step-group="pu" data-step="4">$2.40</span></td></tr><tr><td class="lead">180</td><td>$1,380</td><td class=""><span class="reveal-step" data-step-group="pu" data-step="1">$5.00</span></td><td class=""><span class="reveal-step" data-step-group="pu" data-step="2">$2.67</span></td><td class=""><span class="reveal-step" data-step-group="pu" data-step="3">$7.67</span></td><td class=""><span class="reveal-step" data-step-group="pu" data-step="4">$4.00</span></td></tr><tr class="hl-blue"><td class="lead">200</td><td>$1,500</td><td class=""><span class="reveal-step" data-step-group="pu" data-step="1">$4.50</span></td><td class=""><span class="reveal-step" data-step-group="pu" data-step="2">$3.00</span></td><td class="cell-min"><span class="reveal-step" data-step-group="pu" data-step="3">$7.50</span></td><td class=""><span class="reveal-step" data-step-group="pu" data-step="4">$6.00</span></td></tr><tr><td class="lead">210</td><td>$1,620</td><td class=""><span class="reveal-step" data-step-group="pu" data-step="1">$4.29</span></td><td class=""><span class="reveal-step" data-step-group="pu" data-step="2">$3.43</span></td><td class=""><span class="reveal-step" data-step-group="pu" data-step="3">$7.71</span></td><td class=""><span class="reveal-step" data-step-group="pu" data-step="4">$12.00</span></td></tr></tbody>
+      </table>
+      <div>
+        <div class="calc-run">
+          <div class="reveal-step" data-step-group="pu" data-step="1"><div class="calc-line"><div class="calc-num">1</div><div><strong>AFC at 100: $900 &divide; 100 = $9.00</strong></div></div></div>
+          <div class="reveal-step" data-step-group="pu" data-step="2"><div class="calc-line"><div class="calc-num">2</div><div><strong>AVC at 100: $240 &divide; 100 = $2.40</strong><span>Lowest AVC (shaded).</span></div></div></div>
+          <div class="reveal-step" data-step-group="pu" data-step="3"><div class="calc-line"><div class="calc-num">3</div><div><strong>ATC at 200: $1,500 &divide; 200 = $7.50</strong><span>Lowest ATC (shaded).</span></div></div></div>
+          <div class="reveal-step" data-step-group="pu" data-step="4"><div class="calc-line hi"><div class="calc-num">4</div><div><strong>MC 180 &rarr; 200: $120 &divide; 20 = $6.00</strong><span>Every MC is the wage &divide; that worker&rsquo;s MP.</span></div></div></div>
+        </div>
+        <div class="button-row" style="margin-top:12px;"><button type="button" class="step-reveal" data-step-group="pu">Reveal next column</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18 -->
+  <section class="slide interactive" id="rq12">
+    <div class="section-kicker">Part C &middot; Fixed, variable and average cost &middot; LO 8a.3 &middot; Q11</div>
+    <h1>Fixed or variable? A one-year view</h1>
+    <p class="question-intro">For each cost, decide whether it is a <strong>fixed cost</strong> or a <strong>variable cost</strong> for an agricultural firm over a 1-year time span. Vote on each card.</p>
+    <div class="sort-grid"><div class="sort-card"><p>Fuel for tractors</p><span class="reveal-step" data-step-group="fv" data-step="1"><span class="tag variable">Variable</span></span></div><div class="sort-card"><p>Insurance premiums for the farm</p><span class="reveal-step" data-step-group="fv" data-step="2"><span class="tag fixed">Fixed</span></span></div><div class="sort-card"><p>Cost of pesticides</p><span class="reveal-step" data-step-group="fv" data-step="3"><span class="tag variable">Variable</span></span></div><div class="sort-card"><p>Water usage for irrigation</p><span class="reveal-step" data-step-group="fv" data-step="4"><span class="tag variable">Variable</span></span></div><div class="sort-card"><p>Rent for farmland</p><span class="reveal-step" data-step-group="fv" data-step="5"><span class="tag fixed">Fixed</span></span></div><div class="sort-card" style="background:var(--soft);"><p style="font-size:15px;">The test: does this cost change if the farm produces more <em>this year</em>? Insurance and land rent do not.</p></div></div>
+    <div class="button-row" style="margin-top:14px;"><button type="button" class="step-reveal" data-step-group="fv">Reveal next card</button></div>
+  </section>
+
+  <!-- 19 -->
+  <section class="slide interactive review-q review-mcq" id="rq13">
+    <div class="section-kicker">Part C &middot; Fixed, variable and average cost &middot; LO 8a.3 &middot; Q12 &middot; Exam 2 F24</div>
+    <h1>Switching to egg production</h1>
+    <p class="question-intro">In the context of farmers switching to egg production, which of the following is an example of a variable cost associated with this transition?</p>
+    <div class="answer-grid" role="group">
+      <button type="button" class="answer-choice" data-option="A"><span class="option-label">A</span><span class="option-text">The costs of upgrading barns to accommodate laying hens.</span></button>
+      <button type="button" class="answer-choice" data-option="B"><span class="option-label">B</span><span class="option-text">The monthly utility bills for running the farm.</span></button>
+      <button type="button" class="answer-choice" data-option="C" data-key="true"><span class="option-label">C</span><span class="option-text">The cost of purchasing feed for the laying hens.</span></button>
+      <button type="button" class="answer-choice" data-option="D"><span class="option-label">D</span><span class="option-text">The initial investment in new egg production facilities.</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: C &middot; feed.</h2><p>Feed rises directly with the number of hens. Barn upgrades and new facilities are fixed. A farm-wide utility bill is overhead here, so it is not the best answer.</p></div>
+  </section>
+
+  <!-- 20 -->
+  <section class="slide interactive" id="rq14">
+    <div class="section-kicker">Part C &middot; Fixed, variable and average cost &middot; LO 8a.3 &middot; Q13</div>
+    <h1>Fill in the missing costs</h1>
+    <p class="question-intro">The table shows variable and total costs for Good X.</p>
+    <table class="review-table"><thead><tr><th scope="col">Quantity of X</th><th scope="col">0</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th></tr></thead><tbody><tr><th scope="row">Variable cost (VC)</th><td>$0</td><td>$20</td><td>$40</td><td class="ask">?</td><td>$110</td></tr><tr><th scope="row">Total cost (TC)</th><td>$80</td><td>$100</td><td>$120</td><td>$150</td><td class="ask">?</td></tr></tbody></table>
+    <div class="qparts roomy">
+      <div class="qpart"><p><b>(a)</b> What are fixed costs?</p><button type="button" class="action-button part-reveal" aria-controls="q14p0" aria-expanded="false">Reveal (a)</button><div class="answer-panel" id="q14p0"><p>TC at Q = 0: <strong>$80</strong>. (Check: $100 &minus; $20 = $80 at every row.)</p></div></div>
+      <div class="qpart"><p><b>(b)</b> Variable costs when quantity is 3?</p><button type="button" class="action-button part-reveal" aria-controls="q14p1" aria-expanded="false">Reveal (b)</button><div class="answer-panel" id="q14p1"><p>$150 &minus; $80 = <strong>$70</strong>.</p></div></div>
+      <div class="qpart"><p><b>(c)</b> Total costs when quantity is 4?</p><button type="button" class="action-button part-reveal" aria-controls="q14p2" aria-expanded="false">Reveal (c)</button><div class="answer-panel" id="q14p2"><p>$80 + $110 = <strong>$190</strong>.</p></div></div>
+    </div>
+  </section>
+
+  <!-- 21 -->
+  <section class="slide interactive" id="rq15">
+    <div class="section-kicker">Part C &middot; Fixed, variable and average cost &middot; LO 8a.3 &middot; Q14 &middot; Exam 2 F24</div>
+    <h1>A total cost table, quiz format</h1>
+    <p class="question-intro">The table shows the total cost associated with each unit of production.</p>
+    <table class="review-table"><thead><tr><th scope="col">Units produced</th><th scope="col">0</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th><th scope="col">5</th><th scope="col">6</th></tr></thead><tbody><tr><th scope="row">Total cost ($)</th><td>500</td><td>750</td><td>1,050</td><td>1,400</td><td>1,800</td><td>2,250</td><td>2,750</td></tr></tbody></table>
+    <div class="qparts roomy">
+      <div class="qpart"><p><b>(a)</b> What is the fixed cost of this operation?</p><button type="button" class="action-button part-reveal" aria-controls="q15p0" aria-expanded="false">Reveal (a)</button><div class="answer-panel" id="q15p0"><p>TC at Q = 0: <strong>500</strong>.</p></div></div>
+      <div class="qpart"><p><b>(b)</b> Average variable cost of the first unit?</p><button type="button" class="action-button part-reveal" aria-controls="q15p1" aria-expanded="false">Reveal (b)</button><div class="answer-panel" id="q15p1"><p>(750 &minus; 500) &divide; 1 = <strong>250</strong>.</p></div></div>
+      <div class="qpart"><p><b>(c)</b> Marginal cost of producing the fifth unit?</p><button type="button" class="action-button part-reveal" aria-controls="q15p2" aria-expanded="false">Reveal (c)</button><div class="answer-panel" id="q15p2"><p>2,250 &minus; 1,800 = <strong>450</strong>.</p></div></div>
+      <div class="qpart"><p><b>(d)</b> At what output is average total cost lowest?</p><button type="button" class="action-button part-reveal" aria-controls="q15p3" aria-expanded="false">Reveal (d)</button><div class="answer-panel" id="q15p3"><p>ATC = 750, 525, 466.67, <strong>450, 450</strong>, 458.33: lowest at <strong>Q = 4 and 5</strong>. The 5th unit&rsquo;s MC (450) equals ATC, so ATC stays flat; the 6th unit&rsquo;s MC (500) is above it, so ATC rises.</p></div></div>
+    </div>
+  </section>
+
+  <!-- 22 -->
+  <section class="slide interactive" id="rq16">
+    <div class="section-kicker">Part C &middot; Fixed, variable and average cost &middot; LO 8a.3 &middot; Q15</div>
+    <h1>A farmer&rsquo;s total cost</h1>
+    <p class="question-intro" style="margin-bottom:8px;">The table shows a farmer&rsquo;s total cost of producing their crop.</p>
+    <table class="review-table"><thead><tr><th scope="col">Output</th><th scope="col">0</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th><th scope="col">5</th></tr></thead><tbody><tr><th scope="row">Total cost ($)</th><td>1,000</td><td>1,500</td><td>1,800</td><td>2,000</td><td>2,200</td><td>2,500</td></tr></tbody></table>
+    <div class="qparts">
+      <div class="qpart"><p><b>(a)</b> Fixed cost?</p><button type="button" class="action-button part-reveal" aria-controls="q16p0" aria-expanded="false">Reveal (a)</button><div class="answer-panel" id="q16p0"><p><strong>$1,000</strong> (TC at zero output).</p></div></div>
+      <div class="qpart"><p><b>(b)</b> Variable cost at 4 units?</p><button type="button" class="action-button part-reveal" aria-controls="q16p1" aria-expanded="false">Reveal (b)</button><div class="answer-panel" id="q16p1"><p>2,200 &minus; 1,000 = <strong>$1,200</strong>.</p></div></div>
+      <div class="qpart"><p><b>(c)</b> Average total cost at 3 units? (2 decimal places)</p><button type="button" class="action-button part-reveal" aria-controls="q16p2" aria-expanded="false">Reveal (c)</button><div class="answer-panel" id="q16p2"><p>2,000 &divide; 3 = <strong>$666.67</strong>.</p></div></div>
+      <div class="qpart"><p><b>(d)</b> Average variable cost at 5 units?</p><button type="button" class="action-button part-reveal" aria-controls="q16p3" aria-expanded="false">Reveal (d)</button><div class="answer-panel" id="q16p3"><p>(2,500 &minus; 1,000) &divide; 5 = <strong>$300</strong>.</p></div></div>
+      <div class="qpart"><p><b>(e)</b> Marginal cost of going from 3 to 4 units?</p><button type="button" class="action-button part-reveal" aria-controls="q16p4" aria-expanded="false">Reveal (e)</button><div class="answer-panel" id="q16p4"><p>2,200 &minus; 2,000 = <strong>$200</strong>.</p></div></div>
+    </div>
+  </section>
+
+  <!-- 23 -->
+  <section class="slide interactive" id="rq17">
+    <div class="section-kicker">Part C &middot; Fixed, variable and average cost &middot; LO 8a.3 &middot; Q16</div>
+    <h1>Working backward from AVC</h1>
+    <p class="question-intro">Terry plants corn. She produces <strong>100 bushels</strong>, her average variable cost is <strong>$5 per bushel</strong>, and total fixed costs are <strong>$100</strong>.</p>
+    <div class="qparts roomy">
+      <div class="qpart"><p><b>(a)</b> What is her variable cost?</p><button type="button" class="action-button part-reveal" aria-controls="q17p0" aria-expanded="false">Reveal (a)</button><div class="answer-panel" id="q17p0"><p>VC = AVC &times; Q = $5 &times; 100 = <strong>$500</strong>.</p></div></div>
+      <div class="qpart"><p><b>(b)</b> What is her total cost?</p><button type="button" class="action-button part-reveal" aria-controls="q17p1" aria-expanded="false">Reveal (b)</button><div class="answer-panel" id="q17p1"><p>TC = FC + VC = $100 + $500 = <strong>$600</strong>.</p></div></div>
+      <div class="qpart"><p><b>(c)</b> What is her average total cost?</p><button type="button" class="action-button part-reveal" aria-controls="q17p2" aria-expanded="false">Reveal (c)</button><div class="answer-panel" id="q17p2"><p>ATC = $600 &divide; 100 = <strong>$6</strong>. Check: AFC $1 + AVC $5.</p></div></div>
+    </div>
+  </section>
+
+  <!-- 24 -->
+  <section class="slide interactive" id="rq18">
+    <div class="section-kicker">Part C &middot; Fixed, variable and average cost &middot; LO 8a.3 &middot; Q17 &middot; (a) Exam 2 F24</div>
+    <h1>Spreading the same fixed cost</h1>
+    <p class="question-intro">In both parts, total fixed cost stays the same.</p>
+    <div class="qparts roomy">
+      <div class="qpart"><p><b>(a)</b> The AFC of producing 600 eggs is $12. What is the AFC of producing 1,200 eggs?</p><button type="button" class="action-button part-reveal" aria-controls="q18p0" aria-expanded="false">Reveal (a)</button><div class="answer-panel" id="q18p0"><p>FC = $12 &times; 600 = $7,200; $7,200 &divide; 1,200 = <strong>$6</strong>. Double the output, halve the AFC.</p></div></div>
+      <div class="qpart"><p><b>(b)</b> A chocolate company&rsquo;s AFC is $3 per bar at 100 bars. What is AFC at 600 bars?</p><button type="button" class="action-button part-reveal" aria-controls="q18p1" aria-expanded="false">Reveal (b)</button><div class="answer-panel" id="q18p1"><p>FC = $3 &times; 100 = $300; $300 &divide; 600 = <strong>$0.50</strong>. Six times the output, one-sixth the AFC.</p></div></div>
+    </div>
+  </section>
+
+  <!-- 25 -->
+  <section class="slide interactive" id="rq19">
+    <div class="section-kicker">Part D &middot; Reading cost curves &middot; LO 8a.3 &middot; Q18</div>
+    <h1>Read the cost curves</h1>
+    <div class="grid-2" style="grid-template-columns:.92fr 1.08fr; gap:18px; align-items:start;">
+      <div class="fig-panel"><img src="data:image/png;base64,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" alt=""></div>
+      <div><p class="question-intro" style="font-size:16.5px; margin-bottom:8px;">The graph shows cost curves for a typical firm. Choose from MC, ATC, AFC, AVC.</p>
+    <div class="qparts">
+      <div class="qpart"><p><b>(a)</b> Which curve is Curve 1 (red)? Curve 2 (blue)?</p><button type="button" class="action-button part-reveal" aria-controls="q19p0" aria-expanded="false">Reveal (a)</button><div class="answer-panel" id="q19p0"><p><strong>Curve 1 = MC</strong>, <strong>Curve 2 = AVC</strong> (Curve 3 = ATC). MC is the steep curve through the bottoms of both U&rsquo;s; AVC is the lower U.</p></div></div>
+      <div class="qpart"><p><b>(b)</b> Average variable cost at 2 units? At 3 units?</p><button type="button" class="action-button part-reveal" aria-controls="q19p1" aria-expanded="false">Reveal (b)</button><div class="answer-panel" id="q19p1"><p>Read Curve 2: <strong>$7</strong> at Q = 2, <strong>$8</strong> at Q = 3.</p></div></div>
+      <div class="qpart"><p><b>(c)</b> At what price does MC intersect AVC?</p><button type="button" class="action-button part-reveal" aria-controls="q19p2" aria-expanded="false">Reveal (c)</button><div class="answer-panel" id="q19p2"><p><strong>$7</strong>, at AVC&rsquo;s minimum (Q = 2).</p></div></div>
+      <div class="qpart"><p><b>(d)</b> True or false: the gap between ATC and AVC is always larger at lower quantities.</p><button type="button" class="action-button part-reveal" aria-controls="q19p3" aria-expanded="false">Reveal (d)</button><div class="answer-panel" id="q19p3"><p><strong>True.</strong> The gap is AFC = FC &divide; Q, which shrinks as Q grows.</p></div></div>
+    </div></div>
+    </div>
+  </section>
+
+  <!-- 26 -->
+  <section class="slide interactive" id="rq20">
+    <div class="section-kicker">Part D &middot; Reading cost curves &middot; LO 8a.3 &middot; Q19</div>
+    <h1>Name the curves: M, N and O</h1>
+    <div class="grid-2" style="grid-template-columns:.92fr 1.08fr; gap:20px; align-items:start;">
+      <div class="fig-panel"><img src="data:image/png;base64,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" alt=""></div>
+      <div><p class="question-intro">Curves M, N and O are a firm&rsquo;s cost curves.</p>
+    <div class="qparts roomy">
+      <div class="qpart"><p><b>(a)</b> Which curve represents <strong>marginal cost</strong>?</p><button type="button" class="action-button part-reveal" aria-controls="q20p0" aria-expanded="false">Reveal (a)</button><div class="answer-panel" id="q20p0"><p><strong>M</strong>: the steep curve that passes through the lowest points of N and O.</p></div></div>
+      <div class="qpart"><p><b>(b)</b> Which curve represents <strong>average variable cost</strong>?</p><button type="button" class="action-button part-reveal" aria-controls="q20p1" aria-expanded="false">Reveal (b)</button><div class="answer-panel" id="q20p1"><p><strong>O</strong>: the lower U. N is ATC; the gap between them is AFC, and it narrows as Q grows.</p></div></div>
+    </div><p class="small muted" style="margin-top:12px;">Tip: MC crosses AVC first (at a smaller Q), then ATC.</p></div>
+    </div>
+  </section>
+
+  <!-- 27 -->
+  <section class="slide interactive review-q review-mcq" id="rq21">
+    <div class="section-kicker">Part D &middot; Reading cost curves &middot; LO 8a.3 &middot; Q20</div>
+    <h1>If fixed costs were zero</h1>
+    <p class="question-intro">If fixed costs equal 0, what is true about the ATC and AVC curves?</p>
+    <div class="answer-grid" role="group">
+      <button type="button" class="answer-choice" data-option="A" data-key="true"><span class="option-label">A</span><span class="option-text">The ATC and AVC curves are now the same.</span></button>
+      <button type="button" class="answer-choice" data-option="B"><span class="option-label">B</span><span class="option-text">The AVC curve is now above the ATC curve.</span></button>
+      <button type="button" class="answer-choice" data-option="C"><span class="option-label">C</span><span class="option-text">The AFC curve is now upward sloping.</span></button>
+      <button type="button" class="answer-choice" data-option="D"><span class="option-label">D</span><span class="option-text">The MC curve no longer intersects either curve.</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: A.</h2><p>ATC = AFC + AVC. With FC = 0, AFC = 0 at every output, so ATC and AVC coincide.</p></div>
+  </section>
+
+  <!-- 28 -->
+  <section class="slide interactive review-q review-mcq" id="rq22">
+    <div class="section-kicker">Part D &middot; Reading cost curves &middot; LO 8a.3 &middot; Q21</div>
+    <h1>Can AFC be above ATC?</h1>
+    <p class="question-intro">&ldquo;The average fixed cost curve can never be above the average total cost curve.&rdquo;</p>
+    <div class="answer-grid" role="group">
+      <button type="button" class="answer-choice" data-option="A" data-key="true"><span class="option-label">A</span><span class="option-text">True</span></button>
+      <button type="button" class="answer-choice" data-option="B"><span class="option-label">B</span><span class="option-text">False</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: True.</h2><p>ATC = AFC + AVC, and AVC is never negative, so ATC &ge; AFC everywhere.</p></div>
+  </section>
+
+  <!-- 29 -->
+  <section class="slide" id="recapE">
+    <div class="section-kicker">Part E &middot; MC and ATC &middot; LO 8a.4 &middot; recap</div>
+    <h1>The marginal unit pulls the average</h1>
+    <div class="recap-grid">
+      <div class="card green-top"><h3 class="green">MC &lt; ATC</h3><p>ATC <strong>falls</strong>.</p><p class="small">Quiz average 85, next quiz 70 &rarr; average 82.</p></div>
+      <div class="card blue-top"><h3 class="blue">MC = ATC</h3><p>ATC is at its <strong>minimum</strong>.</p><p class="small">MC crosses ATC (and AVC) at the bottom of the U.</p></div>
+      <div class="card red-top"><h3 class="red">MC &gt; ATC</h3><p>ATC <strong>rises</strong>.</p><p class="small">Quiz average 85, next quiz 90 &rarr; average 86.</p></div>
+    </div>
+    <div class="definition-strip" style="margin-top:14px; font-size:17px;"><strong>New ATC</strong> = (old TC + MC) &divide; new Q. Example: 10 units at ATC $20, the 11th has MC $9 &rarr; ($200 + $9) &divide; 11 = <strong>$19</strong>.</div>
+    <div class="definition-strip red-strip" style="margin-top:12px; font-size:17px;"><strong>Trap:</strong> &ldquo;MC is rising, so ATC must be rising.&rdquo; Compare the <strong>levels</strong>, not the direction: at Pine Hollow MC rises from $2 to $6 while ATC keeps falling.</div>
+  </section>
+
+  <!-- 30 -->
+  <section class="slide interactive" id="rq23">
+    <div class="section-kicker">Part E &middot; MC and ATC &middot; LO 8a.4 &middot; Q22</div>
+    <h1>A fifth toy</h1>
+    <p class="question-intro">You produce toys. Currently you produce <strong>4 toys</strong> at a total cost of <strong>$40</strong>.</p>
+    <div class="qparts roomy">
+      <div class="qpart"><p><b>(a)</b> What is your average total cost?</p><button type="button" class="action-button part-reveal" aria-controls="q23p0" aria-expanded="false">Reveal (a)</button><div class="answer-panel" id="q23p0"><p>$40 &divide; 4 = <strong>$10</strong>.</p></div></div>
+      <div class="qpart"><p><b>(b)</b> You produce a fifth toy, and its marginal cost is $5. What is ATC now?</p><button type="button" class="action-button part-reveal" aria-controls="q23p1" aria-expanded="false">Reveal (b)</button><div class="answer-panel" id="q23p1"><p>($40 + $5) &divide; 5 = <strong>$9</strong>.</p></div></div>
+      <div class="qpart"><p><b>(c)</b> Why did ATC change?<span class="opts">A. The MC of the fifth toy was lower than the previous ATC &middot; B. The price of materials fell</span></p><button type="button" class="action-button part-reveal" aria-controls="q23p2" aria-expanded="false">Reveal (c)</button><div class="answer-panel" id="q23p2"><p><strong>A.</strong> A marginal unit below the average pulls the average down. Nothing happened to input prices.</p></div></div>
+    </div>
+  </section>
+
+  <!-- 31 -->
+  <section class="slide interactive review-q review-multi" id="rq24">
+    <div class="section-kicker">Part E &middot; MC and ATC &middot; LO 8a.4 &middot; Q23</div>
+    <h1>Which statements are correct?</h1>
+    <p class="question-intro">Select all of the following statements that are correct.</p>
+    <div class="answer-grid one-col" role="group">
+      <button type="button" class="answer-choice" data-option="A"><span class="option-label">A</span><span class="option-text">An increase in fixed cost increases marginal cost.</span></button>
+      <button type="button" class="answer-choice" data-option="B"><span class="option-label">B</span><span class="option-text">When marginal cost is above average total cost, average total cost must be falling.</span></button>
+      <button type="button" class="answer-choice" data-option="C" data-key="true"><span class="option-label">C</span><span class="option-text">When marginal cost is above average total cost, average total cost must be rising.</span></button>
+      <button type="button" class="answer-choice" data-option="D" data-key="true"><span class="option-label">D</span><span class="option-text">With at least one fixed input, if the marginal product of labor is decreasing, then, all else equal, the marginal cost of production will rise, because each additional unit of labor adds less output than the one before.</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-check">Check answers</button><button type="button" class="action-button secondary mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: C and D.</h2><p class="selection-result" data-ok="Correct: C and D." data-miss="Select C and D only. Check the direction in B and what FC does in A."></p><p>A: MC counts only costs that change with one more unit; FC does not. B has the direction backward. D: MC = wage &divide; MP, so a falling MP means a rising MC.</p></div>
+  </section>
+
+  <!-- 32 -->
+  <section class="slide interactive review-q review-mcq" id="rq25">
+    <div class="section-kicker">Part E &middot; MC and ATC &middot; LO 8a.4 &middot; Q24</div>
+    <h1>Where MC crosses the averages</h1>
+    <p class="question-intro">&ldquo;The marginal cost curve always intersects the ATC and AVC curves at their minimum points.&rdquo;</p>
+    <div class="answer-grid" role="group">
+      <button type="button" class="answer-choice" data-option="A" data-key="true"><span class="option-label">A</span><span class="option-text">True</span></button>
+      <button type="button" class="answer-choice" data-option="B"><span class="option-label">B</span><span class="option-text">False</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: True.</h2><p>Left of the crossing MC &lt; average, so the average falls; right of it MC &gt; average, so the average rises. The crossing is the bottom. Same for AVC.</p></div>
+  </section>
+
+  <!-- 33 -->
+  <section class="slide" id="recapF">
+    <div class="section-kicker">Part F &middot; What moves the curves &middot; LO 8a.3 &amp; 8a.5 &middot; recap</div>
+    <h1>Which curves move?</h1>
+    <table class="sign-table" style="margin-top:4px;">
+      <thead><tr><th style="text-align:left; padding-left:12px;">What changes</th><th>MC</th><th>AVC</th><th>AFC</th><th>ATC</th></tr></thead>
+      <tbody>
+        <tr style="background:var(--green-soft)"><td>A <strong>variable</strong> input costs more<span class="sub">wages, feed, fertilizer, cocoa, flour</span></td><td class="up">&uarr;</td><td class="up">&uarr;</td><td class="flat">&mdash;</td><td class="up">&uarr;</td></tr>
+        <tr style="background:var(--purple-soft)"><td>A <strong>fixed</strong> input costs more<span class="sub">land rent, a lease, insurance, equipment</span></td><td class="flat">&mdash;</td><td class="flat">&mdash;</td><td class="up">&uarr;</td><td class="up">&uarr;</td></tr>
+        <tr style="background:var(--blue-soft)"><td><strong>Productivity</strong> falls<span class="sub">drought, disease, fewer gallons per cow</span></td><td class="up">&uarr;</td><td class="up">&uarr;</td><td class="flat">&mdash;</td><td class="up">&uarr;</td></tr>
+      </tbody>
+    </table>
+    <div class="definition-strip" style="margin-top:14px; font-size:17px;"><strong>One question sorts them:</strong> does this cost change when the farm produces <em>one more</em> unit? If not, MC and AVC stay put. A cheaper input reverses the arrows.</div>
+    <div class="definition-strip green-strip" style="margin-top:12px; font-size:17px;"><strong>Back to supply:</strong> anything that pushes MC up shifts the supply curve <strong>left</strong>.</div>
+  </section>
+
+  <!-- 34 -->
+  <section class="slide interactive review-q review-mcq" id="rq26">
+    <div class="section-kicker">Part F &middot; What moves the curves &middot; LO 8a.3 &amp; 8a.5 &middot; Q25</div>
+    <h1>Variable costs rise</h1>
+    <p class="question-intro">If variable costs increase, which of the following is true?</p>
+    <div class="answer-grid one-col" role="group">
+      <button type="button" class="answer-choice" data-option="A" data-key="true"><span class="option-label">A</span><span class="option-text">The MC, AVC and ATC curves shift up.</span></button>
+      <button type="button" class="answer-choice" data-option="B"><span class="option-label">B</span><span class="option-text">The MC, AVC, AFC and ATC curves shift up.</span></button>
+      <button type="button" class="answer-choice" data-option="C"><span class="option-label">C</span><span class="option-text">The MC, AVC and ATC curves shift down.</span></button>
+      <button type="button" class="answer-choice" data-option="D"><span class="option-label">D</span><span class="option-text">The AVC moves up, but the MC and ATC do not move.</span></button>
+      <button type="button" class="answer-choice" data-option="E"><span class="option-label">E</span><span class="option-text">The AVC and MC move up, but the ATC does not move.</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: A.</h2><p>Variable costs enter MC, AVC and ATC. AFC = FC &divide; Q does not change.</p></div>
+  </section>
+
+  <!-- 35 -->
+  <section class="slide interactive review-q review-mcq" id="rq27">
+    <div class="section-kicker">Part F &middot; What moves the curves &middot; LO 8a.3 &amp; 8a.5 &middot; Q26</div>
+    <h1>Fixed costs fall</h1>
+    <p class="question-intro">If fixed costs decrease:</p>
+    <div class="answer-grid one-col" role="group">
+      <button type="button" class="answer-choice" data-option="A" data-key="true"><span class="option-label">A</span><span class="option-text">The ATC curve moves down, but the MC and AVC curves do not move.</span></button>
+      <button type="button" class="answer-choice" data-option="B"><span class="option-label">B</span><span class="option-text">The ATC, MC and AVC curves shift down.</span></button>
+      <button type="button" class="answer-choice" data-option="C"><span class="option-label">C</span><span class="option-text">The ATC, AFC, MC and AVC curves shift down.</span></button>
+      <button type="button" class="answer-choice" data-option="D"><span class="option-label">D</span><span class="option-text">The MC and ATC curves shift down, but nothing else moves.</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: A.</h2><p>Lower FC lowers AFC and therefore ATC. MC and AVC contain no fixed cost. (AFC also shifts down, but C wrongly adds MC and AVC.)</p></div>
+  </section>
+
+  <!-- 36 -->
+  <section class="slide interactive review-q review-multi" id="rq28">
+    <div class="section-kicker">Part F &middot; What moves the curves &middot; LO 8a.3 &amp; 8a.5 &middot; Q27 &middot; Exam 2 F24</div>
+    <h1>The landowner cuts your lease</h1>
+    <p class="question-intro">You lease several plots from a landowner each year. Recently, the landowner reduced the leasing rate. How would your cost curves be affected? (Select all that apply.)</p>
+    <div class="answer-grid" role="group">
+      <button type="button" class="answer-choice" data-option="A" data-key="true"><span class="option-label">A</span><span class="option-text">Average total cost would decrease.</span></button>
+      <button type="button" class="answer-choice" data-option="B"><span class="option-label">B</span><span class="option-text">Average variable cost would increase.</span></button>
+      <button type="button" class="answer-choice" data-option="C"><span class="option-label">C</span><span class="option-text">Marginal cost would increase.</span></button>
+      <button type="button" class="answer-choice" data-option="D" data-key="true"><span class="option-label">D</span><span class="option-text">Average fixed cost would decrease.</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-check">Check answers</button><button type="button" class="action-button secondary mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: A and D.</h2><p class="selection-result" data-ok="Correct: A and D." data-miss="Select A and D only. A lease is a fixed cost."></p><p>The lease is a <strong>fixed</strong> cost: AFC and ATC fall. AVC and MC do not change&mdash;and nothing here would make them rise.</p></div>
+  </section>
+
+  <!-- 37 -->
+  <section class="slide interactive review-q review-mcq" id="rq29">
+    <div class="section-kicker">Part F &middot; What moves the curves &middot; LO 8a.3 &amp; 8a.5 &middot; Q28</div>
+    <h1>Egg equipment costs more</h1>
+    <p class="question-intro">Suppose the price of egg production equipment increases. How would this affect the cost curves of egg production?</p>
+    <div class="answer-grid" role="group">
+      <button type="button" class="answer-choice" data-option="A"><span class="option-label">A</span><span class="option-text">The average variable cost curve shifts up.</span></button>
+      <button type="button" class="answer-choice" data-option="B" data-key="true"><span class="option-label">B</span><span class="option-text">The average total cost curve shifts up.</span></button>
+      <button type="button" class="answer-choice" data-option="C"><span class="option-label">C</span><span class="option-text">The average fixed cost curve shifts down.</span></button>
+      <button type="button" class="answer-choice" data-option="D"><span class="option-label">D</span><span class="option-text">The marginal cost curve shifts up.</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: B.</h2><p>Equipment is a <strong>fixed</strong> input: AFC and ATC shift up. C has the wrong direction; AVC and MC do not change.</p></div>
+  </section>
+
+  <!-- 38 -->
+  <section class="slide interactive review-q review-mcq" id="rq30">
+    <div class="section-kicker">Part F &middot; What moves the curves &middot; LO 8a.3 &amp; 8a.5 &middot; Q29</div>
+    <h1>Cheaper flour at Jenny&rsquo;s bakery</h1>
+    <p class="question-intro">The price of flour, Jenny&rsquo;s primary input, has fallen because of a surplus in wheat production. All else equal, how will this affect her average total cost (ATC) curve?</p>
+    <div class="answer-grid one-col" role="group">
+      <button type="button" class="answer-choice" data-option="A"><span class="option-label">A</span><span class="option-text">ATC shifts up, because of higher expenses in other areas of production.</span></button>
+      <button type="button" class="answer-choice" data-option="B"><span class="option-label">B</span><span class="option-text">ATC does not change, because cheaper flour is offset by pricier other inputs.</span></button>
+      <button type="button" class="answer-choice" data-option="C" data-key="true"><span class="option-label">C</span><span class="option-text">ATC shifts down, reflecting lower costs per loaf because the primary input is cheaper.</span></button>
+      <button type="button" class="answer-choice" data-option="D"><span class="option-label">D</span><span class="option-text">ATC becomes steeper, because cheaper flour raises variable costs relative to fixed costs.</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: C.</h2><p>Flour is a <strong>variable</strong> input: a lower price shifts MC, AVC and ATC down. A and B invent other changes; &ldquo;all else equal&rdquo; rules them out.</p></div>
+  </section>
+
+  <!-- 39 -->
+  <section class="slide interactive review-q review-mcq" id="rq32">
+    <div class="section-kicker">Part F &middot; What moves the curves &middot; LO 8a.3 &amp; 8a.5 &middot; Q30</div>
+    <h1>Organic feed doubles in price</h1>
+    <p class="question-intro">How does a rise in organic input prices, such as the price of organic soybean meal doubling, affect the marginal cost (MC) of producing organic products?</p>
+    <div class="answer-grid" role="group">
+      <button type="button" class="answer-choice" data-option="A" data-key="true"><span class="option-label">A</span><span class="option-text">MC increases due to higher variable costs.</span></button>
+      <button type="button" class="answer-choice" data-option="B"><span class="option-label">B</span><span class="option-text">MC increases due to higher fixed costs.</span></button>
+      <button type="button" class="answer-choice" data-option="C"><span class="option-label">C</span><span class="option-text">MC decreases as it leads to technological innovation.</span></button>
+      <button type="button" class="answer-choice" data-option="D"><span class="option-label">D</span><span class="option-text">MC increases because of a change in preferences.</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: A.</h2><p>Soybean meal is feed, a <strong>variable</strong> input. Fixed costs never enter MC, so B has the right direction for the wrong reason.</p></div>
+  </section>
+
+  <!-- 40 -->
+  <section class="slide interactive review-q review-mcq" id="rq33">
+    <div class="section-kicker">Part F &middot; What moves the curves &middot; LO 8a.3 &amp; 8a.5 &middot; Q31</div>
+    <h1>No growth hormones</h1>
+    <p class="question-intro">Organic dairy farms may not use synthetic growth hormones. How does this most directly affect the marginal cost (MC) of producing milk?</p>
+    <div class="answer-grid one-col" role="group">
+      <button type="button" class="answer-choice" data-option="A"><span class="option-label">A</span><span class="option-text">MC decreases due to lower feed costs.</span></button>
+      <button type="button" class="answer-choice" data-option="B" data-key="true"><span class="option-label">B</span><span class="option-text">MC increases because cows naturally produce less milk, requiring more cows for the same output.</span></button>
+      <button type="button" class="answer-choice" data-option="C"><span class="option-label">C</span><span class="option-text">MC is unaffected because growth hormones do not affect production costs directly.</span></button>
+      <button type="button" class="answer-choice" data-option="D"><span class="option-label">D</span><span class="option-text">MC decreases as health care costs for cows are reduced.</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: B.</h2><p>Less milk per cow is <strong>lower productivity</strong>: more inputs per gallon, so MC rises (the third row of the recap table).</p></div>
+  </section>
+
+  <!-- 41 -->
+  <section class="slide interactive review-q review-mcq" id="rq34">
+    <div class="section-kicker">Part F &middot; What moves the curves &middot; LO 8a.3 &amp; 8a.5 &middot; Q32 &middot; Exam 2 F24</div>
+    <h1>Cage-free eggs in the short run</h1>
+    <p class="question-intro">Demand for cage-free eggs increases significantly, and farmers increase their production in the short run. What is likely to happen to the marginal cost of producing those eggs?</p>
+    <div class="answer-grid one-col" role="group">
+      <button type="button" class="answer-choice" data-option="A"><span class="option-label">A</span><span class="option-text">Marginal costs will decrease due to economies of scale.</span></button>
+      <button type="button" class="answer-choice" data-option="B" data-key="true"><span class="option-label">B</span><span class="option-text">Marginal costs will increase as additional production requires more resources, such as feed and housing.</span></button>
+      <button type="button" class="answer-choice" data-option="C"><span class="option-label">C</span><span class="option-text">Marginal costs will remain constant regardless of production changes.</span></button>
+      <button type="button" class="answer-choice" data-option="D"><span class="option-label">D</span><span class="option-text">Marginal costs will fluctuate randomly without any relationship to production levels.</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: B.</h2><p>In the short run the barns are fixed, so producing more runs into diminishing returns and MC rises. Economies of scale are a <strong>long-run</strong> idea.</p></div>
+  </section>
+
+  <!-- 42 -->
+  <section class="slide interactive review-q review-mcq" id="rq35">
+    <div class="section-kicker">Part F &middot; What moves the curves &middot; LO 8a.3 &amp; 8a.5 &middot; Q33</div>
+    <h1>Organic vs. nonorganic production functions</h1>
+    <p class="question-intro">How would you compare the production function of an organic farm to that of a nonorganic farm?</p>
+    <div class="answer-grid one-col" role="group">
+      <button type="button" class="answer-choice" data-option="A" data-key="true"><span class="option-label">A</span><span class="option-text">The organic production function will be lower (below) the nonorganic production function.</span></button>
+      <button type="button" class="answer-choice" data-option="B"><span class="option-label">B</span><span class="option-text">The organic production function will be higher (above) the nonorganic production function.</span></button>
+      <button type="button" class="answer-choice" data-option="C"><span class="option-label">C</span><span class="option-text">Both farms will have the same total production because the total amount of land is the same.</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: A.</h2><p>With the same inputs, organic rules (no synthetic fertilizer or hormones) give less output, so the organic production function lies below. Same land does not mean same output.</p></div>
+  </section>
+
+  <!-- 43 -->
+  <section class="slide interactive review-q review-mcq" id="rq36">
+    <div class="section-kicker">Part F &middot; What moves the curves &middot; LO 8a.3 &amp; 8a.5 &middot; Q34 &middot; Final Exam</div>
+    <h1>Back to supply: fertilizer costs more</h1>
+    <p class="question-intro">Fertilizer, an input for corn production, becomes more expensive. Due to higher fertilizer prices, ____ for corn ____.</p>
+    <div class="answer-grid" role="group">
+      <button type="button" class="answer-choice" data-option="A" data-key="true"><span class="option-label">A</span><span class="option-text">Supply, decreases</span></button>
+      <button type="button" class="answer-choice" data-option="B"><span class="option-label">B</span><span class="option-text">Quantity supplied, decreases</span></button>
+      <button type="button" class="answer-choice" data-option="C"><span class="option-label">C</span><span class="option-text">Supply, increases</span></button>
+      <button type="button" class="answer-choice" data-option="D"><span class="option-label">D</span><span class="option-text">Demand, decreases</span></button>
+      <button type="button" class="answer-choice" data-option="E"><span class="option-label">E</span><span class="option-text">Demand, increases</span></button>
+    </div>
+    <div class="actions"><button type="button" class="action-button mcq-reveal">Reveal answer</button><button type="button" class="action-button secondary mcq-reset">Reset question</button></div>
+    <div class="answer-panel main" aria-live="polite"><h2>Answer: A &middot; supply decreases.</h2><p>A higher input price raises MC, so the supply curve shifts <strong>left</strong>. &ldquo;Quantity supplied&rdquo; would be a movement along the curve, caused only by a change in the corn price.</p></div>
+  </section>
+</div>
+<div id="progress"></div>
+<div id="hint">&larr; &rarr; / Space to navigate &middot; P to print</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const stage = document.getElementById('stage');
+  const progress = document.getElementById('progress');
+  let idx = 0;
+
+  slides.forEach(function(slide, i){
+    const footer = document.createElement('div');
+    footer.className = 'footer';
+    footer.innerHTML = '<span>ARE 201 &middot; Unit 8a &middot; Production &amp; Costs &middot; Review Session</span><span>' + (i + 1) + ' / ' + slides.length + '</span>';
+    slide.appendChild(footer);
+  });
+
+  function fit(){
+    const scale = Math.min(window.innerWidth / 960, window.innerHeight / 720);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+  }
+
+  function show(n){
+    idx = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(slide, i){ slide.classList.toggle('active', i === idx); });
+    progress.style.width = (((idx + 1) / slides.length) * 100) + '%';
+    history.replaceState(null, '', '#' + (idx + 1));
+  }
+
+  // Single-answer multiple choice: buttons share data-group; feedback box id = "fb-" + group
+  const groups = {};
+  document.querySelectorAll('button.choice').forEach(function(b){ (groups[b.dataset.group] = groups[b.dataset.group] || []).push(b); });
+  Object.keys(groups).forEach(function(g){
+    const buttons = groups[g];
+    const feedback = document.getElementById('fb-' + g);
+    const correctButton = buttons.find(function(b){ return b.dataset.correct === 'true'; });
+    buttons.forEach(function(button){
+      button.addEventListener('click', function(){
+        const correct = button.dataset.correct === 'true';
+        buttons.forEach(function(b){ b.classList.remove('correct', 'wrong'); });
+        if (correctButton) correctButton.classList.add('correct');
+        if (!correct) button.classList.add('wrong');
+        if (feedback) {
+          feedback.className = 'feedback ' + (correct ? 'success' : 'error');
+          feedback.innerHTML = correct ? feedback.dataset.correctMessage : feedback.dataset.wrongMessage;
+        }
+      });
+    });
+  });
+
+  // Step-by-step reveals
+  document.querySelectorAll('.step-reveal').forEach(function(button){
+    const group = button.dataset.stepGroup;
+    const elements = Array.from(document.querySelectorAll('.reveal-step')).filter(function(e){ return e.dataset.stepGroup === group; });
+    const steps = Array.from(new Set(elements.map(function(e){ return Number(e.dataset.step); }))).sort(function(a, b){ return a - b; });
+    const label = button.textContent;
+    let shown = 0;
+    button.addEventListener('click', function(){
+      if (shown >= steps.length) {
+        elements.forEach(function(e){ e.classList.remove('visible'); });
+        shown = 0;
+        button.textContent = label;
+        return;
+      }
+      const next = steps[shown];
+      elements.forEach(function(e){ if (Number(e.dataset.step) === next) e.classList.add('visible'); });
+      shown += 1;
+      button.textContent = shown >= steps.length ? 'Reset' : label + ' (' + shown + '/' + steps.length + ')';
+    });
+  });
+
+  // Exit ticket
+  const exitReveal = document.getElementById('exitReveal');
+  const exitAnswer = document.getElementById('exitAnswer');
+  if (exitReveal && exitAnswer) {
+    exitReveal.addEventListener('click', function(){
+      const on = exitAnswer.classList.toggle('visible');
+      exitReveal.textContent = on ? 'Hide the answers' : 'Reveal the answers';
+    });
+  }
+
+  document.addEventListener('keydown', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea')) return;
+    if (['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(event.key)) { event.preventDefault(); show(idx + 1); }
+    else if (['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(event.key)) { event.preventDefault(); show(idx - 1); }
+    else if (event.key.toLowerCase() === 'p') { window.print(); }
+    else if (event.key === 'Home') { show(0); }
+    else if (event.key === 'End') { show(slides.length - 1); }
+  });
+
+  document.addEventListener('click', function(event){
+    if (event.target.closest && event.target.closest('a, button, input, select, textarea, .feedback, .plot-panel, .exit-answer, .u8-table, .sign-table')) return;
+    if (event.clientX > window.innerWidth / 2) show(idx + 1); else show(idx - 1);
+  });
+
+  window.addEventListener('resize', fit);
+  const hash = parseInt(location.hash.replace('#',''), 10);
+  if (Number.isFinite(hash)) idx = Math.max(0, Math.min(slides.length - 1, hash - 1));
+  fit();
+  show(idx);
+})();
+</script>
+
+<script>
+(function(){
+  // Clicks inside question content should not turn the slide.
+  document.querySelectorAll('.answer-panel, .review-table, .qpart, .fig-panel, .question-intro, .frame-box').forEach(function(el){
+    el.addEventListener('click', function(e){ e.stopPropagation(); });
+  });
+
+  document.querySelectorAll('.review-q').forEach(function(slide){
+    const multi = slide.classList.contains('review-multi');
+    const options = Array.from(slide.querySelectorAll('.answer-choice'));
+    const panel = slide.querySelector('.answer-panel.main');
+    const reveal = slide.querySelector('.mcq-reveal');
+    const check = slide.querySelector('.mcq-check');
+    const resetBtn = slide.querySelector('.mcq-reset');
+    const result = slide.querySelector('.selection-result');
+    const picked = new Set();
+    function clear(){
+      options.forEach(function(o){ o.classList.remove('correct', 'wrong'); });
+      panel.classList.remove('visible');
+      reveal.textContent = 'Reveal answer';
+      if (result) result.textContent = '';
+    }
+    function reset(){
+      picked.clear(); clear();
+      options.forEach(function(o){ o.classList.remove('selected'); o.setAttribute('aria-pressed', 'false'); });
+    }
+    function show(checkSelection){
+      options.forEach(function(o){
+        o.classList.toggle('correct', o.dataset.key === 'true');
+        o.classList.toggle('wrong', picked.has(o.dataset.option) && o.dataset.key !== 'true');
+      });
+      if (result && checkSelection) {
+        const ok = options.every(function(o){ return picked.has(o.dataset.option) === (o.dataset.key === 'true'); });
+        result.textContent = ok ? result.dataset.ok : result.dataset.miss;
+      }
+      panel.classList.add('visible');
+      reveal.textContent = 'Hide answer';
+    }
+    options.forEach(function(o){
+      o.addEventListener('click', function(){
+        if (multi) {
+          clear();
+          const k = o.dataset.option;
+          if (picked.has(k)) picked.delete(k); else picked.add(k);
+          o.classList.toggle('selected', picked.has(k));
+          o.setAttribute('aria-pressed', String(picked.has(k)));
+        } else {
+          picked.clear(); picked.add(o.dataset.option);
+          options.forEach(function(x){ x.setAttribute('aria-pressed', String(x === o)); });
+          show(false);
+        }
+      });
+    });
+    reveal.addEventListener('click', function(){ if (panel.classList.contains('visible')) { if (multi) clear(); else reset(); } else show(false); });
+    if (check) check.addEventListener('click', function(){ show(true); });
+    resetBtn.addEventListener('click', reset);
+    reset();
+  });
+
+  document.querySelectorAll('.part-reveal').forEach(function(button){
+    const label = button.textContent;
+    button.addEventListener('click', function(e){
+      e.stopPropagation();
+      const panel = document.getElementById(button.getAttribute('aria-controls'));
+      const on = panel.classList.toggle('visible');
+      button.setAttribute('aria-expanded', String(on));
+      button.textContent = on ? label.replace('Reveal', 'Hide') : label;
+    });
+  });
+})();
+</script>
+</body>
+</html>
