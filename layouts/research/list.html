@@ -14,8 +14,12 @@
       <li class="paper-item">
         {{ $url := cond (gt (len .Content) 0) .RelPermalink (.Params.ssrn | default "") }}
         <h3 class="paper-title">{{ with $url }}<a href="{{ . }}">{{ end }}{{ .Title }}{{ if $url }}</a>{{ end }}</h3>
+        {{ if eq .Params.status "working-paper" }}
         {{ with .Params.authors }}<p class="paper-authors">{{ delimit . ", " }}</p>{{ end }}
-        {{ if eq .Params.status "working-paper" }}<p class="paper-venue"><em>Working Paper</em>{{ with .Params.year }} ({{ . }}){{ end }}</p>{{ end }}
+        <p class="paper-venue"><em>Working Paper</em>{{ with .Params.year }} ({{ . }}){{ end }}</p>
+        {{ else }}
+        {{ with complement (slice site.Params.author) (.Params.authors | default slice) }}<p class="paper-authors">with {{ delimit . ", " " and " }}</p>{{ end }}
+        {{ end }}
         {{ partial "paper_links.html" (dict "page" . "showAbstract" true) }}
       </li>
       {{ end }}
