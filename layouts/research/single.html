@@ -1,0 +1,15 @@
+{{ define "main" }}
+<article class="paper-page">
+  <a class="back-link" href="{{ "research/" | relURL }}"><span aria-hidden="true">←</span> Research</a>
+  <p class="eyebrow">{{ if eq .Params.status "working-paper" }}Working Paper{{ else }}Work in Progress{{ end }}{{ with .Params.year }} · {{ . }}{{ end }}</p>
+  <h1>{{ .Title }}</h1>
+  {{ with .Params.authors }}<p class="paper-authors">{{ delimit . ", " }}</p>{{ end }}
+  {{ partial "paper_links.html" (dict "page" . "showAbstract" false) }}
+  {{ with .Content }}
+  <section class="paper-abstract">
+    <h2>Abstract</h2>
+    <div class="post-content">{{ . }}</div>
+  </section>
+  {{ end }}
+</article>
+{{ end }}

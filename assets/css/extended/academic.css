@@ -92,6 +92,24 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .course-code { display: inline-block; font-weight: 650; margin-right: 12px; }
 .course-term { color: var(--secondary); white-space: nowrap; padding-top: 3px; font-size: 13px; }
 .course-resource { display: inline-block; margin-top: 6px; }
+.research-content { max-width: 860px; margin: 0 auto; }
+.research-group { margin-top: 40px; }
+.research-group h2 { font-size: 23px; font-weight: 550; padding-bottom: 17px; border-bottom: 1px solid var(--border); }
+.paper-list { list-style: none; }
+.paper-item { padding: 21px 0; border-bottom: 1px solid #e6dccf; }
+.paper-title { font-size: 17px; font-weight: 550; line-height: 1.5; }
+.paper-title a:hover { color: var(--accent); }
+.paper-authors { margin-top: 6px; font-size: 14px; }
+.paper-venue { margin-top: 4px; font-size: 14px; color: var(--secondary); }
+.paper-links { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: 9px; }
+.paper-links a { color: var(--accent); font-size: 12px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; }
+.paper-links a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.paper-page { max-width: 860px; margin: 0 auto; }
+.paper-page h1 { font-family: Georgia, 'Times New Roman', serif; font-size: 38px; font-weight: 400; letter-spacing: -.8px; line-height: 1.25; margin-bottom: 16px; }
+.paper-page .paper-authors { font-size: 16px; }
+.paper-page .paper-links { margin-top: 14px; }
+.paper-abstract { margin-top: 40px; }
+.paper-abstract h2 { font-size: 23px; font-weight: 550; margin-bottom: 12px; }
 .course-page-header { margin-bottom: 45px; }
 .back-link { display: inline-block; font-size: 13px; color: var(--secondary); margin-bottom: 32px; }
 .course-page-header h1 { font-size: 48px; margin-bottom: 14px; }
@@ -142,6 +160,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   .course-layout { grid-template-columns: 1fr; gap: 24px; }
   .course-page-header { margin-bottom: 28px; }
   .course-page-header h1 { font-size: 39px; }
+  .paper-page h1 { font-size: 30px; }
   .course-description { font-size: 17px; }
   .course-sidebar { position: static; max-height: none; padding: 17px 20px; border: 1px solid var(--border); border-radius: 6px; background: rgba(255,251,244,.65); }
   .course-sidebar summary { margin-bottom: 0; }

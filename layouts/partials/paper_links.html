@@ -1,0 +1,6 @@
+{{- $page := .page }}
+<div class="paper-links">
+  {{- if and .showAbstract $page.Content }}<a href="{{ $page.RelPermalink }}">Abstract</a>{{ end }}
+  {{- with $page.Params.ssrn }}<a href="{{ . }}">SSRN <span aria-hidden="true">↗</span></a>{{ end }}
+  {{- range $page.Params.links }}<a href="{{ .url }}">{{ .name }} <span aria-hidden="true">↗</span></a>{{ end }}
+</div>

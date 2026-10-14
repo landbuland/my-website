@@ -1,0 +1,27 @@
+{{ define "main" }}
+<header class="page-header">
+  <h1>{{ .Title }}</h1>
+</header>
+{{ with .Content }}<div class="post-content">{{ . }}</div>{{ end }}
+<div class="research-content">
+  {{ range slice (dict "status" "working-paper" "heading" "Working Papers") (dict "status" "work-in-progress" "heading" "Work in Progress") }}
+  {{ $papers := where $.RegularPages.ByWeight "Params.status" .status }}
+  {{ if $papers }}
+  <section class="research-group">
+    <h2>{{ .heading }}</h2>
+    <ul class="paper-list">
+      {{ range $papers }}
+      <li class="paper-item">
+        {{ $url := cond (gt (len .Content) 0) .RelPermalink (.Params.ssrn | default "") }}
+        <h3 class="paper-title">{{ with $url }}<a href="{{ . }}">{{ end }}{{ .Title }}{{ if $url }}</a>{{ end }}</h3>
+        {{ with .Params.authors }}<p class="paper-authors">{{ delimit . ", " }}</p>{{ end }}
+        {{ if eq .Params.status "working-paper" }}<p class="paper-venue"><em>Working Paper</em>{{ with .Params.year }} ({{ . }}){{ end }}</p>{{ end }}
+        {{ partial "paper_links.html" (dict "page" . "showAbstract" true) }}
+      </li>
+      {{ end }}
+    </ul>
+  </section>
+  {{ end }}
+  {{ end }}
+</div>
+{{ end }}
