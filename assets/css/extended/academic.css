@@ -63,21 +63,12 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .home-biography p + p { margin-top: 13px; }
 .home-biography a, .post-content a { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; text-decoration-color: #be9294; box-shadow: none; }
 .home-biography a:hover, .post-content a:hover { text-decoration-color: var(--accent); }
-.interests-section { margin-top: 34px; padding-bottom: 29px; border-bottom: 1px solid rgba(151,117,91,.3); }
+.interests-section { margin-top: 34px; }
 .section-label { font-size: 16px; letter-spacing: -.15px; font-weight: 650; }
 .interest-list { list-style: none; display: flex; flex-wrap: wrap; gap: 9px; margin: 17px 0 14px; }
 .interest-list li { background: rgba(250,244,237,.9); border: 1px solid #dec6bd; color: #812735; border-radius: 5px; padding: 6px 12px; font-size: 13px; }
 .text-link { color: var(--accent); font-size: 13px; font-weight: 550; }
 .text-link span { margin-left: 5px; }
-.home-teaching { margin-top: 28px; }
-.section-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 16px; }
-.featured-course { display: block; padding: 21px 25px 19px; background: rgba(255,252,247,.76); border: 1px solid rgba(206,186,165,.8); border-radius: 7px; }
-.featured-course:hover { background: rgba(255,252,247,.97); border-color: #b98986; }
-.course-kicker { display: flex; justify-content: space-between; gap: 15px; font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; }
-.course-kicker span + span { color: var(--secondary); letter-spacing: 0; font-weight: 400; text-transform: none; font-size: 12px; }
-.featured-course h3 { font-size: 19px; line-height: 1.5; font-weight: 500; margin: 12px 0 14px; letter-spacing: -.2px; }
-.course-action { display: flex; justify-content: space-between; font-size: 12px; color: var(--accent); }
-.secondary-course { display: flex; justify-content: space-between; padding: 17px 2px 0; font-size: 13px; }
 .muted { color: var(--secondary); }
 .site-footer { display: flex; justify-content: space-between; gap: 20px; width: calc(100% - 80px); max-width: 1120px; margin: 0 auto; border-top: 0; padding: 22px 0 25px; font-size: 12px; color: #352d29; line-height: 1.6; background: transparent; }
 .site-footer span { margin: 0; }
@@ -144,9 +135,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   .home-biography { font-size: 16px; line-height: 1.8; }
   .interests-section { margin-top: 26px; }
   .interest-list li { font-size: 12px; }
-  .featured-course { padding: 18px; }
-  .featured-course h3 { font-size: 17px; }
-  .desktop-break { display: none; }
   .footer-divider { width: calc(100% - 48px); }
   .site-footer { width: calc(100% - 48px); flex-wrap: wrap; gap: 5px; font-size: 11px; }
   .teaching-row { flex-direction: column; gap: 6px; }
@@ -165,8 +153,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 @media (max-width: 380px) {
   .main { padding-left: 18px; padding-right: 18px; }
   .home-content { padding: 24px 18px; }
-  .section-heading { flex-wrap: wrap; gap: 8px; }
-  .secondary-course { gap: 8px; font-size: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
