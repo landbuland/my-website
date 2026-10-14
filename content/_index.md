@@ -12,4 +12,4 @@ interests:
 
 I am a PhD student in Economics at North Carolina State University.
 
-My research interests include international economics and environmental economics.
+My research lies at the intersection of international trade, environmental economics, and industrial organization. I study how market integration and government policies shape firm behavior, industrial structure, and environmental outcomes. My current work focuses on trade and industrial adjustment, the interaction between market access and environmental regulation, and firms' responses to trade and energy shocks.
