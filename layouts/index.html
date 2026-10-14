@@ -4,7 +4,7 @@
     <img class="portrait" src="{{ .Params.portrait | relURL }}" alt="Zihan Zhang" width="208" height="208" fetchpriority="high">
     <h1>{{ site.Title }}</h1>
     <p class="profile-role">{{ .Params.role }}</p>
-    <a class="profile-institution" href="{{ .Params.institutionURL }}">{{ .Params.institution }}</a>
+    <p class="profile-institution">{{ .Params.institution }}</p>
     <p class="profile-location">Raleigh, North Carolina</p>
     <a class="profile-email" href="mailto:{{ .Params.email }}">{{ .Params.email }}</a>
     <div class="profile-links">
