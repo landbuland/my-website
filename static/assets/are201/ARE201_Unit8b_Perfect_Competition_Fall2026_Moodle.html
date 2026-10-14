@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ARE 201 — Unit 8b: Perfect Competition (pages 1–31)</title>
+<title>ARE 201 — Unit 8b: Perfect Competition (pages 1–40)</title>
 <style>
   :root {
     --accent: #EB811B;
@@ -431,6 +431,9 @@
   .opt-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-top: 10px; }
   .opt { padding: 11px 10px; background: var(--soft); text-align: center; }
   .opt strong { display: block; font-size: 22px; }
+  .cr4-grid { display: grid; grid-template-columns: .92fr 1.08fr; gap: 16px; margin-top: 10px; align-items: start; }
+  .cr4-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 9px; }
+  .cr4-opt { min-height: 0; }
   .opt .reveal-step { display: block; margin-top: 5px; font-size: 13px; font-weight: 700; line-height: 1.25; }
   .open-closed { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .ledger { width: 100%; border-collapse: collapse; font-size: 16px; }
@@ -483,6 +486,27 @@
   .big-run .calc-line strong { font-size: 21px; }
   .big-run .calc-line span { margin-top: 4px; color: var(--ink); font-size: 16px; }
   .eq-box .sub { display: block; margin-top: 3px; color: var(--muted); font-size: 14px; font-weight: 700; }
+  .peq-table { width: 100%; margin-top: 2px; border-collapse: collapse; font-size: 16.5px; }
+  .peq-table th { padding: 4px 8px; border-bottom: 2px solid var(--ink); color: var(--muted); font-size: 12px; text-align: left; text-transform: uppercase; letter-spacing: .06em; }
+  .peq-table td { padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; line-height: 1.3; }
+  .peq-table .peq-lhs { font-weight: 850; white-space: nowrap; }
+  .peq-table .peq-rhs { font-weight: 700; }
+  .peq-table .peq-val { font-size: 15px; white-space: nowrap; color: var(--muted); }
+  .peq-table .peq-val strong { color: var(--ink); }
+  .peq-table .peq-val.green strong { color: var(--green); }
+  .peq-table .peq-val.red strong { color: var(--red); }
+  .peq-bars { display: grid; gap: 7px; margin-top: 12px; padding-right: 150px; }
+  .peq-row { display: grid; grid-template-columns: 96px 1fr; align-items: center; gap: 8px; }
+  .peq-cap { font-size: 14px; font-weight: 850; text-align: right; }
+  .peq-track { position: relative; display: flex; height: 28px; }
+  .peq-seg { display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12.5px; font-weight: 800; white-space: nowrap; overflow: hidden; }
+  .peq-seg.rev { background: #5f6b76; }
+  .peq-seg.exp { background: var(--accent); }
+  .peq-seg.prof { background: var(--green); }
+  .peq-seg.imp { background: var(--purple); }
+  .peq-tr { position: absolute; top: -4px; bottom: -4px; border-left: 2px dashed var(--ink); }
+  .peq-gap { position: absolute; top: -4px; bottom: -4px; border: 2px solid var(--red); border-radius: 3px; }
+  .peq-gap span { position: absolute; left: calc(100% + 6px); top: 50%; transform: translateY(-50%); color: var(--red); font-size: 13.5px; font-weight: 900; white-space: nowrap; }
 
   @media print {
     .st { visibility: hidden !important; opacity: 0 !important; }
@@ -610,6 +634,28 @@
   #ptSlide .pt-choices .step-reveal { background: var(--ink); }
   #ptSlide .pt-lesson { margin-top: 8px; min-height: 46px; font-size: 15.5px; padding: 8px 15px; }
   @media (prefers-reduced-motion: reduce) { #ptSlide * { transition: none !important; } }
+
+
+  /* ---- supply curve and long run (lr8b.py) ---- */
+  .lr-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 14px; align-items: start; }
+  .lr-sup-table td, .lr-sup-table th { font-size: 14px; padding: 5px 8px; }
+  .lr-sup-table td.lead { font-size: 13px; }
+  .lr-list { margin: 6px 0 0; padding-left: 20px; font-size: 16px; line-height: 1.4; }
+  .lr-decide { margin: 10px 0 4px; font-size: 16px; }
+  .lr-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; min-height: 76px; }
+  .lr-steps .calc-line { height: 100%; box-sizing: border-box; }
+  .lr-flow { margin-top: 10px; }
+  .lr-flow .mechanism-box { min-height: 44px; font-size: 14.5px; padding: 6px; }
+  .lr-formula { margin-top: 12px; padding: 8px; border-radius: 8px; background: var(--accent-soft); color: var(--ink); font-size: 26px; font-weight: 900; text-align: center; }
+  .lr-opts { display: grid; gap: 5px; margin-top: 8px; }
+  .lr-opt { display: grid; grid-template-columns: 28px 1fr; column-gap: 10px; align-items: center; padding: 5px 12px; border-radius: 8px; background: var(--soft); }
+  .lr-opt-t { font-size: 16.5px; font-weight: 700; }
+  .lr-opt .lr-why { grid-column: 2; margin-top: 3px; font-size: 13.5px; }
+  .lr-why3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+  .lr-why3 .mechanism-box { min-height: 0; padding: 8px 10px; font-size: 15px; text-align: left; }
+  .lr-rule { display: grid; gap: 7px; }
+  .lr-rule .calc-line strong { font-size: 18px; }
+  .lr-rule .calc-line span { font-size: 15px; }
 
 </style>
 </head>
@@ -818,7 +864,32 @@
     <div class="button-row" style="margin-top:8px;"><button type="button" class="step-reveal" data-step-group="ex4">Check the next ingredient</button></div>
   </section>
 
-  <!-- 15 pt_sardine -->
+  <!-- 15 cr4 -->
+  <section class="slide interactive">
+    <div class="section-kicker">Close to perfect competition? &middot; a number for &ldquo;many sellers&rdquo; &middot; LO 8b.1</div>
+    <h1>How concentrated is a market? CR4</h1>
+    <div class="definition-strip" style="font-size:18px; padding:9px 15px;">
+      The <strong>four-firm concentration ratio (CR4)</strong> = the combined market share of the <strong>four largest firms</strong> in a market.
+    </div>
+    <div class="plot-panel" style="margin-top:10px; padding:8px 12px 6px;">
+      <div class="plot-title">Meatpacking: each company&rsquo;s share of the market (made-up numbers)</div>
+      <svg viewBox="0 0 880 88" role="img" aria-label="market shares of the four largest firms"><rect x="10.0" y="44" width="258.0" height="40" fill="#a33b38" stroke="#fff" stroke-width="2"/><text x="139.0" y="61" text-anchor="middle" style="font:800 13px Arial,sans-serif" fill="#fff">Firm 1</text><text x="139.0" y="77" text-anchor="middle" style="font:900 14px Arial,sans-serif" fill="#fff">30%</text><rect x="268.0" y="44" width="215.0" height="40" fill="#c9504d" stroke="#fff" stroke-width="2"/><text x="375.5" y="61" text-anchor="middle" style="font:800 13px Arial,sans-serif" fill="#fff">Firm 2</text><text x="375.5" y="77" text-anchor="middle" style="font:900 14px Arial,sans-serif" fill="#fff">25%</text><rect x="483.0" y="44" width="172.0" height="40" fill="#dc7c79" stroke="#fff" stroke-width="2"/><text x="569.0" y="61" text-anchor="middle" style="font:800 13px Arial,sans-serif" fill="#fff">Firm 3</text><text x="569.0" y="77" text-anchor="middle" style="font:900 14px Arial,sans-serif" fill="#fff">20%</text><rect x="655.0" y="44" width="103.2" height="40" fill="#eaa6a4" stroke="#fff" stroke-width="2"/><text x="706.6" y="61" text-anchor="middle" style="font:800 13px Arial,sans-serif" fill="#fff">Firm 4</text><text x="706.6" y="77" text-anchor="middle" style="font:900 14px Arial,sans-serif" fill="#fff">12%</text><rect x="758.2" y="44" width="111.8" height="40" fill="#c4ccd3" stroke="#fff" stroke-width="2"/><text x="814.1" y="61" text-anchor="middle" style="font:800 12.5px Arial,sans-serif" fill="#1f2933">all other firms</text><text x="814.1" y="77" text-anchor="middle" style="font:900 14px Arial,sans-serif" fill="#1f2933">13%</text><path d="M 10 38 L 10 30 L 758.2 30 L 758.2 38" stroke="#1f2933" stroke-width="2" fill="none"/><text x="384.1" y="23" text-anchor="middle" style="font:900 15px Arial,sans-serif" fill="#1f2933">CR4 = 30 + 25 + 20 + 12 = 87%</text></svg>
+    </div>
+    <p style="margin:6px 0 0; font-size:16px;">Read it: the four biggest firms control <strong>87%</strong>; all the other firms together share <strong>13%</strong>.
+      <span class="muted">Not &ldquo;the biggest firm has 87%.&rdquo;</span></p>
+    <div class="cr4-grid">
+      <div>
+        <div class="quiz-scenario" style="min-height:0; padding:9px 15px;"><div class="market-label">Hands up &middot; vote first</div>
+          <p style="font-size:19px;">In a perfectly competitive market, should CR4 be <strong>high</strong> or <strong>low</strong>?</p></div>
+        <div class="cr4-opts"><div class="opt cr4-opt"><strong>A &middot; High</strong><span class="reveal-step " data-step-group="cr4" data-step="1"><span class="verdict">No</span><br>A few firms are big enough to move the price: &ldquo;many sellers&rdquo; fails.</span></div><div class="opt cr4-opt"><strong>B &middot; Low</strong><span class="reveal-step " data-step-group="cr4" data-step="1"><span class="verdict ok">&check; Answer</span><br>Many sellers, each too small to move the price.</span></div></div>
+      </div>
+      <div class="reveal-step " data-step-group="cr4" data-step="2"><div class="plot-panel" style="padding:6px 10px 4px;"><div class="plot-title">The sardine coast (made-up count)</div><svg viewBox="0 0 420 78" role="img" aria-label="a thousand boats with equal shares"><defs><pattern id="cr4-boats" width="4" height="34" patternUnits="userSpaceOnUse"><rect width="4" height="34" fill="#9fd3f5"/><rect x="3" width="1" height="34" fill="#fff"/></pattern></defs><rect x="8" y="40" width="404" height="34" fill="url(#cr4-boats)"/><rect x="8" y="40" width="2.5" height="34" fill="#c9504d"/><path d="M 9 36 L 9 28 L 38 18" stroke="#c9504d" stroke-width="1.6" fill="none"/><text x="42" y="22" style="font:900 13.5px Arial,sans-serif" fill="#a33b38">top four boats: CR4 &asymp; 0.4%</text><text x="210.0" y="62" text-anchor="middle" style="font:800 12.5px Arial,sans-serif" fill="#1f2933">1,000 boats, each about 0.1%</text></svg></div>
+        <div class="definition-strip green-strip" style="margin-top:8px; font-size:15.5px; padding:8px 13px;">Perfect competition: CR4 close to <strong>0%</strong>. A high CR4, like 87%, means &ldquo;many buyers and sellers&rdquo; fails.</div></div>
+    </div>
+    <div class="button-row" style="margin-top:8px;"><button type="button" class="step-reveal" data-step-group="cr4">Reveal next</button></div>
+  </section>
+
+  <!-- 16 pt_sardine -->
   <section class="slide interactive" id="ptSlide">
     <div class="section-kicker">Back to the sardine coast, after phones &middot; LO 8b.2 &middot; hands up</div>
     <h1>You caught 10 sardines. What price do you ask?</h1>
@@ -836,21 +907,21 @@
     <div class="reveal-step " data-step-group="pt" data-step="1"><div class="definition-strip green-strip pt-lesson"><strong>To make the most profit, you take the price: you are a price taker.</strong> One boat is too small to move the coast&rsquo;s price; the only thing you choose is <strong>how many fish to catch and sell</strong>. <span class="reveal-step " data-step-group="pt" data-step="2">Caught 20 instead of 10? Still $5 each: every extra sardine brings in another <strong>$5</strong>.</span></div></div>
   </section>
 
-  <!-- 16 twodemand -->
+  <!-- 17 twodemand -->
   <section class="slide">
     <div class="section-kicker">LO 8b.2 &middot; two different demand curves</div>
     <h1>One market, two demand curves</h1>
     <div class="plot-panel" style="padding:8px 10px 4px;"><svg class="plot" viewBox="0 0 840 252" role="img" aria-label="Left: the sardine market along the coast, with downward-sloping demand and upward-sloping supply crossing at 5 dollars. Right: your boat faces a horizontal demand line at 5 dollars; at 6 dollars you would sell nothing" style="height:auto"><defs><clipPath id="c8b3"><rect x="48" y="14" width="340" height="208"/></clipPath></defs><path class="axis" d="M 48 12 L 48 222"/><path class="axis" d="M 48 222 L 388 222"/><text class="axis-title" x="218" y="238" text-anchor="middle">sardines sold along the coast</text><text class="axis-title" x="53" y="20" text-anchor="start">$ per sardine</text><defs><clipPath id="c8b4"><rect x="478" y="14" width="348" height="208"/></clipPath></defs><path class="axis" d="M 478 12 L 478 222"/><path class="axis" d="M 478 222 L 826 222"/><text class="tick-label" x="547.6" y="237" text-anchor="middle">5</text><text class="tick-label" x="617.2" y="237" text-anchor="middle">10</text><text class="tick-label" x="686.8" y="237" text-anchor="middle">15</text><text class="tick-label" x="756.4" y="237" text-anchor="middle">20</text><text class="axis-title" x="826" y="215" text-anchor="end">sardines you sell (your boat)</text><text class="axis-title" x="483" y="20" text-anchor="start">$ per sardine</text><text class="tick-label strong-tick" x="42" y="103.4" text-anchor="end">$5</text><text class="tick-label strong-tick" x="472" y="103.4" text-anchor="end">$5</text><text class="tick-label strong-tick ylab-red" x="472" y="78.9" text-anchor="end">$6</text><path class="supply-line" d="M 48 197.5 L 339.4 20.9" clip-path="url(#c8b3)"/><path class="demand-line" d="M 84.4 23.4 L 363.7 192.6" clip-path="url(#c8b3)"/><text class="c-label" x="341.9" y="35.6" text-anchor="start" style="fill:#378a61">S</text><text class="c-label" x="358.9" y="175.4" text-anchor="start" style="fill:#2f80c9">D</text><path class="p-line dash" d="M 209.9 99.4 L 452 99.4"/><circle class="dot" cx="209.9" cy="99.4" r="6"/><text class="plot-label sm" x="251.9" y="91.4" text-anchor="start" >the going price</text><path class="p-line" d="M 478 99.4 L 826 99.4" /><text class="plot-label" x="820.4" y="90.4" text-anchor="end" style="fill:#b8600f">your demand: d = P = MR</text><circle class="dot hollow-dot" cx="617.2" cy="99.4" r="5"/><circle class="dot hollow-dot" cx="756.4" cy="99.4" r="5"/><text class="plot-label sm" x="617.2" y="121.4" text-anchor="middle" >10 sardines: $5 each</text><text class="plot-label sm" x="756.4" y="121.4" text-anchor="middle" >20 sardines: $5 each</text><path class="ref-line" d="M 478 74.9 L 826 74.9" /><circle class="dot red-dot" cx="478" cy="74.9" r="5"/><text class="plot-label sm" x="488" y="67.9" text-anchor="start" style="fill:#c9504d">Ask $6: sell nothing</text></svg></div>
     <div class="grid-2" style="margin-top:12px; gap:14px;">
       <div class="card blue-top"><h3 class="blue">The coast&rsquo;s market: slopes down</h3><p>If sardines cost more everywhere, families buy fewer. Supply and demand along the whole coast set the $5.</p></div>
-      <div class="card accent-top"><h3 class="accent">Your boat: perfectly elastic</h3><p>Unit 6: &ldquo;Perfectly elastic: one penny more and you sell nothing.&rdquo; At $5 you can sell 10 sardines or 20. PED = &infin;.</p></div>
+      <div class="card accent-top"><h3 class="accent">Your boat: perfectly elastic</h3><p>Unit 6: &ldquo;Perfectly elastic: one penny more and you sell nothing.&rdquo; At $5 you can sell 10 sardines or 20. Price Elasticity of Demand = &infin;.</p></div>
     </div>
     <div class="definition-strip red-strip" style="margin-top:12px; font-size:16px;">
       <strong>Trap:</strong> &ldquo;In perfect competition, demand is perfectly elastic.&rdquo; Only the <strong>firm&rsquo;s</strong> demand. The <strong>market</strong> demand curve still slopes down.
     </div>
   </section>
 
-  <!-- 17 pmr -->
+  <!-- 18 pmr -->
   <section class="slide interactive">
     <div class="section-kicker">LO 8b.2 &middot; price = marginal revenue</div>
     <h1>Every extra sardine brings in the same $5</h1>
@@ -869,7 +940,7 @@
     </div>
   </section>
 
-  <!-- 18 pmc -->
+  <!-- 19 pmc -->
   <section class="slide interactive">
     <div class="section-kicker">LO 8b.2 &amp; 8b.4 &middot; putting it together</div>
     <h1>For a price taker, MR = MC means P = MC</h1>
@@ -889,7 +960,7 @@
     <p class="footer-note small muted" style="margin-top:6px;">Unit 9&rsquo;s firms use the same MR = MC rule, but their MR is below the price, so they end up with P &gt; MC.</p>
   </section>
 
-  <!-- 19 quickcheck -->
+  <!-- 20 quickcheck -->
   <section class="slide interactive">
     <div class="section-kicker">LO 8b.2 &amp; 8b.4 &middot; new situations &middot; true or false?</div>
     <h1>You be the judge</h1>
@@ -897,7 +968,7 @@
     <div class="button-row" style="margin-top:10px;"><button type="button" class="step-reveal" data-step-group="qc">Reveal next</button></div>
   </section>
 
-  <!-- 20 muscadine -->
+  <!-- 21 muscadine -->
   <section class="slide interactive">
     <div class="section-kicker">Your turn &middot; LO 8b.2&ndash;8b.3 &middot; quiz format</div>
     <h1>A muscadine vineyard</h1>
@@ -925,7 +996,7 @@
     <div class="button-row" style="margin-top:10px;"><button type="button" class="step-reveal" data-step-group="mus">Reveal answers</button></div>
   </section>
 
-  <!-- 21 wrap1 -->
+  <!-- 22 wrap1 -->
   <section class="slide">
     <div class="section-kicker">Part 1 &middot; wrap-up</div>
     <h1>Three things to take away</h1>
@@ -939,7 +1010,7 @@
     </div>
   </section>
 
-  <!-- 22 p2title -->
+  <!-- 23 p2title -->
   <section class="slide title-slide center middle">
     <div>
       <div class="title-kicker">ARE 201 &middot; Unit 8b &middot; Part 2</div>
@@ -948,7 +1019,7 @@
     <svg class="title-graphic" viewBox="0 0 470 170" role="img" aria-label="Marginal cost, average total cost and average variable cost with three price zones: profit, loss but keep producing, and shut down"><defs><clipPath id="c8b8"><rect x="30" y="8" width="432" height="140"/></clipPath></defs><path class="axis" d="M 30 6 L 30 148"/><path class="axis" d="M 30 148 L 462 148"/><rect class="zone z1" x="30" y="10" width="432" height="62.7" /><rect class="zone z2" x="30" y="72.7" width="432" height="43.9" /><rect class="zone z3" x="30" y="116.6" width="432" height="31.4" /><path class="c-line atc" d="M 114 -26.4 C 126 -11.5 138 8.2 150 18.2 C 170 34.7 190 47.7 210 53.9 C 230 60.1 250 63.7 270 66.5 C 290 69.2 310 72.7 330 72.7 C 350 72.7 370 69.4 390 66.5 C 402 64.7 414 60.8 426 58" clip-path="url(#c8b8)"/><path class="c-line avc" d="M 60 93.4 C 70 96.1 80 99.2 90 101.6 C 100 103.9 110 106.1 120 107.9 C 130 109.6 140 111.2 150 112.2 C 170 114.3 190 116.6 210 116.6 C 230 116.6 250 114.5 270 113.5 C 290 112.5 310 112 330 110.4 C 350 108.7 370 102.9 390 97.8 C 402 94.8 414 90.3 426 86.5" clip-path="url(#c8b8)"/><path class="c-line mc" d="M 54 97.8 C 70 104.1 86 114 102 116.6 C 116 118.9 130 121 144 121 C 166 121 188 119.1 210 116.6 C 230 114.4 250 105 270 97.8 C 290 90.6 310 82 330 72.7 C 350 63.4 370 53.6 390 41.4 C 400 35.2 410 27.1 420 20" clip-path="url(#c8b8)"/><circle class="dot blue-dot" cx="330" cy="72.7" r="5"/><circle class="dot green-dot" cx="210" cy="116.6" r="5"/><text class="plot-label sm zone-t1" x="456" y="25.7" text-anchor="end" >profit</text><text class="plot-label sm zone-t2" x="162" y="91.5" text-anchor="start" >loss, keep going</text><text class="plot-label sm zone-t3" x="456" y="138" text-anchor="end" >shut down</text></svg>
   </section>
 
-  <!-- 23 good_day -->
+  <!-- 24 good_day -->
   <section class="slide interactive cs-slide tc-slide" id="tcSlide">
     <div class="section-kicker">LO 8b.6 &middot; two ways to count cost &middot; hands up</div>
     <h1>Accounting cost vs. economic cost</h1>
@@ -964,7 +1035,32 @@
     <script type="application/json" class="cs-cfg">{"states": [{"el": {"tc-paths": {"o": 1}, "tc-you": {"o": 1}, "tc-me": {"o": 1}, "tc-no": {"o": 1}, "tc-office": {"o": 0.5}, "tc-check": {"o": 0}, "tc-costs": {"o": 0}, "tc-jar": {"o": 0}, "tc-rev": {"t": "$0"}, "tc-scale": {"o": 0}, "tc-u0": {"x": 950, "y": 170}, "tc-u1": {"x": 980, "y": 170}, "tc-u2": {"x": 1010, "y": 170}, "tc-acc": {"o": 0}, "tc-a0": {"o": 0}, "tc-a1": {"o": 0}, "tc-a2": {"o": 0}, "tc-a3": {"o": 0}, "tc-a4": {"o": 0}, "tc-eco": {"o": 0}, "tc-e4": {"o": 0}}, "cap": "<strong>Your summer.<\/strong> You could run a taco truck, or take an internship that pays <strong>$10,000<\/strong>. You pick the truck. <strong>Was it a good idea?<\/strong> Vote first."}, {"el": {"tc-paths": {"o": 1}, "tc-you": {"o": 0}, "tc-me": {"o": 1}, "tc-no": {"o": 1}, "tc-office": {"o": 0.5}, "tc-check": {"o": 0}, "tc-costs": {"o": 1}, "tc-jar": {"o": 1}, "tc-rev": {"t": "$24,000"}, "tc-scale": {"o": 0}, "tc-u0": {"x": 282, "y": 170}, "tc-u1": {"x": 308, "y": 170}, "tc-u2": {"x": 334, "y": 170}, "tc-acc": {"o": 1}, "tc-a0": {"o": 1}, "tc-a1": {"o": 1}, "tc-a2": {"o": 1}, "tc-a3": {"o": 1}, "tc-a4": {"o": 1}, "tc-eco": {"o": 0}, "tc-e4": {"o": 0}}, "cap": "The truck brings in <strong>$24,000<\/strong> and you pay out <strong>$16,000<\/strong>. The accountant counts only money paid out, the <strong>explicit costs<\/strong>: accounting profit <strong>+$8,000<\/strong>."}, {"el": {"tc-paths": {"o": 0}, "tc-you": {"o": 0}, "tc-me": {"o": 1}, "tc-no": {"o": 0}, "tc-office": {"o": 1}, "tc-check": {"o": 1}, "tc-costs": {"o": 1}, "tc-jar": {"o": 1}, "tc-rev": {"t": "$24,000"}, "tc-scale": {"o": 0}, "tc-u0": {"x": 282, "y": 170}, "tc-u1": {"x": 308, "y": 170}, "tc-u2": {"x": 334, "y": 170}, "tc-acc": {"o": 1}, "tc-a0": {"o": 1}, "tc-a1": {"o": 1}, "tc-a2": {"o": 1}, "tc-a3": {"o": 1}, "tc-a4": {"o": 1}, "tc-eco": {"o": 1}, "tc-e4": {"o": 1}}, "cap": "The economist also counts what you gave up without paying: the internship, an <strong>implicit cost<\/strong> of $10,000. Economic profit <strong>&minus;$2,000<\/strong>: the truck made money, but the internship would have made $2,000 more."}, {"el": {"tc-paths": {"o": 0}, "tc-you": {"o": 0}, "tc-me": {"o": 0}, "tc-no": {"o": 0}, "tc-office": {"o": 1}, "tc-check": {"o": 1}, "tc-costs": {"o": 1}, "tc-jar": {"o": 1}, "tc-rev": {"t": "$24,000"}, "tc-scale": {"o": 1}, "tc-u0": {"x": 282, "y": 170}, "tc-u1": {"x": 308, "y": 170}, "tc-u2": {"x": 334, "y": 170}, "tc-acc": {"o": 1}, "tc-a0": {"o": 1}, "tc-a1": {"o": 1}, "tc-a2": {"o": 1}, "tc-a3": {"o": 1}, "tc-a4": {"o": 1}, "tc-eco": {"o": 1}, "tc-e4": {"o": 1}}, "cap": "<strong>Accounting cost<\/strong> = explicit costs. <strong>Economic cost<\/strong> = explicit + implicit costs (Unit 2: every opportunity cost). Accounting profit = TR &minus; explicit costs; economic profit = TR &minus; explicit &minus; implicit costs."}]}</script>
   </section>
 
-  <!-- 24 zero_ep -->
+  <!-- 25 profit_eq -->
+  <section class="slide interactive peq-slide">
+    <div class="section-kicker">LO 8b.6 &middot; the formulas &middot; write these down</div>
+    <h1>Costs and profits: how they fit together</h1>
+    <table class="peq-table">
+        <thead><tr><th colspan="2">Formula</th><th>Taco truck (page 24)</th></tr></thead>
+        <tbody><tr><td class="peq-lhs">Accounting cost</td><td class="peq-rhs">= Explicit costs</td><td class="reveal-step peq-val " data-step-group="peq" data-step="1">$16,000</td></tr><tr><td class="peq-lhs">Total economic cost</td><td class="peq-rhs">= Explicit costs + Implicit costs<br>= Accounting cost + Implicit costs</td><td class="reveal-step peq-val " data-step-group="peq" data-step="2">$16,000 + $10,000 = <strong>$26,000</strong></td></tr><tr><td class="peq-lhs">Accounting profit</td><td class="peq-rhs">= TR &minus; Accounting cost</td><td class="reveal-step peq-val green" data-step-group="peq" data-step="3">$24,000 &minus; $16,000 = <strong>+$8,000</strong></td></tr><tr><td class="peq-lhs">Economic profit</td><td class="peq-rhs">= TR &minus; Total economic cost</td><td class="reveal-step peq-val red" data-step-group="peq" data-step="4">$24,000 &minus; $26,000 = <strong>&minus;$2,000</strong></td></tr><tr><td class="peq-lhs">Economic profit</td><td class="peq-rhs">= Accounting profit &minus; Implicit costs</td><td class="reveal-step peq-val red" data-step-group="peq" data-step="5">$8,000 &minus; $10,000 = <strong>&minus;$2,000</strong></td></tr></tbody>
+    </table>
+    
+      <div class="peq-bars">
+        <div class="peq-row"><div class="peq-cap">Revenue</div><div class="peq-track">
+          <div class="peq-seg rev" style="width:92.31%">TR $24,000</div>
+          <div class="peq-tr" style="left:92.31%"></div></div></div>
+        <div class="reveal-step peq-row" data-step-group="peq" data-step="3"><div class="peq-cap">Accountant</div><div class="peq-track">
+          <div class="peq-seg exp" style="width:61.54%">explicit $16,000</div><div class="peq-seg prof" style="width:30.77%">accounting profit $8,000</div>
+          <div class="peq-tr" style="left:92.31%"></div></div></div>
+        <div class="reveal-step peq-row" data-step-group="peq" data-step="4"><div class="peq-cap">Economist</div><div class="peq-track">
+          <div class="peq-seg exp" style="width:61.54%">explicit $16,000</div><div class="peq-seg imp" style="width:38.46%">implicit $10,000</div>
+          <div class="peq-tr" style="left:92.31%"></div>
+          <div class="peq-gap" style="left:92.31%; width:7.69%"><span>&minus;$2,000 economic profit</span></div></div></div>
+      </div>
+    <div class="reveal-step " data-step-group="peq" data-step="5"><div class="definition-strip" style="margin-top:12px; font-size:17px;">Implicit costs are never negative, so <strong>total economic cost &ge; accounting cost</strong> and <strong>economic profit &le; accounting profit</strong>. They are equal only when implicit costs are zero.</div></div>
+    <div class="button-row" style="margin-top:10px;"><button type="button" class="step-reveal" data-step-group="peq">Plug in the taco truck</button></div>
+  </section>
+
+  <!-- 26 zero_ep -->
   <section class="slide interactive">
     <div class="section-kicker">LO 8b.6 &middot; reading economic profit</div>
     <h1>Zero economic profit is not failure</h1>
@@ -982,7 +1078,7 @@
     <div class="button-row" style="margin-top:10px;"><button type="button" class="step-reveal" data-step-group="ep">Reveal</button></div>
   </section>
 
-  <!-- 25 profitgraph -->
+  <!-- 27 profitgraph -->
   <section class="slide interactive">
     <div class="section-kicker">LO 8b.3 &middot; profit on a graph</div>
     <h1>Profit is a rectangle: (P &minus; ATC) &times; Q</h1>
@@ -1010,7 +1106,7 @@
     </div>
   </section>
 
-  <!-- 26 breakeven -->
+  <!-- 28 breakeven -->
   <section class="slide interactive">
     <div class="section-kicker">LO 8b.3 &middot; the break-even price</div>
     <h1>Break-even price = the bottom of ATC</h1>
@@ -1030,7 +1126,7 @@
     </div>
   </section>
 
-  <!-- 27 collards -->
+  <!-- 29 collards -->
   <section class="slide interactive">
     <div class="section-kicker">Your turn &middot; LO 8b.3 &middot; read the graph</div>
     <h1>A collard greens grower</h1>
@@ -1053,7 +1149,7 @@
     </div>
   </section>
 
-  <!-- 28 rain -->
+  <!-- 30 rain -->
   <section class="slide interactive cs-slide tc-slide rn-slide" id="rnSlide">
     <div class="section-kicker">LO 8b.5 &middot; losing money, still open &middot; hands up</div>
     <h1>Why stay open at a loss?</h1>
@@ -1067,7 +1163,7 @@
     <script type="application/json" class="cs-cfg">{"states": [{"el": {"rn-shut": {"o": 0}, "rn-bar": {"o": 0}, "rn-u0": {"x": 930, "y": 170}, "rn-u1": {"x": 965, "y": 170}, "rn-close": {"o": 0}, "rn-open": {"o": 0}}, "cap": "<strong>A rainy August.<\/strong> You rented the truck for the month and already paid <strong>$2,000<\/strong>, no refund. Rain keeps customers away: you will lose money whether you open or not. <strong>Open or close for August?<\/strong> Vote first."}, {"el": {"rn-shut": {"o": 1}, "rn-bar": {"o": 0}, "rn-u0": {"x": 930, "y": 170}, "rn-u1": {"x": 965, "y": 170}, "rn-close": {"o": 1}, "rn-open": {"o": 0}}, "cap": "<strong>Close:<\/strong> no sales and no ingredients or helper to pay, but the $2,000 rent is gone anyway. You lose <strong>$2,000<\/strong>."}, {"el": {"rn-shut": {"o": 0}, "rn-bar": {"o": 0}, "rn-u0": {"x": 292, "y": 170}, "rn-u1": {"x": 330, "y": 170}, "rn-close": {"o": 1}, "rn-open": {"o": 1}}, "cap": "<strong>Open:<\/strong> a few customers still come: 1,000 tacos at $3.00 = $3,000. Ingredients and a helper cost $1,800. With the rent, you lose <strong>$800<\/strong>: $1,200 less than closing."}, {"el": {"rn-shut": {"o": 0}, "rn-bar": {"o": 1}, "rn-u0": {"x": 292, "y": 170}, "rn-u1": {"x": 330, "y": 170}, "rn-close": {"o": 1}, "rn-open": {"o": 1}}, "cap": "<strong>Why open at a loss?<\/strong> The rent is owed either way, so it can&rsquo;t decide anything. Opening brings in $3,000 and costs only $1,800 more; the extra $1,200 pays part of the rent. <strong>Stay open as long as sales cover the costs you could avoid by closing.<\/strong> But what if the price of a taco falls?"}]}</script>
   </section>
 
-  <!-- 29 rain_shut -->
+  <!-- 31 rain_shut -->
   <section class="slide interactive cs-slide tc-slide rn-slide" id="rsSlide">
     <div class="section-kicker">LO 8b.5 &middot; when losing money means closing &middot; hands up</div>
     <h1>When should you shut down?</h1>
@@ -1081,7 +1177,7 @@
     <script type="application/json" class="cs-cfg">{"states": [{"el": {"rs-shut": {"o": 0}, "rs-bar": {"o": 0}, "rs-u0": {"x": 930, "y": 170}, "rs-u1": {"x": 965, "y": 170}, "rs-close": {"o": 0}, "rs-open": {"o": 0}}, "cap": "<strong>Same rainy August, same $2,000 rent<\/strong>, but so many taco trucks crowd the beach that a taco now sells for <strong>$1.50<\/strong> instead of $3.00. You&rsquo;d still sell 1,000. <strong>Open or close?<\/strong> Vote first."}, {"el": {"rs-shut": {"o": 1}, "rs-bar": {"o": 0}, "rs-u0": {"x": 930, "y": 170}, "rs-u1": {"x": 965, "y": 170}, "rs-close": {"o": 1}, "rs-open": {"o": 0}}, "cap": "<strong>Close:<\/strong> you lose the rent, <strong>$2,000<\/strong>, exactly as before."}, {"el": {"rs-shut": {"o": 0}, "rs-bar": {"o": 0}, "rs-u0": {"x": 292, "y": 170}, "rs-u1": {"x": 330, "y": 170}, "rs-close": {"o": 1}, "rs-open": {"o": 1}}, "cap": "<strong>Open:<\/strong> 1,000 tacos at $1.50 = $1,500, but ingredients and a helper still cost $1,800. With the rent, you lose <strong>$2,300<\/strong>: $300 <em>more<\/em> than closing."}, {"el": {"rs-shut": {"o": 0}, "rs-bar": {"o": 1}, "rs-u0": {"x": 292, "y": 170}, "rs-u1": {"x": 330, "y": 170}, "rs-close": {"o": 1}, "rs-open": {"o": 1}}, "cap": "<strong>Shut down.<\/strong> Sales ($1,500) don&rsquo;t even cover the costs you could avoid ($1,800), so opening adds $300 to the rent you lose anyway. Per taco: it sells for $1.50 but costs $1.80 in ingredients and helper. <strong>Below $1.80 a taco, close.<\/strong>"}]}</script>
   </section>
 
-  <!-- 30 shutprice -->
+  <!-- 32 shutprice -->
   <section class="slide interactive">
     <div class="section-kicker">LO 8b.5 &middot; the shutdown price</div>
     <h1>Shutdown price = the bottom of AVC</h1>
@@ -1100,7 +1196,7 @@
     <div class="reveal-step " data-step-group="sdp" data-step="4"><div class="definition-strip blue-strip" style="margin-top:10px; font-size:15.5px; padding:8px 14px;"><strong>Taco truck:</strong> AVC = $1.80 a taco, so its shutdown price is <strong>$1.80</strong>. <strong>Shut down &ne; exit:</strong> closing for August still pays the rent.</div></div>
   </section>
 
-  <!-- 31 opshut -->
+  <!-- 33 opshut -->
   <section class="slide interactive">
     <div class="section-kicker">Your turn &middot; LO 8b.5 &middot; read the graph</div>
     <h1>Operate or shut down?</h1>
@@ -1123,6 +1219,116 @@
         </div>
         <div class="button-row" style="margin-top:10px;"><button type="button" class="step-reveal" data-step-group="sd">Reveal next</button></div>
       </div>
+    </div>
+  </section>
+
+  <!-- 34 pc_supply -->
+  <section class="slide interactive">
+    <div class="section-kicker">LO 8b.5 &middot; the firm&rsquo;s supply curve</div>
+    <h1>Why the firm&rsquo;s supply curve is its MC curve</h1>
+    <p style="margin:0 0 6px; font-size:18px;">Above the shutdown point, each market price maps to the Q where P = MC. The collard grower again:</p>
+    <div class="lr-grid">
+      <div class="plot-panel" style="padding:4px;"><svg class="plot" viewBox="0 0 470 300" role="img" aria-label="The collard grower's MC, ATC and AVC. At 17 dollars it grows 60 cases, at 12 dollars 50, at 8 dollars 40, at 5 dollars 30; below 5 dollars, the bottom of AVC, it shuts down. Its short-run supply curve is MC above minimum AVC"><defs><clipPath id="c8b19"><rect x="48" y="14" width="408" height="256"/></clipPath></defs><path class="gridline" d="M 48 212.3 L 456 212.3 M 48 154.5 L 456 154.5 M 48 96.8 L 456 96.8 M 48 39.1 L 456 39.1"/><path class="axis" d="M 48 12 L 48 270"/><path class="axis" d="M 48 270 L 456 270"/><text class="tick-label" x="42" y="216.3" text-anchor="end">$5</text><text class="tick-label" x="42" y="158.5" text-anchor="end">$10</text><text class="tick-label" x="42" y="100.8" text-anchor="end">$15</text><text class="tick-label" x="42" y="43.1" text-anchor="end">$20</text><text class="tick-label" x="104.7" y="285" text-anchor="middle">10</text><text class="tick-label" x="161.3" y="285" text-anchor="middle">20</text><text class="tick-label" x="218" y="285" text-anchor="middle">30</text><text class="tick-label" x="274.7" y="285" text-anchor="middle">40</text><text class="tick-label" x="331.3" y="285" text-anchor="middle">50</text><text class="tick-label" x="388" y="285" text-anchor="middle">60</text><text class="tick-label" x="444.7" y="285" text-anchor="middle">70</text><text class="axis-title" x="456" y="263" text-anchor="end">cases per day</text><text class="axis-title" x="53" y="20" text-anchor="start">$ per case</text><g class="reveal-step" data-step-group="lsup" data-step="5"><path class="supply-hi" d="M 218 212.3 L 220.8 211.6 L 223.7 210.7 L 226.5 209.6 L 229.3 208.4 L 232.2 207 L 235 205.5 L 237.8 203.9 L 240.7 202.1 L 243.5 200.3 L 246.3 198.4 L 249.2 196.4 L 252 194.4 L 254.8 192.3 L 257.7 190.2 L 260.5 188 L 263.3 185.9 L 266.2 183.8 L 269 181.7 L 271.8 179.6 L 274.7 177.6 L 277.5 175.6 L 280.3 173.6 L 283.2 171.5 L 286 169.4 L 288.8 167.3 L 291.7 165.1 L 294.5 162.9 L 297.3 160.6 L 300.2 158.3 L 303 156 L 305.8 153.7 L 308.7 151.3 L 311.5 148.9 L 314.3 146.5 L 317.2 144 L 320 141.6 L 322.8 139.1 L 325.7 136.5 L 328.5 134 L 331.3 131.5 L 334.2 128.9 L 337 126.3 L 339.8 123.7 L 342.7 121 L 345.5 118.4 L 348.3 115.7 L 351.2 113 L 354 110.2 L 356.8 107.5 L 359.7 104.6 L 362.5 101.8 L 365.3 98.9 L 368.2 95.9 L 371 92.9 L 373.8 89.9 L 376.7 86.8 L 379.5 83.6 L 382.3 80.4 L 385.2 77.1 L 388 73.7 L 390.8 70.2 L 393.7 66.6 L 396.5 62.7 L 399.3 58.8 L 402.2 54.8 L 405 50.7 L 407.8 46.6 L 410.7 42.5 L 413.5 38.4 L 416.3 34.5" clip-path="url(#c8b19)"/><path class="supply-hi" d="M 48 270 L 48 212.3" /><rect class="gray-out" x="48" y="16" width="170" height="189.3" /><text class="plot-label sm" x="133" y="91" text-anchor="middle" style="fill:#5f6b76">not on the</text><text class="plot-label sm" x="133" y="105" text-anchor="middle" style="fill:#5f6b76">supply curve</text></g><path class="c-line atc" d="M 127.3 -51 C 138.7 -23.6 150 12.7 161.3 31 C 180.2 61.5 199.1 85.4 218 96.8 C 236.9 108.2 255.8 114.8 274.7 119.9 C 293.6 125 312.4 131.5 331.3 131.5 C 350.2 131.5 369.1 125.4 388 119.9 C 399.3 116.6 410.7 109.5 422 104.3" clip-path="url(#c8b19)"/><path class="c-line avc" d="M 76.3 169.6 C 85.8 174.6 95.2 180.2 104.7 184.6 C 114.1 188.9 123.6 192.9 133 196.1 C 142.4 199.3 151.9 202.3 161.3 204.2 C 180.2 207.9 199.1 212.3 218 212.3 C 236.9 212.3 255.8 208.4 274.7 206.5 C 293.6 204.6 312.4 203.8 331.3 200.7 C 350.2 197.6 369.1 187 388 177.6 C 399.3 172 410.7 163.8 422 156.9" clip-path="url(#c8b19)"/><path class="c-line mc" d="M 70.7 177.6 C 85.8 189.2 100.9 207.5 116 212.3 C 129.2 216.5 142.4 220.4 155.7 220.4 C 176.4 220.4 197.2 216.8 218 212.3 C 236.9 208.2 255.8 190.8 274.7 177.6 C 293.6 164.4 312.4 148.6 331.3 131.5 C 350.2 114.4 369.1 96.3 388 73.7 C 397.4 62.4 406.9 47.6 416.3 34.5" clip-path="url(#c8b19)"/><text class="c-label mc" x="422" y="32.2" text-anchor="start" >MC</text><text class="c-label atc" x="427.7" y="103.7" text-anchor="start" >ATC</text><text class="c-label avc" x="424.8" y="147.6" text-anchor="start" >AVC</text><g class="reveal-step" data-step-group="lsup" data-step="1"><path class="p-line dash thin" d="M 48 73.7 L 388 73.7" /><path class="ref-line" d="M 388 270 L 388 73.7" /><circle class="dot" cx="388" cy="73.7" r="6"/><text class="tick-label strong-tick" x="42" y="77.7" text-anchor="end">$17</text><text class="plot-label sm" x="380" y="66.7" text-anchor="end" >$17 &rarr; 60</text></g><g class="reveal-step" data-step-group="lsup" data-step="2"><path class="p-line dash thin" d="M 48 131.5 L 331.3 131.5" /><path class="ref-line" d="M 331.3 270 L 331.3 131.5" /><circle class="dot" cx="331.3" cy="131.5" r="6"/><text class="tick-label strong-tick" x="42" y="135.5" text-anchor="end">$12</text><text class="plot-label sm" x="323.3" y="124.5" text-anchor="end" >$12 &rarr; 50</text></g><g class="reveal-step" data-step-group="lsup" data-step="3"><path class="p-line dash thin" d="M 48 177.6 L 274.7 177.6" /><path class="ref-line" d="M 274.7 270 L 274.7 177.6" /><circle class="dot" cx="274.7" cy="177.6" r="6"/><text class="tick-label strong-tick" x="42" y="181.6" text-anchor="end">$8</text><text class="plot-label sm" x="266.7" y="170.6" text-anchor="end" >$8 &rarr; 40</text></g><g class="reveal-step" data-step-group="lsup" data-step="4"><path class="p-line dash thin" d="M 48 212.3 L 218 212.3" /><path class="ref-line" d="M 218 270 L 218 212.3" /><circle class="dot" cx="218" cy="212.3" r="6"/><text class="tick-label strong-tick" x="42" y="216.3" text-anchor="end">$5</text><text class="plot-label sm" x="210" y="205.3" text-anchor="end" >$5 &rarr; 30</text></g><g class="reveal-step" data-step-group="lsup" data-step="5"><circle class="dot red-dot" cx="48" cy="223.8" r="5.5"/><text class="plot-label sm" x="56" y="227.8" text-anchor="start" style="fill:#a33b38">$4 &rarr; 0</text><text class="plot-label" x="297.3" y="56.4" text-anchor="end" style="fill:#b8600f">supply</text></g></svg></div>
+      <div>
+        <table class="u8-table compact lr-sup-table">
+          <thead><tr><th>Price</th><th>Cases</th><th>Why</th></tr></thead>
+          <tbody><tr><td class="reveal-step " data-step-group="lsup" data-step="1">$17</td><td class="reveal-step " data-step-group="lsup" data-step="1">60</td><td class="reveal-step lead" data-step-group="lsup" data-step="1">P = MC</td></tr><tr><td class="reveal-step " data-step-group="lsup" data-step="2">$12</td><td class="reveal-step " data-step-group="lsup" data-step="2">50</td><td class="reveal-step lead" data-step-group="lsup" data-step="2">P = MC</td></tr><tr><td class="reveal-step " data-step-group="lsup" data-step="3">$8</td><td class="reveal-step " data-step-group="lsup" data-step="3">40</td><td class="reveal-step lead" data-step-group="lsup" data-step="3">P = MC (loss, but P &gt; AVC)</td></tr><tr><td class="reveal-step " data-step-group="lsup" data-step="4">$5</td><td class="reveal-step " data-step-group="lsup" data-step="4">30</td><td class="reveal-step lead" data-step-group="lsup" data-step="4">P = min AVC: the shutdown point</td></tr><tr class="hl-red"><td class="reveal-step " data-step-group="lsup" data-step="5">$4</td><td class="reveal-step " data-step-group="lsup" data-step="5">0</td><td class="reveal-step lead" data-step-group="lsup" data-step="5">below min AVC: shut down</td></tr></tbody>
+        </table>
+        <div class="card green-top" style="padding:9px 13px; margin-top:10px;"><h3 class="green" style="font-size:16px;">For P &ge; minimum AVC</h3><p style="font-size:14.5px;">The firm operates and chooses the quantity where P = MC.</p></div>
+        <div class="card red-top" style="padding:9px 13px; margin-top:8px;"><h3 class="red" style="font-size:16px;">For P &lt; minimum AVC</h3><p style="font-size:14.5px;">The firm shuts down, so quantity supplied is zero.</p></div>
+      </div>
+    </div>
+    <div class="reveal-step " data-step-group="lsup" data-step="5"><div class="definition-strip" style="margin-top:10px; font-size:17px;"><strong>Short-run firm supply = the rising part of MC above minimum AVC.</strong> Market supply adds up every firm&rsquo;s quantity at each price.</div></div>
+    <div class="button-row" style="margin-top:8px;"><button type="button" class="step-reveal" data-step-group="lsup">Next price</button></div>
+  </section>
+
+  <!-- 35 pc_srlr -->
+  <section class="slide">
+    <div class="section-kicker">LO 8b.6 &middot; the long run</div>
+    <h1>Short run vs. long run</h1>
+    <p style="margin:0 0 8px; font-size:18px;">The key difference is what the firm can adjust.</p>
+    <div class="grid-2" style="gap:16px;">
+      <div class="card accent-top"><h3 class="accent">Short run</h3>
+        <ul class="lr-list"><li>At least one input is fixed.</li><li>Fixed costs remain even if Q = 0.</li>
+          <li>The firm may keep operating with a loss if P &gt; AVC.</li></ul>
+        <p class="lr-decide"><strong>Decision:</strong> produce, or temporarily shut down.</p>
+        <p class="small muted">Taco truck: close for a rainy August, but the rent is still owed.</p></div>
+      <div class="card blue-top"><h3 class="blue">Long run</h3>
+        <ul class="lr-list"><li>All inputs can be adjusted.</li><li>Fixed commitments, like a lease, can expire.</li>
+          <li>A firm does not stay forever in an industry with negative economic profit.</li></ul>
+        <p class="lr-decide"><strong>Decision:</strong> stay, enter, or exit.</p>
+        <p class="small muted">Taco truck: don&rsquo;t renew the truck rental; sell tacos no more.</p></div>
+    </div>
+    <div class="definition-strip blue-strip" style="margin-top:14px; font-size:18px;">
+      <strong>Shutdown</strong> is a short-run production decision. <strong>Exit</strong> is a long-run industry decision.
+    </div>
+    <div class="definition-strip" style="margin-top:10px; font-size:16.5px;">
+      Monday&rsquo;s fourth ingredient, <strong>free entry and exit</strong> (page 7), is what lets firms come and go in the long run. In the long run, firms compare P with <strong>ATC</strong>: is there economic profit?
+    </div>
+  </section>
+
+  <!-- 36 pc_entry -->
+  <section class="slide interactive">
+    <div class="section-kicker">LO 8b.6 &middot; long run &middot; entry</div>
+    <h1>Economic profit triggers entry</h1>
+    <p style="margin:0 0 6px; font-size:18px;">Profits attract new firms and expand industry supply.</p>
+    <div class="plot-panel" style="padding:4px 6px;"><svg class="plot" viewBox="0 0 860 270" role="img" aria-label="Two panels. In the market, supply shifts right twice as firms enter and the price falls from 17 to 14.50 to 12 dollars; the firm's profit rectangle shrinks until the price equals minimum ATC and profit is zero" style="height:auto"><defs><clipPath id="c8b20"><rect x="56" y="16" width="332" height="220"/></clipPath></defs><path class="axis" d="M 56 14 L 56 236"/><path class="axis" d="M 56 236 L 388 236"/><text class="axis-title" x="388" y="229" text-anchor="end">quantity, whole market</text><text class="axis-title" x="61" y="22" text-anchor="start">market</text><defs><clipPath id="c8b21"><rect x="500" y="16" width="346" height="220"/></clipPath></defs><path class="axis" d="M 500 14 L 500 236"/><path class="axis" d="M 500 236 L 846 236"/><text class="axis-title" x="846" y="229" text-anchor="end">output, one firm</text><text class="axis-title" x="505" y="22" text-anchor="start">one firm</text><path class="c-line atc" d="M 567.3 -39.5 C 576.9 -16 586.5 15.2 596.1 30.9 C 612.1 57.1 628.1 77.6 644.2 87.4 C 660.2 97.1 676.2 102.8 692.2 107.2 C 708.2 111.6 724.3 117.1 740.3 117.1 C 756.3 117.1 772.3 111.9 788.3 107.2 C 797.9 104.3 807.6 98.3 817.2 93.8" clip-path="url(#c8b21)"/><path class="c-line mc" d="M 519.2 156.7 C 532 166.6 544.9 182.3 557.7 186.5 C 568.9 190.1 580.1 193.4 591.3 193.4 C 608.9 193.4 626.5 190.3 644.2 186.5 C 660.2 183 676.2 168.1 692.2 156.7 C 708.2 145.4 724.3 131.8 740.3 117.1 C 756.3 102.4 772.3 86.9 788.3 67.5 C 796.3 57.9 804.4 45.1 812.4 33.9" clip-path="url(#c8b21)"/><text class="c-label mc" x="817.2" y="31.9" text-anchor="start" >MC</text><text class="c-label atc" x="822" y="93.3" text-anchor="start" >ATC</text><path class="guide" d="M 500 117.1 L 740.3 117.1" /><g class="st" data-sg="lent" data-on="0 1" ><text class="tick-label" x="494" y="121.1" text-anchor="end">min ATC</text></g><g class="st pr" data-sg="lent" data-on="2" ><text class="tick-label strong-tick" x="494" y="110.1" text-anchor="end" >$12 = min ATC</text></g><path class="demand-line" d="M 56 10.1 L 388 204.3" clip-path="url(#c8b20)"/><text class="c-label" x="376.1" y="189.4" text-anchor="end" fill="#2f80c9">D</text><g class="st" data-sg="lent" data-on="0" ><path class="supply-line" d="M 56 116.8 L 388 -49.7" clip-path="url(#c8b20)"/><text class="c-label" x="237.2" y="17" fill="#378a61" text-anchor="end">S<tspan dy="3" font-size="9">0</tspan></text></g><g class="st pr" data-sg="lent" data-on="1 2" ><path class="supply-line ghosted" d="M 56 116.8 L 388 -49.7" clip-path="url(#c8b20)"/></g><g class="st" data-sg="lent" data-on="0" ><rect class="profit-rect" x="500" y="67.5" width="288.3" height="39.6" /><text class="plot-label sm" x="644.2" y="91.4" text-anchor="middle" style="fill:#2a6f4d">profit</text><path class="p-line dash thin" d="M 154.2 67.5 L 500 67.5"/><circle class="dot" cx="154.2" cy="67.5" r="6"/><text class="tick-label strong-tick" x="50" y="71.5" text-anchor="end">$17</text><path class="p-line" d="M 500 67.5 L 846 67.5" /><path class="ref-line" d="M 788.3 236 L 788.3 67.5" /><circle class="dot" cx="788.3" cy="67.5" r="5.5"/></g><g class="st" data-sg="lent" data-on="1" ><path class="supply-line" d="M 56 162.8 L 388 -3.7" clip-path="url(#c8b20)"/><text class="c-label" x="328.9" y="17" fill="#378a61" text-anchor="end">S<tspan dy="3" font-size="9">1</tspan></text></g><g class="st pr" data-sg="lent" data-on="2" ><path class="supply-line ghosted" d="M 56 162.8 L 388 -3.7" clip-path="url(#c8b20)"/></g><g class="st" data-sg="lent" data-on="1" ><rect class="profit-rect" x="500" y="92.3" width="266" height="21.2" /><text class="plot-label sm" x="633" y="106.9" text-anchor="middle" style="fill:#2a6f4d">profit</text><path class="p-line dash thin" d="M 196.6 92.3 L 500 92.3"/><circle class="dot" cx="196.6" cy="92.3" r="6"/><text class="tick-label strong-tick" x="50" y="96.3" text-anchor="end">$14.50</text><path class="p-line" d="M 500 92.3 L 846 92.3" /><path class="ref-line" d="M 766 236 L 766 92.3" /><circle class="dot" cx="766" cy="92.3" r="5.5"/></g><g class="st pr" data-sg="lent" data-on="2" ><path class="supply-line" d="M 56 208.8 L 388 42.3" clip-path="url(#c8b20)"/><text class="c-label" x="377.3" y="38.7" fill="#378a61" text-anchor="end">S<tspan dy="3" font-size="9">2</tspan></text></g><g class="st pr" data-sg="lent" data-on="2" ><text class="plot-label sm" x="748.3" y="137.1" text-anchor="start" style="fill:#2f80c9">profit = 0</text><path class="p-line dash thin" d="M 238.9 117.1 L 500 117.1"/><circle class="dot" cx="238.9" cy="117.1" r="6"/><text class="tick-label strong-tick" x="50" y="121.1" text-anchor="end">$12</text><path class="p-line" d="M 500 117.1 L 846 117.1" /><path class="ref-line" d="M 740.3 236 L 740.3 117.1" /><circle class="dot" cx="740.3" cy="117.1" r="5.5"/></g><g class="st pr" data-sg="lent" data-on="1 2" ><text class="plot-label" x="162.7" y="204.3" text-anchor="middle" style="fill:#378a61">supply &rarr;</text></g></svg></div>
+    <div class="lr-steps"><div class="st pr" data-sg="lent" data-on="0 1 2"><div class="calc-line"><div class="calc-num">1</div><div><strong>Economic profit</strong><span>At $17, P &gt; ATC: each firm earns economic profit. Outsiders want in.</span></div></div></div><div class="st pr" data-sg="lent" data-on="1 2"><div class="calc-line"><div class="calc-num">2</div><div><strong>New firms enter</strong><span>More sellers: market supply shifts right (Unit 4: number of sellers is a supply shifter). Price falls to $14.50; profit shrinks.</span></div></div></div><div class="st pr" data-sg="lent" data-on="2"><div class="calc-line hi"><div class="calc-num">3</div><div><strong>Entry stops at min ATC</strong><span>Price falls to $12 = minimum ATC. Economic profit = 0: no reason left to enter.</span></div></div></div></div>
+    <div class="definition-strip green-strip" style="margin-top:8px; font-size:16.5px; padding:8px 14px;">Entry shifts market supply right &rarr; market price falls &rarr; each firm&rsquo;s economic profit shrinks.</div>
+    <div class="button-row" style="margin-top:8px;"><button type="button" class="state-next" data-sg="lent" data-max="2">Next step</button></div>
+  </section>
+
+  <!-- 37 pc_exit -->
+  <section class="slide interactive">
+    <div class="section-kicker">LO 8b.6 &middot; long run &middot; exit</div>
+    <h1>Economic loss triggers exit</h1>
+    <p style="margin:0 0 6px; font-size:18px;">Persistent losses cause some firms to leave the industry.</p>
+    <div class="plot-panel" style="padding:4px 6px;"><svg class="plot" viewBox="0 0 860 270" role="img" aria-label="Two panels. In the market, supply shifts left twice as firms exit and the price rises from 8 to 10 to 12 dollars; the firm's loss rectangle shrinks until the price equals minimum ATC and the loss is zero" style="height:auto"><defs><clipPath id="c8b22"><rect x="56" y="16" width="332" height="220"/></clipPath></defs><path class="axis" d="M 56 14 L 56 236"/><path class="axis" d="M 56 236 L 388 236"/><text class="axis-title" x="388" y="229" text-anchor="end">quantity, whole market</text><text class="axis-title" x="61" y="22" text-anchor="start">market</text><defs><clipPath id="c8b23"><rect x="500" y="16" width="346" height="220"/></clipPath></defs><path class="axis" d="M 500 14 L 500 236"/><path class="axis" d="M 500 236 L 846 236"/><text class="axis-title" x="846" y="229" text-anchor="end">output, one firm</text><text class="axis-title" x="505" y="22" text-anchor="start">one firm</text><path class="c-line atc" d="M 567.3 -39.5 C 576.9 -16 586.5 15.2 596.1 30.9 C 612.1 57.1 628.1 77.6 644.2 87.4 C 660.2 97.1 676.2 102.8 692.2 107.2 C 708.2 111.6 724.3 117.1 740.3 117.1 C 756.3 117.1 772.3 111.9 788.3 107.2 C 797.9 104.3 807.6 98.3 817.2 93.8" clip-path="url(#c8b23)"/><path class="c-line mc" d="M 519.2 156.7 C 532 166.6 544.9 182.3 557.7 186.5 C 568.9 190.1 580.1 193.4 591.3 193.4 C 608.9 193.4 626.5 190.3 644.2 186.5 C 660.2 183 676.2 168.1 692.2 156.7 C 708.2 145.4 724.3 131.8 740.3 117.1 C 756.3 102.4 772.3 86.9 788.3 67.5 C 796.3 57.9 804.4 45.1 812.4 33.9" clip-path="url(#c8b23)"/><text class="c-label mc" x="817.2" y="31.9" text-anchor="start" >MC</text><text class="c-label atc" x="822" y="93.3" text-anchor="start" >ATC</text><path class="guide" d="M 500 117.1 L 740.3 117.1" /><g class="st" data-sg="lext" data-on="0 1" ><text class="tick-label" x="494" y="121.1" text-anchor="end">min ATC</text></g><g class="st pr" data-sg="lext" data-on="2" ><text class="tick-label strong-tick" x="494" y="110.1" text-anchor="end" >$12 = min ATC</text></g><path class="demand-line" d="M 56 10.1 L 388 204.3" clip-path="url(#c8b22)"/><text class="c-label" x="376.1" y="189.4" text-anchor="end" fill="#2f80c9">D</text><g class="st" data-sg="lext" data-on="0" ><path class="supply-line" d="M 56 282.4 L 388 116" clip-path="url(#c8b22)"/><text class="c-label" x="377.3" y="112.3" fill="#378a61" text-anchor="end">S<tspan dy="3" font-size="9">0</tspan></text></g><g class="st pr" data-sg="lext" data-on="1 2" ><path class="supply-line ghosted" d="M 56 282.4 L 388 116" clip-path="url(#c8b22)"/></g><g class="st" data-sg="lext" data-on="0" ><rect class="loss-rect" x="500" y="107.2" width="192.2" height="49.5" /><text class="plot-label sm" x="596.1" y="136" text-anchor="middle" style="fill:#a33b38">loss</text><path class="p-line dash thin" d="M 306.7 156.7 L 500 156.7"/><circle class="dot" cx="306.7" cy="156.7" r="6"/><text class="tick-label strong-tick" x="50" y="160.7" text-anchor="end">$8</text><path class="p-line" d="M 500 156.7 L 846 156.7" /><path class="ref-line" d="M 692.2 236 L 692.2 156.7" /><circle class="dot" cx="692.2" cy="156.7" r="5.5"/></g><g class="st" data-sg="lext" data-on="1" ><path class="supply-line" d="M 56 245.6 L 388 79.2" clip-path="url(#c8b22)"/><text class="c-label" x="377.3" y="75.5" fill="#378a61" text-anchor="end">S<tspan dy="3" font-size="9">1</tspan></text></g><g class="st pr" data-sg="lext" data-on="2" ><path class="supply-line ghosted" d="M 56 245.6 L 388 79.2" clip-path="url(#c8b22)"/></g><g class="st" data-sg="lext" data-on="1" ><rect class="loss-rect" x="500" y="114.1" width="217.8" height="22.8" /><text class="plot-label sm" x="608.9" y="129.5" text-anchor="middle" style="fill:#a33b38">loss</text><path class="p-line dash thin" d="M 272.8 136.9 L 500 136.9"/><circle class="dot" cx="272.8" cy="136.9" r="6"/><text class="tick-label strong-tick" x="50" y="140.9" text-anchor="end">$10</text><path class="p-line" d="M 500 136.9 L 846 136.9" /><path class="ref-line" d="M 717.8 236 L 717.8 136.9" /><circle class="dot" cx="717.8" cy="136.9" r="5.5"/></g><g class="st pr" data-sg="lext" data-on="2" ><path class="supply-line" d="M 56 208.8 L 388 42.3" clip-path="url(#c8b22)"/><text class="c-label" x="377.3" y="38.7" fill="#378a61" text-anchor="end">S<tspan dy="3" font-size="9">2</tspan></text></g><g class="st pr" data-sg="lext" data-on="2" ><text class="plot-label sm" x="748.3" y="137.1" text-anchor="start" style="fill:#2f80c9">profit = 0</text><path class="p-line dash thin" d="M 238.9 117.1 L 500 117.1"/><circle class="dot" cx="238.9" cy="117.1" r="6"/><text class="tick-label strong-tick" x="50" y="121.1" text-anchor="end">$12</text><path class="p-line" d="M 500 117.1 L 846 117.1" /><path class="ref-line" d="M 740.3 236 L 740.3 117.1" /><circle class="dot" cx="740.3" cy="117.1" r="5.5"/></g><g class="st pr" data-sg="lext" data-on="1 2" ><text class="plot-label" x="281.3" y="204.3" text-anchor="middle" style="fill:#378a61">supply &larr;</text></g></svg></div>
+    <div class="lr-steps"><div class="st pr" data-sg="lext" data-on="0 1 2"><div class="calc-line"><div class="calc-num">1</div><div><strong>Economic loss</strong><span>At $8, P &lt; ATC: each firm loses money. (P &gt; AVC, so in the short run it keeps producing.)</span></div></div></div><div class="st pr" data-sg="lext" data-on="1 2"><div class="calc-line"><div class="calc-num">2</div><div><strong>Some firms exit</strong><span>When leases expire, some firms leave: market supply shifts left. Price rises to $10; losses shrink.</span></div></div></div><div class="st pr" data-sg="lext" data-on="2"><div class="calc-line hi"><div class="calc-num">3</div><div><strong>Exit stops at min ATC</strong><span>Price rises to $12 = minimum ATC. Economic profit = 0: the firms that remain no longer want to leave.</span></div></div></div></div>
+    <div class="definition-strip red-strip" style="margin-top:8px; font-size:16.5px; padding:8px 14px;">Exit shifts market supply left &rarr; market price rises &rarr; losses shrink for the firms that remain.</div>
+    <div class="button-row" style="margin-top:8px;"><button type="button" class="state-next" data-sg="lext" data-max="2">Next step</button></div>
+  </section>
+
+  <!-- 38 pc_lreq -->
+  <section class="slide">
+    <div class="section-kicker">LO 8b.6 &middot; long-run equilibrium</div>
+    <h1>Long-run competitive equilibrium</h1>
+    <p style="margin:0; font-size:17px;">Entry and exit stop when no firm has an incentive to change the number of firms in the market.</p>
+    <div class="flow-5 lr-flow"><div class="mechanism-box green-box"><div>Economic profit &gt; 0</div></div><div class="mechanism-arrow">&rarr;</div><div class="mechanism-box green-box"><div>Firms enter</div></div><div class="mechanism-arrow">&rarr;</div><div class="mechanism-box green-box"><div>Supply shifts right</div></div><div class="mechanism-arrow">&rarr;</div><div class="mechanism-box green-box"><div>Price falls</div></div><div class="mechanism-arrow">&rarr;</div><div class="mechanism-box green-box"><div>Profit shrinks to 0</div></div></div>
+    <div class="flow-5 lr-flow"><div class="mechanism-box accent-box"><div>Economic loss</div></div><div class="mechanism-arrow">&rarr;</div><div class="mechanism-box accent-box"><div>Firms exit</div></div><div class="mechanism-arrow">&rarr;</div><div class="mechanism-box accent-box"><div>Supply shifts left</div></div><div class="mechanism-arrow">&rarr;</div><div class="mechanism-box accent-box"><div>Price rises</div></div><div class="mechanism-arrow">&rarr;</div><div class="mechanism-box accent-box"><div>Loss shrinks to 0</div></div></div>
+    <div class="lr-formula">P = MR = MC = minimum ATC</div>
+    <div class="grid-3" style="margin-top:8px; gap:12px;">
+      <div class="card accent-top" style="padding:10px 14px;"><h3 class="accent" style="font-size:17px;">Firm decision</h3><p style="font-size:15px;">Each firm chooses Q* where P = MC.</p></div>
+      <div class="card blue-top" style="padding:10px 14px;"><h3 class="blue" style="font-size:17px;">Profit outcome</h3><p style="font-size:15px;">P = ATC &rarr; zero economic profit.</p></div>
+      <div class="card green-top" style="padding:10px 14px;"><h3 class="green" style="font-size:17px;">Industry outcome</h3><p style="font-size:15px;">No incentive for further entry or exit.</p></div>
+    </div>
+    <div class="definition-strip blue-strip" style="margin-top:10px; font-size:16.5px;">
+      Competition removes <strong>economic</strong> profit, not the owner&rsquo;s opportunity-cost pay: zero economic profit is a <strong>normal profit</strong> (page 26).
+    </div>
+  </section>
+
+  <!-- 39 pc_check -->
+  <section class="slide interactive">
+    <div class="section-kicker">Check &middot; LO 8b.6 &middot; hands up</div>
+    <h1>What happens in the long run?</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:7px 16px;"><div class="market-label">Vote first</div>
+      <p style="font-size:18px;">Firms in a perfectly competitive industry are earning <strong>positive economic profit</strong>. What happens in the long run?</p></div>
+    <div class="lr-opts"><div class="lr-opt"><span class="option-letter">A</span><span class="lr-opt-t">Firms raise price above the market price</span><span class="reveal-step lr-why" data-step-group="lchk" data-step="1"><span class="verdict">No</span> Price takers can&rsquo;t: buyers switch to other sellers.</span></div><div class="lr-opt yes"><span class="option-letter">B</span><span class="lr-opt-t">New firms enter, supply shifts right, and price falls</span><span class="reveal-step lr-why" data-step-group="lchk" data-step="1"><span class="verdict ok">&check; Answer</span> Profit is the signal that draws in new firms.</span></div><div class="lr-opt"><span class="option-letter">C</span><span class="lr-opt-t">Firms exit, supply shifts left, and price rises</span><span class="reveal-step lr-why" data-step-group="lchk" data-step="1"><span class="verdict">No</span> That is what happens after <em>losses</em>.</span></div><div class="lr-opt"><span class="option-letter">D</span><span class="lr-opt-t">Profit persists because each firm is a price taker</span><span class="reveal-step lr-why" data-step-group="lchk" data-step="1"><span class="verdict">No</span> Free entry competes the profit away.</span></div></div>
+    <div class="reveal-step " data-step-group="lchk" data-step="2"><div class="lr-why3"><div class="mechanism-box green-box"><div>1. Profit<span class="flow-sub">Existing firms have P &gt; ATC.</span></div></div><div class="mechanism-box green-box"><div>2. Entry<span class="flow-sub">New firms are attracted to the industry, increasing market supply.</span></div></div><div class="mechanism-box green-box"><div>3. Long run<span class="flow-sub">Price falls until P = minimum ATC and economic profit is zero.</span></div></div></div></div>
+    <div class="reveal-step " data-step-group="lchk" data-step="2"><div class="definition-strip blue-strip" style="margin-top:7px; font-size:15.5px; padding:6px 14px;">Economic profit is a <strong>signal</strong> that changes the number of firms, not a reason for one firm to change its price.</div></div>
+    <div class="button-row" style="margin-top:8px;"><button type="button" class="step-reveal" data-step-group="lchk">Reveal next</button></div>
+  </section>
+
+  <!-- 40 pc_rule -->
+  <section class="slide">
+    <div class="section-kicker">Unit 8b &middot; wrap-up</div>
+    <h1>The complete firm decision rule</h1>
+    <p style="margin:0 0 8px; font-size:18px;">Use this order every time you solve a perfect-competition graph problem.</p>
+    <div class="lr-rule"><div class="calc-line"><div class="calc-num">1</div><div><strong>Take market P as given</strong><span>Perfect competition &rarr; price taker.</span></div></div><div class="calc-line"><div class="calc-num">2</div><div><strong>Find Q* where P = MR = MC</strong><span>Use the rising MC curve.</span></div></div><div class="calc-line"><div class="calc-num">3</div><div><strong>Compare P with ATC</strong><span>P &gt; ATC: profit. P = ATC: break-even. P &lt; ATC: loss.</span></div></div><div class="calc-line"><div class="calc-num">4</div><div><strong>If there is a loss, compare P with AVC</strong><span>P &ge; AVC: operate. P &lt; AVC: shut down (short run).</span></div></div><div class="calc-line hi"><div class="calc-num">5</div><div><strong>Think long run</strong><span>Profit &rarr; entry. Persistent loss &rarr; exit. Equilibrium: zero economic profit at P = minimum ATC.</span></div></div></div>
+    <div class="grid-3" style="margin-top:12px; gap:12px;">
+      <div class="card accent-top" style="padding:9px 13px;"><h3 class="accent" style="font-size:16px;">How much?</h3><p style="font-size:14.5px;">P = MC</p></div>
+      <div class="card blue-top" style="padding:9px 13px;"><h3 class="blue" style="font-size:16px;">Open or shut down? (short run)</h3><p style="font-size:14.5px;">P vs. AVC</p></div>
+      <div class="card green-top" style="padding:9px 13px;"><h3 class="green" style="font-size:16px;">Stay or leave? (long run)</h3><p style="font-size:14.5px;">P vs. ATC</p></div>
     </div>
   </section>
 </div>
