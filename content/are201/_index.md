@@ -61,3 +61,7 @@ courseTitle: "Introduction to Agricultural and Resource Economics"
 ### Unit 8b: Perfect Competition
 
 - [Perfect Competition Slides](https://zihanzhang.me/assets/are201/ARE201_Unit8b_Perfect_Competition_Fall2026_Moodle.html)
+
+### Exam 2 Review
+
+- [Exam 2 Review Slides (Units 6, 7, 8a, and 8b)](https://zihanzhang.me/assets/are201/ARE201_Exam2_Review_Fall2026.html)

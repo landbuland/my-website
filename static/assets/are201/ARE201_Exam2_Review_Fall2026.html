@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARE 201 — Exam 2 Review</title>
+<style>
+
+:root{--accent:#EB811B;--accent-soft:#fff4e8;--ink:#1f2933;--muted:#5f6b76;--paper:#fff;--soft:#f3f4f6;--line:#d8dde3;--blue:#2f80c9;--blue-soft:#eef5fb;--green:#378a61;--green-soft:#e9f6ef;--red:#c9504d;--red-soft:#fcedec;--purple:#7657a5;--purple-soft:#f3effa}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111}body{font-family:"Avenir Next","Helvetica Neue",Arial,sans-serif;color:var(--ink)}
+#stage{position:absolute;left:50%;top:50%;width:960px;height:720px;transform:translate(-50%,-50%);transform-origin:center;background:var(--paper);box-shadow:0 12px 40px #0006}
+.slide{position:absolute;inset:0;display:none;width:960px;height:720px;padding:50px 62px 56px;overflow:hidden;background:var(--paper)}.slide.active{display:block}.title-slide.active{display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding-bottom:100px}
+h1,h2,h3,p{margin-top:0}h1{font-size:37px;line-height:1.12;letter-spacing:-.4px;margin-bottom:19px}h2{font-size:24px;line-height:1.2;margin-bottom:10px}h3{font-size:19px;line-height:1.2;margin-bottom:8px}p,li{font-size:19px;line-height:1.36}p{margin-bottom:13px}strong{font-weight:780}sub{line-height:0}.muted{color:var(--muted)}.small{font-size:16px;line-height:1.36}.tiny{font-size:13px;line-height:1.3}.blue{color:var(--blue)}.green{color:var(--green)}.orange{color:var(--accent)}.red{color:var(--red)}
+.section-kicker{color:var(--accent);font-size:14px;font-weight:820;letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px}.title-kicker{color:var(--accent);font-size:17px;font-weight:780;letter-spacing:.11em;text-transform:uppercase;margin-bottom:16px}.title-main{font-size:58px;line-height:1.03;margin:0 0 15px}.title-rule{width:150px;height:6px;background:var(--accent);margin:23px auto}.title-sub{font-size:23px;color:var(--muted);line-height:1.38;margin:0}.title-path{margin-top:40px;font-size:17px;color:var(--muted)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.wide-left{display:grid;grid-template-columns:1.12fr .88fr;gap:24px}.card{padding:18px 20px;background:var(--soft);border-radius:8px}.card p{font-size:17px}.card p:last-child{margin-bottom:0}.blue-top{border-top:4px solid var(--blue);border-radius:0 0 8px 8px}.green-top{border-top:4px solid var(--green);border-radius:0 0 8px 8px}.accent-top{border-top:4px solid var(--accent);border-radius:0 0 8px 8px}.strip{padding:13px 16px;border-left:5px solid var(--accent);background:var(--accent-soft);font-size:19px;line-height:1.36;margin:16px 0}.strip.blue-strip{border-color:var(--blue);background:var(--blue-soft)}.strip.green-strip{border-color:var(--green);background:var(--green-soft)}.strip p:last-child{margin-bottom:0}
+.lead{font-size:21px;line-height:1.36}.space{margin-top:20px}.compact{margin-top:12px}.row{display:grid;grid-template-columns:145px 1fr;gap:20px;padding:16px 0;border-bottom:1px solid var(--line)}.row:first-of-type{border-top:1px solid var(--line)}.row h2{font-size:23px;margin-bottom:0}.row p{font-size:18px;margin:0 0 7px}.row .reveal{font-size:18px}.big-number{font-size:35px;font-weight:800;line-height:1.15}.equation{font-family:Georgia,"Times New Roman",serif;font-size:25px;line-height:1.4}.equation-box{background:var(--purple-soft);border-left:5px solid var(--purple);padding:12px 17px;margin:16px 0}.equation-box p{margin:0}
+table{width:100%;border-collapse:collapse;font-size:18px;line-height:1.3;margin:13px 0}th{text-align:left;font-weight:780;background:var(--soft)}td,th{padding:12px 13px;border-bottom:1px solid var(--line);vertical-align:middle}td.num,th.num{text-align:center;font-variant-numeric:tabular-nums}.tight td,.tight th{padding:10px 12px}.tiny-table{font-size:16px}.highlight-row{background:var(--green-soft)}.table-label{color:var(--muted);font-size:14px;margin-bottom:0}
+button,select{font-family:inherit}button{cursor:pointer}button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #eb811b88;outline-offset:3px}.action{background:var(--accent);border:0;border-radius:7px;padding:10px 15px;color:white;font-weight:780;font-size:15px;min-height:39px}.action.secondary{background:var(--soft);color:var(--ink);border:1px solid var(--line)}.action:disabled{opacity:.55;cursor:default}.button-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:15px 0}.button-row .small{margin:0}.reveal{visibility:hidden;opacity:0;transition:opacity .15s}.reveal.shown{visibility:visible;opacity:1}.reveal.cell{display:inline-block}.answer-box{min-height:78px;margin-top:16px;padding:14px 17px;border-left:5px solid var(--green);background:var(--green-soft);font-size:18px;line-height:1.38}.answer-box p{font-size:18px;margin:0 0 6px}.answer-box p:last-child{margin-bottom:0}
+.choices{display:grid;grid-template-columns:1fr;gap:11px;margin:17px 0}.choices.two{grid-template-columns:1fr 1fr}.choice{display:flex;align-items:center;gap:13px;text-align:left;border:2px solid var(--line);border-radius:9px;padding:13px 16px;background:white;color:var(--ink);font-weight:680;font-size:18px;line-height:1.32;min-height:62px}.choice:hover{border-color:var(--accent)}.choice .letter{display:inline-flex;flex-shrink:0;align-items:center;justify-content:center;background:var(--accent);width:30px;height:30px;border-radius:50%;font-size:15px;font-weight:800;color:#fff}.choice.correct{background:var(--green-soft);border-color:var(--green)}.choice.wrong{background:var(--red-soft);border-color:var(--red)}.feedback{min-height:66px;padding:12px 16px;background:var(--soft);border-left:5px solid var(--line);font-size:18px;line-height:1.35;margin-top:14px}.feedback.success{border-color:var(--green);background:var(--green-soft)}.feedback.error{border-color:var(--red);background:var(--red-soft)}
+.tabs{display:flex;gap:8px;margin:15px 0}.tab{flex:1;border:1px solid var(--line);background:var(--soft);padding:11px 9px;font-size:16px;font-weight:730;border-radius:7px}.tab.selected{background:var(--accent);border-color:var(--accent);color:white}.graph{width:100%;display:block}.plot-frame{padding:12px 5px 0;background:#fafbfc;border:1px solid #e9edf0;border-radius:8px}.graph text{font-family:"Avenir Next","Helvetica Neue",Arial,sans-serif;fill:var(--ink);font-size:15px}.graph .axis{stroke:var(--ink);stroke-width:2;fill:none}.graph .guide{stroke:#9aa5af;stroke-width:1.2;stroke-dasharray:5 4;fill:none}.graph .demand{stroke:var(--blue);stroke-width:3.5;fill:none}.graph .supply{stroke:var(--green);stroke-width:3.5;fill:none}.graph .ppf{stroke:var(--accent);stroke-width:3.5;fill:none}.graph .old{stroke:#9aa5af;stroke-width:2.3;stroke-dasharray:6 4;fill:none}.graph .point{fill:var(--ink)}.graph .new-point{fill:var(--accent)}.graph .tick{font-size:13px;fill:var(--muted)}.graph .curve-label{font-weight:780;font-size:16px}.legend{display:flex;gap:16px;font-size:14px;color:var(--muted);margin:5px 10px 11px}.legend span:before{content:'';display:inline-block;width:18px;height:3px;vertical-align:middle;margin-right:6px;background:var(--accent)}.legend .green-key:before{background:var(--green)}.legend .blue-key:before{background:var(--blue)}.graph-caption{font-size:14px;line-height:1.3;color:var(--muted);margin:4px 10px 12px}.step{display:flex;align-items:flex-start;gap:12px;margin:15px 0}.step-num{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:30px;height:30px;background:var(--accent);border-radius:50%;color:white;font-size:16px;font-weight:800}.step p{font-size:18px;margin:2px 0 0}.arrow-result{font-size:24px;font-weight:780;line-height:1.4}.mini-question{padding:15px 17px;border-left:4px solid var(--accent);background:var(--accent-soft);margin:13px 0}.mini-question p{font-size:18px;margin-bottom:8px}.mini-question .reveal{font-size:18px;color:#246b49;font-weight:750}
+.footer{position:absolute;left:62px;right:62px;bottom:18px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#8a949e}.source-note{position:absolute;left:62px;right:62px;bottom:42px;font-size:11px;color:#87919a}.slide-index{border:0;background:transparent;color:inherit;font-size:13px;padding:3px}.footer-tools{display:flex;align-items:center;gap:12px}.footer-btn{font-size:13px;border:0;background:transparent;color:#78838e;padding:4px}.footer-btn:hover{color:var(--accent)}#progress{position:fixed;bottom:0;left:0;height:4px;background:var(--accent);z-index:20}#hint{position:fixed;bottom:9px;left:50%;transform:translateX(-50%);color:#ffffff88;font:12px Arial,sans-serif;white-space:nowrap}#toc{display:none;position:absolute;inset:30px;z-index:30;background:white;box-shadow:0 5px 45px #0005;border:1px solid var(--line);border-radius:10px;padding:28px;overflow:auto}#toc.open{display:block}.toc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.toc-item{text-align:left;background:var(--soft);border:0;padding:11px 12px;border-radius:5px;font-size:16px;color:var(--ink)}.toc-item:hover{background:var(--accent-soft)}.toc-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.toc-heading h2{margin:0}
+@page{size:10in 7.5in;margin:0}@media print{html,body{width:auto;height:auto;overflow:visible;background:white;-webkit-print-color-adjust:exact;print-color-adjust:exact}#stage{position:static;width:960px;height:auto;transform:none!important;box-shadow:none}.slide,.slide.title-slide{position:relative;display:block!important;break-after:page;page-break-after:always}.slide:last-of-type{break-after:auto;page-break-after:auto}.title-slide{text-align:center;padding-top:220px}.reveal{visibility:visible!important;opacity:1!important}.feedback{display:none}.action,.tabs,.footer-tools,#hint,#progress,#toc{display:none!important}.button-row{min-height:39px}.source-note{bottom:42px}.print-answer{display:block!important}.choice[data-correct="true"]{border-color:var(--green);background:var(--green-soft)}}.print-answer{display:none}
+.strip.small{font-size:16px;line-height:1.34;padding:11px 14px;margin:12px 0}
+.card{padding:15px 17px}.card h2{margin-bottom:8px}.card p{margin-bottom:9px}
+.tight td,.tight th{padding:9px 11px}.button-row{margin:12px 0}
+.answer-box{padding:12px 15px;margin-top:12px}
+#ppfRead,#ppfChange,#opposingSupply{height:290px}
+#tradeA,#tradeB{height:230px}#welfareGraph{height:300px}
+.legend .plain-key:before{display:none}.footer{background:#fff;z-index:2;isolation:isolate}
+.slide .footer{visibility:hidden}@media print{.slide .footer{visibility:visible}.live-footer{display:none!important}}
+.slide[data-topic="Absolute & comparative advantage"] table td,.slide[data-topic="Absolute & comparative advantage"] table th{padding-top:8px;padding-bottom:8px}
+.slide[data-topic="Specialization & total output"] .card{padding:12px 16px}
+.slide[data-topic="Simultaneous demand & supply shifts"] .strip{font-size:18px;padding-top:10px;padding-bottom:10px}
+.slide[data-topic="Mixed practice & final checklist"] .mini-question{padding:12px 16px;margin:11px 0}
+.slide[data-topic="Mixed practice & final checklist"] .strip{font-size:18px;margin:12px 0;padding-top:10px;padding-bottom:10px}
+.practice-source{position:absolute;left:62px;right:62px;bottom:43px;font-size:12px;line-height:1.3;color:var(--muted)}
+.practice-slide .lead{font-size:20px}.practice-slide .mini-question{margin:11px 0;padding:12px 16px}
+.practice-slide .answer-box{font-size:17px;line-height:1.34}.practice-slide .answer-box p{font-size:17px}
+.practice-slide .practice-prompt{padding:14px 17px;border-left:5px solid var(--accent);background:var(--accent-soft);font-size:20px;line-height:1.36;margin:15px 0}
+.practice-slide .practice-prompt p{font-size:18px;margin:0 0 9px}.practice-slide .practice-prompt p:last-child{margin-bottom:0}
+#jmSurplusGraph{height:285px}.practice-slide .graph-caption{margin-bottom:9px}
+@media print{.practice-source{bottom:43px}}
+
+
+.equation .frac{display:inline-block;vertical-align:middle;text-align:center;margin:0 4px}.equation .frac .num{display:block;padding:0 8px 2px;border-bottom:2px solid var(--ink);line-height:1.15}.equation .frac .den{display:block;padding:2px 8px 0;line-height:1.15}.equation .eq-note{margin-left:14px}
+.unit-divider.active{display:flex;flex-direction:column;justify-content:center;padding-left:90px}
+.kp-list{margin:0;padding-left:24px}.kp-list li{font-size:22px;line-height:1.5;color:var(--muted)}
+.map-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.map-grid .card{padding:13px 17px}.map-grid h2{font-size:21px;margin-bottom:6px}
+.map-list{margin:0;padding-left:22px}.map-list li{font-size:16.5px;line-height:1.45}
+.practice-slide .mini-question{margin:7px 0;padding:9px 14px}.practice-slide .mini-question p{font-size:17.5px;margin-bottom:5px}
+.practice-slide .mini-question .reveal{font-size:17px;font-weight:650;color:#246b49;line-height:1.36}
+.practice-slide h1{margin-bottom:12px}.practice-slide .button-row{margin:9px 0}
+.rules-card{padding:12px 16px}.rules-card h2{font-size:20px;margin-bottom:6px}.rules-card p{font-size:16px;margin-bottom:6px}
+.det-row{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.det-row div{padding:9px 12px;background:var(--blue-soft);border-top:4px solid var(--blue);border-radius:0 0 7px 7px;font-size:15.5px;line-height:1.3}.det-row strong{display:block;font-size:17px}
+.choices.two .choice{font-size:16.5px;min-height:70px;padding:10px 13px}
+.kv-list{display:grid;gap:7px;margin-top:6px}.kv{display:grid;grid-template-columns:330px 1fr;gap:14px;align-items:baseline;padding:8px 13px;background:var(--accent-soft);border-left:4px solid var(--accent)}
+.kv strong{font-size:17px}.kv .reveal{font-size:16.5px;color:#246b49;font-weight:650;line-height:1.34}
+.tiny-table td,.tiny-table th{padding:7px 9px}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:12px 0}.flow-step{padding:10px 12px;background:var(--blue-soft);border-top:4px solid var(--blue);border-radius:0 0 7px 7px;font-size:16px;line-height:1.3}
+.flow-step span{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;margin-right:6px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800}
+#taxGraph{height:270px}
+.card-list{margin:0;padding-left:20px}.card-list li{font-size:16px;line-height:1.42}.card-grid .card{padding:12px 16px}.card-grid h2{font-size:20px;margin-bottom:5px}
+.grid-3 .card .big-number{font-size:30px;margin-bottom:6px}.grid-3 .card p.reveal{font-size:16.5px;line-height:1.36}
+
+</style>
+</head>
+<body>
+<main id="stage" aria-label="ARE 201 Exam 2 review slides">
+<!-- ARE 201 Exam 2 review (Units 6, 7, 8a, 8b). One practice set per Exam 2 skill.
+     Adapted items: Jiaming Mao, Principles of Economics (CC BY-NC 4.0): Homework 6, MC 1 (determinants; goods changed) and MC 2 (bracelet
+     midpoint elasticity; reframed as earrings); Elasticity lecture (beachfront property vs. new cars); Taxation lecture ($0.50 ice-cream tax,
+     buyers pay 30 cents, sellers 20 cents). Moodle bank item "profit" (accounting vs. economic profit; numbers changed).
+     All other items are written for this review. No Exam 2 question, scenario, table or figure is reproduced.
+     Instructor notes: ARE201_Exam2_Review_Source_Check.txt. Generated by tmp/exam2_review/build_exam2_review.py. -->
+
+<section class="slide title-slide active" data-topic="Exam 2 Review">
+  <div class="title-kicker">ARE 201 · Fall 2026</div>
+  <h1 class="title-main">Exam 2 Review</h1>
+  <div class="title-rule"></div>
+  <p class="title-sub">Units 6, 7, 8a and 8b · elasticity, consumer choice, costs, perfect competition</p>
+</section>
+<section class="slide" data-topic="Exam 2 logistics">
+  <div class="section-kicker">Before we begin</div>
+  <h1>Exam 2 · Friday, October 23</h1>
+
+  <div class="grid-3">
+    <div class="card blue-top"><div class="big-number" style="font-size:30px">Fri, Oct 23</div><p>In class, on paper</p></div>
+    <div class="card blue-top"><div class="big-number" style="font-size:30px">1:55–2:45 PM</div><p>50 minutes. Arrive on time; late arrival does not add testing time.</p></div>
+    <div class="card blue-top"><div class="big-number" style="font-size:30px">Units 6–8b</div><p>Multiple choice. Units 6, 7, 8a and 8b.</p></div>
+  </div>
+  <h2 class="space">Bring to the exam</h2>
+  <div class="grid-2">
+    <div class="card accent-top"><h2>One 4×6 index card</h2><p>Handwritten, <strong>front and back</strong>. Formulas, decision rules, one worked table.</p></div>
+    <div class="card accent-top"><h2>A basic calculator</h2><p>No scientific or graphing calculators. No phones, watches or printed notes.</p></div>
+  </div>
+  <div class="strip">Today: <strong>19 skills</strong>, each with one or two practice questions. Try each one on paper <strong>before</strong> we reveal.</div>
+</section>
+<section class="slide" data-topic="Map of today">
+  <div class="section-kicker">Exam 2 · what it covers</div>
+  <h1>Nineteen skills in four units</h1>
+<div class="map-grid"><div class="card blue-top"><h2>Unit 7 · Consumer choice</h2><ol class="map-list"><li>TU and MU; diminishing MU</li><li>Buy by MU per dollar</li><li>The equal-MU-per-dollar rule</li><li>Income and substitution effects</li><li>From MU to the demand curve</li></ol></div><div class="card accent-top"><h2>Unit 6 · Elasticity</h2><ol class="map-list"><li>Midpoint price elasticity</li><li>Elasticity and total revenue</li><li>What makes demand elastic</li><li>Price elasticity of supply</li><li>Who pays a tax</li></ol></div><div class="card green-top"><h2>Unit 8a · Costs</h2><ol class="map-list"><li>A cost table: FC, VC, MC, ATC</li><li>Fixed or variable?</li><li>Diminishing returns → rising MC</li><li>Which cost curves move</li></ol></div><div class="card blue-top"><h2>Unit 8b · Perfect competition</h2><ol class="map-list"><li>Price taker: P = MR</li><li>The most profit from a table</li><li>Break-even vs. shutdown</li><li>Accounting vs. economic profit</li><li>The long run: entry and exit</li></ol></div></div>
+</section>
+<section class="slide unit-divider" data-topic="Unit 7 · Consumer choice">
+  <div class="title-kicker">Unit 7</div><h1 class="title-main" style="font-size:50px">Consumer choice</h1><div class="title-rule" style="margin:20px 0"></div><ul class="kp-list"><li>Total and marginal utility</li><li>Buying by marginal utility per dollar</li><li>The utility-maximizing rule</li><li>Income and substitution effects</li><li>Why demand slopes down, and what shifts it</li></ul>
+</section>
+<section class="slide practice-slide" data-topic="TU and MU">
+  <div class="section-kicker">Unit 7 · total and marginal utility</div>
+  <h1>MU shrinks; TU peaks where MU reaches zero</h1>
+
+  <div class="wide-left" style="align-items:start">
+    <div>
+      <p class="lead" style="margin-bottom:0">Priya drinks coffee during an all-day study session.</p>
+      <table class="tight"><thead><tr><th>Cups</th><th class="num">1</th><th class="num">2</th><th class="num">3</th><th class="num">4</th><th class="num">5</th></tr></thead>
+        <tbody><tr><td>Total utility</td><td class="num">14</td><td class="num">24</td><td class="num">30</td><td class="num">30</td><td class="num">27</td></tr>
+        <tr><td>Marginal utility</td><td class="num"><span class="reveal cell" data-group="k1mu">14</span></td><td class="num"><span class="reveal cell" data-group="k1mu">10</span></td><td class="num"><span class="reveal cell" data-group="k1mu">6</span></td><td class="num"><span class="reveal cell" data-group="k1mu">0</span></td><td class="num"><span class="reveal cell" data-group="k1mu">&minus;3</span></td></tr></tbody></table>
+    </div>
+    <div class="card blue-top rules-card"><h2>The rules</h2>
+      <p><strong>MU</strong> = change in TU from one more unit; it shrinks as you consume more.</p>
+      <p>MU &gt; 0 → TU rises<br>MU = 0 → TU at its peak<br>MU &lt; 0 → TU falls</p>
+    </div>
+  </div>
+  <div class="mini-question"><p><strong>1.</strong> What is the marginal utility of the 3rd cup?</p><div class="reveal" id="a1">MU = 30 − 24 = <strong>6 utils</strong>.</div></div><div class="mini-question"><p><strong>2.</strong> How many cups give Priya the most total utility?</p><div class="reveal" id="a2"><strong>3 or 4 cups</strong> (TU = 30): the 4th cup adds nothing.</div></div><div class="mini-question"><p><strong>3.</strong> The 5th cup: what is its MU, and is total utility now negative?</p><div class="reveal" id="a3">MU = 27 − 30 = <strong>−3</strong>. TU falls but is still <strong>+27</strong>: negative MU lowers TU; it does not make TU negative.</div></div>
+  <div class="button-row"><button class="action" data-steps="a1 a2 a3 k1mu">Check the next question</button></div>
+</section>
+<section class="slide practice-slide" data-topic="MU per dollar">
+  <div class="section-kicker">Unit 7 · buy by marginal utility per dollar</div>
+  <h1>Each dollar goes where it buys the most MU</h1>
+
+  <p class="lead" style="margin-bottom:4px">Marco has <strong>$20</strong> for lunches this week. Sandwiches cost <strong>$4</strong>; smoothies cost <strong>$2</strong>.</p>
+  <table class="tight tiny-table"><thead><tr><th>Units</th><th class="num">1</th><th class="num">2</th><th class="num">3</th><th class="num">4</th><th class="num">5</th><th class="num">6</th></tr></thead><tbody>
+    <tr><td>TU, sandwiches</td><td class="num">32</td><td class="num">56</td><td class="num">72</td><td class="num">80</td><td></td><td></td></tr>
+    <tr><td>MU ÷ P, sandwiches</td><td class="num"><span class="reveal cell" data-group="k2pd">8</span></td><td class="num"><span class="reveal cell" data-group="k2pd">6</span></td><td class="num"><span class="reveal cell" data-group="k2pd">4</span></td><td class="num"><span class="reveal cell" data-group="k2pd">2</span></td><td class="num"></td><td class="num"></td></tr>
+    <tr><td>TU, smoothies</td><td class="num">20</td><td class="num">36</td><td class="num">48</td><td class="num">56</td><td class="num">60</td><td class="num">62</td></tr>
+    <tr><td>MU ÷ P, smoothies</td><td class="num"><span class="reveal cell" data-group="k2pd">10</span></td><td class="num"><span class="reveal cell" data-group="k2pd">8</span></td><td class="num"><span class="reveal cell" data-group="k2pd">6</span></td><td class="num"><span class="reveal cell" data-group="k2pd">4</span></td><td class="num"><span class="reveal cell" data-group="k2pd">2</span></td><td class="num"><span class="reveal cell" data-group="k2pd">1</span></td></tr></tbody></table>
+  <div class="mini-question"><p><strong>1.</strong> Which item does Marco buy first? Why?</p><div class="reveal" id="a4">A <strong>smoothie</strong>: 20 ÷ $2 = 10 utils per dollar, versus 32 ÷ $4 = 8 for a sandwich.</div></div><div class="mini-question"><p><strong>2.</strong> Spend all $20 by MU per dollar. What bundle does he end up with?</p><div class="reveal" id="a5"><strong>3 sandwiches and 4 smoothies</strong>: $12 + $8 = $20. The last dollar on each buys 4 utils. TU = 72 + 56 = 128.</div></div><div class="mini-question"><p><strong>3.</strong> Check: is 4 sandwiches and 2 smoothies, also $20, any better?</p><div class="reveal" id="a6">No: 80 + 36 = <strong>116 &lt; 128</strong>. The 4th sandwich gives only 2 utils per dollar.</div></div>
+  <div class="button-row"><button class="action" data-steps="k2pd a4 a5 a6">Reveal next step</button></div>
+</section>
+<section class="slide practice-slide" data-topic="Equal MU per dollar">
+  <div class="section-kicker">Unit 7 · the utility-maximizing rule</div>
+  <h1>At the best bundle, MU ÷ P is equal</h1>
+
+  <div class="equation-box"><p class="equation"><span class="frac"><span class="num">MU<sub>X</sub></span><span class="den">P<sub>X</sub></span></span> = <span class="frac"><span class="num">MU<sub>Y</sub></span><span class="den">P<sub>Y</sub></span></span> <span class="eq-note">and the whole budget is spent</span></p></div>
+  <div class="mini-question"><p><strong>1 · Fix a choice.</strong> Kayla has spent her whole budget. Her last dollar on yoga classes adds 6 utils; her last dollar on concert tickets adds 9. What should she change?</p><div class="reveal" id="a7">Move dollars <strong>from yoga to concerts</strong>. As she does, concerts' MU per dollar falls and yoga's rises, until the two are equal.</div></div><div class="mini-question"><p><strong>2 · Find a price.</strong> Sam is at his best bundle of apples and granola bars. The last apple adds 16 utils and costs $0.80; the last granola bar adds 30 utils. What does a granola bar cost?</p><div class="reveal" id="a8">Apples: 16 ÷ $0.80 = 20 utils per dollar. Granola must match: 30 ÷ P = 20, so <strong>P = $1.50</strong>.</div></div><div class="mini-question"><p><strong>3 · True or false?</strong> At the utility-maximizing bundle, the last unit of each good adds the same marginal utility.</p><div class="reveal" id="a9"><strong>False.</strong> What is equal is MU <em>per dollar</em>, MU ÷ P. The MUs themselves match only when the prices match.</div></div>
+  <div class="button-row"><button class="action" data-steps="a7 a8 a9">Check the next one</button></div>
+</section>
+<section class="slide practice-slide" data-topic="Income & substitution effects">
+  <div class="section-kicker">Unit 7 · one price change, two effects</div>
+  <h1>Two effects: which way, and which won?</h1>
+
+  <div class="grid-2">
+    <div class="card blue-top"><h2>Substitution effect</h2><p>The good whose price rose is now <strong>relatively</strong> pricier → buy less of it and <strong>more of the other good</strong>.</p></div>
+    <div class="card accent-top"><h2>Income effect</h2><p>The same income buys less → buy <strong>less of every normal good</strong> (more of an inferior good).</p></div>
+  </div>
+  <p class="small muted" style="margin:8px 0 0">For the <em>other</em> good the two effects push in opposite directions; what you observe tells you which one was bigger.</p>
+  <div class="mini-question"><p><strong>1.</strong> Electricity gets more expensive. Dana uses less electricity, and she also buys <strong>fewer</strong> paperback books. For books, which effect was larger?</p><div class="reveal" id="a10">The <strong>income effect</strong>. Substitution pushes toward more books (they are now relatively cheaper); the smaller budget pushes toward fewer. Books fell, so the income effect won.</div></div><div class="mini-question"><p><strong>2.</strong> Bus fares fall. Leo rides the bus more and takes <strong>fewer</strong> rideshare trips. Rideshares are a normal good for Leo. For rideshares, which effect was larger?</p><div class="reveal" id="a11">The <strong>substitution effect</strong>. Cheaper buses pull him away from rideshares; the extra buying power pushes toward more rideshares. Rideshares fell, so substitution won.</div></div>
+  <div class="button-row"><button class="action" data-steps="a10 a11">Check the next one</button></div>
+</section>
+<section class="slide practice-slide" data-topic="From MU to demand">
+  <div class="section-kicker">Unit 7 · move along or shift?</div>
+  <h1>Along a demand curve, only own price changes</h1>
+
+  <p class="lead">Lin buys oat-milk lattes. For each change: a movement along her demand curve, or a shift?</p>
+  <div class="mini-question"><p><strong>1.</strong> The price of an oat-milk latte falls from $6 to $5.</p><div class="reveal" id="a12">A <strong>movement down along</strong> Lin's demand curve: the own price changed.</div></div><div class="mini-question"><p><strong>2.</strong> Lin starts training for a marathon; every latte now feels more valuable to her (MU of each cup rises).</p><div class="reveal" id="a13">Demand <strong>shifts right</strong>: at every price she wants more. Tastes are held fixed along a demand curve.</div></div><div class="mini-question"><p><strong>3.</strong> Lin's income falls; lattes are a normal good for her.</p><div class="reveal" id="a14">Demand <strong>shifts left</strong>.</div></div><div class="mini-question"><p><strong>4.</strong> In one sentence: why does a demand curve slope down?</p><div class="reveal" id="a15">Each extra unit adds <strong>less MU</strong>, so a buyer pays less for it; and a higher price triggers the substitution and income effects.</div></div>
+  <div class="button-row"><button class="action" data-steps="a12 a13 a14 a15">Check the next one</button></div>
+</section>
+<section class="slide unit-divider" data-topic="Unit 6 · Elasticity">
+  <div class="title-kicker">Unit 6</div><h1 class="title-main" style="font-size:50px">Elasticity</h1><div class="title-rule" style="margin:20px 0"></div><ul class="kp-list"><li>Price elasticity of demand, midpoint method</li><li>Elasticity and total revenue</li><li>Determinants of demand elasticity</li><li>Price elasticity of supply</li><li>Tax incidence</li></ul>
+</section>
+<section class="slide practice-slide" data-topic="Midpoint elasticity">
+  <div class="section-kicker">Unit 6 · price elasticity of demand</div>
+  <h1>Average bases, then compare |E| with 1</h1>
+
+  <div class="practice-prompt">A campus craft booth raises the price of its handmade earrings from <strong>$25</strong> to <strong>$35</strong> a pair.
+  Monthly sales fall from <strong>20</strong> pairs to <strong>14</strong>. Demand did not shift. Find the price elasticity of demand.</div>
+  <div class="equation-box"><p class="equation">E<sub>d</sub> = [ΔQ ÷ average Q] ÷ [ΔP ÷ average P]</p></div>
+  <div class="step"><div class="step-num">1</div><p class="reveal" id="k616">%ΔQ = −6 ÷ 17 = <strong>−35.3%</strong> &nbsp;(average Q = 17)</p></div>
+  <div class="step"><div class="step-num">2</div><p class="reveal" id="k617">%ΔP = +10 ÷ 30 = <strong>+33.3%</strong> &nbsp;(average P = $30)</p></div>
+  <div class="step"><div class="step-num">3</div><p class="reveal" id="k618">E<sub>d</sub> = −35.3% ÷ 33.3% ≈ <strong>−1.06</strong>. |E<sub>d</sub>| &gt; 1 → <strong>elastic</strong>, just barely.</p></div>
+  <div class="step"><div class="step-num">4</div><p class="reveal" id="k619">Check with revenue: $25 × 20 = $500 → $35 × 14 = $490. Price up, revenue down: consistent with elastic demand.</p></div>
+  <div class="button-row"><button class="action" data-steps="k616 k617 k618 k619">Reveal next step</button></div>
+</section>
+<section class="slide practice-slide" data-topic="Elasticity & total revenue">
+  <div class="section-kicker">Unit 6 · elasticity and total revenue</div>
+  <h1>Price and revenue: same direction or opposite?</h1>
+
+  <table class="tight"><thead><tr><th>Demand</th><th>|E<sub>d</sub>|</th><th>Price rises → TR</th><th>Price falls → TR</th></tr></thead><tbody>
+    <tr><td><strong>Elastic</strong></td><td>&gt; 1</td><td class="red">falls</td><td class="green">rises</td></tr>
+    <tr><td><strong>Unit elastic</strong></td><td>= 1</td><td>unchanged</td><td>unchanged</td></tr>
+    <tr><td><strong>Inelastic</strong></td><td>&lt; 1</td><td class="green">rises</td><td class="red">falls</td></tr></tbody></table>
+  <div class="mini-question"><p><strong>1.</strong> A spring frost wipes out part of the peach crop. The price of peaches jumps and growers' <strong>total revenue rises</strong>. What does that say about demand for peaches?</p><div class="reveal" id="a20">Demand is <strong>inelastic</strong>: price rose by a larger percentage than quantity fell, so P × Q went up.</div></div><div class="mini-question"><p><strong>2.</strong> Ana spends exactly $40 a month on streaming, whatever the subscription prices are. Her demand is…</p><div class="reveal" id="a21"><strong>Unit elastic</strong>: spending (P × Q) never changes, so every % change in price is matched by an equal % change in quantity.</div></div>
+  <div class="button-row"><button class="action" data-steps="a20 a21">Check the next one</button></div>
+</section>
+<section class="slide practice-slide" data-topic="Revenue: two pricing moves">
+  <div class="section-kicker">Unit 6 · elasticity and total revenue · your turn</div>
+  <h1>Classify demand, then predict revenue</h1>
+
+  <p class="lead">For each move: elastic or inelastic? Did revenue rise or fall?</p>
+  <div class="mini-question"><p><strong>1 · Parking permits.</strong> A university raises the price of a parking permit by <strong>10%</strong>; permits sold fall by <strong>4%</strong>.</p><div class="reveal" id="a22">|E<sub>d</sub>| ≈ 4 ÷ 10 = 0.4 → <strong>inelastic</strong>. Revenue <strong>rises</strong> (about 1.10 × 0.96 = 1.056, +5.6%).</div></div><div class="mini-question"><p><strong>2 · Matinee tickets.</strong> A movie theater cuts matinee prices by <strong>20%</strong>; matinee attendance rises by <strong>35%</strong>.</p><div class="reveal" id="a23">|E<sub>d</sub>| ≈ 35 ÷ 20 = 1.75 → <strong>elastic</strong>. Revenue <strong>rises</strong> (0.80 × 1.35 = 1.08, +8%).</div></div><div class="mini-question"><p><strong>3.</strong> Both moves raised revenue, one with a price increase and one with a price cut. What is the general lesson?</p><div class="reveal" id="a24">Raise the price where demand is <strong>inelastic</strong>; cut it where demand is <strong>elastic</strong>. A seller who knows both elasticities can do both at once.</div></div>
+  <div class="button-row"><button class="action" data-steps="a22 a23 a24">Check the next one</button></div>
+</section>
+<section class="slide" data-topic="Determinants of elasticity">
+  <div class="section-kicker">Unit 6 · what makes demand elastic</div>
+  <h1>How easily can the buyer say no?</h1>
+
+  <div class="det-row">
+    <div><strong>Substitutes</strong>more → more elastic</div>
+    <div><strong>Necessity</strong>luxury → more elastic</div>
+    <div><strong>Budget share</strong>bigger → more elastic</div>
+    <div><strong>Time</strong>longer → more elastic</div>
+  </div>
+  <div class="strip">Which statement is correct?</div><div class="quiz" data-explanation="A narrowly defined good, one brand, has many close substitutes (other brands), so its demand is more elastic than demand for a broad category. A is backwards (time), and B is backwards (smoke alarms are a necessity)." data-hint="Run each statement through the four determinants. Which one points the right way?"><div class="choices two"><button class="choice" data-correct="false"><span class="letter">A</span>Demand for home heating oil is more elastic over one winter than over ten years.</button><button class="choice" data-correct="false"><span class="letter">B</span>Demand for smoke alarms is more elastic than demand for Persian rugs.</button><button class="choice" data-correct="true"><span class="letter">C</span>Demand for one brand of sparkling water is more elastic than demand for drinks in general.</button><button class="choice" data-correct="false"><span class="letter">D</span>All of the above are correct.</button></div><div class="feedback" aria-live="polite">Choose an answer, then explain why.</div><p class="print-answer small">Answer: C. A narrowly defined good, one brand, has many close substitutes (other brands), so its demand is more elastic than demand for a broad category. A is backwards (time), and B is backwards (smoke alarms are a necessity).</p></div>
+</section>
+<section class="slide practice-slide" data-topic="Price elasticity of supply">
+  <div class="section-kicker">Unit 6 · the supply side</div>
+  <h1>E<sub>s</sub> = %ΔQ<sub>s</sub> ÷ %ΔP, and it is always positive</h1>
+
+  <div class="mini-question"><p><strong>1 · Compute.</strong> The price of blueberries falls 12%, and quantity supplied falls 6%. Find E<sub>s</sub> and classify it.</p><div class="reveal" id="a25">E<sub>s</sub> = (−6%) ÷ (−12%) = <strong>+0.5</strong> → <strong>inelastic</strong>. Price and quantity supplied move together, so E<sub>s</sub> is positive whether they rise or fall.</div></div><div class="mini-question"><p><strong>2 · Time.</strong> A newly planted pecan orchard takes 6 to 10 years to bear nuts. Demand for pecans jumps this fall. Is supply elastic or inelastic this season? In ten years?</p><div class="reveal" id="a26"><strong>Inelastic</strong> this season: growers can only harvest trees already bearing. <strong>More elastic</strong> in ten years: they can plant more.</div></div><div class="mini-question"><p><strong>3 · Prices.</strong> Population growth raises demand by the same amount for beachfront homes and for new cars. In which market does price rise more?</p><div class="reveal" id="a27"><strong>Beachfront homes.</strong> Their supply is very inelastic (no new beach), so the demand increase shows up mostly as a higher price. Car makers can build more, so quantity absorbs more of it.</div></div>
+  <div class="button-row"><button class="action" data-steps="a25 a26 a27">Check the next one</button></div>
+  <div class="strip small">Supply is more elastic with <strong>more time</strong>, <strong>spare capacity</strong>, and inputs that are <strong>easy to get</strong>.</div>
+</section>
+<section class="slide practice-slide" data-topic="Tax incidence">
+  <div class="section-kicker">Unit 6 · who really pays a tax</div>
+  <h1>The less elastic side bears more of the tax</h1>
+
+  <div class="practice-prompt">A beach town adds a <strong>$0.50 tax</strong> on every ice-cream cone, collected from the shops. Before the tax a cone sold for <strong>$3.00</strong>.
+  After the tax, buyers pay <strong>$3.30</strong> and shops keep <strong>$2.80</strong> per cone.</div>
+  <div class="mini-question"><p><strong>1.</strong> How much of the $0.50 do buyers bear? Sellers?</p><div class="reveal" id="a28">Buyers pay $0.30 more (<strong>60%</strong>); sellers keep $0.20 less (<strong>40%</strong>).</div></div><div class="mini-question"><p><strong>2.</strong> Which side of the market is less elastic?</p><div class="reveal" id="a29"><strong>Buyers (demand).</strong> The less elastic side bears more of the tax.</div></div><div class="mini-question"><p><strong>3.</strong> Would the split change if the town collected the tax from buyers instead of shops?</p><div class="reveal" id="a30"><strong>No.</strong> Who writes the check does not decide who bears the tax; the elasticities do.</div></div>
+  <div class="button-row"><button class="action" data-steps="a28 a29 a30">Check the next one</button></div>
+</section>
+<section class="slide practice-slide" data-topic="Tax incidence on a graph">
+  <div class="section-kicker">Unit 6 · who pays a tax · on a graph</div>
+  <h1>Compare each side's price change with the tax</h1>
+
+  <div class="wide-left">
+    <div class="plot-frame"><svg class="graph" id="taxGraph" viewBox="0 0 430 300" role="img" aria-label="A flat demand curve and a steep supply curve. Before the tax: price 5.50, quantity 37.5. A 2 dollar tax shifts supply up by 2: buyers pay 6.00, sellers keep 4.00, quantity 25."><line x1="52.0" y1="22.0" x2="52.0" y2="256.0" class="axis" /><line x1="52.0" y1="256.0" x2="410.0" y2="256.0" class="axis" /><text x="43.0" y="274.0" class="tick" text-anchor="end">0</text><text x="231.0" y="294.0" class="" text-anchor="middle">Quantity</text><text x="44.0" y="14.0" class="" text-anchor="start">Price ($)</text><line x1="52.0" y1="51.2" x2="410.0" y2="133.2" class="demand" /><line x1="52.0" y1="226.8" x2="350.3" y2="22.0" class="supply" /><line x1="52.0" y1="168.2" x2="265.1" y2="22.0" class="old" style="stroke:var(--green);stroke-dasharray:6 4"/><text x="389.5" y="119.5" class="curve-label" text-anchor="start">D</text><text x="341.3" y="49.7" class="curve-label" text-anchor="start">S</text><text x="236.3" y="36.9" class="curve-label" text-anchor="end">S + tax</text><line x1="52.0" y1="95.1" x2="243.8" y2="95.1" class="guide" /><text x="44.0" y="100.1" class="tick" text-anchor="end">5.50</text><line x1="52.0" y1="80.5" x2="179.9" y2="80.5" class="guide" /><text x="44.0" y="85.5" class="tick" text-anchor="end">6.00</text><line x1="52.0" y1="139.0" x2="179.9" y2="139.0" class="guide" /><text x="44.0" y="144.0" class="tick" text-anchor="end">4.00</text><line x1="179.9" y1="256.0" x2="179.9" y2="80.5" class="guide" /><line x1="243.8" y1="256.0" x2="243.8" y2="95.1" class="guide" /><text x="179.9" y="274.0" class="tick" text-anchor="middle">25</text><text x="243.8" y="274.0" class="tick" text-anchor="middle">37.5</text><circle cx="243.8" cy="95.1" r="4.5" class="point"/><circle cx="179.9" cy="80.5" r="4.5" class="new-point"/><circle cx="179.9" cy="139.0" r="4.5" class="new-point"/></svg><p class="graph-caption">A $2 tax per unit, collected from sellers. Dashed green: supply plus the tax.</p></div>
+    <div><div class="mini-question"><p><strong>1.</strong> Read the graph: how much more do buyers pay? How much less do sellers keep?</p><div class="reveal" id="a31">Buyers: $6.00 − $5.50 = <strong>$0.50</strong>. Sellers: $5.50 − $4.00 = <strong>$1.50</strong>. Sellers bear 75% of the $2 tax.</div></div><div class="mini-question"><p><strong>2.</strong> Which curve is less elastic at the starting point?</p><div class="reveal" id="a32"><strong>Supply</strong> (the steep one): sellers cannot easily cut output, so they absorb most of the tax.</div></div></div>
+  </div>
+  <div class="mini-question"><p><strong>3 · Quick fire.</strong> Who bears more? (a) E<sub>s</sub> = 0.5, E<sub>d</sub> = −0.5 &nbsp; (b) demand perfectly inelastic &nbsp; (c) E<sub>s</sub> = 0.2, E<sub>d</sub> = −2</p><div class="reveal" id="a33">(a) <strong>Split equally</strong>: the two sides are equally elastic. (b) <strong>Buyers bear all of it.</strong> (c) <strong>Sellers bear most</strong>: supply is far less elastic.</div></div>
+  <div class="button-row"><button class="action" data-steps="a31 a32 a33">Check the next one</button></div>
+</section>
+<section class="slide unit-divider" data-topic="Unit 8a · Production and costs">
+  <div class="title-kicker">Unit 8a</div><h1 class="title-main" style="font-size:50px">Production and costs</h1><div class="title-rule" style="margin:20px 0"></div><ul class="kp-list"><li>Reading a total cost table</li><li>Fixed or variable cost?</li><li>Diminishing marginal returns and rising MC</li><li>What moves each cost curve</li></ul>
+</section>
+<section class="slide practice-slide" data-topic="A cost table">
+  <div class="section-kicker">Unit 8a · one table, every cost</div>
+  <h1>Start from TC: FC is the cost at zero output</h1>
+
+  <p class="lead" style="margin-bottom:4px">A cider mill's daily total cost.</p>
+  <table class="tight tiny-table"><thead><tr><th>Barrels per day</th><th class="num">0</th><th class="num">1</th><th class="num">2</th><th class="num">3</th><th class="num">4</th><th class="num">5</th><th class="num">6</th></tr></thead><tbody>
+    <tr><td>Total cost ($)</td><td class="num">120</td><td class="num">150</td><td class="num">170</td><td class="num">195</td><td class="num">230</td><td class="num">280</td><td class="num">345</td></tr>
+    <tr><td>MC ($)</td><td class="num"><span class="reveal cell" data-group="k11mc">—</span></td><td class="num"><span class="reveal cell" data-group="k11mc">30</span></td><td class="num"><span class="reveal cell" data-group="k11mc">20</span></td><td class="num"><span class="reveal cell" data-group="k11mc">25</span></td><td class="num"><span class="reveal cell" data-group="k11mc">35</span></td><td class="num"><span class="reveal cell" data-group="k11mc">50</span></td><td class="num"><span class="reveal cell" data-group="k11mc">65</span></td></tr><tr><td>ATC ($)</td><td class="num"><span class="reveal cell" data-group="k11atc">—</span></td><td class="num"><span class="reveal cell" data-group="k11atc">150</span></td><td class="num"><span class="reveal cell" data-group="k11atc">85</span></td><td class="num"><span class="reveal cell" data-group="k11atc">65</span></td><td class="num"><span class="reveal cell" data-group="k11atc">57.5</span></td><td class="num"><span class="reveal cell" data-group="k11atc">56</span></td><td class="num"><span class="reveal cell" data-group="k11atc">57.5</span></td></tr></tbody></table>
+  <div class="kv-list"><div class="kv"><strong>1. Fixed cost?</strong><span class="reveal" id="k1134">FC = TC at zero output = <strong>$120</strong>.</span></div><div class="kv"><strong>2. Variable cost at 3 barrels?</strong><span class="reveal" id="k1135">VC = TC − FC = $195 − $120 = <strong>$75</strong>.</span></div><div class="kv"><strong>3. Marginal cost of the 4th barrel?</strong><span class="reveal" id="k1136">MC = $230 − $195 = <strong>$35</strong>.</span></div><div class="kv"><strong>4. Average variable cost at 2 barrels?</strong><span class="reveal" id="k1137">AVC = $50 ÷ 2 = <strong>$25</strong>.</span></div><div class="kv"><strong>5. At what output is ATC lowest?</strong><span class="reveal" id="k1138"><strong>5 barrels</strong> (ATC = $56). MC of the 5th ($50) is below ATC, so ATC falls; MC of the 6th ($65) is above it, so ATC rises.</span></div></div>
+  <div class="button-row"><button class="action" data-steps="k1134 k1135 k1136 k1137 k11mc k11atc k1138">Reveal next step</button></div>
+</section>
+<section class="slide practice-slide" data-topic="Fixed or variable?">
+  <div class="section-kicker">Unit 8a · sort the costs</div>
+  <h1>Does the cost change when output changes?</h1>
+
+  <p class="lead">A pick-your-own strawberry farm, over one season. Fixed or variable?</p>
+  <table class="tight"><thead><tr><th style="width:44%">Cost</th><th>Fixed or variable, and why</th></tr></thead><tbody><tr><td>Wages of seasonal pickers</td><td><span class="reveal" id="k1239"><strong class="green">Variable</strong>: more pickers when more berries are picked</span></td></tr><tr><td>Annual property tax on the farm</td><td><span class="reveal" id="k1240"><strong class="blue">Fixed</strong>: the same bill at 0 pints or 10,000</span></td></tr><tr><td>Pint baskets</td><td><span class="reveal" id="k1241"><strong class="green">Variable</strong>: one per pint sold</span></td></tr><tr><td>Monthly loan payment on the tractor</td><td><span class="reveal" id="k1242"><strong class="blue">Fixed</strong>: owed whatever the harvest</span></td></tr><tr><td>Fuel for the irrigation pump</td><td><span class="reveal" id="k1243"><strong class="green">Variable</strong>: more watering for a bigger crop</span></td></tr><tr><td>Yearly website and booking-app fee</td><td><span class="reveal" id="k1244"><strong class="blue">Fixed</strong>: a flat fee, not per visitor</span></td></tr></tbody></table>
+  <div class="button-row"><button class="action" data-steps="k1239 k1240 k1241 k1242 k1243 k1244">Reveal the next cost</button></div>
+  <div class="strip small">TC = <strong>FC + VC</strong>. Fixed costs are owed even at zero output, so FC = TC at Q = 0.</div>
+</section>
+<section class="slide practice-slide" data-topic="Diminishing returns → rising MC">
+  <div class="section-kicker">Unit 8a · from production to cost</div>
+  <h1>Smaller MP per worker → higher MC per loaf</h1>
+
+  <p class="lead" style="margin-bottom:4px">A bakery with one oven pays each worker <strong>$120 a day</strong>.</p>
+  <table class="tight tiny-table"><thead><tr><th>Worker</th><th class="num">1</th><th class="num">2</th><th class="num">3</th><th class="num">4</th></tr></thead><tbody>
+    <tr><td>Extra loaves (MP)</td><td class="num">40</td><td class="num">30</td><td class="num">20</td><td class="num">10</td></tr>
+    <tr><td>MC per loaf</td><td class="num"><span class="reveal cell" data-group="k13mc">$3</span></td><td class="num"><span class="reveal cell" data-group="k13mc">$4</span></td><td class="num"><span class="reveal cell" data-group="k13mc">$6</span></td><td class="num"><span class="reveal cell" data-group="k13mc">$12</span></td></tr></tbody></table>
+  <div class="mini-question"><p><strong>1.</strong> Fill in the cost of each extra loaf (MC = wage ÷ MP).</p><div class="reveal" id="k13q1">$120 ÷ 40 = $3; ÷ 30 = $4; ÷ 20 = $6; ÷ 10 = <strong>$12</strong>.</div></div><div class="mini-question"><p><strong>2.</strong> Why does MC rise, even though the wage never changes?</p><div class="reveal" id="a45">The bakery has <strong>one oven</strong> (a fixed input). Each extra worker adds fewer loaves (<strong>diminishing marginal returns</strong>), so each extra loaf takes more paid labor.</div></div><div class="mini-question"><p><strong>3.</strong> Holiday orders double and the owner adds workers this week. What happens to MC?</p><div class="reveal" id="a46">It <strong>rises</strong>: in the short run more output means crowding the same oven.</div></div>
+  <div class="button-row"><button class="action" data-steps="k13mc k13q1 a45 a46">Reveal next step</button></div>
+</section>
+<section class="slide practice-slide" data-topic="Which cost curves move">
+  <div class="section-kicker">Unit 8a · what moves, what stays put</div>
+  <h1>Does this cost change with one more unit?</h1>
+
+  <table class="tight"><thead><tr><th style="width:36%">Change</th><th class="num">MC</th><th class="num">AVC</th><th class="num">AFC</th><th class="num">ATC</th><th>Why</th></tr></thead><tbody><tr><td>The county doubles the farm's property tax</td><td class=num><span class="reveal cell" data-group="k1447">—</span></td><td class=num><span class="reveal cell" data-group="k1447">—</span></td><td class=num><span class="reveal cell" data-group="k1447">↑</span></td><td class=num><span class="reveal cell" data-group="k1447">↑</span></td><td class="small"><span class="reveal cell" data-group="k1447">Fixed cost: only AFC and ATC rise.</span></td></tr><tr><td>Diesel for the tractors gets cheaper</td><td class=num><span class="reveal cell" data-group="k1448">↓</span></td><td class=num><span class="reveal cell" data-group="k1448">↓</span></td><td class=num><span class="reveal cell" data-group="k1448">—</span></td><td class=num><span class="reveal cell" data-group="k1448">↓</span></td><td class="small"><span class="reveal cell" data-group="k1448">Variable cost: MC, AVC and ATC fall.</span></td></tr><tr><td>The hourly wage of seasonal pickers rises</td><td class=num><span class="reveal cell" data-group="k1449">↑</span></td><td class=num><span class="reveal cell" data-group="k1449">↑</span></td><td class=num><span class="reveal cell" data-group="k1449">—</span></td><td class=num><span class="reveal cell" data-group="k1449">↑</span></td><td class="small"><span class="reveal cell" data-group="k1449">Variable cost: MC, AVC and ATC rise.</span></td></tr></tbody></table>
+  <div class="button-row"><button class="action" data-steps="k1447 k1448 k1449">Reveal the next row</button></div>
+  <div class="strip small">A fixed cost never changes <strong>MC</strong> or <strong>AVC</strong>. It raises AFC and ATC at every output.</div>
+</section>
+<section class="slide unit-divider" data-topic="Unit 8b · Perfect competition">
+  <div class="title-kicker">Unit 8b</div><h1 class="title-main" style="font-size:50px">Perfect competition</h1><div class="title-rule" style="margin:20px 0"></div><ul class="kp-list"><li>Price taker: P = MR</li><li>Profit-maximizing output from a table</li><li>Break-even and shutdown prices</li><li>Accounting vs. economic profit</li><li>Entry, exit and the long run</li></ul>
+</section>
+<section class="slide practice-slide" data-topic="Price taker: P = MR">
+  <div class="section-kicker">Unit 8b · the firm in a competitive market</div>
+  <h1>For a price taker, P = MR = its demand</h1>
+
+  <div class="mini-question"><p><strong>1.</strong> Jo sells soybeans at the going price of <strong>$11 a bushel</strong>. What is her marginal revenue from the 500th bushel?</p><div class="reveal" id="a50"><strong>$11.</strong> A price taker sells every bushel at the market price, so MR = P.</div></div><div class="mini-question"><p><strong>2.</strong> Jo posts a price of $11.50. How many bushels does she sell?</p><div class="reveal" id="a51"><strong>None.</strong> Buyers can get identical soybeans from other farms at $11.</div></div><div class="mini-question"><p><strong>3 · True or false?</strong> Market demand for soybeans is inelastic, so each soybean farmer also faces inelastic demand.</p><div class="reveal" id="a52"><strong>False.</strong> The <em>market</em> demand curve slopes down, but one farmer's demand is <strong>horizontal</strong> at the going price: <strong>perfectly elastic</strong>.</div></div>
+  <div class="button-row"><button class="action" data-steps="a50 a51 a52">Check the next one</button></div>
+</section>
+<section class="slide practice-slide" data-topic="Profit from a table">
+  <div class="section-kicker">Unit 8b · the most profit, from a table</div>
+  <h1>Keep producing while MC ≤ P</h1>
+
+  <p class="lead" style="margin-bottom:4px">A honey producer in a competitive market.</p>
+  <table class="tight tiny-table"><thead><tr><th>Jars</th><th class="num">0</th><th class="num">1</th><th class="num">2</th><th class="num">3</th><th class="num">4</th><th class="num">5</th><th class="num">6</th><th class="num">7</th></tr></thead><tbody>
+    <tr><td>TR ($)</td><td class="num">0</td><td class="num">12</td><td class="num">24</td><td class="num">36</td><td class="num">48</td><td class="num">60</td><td class="num">72</td><td class="num">84</td></tr>
+    <tr><td>TC ($)</td><td class="num">10</td><td class="num">16</td><td class="num">21</td><td class="num">28</td><td class="num">37</td><td class="num">50</td><td class="num">65</td><td class="num">83</td></tr>
+    <tr><td>MC ($)</td><td class="num"><span class="reveal cell" data-group="k16mc">—</span></td><td class="num"><span class="reveal cell" data-group="k16mc">6</span></td><td class="num"><span class="reveal cell" data-group="k16mc">5</span></td><td class="num"><span class="reveal cell" data-group="k16mc">7</span></td><td class="num"><span class="reveal cell" data-group="k16mc">9</span></td><td class="num"><span class="reveal cell" data-group="k16mc">13</span></td><td class="num"><span class="reveal cell" data-group="k16mc">15</span></td><td class="num"><span class="reveal cell" data-group="k16mc">18</span></td></tr><tr><td>Profit ($)</td><td class="num"><span class="reveal cell" data-group="k16pf">&minus;10</span></td><td class="num"><span class="reveal cell" data-group="k16pf">&minus;4</span></td><td class="num"><span class="reveal cell" data-group="k16pf">3</span></td><td class="num"><span class="reveal cell" data-group="k16pf">8</span></td><td class="num"><span class="reveal cell" data-group="k16pf">11</span></td><td class="num"><span class="reveal cell" data-group="k16pf">10</span></td><td class="num"><span class="reveal cell" data-group="k16pf">7</span></td><td class="num"><span class="reveal cell" data-group="k16pf">1</span></td></tr></tbody></table>
+  <div class="kv-list"><div class="kv"><strong>1. Market price?</strong><span class="reveal" id="k1653">TR rises by $12 with each jar, so <strong>P = MR = $12</strong>.</span></div><div class="kv"><strong>2. Profit-maximizing output?</strong><span class="reveal" id="k1654"><strong>4 jars.</strong> The 4th costs $9 (&lt; $12): make it. The 5th costs $13 (&gt; $12): stop.</span></div><div class="kv"><strong>3. Maximum profit?</strong><span class="reveal" id="k1655">TR − TC = $48 − $37 = <strong>$11</strong>. TC already includes the fixed cost.</span></div><div class="kv"><strong>4. Fixed cost rises to $20. Does the best output change?</strong><span class="reveal" id="k1656"><strong>No.</strong> MC is unchanged, so Q* is still 4; profit falls by $10, to $1.</span></div></div>
+  <div class="button-row"><button class="action" data-steps="k1653 k16mc k1654 k16pf k1655 k1656">Reveal next step</button></div>
+</section>
+<section class="slide practice-slide" data-topic="Break-even vs. shutdown">
+  <div class="section-kicker">Unit 8b · compare P with ATC, then with AVC</div>
+  <h1>Two thresholds: min ATC and min AVC</h1>
+
+  <div class="practice-prompt">A dairy farm in a competitive market: <strong>minimum AVC = $14</strong> per hundredweight; <strong>minimum ATC = $19</strong>.
+  What should it do at each price this month?</div>
+  <div class="grid-3"><div class="card"><div class="big-number">P = $22</div><p class="reveal" id="k1757">Produce: <strong>economic profit</strong> (P &gt; min ATC).</p></div><div class="card"><div class="big-number">P = $17</div><p class="reveal" id="k1758">Keep producing <strong>at a loss</strong>: P &gt; min AVC, so sales cover variable cost and part of the fixed cost.</p></div><div class="card"><div class="big-number">P = $12</div><p class="reveal" id="k1759"><strong>Shut down</strong> in the short run: P &lt; min AVC. Producing would lose more than the fixed cost.</p></div></div>
+  <div class="mini-question"><p><strong>Then:</strong> name the break-even price and the shutdown price.</p>
+    <div class="reveal" id="k1760">Break-even = min ATC = <strong>$19</strong>. Shutdown = min AVC = <strong>$14</strong>.</div></div>
+  <div class="button-row"><button class="action" data-steps="k1757 k1758 k1759 k1760">Reveal next price</button></div>
+</section>
+<section class="slide practice-slide" data-topic="Accounting vs. economic profit">
+  <div class="section-kicker">Unit 8b · two ways to count cost</div>
+  <h1>Economic profit subtracts implicit costs too</h1>
+
+  <div class="practice-prompt">Rosa runs a food cart. Revenue this year: <strong>$90,000</strong>. Ingredients, permits and cart rental: <strong>$55,000</strong>.
+  To run the cart she turned down a job paying <strong>$42,000</strong>.</div>
+  <div class="grid-2"><div><div class="mini-question"><p><strong>1.</strong> Accounting profit?</p><div class="reveal" id="a61">TR − explicit = $90,000 − $55,000 = <strong>$35,000</strong>.</div></div><div class="mini-question"><p><strong>2.</strong> Economic profit?</p><div class="reveal" id="a62">Also subtract the implicit cost: $35,000 − $42,000 = <strong>&minus;$7,000</strong>. The job would have paid more.</div></div></div><div><div class="mini-question"><p><strong>3 · True or false?</strong> A firm's economic profit can be larger than its accounting profit.</p><div class="reveal" id="a63"><strong>False.</strong> Economic profit = accounting profit − implicit costs, and implicit costs are never negative.</div></div><div class="mini-question"><p><strong>4.</strong> What does zero economic profit mean?</p><div class="reveal" id="a64">A <strong>normal profit</strong>: the owner earns exactly what the next-best use of her time and money would pay. Accounting profit is still positive.</div></div></div></div>
+  <div class="button-row"><button class="action" data-steps="a61 a62 a63 a64">Check the next one</button></div>
+</section>
+<section class="slide practice-slide" data-topic="The long run">
+  <div class="section-kicker">Unit 8b · entry, exit and the long run</div>
+  <h1>Profit invites entry; losses trigger exit</h1>
+
+  <div class="practice-prompt">Microgreens catch on with restaurants. Growers in this competitive market earn <strong>positive economic profit</strong>. What happens over time?</div>
+  <div class="flow"><div class="flow-step reveal" id="k1965"><span>1</span>New growers <strong>enter</strong></div><div class="flow-step reveal" id="k1966"><span>2</span>Market supply <strong>shifts right</strong></div><div class="flow-step reveal" id="k1967"><span>3</span>The price <strong>falls</strong></div><div class="flow-step reveal" id="k1968"><span>4</span>Profit shrinks until <strong>P = min ATC</strong>: zero economic profit</div></div>
+  <div class="mini-question"><p><strong>Then:</strong> A county rule caps the number of growers' licenses. Can economic profit last in the long run now? Why?</p><div class="reveal" id="a69"><strong>Yes, it can.</strong> The cap is a barrier to entry: without free entry nothing pushes the price down to min ATC.</div></div><div class="mini-question"><p><strong>And:</strong> Suppose instead growers were losing money. What happens in the long run?</p><div class="reveal" id="a70">Some growers <strong>exit</strong>; supply shifts left; the price rises until the remaining growers earn zero economic profit.</div></div>
+  <div class="button-row"><button class="action" data-steps="k1965 k1966 k1967 k1968 a69 a70">Reveal next step</button></div>
+</section>
+<section class="slide" data-topic="Your 4×6 card">
+  <div class="section-kicker">Before Friday</div>
+  <h1>What belongs on your 4×6 card</h1>
+
+  <div class="grid-2 card-grid"><div class="card accent-top"><h2>Unit 7</h2><ul class="card-list"><li>MU = ΔTU</li><li>Best bundle: MU<sub>X</sub>/P<sub>X</sub> = MU<sub>Y</sub>/P<sub>Y</sub>, budget spent</li><li>Price ↑: substitution (away from it) + income (less of normal goods)</li></ul></div><div class="card accent-top"><h2>Unit 6</h2><ul class="card-list"><li>E<sub>d</sub> = %ΔQ ÷ %ΔP, midpoint bases</li><li>Elastic: P and TR opposite; inelastic: same direction</li><li>E<sub>s</sub> &gt; 0; the less elastic side bears more tax</li></ul></div><div class="card accent-top"><h2>Unit 8a</h2><ul class="card-list"><li>FC = TC at Q = 0; VC = TC − FC</li><li>MC = ΔTC; ATC = TC ÷ Q; AVC = VC ÷ Q</li><li>Fixed cost moves AFC, ATC only</li></ul></div><div class="card accent-top"><h2>Unit 8b</h2><ul class="card-list"><li>Price taker: P = MR; produce while MC ≤ P</li><li>P vs. min ATC: profit? P vs. min AVC: operate?</li><li>Economic profit = accounting profit − implicit costs; long run: P = min ATC</li></ul></div></div>
+  <div class="strip small">Write one worked table on the back: a TC table with FC, VC, MC and ATC, and the stopping rule MC ≤ P.</div>
+</section>
+<nav id="toc" aria-label="Slide contents"><div class="toc-heading"><h2>Exam 2 Review</h2><button class="action secondary" id="closeToc">Close</button></div><div class="toc-grid" id="tocItems"></div></nav>
+</main>
+<div id="progress"></div><div id="hint">← / → Navigate · R Reveal next · T Contents · F Full screen · P Print with answers</div>
+<script>
+'use strict';
+(() => {
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const stage = document.getElementById('stage');
+  const toc = document.getElementById('toc');
+  let index = 0;
+  const $ = id => document.getElementById(id);
+  const targets = id => { const e = $(id); return e ? [e] : Array.from(document.querySelectorAll(`[data-group="${id}"]`)); };
+  const shown = id => targets(id).every(e => e.classList.contains('shown'));
+  function reveal(id){ targets(id).forEach(e => e.classList.add('shown')); }
+  document.querySelectorAll('[data-steps]').forEach(b => b.addEventListener('click', () => {
+    const ids = b.dataset.steps.split(' '); const next = ids.find(id => !shown(id));
+    if (next) reveal(next); b.disabled = ids.every(shown);
+  }));
+  document.querySelectorAll('.quiz').forEach(quiz => {
+    const feedback = quiz.querySelector('.feedback'); feedback.dataset.initial = feedback.textContent;
+    quiz.querySelectorAll('.choice').forEach(b => b.addEventListener('click', () => {
+      quiz.querySelectorAll('.choice').forEach(c => { c.classList.remove('correct', 'wrong'); c.setAttribute('aria-pressed', 'false'); });
+      const correct = b.dataset.correct === 'true'; b.classList.add(correct ? 'correct' : 'wrong'); b.setAttribute('aria-pressed', 'true');
+      feedback.className = 'feedback ' + (correct ? 'success' : 'error');
+      feedback.textContent = correct ? 'Correct. ' + quiz.dataset.explanation : 'Try again. ' + quiz.dataset.hint;
+    }));
+  });
+  function resetSlide(slide){
+    slide.querySelectorAll('.reveal').forEach(e => e.classList.remove('shown'));
+    slide.querySelectorAll('[data-steps]').forEach(b => b.disabled = false);
+    slide.querySelectorAll('.choice').forEach(b => { b.classList.remove('correct', 'wrong'); b.setAttribute('aria-pressed', 'false'); });
+    slide.querySelectorAll('.feedback').forEach(e => { e.className = 'feedback'; e.textContent = e.dataset.initial; });
+  }
+  function fit(){ const scale = Math.min(innerWidth / 960, innerHeight / 720); stage.style.transform = `translate(-50%,-50%) scale(${scale})`; }
+  function show(i){ index = Math.max(0, Math.min(slides.length - 1, i)); slides.forEach((s, j) => { s.classList.toggle('active', j === index); s.setAttribute('aria-hidden', String(j !== index)); });
+    $('progress').style.width = `${(index + 1) / slides.length * 100}%`; $('livePageCount').textContent = `${index + 1} / ${slides.length}`; history.replaceState(null, '', '#' + (index + 1)); toc.classList.remove('open'); }
+  function toggleToc(){ toc.classList.toggle('open'); if (toc.classList.contains('open')) $('closeToc').focus(); }
+  slides.forEach((slide, i) => {
+    const footer = document.createElement('footer'); footer.className = 'footer';
+    footer.innerHTML = `<span>ARE 201 · Exam 2 Review</span><div class="footer-tools"><button class="footer-btn" data-reset>Reset slide</button><button class="footer-btn" data-contents>Contents</button><button class="footer-btn" data-prev aria-label="Previous slide">←</button><button class="footer-btn" data-next aria-label="Next slide">→</button></div><span>${i + 1} / ${slides.length}</span>`;
+    slide.appendChild(footer);
+    const entry = document.createElement('button'); entry.className = 'toc-item'; entry.textContent = `${String(i + 1).padStart(2, '0')} · ${slide.dataset.topic}`; entry.addEventListener('click', () => show(i)); $('tocItems').appendChild(entry);
+  });
+  const liveFooter = slides[0].querySelector('.footer').cloneNode(true); liveFooter.classList.add('live-footer'); liveFooter.lastElementChild.id = 'livePageCount';
+  liveFooter.querySelector('[data-reset]').addEventListener('click', () => resetSlide(slides[index])); liveFooter.querySelector('[data-contents]').addEventListener('click', toggleToc);
+  liveFooter.querySelector('[data-prev]').addEventListener('click', () => show(index - 1)); liveFooter.querySelector('[data-next]').addEventListener('click', () => show(index + 1)); stage.insertBefore(liveFooter, toc);
+  $('closeToc').addEventListener('click', () => { toc.classList.remove('open'); liveFooter.querySelector('[data-contents]').focus(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { toc.classList.remove('open'); return; }
+    if (e.ctrlKey || e.metaKey || e.altKey || e.target.closest('input,select,textarea')) return;
+    const key = e.key.toLowerCase();
+    if (key === 't') { e.preventDefault(); toggleToc(); return; }
+    if (toc.classList.contains('open')) return;
+    if (key === 'r') { e.preventDefault(); const b = slides[index].querySelector('[data-steps]:not(:disabled)'); if (b) b.click(); else slides[index].querySelector('.choice[data-correct="true"]')?.click(); return; }
+    if (key === 'p') { e.preventDefault(); window.print(); return; }
+    if (key === 'f') { e.preventDefault(); if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); else document.documentElement.requestFullscreen?.().catch(() => {}); return; }
+    if (e.target.closest('button,a')) { if (!['ArrowRight', 'ArrowLeft', 'PageDown', 'PageUp', 'Home', 'End'].includes(e.key)) return; }
+    if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(index + 1); }
+    else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); show(index - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); show(0); } else if (e.key === 'End') { e.preventDefault(); show(slides.length - 1); }
+  });
+  document.addEventListener('click', e => { if (e.target.classList?.contains('slide')) show(index + (e.clientX > innerWidth / 2 ? 1 : -1)); });
+  addEventListener('resize', fit); addEventListener('hashchange', () => { const v = parseInt(location.hash.slice(1), 10); if (Number.isFinite(v)) show(v - 1); });
+  const start = parseInt(location.hash.slice(1), 10); fit(); show(Number.isFinite(start) ? start - 1 : 0);
+})();
+</script>
+</body>
+</html>
