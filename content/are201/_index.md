@@ -69,3 +69,4 @@ courseTitle: "Introduction to Agricultural and Resource Economics"
 ### Unit 9: Imperfect Competition
 
 - [Monopoly Slides](https://zihanzhang.me/assets/are201/ARE201_Unit9_Imperfect_Competition_Fall2026_Moodle.html)
+- [Monopolistic Competition Slides](https://zihanzhang.me/assets/are201/ARE201_Unit9_Part2_Monopolistic_Competition_Oligopoly_Fall2026_Moodle.html)
