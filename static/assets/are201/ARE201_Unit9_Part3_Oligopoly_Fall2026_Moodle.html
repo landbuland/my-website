@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARE 201 — Unit 9: Imperfect Competition (Part 3: Oligopoly)</title>
+<style>
+  :root {
+    --accent: #EB811B;
+    --accent-soft: #fff4e8;
+    --ink: #1f2933;
+    --muted: #5f6b76;
+    --paper: #ffffff;
+    --soft: #f3f4f6;
+    --line: #d8dde3;
+    --blue: #2f80c9;
+    --blue-soft: #eef5fb;
+    --green: #378a61;
+    --green-soft: #e9f6ef;
+    --red: #c9504d;
+    --red-soft: #fcedec;
+    --purple: #7657a5;
+    --purple-soft: #f3effa;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #111; }
+  body { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+
+  #stage {
+    position: absolute; left: 50%; top: 50%;
+    width: 960px; height: 720px;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+    background: var(--paper);
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  }
+
+  .slide {
+    position: absolute; inset: 0; display: none;
+    width: 960px; height: 720px;
+    padding: 50px 62px 48px;
+    overflow: hidden; color: var(--ink); background: var(--paper);
+  }
+  .slide.active { display: block; }
+  .slide.center { text-align: center; }
+  .slide.middle { align-items: center; justify-content: center; flex-direction: column; }
+  .slide.middle.active { display: flex; }
+
+  h1, h2, h3, p { margin-top: 0; }
+  h1 { margin-bottom: 16px; font-size: 37px; line-height: 1.12; letter-spacing: -.4px; }
+  h2 { margin-bottom: 10px; font-size: 25px; line-height: 1.2; }
+  h3 { margin-bottom: 7px; font-size: 19px; line-height: 1.2; }
+  p, li { font-size: 19px; line-height: 1.34; }
+  ul { margin: 7px 0 0 22px; padding: 0; }
+  li { margin: 6px 0; }
+  strong { font-weight: 780; }
+  .small { font-size: 16px; line-height: 1.34; }
+  .tiny { font-size: 13px; line-height: 1.3; }
+  .muted { color: var(--muted); }
+  .accent { color: var(--accent); }
+  .blue { color: var(--blue); }
+  .green { color: var(--green); }
+  .red { color: var(--red); }
+  .purple { color: var(--purple); }
+
+  .section-kicker {
+    margin-bottom: 7px; color: var(--accent);
+    font-size: 14px; font-weight: 820; letter-spacing: .1em; text-transform: uppercase;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  .two-thirds { display: grid; grid-template-columns: 1.12fr .88fr; gap: 23px; align-items: start; }
+  .thirds-two { display: grid; grid-template-columns: .88fr 1.12fr; gap: 23px; align-items: start; }
+
+  .card { padding: 17px 19px; border-radius: 8px; background: var(--soft); }
+  .card.white { border: 1px solid var(--line); background: #fff; }
+  .card.accent-top { border-top: 4px solid var(--accent); border-radius: 0 0 8px 8px; }
+  .card.blue-top { border-top: 4px solid var(--blue); border-radius: 0 0 8px 8px; }
+  .card.green-top { border-top: 4px solid var(--green); border-radius: 0 0 8px 8px; }
+  .card.red-top { border-top: 4px solid var(--red); border-radius: 0 0 8px 8px; }
+  .card.purple-top { border-top: 4px solid var(--purple); border-radius: 0 0 8px 8px; }
+  .card p, .card li { font-size: 16px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  .definition-strip {
+    padding: 13px 16px; border-left: 5px solid var(--accent);
+    background: var(--accent-soft); font-size: 19px; line-height: 1.36;
+  }
+  .definition-strip.blue-strip { border-left-color: var(--blue); background: var(--blue-soft); }
+  .definition-strip.green-strip { border-left-color: var(--green); background: var(--green-soft); }
+  .definition-strip.red-strip { border-left-color: var(--red); background: var(--red-soft); }
+  .definition-strip.purple-strip { border-left-color: var(--purple); background: var(--purple-soft); }
+
+  .interactive button {
+    min-height: 41px; padding: 9px 14px; border: 0; border-radius: 7px;
+    color: #fff; background: var(--accent);
+    font: 730 15px "Avenir Next", "Helvetica Neue", Arial, sans-serif; cursor: pointer;
+  }
+  .interactive button:hover { filter: brightness(.96); }
+  .interactive button:focus-visible { outline: 3px solid rgba(235,129,27,.35); outline-offset: 2px; }
+  .interactive button:disabled { opacity: .45; cursor: default; filter: none; }
+  .interactive button.secondary { color: var(--ink); background: #e5e8eb; }
+  .interactive button.blue-button { background: var(--blue); }
+  .interactive button.green-button { background: var(--green); }
+  .interactive button.purple-button { background: var(--purple); }
+  .interactive button.selected { box-shadow: inset 0 0 0 3px rgba(255,255,255,.65); }
+  .interactive button.correct { color: #fff; background: var(--green); }
+  .interactive button.wrong { color: #fff; background: var(--red); }
+
+  .button-row { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
+  .feedback {
+    min-height: 54px; padding: 10px 13px;
+    border-left: 4px solid var(--line); background: var(--soft);
+    font-size: 15px; line-height: 1.33;
+  }
+  .feedback.success { border-left-color: var(--green); background: var(--green-soft); }
+  .feedback.error { border-left-color: var(--red); background: var(--red-soft); }
+  .feedback.info { border-left-color: var(--blue); background: var(--blue-soft); }
+
+  .title-slide { padding-bottom: 150px; }
+  .title-kicker { margin-bottom: 13px; color: var(--accent); font-size: 17px; font-weight: 780; letter-spacing: .11em; text-transform: uppercase; }
+  .title-main { max-width: 780px; margin: 0 auto 12px; font-size: 57px; line-height: 1.02; }
+  .title-sub { color: var(--muted); font-size: 24px; line-height: 1.35; }
+  .title-graphic { position: absolute; right: 65px; bottom: 38px; width: 470px; height: 170px; }
+
+  .poll-letter { display: inline-flex; width: 31px; height: 31px; margin-bottom: 9px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--accent); font-weight: 820; }
+
+  .quiz-scenario { min-height: 84px; padding: 15px 18px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .quiz-scenario .market-label { color: var(--accent); font-size: 13px; font-weight: 820; letter-spacing: .07em; text-transform: uppercase; }
+  .quiz-scenario p { margin: 5px 0 0; font-size: 21px; line-height: 1.28; }
+
+  /* ---- plots ---- */
+  .plot-panel { padding: 10px 12px 8px; border: 1px solid var(--line); background: #fff; }
+  .plot-title { margin: 0 0 2px; font-size: 14px; font-weight: 800; text-align: center; }
+  .plot { display: block; width: 100%; height: 300px; }
+  .plot.mid { height: 250px; }
+  .plot.demand-h { height: 222px; }
+  .plot.half { height: 196px; }
+  .plot.mini { height: 106px; }
+  .axis { fill: none; stroke: var(--ink); stroke-width: 2; }
+  .gridline { fill: none; stroke: #e8ebee; stroke-width: 1; }
+  .demand-line { fill: none; stroke: var(--blue); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+  .old-line { fill: none; stroke: #9aa3ab; stroke-width: 3; stroke-dasharray: 7 6; }
+  .projection { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 5 4; }
+  .ref-line { fill: none; stroke: var(--muted); stroke-width: 1.6; stroke-dasharray: 5 4; }
+  .leader { fill: none; stroke: var(--muted); stroke-width: 1.2; }
+  .plot-label { fill: var(--ink); font: 700 13px Arial, sans-serif; }
+  .plot-label.sm { font-size: 11px; }
+  .tick-label { fill: var(--muted); font: 11px Arial, sans-serif; }
+  .dot { fill: var(--accent); stroke: #fff; stroke-width: 2; }
+  .dot.blue-dot { fill: var(--blue); }
+  .dot.green-dot { fill: var(--green); }
+  .dot.red-dot { fill: var(--red); }
+  .dot.purple-dot { fill: var(--purple); }
+  .dot.hollow-dot { fill: #fff; stroke: var(--green); stroke-width: 3; }
+
+  /* ---- reveal machinery ---- */
+  .reveal-step { visibility: hidden; opacity: 0; transition: opacity .18s ease; }
+  .reveal-step.visible { visibility: visible; opacity: 1; }
+  .check-answer { visibility: hidden; opacity: 0; transition: opacity .18s ease; }
+  .check-answer.visible { visibility: visible; opacity: 1; }
+
+  .formula-box {
+    padding: 15px 18px; border: 2px solid var(--accent); border-radius: 8px;
+    background: var(--accent-soft); text-align: center;
+  }
+  .formula-box .frac { display: inline-block; vertical-align: middle; text-align: center; }
+  .formula-box .frac .num { display: block; padding: 0 9px 3px; border-bottom: 2.5px solid var(--ink); font-size: 20px; font-weight: 800; }
+  .formula-box .frac .den { display: block; padding: 3px 9px 0; font-size: 20px; font-weight: 800; }
+  .formula-box .lhs { display: inline-block; vertical-align: middle; margin-right: 10px; font-size: 22px; font-weight: 840; }
+  .formula-box.purple-box { border-color: var(--purple); background: var(--purple-soft); }
+
+  .calc-run { display: grid; gap: 9px; margin-top: 4px; }
+  .calc-line {
+    display: grid; grid-template-columns: 30px 1fr; gap: 11px; align-items: center;
+    padding: 9px 13px; background: var(--soft);
+  }
+  .calc-line.hi { background: var(--accent-soft); }
+  .calc-line.bad { background: var(--red-soft); }
+  .calc-line.good { background: var(--green-soft); }
+  .calc-num { display: flex; width: 26px; height: 26px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--ink); font-size: 12px; font-weight: 820; }
+  .calc-line.hi .calc-num { background: var(--accent); }
+  .calc-line.bad .calc-num { background: var(--red); }
+  .calc-line.good .calc-num { background: var(--green); }
+  .calc-line strong { display: block; font-size: 16px; }
+  .calc-line span { display: block; margin-top: 2px; color: var(--muted); font-size: 13px; line-height: 1.28; }
+  .calc-line .ans { margin-top: 3px; color: var(--ink); font-size: 14px; font-weight: 700; line-height: 1.3; }
+
+  .lo-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .lo-row { display: grid; grid-template-columns: 58px 1fr; gap: 10px; align-items: center; padding: 9px 12px; background: var(--soft); }
+  .lo-row.today { background: var(--accent-soft); }
+  .lo-tag { padding: 5px 4px; color: #fff; background: var(--muted); font-size: 11px; font-weight: 850; text-align: center; }
+  .lo-row.today .lo-tag { background: var(--accent); }
+  .lo-row span { font-size: 13px; line-height: 1.25; }
+
+  .mechanism-box { display: flex; min-height: 86px; padding: 11px; align-items: center; justify-content: center; background: var(--soft); font-size: 15px; font-weight: 740; line-height: 1.28; text-align: center; }
+  .mechanism-box.blue-box { background: var(--blue-soft); }
+  .mechanism-box.green-box { background: var(--green-soft); }
+  .mechanism-box.purple-box { background: var(--purple-soft); }
+  .mechanism-box.accent-box { background: var(--accent-soft); }
+  .mechanism-arrow { display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 24px; font-weight: 850; }
+
+  .compact-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-top: 13px; }
+  .compact-check { padding: 11px 13px; border-left: 4px solid var(--purple); background: var(--purple-soft); }
+  .compact-check strong { display: block; margin-bottom: 3px; font-size: 14px; }
+  .compact-check span { color: var(--muted); font-size: 12px; line-height: 1.25; }
+
+  .exit-answer { min-height: 58px; margin-top: 12px; padding: 12px 14px; border-left: 4px solid var(--green); background: var(--green-soft); visibility: hidden; opacity: 0; }
+  .exit-answer.visible { visibility: visible; opacity: 1; }
+  .exit-answer p { margin: 0; font-size: 15px; line-height: 1.34; }
+
+  .illus-tag {
+    display: inline-block; margin-left: 8px; padding: 2px 7px; border-radius: 3px;
+    background: var(--soft); color: var(--muted); font-size: 11px; font-weight: 800;
+    letter-spacing: .05em; text-transform: uppercase; vertical-align: middle;
+  }
+  .footer-note { margin-top: 14px; }
+
+  .know-badge { display: inline-block; padding: 4px 10px; border-radius: 3px; color: #fff; font-size: 11px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .know-badge.yes { background: var(--muted); }
+  .know-badge.no { background: var(--accent); }
+  .know-card { padding: 14px 16px 10px; border-top: 5px solid var(--muted); background: var(--soft); }
+  .know-card.unknown { border-top-color: var(--accent); background: var(--accent-soft); }
+  .know-card h2 { margin: 8px 0 4px; font-size: 21px; }
+
+  .option-row { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: center; padding: 12px 15px; background: var(--soft); }
+  .option-row + .option-row { margin-top: 9px; }
+  .option-letter { display: flex; width: 26px; height: 26px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--blue); font-size: 12px; font-weight: 820; }
+  .option-row span:last-child { font-size: 17px; font-weight: 700; }
+
+  .footer { position: absolute; right: 62px; bottom: 18px; left: 62px; display: flex; justify-content: space-between; color: #8a949e; font-size: 12px; }
+  #progress { position: fixed; bottom: 0; left: 0; z-index: 20; height: 4px; background: var(--accent); transition: width .18s ease; }
+  #hint { position: fixed; right: 14px; bottom: 9px; z-index: 20; color: rgba(255,255,255,.52); font: 12px Arial, sans-serif; }
+
+  @page { size: 10in 7.5in; margin: 0; }
+  @media print {
+    html, body { width: auto; height: auto; overflow: visible; background: #fff; }
+    #stage { position: static; width: auto; height: auto; transform: none !important; box-shadow: none; }
+    .slide { position: relative; display: block !important; page-break-after: always; break-after: page; }
+    #progress, #hint { display: none; }
+    .exit-answer { visibility: visible !important; opacity: 1 !important; }
+    .reveal-step { visibility: visible !important; opacity: 1 !important; }
+    .check-answer { visibility: visible !important; opacity: 1 !important; }
+    .print-only { display: block; }
+  }
+
+  /* ---- unit 8a specific ---- */
+  .mp-bar { fill: var(--accent); }
+  .mp-bar.neg { fill: var(--red); }
+  .mp-bar.hl { fill: var(--blue); }
+  .mp-bar.soft { fill: #f5c08f; }
+  .tp-line { fill: none; stroke: var(--blue); stroke-width: 3.5; stroke-linejoin: round; stroke-linecap: round; }
+  .tp-line.alt { stroke: var(--green); }
+  .tp-line.ghost { stroke: #9aa3ab; stroke-width: 2.5; stroke-dasharray: 7 6; }
+  .flow-sub { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .zero-line { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+  .c-line { fill: none; stroke-width: 3.5; stroke-linejoin: round; stroke-linecap: round; }
+  .c-line.mc { stroke: var(--red); }
+  .c-line.atc { stroke: var(--blue); }
+  .c-line.avc { stroke: var(--green); }
+  .c-line.afc { stroke: var(--purple); }
+  .c-line.tc { stroke: var(--ink); }
+  .c-line.vc { stroke: var(--green); }
+  .c-line.fc { stroke: var(--purple); }
+  .c-line.ghost { stroke-width: 2.4; stroke-dasharray: 7 6; opacity: .5; }
+  .c-label { font: 800 13px Arial, sans-serif; }
+  .c-label.mc { fill: var(--red); } .c-label.atc { fill: var(--blue); } .c-label.avc { fill: var(--green); }
+  .c-label.afc { fill: var(--purple); } .c-label.tc { fill: var(--ink); } .c-label.vc { fill: var(--green); } .c-label.fc { fill: var(--purple); }
+  .c-label.ghost { opacity: .6; font-weight: 700; }
+  .axis-title { fill: var(--muted); font: 700 12px Arial, sans-serif; }
+
+  .u8-table { width: 100%; border-collapse: collapse; font-size: 16px; text-align: center; }
+  .u8-table caption { caption-side: top; padding: 0 0 6px; color: var(--muted); font-size: 12px; font-weight: 820; letter-spacing: .07em; text-align: left; text-transform: uppercase; }
+  .u8-table th { padding: 8px 8px; color: #fff; background: var(--ink); font-size: 13px; font-weight: 800; line-height: 1.2; }
+  .u8-table td { padding: 7px 8px; border-bottom: 1px solid var(--line); font-weight: 700; }
+  .u8-table td.lead { color: var(--muted); font-weight: 840; }
+  .u8-table tr.hl td { background: var(--accent-soft); }
+  .u8-table tr.hl-blue td { background: var(--blue-soft); }
+  .u8-table tr.hl-green td { background: var(--green-soft); }
+  .u8-table tr.hl-red td { background: var(--red-soft); }
+  .u8-table td.cell-hl { background: var(--accent-soft); color: var(--accent); }
+  .u8-table td.cell-min { background: var(--green-soft); color: var(--green); }
+  .u8-table.compact th { padding: 6px 6px; }
+  .u8-table.compact td { padding: 5px 6px; font-size: 15px; }
+  .u8-table.tight td { padding: 4px 6px; font-size: 14px; }
+  .u8-table.tight th { padding: 5px 5px; font-size: 12px; }
+  .u8-table.left-first th:first-child, .u8-table.left-first td:first-child { padding-left: 10px; text-align: left; }
+  .u8-table .new { color: var(--red); }
+  .u8-table .same { color: #a3abb3; }
+
+  .sign-table { width: 100%; border-collapse: collapse; font-size: 16px; text-align: center; }
+  .sign-table th { padding: 9px 8px; color: #fff; background: var(--ink); font-size: 13px; line-height: 1.2; }
+  .sign-table td { padding: 11px 8px; border-bottom: 1px solid var(--line); font-weight: 840; font-size: 20px; }
+  .sign-table td:first-child { padding-left: 12px; font-size: 15px; font-weight: 760; text-align: left; }
+  .sign-table td .sub { display: block; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .up { color: var(--red); }
+  .down { color: var(--green); }
+  .flat { color: #a3abb3; }
+
+  .factor-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 16px; }
+  .factor { padding: 12px 11px; border-top: 4px solid var(--accent); background: var(--soft); }
+  .factor h3 { margin-bottom: 5px; font-size: 15px; }
+  .factor p { margin: 0; font-size: 14px; line-height: 1.3; }
+
+  .sort-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px; margin-top: 14px; }
+  .sort-card { min-height: 92px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  .sort-card p { margin: 0; font-size: 16px; font-weight: 700; line-height: 1.28; }
+  .sort-card .reveal-step { display: block; margin-top: 8px; }
+  .tag { display: inline-block; padding: 3px 9px; border-radius: 3px; color: #fff; font-size: 12px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+  .tag.fixed { background: var(--purple); }
+  .tag.variable { background: var(--green); }
+  .tag.prod { background: var(--blue); }
+  .tag.down-tag { background: var(--green); }
+  .tag-note { display: block; margin-top: 5px; color: var(--muted); font-size: 13px; line-height: 1.25; font-weight: 600; }
+
+  .event-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+  .event { min-height: 128px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  .event .num { display: inline-flex; width: 22px; height: 22px; margin-right: 6px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--ink); font-size: 11px; font-weight: 850; vertical-align: 1px; }
+  .event p { margin: 0; font-size: 15px; font-weight: 700; line-height: 1.27; }
+  .event .reveal-step { display: block; margin-top: 7px; }
+  .event .curves { display: block; margin-top: 4px; font-size: 13px; font-weight: 700; line-height: 1.25; }
+
+  .phase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+  .phase { padding: 13px 15px; border-top: 5px solid var(--green); background: var(--green-soft); }
+  .phase.mid { border-top-color: var(--accent); background: var(--accent-soft); }
+  .phase.neg { border-top-color: var(--red); background: var(--red-soft); }
+  .phase .who { color: var(--muted); font-size: 12px; font-weight: 850; letter-spacing: .07em; text-transform: uppercase; }
+  .phase h3 { margin: 4px 0 6px; font-size: 19px; }
+  .phase p { margin: 0; font-size: 15px; line-height: 1.32; }
+
+  .scene { display: block; width: 100%; height: auto; }
+  .stmt { display: grid; grid-template-columns: 1fr 230px; gap: 14px; align-items: center; padding: 12px 15px; background: var(--soft); }
+  .stmt + .stmt { margin-top: 9px; }
+  .stmt p { margin: 0; font-size: 17px; font-weight: 700; line-height: 1.3; }
+  .stmt .reveal-step { font-size: 14px; line-height: 1.3; }
+  .verdict { display: inline-block; margin-right: 6px; padding: 2px 8px; border-radius: 3px; color: #fff; background: var(--red); font-size: 12px; font-weight: 850; }
+  .verdict.ok { background: var(--green); }
+
+  .q-list { margin: 8px 0 0; padding: 0; list-style: none; }
+  .q-list li { margin: 5px 0; font-size: 16px; line-height: 1.3; }
+  .q-list li b { display: inline-block; width: 24px; color: var(--accent); }
+
+  .ans-box { margin-top: 10px; padding: 9px 13px; border-left: 4px solid var(--green); background: var(--green-soft); }
+  .ans-box p { margin: 3px 0; font-size: 15px; line-height: 1.3; }
+  .ans-box b { color: var(--green); }
+  .calc-line span b { color: var(--ink); font-size: 15px; }
+  .big-num { display: block; font-size: 44px; font-weight: 850; line-height: 1.05; }
+  .big-cap { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+  .stat-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .stat { padding: 14px 10px; background: var(--soft); text-align: center; }
+  .stat.accent-stat { background: var(--accent-soft); }
+  .stat.red-stat { background: var(--red-soft); }
+  .stat.green-stat { background: var(--green-soft); }
+  .stat.blue-stat { background: var(--blue-soft); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 6px; font-size: 13px; font-weight: 700; }
+  .legend span::before { content: ''; display: inline-block; width: 18px; height: 0; margin-right: 6px; border-top: 3.5px solid currentColor; vertical-align: 4px; }
+  .legend span.dash::before { border-top-style: dashed; opacity: .6; }
+
+  #debriefSlide .calc-run { gap: 9px; }
+  #debriefSlide .calc-line { padding: 9px 13px; }
+  #debriefSlide .calc-line strong { font-size: 17px; }
+  #debriefSlide .calc-line span { margin-top: 3px; color: var(--ink); font-size: 14.5px; line-height: 1.33; }
+  #debriefSlide .calc-line span b.k { color: #b8600f; font-size: inherit; }
+  .launch { display: inline-flex; align-items: center; justify-content: center; min-height: 58px; padding: 12px 22px; border-radius: 10px;
+    background: var(--accent); color: #fff; font-size: 21px; font-weight: 820; text-decoration: none; box-shadow: 0 3px 0 #c56a12; }
+  .launch:hover { filter: brightness(1.05); }
+  .interactive .choice-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+  .interactive .choice-row button { min-height: 50px; font-size: 18px; }
+
+
+  /* ---- shared with the 8b deck ---- */
+  .p-line { fill: none; stroke: var(--accent); stroke-width: 3.2; stroke-linecap: round; }
+  .p-line.dash { stroke-dasharray: 8 5; stroke-width: 2.4; }
+  .gain-area { fill: var(--green); opacity: .26; }
+  .loss-area { fill: var(--red); opacity: .26; }
+  .profit-rect { fill: var(--green); fill-opacity: .24; stroke: var(--green); stroke-width: 2; }
+  .guide { fill: none; stroke: #9aa3ab; stroke-width: 1.2; stroke-dasharray: 3 4; }
+  .tick-label.strong-tick { fill: var(--ink); font-weight: 700; }
+  .zone.z1 { fill: var(--green); opacity: .10; }
+  .zone.z3 { fill: var(--red); opacity: .09; }
+  .st { visibility: hidden; opacity: 0; transition: opacity .25s ease; }
+  .st.on { visibility: visible; opacity: 1; }
+  .interactive button.state-btn.selected { background: var(--ink); box-shadow: none; }
+  .qc-stmt { grid-template-columns: 1fr 280px; padding: 9px 14px; }
+  .qc-stmt + .qc-stmt { margin-top: 7px; }
+  .qc-stmt p { font-size: 15.5px; font-weight: 600; }
+  .qc-stmt .reveal-step { font-size: 13.5px; }
+  .qc-tag { display: inline-block; margin-right: 8px; padding: 1px 7px; border-radius: 3px; background: var(--ink); color: #fff; font-size: 11px; font-weight: 850; letter-spacing: .05em; text-transform: uppercase; vertical-align: 2px; }
+  .stack { display: grid; }
+  .stack > * { grid-area: 1 / 1; }
+  .u8-table .neg { color: var(--red); white-space: nowrap; }
+  .u8-table .pos { color: var(--green); white-space: nowrap; }
+  .u8-table td.cell-red { background: var(--red-soft); color: var(--red); }
+  .big-run .calc-line { padding: 12px 16px; }
+  .big-run .calc-line strong { font-size: 20px; }
+  .big-run .calc-line span { margin-top: 4px; color: var(--ink); font-size: 15.5px; }
+
+  /* ---- unit 9 ---- */
+  .mr-line { fill: none; stroke: var(--purple); stroke-width: 3.2; stroke-linecap: round; }
+  .c-line.atc9 { stroke: #5f6b76; stroke-width: 2.8; }
+  .cs-area { fill: var(--blue); opacity: .22; }
+  .dwl-area { fill: var(--red); opacity: .34; }
+  @media print { .reveal-step[data-hide-at] { display: none !important; } }
+  .loss-rect { fill: var(--red); fill-opacity: .24; stroke: var(--red); stroke-width: 2; }
+  .mrp-table th { width: 150px; padding-left: 12px; text-align: left; font-size: 14px; }
+  .mrp-table td { font-size: 18px; }
+  .mrp-table tr.reveal-step:not(.visible) td { border-bottom-color: transparent; }
+  .sp-card { padding: 9px 14px 11px; }
+  .sp-card + .sp-card { margin-top: 10px; }
+  .sp-card h3 { margin-bottom: 2px; font-size: 16px; }
+  .sp-q { margin-top: 6px; font-size: 15px; font-weight: 650; line-height: 1.3; }
+  .sp-q .reveal-step { display: block; margin-top: 1px; font-size: 14px; font-weight: 400; }
+  .cal { display: grid; grid-template-columns: 118px repeat(3, 1fr) 118px; gap: 6px 8px; margin-top: 14px; align-items: stretch; }
+  .cal .hd { padding: 0 2px 2px; border-bottom: 2px solid var(--ink); color: var(--muted); font-size: 12px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+  .cal .wk { grid-column: 1; align-self: center; font-size: 17px; font-weight: 800; white-space: nowrap; }
+  .cal .due { align-self: center; font-size: 16px; font-weight: 750; white-space: nowrap; }
+  .cal .cell { display: flex; flex-direction: column; justify-content: center; min-height: 61px; padding: 7px 14px; border-radius: 6px; background: var(--soft); font-size: 19px; font-weight: 800; line-height: 1.2; }
+  .cal .cell small { margin-top: 3px; font-size: 13.5px; font-weight: 650; opacity: .85; }
+  .cal .span3 { grid-column: span 3; flex-direction: row; flex-wrap: wrap; justify-content: flex-start; align-content: center; align-items: center; column-gap: 12px; }
+  .cal .span3 small { flex-basis: 100%; }
+  .cal .span2 { grid-column: span 2; }
+  .cal .u9 { border-left: 6px solid var(--accent); background: var(--accent-soft); }
+  .cal .u10 { border-left: 6px solid var(--blue); background: var(--blue-soft); }
+  .cal .u11 { border-left: 6px solid var(--green); background: var(--green-soft); }
+  .cal .rev { border-left: 6px solid var(--purple); background: var(--purple-soft); }
+  .cal .exam { background: var(--red); color: #fff; }
+  .cal .off { background: repeating-linear-gradient(135deg, #f3f4f6 0 8px, #e9ecef 8px 16px); color: var(--muted); }
+  .cal .last { background: var(--ink); color: #fff; }
+  .cal-today { display: inline-block; padding: 2px 8px; border-radius: 3px; background: var(--accent); color: #fff; font-size: 11.5px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+  .game-logo { display: block; width: 600px; margin: 12px auto 14px; }
+  .ans-tag.key { background: var(--accent); }
+  .big-cards .card { padding: 18px 18px 22px; }
+  .big-cards h3 { font-size: 21px; }
+  .big-cards p { font-size: 18px; line-height: 1.38; }
+  .zero-line { stroke: var(--muted); stroke-width: 1.4; }
+  .nl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 10px; }
+  .nl-card { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; padding: 10px 13px; border-radius: 8px; background: var(--soft); }
+  .nl-card h3 { margin: 0 0 2px; font-size: 16.5px; }
+  .nl-card p { margin: 0; font-size: 13.5px; color: var(--muted); line-height: 1.3; }
+  .nl-card .reveal-step { grid-column: 2; margin-top: 4px; font-size: 13.5px; line-height: 1.3; }
+  .ans-tag { display: inline-block; margin-right: 6px; padding: 2px 8px; border-radius: 3px; color: #fff; font-size: 11.5px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
+  .ans-tag.nat { background: var(--green); } .ans-tag.leg { background: var(--blue); } .ans-tag.both { background: var(--purple); }
+  .vote-opts { display: grid; gap: 6px; margin-top: 8px; }
+  .vote-opt { display: grid; grid-template-columns: 28px 1fr; column-gap: 10px; align-items: center; padding: 6px 12px; border-radius: 8px; background: var(--soft); }
+  .vote-opt-t { font-size: 16px; font-weight: 700; }
+  .vote-opt .why { grid-column: 2; margin-top: 3px; font-size: 13.5px; line-height: 1.28; }
+  .cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; }
+  .chain { display: grid; gap: 6px; margin-top: 8px; }
+  .chain .mechanism-box { min-height: 0; padding: 8px 10px; font-size: 15px; }
+  .chain .arrow { color: var(--accent); font-size: 18px; font-weight: 850; text-align: center; line-height: 1; }
+  .quote { margin: 10px 0 0; padding: 10px 14px; border-left: 4px solid var(--muted); background: var(--soft); font-size: 15px; font-style: italic; line-height: 1.35; }
+  .quote .who { display: block; margin-top: 4px; color: var(--muted); font-size: 12.5px; font-style: normal; font-weight: 700; }
+  .wf-table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  .wf-table th { padding: 5px 6px; border-bottom: 2px solid var(--ink); color: var(--muted); font-size: 11.5px; letter-spacing: .05em; text-transform: uppercase; text-align: right; }
+  .wf-table th:first-child, .wf-table td:first-child { text-align: left; }
+  .wf-table td { padding: 6px 6px; border-bottom: 1px solid var(--line); font-weight: 700; text-align: right; }
+  .wf-table td.lead { color: var(--muted); font-weight: 800; }
+  .wf-table tr.dwl td { color: var(--red); }
+  .yt-q { padding: 6px 11px; border-radius: 7px; background: var(--soft); }
+  .yt-q + .yt-q { margin-top: 6px; }
+  .yt-q p { margin: 0; font-size: 15px; font-weight: 650; line-height: 1.3; }
+  .yt-a { margin-top: 3px; font-size: 13.5px; line-height: 1.3; }
+  .ae-step { padding: 8px 12px; border-left: 4px solid var(--muted); border-radius: 6px; background: var(--soft); font-size: 15px; line-height: 1.35; }
+  .ae-step + .ae-step { margin-top: 8px; }
+  .ae-note { display: block; margin-top: 3px; color: var(--muted); font-size: 12.5px; }
+  .ae-step.g { border-color: var(--green); } .ae-step.o { border-color: var(--accent); } .ae-step.r { border-color: var(--red); } .ae-step.b { border-color: var(--blue); }
+  .yt-wrap { width: 704px; height: 396px; margin: 4px auto 0; border-radius: 8px; overflow: hidden; background: #111; }
+  .yt-wrap iframe { display: block; width: 100%; height: 100%; border: 0; }
+  .yt-watch { margin-top: 12px; padding: 9px 15px; font-size: 17px; }
+  .yt-link { margin: 6px 0 0; font-size: 14px; text-align: right; }
+  .yt-link a { color: var(--blue); font-weight: 700; }
+  .yt-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 100%; color: #fff; text-decoration: none;
+             background: radial-gradient(circle at 50% 40%, #2b3440, #111 70%); }
+  .yt-play { width: 88px; height: 62px; border-radius: 16px; background: var(--red); position: relative; }
+  .yt-play::after { content: ""; position: absolute; left: 35px; top: 18px; border-left: 26px solid #fff; border-top: 13px solid transparent; border-bottom: 13px solid transparent; }
+  .yt-t { margin-top: 6px; font-size: 24px; font-weight: 800; }
+  .yt-s { color: #c8d0d8; font-size: 15px; }
+  .yt-go { margin-top: 8px; padding: 9px 18px; border-radius: 7px; background: #fff; color: var(--ink); font-size: 16px; font-weight: 800; }
+  .yt-card:hover .yt-go { background: var(--accent-soft); }
+  .src { position: absolute; left: 62px; right: 62px; bottom: 36px; color: #8a949e; font-size: 10.5px; line-height: 1.25; }
+
+  @media print {
+    .st { visibility: hidden !important; opacity: 0 !important; }
+    .st.pr { visibility: visible !important; opacity: 1 !important; }
+  }
+
+
+  /* ---- unit 9 part 2 ---- */
+  .old-line { fill: none; stroke: var(--blue); stroke-width: 2.4; stroke-dasharray: 7 5; opacity: .55; }
+  .b-loss { fill: #8a949e; opacity: .3; }
+  .own-a { fill: var(--accent); opacity: .85; } .own-b { fill: var(--blue); opacity: .85; }
+  .ms-table { table-layout: fixed; }
+  .ms-table th:first-child { width: 150px; }
+  .ms-table th { font-size: 13px; line-height: 1.15; }
+  .ms-table th small { display: block; margin-top: 3px; font-size: 11px; font-weight: 700; opacity: .8; }
+  .ms-table th.mid { background: var(--accent); }
+  .ms-table td { padding: 7px 7px; font-size: 14.5px; line-height: 1.2; }
+  .ms-table td.lead { font-size: 13.5px; text-align: left; }
+  .ms-table td.mid { background: var(--accent-soft); }
+  .ms-table .q { color: #b5bdc5; font-size: 21px; font-weight: 900; }
+  .ms-table .stack { justify-items: center; align-items: center; }
+  .pm { width: 100%; border-collapse: separate; border-spacing: 7px; }
+  .pm th { color: var(--muted); font-size: 13px; font-weight: 850; text-align: center; }
+  .pm th.rowh { width: 104px; text-align: right; white-space: nowrap; }
+  .pm th.colA { color: var(--accent); } .pm th.colB { color: var(--blue); }
+  .pm-cell { position: relative; padding: 11px 8px 11px 16px; border-radius: 8px; background: var(--soft); text-align: left; }
+  .pm-a, .pm-b { font-size: 17px; font-weight: 800; line-height: 1.45; white-space: nowrap; }
+  .pm-a { color: var(--accent); } .pm-b { color: var(--blue); }
+  .best-tag { display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 3px; background: var(--green); color: #fff; font-size: 10.5px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; vertical-align: 2px; }
+  .pm-nash { position: absolute; inset: -4px; border: 3px solid var(--accent); border-radius: 10px; pointer-events: none; }
+  .pm-nash span { position: absolute; right: 8px; top: -11px; padding: 1px 7px; border-radius: 3px; background: var(--accent); color: #fff; font-size: 10.5px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
+  .pm.mini { border-spacing: 5px; }
+  .pm.mini th { font-size: 12px; } .pm.mini th.rowh { width: 92px; }
+  .pm.mini .pm-cell { padding: 6px 6px 6px 12px; }
+  .pm.mini .pm-a, .pm.mini .pm-b { font-size: 14px; line-height: 1.35; }
+  .game-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .game-side { padding: 10px 12px; }
+  .game-side h3 { margin-bottom: 7px; font-size: 17px; }
+  .game-side h3 small { display: block; margin-top: 1px; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .game .game-btn { padding: 7px 11px; font-size: 14px; }
+  .game .game-btn.selected { background: var(--ink); box-shadow: none; }
+  .game-msg { font-size: 13px; }
+  .game-table { margin-top: 8px; }
+  .game-table td { padding: 5px 6px; font-size: 14px; }
+  .game-table tr.played td { background: #fff; }
+  .game-table tr.game-tot td { border-top: 2px solid var(--ink); font-weight: 900; }
+  .hhi-row { display: grid; grid-template-columns: 140px 1fr 156px; gap: 12px; align-items: center; margin-top: 9px; }
+  .hhi-lab { font-size: 15px; font-weight: 800; line-height: 1.2; }
+  .hhi-lab small { display: block; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .hhi-bar { display: flex; height: 36px; border-radius: 6px; overflow: hidden; }
+  .hhi-bar span { display: flex; align-items: center; justify-content: center; border-right: 2px solid #fff; color: #fff; font-size: 12.5px; font-weight: 850; white-space: nowrap; overflow: hidden; }
+  .hhi-bar span.small-firms { background: repeating-linear-gradient(90deg, #9aa3ab 0 5px, #c4ccd3 5px 7px); color: var(--ink); font-size: 11px; }
+  .hhi-bar span.tight { font-size: 11px; }
+  .hhi-key { margin-top: 4px; color: var(--muted); font-size: 12.5px; text-align: right; }
+  .hhi-num { font-size: 14.5px; font-weight: 800; line-height: 1.3; }
+  .hhi-num .reveal-step { display: block; }
+  .hhi-calc { margin-top: 8px; padding: 7px 12px; border-radius: 6px; background: var(--soft); font-size: 13.5px; line-height: 1.45; }
+  .event-grid.four { grid-template-columns: repeat(4, 1fr); }
+  .event-grid.four .event { min-height: 120px; }
+  .event .when { display: block; margin-bottom: 4px; color: var(--accent); font-size: 12px; font-weight: 850; letter-spacing: .05em; text-transform: uppercase; }
+  .pdq-card { padding: 12px 14px; }
+  .pdq-card h3 { margin-bottom: 3px; font-size: 17px; }
+  .pdq-card > p { margin: 0 0 4px; color: var(--muted); font-size: 13.5px; line-height: 1.3; }
+  .pdq-line { margin-top: 5px; font-size: 14px; line-height: 1.3; }
+  .owl-street { padding: 4px 8px; }
+  /* P2-2 market-structure grid (after Krugman & Wells, Microeconomics 5e, Fig. 13-1) */
+  .ms-fig { display: grid; grid-template-columns: 150px 30px 62px 245px 245px; grid-template-rows: 28px 22px 30px repeat(3, 104px); justify-content: center; margin-top: 4px; }
+  .ms-qtop, .ms-qleft { font-size: 17px; font-weight: 800; line-height: 1.3; }
+  .ms-qtop { grid-column: 4 / 6; grid-row: 1; text-align: center; }
+  .ms-qleft { grid-column: 1; grid-row: 4 / 7; align-self: center; padding-right: 4px; text-align: right; }
+  .ms-brace { display: block; fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .ms-btop { grid-column: 4 / 6; grid-row: 2; width: 490px; height: 22px; }
+  .ms-bleft { grid-column: 2; grid-row: 4 / 7; width: 30px; height: 312px; }
+  .ms-lab { display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 650; }
+  .ms-cells { display: grid; grid-column: 4 / 6; grid-row: 4 / 7; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 1fr); gap: 1.5px; border: 1.5px solid var(--ink); background: var(--ink); }
+  .ms-cell { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 14px; font-size: 21px; font-weight: 720; line-height: 1.15; text-align: center; }
+  .ms-cell small { margin-top: 6px; color: rgba(31,41,51,.72); font-size: 13.5px; font-weight: 650; }
+  .ms-cell.mono { background: #b9b2dd; } .ms-cell.na { background: #c6e2a6; } .ms-cell.oli { grid-column: 1 / 3; background: #f4c35b; }
+  .ms-cell.pc { background: #ef8a85; } .ms-cell.mc { background: #a5d9d5; box-shadow: inset 0 0 0 3px var(--accent); }
+  .ms-cell .cal-today { position: absolute; top: -10px; right: 10px; }
+  /* P2-5a to P2-5d: which of the four kinds this page is */
+  .diff-track { position: absolute; top: 47px; right: 62px; display: flex; gap: 6px; }
+  .diff-track span { padding: 3px 10px; border-radius: 999px; background: var(--soft); color: var(--muted); font-size: 12px; font-weight: 800; }
+  .diff-track span.on { background: var(--accent); color: #fff; }
+  .quiz-scenario.test-q { border-left-color: var(--blue); background: var(--blue-soft); }
+  .quiz-scenario.test-q .market-label { color: var(--blue); }
+
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1 four -->
+  <section class="slide">
+    <div class="section-kicker">where we are</div>
+    <h1>Four markets you have already met</h1>
+    <p style="margin:0 0 6px; font-size:16.5px;">In 8b we checked four markets against perfect competition. Each one is a different <strong>market structure</strong>.</p>
+    <div class="ms-fig" role="img" aria-label="Two questions sort markets into structures: how many producers are there, and are products differentiated? One producer: monopoly; differentiated products are not applicable. A few producers: oligopoly, whether or not products are differentiated. Many producers: perfect competition if products are not differentiated, monopolistic competition if they are">
+      <div class="ms-qtop">Are products differentiated?</div>
+      <svg class="ms-brace ms-btop" viewBox="0 0 490 22" aria-hidden="true"><path d="M 2 21 Q 2 12 12 12 L 233 12 Q 245 12 245 2 Q 245 12 257 12 L 478 12 Q 488 12 488 21"/></svg>
+      <div class="ms-lab" style="grid-column:4; grid-row:3;">No</div>
+      <div class="ms-lab" style="grid-column:5; grid-row:3;">Yes</div>
+      <div class="ms-qleft">How many<br>producers<br>are there?</div>
+      <svg class="ms-brace ms-bleft" viewBox="0 0 30 312" aria-hidden="true"><path d="M 27 2 Q 17 2 17 12 L 17 144 Q 17 156 5 156 Q 17 156 17 168 L 17 300 Q 17 310 27 310"/></svg>
+      <div class="ms-lab" style="grid-column:3; grid-row:4;">One</div>
+      <div class="ms-lab" style="grid-column:3; grid-row:5;">Few</div>
+      <div class="ms-lab" style="grid-column:3; grid-row:6;">Many</div>
+      <div class="ms-cells">
+        <div class="ms-cell mono">Monopoly</div>
+        <div class="ms-cell na">Not applicable</div>
+        <div class="ms-cell oli" style="box-shadow:inset 0 0 0 3px var(--accent);"><span class="cal-today">today</span>Oligopoly</div>
+        <div class="ms-cell pc">Perfect competition</div>
+        <div class="ms-cell mc" style="box-shadow:none;">Monopolistic competition</div>
+      </div>
+    </div>
+    <div class="definition-strip blue-strip" style="margin-top:16px; font-size:17px;">
+      <strong>Monday:</strong> one seller. <strong>Wednesday:</strong> many sellers, each with a slightly different product. <strong>Today:</strong> a few sellers who must watch each other (middle row).
+    </div>
+    <div class="src">Figure adapted from Krugman and Wells, <em>Microeconomics</em>, 5th ed. (Worth, 2018), Figure 13-1.</div>
+  </section>
+
+  <!-- 2 meat -->
+  <section class="slide">
+    <div class="section-kicker">oligopoly</div>
+    <h1>Meatpacking: four companies, most of the beef</h1>
+    <div class="definition-strip" style="font-size:16.5px; padding:9px 15px;"><strong>Oligopoly</strong>: a few firms sell most of a market&rsquo;s output, so each must think about how its rivals will react.</div>
+    <div class="two-thirds" style="margin-top:10px;">
+      <div class="plot-panel"><div class="plot-title">The four largest U.S. beef packers (real data)</div><svg class="plot" viewBox="0 0 470 280" role="img" aria-label="The four largest beef packers' share of U.S. steer and heifer slaughter: about 25 percent in 1977, 36 percent in 1980, 50 percent in 1985, 72 percent in 1990, about 80 percent from the mid-1990s, and 85 percent in 2015" style="height:auto"><defs><clipPath id="c99"><rect x="48" y="14" width="406" height="224"/></clipPath></defs><path class="gridline" d="M 48 238 L 454 238 M 48 182.5 L 454 182.5 M 48 127 L 454 127 M 48 71.5 L 454 71.5 M 48 16 L 454 16"/><path class="axis" d="M 48 12 L 48 238"/><path class="axis" d="M 48 238 L 454 238"/><text class="tick-label" x="42" y="242" text-anchor="end">0%</text><text class="tick-label" x="42" y="186.5" text-anchor="end">25%</text><text class="tick-label" x="42" y="131" text-anchor="end">50%</text><text class="tick-label" x="42" y="75.5" text-anchor="end">75%</text><text class="tick-label" x="42" y="20" text-anchor="end">100%</text><text class="tick-label" x="115.7" y="253" text-anchor="middle">1980</text><text class="tick-label" x="200.2" y="253" text-anchor="middle">1990</text><text class="tick-label" x="284.8" y="253" text-anchor="middle">2000</text><text class="tick-label" x="369.4" y="253" text-anchor="middle">2010</text><text class="tick-label" x="454" y="253" text-anchor="middle">2020</text><text class="axis-title" x="53" y="20" text-anchor="start">share of steer &amp; heifer slaughter</text><text class="axis-title" x="251" y="269" text-anchor="middle">year</text><path class="guide" d="M 48 44.9 L 454 44.9" /><text class="plot-label sm" x="56.5" y="38.9" text-anchor="start" style="fill:#5f6b76">8b&rsquo;s made-up example: 87%</text><path class="c-line tc" d="M 90.3 182.5 L 115.7 158.1 L 158 127 L 200.2 78.2 L 251 60.4 L 318.7 60.4 L 411.7 49.3" /><circle class="dot" cx="90.3" cy="182.5" r="6"/><circle class="dot" cx="115.7" cy="158.1" r="6"/><circle class="dot" cx="158" cy="127" r="6"/><circle class="dot" cx="200.2" cy="78.2" r="6"/><circle class="dot" cx="251" cy="60.4" r="6"/><circle class="dot" cx="318.7" cy="60.4" r="6"/><circle class="dot" cx="411.7" cy="49.3" r="6"/><text class="plot-label sm" x="98.3" y="187.5" text-anchor="start" style="fill:#1f2933">25%</text><text class="plot-label sm" x="123.7" y="164.1" text-anchor="start" style="fill:#1f2933">36%</text><text class="plot-label sm" x="166" y="133" text-anchor="start" style="fill:#1f2933">50%</text><text class="plot-label sm" x="192.2" y="72.2" text-anchor="end" style="fill:#1f2933">72%</text><text class="plot-label sm" x="251" y="80.4" text-anchor="middle" style="fill:#1f2933">80%</text><text class="plot-label sm" x="318.7" y="80.4" text-anchor="middle" style="fill:#1f2933">80%</text><text class="plot-label sm" x="411.7" y="68.3" text-anchor="middle" style="fill:#1f2933">85% (2015)</text><text class="plot-label sm" x="90.3" y="202.5" text-anchor="middle" style="fill:#5f6b76">1977</text></svg></div>
+      <div style="display:grid; gap:8px;">
+        <div class="card accent-top" style="padding:10px 14px;"><h3 class="accent" style="font-size:16.5px;">1 &middot; A few big firms</h3><p style="font-size:14.5px;">Four companies slaughter about 85% of the cattle fed for beef.</p></div>
+        <div class="card accent-top" style="padding:10px 14px;"><h3 class="accent" style="font-size:16.5px;">2 &middot; High barriers</h3><p style="font-size:14.5px;">A big plant costs a fortune, and economies of scale favor the biggest (Monday&rsquo;s reason 3).</p></div>
+        <div class="card accent-top" style="padding:10px 14px;"><h3 class="accent" style="font-size:16.5px;">3 &middot; Strategic interdependence</h3><p style="font-size:14.5px;"><strong>What one packer earns depends on what the others do.</strong> A sardine boat or the only vet never has to ask, &ldquo;What will my rival do?&rdquo;</p></div>
+      </div>
+    </div>
+    <p class="footer-note small muted" style="margin-top:8px;">The share is of <strong>steer and heifer</strong> slaughter, not of all beef sold: how you define the market matters. The same packers are also the few <strong>buyers</strong> of cattle (8b&rsquo;s cannery): an <strong>oligopsony</strong>.</p>
+    <div class="src">Data: USDA GIPSA, as reported by USDA ERS (incl. AER-785, table 3) and, for 2015, Western Livestock Journal (2021); rounded.</div>
+  </section>
+
+  <!-- 3 collude -->
+  <section class="slide">
+    <div class="section-kicker">oligopoly &middot; the big choice</div>
+    <h1>Collude or compete?</h1>
+    <div class="cmp-grid">
+      <div class="card accent-top"><h3 class="accent">Collude</h3>
+        <div class="chain">
+          <div class="mechanism-box accent-box">Everyone sells less</div><div class="arrow">&darr;</div>
+          <div class="mechanism-box accent-box">The price rises</div><div class="arrow">&darr;</div>
+          <div class="mechanism-box accent-box">Together they act like Monday&rsquo;s monopoly</div>
+        </div></div>
+      <div class="card blue-top"><h3 class="blue">Compete</h3>
+        <div class="chain">
+          <div class="mechanism-box blue-box">Each sells a little more</div><div class="arrow" style="color:var(--blue);">&darr;</div>
+          <div class="mechanism-box blue-box">The price falls</div><div class="arrow" style="color:var(--blue);">&darr;</div>
+          <div class="mechanism-box blue-box">Closer to perfect competition</div>
+        </div></div>
+    </div>
+    <div class="definition-strip" style="margin-top:14px; font-size:16px; padding:10px 15px;">
+      A <strong>cartel</strong> is a group of firms that agree to sell the monopoly quantity at the monopoly price. <strong>Overt collusion:</strong> they agree openly.
+      <strong>Tacit collusion:</strong> they never meet, but each holds back, expecting the others to do the same.
+    </div>
+    <div class="definition-strip red-strip" style="margin-top:10px; font-size:16px; padding:10px 15px;">
+      In the U.S., agreeing with rivals on price or output is <strong>illegal</strong> (Sherman Act, 1890).
+    </div>
+  </section>
+
+  <!-- 4 video -->
+  <section class="slide">
+    <div class="section-kicker">Watch &middot; under two minutes</div>
+    <h1>Why would rivals collude?</h1>
+    <div class="yt-wrap"><iframe class="yt-frame" src="https://www.youtube-nocookie.com/embed/XzOjBFppJHs?rel=0" title="To Collude, or Not to Collude: The Economics Behind Collusion Explained in One Minute (One Minute Economics)"
+      loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+    <div class="definition-strip yt-watch"><strong>Watch for:</strong> what the firms gain by agreeing instead of competing, and why that gain is tempting enough that some collude even though it breaks antitrust law.</div>
+    <p class="yt-link"><a href="https://www.youtube.com/watch?v=XzOjBFppJHs" target="_blank" rel="noopener">Video won&rsquo;t play here? Open it on YouTube &#8599;</a></p>
+    <template class="yt-file"><a class="yt-card" href="https://www.youtube.com/watch?v=XzOjBFppJHs" target="_blank" rel="noopener">
+      <span class="yt-play" aria-hidden="true"></span><span class="yt-t">To Collude, or Not to Collude</span>
+      <span class="yt-s">One Minute Economics &middot; 1:42</span><span class="yt-go">Play on YouTube &#8599;</span></a></template>
+    <div class="src">Video: One Minute Economics, <em>To Collude, or Not to Collude: The Economics Behind Collusion Explained in One Minute</em> (YouTube, Feb. 2020).</div>
+  </section>
+
+  <!-- 5 game -->
+  <section class="slide interactive">
+    <div class="section-kicker">a little game theory &middot; why collude?</div>
+    <h1>Two packers: hold or expand?</h1>
+    <div class="definition-strip" style="font-size:16px; padding:9px 15px;">
+      Two packers sell beef in one region. Each decides on its own: <strong>hold</strong> output at 30 or <strong>expand</strong> to 40. What each earns depends on what <strong>both</strong> do.
+    </div>
+    <div class="two-thirds" style="grid-template-columns:1fr 1fr; margin-top:12px;">
+      <div><div class="plot-title" style="margin-bottom:2px;">Profit a week (made-up numbers)</div><div class="pm-wrap"><table class="pm"><thead><tr><th></th><th class="colB">B: hold 30</th><th class="colB">B: expand 40</th></tr></thead><tbody><tr><th class="rowh colA">A: hold 30</th><td class="pm-cell"><div class="pm-a">A $1,800k</div><div class="pm-b">B $1,800k</div><div class="reveal-step pm-nash" data-step-group="pm" data-step="4" style="z-index:2; border-color:var(--green);"><span style="top:auto; bottom:-11px; background:var(--green);">Collude</span></div></td><td class="pm-cell"><div class="pm-a">A $1,500k</div><div class="pm-b">B $2,000k<span class="reveal-step " data-step-group="pm" data-step="3"><span class="best-tag">best</span></span></div></td></tr><tr><th class="rowh colA">A: expand 40</th><td class="pm-cell"><div class="pm-a">A $2,000k<span class="reveal-step " data-step-group="pm" data-step="1"><span class="best-tag">best</span></span></div><div class="pm-b">B $1,500k</div></td><td class="pm-cell"><div class="pm-a">A $1,600k<span class="reveal-step " data-step-group="pm" data-step="2"><span class="best-tag">best</span></span></div><div class="pm-b">B $1,600k<span class="reveal-step " data-step-group="pm" data-step="3"><span class="best-tag">best</span></span></div><div class="reveal-step pm-nash" data-step-group="pm" data-step="3"><span>Nash equilibrium</span></div></td></tr></tbody></table></div>
+        <div class="reveal-step " data-step-group="pm" data-step="5"><div class="definition-strip blue-strip" style="margin-top:14px; font-size:15.5px; padding:10px 14px;"><strong>Why collude?</strong> Each packer&rsquo;s own best choice leaves both worse off: a <strong>prisoner&rsquo;s dilemma</strong>. An agreement to hold is worth $200k a week to each. The catch: each still earns more by breaking it ($2,000k), so cartels are hard to keep.</div></div>
+      </div>
+      <div class="calc-run">
+        <div class="reveal-step" data-step-group="pm" data-step="1"><div class="calc-line "><div class="calc-num">1</div><div><strong>If B holds 30</strong><span>A earns $1,800k by holding, $2,000k by expanding &rarr; expand.</span></div></div></div>
+        <div class="reveal-step" data-step-group="pm" data-step="2"><div class="calc-line "><div class="calc-num">2</div><div><strong>If B expands to 40</strong><span>A earns $1,500k by holding, $1,600k by expanding &rarr; expand. Either way: expanding is A&rsquo;s <b>dominant strategy</b>.</span></div></div></div>
+        <div class="reveal-step" data-step-group="pm" data-step="3"><div class="calc-line hi"><div class="calc-num">3</div><div><strong>B is in the same spot: both expand</strong><span><b>Nash equilibrium</b>: $1,600k each. Neither can do better by changing only its own choice.</span></div></div></div>
+        <div class="reveal-step" data-step-group="pm" data-step="4"><div class="calc-line good"><div class="calc-num">4</div><div><strong>If both held 30: $1,800k each</strong><span>$200k more for each. Together they sell 60, the monopoly amount, and earn $3,600k, the most this market can earn.</span></div></div></div>
+        <div class="button-row" style="margin-top:6px;"><button type="button" class="step-reveal" data-step-group="pm">Reveal next</button></div>
+      </div>
+    </div>
+    <div class="src">Made-up numbers: market demand P = $140 &minus; Q, cost $20 a unit. A classroom example: in a real market, agreeing with a rival on output is against the law.</div>
+  </section>
+
+  <!-- 6 graph -->
+  <section class="slide interactive">
+    <div class="section-kicker">collusion on a graph</div>
+    <h1>Colluding: two packers, one monopoly</h1>
+    <div class="two-thirds" style="grid-template-columns:1.2fr .8fr; margin-top:4px;">
+      <div class="plot-panel"><div class="plot-title">Beef market, both packers (made-up numbers)</div><svg class="plot" viewBox="0 0 470 385" role="img" aria-label="Market demand for beef from both packers, P = 140 minus Q, with a cost of 20 dollars a unit. Competing, both packers expand: 80 units at 60 dollars. Revealed: colluding, they act as one monopoly and sell where marginal revenue equals marginal cost, 60 units, 30 each; the price rises along the demand curve to 80 dollars; the profit, 60 dollars a unit on 60 units or 3,600 thousand dollars, splits into 1,800 thousand for each packer" style="height:auto"><defs><clipPath id="c910"><rect x="48" y="14" width="408" height="329"/></clipPath></defs><path class="axis" d="M 48 12 L 48 343"/><path class="axis" d="M 48 343 L 456 343"/><text class="axis-title" x="53" y="20" text-anchor="start">$ a unit</text><text class="axis-title" x="252" y="374" text-anchor="middle">units of beef a week (both packers)</text><g class="reveal-step" data-step-group="cg" data-step="3"><rect class="profit-rect" x="48" y="168.6" width="87.4" height="130.8" style="fill:var(--accent); stroke:var(--accent);"/><rect class="profit-rect" x="135.4" y="168.6" width="87.4" height="130.8" style="fill:var(--blue); stroke:var(--blue);"/></g><path class="guide" d="M 281.1 343 L 281.1 212.2" /><path class="guide" d="M 48 212.2 L 281.1 212.2" /><text class="tick-label strong-tick" x="42" y="216.2" text-anchor="end">$60</text><text class="tick-label strong-tick" x="281.1" y="358" text-anchor="middle">80</text><text class="tick-label strong-tick" x="42" y="303.4" text-anchor="end">$20</text><path class="c-line mc" d="M 48 299.4 L 456 299.4" /><text class="c-label" x="356.9" y="292.4" text-anchor="end" style="fill:#c9504d">MC = $20</text><path class="demand-line" d="M 48 37.8 L 456 343" clip-path="url(#c910)"/><text class="c-label" x="429" y="320.8" text-anchor="start" style="fill:#2f80c9">D</text><circle class="dot" cx="281.1" cy="212.2" r="6" style="fill:#8a949e"/><text class="plot-label sm" x="290.1" y="206.2" text-anchor="start" style="fill:#8a949e">compete: 80 at $60</text><g class="reveal-step" data-step-group="cg" data-step="1"><path class="mr-line" d="M 48 37.8 L 252 343" clip-path="url(#c910)"/><text class="c-label" x="123" y="142.1" text-anchor="start" style="fill:#7657a5">MR</text><path class="p-line dash" d="M 222.9 343 L 222.9 299.4" /><circle class="dot purple-dot" cx="222.9" cy="299.4" r="6"/><text class="tick-label strong-tick" x="222.9" y="358" text-anchor="middle">60</text><path class="leader" d="M 227.2 301.6 L 284.1 321.2"/><text class="plot-label" x="287" y="327.4" text-anchor="start" style="fill:#7657a5">MR = MC</text><rect class="own-a" x="48" y="334.3" width="87.4" height="8.7" /><rect class="own-b" x="135.4" y="334.3" width="87.4" height="8.7" /><text class="plot-label sm" x="91.7" y="329.3" text-anchor="middle" style="fill:#b8600f">A&rsquo;s 30</text><text class="plot-label sm" x="179.1" y="329.3" text-anchor="middle" style="fill:#2f80c9">B&rsquo;s 30</text></g><g class="reveal-step" data-step-group="cg" data-step="2"><defs><marker id="c910-ar" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#b8600f"/></marker></defs><path class="" d="M 270.9 215.5 L 227.2 182.8" style="fill:none; stroke:#b8600f; stroke-width:2.4;" marker-end="url(#c910-ar)"/><path class="p-line dash" d="M 222.9 299.4 L 222.9 168.6" /><path class="guide" d="M 48 168.6 L 222.9 168.6" /><text class="tick-label strong-tick" x="42" y="172.6" text-anchor="end">$80</text><circle class="dot" cx="222.9" cy="168.6" r="6"/><text class="plot-label" x="231.9" y="162.6" text-anchor="start" style="fill:#b8600f">collude: 60 at $80</text></g><g class="reveal-step" data-step-group="cg" data-step="3"><text class="c-label" x="56.7" y="255.8" text-anchor="start" style="fill:#b8600f">A</text><text class="plot-label" x="56.7" y="282" text-anchor="start" style="fill:#b8600f">$1,800k</text><text class="c-label" x="144.2" y="255.8" text-anchor="start" style="fill:#2f80c9">B</text><text class="plot-label" x="144.2" y="282" text-anchor="start" style="fill:#2f80c9">$1,800k</text></g></svg></div>
+      <div class="calc-run">
+        <div class="reveal-step" data-step-group="cg" data-step="1"><div class="calc-line "><div class="calc-num">1</div><div><strong>Sell what a monopoly would</strong><span>Together they pick the total where MR = MC: 60 units, 30 each. Competing, they sold 80.</span></div></div></div>
+        <div class="reveal-step" data-step-group="cg" data-step="2"><div class="calc-line "><div class="calc-num">2</div><div><strong>The price rises</strong><span>Fewer units for sale move the price up the demand curve: $60 &rarr; $80.</span></div></div></div>
+        <div class="reveal-step" data-step-group="cg" data-step="3"><div class="calc-line good"><div class="calc-num">3</div><div><strong>Split the profit</strong><span>($80 &minus; $20) &times; 60 = $3,600k, the monopoly profit. Half each: $1,800k, up from $1,600k.</span></div></div></div>
+        <div class="button-row" style="margin-top:6px;"><button type="button" class="step-reveal" data-step-group="cg">Reveal next</button></div>
+      </div>
+    </div>
+    <div class="reveal-step " data-step-group="cg" data-step="4"><div class="definition-strip blue-strip" style="margin-top:12px; font-size:16px; padding:10px 15px;"><strong>Collusion</strong> = rivals acting as one monopoly: less output, a higher price, and the monopoly profit shared. Buyers pay $20 more a unit and get 20 fewer units.</div></div>
+    <div class="src">Made-up numbers, as on the previous page: market demand P = $140 &minus; Q, cost $20 a unit. &ldquo;Compete&rdquo; = both expand to 40, the previous page&rsquo;s Nash equilibrium.</div>
+  </section>
+
+  <!-- 7 rq_who -->
+  <section class="slide interactive">
+    <div class="section-kicker">review 1 of 5 &middot; who is an oligopoly? &middot; hands up</div>
+    <h1>Which grocery markets are oligopolies?</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:11px 16px;"><div class="market-label">Vote first</div><p style="font-size:19px;">Which of these U.S. markets are oligopolies? <strong>Select all that apply.</strong></p></div>
+    <div class="vote-opts" style="gap:4px;"><div class="vote-opt" style="padding:4px 12px;"><span class="option-letter">A</span><span class="vote-opt-t">Fresh carrots</span><span class="reveal-step why" data-step-group="rq1" data-step="1"><span class="verdict ok">&check; Answer</span> Two companies (Grimmway and Bolthouse) grow at least 60% of U.S. carrots.</span></div><div class="vote-opt" style="padding:4px 12px;"><span class="option-letter">B</span><span class="vote-opt-t">Prepared soup</span><span class="reveal-step why" data-step-group="rq1" data-step="1"><span class="verdict ok">&check; Answer</span> The top four sell about 70%; Campbell&rsquo;s alone, about 39%.</span></div><div class="vote-opt" style="padding:4px 12px;"><span class="option-letter">C</span><span class="vote-opt-t">Refrigerated almond milk</span><span class="reveal-step why" data-step-group="rq1" data-step="1"><span class="verdict ok">&check; Answer</span> The top four sell about 81%; Almond Breeze and Silk alone, about 73%.</span></div><div class="vote-opt" style="padding:4px 12px;"><span class="option-letter">D</span><span class="vote-opt-t">Dip for chips</span><span class="reveal-step why" data-step-group="rq1" data-step="1"><span class="verdict ok">&check; Answer</span> PepsiCo (Tostitos, Lay&rsquo;s, Fritos) alone sells about 88%: close to a monopoly.</span></div><div class="vote-opt" style="padding:4px 12px;"><span class="option-letter">E</span><span class="vote-opt-t">Fresh tomatoes</span><span class="reveal-step why" data-step-group="rq1" data-step="1"><span class="verdict">No</span> Many farms grow tomatoes, and no small group of companies sells most of them.</span></div></div>
+    <div class="button-row" style="margin-top:9px;"><button type="button" class="step-reveal" data-step-group="rq1">Reveal next</button></div>
+    <div class="reveal-step " data-step-group="rq1" data-step="2"><div class="definition-strip green-strip" style="margin-top:9px; font-size:16px; padding:9px 15px;">The test: do <strong>a few firms sell most of the market</strong>? Add up the top four firms&rsquo; shares (the <strong>four-firm concentration ratio</strong>, CR4); above about 60% is a tight oligopoly. Even a farm crop like carrots can be one.</div></div>
+    <div class="src">Shares: Food &amp; Water Watch, <em>The Economic Cost of Food Monopolies</em> (Nov. 2021), from IRI data (almond milk 2020, soup 2019, dip 2017); carrots: Forbes (Nov. 2023).</div>
+  </section>
+
+  <!-- 8 rq_spot -->
+  <section class="slide interactive">
+    <div class="section-kicker">review 2 of 5 &middot; spot the collusion &middot; hands up</div>
+    <h1>Shipping less, charging the same</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:11px 16px;"><div class="market-label">Vote first</div><p style="font-size:19px;">The two companies that sell most of the fertilizer to North Carolina farms agree to <strong>ship less</strong> and to <strong>charge the same price</strong>. This is most likely:</p></div>
+    <div class="vote-opts"><div class="vote-opt"><span class="option-letter">A</span><span class="vote-opt-t">Product differentiation</span><span class="reveal-step why" data-step-group="rq2" data-step="1"><span class="verdict">No</span> That is making your product a little different from your rivals&rsquo;. These two are making a deal, not standing apart.</span></div><div class="vote-opt"><span class="option-letter">B</span><span class="vote-opt-t">Price discrimination</span><span class="reveal-step why" data-step-group="rq2" data-step="1"><span class="verdict">No</span> That is one seller charging different buyers different prices for the same product. Here every farm pays one price.</span></div><div class="vote-opt"><span class="option-letter">C</span><span class="vote-opt-t">Collusion in an oligopoly</span><span class="reveal-step why" data-step-group="rq2" data-step="1"><span class="verdict ok">&check; Answer</span> A few sellers agree to sell less so the price rises: a cartel, acting like one monopoly (page 6).</span></div><div class="vote-opt"><span class="option-letter">D</span><span class="vote-opt-t">Non-price competition in monopolistic competition</span><span class="reveal-step why" data-step-group="rq2" data-step="1"><span class="verdict">No</span> That is many sellers competing with ads, service, or style. These two are not competing at all.</span></div></div>
+    <div class="button-row" style="margin-top:9px;"><button type="button" class="step-reveal" data-step-group="rq2">Reveal next</button></div>
+    <div class="reveal-step " data-step-group="rq2" data-step="2"><div class="definition-strip green-strip" style="margin-top:9px; font-size:16px; padding:9px 15px;">Two signs of collusion: <strong>a few sellers</strong>, and an <strong>agreement</strong> to sell less or charge more. In the U.S., that agreement is illegal (Sherman Act).</div></div>
+    <div class="src">Made-up example.</div>
+  </section>
+
+  <!-- 9 rq_overt -->
+  <section class="slide interactive">
+    <div class="section-kicker">review 3 of 5 &middot; overt or tacit? &middot; hands up</div>
+    <h1>Which one is overt collusion?</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:11px 16px;"><div class="market-label">Vote first</div><p style="font-size:19px;">In which situation does <strong>overt</strong> collusion take place?</p></div>
+    <div class="vote-opts"><div class="vote-opt"><span class="option-letter">A</span><span class="vote-opt-t">Smaller firms never talk to the largest firm, but always charge whatever it charges.</span><span class="reveal-step why" data-step-group="rq3" data-step="1"><span class="verdict">No</span> That is <strong>tacit</strong> collusion: no agreement, just following the leader.</span></div><div class="vote-opt"><span class="option-letter">B</span><span class="vote-opt-t">Firms openly agree on price and output, and act together to earn a monopoly&rsquo;s profit.</span><span class="reveal-step why" data-step-group="rq3" data-step="1"><span class="verdict ok">&check; Answer</span> An open agreement: a cartel.</span></div><div class="vote-opt"><span class="option-letter">C</span><span class="vote-opt-t">Many small firms compete, and their prices are similar but slightly different.</span><span class="reveal-step why" data-step-group="rq3" data-step="1"><span class="verdict">No</span> That is monopolistic competition (Wednesday): no agreement at all.</span></div><div class="vote-opt"><span class="option-letter">D</span><span class="vote-opt-t">Many small firms compete, and the market price stays stable.</span><span class="reveal-step why" data-step-group="rq3" data-step="1"><span class="verdict">No</span> That is perfect competition (8b): price takers, no agreement.</span></div></div>
+    <div class="button-row" style="margin-top:9px;"><button type="button" class="step-reveal" data-step-group="rq3">Reveal next</button></div>
+    <div class="reveal-step " data-step-group="rq3" data-step="2"><div class="definition-strip green-strip" style="margin-top:9px; font-size:16px; padding:9px 15px;"><strong>Overt</strong> collusion: they agree openly. <strong>Tacit</strong> collusion: they never agree, but each holds back, expecting the others to do the same (page 3). Either way, the price ends up higher than under competition.</div></div>
+    <div class="src">Definitions: page 3.</div>
+  </section>
+
+  <!-- 10 rq_cheat -->
+  <section class="slide interactive">
+    <div class="section-kicker">review 4 of 5 &middot; breaking the deal &middot; hands up</div>
+    <h1>What counts as breaking the deal?</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:11px 16px;"><div class="market-label">Vote first</div><p style="font-size:19px;">Packers A and B agreed to hold output so beef sells at $80 (page 6). Which moves by Packer A <strong>break the deal</strong>? <strong>Select all that apply.</strong></p></div>
+    <div class="vote-opts" style="gap:4px;"><div class="vote-opt" style="padding:4px 12px;"><span class="option-letter">A</span><span class="vote-opt-t">Quietly sells to a big grocery chain at $75</span><span class="reveal-step why" data-step-group="rq4" data-step="1"><span class="verdict ok">&check; Answer</span> A secret price cut: it takes sales from B.</span></div><div class="vote-opt" style="padding:4px 12px;"><span class="option-letter">B</span><span class="vote-opt-t">Launches a new line of pre-seasoned steaks</span><span class="reveal-step why" data-step-group="rq4" data-step="1"><span class="verdict ok">&check; Answer</span> A new product pulls B&rsquo;s customers: non-price competition.</span></div><div class="vote-opt" style="padding:4px 12px;"><span class="option-letter">C</span><span class="vote-opt-t">Runs a big TV ad campaign</span><span class="reveal-step why" data-step-group="rq4" data-step="1"><span class="verdict ok">&check; Answer</span> Ads pull B&rsquo;s customers too: non-price competition.</span></div><div class="vote-opt" style="padding:4px 12px;"><span class="option-letter">D</span><span class="vote-opt-t">Switches to new accounting software</span><span class="reveal-step why" data-step-group="rq4" data-step="1"><span class="verdict">No</span> An inside change: it takes no customers from B.</span></div><div class="vote-opt" style="padding:4px 12px;"><span class="option-letter">E</span><span class="vote-opt-t">Gives its own workers a raise</span><span class="reveal-step why" data-step-group="rq4" data-step="1"><span class="verdict">No</span> An inside cost: it takes no customers from B.</span></div></div>
+    <div class="button-row" style="margin-top:9px;"><button type="button" class="step-reveal" data-step-group="rq4">Reveal next</button></div>
+    <div class="reveal-step " data-step-group="rq4" data-step="2"><div class="definition-strip green-strip" style="margin-top:9px; font-size:16px; padding:9px 15px;">Cheating is any move that <strong>wins customers from the partner</strong>: a lower price, or <strong>non-price competition</strong> (ads, new products, better service). So a cartel has to watch more than the price.</div></div>
+    <div class="src">Packers A and B: pages 5&ndash;6 (made-up numbers).</div>
+  </section>
+
+  <!-- 11 rq_effect -->
+  <section class="slide interactive">
+    <div class="section-kicker">review 5 of 5 &middot; what collusion does &middot; hands up</div>
+    <h1>What would collusion do?</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:11px 16px;"><div class="market-label">Vote first</div><p style="font-size:19px;">Suppose the few companies that make most of the breakfast cereal sold in the U.S. secretly agreed on prices. What would most likely happen?</p></div>
+    <div class="vote-opts"><div class="vote-opt"><span class="option-letter">A</span><span class="vote-opt-t">More kinds of cereal on the shelves</span><span class="reveal-step why" data-step-group="rq5" data-step="1"><span class="verdict">No</span> Nothing in the deal adds products, and with less competition there is less push to try new ones.</span></div><div class="vote-opt"><span class="option-letter">B</span><span class="vote-opt-t">Lower cereal prices</span><span class="reveal-step why" data-step-group="rq5" data-step="1"><span class="verdict">No</span> The whole point of the deal is a higher price.</span></div><div class="vote-opt"><span class="option-letter">C</span><span class="vote-opt-t">Tougher competition among the cereal makers</span><span class="reveal-step why" data-step-group="rq5" data-step="1"><span class="verdict">No</span> Agreeing on prices is the opposite of competing.</span></div><div class="vote-opt"><span class="option-letter">D</span><span class="vote-opt-t">Higher prices and fewer boxes sold, hurting consumers</span><span class="reveal-step why" data-step-group="rq5" data-step="1"><span class="verdict ok">&check; Answer</span> Like the two packers on page 6: less output, a higher price, and the monopoly profit shared.</span></div></div>
+    <div class="button-row" style="margin-top:9px;"><button type="button" class="step-reveal" data-step-group="rq5">Reveal next</button></div>
+    <div class="reveal-step " data-step-group="rq5" data-step="2"><div class="definition-strip green-strip" style="margin-top:9px; font-size:16px; padding:9px 15px;">Collusion turns a few sellers into one monopoly: <strong>Q down, P up</strong>, buyers lose. That is why it is illegal.</div></div>
+    <div class="src">Made-up example.</div>
+  </section>
+</div>
+<div id="progress"></div>
+<div id="hint">&larr; &rarr; / Space to navigate &middot; P to print</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const stage = document.getElementById('stage');
+  const progress = document.getElementById('progress');
+  let idx = 0;
+
+  slides.forEach(function(slide, i){
+    const footer = document.createElement('div');
+    footer.className = 'footer';
+    footer.innerHTML = '<span>ARE 201 &middot; Unit 9 &middot; Imperfect Competition</span><span>' + (i + 1) + ' / ' + slides.length + '</span>';
+    slide.appendChild(footer);
+  });
+
+  function fit(){
+    const scale = Math.min(window.innerWidth / 960, window.innerHeight / 720);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+  }
+
+  function show(n){
+    const prev = slides[idx];
+    idx = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(slide, i){ slide.classList.toggle('active', i === idx); });
+    // leaving the video page stops the video (reloading the player)
+    if (prev && prev !== slides[idx]) prev.querySelectorAll('iframe.yt-frame').forEach(function(f){ f.src = f.src; });
+    progress.style.width = (((idx + 1) / slides.length) * 100) + '%';
+    history.replaceState(null, '', '#' + (idx + 1));
+  }
+
+  // Step-by-step reveals (cumulative; data-hide-at takes an element away again at that step)
+  document.querySelectorAll('.step-reveal').forEach(function(button){
+    const group = button.dataset.stepGroup;
+    const elements = Array.from(document.querySelectorAll('.reveal-step')).filter(function(e){ return e.dataset.stepGroup === group; });
+    const steps = Array.from(new Set(elements.map(function(e){ return Number(e.dataset.step); }))).sort(function(a, b){ return a - b; });
+    const label = button.textContent;
+    let shown = 0;
+    button.addEventListener('click', function(){
+      if (shown >= steps.length) {
+        elements.forEach(function(e){ e.classList.remove('visible'); });
+        shown = 0;
+        button.textContent = label;
+        return;
+      }
+      const next = steps[shown];
+      elements.forEach(function(e){ if (Number(e.dataset.step) === next) e.classList.add('visible'); });
+      elements.forEach(function(e){ if (Number(e.dataset.hideAt) === next) e.classList.remove('visible'); });
+      shown += 1;
+      button.textContent = shown >= steps.length ? 'Reset' : label + ' (' + shown + '/' + steps.length + ')';
+    });
+  });
+
+  // State groups: an element is visible only in the states listed in data-on
+  const sg = {}, stateOf = {};
+  document.querySelectorAll('.st').forEach(function(e){ (sg[e.dataset.sg] = sg[e.dataset.sg] || []).push(e); });
+  function setState(g, n){
+    (sg[g] || []).forEach(function(e){ e.classList.toggle('on', e.dataset.on.split(' ').indexOf(String(n)) !== -1); });
+    document.querySelectorAll('.state-btn').forEach(function(b){ if (b.dataset.sg === g) b.classList.toggle('selected', b.dataset.state === String(n)); });
+    document.querySelectorAll('.sg-root').forEach(function(e){ if (e.dataset.sg === g) e.dataset.state = String(n); });
+    stateOf[g] = n;
+  }
+  Object.keys(sg).forEach(function(g){ setState(g, 0); });
+  document.querySelectorAll('.state-btn').forEach(function(b){
+    b.addEventListener('click', function(){ setState(b.dataset.sg, Number(b.dataset.state)); });
+  });
+
+  document.addEventListener('keydown', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea')) return;
+    if (['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(event.key)) { event.preventDefault(); show(idx + 1); }
+    else if (['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(event.key)) { event.preventDefault(); show(idx - 1); }
+    else if (event.key.toLowerCase() === 'p') { window.print(); }
+    else if (event.key === 'Home') { show(0); }
+    else if (event.key === 'End') { show(slides.length - 1); }
+  });
+
+  document.addEventListener('click', function(event){
+    if (event.target.closest && event.target.closest('a, button, input, select, textarea, .feedback, .plot-panel, .u8-table, .wf-table, .nl-card, .vote-opt, .sg-root, .game, .pm-wrap, .hhi-wrap, .ms-table')) return;
+    if (event.clientX > window.innerWidth / 2) show(idx + 1); else show(idx - 1);
+  });
+
+  // YouTube will not embed in a page opened as a local file (Error 153): swap the player for a link card
+  if (location.protocol === 'file:') {
+    document.querySelectorAll('.yt-wrap').forEach(function(w){
+      const t = w.parentElement.querySelector('template.yt-file');
+      if (!t) return;
+      w.innerHTML = t.innerHTML;
+      const l = w.parentElement.querySelector('.yt-link'); if (l) l.style.visibility = 'hidden';
+    });
+  }
+
+  window.addEventListener('resize', fit);
+  const hash = parseInt(location.hash.replace('#',''), 10);
+  if (Number.isFinite(hash)) idx = Math.max(0, Math.min(slides.length - 1, hash - 1));
+  fit();
+  show(idx);
+})();
+</script>
+
+<script>
+(function(){
+  function k(v){ return '$' + v.toLocaleString('en-US') + 'k'; }
+  function name(c){ return c === '30' ? 'Hold 30' : 'Expand 40'; }
+  document.querySelectorAll('.game').forEach(function(g){
+    const pay = JSON.parse(g.dataset.pay), n = Number(g.dataset.rounds), first = Number(g.dataset.start);
+    const btns = Array.from(g.querySelectorAll('.game-btn')), play = g.querySelector('.game-play'), msg = g.querySelector('.game-msg');
+    const rows = Array.from(g.querySelectorAll('.game-row')), tA = g.querySelector('.ta'), tB = g.querySelector('.tb');
+    const msg0 = msg.innerHTML;
+    let pick = {}, r = 0, sa = 0, sb = 0;
+    btns.forEach(function(b){ b.addEventListener('click', function(){
+      if (r >= n) return;
+      pick[b.dataset.p] = b.dataset.c;
+      btns.forEach(function(x){ if (x.dataset.p === b.dataset.p) x.classList.toggle('selected', x === b); });
+      play.disabled = !(pick.A && pick.B);
+    }); });
+    play.addEventListener('click', function(){
+      if (r >= n) {
+        r = 0; sa = 0; sb = 0; pick = {};
+        rows.forEach(function(tr){ tr.classList.remove('played'); tr.querySelectorAll('td:not(.lead)').forEach(function(td){ td.innerHTML = '&ndash;'; }); });
+        if (tA) { tA.innerHTML = k(0); tB.innerHTML = k(0); }
+        btns.forEach(function(x){ x.classList.remove('selected'); });
+        play.textContent = 'Reveal profits'; play.disabled = true; msg.innerHTML = msg0;
+        return;
+      }
+      const p = pay[pick.A + '-' + pick.B], tr = rows[r];
+      tr.querySelector('.ca').textContent = name(pick.A); tr.querySelector('.cb').textContent = name(pick.B);
+      tr.querySelector('.pa').innerHTML = k(p[0]); tr.querySelector('.pb').innerHTML = k(p[1]);
+      tr.classList.add('played');
+      sa += p[0]; sb += p[1];
+      if (tA) { tA.innerHTML = k(sa); tB.innerHTML = k(sb); }
+      r += 1; pick = {};
+      btns.forEach(function(x){ x.classList.remove('selected'); });
+      if (r >= n) { play.textContent = 'Start over'; play.disabled = false; msg.innerHTML = n > 1 ? 'Game over. Now the debrief.' : 'Next page: read the whole table.'; }
+      else { play.disabled = true; msg.innerHTML = 'Round ' + (first + r) + ': talk, vote, click.'; }
+    });
+  });
+})();
+</script>
+</body>
+</html>
