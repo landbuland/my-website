@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARE 201 — Unit 10: Externalities & Public Goods (Part 1: Externalities)</title>
+<style>
+  :root {
+    --accent: #EB811B;
+    --accent-soft: #fff4e8;
+    --ink: #1f2933;
+    --muted: #5f6b76;
+    --paper: #ffffff;
+    --soft: #f3f4f6;
+    --line: #d8dde3;
+    --blue: #2f80c9;
+    --blue-soft: #eef5fb;
+    --green: #378a61;
+    --green-soft: #e9f6ef;
+    --red: #c9504d;
+    --red-soft: #fcedec;
+    --purple: #7657a5;
+    --purple-soft: #f3effa;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #111; }
+  body { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+
+  #stage {
+    position: absolute; left: 50%; top: 50%;
+    width: 960px; height: 720px;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+    background: var(--paper);
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  }
+
+  .slide {
+    position: absolute; inset: 0; display: none;
+    width: 960px; height: 720px;
+    padding: 50px 62px 48px;
+    overflow: hidden; color: var(--ink); background: var(--paper);
+  }
+  .slide.active { display: block; }
+  .slide.center { text-align: center; }
+  .slide.middle { align-items: center; justify-content: center; flex-direction: column; }
+  .slide.middle.active { display: flex; }
+
+  h1, h2, h3, p { margin-top: 0; }
+  h1 { margin-bottom: 16px; font-size: 37px; line-height: 1.12; letter-spacing: -.4px; }
+  h2 { margin-bottom: 10px; font-size: 25px; line-height: 1.2; }
+  h3 { margin-bottom: 7px; font-size: 19px; line-height: 1.2; }
+  p, li { font-size: 19px; line-height: 1.34; }
+  ul { margin: 7px 0 0 22px; padding: 0; }
+  li { margin: 6px 0; }
+  strong { font-weight: 780; }
+  .small { font-size: 16px; line-height: 1.34; }
+  .tiny { font-size: 13px; line-height: 1.3; }
+  .muted { color: var(--muted); }
+  .accent { color: var(--accent); }
+  .blue { color: var(--blue); }
+  .green { color: var(--green); }
+  .red { color: var(--red); }
+  .purple { color: var(--purple); }
+
+  .section-kicker {
+    margin-bottom: 7px; color: var(--accent);
+    font-size: 14px; font-weight: 820; letter-spacing: .1em; text-transform: uppercase;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  .two-thirds { display: grid; grid-template-columns: 1.12fr .88fr; gap: 23px; align-items: start; }
+  .thirds-two { display: grid; grid-template-columns: .88fr 1.12fr; gap: 23px; align-items: start; }
+
+  .card { padding: 17px 19px; border-radius: 8px; background: var(--soft); }
+  .card.white { border: 1px solid var(--line); background: #fff; }
+  .card.accent-top { border-top: 4px solid var(--accent); border-radius: 0 0 8px 8px; }
+  .card.blue-top { border-top: 4px solid var(--blue); border-radius: 0 0 8px 8px; }
+  .card.green-top { border-top: 4px solid var(--green); border-radius: 0 0 8px 8px; }
+  .card.red-top { border-top: 4px solid var(--red); border-radius: 0 0 8px 8px; }
+  .card.purple-top { border-top: 4px solid var(--purple); border-radius: 0 0 8px 8px; }
+  .card p, .card li { font-size: 16px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  .definition-strip {
+    padding: 13px 16px; border-left: 5px solid var(--accent);
+    background: var(--accent-soft); font-size: 19px; line-height: 1.36;
+  }
+  .definition-strip.blue-strip { border-left-color: var(--blue); background: var(--blue-soft); }
+  .definition-strip.green-strip { border-left-color: var(--green); background: var(--green-soft); }
+  .definition-strip.red-strip { border-left-color: var(--red); background: var(--red-soft); }
+  .definition-strip.purple-strip { border-left-color: var(--purple); background: var(--purple-soft); }
+
+  .interactive button {
+    min-height: 41px; padding: 9px 14px; border: 0; border-radius: 7px;
+    color: #fff; background: var(--accent);
+    font: 730 15px "Avenir Next", "Helvetica Neue", Arial, sans-serif; cursor: pointer;
+  }
+  .interactive button:hover { filter: brightness(.96); }
+  .interactive button:focus-visible { outline: 3px solid rgba(235,129,27,.35); outline-offset: 2px; }
+  .interactive button:disabled { opacity: .45; cursor: default; filter: none; }
+  .interactive button.secondary { color: var(--ink); background: #e5e8eb; }
+  .interactive button.blue-button { background: var(--blue); }
+  .interactive button.green-button { background: var(--green); }
+  .interactive button.purple-button { background: var(--purple); }
+  .interactive button.selected { box-shadow: inset 0 0 0 3px rgba(255,255,255,.65); }
+  .interactive button.correct { color: #fff; background: var(--green); }
+  .interactive button.wrong { color: #fff; background: var(--red); }
+
+  .button-row { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
+  .feedback {
+    min-height: 54px; padding: 10px 13px;
+    border-left: 4px solid var(--line); background: var(--soft);
+    font-size: 15px; line-height: 1.33;
+  }
+  .feedback.success { border-left-color: var(--green); background: var(--green-soft); }
+  .feedback.error { border-left-color: var(--red); background: var(--red-soft); }
+  .feedback.info { border-left-color: var(--blue); background: var(--blue-soft); }
+
+  .title-slide { padding-bottom: 150px; }
+  .title-kicker { margin-bottom: 13px; color: var(--accent); font-size: 17px; font-weight: 780; letter-spacing: .11em; text-transform: uppercase; }
+  .title-main { max-width: 780px; margin: 0 auto 12px; font-size: 57px; line-height: 1.02; }
+  .title-sub { color: var(--muted); font-size: 24px; line-height: 1.35; }
+  .title-graphic { position: absolute; right: 65px; bottom: 38px; width: 470px; height: 170px; }
+
+  .poll-letter { display: inline-flex; width: 31px; height: 31px; margin-bottom: 9px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--accent); font-weight: 820; }
+
+  .quiz-scenario { min-height: 84px; padding: 15px 18px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .quiz-scenario .market-label { color: var(--accent); font-size: 13px; font-weight: 820; letter-spacing: .07em; text-transform: uppercase; }
+  .quiz-scenario p { margin: 5px 0 0; font-size: 21px; line-height: 1.28; }
+
+  /* ---- plots ---- */
+  .plot-panel { padding: 10px 12px 8px; border: 1px solid var(--line); background: #fff; }
+  .plot-title { margin: 0 0 2px; font-size: 14px; font-weight: 800; text-align: center; }
+  .plot { display: block; width: 100%; height: 300px; }
+  .plot.mid { height: 250px; }
+  .plot.demand-h { height: 222px; }
+  .plot.half { height: 196px; }
+  .plot.mini { height: 106px; }
+  .axis { fill: none; stroke: var(--ink); stroke-width: 2; }
+  .gridline { fill: none; stroke: #e8ebee; stroke-width: 1; }
+  .demand-line { fill: none; stroke: var(--blue); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+  .old-line { fill: none; stroke: #9aa3ab; stroke-width: 3; stroke-dasharray: 7 6; }
+  .projection { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 5 4; }
+  .ref-line { fill: none; stroke: var(--muted); stroke-width: 1.6; stroke-dasharray: 5 4; }
+  .leader { fill: none; stroke: var(--muted); stroke-width: 1.2; }
+  .plot-label { fill: var(--ink); font: 700 13px Arial, sans-serif; }
+  .plot-label.sm { font-size: 11px; }
+  .tick-label { fill: var(--muted); font: 11px Arial, sans-serif; }
+  .dot { fill: var(--accent); stroke: #fff; stroke-width: 2; }
+  .dot.blue-dot { fill: var(--blue); }
+  .dot.green-dot { fill: var(--green); }
+  .dot.red-dot { fill: var(--red); }
+  .dot.purple-dot { fill: var(--purple); }
+  .dot.hollow-dot { fill: #fff; stroke: var(--green); stroke-width: 3; }
+
+  /* ---- reveal machinery ---- */
+  .reveal-step { visibility: hidden; opacity: 0; transition: opacity .18s ease; }
+  .reveal-step.visible { visibility: visible; opacity: 1; }
+  .check-answer { visibility: hidden; opacity: 0; transition: opacity .18s ease; }
+  .check-answer.visible { visibility: visible; opacity: 1; }
+
+  .formula-box {
+    padding: 15px 18px; border: 2px solid var(--accent); border-radius: 8px;
+    background: var(--accent-soft); text-align: center;
+  }
+  .formula-box .frac { display: inline-block; vertical-align: middle; text-align: center; }
+  .formula-box .frac .num { display: block; padding: 0 9px 3px; border-bottom: 2.5px solid var(--ink); font-size: 20px; font-weight: 800; }
+  .formula-box .frac .den { display: block; padding: 3px 9px 0; font-size: 20px; font-weight: 800; }
+  .formula-box .lhs { display: inline-block; vertical-align: middle; margin-right: 10px; font-size: 22px; font-weight: 840; }
+  .formula-box.purple-box { border-color: var(--purple); background: var(--purple-soft); }
+
+  .calc-run { display: grid; gap: 9px; margin-top: 4px; }
+  .calc-line {
+    display: grid; grid-template-columns: 30px 1fr; gap: 11px; align-items: center;
+    padding: 9px 13px; background: var(--soft);
+  }
+  .calc-line.hi { background: var(--accent-soft); }
+  .calc-line.bad { background: var(--red-soft); }
+  .calc-line.good { background: var(--green-soft); }
+  .calc-num { display: flex; width: 26px; height: 26px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--ink); font-size: 12px; font-weight: 820; }
+  .calc-line.hi .calc-num { background: var(--accent); }
+  .calc-line.bad .calc-num { background: var(--red); }
+  .calc-line.good .calc-num { background: var(--green); }
+  .calc-line strong { display: block; font-size: 16px; }
+  .calc-line span { display: block; margin-top: 2px; color: var(--muted); font-size: 13px; line-height: 1.28; }
+  .calc-line .ans { margin-top: 3px; color: var(--ink); font-size: 14px; font-weight: 700; line-height: 1.3; }
+
+  .lo-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .lo-row { display: grid; grid-template-columns: 58px 1fr; gap: 10px; align-items: center; padding: 9px 12px; background: var(--soft); }
+  .lo-row.today { background: var(--accent-soft); }
+  .lo-tag { padding: 5px 4px; color: #fff; background: var(--muted); font-size: 11px; font-weight: 850; text-align: center; }
+  .lo-row.today .lo-tag { background: var(--accent); }
+  .lo-row span { font-size: 13px; line-height: 1.25; }
+
+  .mechanism-box { display: flex; min-height: 86px; padding: 11px; align-items: center; justify-content: center; background: var(--soft); font-size: 15px; font-weight: 740; line-height: 1.28; text-align: center; }
+  .mechanism-box.blue-box { background: var(--blue-soft); }
+  .mechanism-box.green-box { background: var(--green-soft); }
+  .mechanism-box.purple-box { background: var(--purple-soft); }
+  .mechanism-box.accent-box { background: var(--accent-soft); }
+  .mechanism-arrow { display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 24px; font-weight: 850; }
+
+  .compact-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-top: 13px; }
+  .compact-check { padding: 11px 13px; border-left: 4px solid var(--purple); background: var(--purple-soft); }
+  .compact-check strong { display: block; margin-bottom: 3px; font-size: 14px; }
+  .compact-check span { color: var(--muted); font-size: 12px; line-height: 1.25; }
+
+  .exit-answer { min-height: 58px; margin-top: 12px; padding: 12px 14px; border-left: 4px solid var(--green); background: var(--green-soft); visibility: hidden; opacity: 0; }
+  .exit-answer.visible { visibility: visible; opacity: 1; }
+  .exit-answer p { margin: 0; font-size: 15px; line-height: 1.34; }
+
+  .illus-tag {
+    display: inline-block; margin-left: 8px; padding: 2px 7px; border-radius: 3px;
+    background: var(--soft); color: var(--muted); font-size: 11px; font-weight: 800;
+    letter-spacing: .05em; text-transform: uppercase; vertical-align: middle;
+  }
+  .footer-note { margin-top: 14px; }
+
+  .know-badge { display: inline-block; padding: 4px 10px; border-radius: 3px; color: #fff; font-size: 11px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .know-badge.yes { background: var(--muted); }
+  .know-badge.no { background: var(--accent); }
+  .know-card { padding: 14px 16px 10px; border-top: 5px solid var(--muted); background: var(--soft); }
+  .know-card.unknown { border-top-color: var(--accent); background: var(--accent-soft); }
+  .know-card h2 { margin: 8px 0 4px; font-size: 21px; }
+
+  .option-row { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: center; padding: 12px 15px; background: var(--soft); }
+  .option-row + .option-row { margin-top: 9px; }
+  .option-letter { display: flex; width: 26px; height: 26px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--blue); font-size: 12px; font-weight: 820; }
+  .option-row span:last-child { font-size: 17px; font-weight: 700; }
+
+  .footer { position: absolute; right: 62px; bottom: 18px; left: 62px; display: flex; justify-content: space-between; color: #8a949e; font-size: 12px; }
+  #progress { position: fixed; bottom: 0; left: 0; z-index: 20; height: 4px; background: var(--accent); transition: width .18s ease; }
+  #hint { position: fixed; right: 14px; bottom: 9px; z-index: 20; color: rgba(255,255,255,.52); font: 12px Arial, sans-serif; }
+
+  @page { size: 10in 7.5in; margin: 0; }
+  @media print {
+    html, body { width: auto; height: auto; overflow: visible; background: #fff; }
+    #stage { position: static; width: auto; height: auto; transform: none !important; box-shadow: none; }
+    .slide { position: relative; display: block !important; page-break-after: always; break-after: page; }
+    #progress, #hint { display: none; }
+    .exit-answer { visibility: visible !important; opacity: 1 !important; }
+    .reveal-step { visibility: visible !important; opacity: 1 !important; }
+    .check-answer { visibility: visible !important; opacity: 1 !important; }
+    .print-only { display: block; }
+  }
+
+  /* ---- unit 8a specific ---- */
+  .mp-bar { fill: var(--accent); }
+  .mp-bar.neg { fill: var(--red); }
+  .mp-bar.hl { fill: var(--blue); }
+  .mp-bar.soft { fill: #f5c08f; }
+  .tp-line { fill: none; stroke: var(--blue); stroke-width: 3.5; stroke-linejoin: round; stroke-linecap: round; }
+  .tp-line.alt { stroke: var(--green); }
+  .tp-line.ghost { stroke: #9aa3ab; stroke-width: 2.5; stroke-dasharray: 7 6; }
+  .flow-sub { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .zero-line { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+  .c-line { fill: none; stroke-width: 3.5; stroke-linejoin: round; stroke-linecap: round; }
+  .c-line.mc { stroke: var(--red); }
+  .c-line.atc { stroke: var(--blue); }
+  .c-line.avc { stroke: var(--green); }
+  .c-line.afc { stroke: var(--purple); }
+  .c-line.tc { stroke: var(--ink); }
+  .c-line.vc { stroke: var(--green); }
+  .c-line.fc { stroke: var(--purple); }
+  .c-line.ghost { stroke-width: 2.4; stroke-dasharray: 7 6; opacity: .5; }
+  .c-label { font: 800 13px Arial, sans-serif; }
+  .c-label.mc { fill: var(--red); } .c-label.atc { fill: var(--blue); } .c-label.avc { fill: var(--green); }
+  .c-label.afc { fill: var(--purple); } .c-label.tc { fill: var(--ink); } .c-label.vc { fill: var(--green); } .c-label.fc { fill: var(--purple); }
+  .c-label.ghost { opacity: .6; font-weight: 700; }
+  .axis-title { fill: var(--muted); font: 700 12px Arial, sans-serif; }
+
+  .u8-table { width: 100%; border-collapse: collapse; font-size: 16px; text-align: center; }
+  .u8-table caption { caption-side: top; padding: 0 0 6px; color: var(--muted); font-size: 12px; font-weight: 820; letter-spacing: .07em; text-align: left; text-transform: uppercase; }
+  .u8-table th { padding: 8px 8px; color: #fff; background: var(--ink); font-size: 13px; font-weight: 800; line-height: 1.2; }
+  .u8-table td { padding: 7px 8px; border-bottom: 1px solid var(--line); font-weight: 700; }
+  .u8-table td.lead { color: var(--muted); font-weight: 840; }
+  .u8-table tr.hl td { background: var(--accent-soft); }
+  .u8-table tr.hl-blue td { background: var(--blue-soft); }
+  .u8-table tr.hl-green td { background: var(--green-soft); }
+  .u8-table tr.hl-red td { background: var(--red-soft); }
+  .u8-table td.cell-hl { background: var(--accent-soft); color: var(--accent); }
+  .u8-table td.cell-min { background: var(--green-soft); color: var(--green); }
+  .u8-table.compact th { padding: 6px 6px; }
+  .u8-table.compact td { padding: 5px 6px; font-size: 15px; }
+  .u8-table.tight td { padding: 4px 6px; font-size: 14px; }
+  .u8-table.tight th { padding: 5px 5px; font-size: 12px; }
+  .u8-table.left-first th:first-child, .u8-table.left-first td:first-child { padding-left: 10px; text-align: left; }
+  .u8-table .new { color: var(--red); }
+  .u8-table .same { color: #a3abb3; }
+
+  .sign-table { width: 100%; border-collapse: collapse; font-size: 16px; text-align: center; }
+  .sign-table th { padding: 9px 8px; color: #fff; background: var(--ink); font-size: 13px; line-height: 1.2; }
+  .sign-table td { padding: 11px 8px; border-bottom: 1px solid var(--line); font-weight: 840; font-size: 20px; }
+  .sign-table td:first-child { padding-left: 12px; font-size: 15px; font-weight: 760; text-align: left; }
+  .sign-table td .sub { display: block; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .up { color: var(--red); }
+  .down { color: var(--green); }
+  .flat { color: #a3abb3; }
+
+  .factor-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 16px; }
+  .factor { padding: 12px 11px; border-top: 4px solid var(--accent); background: var(--soft); }
+  .factor h3 { margin-bottom: 5px; font-size: 15px; }
+  .factor p { margin: 0; font-size: 14px; line-height: 1.3; }
+
+  .sort-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px; margin-top: 14px; }
+  .sort-card { min-height: 92px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  .sort-card p { margin: 0; font-size: 16px; font-weight: 700; line-height: 1.28; }
+  .sort-card .reveal-step { display: block; margin-top: 8px; }
+  .tag { display: inline-block; padding: 3px 9px; border-radius: 3px; color: #fff; font-size: 12px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+  .tag.fixed { background: var(--purple); }
+  .tag.variable { background: var(--green); }
+  .tag.prod { background: var(--blue); }
+  .tag.down-tag { background: var(--green); }
+  .tag-note { display: block; margin-top: 5px; color: var(--muted); font-size: 13px; line-height: 1.25; font-weight: 600; }
+
+  .event-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+  .event { min-height: 128px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  .event .num { display: inline-flex; width: 22px; height: 22px; margin-right: 6px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--ink); font-size: 11px; font-weight: 850; vertical-align: 1px; }
+  .event p { margin: 0; font-size: 15px; font-weight: 700; line-height: 1.27; }
+  .event .reveal-step { display: block; margin-top: 7px; }
+  .event .curves { display: block; margin-top: 4px; font-size: 13px; font-weight: 700; line-height: 1.25; }
+
+  .phase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+  .phase { padding: 13px 15px; border-top: 5px solid var(--green); background: var(--green-soft); }
+  .phase.mid { border-top-color: var(--accent); background: var(--accent-soft); }
+  .phase.neg { border-top-color: var(--red); background: var(--red-soft); }
+  .phase .who { color: var(--muted); font-size: 12px; font-weight: 850; letter-spacing: .07em; text-transform: uppercase; }
+  .phase h3 { margin: 4px 0 6px; font-size: 19px; }
+  .phase p { margin: 0; font-size: 15px; line-height: 1.32; }
+
+  .scene { display: block; width: 100%; height: auto; }
+  .stmt { display: grid; grid-template-columns: 1fr 230px; gap: 14px; align-items: center; padding: 12px 15px; background: var(--soft); }
+  .stmt + .stmt { margin-top: 9px; }
+  .stmt p { margin: 0; font-size: 17px; font-weight: 700; line-height: 1.3; }
+  .stmt .reveal-step { font-size: 14px; line-height: 1.3; }
+  .verdict { display: inline-block; margin-right: 6px; padding: 2px 8px; border-radius: 3px; color: #fff; background: var(--red); font-size: 12px; font-weight: 850; }
+  .verdict.ok { background: var(--green); }
+
+  .q-list { margin: 8px 0 0; padding: 0; list-style: none; }
+  .q-list li { margin: 5px 0; font-size: 16px; line-height: 1.3; }
+  .q-list li b { display: inline-block; width: 24px; color: var(--accent); }
+
+  .ans-box { margin-top: 10px; padding: 9px 13px; border-left: 4px solid var(--green); background: var(--green-soft); }
+  .ans-box p { margin: 3px 0; font-size: 15px; line-height: 1.3; }
+  .ans-box b { color: var(--green); }
+  .calc-line span b { color: var(--ink); font-size: 15px; }
+  .big-num { display: block; font-size: 44px; font-weight: 850; line-height: 1.05; }
+  .big-cap { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+  .stat-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .stat { padding: 14px 10px; background: var(--soft); text-align: center; }
+  .stat.accent-stat { background: var(--accent-soft); }
+  .stat.red-stat { background: var(--red-soft); }
+  .stat.green-stat { background: var(--green-soft); }
+  .stat.blue-stat { background: var(--blue-soft); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 6px; font-size: 13px; font-weight: 700; }
+  .legend span::before { content: ''; display: inline-block; width: 18px; height: 0; margin-right: 6px; border-top: 3.5px solid currentColor; vertical-align: 4px; }
+  .legend span.dash::before { border-top-style: dashed; opacity: .6; }
+
+  #debriefSlide .calc-run { gap: 9px; }
+  #debriefSlide .calc-line { padding: 9px 13px; }
+  #debriefSlide .calc-line strong { font-size: 17px; }
+  #debriefSlide .calc-line span { margin-top: 3px; color: var(--ink); font-size: 14.5px; line-height: 1.33; }
+  #debriefSlide .calc-line span b.k { color: #b8600f; font-size: inherit; }
+  .launch { display: inline-flex; align-items: center; justify-content: center; min-height: 58px; padding: 12px 22px; border-radius: 10px;
+    background: var(--accent); color: #fff; font-size: 21px; font-weight: 820; text-decoration: none; box-shadow: 0 3px 0 #c56a12; }
+  .launch:hover { filter: brightness(1.05); }
+  .interactive .choice-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+  .interactive .choice-row button { min-height: 50px; font-size: 18px; }
+
+
+  /* ---- shared with the 8b deck ---- */
+  .p-line { fill: none; stroke: var(--accent); stroke-width: 3.2; stroke-linecap: round; }
+  .p-line.dash { stroke-dasharray: 8 5; stroke-width: 2.4; }
+  .gain-area { fill: var(--green); opacity: .26; }
+  .loss-area { fill: var(--red); opacity: .26; }
+  .profit-rect { fill: var(--green); fill-opacity: .24; stroke: var(--green); stroke-width: 2; }
+  .guide { fill: none; stroke: #9aa3ab; stroke-width: 1.2; stroke-dasharray: 3 4; }
+  .tick-label.strong-tick { fill: var(--ink); font-weight: 700; }
+  .zone.z1 { fill: var(--green); opacity: .10; }
+  .zone.z3 { fill: var(--red); opacity: .09; }
+  .st { visibility: hidden; opacity: 0; transition: opacity .25s ease; }
+  .st.on { visibility: visible; opacity: 1; }
+  .interactive button.state-btn.selected { background: var(--ink); box-shadow: none; }
+  .qc-stmt { grid-template-columns: 1fr 280px; padding: 9px 14px; }
+  .qc-stmt + .qc-stmt { margin-top: 7px; }
+  .qc-stmt p { font-size: 15.5px; font-weight: 600; }
+  .qc-stmt .reveal-step { font-size: 13.5px; }
+  .qc-tag { display: inline-block; margin-right: 8px; padding: 1px 7px; border-radius: 3px; background: var(--ink); color: #fff; font-size: 11px; font-weight: 850; letter-spacing: .05em; text-transform: uppercase; vertical-align: 2px; }
+  .stack { display: grid; }
+  .stack > * { grid-area: 1 / 1; }
+  .u8-table .neg { color: var(--red); white-space: nowrap; }
+  .u8-table .pos { color: var(--green); white-space: nowrap; }
+  .u8-table td.cell-red { background: var(--red-soft); color: var(--red); }
+  .big-run .calc-line { padding: 12px 16px; }
+  .big-run .calc-line strong { font-size: 20px; }
+  .big-run .calc-line span { margin-top: 4px; color: var(--ink); font-size: 15.5px; }
+
+  /* ---- unit 9 ---- */
+  .mr-line { fill: none; stroke: var(--purple); stroke-width: 3.2; stroke-linecap: round; }
+  .c-line.atc9 { stroke: #5f6b76; stroke-width: 2.8; }
+  .cs-area { fill: var(--blue); opacity: .22; }
+  .dwl-area { fill: var(--red); opacity: .34; }
+  @media print { .reveal-step[data-hide-at] { display: none !important; } }
+  .loss-rect { fill: var(--red); fill-opacity: .24; stroke: var(--red); stroke-width: 2; }
+  .mrp-table th { width: 150px; padding-left: 12px; text-align: left; font-size: 14px; }
+  .mrp-table td { font-size: 18px; }
+  .mrp-table tr.reveal-step:not(.visible) td { border-bottom-color: transparent; }
+  .sp-card { padding: 9px 14px 11px; }
+  .sp-card + .sp-card { margin-top: 10px; }
+  .sp-card h3 { margin-bottom: 2px; font-size: 16px; }
+  .sp-q { margin-top: 6px; font-size: 15px; font-weight: 650; line-height: 1.3; }
+  .sp-q .reveal-step { display: block; margin-top: 1px; font-size: 14px; font-weight: 400; }
+  .cal { display: grid; grid-template-columns: 118px repeat(3, 1fr) 118px; gap: 6px 8px; margin-top: 14px; align-items: stretch; }
+  .cal .hd { padding: 0 2px 2px; border-bottom: 2px solid var(--ink); color: var(--muted); font-size: 12px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+  .cal .wk { grid-column: 1; align-self: center; font-size: 17px; font-weight: 800; white-space: nowrap; }
+  .cal .due { align-self: center; font-size: 16px; font-weight: 750; white-space: nowrap; }
+  .cal .cell { display: flex; flex-direction: column; justify-content: center; min-height: 61px; padding: 7px 14px; border-radius: 6px; background: var(--soft); font-size: 19px; font-weight: 800; line-height: 1.2; }
+  .cal .cell small { margin-top: 3px; font-size: 13.5px; font-weight: 650; opacity: .85; }
+  .cal .span3 { grid-column: span 3; flex-direction: row; flex-wrap: wrap; justify-content: flex-start; align-content: center; align-items: center; column-gap: 12px; }
+  .cal .span3 small { flex-basis: 100%; }
+  .cal .span2 { grid-column: span 2; }
+  .cal .u9 { border-left: 6px solid var(--accent); background: var(--accent-soft); }
+  .cal .u10 { border-left: 6px solid var(--blue); background: var(--blue-soft); }
+  .cal .u11 { border-left: 6px solid var(--green); background: var(--green-soft); }
+  .cal .rev { border-left: 6px solid var(--purple); background: var(--purple-soft); }
+  .cal .exam { background: var(--red); color: #fff; }
+  .cal .off { background: repeating-linear-gradient(135deg, #f3f4f6 0 8px, #e9ecef 8px 16px); color: var(--muted); }
+  .cal .last { background: var(--ink); color: #fff; }
+  .cal-today { display: inline-block; padding: 2px 8px; border-radius: 3px; background: var(--accent); color: #fff; font-size: 11.5px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+  .game-logo { display: block; width: 600px; margin: 12px auto 14px; }
+  .ans-tag.key { background: var(--accent); }
+  .big-cards .card { padding: 18px 18px 22px; }
+  .big-cards h3 { font-size: 21px; }
+  .big-cards p { font-size: 18px; line-height: 1.38; }
+  .zero-line { stroke: var(--muted); stroke-width: 1.4; }
+  .nl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 10px; }
+  .nl-card { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; padding: 10px 13px; border-radius: 8px; background: var(--soft); }
+  .nl-card h3 { margin: 0 0 2px; font-size: 16.5px; }
+  .nl-card p { margin: 0; font-size: 13.5px; color: var(--muted); line-height: 1.3; }
+  .nl-card .reveal-step { grid-column: 2; margin-top: 4px; font-size: 13.5px; line-height: 1.3; }
+  .ans-tag { display: inline-block; margin-right: 6px; padding: 2px 8px; border-radius: 3px; color: #fff; font-size: 11.5px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
+  .ans-tag.nat { background: var(--green); } .ans-tag.leg { background: var(--blue); } .ans-tag.both { background: var(--purple); }
+  .vote-opts { display: grid; gap: 6px; margin-top: 8px; }
+  .vote-opt { display: grid; grid-template-columns: 28px 1fr; column-gap: 10px; align-items: center; padding: 6px 12px; border-radius: 8px; background: var(--soft); }
+  .vote-opt-t { font-size: 16px; font-weight: 700; }
+  .vote-opt .why { grid-column: 2; margin-top: 3px; font-size: 13.5px; line-height: 1.28; }
+  .cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; }
+  .chain { display: grid; gap: 6px; margin-top: 8px; }
+  .chain .mechanism-box { min-height: 0; padding: 8px 10px; font-size: 15px; }
+  .chain .arrow { color: var(--accent); font-size: 18px; font-weight: 850; text-align: center; line-height: 1; }
+  .quote { margin: 10px 0 0; padding: 10px 14px; border-left: 4px solid var(--muted); background: var(--soft); font-size: 15px; font-style: italic; line-height: 1.35; }
+  .quote .who { display: block; margin-top: 4px; color: var(--muted); font-size: 12.5px; font-style: normal; font-weight: 700; }
+  .wf-table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  .wf-table th { padding: 5px 6px; border-bottom: 2px solid var(--ink); color: var(--muted); font-size: 11.5px; letter-spacing: .05em; text-transform: uppercase; text-align: right; }
+  .wf-table th:first-child, .wf-table td:first-child { text-align: left; }
+  .wf-table td { padding: 6px 6px; border-bottom: 1px solid var(--line); font-weight: 700; text-align: right; }
+  .wf-table td.lead { color: var(--muted); font-weight: 800; }
+  .wf-table tr.dwl td { color: var(--red); }
+  .yt-q { padding: 6px 11px; border-radius: 7px; background: var(--soft); }
+  .yt-q + .yt-q { margin-top: 6px; }
+  .yt-q p { margin: 0; font-size: 15px; font-weight: 650; line-height: 1.3; }
+  .yt-a { margin-top: 3px; font-size: 13.5px; line-height: 1.3; }
+  .ae-step { padding: 8px 12px; border-left: 4px solid var(--muted); border-radius: 6px; background: var(--soft); font-size: 15px; line-height: 1.35; }
+  .ae-step + .ae-step { margin-top: 8px; }
+  .ae-note { display: block; margin-top: 3px; color: var(--muted); font-size: 12.5px; }
+  .ae-step.g { border-color: var(--green); } .ae-step.o { border-color: var(--accent); } .ae-step.r { border-color: var(--red); } .ae-step.b { border-color: var(--blue); }
+  .yt-wrap { width: 704px; height: 396px; margin: 4px auto 0; border-radius: 8px; overflow: hidden; background: #111; }
+  .yt-wrap iframe { display: block; width: 100%; height: 100%; border: 0; }
+  .yt-watch { margin-top: 12px; padding: 9px 15px; font-size: 17px; }
+  .yt-link { margin: 6px 0 0; font-size: 14px; text-align: right; }
+  .yt-link a { color: var(--blue); font-weight: 700; }
+  .yt-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 100%; color: #fff; text-decoration: none;
+             background: radial-gradient(circle at 50% 40%, #2b3440, #111 70%); }
+  .yt-play { width: 88px; height: 62px; border-radius: 16px; background: var(--red); position: relative; }
+  .yt-play::after { content: ""; position: absolute; left: 35px; top: 18px; border-left: 26px solid #fff; border-top: 13px solid transparent; border-bottom: 13px solid transparent; }
+  .yt-t { margin-top: 6px; font-size: 24px; font-weight: 800; }
+  .yt-s { color: #c8d0d8; font-size: 15px; }
+  .yt-go { margin-top: 8px; padding: 9px 18px; border-radius: 7px; background: #fff; color: var(--ink); font-size: 16px; font-weight: 800; }
+  .yt-card:hover .yt-go { background: var(--accent-soft); }
+  .src { position: absolute; left: 62px; right: 62px; bottom: 36px; color: #8a949e; font-size: 10.5px; line-height: 1.25; }
+
+  @media print {
+    .st { visibility: hidden !important; opacity: 0 !important; }
+    .st.pr { visibility: visible !important; opacity: 1 !important; }
+  }
+
+
+  /* ---- unit 9 part 2 ---- */
+  .old-line { fill: none; stroke: var(--blue); stroke-width: 2.4; stroke-dasharray: 7 5; opacity: .55; }
+  .b-loss { fill: #8a949e; opacity: .3; }
+  .own-a { fill: var(--accent); opacity: .85; } .own-b { fill: var(--blue); opacity: .85; }
+  .ms-table { table-layout: fixed; }
+  .ms-table th:first-child { width: 150px; }
+  .ms-table th { font-size: 13px; line-height: 1.15; }
+  .ms-table th small { display: block; margin-top: 3px; font-size: 11px; font-weight: 700; opacity: .8; }
+  .ms-table th.mid { background: var(--accent); }
+  .ms-table td { padding: 7px 7px; font-size: 14.5px; line-height: 1.2; }
+  .ms-table td.lead { font-size: 13.5px; text-align: left; }
+  .ms-table td.mid { background: var(--accent-soft); }
+  .ms-table .q { color: #b5bdc5; font-size: 21px; font-weight: 900; }
+  .ms-table .stack { justify-items: center; align-items: center; }
+  .pm { width: 100%; border-collapse: separate; border-spacing: 7px; }
+  .pm th { color: var(--muted); font-size: 13px; font-weight: 850; text-align: center; }
+  .pm th.rowh { width: 104px; text-align: right; white-space: nowrap; }
+  .pm th.colA { color: var(--accent); } .pm th.colB { color: var(--blue); }
+  .pm-cell { position: relative; padding: 11px 8px 11px 16px; border-radius: 8px; background: var(--soft); text-align: left; }
+  .pm-a, .pm-b { font-size: 17px; font-weight: 800; line-height: 1.45; white-space: nowrap; }
+  .pm-a { color: var(--accent); } .pm-b { color: var(--blue); }
+  .best-tag { display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 3px; background: var(--green); color: #fff; font-size: 10.5px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; vertical-align: 2px; }
+  .pm-nash { position: absolute; inset: -4px; border: 3px solid var(--accent); border-radius: 10px; pointer-events: none; }
+  .pm-nash span { position: absolute; right: 8px; top: -11px; padding: 1px 7px; border-radius: 3px; background: var(--accent); color: #fff; font-size: 10.5px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
+  .pm.mini { border-spacing: 5px; }
+  .pm.mini th { font-size: 12px; } .pm.mini th.rowh { width: 92px; }
+  .pm.mini .pm-cell { padding: 6px 6px 6px 12px; }
+  .pm.mini .pm-a, .pm.mini .pm-b { font-size: 14px; line-height: 1.35; }
+  .game-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .game-side { padding: 10px 12px; }
+  .game-side h3 { margin-bottom: 7px; font-size: 17px; }
+  .game-side h3 small { display: block; margin-top: 1px; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .game .game-btn { padding: 7px 11px; font-size: 14px; }
+  .game .game-btn.selected { background: var(--ink); box-shadow: none; }
+  .game-msg { font-size: 13px; }
+  .game-table { margin-top: 8px; }
+  .game-table td { padding: 5px 6px; font-size: 14px; }
+  .game-table tr.played td { background: #fff; }
+  .game-table tr.game-tot td { border-top: 2px solid var(--ink); font-weight: 900; }
+  .hhi-row { display: grid; grid-template-columns: 140px 1fr 156px; gap: 12px; align-items: center; margin-top: 9px; }
+  .hhi-lab { font-size: 15px; font-weight: 800; line-height: 1.2; }
+  .hhi-lab small { display: block; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .hhi-bar { display: flex; height: 36px; border-radius: 6px; overflow: hidden; }
+  .hhi-bar span { display: flex; align-items: center; justify-content: center; border-right: 2px solid #fff; color: #fff; font-size: 12.5px; font-weight: 850; white-space: nowrap; overflow: hidden; }
+  .hhi-bar span.small-firms { background: repeating-linear-gradient(90deg, #9aa3ab 0 5px, #c4ccd3 5px 7px); color: var(--ink); font-size: 11px; }
+  .hhi-bar span.tight { font-size: 11px; }
+  .hhi-key { margin-top: 4px; color: var(--muted); font-size: 12.5px; text-align: right; }
+  .hhi-num { font-size: 14.5px; font-weight: 800; line-height: 1.3; }
+  .hhi-num .reveal-step { display: block; }
+  .hhi-calc { margin-top: 8px; padding: 7px 12px; border-radius: 6px; background: var(--soft); font-size: 13.5px; line-height: 1.45; }
+  .event-grid.four { grid-template-columns: repeat(4, 1fr); }
+  .event-grid.four .event { min-height: 120px; }
+  .event .when { display: block; margin-bottom: 4px; color: var(--accent); font-size: 12px; font-weight: 850; letter-spacing: .05em; text-transform: uppercase; }
+  .pdq-card { padding: 12px 14px; }
+  .pdq-card h3 { margin-bottom: 3px; font-size: 17px; }
+  .pdq-card > p { margin: 0 0 4px; color: var(--muted); font-size: 13.5px; line-height: 1.3; }
+  .pdq-line { margin-top: 5px; font-size: 14px; line-height: 1.3; }
+  .owl-street { padding: 4px 8px; }
+  /* P2-2 market-structure grid (after Krugman & Wells, Microeconomics 5e, Fig. 13-1) */
+  .ms-fig { display: grid; grid-template-columns: 150px 30px 62px 245px 245px; grid-template-rows: 28px 22px 30px repeat(3, 104px); justify-content: center; margin-top: 4px; }
+  .ms-qtop, .ms-qleft { font-size: 17px; font-weight: 800; line-height: 1.3; }
+  .ms-qtop { grid-column: 4 / 6; grid-row: 1; text-align: center; }
+  .ms-qleft { grid-column: 1; grid-row: 4 / 7; align-self: center; padding-right: 4px; text-align: right; }
+  .ms-brace { display: block; fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .ms-btop { grid-column: 4 / 6; grid-row: 2; width: 490px; height: 22px; }
+  .ms-bleft { grid-column: 2; grid-row: 4 / 7; width: 30px; height: 312px; }
+  .ms-lab { display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 650; }
+  .ms-cells { display: grid; grid-column: 4 / 6; grid-row: 4 / 7; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 1fr); gap: 1.5px; border: 1.5px solid var(--ink); background: var(--ink); }
+  .ms-cell { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 14px; font-size: 21px; font-weight: 720; line-height: 1.15; text-align: center; }
+  .ms-cell small { margin-top: 6px; color: rgba(31,41,51,.72); font-size: 13.5px; font-weight: 650; }
+  .ms-cell.mono { background: #b9b2dd; } .ms-cell.na { background: #c6e2a6; } .ms-cell.oli { grid-column: 1 / 3; background: #f4c35b; }
+  .ms-cell.pc { background: #ef8a85; } .ms-cell.mc { background: #a5d9d5; box-shadow: inset 0 0 0 3px var(--accent); }
+  .ms-cell .cal-today { position: absolute; top: -10px; right: 10px; }
+  /* P2-5a to P2-5d: which of the four kinds this page is */
+  .diff-track { position: absolute; top: 47px; right: 62px; display: flex; gap: 6px; }
+  .diff-track span { padding: 3px 10px; border-radius: 999px; background: var(--soft); color: var(--muted); font-size: 12px; font-weight: 800; }
+  .diff-track span.on { background: var(--accent); color: #fff; }
+  .quiz-scenario.test-q { border-left-color: var(--blue); background: var(--blue-soft); }
+  .quiz-scenario.test-q .market-label { color: var(--blue); }
+
+
+  /* ---- unit 10 ---- */
+  .c-line.mpc { stroke: var(--red); }
+  .c-line.msc { stroke: var(--purple); }
+  .c-line.msb { stroke: var(--green); }
+  .c-line.dash-line { stroke-dasharray: 9 6; }
+  .bracket { fill: none; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+  .bracket.purple-br { stroke: var(--purple); } .bracket.green-br { stroke: var(--green); }
+  .bracket.tax-br { stroke: var(--accent); stroke-width: 3.6; }
+  .loss-seg { fill: none; stroke: var(--red); stroke-width: 4.5; stroke-linecap: round; }
+  .tax-line { fill: none; stroke: var(--accent); stroke-width: 2.8; stroke-dasharray: 10 5; }
+  .tax-line.thin { stroke-width: 1.8; opacity: .85; }
+  /* a deal and its third parties (P1-2) */
+  .deal-row { display: grid; grid-template-columns: 1fr 150px 1fr; gap: 10px; align-items: center; margin-top: 14px; }
+  .deal-box { padding: 14px 16px; border-radius: 8px; background: var(--blue-soft); border-left: 5px solid var(--blue); text-align: center; }
+  .deal-box b { display: block; font-size: 22px; } .deal-box small { color: var(--muted); font-size: 14.5px; font-weight: 650; }
+  .deal-arrow { color: var(--muted); font-size: 17px; font-weight: 850; line-height: 1.5; text-align: center; }
+  .third-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .third { padding: 11px 15px; border-radius: 8px; background: var(--red-soft); border-left: 5px solid var(--red); font-size: 17px; font-weight: 700; line-height: 1.3; }
+  .third small { display: block; margin-top: 3px; color: var(--muted); font-size: 13.5px; font-weight: 650; }
+  /* the 2x2 of externalities (P1-3) */
+  .ext-grid { display: grid; grid-template-columns: 118px 1fr 1fr; grid-template-rows: 30px 1fr 1fr; gap: 8px; margin-top: 14px; }
+  .ext-h { display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 13px; font-weight: 850; letter-spacing: .06em; text-align: center; text-transform: uppercase; }
+  .ext-h.neg { color: var(--red); } .ext-h.pos { color: var(--green); }
+  .ext-cell { min-height: 96px; padding: 12px 15px; border-radius: 8px; font-size: 17.5px; font-weight: 700; line-height: 1.3; }
+  .ext-cell.neg { background: var(--red-soft); } .ext-cell.pos { background: var(--green-soft); }
+  .ext-cell small { display: block; margin-top: 5px; color: var(--muted); font-size: 13.5px; font-weight: 650; }
+  .tag.neg-t { background: var(--red); } .tag.pos-t { background: var(--green); } .tag.both-t { background: var(--purple); } .tag.not-t { background: #8a949e; }
+  .sort-grid.six .sort-card { min-height: 0; padding: 10px 13px; }
+  .sort-grid.six .sort-card p { font-size: 15.5px; }
+  .sort-grid.four { grid-template-columns: repeat(4, 1fr); gap: 9px; }
+  .sort-grid.four .sort-card { min-height: 0; padding: 9px 11px; }
+  .sort-grid.four .sort-card p { font-size: 15px; }
+  .sort-grid.two { grid-template-columns: 1fr 1fr; }
+  /* private vs social (P1-5) */
+  .eq-big { margin: 4px 0 10px; font-size: 29px; font-weight: 850; letter-spacing: -.3px; text-align: center; }
+  .eq-big .soc-c { color: var(--purple); } .eq-big .soc-b { color: var(--green); } .eq-big .pri-c { color: var(--red); } .eq-big .pri-b { color: var(--blue); }
+  .term { display: grid; grid-template-columns: 62px 1fr; gap: 4px 10px; font-size: 14.5px; line-height: 1.3; }
+  .term b { font-size: 15px; }
+  /* writing template (P1-14) */
+  .tpl { padding: 14px 20px; border: 2px dashed var(--accent); border-radius: 10px; background: #fff; font-size: 19px; line-height: 1.85; }
+  .tpl .blank { display: inline-block; min-width: 120px; padding: 0 6px; border-bottom: 2.5px solid var(--accent); color: var(--accent); font-weight: 800; line-height: 1.25; text-align: center; }
+  .tpl .blank.done { min-width: 0; color: var(--ink); }
+  /* question list beside a graph */
+  .qa-list { display: grid; gap: 6px; }
+  .qa-list .calc-line { padding: 7px 12px; }
+  .qa-list .calc-line strong { font-size: 15px; }
+  .qa-list .calc-line .ans { display: block; margin-top: 2px; color: var(--green); font-size: 14.5px; font-weight: 800; }
+  .qa-list .calc-line .ans em { color: var(--muted); font-style: normal; font-weight: 650; }
+  /* two plants' cost table (P2-5 ... P2-7) */
+  .cost-t td { position: relative; height: 44px; font-size: 19px; }
+  .cost-t td.lead { width: 170px; text-align: left; font-size: 15px; }
+  .cost-t .cut { position: absolute; inset: 3px; border: 3px solid var(--green); border-radius: 7px; background: rgba(55,138,97,.10); }
+  .cost-t .cut::after { content: 'cut'; position: absolute; right: 4px; top: 1px; color: var(--green); font-size: 10px; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; }
+  .cost-t .cut.sold::after { content: 'cut + sell a permit'; }
+  /* four kinds of goods (P3-4) */
+  .gg { display: grid; grid-template-columns: 150px 1fr 1fr; grid-template-rows: 32px 150px 150px; gap: 6px; margin-top: 8px; }
+  .gg-h { display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 850; text-align: center; }
+  .gg-c { padding: 14px 16px; border-radius: 8px; }
+  .gg-c h3 { margin: 0 0 4px; font-size: 22px; }
+  .gg-c p { margin: 0; font-size: 15px; line-height: 1.32; }
+  .gg-c.priv { background: #e3f1d3; } .gg-c.club { background: #dcf0ee; } .gg-c.comm { background: #fbe7bd; } .gg-c.pub { background: #e3dff2; }
+  .tag.priv-t { background: #4f8a2a; } .tag.club-t { background: #2c8f88; } .tag.comm-t { background: #b07a07; } .tag.pub-t { background: var(--purple); }
+  /* the class fund (P3-6) */
+  .fund { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; }
+  .fund-in label { display: grid; grid-template-columns: 1fr 90px; gap: 10px; align-items: center; margin-bottom: 8px; font-size: 15.5px; font-weight: 750; }
+  .fund-in input { width: 90px; padding: 6px 8px; border: 2px solid var(--line); border-radius: 6px; font: 800 20px Arial, sans-serif; text-align: center; }
+  .fund-out { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+  .fund-out .stat b { display: block; font-size: 30px; line-height: 1.1; }
+  .fund-out .stat span { color: var(--muted); font-size: 13px; font-weight: 750; }
+  .fund-table td { padding: 5px 6px; font-size: 14.5px; }
+  .fund-table tr.done td { background: #fff; }
+  .fund .button-row button { padding: 7px 11px; font-size: 14px; }
+  /* in-class work */
+  .icw-note { padding: 6px 12px; border-radius: 6px; background: var(--soft); color: var(--muted); font-size: 13.5px; font-weight: 700; }
+
+
+  /* ---- unit 10 animated scenes (scenes10.py) ---- */
+  .scene-wrap { margin-top: 10px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #fff; }
+  .scene { display: block; width: 100%; height: auto; }
+  .scene .sc-lab { font: 800 13px Arial, sans-serif; fill: var(--ink); }
+  .scene .sc-sub { font: 700 11.5px Arial, sans-serif; fill: var(--muted); }
+  .scene .sc-pill { font: 800 12.5px Arial, sans-serif; fill: #fff; }
+  .scene .sc-coin { font: 900 12px Arial, sans-serif; fill: #8a4b08; }
+  .scene .sc-big { font: 900 15px Arial, sans-serif; }
+  .scene .fb { transform-box: fill-box; transform-origin: center; }
+  .scene .a-move, .scene .a-drift, .scene .a-bee { --dx: 0px; --dy: 0px; }
+  .scene .reveal-step.visible .a-move { animation: sc-move var(--dur, 4s) ease-in-out var(--delay, 0s) infinite both; }
+  .scene .reveal-step.visible .a-drift { animation: sc-drift var(--dur, 3.2s) ease-out var(--delay, 0s) infinite both; }
+  .scene .reveal-step.visible .a-dash { animation: sc-dash 1.1s linear infinite; }
+  .scene .reveal-step.visible .a-ripple { animation: sc-ripple 2.4s ease-out var(--delay, 0s) infinite both; }
+  .scene .reveal-step.visible .a-pulse { animation: sc-pulse 0.9s ease-in-out var(--delay, 0s) infinite alternate both; }
+  .scene .reveal-step.visible .a-pop { animation: sc-pop 0.5s cubic-bezier(.3,1.6,.6,1) var(--delay, 0s) both; }
+  .scene .reveal-step.visible .a-bob { animation: sc-bob 1.1s ease-in-out var(--delay, 0s) infinite alternate; }
+  .scene .reveal-step.visible .a-fly { animation: sc-fly 0.7s linear var(--delay, 0s) infinite alternate; }
+  .scene .reveal-step.visible .a-ski { animation: sc-ski 6s ease-in-out infinite; }
+  .scene .reveal-step.visible .a-bee { animation: sc-bee var(--dur, 3.6s) ease-in-out var(--delay, 0s) infinite; }
+  @keyframes sc-move { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 70% { transform: translate(var(--dx), var(--dy)); opacity: 1; }
+                       85%, 100% { transform: translate(var(--dx), var(--dy)); opacity: 0; } }
+  @keyframes sc-drift { 0% { transform: translate(0, 0) scale(.5); opacity: 0; } 20% { opacity: .85; } 100% { transform: translate(var(--dx), var(--dy)) scale(1.35); opacity: 0; } }
+  @keyframes sc-dash { to { stroke-dashoffset: -24; } }
+  @keyframes sc-ripple { 0% { transform: scale(.3); opacity: .9; } 100% { transform: scale(1.9); opacity: 0; } }
+  @keyframes sc-pulse { from { opacity: .25; } to { opacity: 1; } }
+  @keyframes sc-pop { from { transform: scale(0); } to { transform: scale(1); } }
+  @keyframes sc-bob { from { transform: translateY(-3px); } to { transform: translateY(3px); } }
+  @keyframes sc-fly { 0% { transform: translate(0, 0); } 33% { transform: translate(5px, -4px); } 66% { transform: translate(-4px, 3px); } 100% { transform: translate(3px, 5px); } }
+  @keyframes sc-ski { 0% { transform: translateX(0) scaleX(1); } 45% { transform: translateX(250px) scaleX(1); } 50% { transform: translateX(250px) scaleX(-1); }
+                      95% { transform: translateX(0) scaleX(-1); } 100% { transform: translateX(0) scaleX(1); } }
+  @keyframes sc-bee { 0% { transform: translate(0, 0); } 25% { transform: translate(calc(var(--dx) * .5), -46px); } 50% { transform: translate(var(--dx), var(--dy)); }
+                      75% { transform: translate(calc(var(--dx) * .5), 26px); } 100% { transform: translate(0, 0); } }
+  .scene .a-grow { transform-box: fill-box; transform-origin: 50% 100%; }
+  .scene .reveal-step.visible .a-grow { animation: sc-grow .7s ease-out var(--delay, 0s) both; }
+  .scene .a-draw { stroke-dasharray: 1; stroke-dashoffset: 0; }
+  .scene .reveal-step.visible .a-draw { animation: sc-draw 1.4s ease-out var(--delay, 0s) both; }
+  @keyframes sc-grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  @keyframes sc-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  @media print { .scene * { animation: none !important; } }
+  @media (prefers-reduced-motion: reduce) { .scene * { animation: none !important; } }
+
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1 t1 -->
+  <section class="slide title-slide center middle active">
+    <div>
+      <div class="title-kicker">ARE 201 &middot; Unit 10 &middot; Part 1 &middot; Monday</div>
+      <h1 class="title-main">Externalities</h1>
+      <div class="title-sub">Who&rsquo;s Missing from the Market?</div>
+    </div>
+    <svg class="title-graphic" viewBox="0 0 470 170" role="img" aria-label="Two small graphs. Left: marginal social cost lies above marginal private cost, so the market makes too much. Right: marginal social benefit lies above marginal private benefit, so the market makes too little"><defs><clipPath id="c91"><rect x="14" y="10" width="160" height="134"/></clipPath></defs><path class="axis" d="M 14 8 L 14 144"/><path class="axis" d="M 14 144 L 174 144"/><defs><clipPath id="c92"><rect x="250" y="10" width="160" height="134"/></clipPath></defs><path class="axis" d="M 250 8 L 250 144"/><path class="axis" d="M 250 144 L 410 144"/><path class="demand-line" d="M 14 25.2 L 174 117.6" /><path class="c-line mpc" d="M 14 130.8 L 174 45" /><path class="c-line msc" d="M 14 99.1 L 174 13.3" /><circle class="dot blue-dot" cx="108.8" cy="80" r="5"/><circle class="dot" cx="80.4" cy="63.5" r="5"/><text class="c-label" x="180" y="17.3" text-anchor="start" style="fill:#7657a5">MSC</text><text class="c-label" x="180" y="49" text-anchor="start" style="fill:#c9504d">MPC</text><text class="c-label" x="180" y="121.6" text-anchor="start" style="fill:#2f80c9">D</text><text class="plot-label sm" x="94" y="160" text-anchor="middle" style="fill:#7657a5">a cost on others &rarr; too much</text><path class="demand-line" d="M 250 51.6 L 410 144" /><path class="c-line msb" d="M 250 17.3 L 410 109.7" /><path class="c-line mpc" d="M 250 130.8 L 410 38.4" /><circle class="dot blue-dot" cx="318.6" cy="91.2" r="5"/><circle class="dot" cx="348.3" cy="74" r="5"/><text class="c-label" x="416" y="42.4" text-anchor="start" style="fill:#c9504d">MPC</text><text class="c-label" x="416" y="110.7" text-anchor="start" style="fill:#2a6f4d">MSB</text><text class="c-label" x="416" y="152" text-anchor="start" style="fill:#2f80c9">MPB</text><text class="plot-label sm" x="330" y="160" text-anchor="middle" style="fill:#2a6f4d">a benefit to others &rarr; too little</text></svg>
+  </section>
+
+  <!-- 2 hook -->
+  <section class="slide interactive">
+    <div class="section-kicker">case 1 of 4 &middot; hands up</div>
+    <h1>A trade everyone agrees to</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:8px 16px;"><div class="market-label">Vote first</div>
+      <p style="font-size:17.5px;">A hog farm in Duplin County sells hogs to a packer. The farm is happy. The packer is happy. <strong>Who else is in this picture?</strong></p></div>
+    <div class="scene-wrap"><svg class="scene" viewBox="0 0 836 290" role="img" aria-label="A hog farm with two long barns and a manure lagoon sells hogs to a packer down the road. Neighbors' houses sit between them, and a home with a well sits below the road. Step 1: a truck carries hogs to the packer and money flows back. Step 2: smell drifts from the barns to the houses, flies gather, and liquid seeps from the lagoon toward the well. Step 3: the neighbors and the well water are labeled as third parties"><rect width="836" height="290" fill="#eef5fb"/><rect y="150" width="836" height="140" fill="#dfeecf"/><circle cx="250" cy="150" r="17" fill="#9cc59a"/><circle cx="284" cy="150" r="20" fill="#9cc59a"/><circle cx="318" cy="150" r="14" fill="#9cc59a"/><circle cx="352" cy="150" r="17" fill="#9cc59a"/><circle cx="386" cy="150" r="20" fill="#9cc59a"/><circle cx="420" cy="150" r="14" fill="#9cc59a"/><circle cx="454" cy="150" r="17" fill="#9cc59a"/><circle cx="488" cy="150" r="20" fill="#9cc59a"/><circle cx="522" cy="150" r="14" fill="#9cc59a"/><circle cx="556" cy="150" r="17" fill="#9cc59a"/><circle cx="590" cy="150" r="20" fill="#9cc59a"/><circle cx="624" cy="150" r="14" fill="#9cc59a"/><circle cx="658" cy="150" r="17" fill="#9cc59a"/><rect x="28" y="164" width="196" height="24" fill="#f3f4f6" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 22 165 L 34 155 L 218 155 L 230 165 Z" fill="#8a949e"/><rect x="42" y="171" width="12" height="7" fill="#c4ccd3"/><rect x="68" y="171" width="12" height="7" fill="#c4ccd3"/><rect x="94" y="171" width="12" height="7" fill="#c4ccd3"/><rect x="120" y="171" width="12" height="7" fill="#c4ccd3"/><rect x="146" y="171" width="12" height="7" fill="#c4ccd3"/><rect x="172" y="171" width="12" height="7" fill="#c4ccd3"/><rect x="198" y="171" width="12" height="7" fill="#c4ccd3"/><rect x="28" y="198" width="196" height="24" fill="#f3f4f6" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 22 199 L 34 189 L 218 189 L 230 199 Z" fill="#8a949e"/><rect x="42" y="205" width="12" height="7" fill="#c4ccd3"/><rect x="68" y="205" width="12" height="7" fill="#c4ccd3"/><rect x="94" y="205" width="12" height="7" fill="#c4ccd3"/><rect x="120" y="205" width="12" height="7" fill="#c4ccd3"/><rect x="146" y="205" width="12" height="7" fill="#c4ccd3"/><rect x="172" y="205" width="12" height="7" fill="#c4ccd3"/><rect x="198" y="205" width="12" height="7" fill="#c4ccd3"/><ellipse cx="112" cy="254" rx="80" ry="20" fill="#b98b6e"/><text class="sc-sub" x="112" y="258" text-anchor="middle" style="fill:#fff">manure lagoon</text><text class="sc-lab" x="126" y="132" text-anchor="middle">Hog farm</text><text class="sc-sub" x="126" y="146" text-anchor="middle">the seller</text><rect x="232" y="212" width="436" height="16" fill="#c4ccd3"/><path d="M 236 220 L 664 220" stroke="#fff" stroke-width="2" stroke-dasharray="12 10"/><rect x="668" y="140" width="148" height="80" fill="#d8dde3" stroke="#9aa3ab" stroke-width="1.2"/><rect x="662" y="132" width="160" height="10" fill="#8a949e"/><rect x="692" y="152" width="100" height="22" rx="3" fill="#2f80c9"/><text class="sc-lab" x="742" y="168" text-anchor="middle" style="fill:#fff">PACKER</text><rect x="730" y="186" width="26" height="34" fill="#9aa3ab"/><text class="sc-lab" x="742" y="112" text-anchor="middle">Packer</text><text class="sc-sub" x="742" y="126" text-anchor="middle">the buyer</text><rect x="270" y="172" width="46" height="30" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 265 173 L 293.0 155.5 L 321 173 Z" fill="#8a949e"/><rect x="287.0" y="187" width="12" height="15" fill="#c9a27a"/><rect x="332" y="162" width="46" height="30" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 327 163 L 355.0 145.5 L 383 163 Z" fill="#8a949e"/><rect x="349.0" y="177" width="12" height="15" fill="#c9a27a"/><rect x="394" y="174" width="46" height="30" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 389 175 L 417.0 157.5 L 445 175 Z" fill="#8a949e"/><rect x="411.0" y="189" width="12" height="15" fill="#c9a27a"/><rect x="300" y="252" width="52" height="30" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 295 253 L 326.0 235.5 L 357 253 Z" fill="#8a949e"/><rect x="320.0" y="267" width="12" height="15" fill="#c9a27a"/><rect x="378" y="262" width="22" height="18" fill="#9aa3ab"/><path d="M 372 262 L 389 248 L 406 262 Z" fill="#8a949e"/><path d="M 389 262 L 389 270" stroke="#5f6b76" stroke-width="2"/><g class="reveal-step" data-step-group="hk" data-step="1"><g class="a-move" style="--dx:330px; --dy:0px; --dur:4.5s; --delay:0s;"><rect x="236" y="190" width="62" height="24" rx="2" fill="#fff" stroke="#5f6b76" stroke-width="1.4"/><circle cx="248" cy="199" r="5" fill="#f2a7b5"/><circle cx="262" cy="199" r="5" fill="#f2a7b5"/><circle cx="276" cy="199" r="5" fill="#f2a7b5"/><circle cx="290" cy="199" r="5" fill="#f2a7b5"/><rect x="298" y="196" width="24" height="18" rx="3" fill="#c9504d"/><rect x="310" y="199" width="9" height="7" fill="#eef5fb"/><circle cx="252" cy="216" r="5" fill="#1f2933"/><circle cx="286" cy="216" r="5" fill="#1f2933"/><circle cx="312" cy="216" r="5" fill="#1f2933"/></g><g class="a-move" style="--dx:-400px; --dy:0px; --dur:4.5s; --delay:1.2s;"><circle cx="650" cy="96" r="11" fill="#f4c35b" stroke="#b8600f" stroke-width="2"/><text class="sc-coin" x="650" y="100" text-anchor="middle">$</text></g><g class="a-pop fb" style="--delay:.3s;"><circle cx="202" cy="132" r="11" fill="#378a61"/><path d="M 197 132 L 200.5 136 L 207.5 127.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><g class="a-pop fb" style="--delay:.3s;"><circle cx="806" cy="112" r="11" fill="#378a61"/><path d="M 801 112 L 804.5 116 L 811.5 107.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><g class="reveal-step" data-step-group="hk" data-step="1" data-hide-at="2"><rect x="240.2" y="11" width="355.7" height="23" rx="11.5" fill="#2f80c9"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">1 &middot; The trade: hogs go one way, money the other</text></g></g><g class="reveal-step" data-step-group="hk" data-step="2"><g class="a-drift fb" style="--dx:220px; --dy:2px; --dur:3.6s; --delay:0s;"><circle cx="68" cy="178" r="9" fill="#8f8a3e"/><circle cx="80" cy="172" r="12" fill="#8f8a3e"/><circle cx="93" cy="177" r="9" fill="#8f8a3e"/><circle cx="82" cy="182" r="8" fill="#8f8a3e"/></g><g class="a-drift fb" style="--dx:190px; --dy:-4px; --dur:3.6s; --delay:0.5s;"><circle cx="138" cy="180" r="9" fill="#8f8a3e"/><circle cx="150" cy="174" r="12" fill="#8f8a3e"/><circle cx="163" cy="179" r="9" fill="#8f8a3e"/><circle cx="152" cy="184" r="8" fill="#8f8a3e"/></g><g class="a-drift fb" style="--dx:160px; --dy:-12px; --dur:3.6s; --delay:1.0s;"><circle cx="188" cy="198" r="9" fill="#8f8a3e"/><circle cx="200" cy="192" r="12" fill="#8f8a3e"/><circle cx="213" cy="197" r="9" fill="#8f8a3e"/><circle cx="202" cy="202" r="8" fill="#8f8a3e"/></g><g class="a-drift fb" style="--dx:230px; --dy:-60px; --dur:3.6s; --delay:1.5s;"><circle cx="112" cy="240" r="9" fill="#8f8a3e"/><circle cx="124" cy="234" r="12" fill="#8f8a3e"/><circle cx="137" cy="239" r="9" fill="#8f8a3e"/><circle cx="126" cy="244" r="8" fill="#8f8a3e"/></g><g class="a-drift fb" style="--dx:250px; --dy:-26px; --dur:3.6s; --delay:2.0s;"><circle cx="48" cy="212" r="9" fill="#8f8a3e"/><circle cx="60" cy="206" r="12" fill="#8f8a3e"/><circle cx="73" cy="211" r="9" fill="#8f8a3e"/><circle cx="62" cy="216" r="8" fill="#8f8a3e"/></g><g class="a-drift fb" style="--dx:200px; --dy:10px; --dur:3.6s; --delay:2.5s;"><circle cx="168" cy="162" r="9" fill="#8f8a3e"/><circle cx="180" cy="156" r="12" fill="#8f8a3e"/><circle cx="193" cy="161" r="9" fill="#8f8a3e"/><circle cx="182" cy="166" r="8" fill="#8f8a3e"/></g><g class="a-drift fb" style="--dx:230px; --dy:-14px; --dur:3.6s; --delay:3.0s;"><circle cx="98" cy="198" r="9" fill="#8f8a3e"/><circle cx="110" cy="192" r="12" fill="#8f8a3e"/><circle cx="123" cy="197" r="9" fill="#8f8a3e"/><circle cx="112" cy="202" r="8" fill="#8f8a3e"/></g><g class="a-fly" style="--delay:0.0s;"><circle cx="286" cy="160" r="2" fill="#1f2933"/></g><g class="a-fly" style="--delay:0.17s;"><circle cx="300" cy="168" r="2" fill="#1f2933"/></g><g class="a-fly" style="--delay:0.34s;"><circle cx="350" cy="152" r="2" fill="#1f2933"/></g><g class="a-fly" style="--delay:0.51s;"><circle cx="362" cy="160" r="2" fill="#1f2933"/></g><g class="a-fly" style="--delay:0.0s;"><circle cx="410" cy="162" r="2" fill="#1f2933"/></g><g class="a-fly" style="--delay:0.17s;"><circle cx="424" cy="170" r="2" fill="#1f2933"/></g><g class="a-fly" style="--delay:0.34s;"><circle cx="318" cy="246" r="2" fill="#1f2933"/></g><g class="a-fly" style="--delay:0.51s;"><circle cx="336" cy="240" r="2" fill="#1f2933"/></g><path class="a-dash" d="M 188 262 Q 280 292 386 276" fill="none" stroke="#8d6a4b" stroke-width="3" stroke-dasharray="8 4"/><rect x="201.1" y="11" width="433.8" height="23" rx="11.5" fill="#b8600f"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">2 &middot; What else leaves the farm? A smell, flies, and seepage</text></g><g class="reveal-step" data-step-group="hk" data-step="3"><rect x="218.3" y="115" width="263.4" height="23" rx="11.5" fill="#c9504d"/><text class="sc-pill" x="350.0" y="131.5" text-anchor="middle">Neighbors: the smell and the flies</text><rect x="414.1" y="253" width="291.8" height="23" rx="11.5" fill="#c9504d"/><text class="sc-pill" x="560.0" y="269.5" text-anchor="middle">Well water: what leaks from the lagoon</text></g></svg></div>
+    <div class="button-row" style="margin-top:8px;"><button type="button" class="step-reveal" data-step-group="hk">Play next</button></div>
+    <div class="reveal-step " data-step-group="hk" data-step="4"><div class="definition-strip" style="margin-top:8px; font-size:16px; padding:8px 15px;">The neighbors and the families on well water are not part of the deal, and nobody pays them. A cost that lands on someone outside the deal is an <strong>externality</strong>: here a <strong>negative</strong> one, from <strong>producing</strong>.</div></div>
+    <div class="src">North Carolina is a leading hog state, and Duplin County has more hogs than any other NC county (USDA NASS, 2022 Census of Agriculture). Same supply chain as 8b&rsquo;s packers, one step upstream.</div>
+  </section>
+
+  <!-- 3 case_jet -->
+  <section class="slide interactive">
+    <div class="section-kicker">case 2 of 4 &middot; hands up</div>
+    <h1>A fun hour on the lake</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:8px 16px;"><div class="market-label">Vote first</div>
+      <p style="font-size:17.5px;">A shop rents a jet ski to a rider for $44 an hour. The shop is happy. The rider is happy. <strong>Who else is on the lake?</strong></p></div>
+    <div class="scene-wrap"><svg class="scene" viewBox="0 0 836 290" role="img" aria-label="A lake with a jet-ski rental shop and a rider on the near shore, swimmers in the water, and an angler on a dock. Step 1: the rider pays the shop and rides a jet ski back and forth. Step 2: noise and wakes spread to the swimmers and the angler's fish swim away. Step 3: the swimmers and the angler are labeled as third parties"><rect width="836" height="290" fill="#eef5fb"/><circle cx="0" cy="92" r="18" fill="#6fa56d"/><circle cx="30" cy="92" r="22" fill="#6fa56d"/><circle cx="60" cy="92" r="18" fill="#6fa56d"/><circle cx="90" cy="92" r="22" fill="#6fa56d"/><circle cx="120" cy="92" r="18" fill="#6fa56d"/><circle cx="150" cy="92" r="22" fill="#6fa56d"/><circle cx="180" cy="92" r="18" fill="#6fa56d"/><circle cx="210" cy="92" r="22" fill="#6fa56d"/><circle cx="240" cy="92" r="18" fill="#6fa56d"/><circle cx="270" cy="92" r="22" fill="#6fa56d"/><circle cx="300" cy="92" r="18" fill="#6fa56d"/><circle cx="330" cy="92" r="22" fill="#6fa56d"/><circle cx="360" cy="92" r="18" fill="#6fa56d"/><circle cx="390" cy="92" r="22" fill="#6fa56d"/><circle cx="420" cy="92" r="18" fill="#6fa56d"/><circle cx="450" cy="92" r="22" fill="#6fa56d"/><circle cx="480" cy="92" r="18" fill="#6fa56d"/><circle cx="510" cy="92" r="22" fill="#6fa56d"/><circle cx="540" cy="92" r="18" fill="#6fa56d"/><circle cx="570" cy="92" r="22" fill="#6fa56d"/><circle cx="600" cy="92" r="18" fill="#6fa56d"/><circle cx="630" cy="92" r="22" fill="#6fa56d"/><circle cx="660" cy="92" r="18" fill="#6fa56d"/><circle cx="690" cy="92" r="22" fill="#6fa56d"/><circle cx="720" cy="92" r="18" fill="#6fa56d"/><circle cx="750" cy="92" r="22" fill="#6fa56d"/><circle cx="780" cy="92" r="18" fill="#6fa56d"/><circle cx="810" cy="92" r="22" fill="#6fa56d"/><circle cx="840" cy="92" r="18" fill="#6fa56d"/><rect y="94" width="836" height="160" fill="#a9d0ee"/><path d="M 60 120 q 10 -4 20 0" fill="none" stroke="#d8ecfa" stroke-width="2"/><path d="M 300 110 q 10 -4 20 0" fill="none" stroke="#d8ecfa" stroke-width="2"/><path d="M 520 132 q 10 -4 20 0" fill="none" stroke="#d8ecfa" stroke-width="2"/><path d="M 200 150 q 10 -4 20 0" fill="none" stroke="#d8ecfa" stroke-width="2"/><path d="M 700 120 q 10 -4 20 0" fill="none" stroke="#d8ecfa" stroke-width="2"/><path d="M 430 170 q 10 -4 20 0" fill="none" stroke="#d8ecfa" stroke-width="2"/><rect y="250" width="836" height="40" fill="#e8d6a8"/><rect x="22" y="204" width="118" height="48" fill="#fff" stroke="#5f6b76" stroke-width="1.2"/><path d="M 14 206 L 81 178 L 148 206 Z" fill="#8a949e"/><rect x="30" y="214" width="100" height="18" rx="3" fill="#2f80c9"/><text class="sc-sub" x="80" y="227" text-anchor="middle" style="fill:#fff">JET SKI RENTALS</text><text class="sc-sub" x="80" y="247" text-anchor="middle" style="fill:#1f2933">$44 an hour</text><rect x="166.0" y="231.0" width="20.0" height="26.0" rx="8.0" fill="#7657a5"/><circle cx="176" cy="220" r="9.5" fill="#c68e62"/><text class="sc-lab" x="78" y="276" text-anchor="middle">the shop: seller</text><text class="sc-lab" x="206" y="276" text-anchor="middle">the rider: buyer</text><g><ellipse cx="560" cy="202" rx="16" ry="5" fill="#d8ecfa"/><circle cx="560" cy="196" r="9" fill="#f1c7a3"/><path d="M 545 200 q 6 -10 12 -2 M 563 198 q 6 -8 12 2" fill="none" stroke="#f1c7a3" stroke-width="3" stroke-linecap="round"/></g><g><ellipse cx="602" cy="220" rx="16" ry="5" fill="#d8ecfa"/><circle cx="602" cy="214" r="9" fill="#c68e62"/><path d="M 587 218 q 6 -10 12 -2 M 605 216 q 6 -8 12 2" fill="none" stroke="#c68e62" stroke-width="3" stroke-linecap="round"/></g><g><ellipse cx="646" cy="200" rx="16" ry="5" fill="#d8ecfa"/><circle cx="646" cy="194" r="9" fill="#8d5a3b"/><path d="M 631 198 q 6 -10 12 -2 M 649 196 q 6 -8 12 2" fill="none" stroke="#8d5a3b" stroke-width="3" stroke-linecap="round"/></g><rect x="696" y="150" width="140" height="9" fill="#8a5a3b"/><rect x="712" y="159" width="6" height="40" fill="#8a5a3b"/><rect x="760" y="159" width="6" height="40" fill="#8a5a3b"/><rect x="808" y="159" width="6" height="40" fill="#8a5a3b"/><rect x="750.0" y="123.0" width="20.0" height="26.0" rx="8.0" fill="#378a61"/><circle cx="760" cy="112" r="9.5" fill="#8d5a3b"/><path d="M 747.0 107.0 L 773.0 107.0 L 768.0 98.0 L 752.0 98.0 Z" fill="#5f6b76"/><path d="M 770 132 L 822 96" stroke="#5f6b76" stroke-width="2.4"/><path d="M 822 96 L 816 212" stroke="#5f6b76" stroke-width="1" stroke-dasharray="3 3"/><text class="sc-lab" x="766" y="92" text-anchor="middle">angler</text><g class="reveal-step" data-step-group="cj" data-step="1"><g class="a-move" style="--dx:-70px; --dy:-6px; --dur:3.5s; --delay:0s;"><circle cx="176" cy="206" r="11" fill="#f4c35b" stroke="#b8600f" stroke-width="2"/><text class="sc-coin" x="176" y="210" text-anchor="middle">$</text></g><g class="a-ski fb"><path d="M 214 182 L 270 182 Q 276 182 272 190 L 220 192 Q 210 190 214 182 Z" fill="#c9504d"/><rect x="236" y="174" width="18" height="9" rx="3" fill="#1f2933"/><rect x="236.0" y="166.8" width="16.0" height="20.8" rx="6.4" fill="#7657a5"/><circle cx="244" cy="158" r="7.6" fill="#c68e62"/><path d="M 210 188 q -14 -4 -26 2 M 210 192 q -16 2 -30 10" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><g class="reveal-step" data-step-group="cj" data-step="2"><path class="a-pulse" style="--delay:0s;" d="M 282 164.0 q 10.0 14.0 0 28.0" fill="none" stroke="#c9504d" stroke-width="2.6" stroke-linecap="round"/><path class="a-pulse" style="--delay:0.3s;" d="M 294 156.8 q 14.8 17.6 0 38.8" fill="none" stroke="#c9504d" stroke-width="2.6" stroke-linecap="round"/><path class="a-pulse" style="--delay:0.6s;" d="M 306 149.6 q 19.6 21.2 0 49.6" fill="none" stroke="#c9504d" stroke-width="2.6" stroke-linecap="round"/></g></g><g class="reveal-step" data-step-group="cj" data-step="1" data-hide-at="2"><rect x="226.0" y="11" width="384.1" height="23" rx="11.5" fill="#2f80c9"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">1 &middot; The trade: the shop rents a jet ski for an hour</text></g></g><g class="reveal-step" data-step-group="cj" data-step="2"><g class="a-ripple fb" style="--delay:0s;"><ellipse cx="560" cy="202" rx="34" ry="10" fill="none" stroke="#fff" stroke-width="2.6"/></g><g class="a-ripple fb" style="--delay:0.8s;"><ellipse cx="604" cy="220" rx="34" ry="10" fill="none" stroke="#fff" stroke-width="2.6"/></g><g class="a-ripple fb" style="--delay:1.6s;"><ellipse cx="648" cy="200" rx="34" ry="10" fill="none" stroke="#fff" stroke-width="2.6"/></g><g class="a-ripple fb" style="--delay:1.2s;"><ellipse cx="480" cy="178" rx="34" ry="10" fill="none" stroke="#fff" stroke-width="2.6"/></g><text class="sc-big a-pulse" x="420" y="128" text-anchor="middle" style="fill:#c9504d">VRRRMMM!</text><g class="a-move" style="--dx:26px; --dy:40px; --dur:3s; --delay:0s;"><path d="M 790 220 q 9 -7 18 0 q -9 7 -18 0 Z M 808 220 l 7 -5 l 0 10 Z" fill="#b8600f"/><path d="M 808 236 q 9 -7 18 0 q -9 7 -18 0 Z M 826 236 l 7 -5 l 0 10 Z" fill="#b8600f"/></g><rect x="257.9" y="11" width="320.2" height="23" rx="11.5" fill="#b8600f"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">2 &middot; Noise and wakes spread across the lake</text></g><g class="reveal-step" data-step-group="cj" data-step="3"><rect x="485.5" y="223" width="235.0" height="23" rx="11.5" fill="#c9504d"/><text class="sc-pill" x="603.0" y="239.5" text-anchor="middle">Swimmers: noise, wakes, danger</text><rect x="606.2" y="47" width="199.5" height="23" rx="11.5" fill="#c9504d"/><text class="sc-pill" x="706.0" y="63.5" text-anchor="middle">Angler: the fish swim off</text></g></svg></div>
+    <div class="button-row" style="margin-top:8px;"><button type="button" class="step-reveal" data-step-group="cj">Play next</button></div>
+    <div class="reveal-step " data-step-group="cj" data-step="4"><div class="definition-strip" style="margin-top:8px; font-size:16px; padding:8px 15px;">The swimmers and the angler bear a cost from the ride, and nobody pays them: a <strong>negative externality</strong>, this time from <strong>consuming</strong>. The rider&rsquo;s fun is someone else&rsquo;s noise.</div></div>
+    <div class="src">Made-up example. We come back to these jet skis in today&rsquo;s check.</div>
+  </section>
+
+  <!-- 4 case_bees -->
+  <section class="slide interactive">
+    <div class="section-kicker">case 3 of 4 &middot; hands up</div>
+    <h1>Bees that work next door</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:8px 16px;"><div class="market-label">Vote first</div>
+      <p style="font-size:17.5px;">A beekeeper sells honey at a roadside stand. The beekeeper is happy. The customer is happy. <strong>Who else gains, without paying?</strong></p></div>
+    <div class="scene-wrap"><svg class="scene" viewBox="0 0 836 290" role="img" aria-label="A beekeeper's yard with three hives and a roadside honey stand, a fence, and a neighbor's blueberry field. Step 1: a customer buys a jar of honey. Step 2: bees fly over the fence to the blueberry blossoms and back. Step 3: the blossoms turn into blueberries, and the grower is labeled as a third party who gains without paying"><rect width="836" height="290" fill="#eef5fb"/><rect y="150" width="410" height="140" fill="#dfeecf"/><rect x="410" y="150" width="426" height="140" fill="#cfe5c2"/><rect x="405" y="140" width="6" height="22" fill="#8a5a3b"/><rect x="405" y="170" width="6" height="22" fill="#8a5a3b"/><rect x="405" y="200" width="6" height="22" fill="#8a5a3b"/><rect x="405" y="230" width="6" height="22" fill="#8a5a3b"/><rect x="405" y="260" width="6" height="22" fill="#8a5a3b"/><path d="M 408 150 L 408 290" stroke="#a07a52" stroke-width="3" stroke-dasharray="2 8"/><rect x="56.0" y="203.0" width="20.0" height="26.0" rx="8.0" fill="#f3f4f6"/><circle cx="66" cy="192" r="9.5" fill="#e8b48f"/><path d="M 53.0 187.0 L 79.0 187.0 L 74.0 178.0 L 58.0 178.0 Z" fill="#e8d6a8"/><text class="sc-lab" x="66" y="150" text-anchor="middle">beekeeper</text><text class="sc-sub" x="66" y="164" text-anchor="middle">the seller</text><rect x="124" y="196" width="46" height="13" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="124" y="209" width="46" height="13" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="124" y="222" width="46" height="13" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="121" y="190" width="52" height="7" fill="#9aa3ab"/><rect x="142" y="231" width="10" height="4" fill="#1f2933"/><rect x="186" y="196" width="46" height="13" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="186" y="209" width="46" height="13" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="186" y="222" width="46" height="13" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="183" y="190" width="52" height="7" fill="#9aa3ab"/><rect x="204" y="231" width="10" height="4" fill="#1f2933"/><rect x="248" y="196" width="46" height="13" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="248" y="209" width="46" height="13" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="248" y="222" width="46" height="13" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="245" y="190" width="52" height="7" fill="#9aa3ab"/><rect x="266" y="231" width="10" height="4" fill="#1f2933"/><text class="sc-sub" x="209" y="178" text-anchor="middle">hives</text><rect x="20" y="268" width="120" height="8" fill="#8a5a3b"/><rect x="32" y="252" width="14" height="16" rx="3" fill="#f4c35b" stroke="#b8600f" stroke-width="1.2"/><rect x="52" y="252" width="14" height="16" rx="3" fill="#f4c35b" stroke="#b8600f" stroke-width="1.2"/><rect x="72" y="252" width="14" height="16" rx="3" fill="#f4c35b" stroke="#b8600f" stroke-width="1.2"/><rect x="92" y="252" width="14" height="16" rx="3" fill="#f4c35b" stroke="#b8600f" stroke-width="1.2"/><rect x="112" y="252" width="14" height="16" rx="3" fill="#f4c35b" stroke="#b8600f" stroke-width="1.2"/><rect x="171.0" y="249.9" width="18.0" height="23.4" rx="7.2" fill="#2f80c9"/><circle cx="180" cy="240" r="8.6" fill="#c68e62"/><text class="sc-sub" x="196" y="284" text-anchor="start">customer: the buyer</text><circle cx="460" cy="200" r="20" fill="#3f7d4a"/><circle cx="451" cy="194" r="3" fill="#fff"/><circle cx="466" cy="190" r="3" fill="#fff"/><circle cx="470" cy="204" r="3" fill="#fff"/><circle cx="456" cy="208" r="3" fill="#fff"/><circle cx="522" cy="200" r="20" fill="#3f7d4a"/><circle cx="513" cy="194" r="3" fill="#fff"/><circle cx="528" cy="190" r="3" fill="#fff"/><circle cx="532" cy="204" r="3" fill="#fff"/><circle cx="518" cy="208" r="3" fill="#fff"/><circle cx="584" cy="200" r="20" fill="#3f7d4a"/><circle cx="575" cy="194" r="3" fill="#fff"/><circle cx="590" cy="190" r="3" fill="#fff"/><circle cx="594" cy="204" r="3" fill="#fff"/><circle cx="580" cy="208" r="3" fill="#fff"/><circle cx="646" cy="200" r="20" fill="#3f7d4a"/><circle cx="637" cy="194" r="3" fill="#fff"/><circle cx="652" cy="190" r="3" fill="#fff"/><circle cx="656" cy="204" r="3" fill="#fff"/><circle cx="642" cy="208" r="3" fill="#fff"/><circle cx="708" cy="200" r="20" fill="#3f7d4a"/><circle cx="699" cy="194" r="3" fill="#fff"/><circle cx="714" cy="190" r="3" fill="#fff"/><circle cx="718" cy="204" r="3" fill="#fff"/><circle cx="704" cy="208" r="3" fill="#fff"/><circle cx="770" cy="200" r="20" fill="#3f7d4a"/><circle cx="761" cy="194" r="3" fill="#fff"/><circle cx="776" cy="190" r="3" fill="#fff"/><circle cx="780" cy="204" r="3" fill="#fff"/><circle cx="766" cy="208" r="3" fill="#fff"/><circle cx="460" cy="250" r="20" fill="#3f7d4a"/><circle cx="451" cy="244" r="3" fill="#fff"/><circle cx="466" cy="240" r="3" fill="#fff"/><circle cx="470" cy="254" r="3" fill="#fff"/><circle cx="456" cy="258" r="3" fill="#fff"/><circle cx="522" cy="250" r="20" fill="#3f7d4a"/><circle cx="513" cy="244" r="3" fill="#fff"/><circle cx="528" cy="240" r="3" fill="#fff"/><circle cx="532" cy="254" r="3" fill="#fff"/><circle cx="518" cy="258" r="3" fill="#fff"/><circle cx="584" cy="250" r="20" fill="#3f7d4a"/><circle cx="575" cy="244" r="3" fill="#fff"/><circle cx="590" cy="240" r="3" fill="#fff"/><circle cx="594" cy="254" r="3" fill="#fff"/><circle cx="580" cy="258" r="3" fill="#fff"/><circle cx="646" cy="250" r="20" fill="#3f7d4a"/><circle cx="637" cy="244" r="3" fill="#fff"/><circle cx="652" cy="240" r="3" fill="#fff"/><circle cx="656" cy="254" r="3" fill="#fff"/><circle cx="642" cy="258" r="3" fill="#fff"/><circle cx="708" cy="250" r="20" fill="#3f7d4a"/><circle cx="699" cy="244" r="3" fill="#fff"/><circle cx="714" cy="240" r="3" fill="#fff"/><circle cx="718" cy="254" r="3" fill="#fff"/><circle cx="704" cy="258" r="3" fill="#fff"/><circle cx="770" cy="250" r="20" fill="#3f7d4a"/><circle cx="761" cy="244" r="3" fill="#fff"/><circle cx="776" cy="240" r="3" fill="#fff"/><circle cx="780" cy="254" r="3" fill="#fff"/><circle cx="766" cy="258" r="3" fill="#fff"/><rect x="780.0" y="139.0" width="20.0" height="26.0" rx="8.0" fill="#b8600f"/><circle cx="790" cy="128" r="9.5" fill="#8d5a3b"/><path d="M 777.0 123.0 L 803.0 123.0 L 798.0 114.0 L 782.0 114.0 Z" fill="#5f6b76"/><text class="sc-lab" x="712" y="120" text-anchor="end">blueberry grower</text><text class="sc-sub" x="712" y="134" text-anchor="end">next door: not in the deal</text><g class="reveal-step" data-step-group="cb" data-step="1"><g class="a-move" style="--dx:-90px; --dy:-40px; --dur:4s; --delay:0s;"><circle cx="166" cy="246" r="11" fill="#f4c35b" stroke="#b8600f" stroke-width="2"/><text class="sc-coin" x="166" y="250" text-anchor="middle">$</text></g><g class="a-move" style="--dx:56px; --dy:-10px; --dur:4s; --delay:0.6s;"><rect x="112" y="252" width="14" height="16" rx="3" fill="#f4c35b" stroke="#b8600f" stroke-width="1.2"/></g><g class="reveal-step" data-step-group="cb" data-step="1" data-hide-at="2"><rect x="233.1" y="11" width="369.9" height="23" rx="11.5" fill="#2f80c9"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">1 &middot; The trade: the beekeeper sells a jar of honey</text></g></g><g class="reveal-step" data-step-group="cb" data-step="2"><g class="a-bee" style="--dx:330px; --dy:10px; --dur:3.6s; --delay:0s;"><ellipse cx="148" cy="180" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="153" cy="180" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="150" cy="186" rx="7" ry="4.6" fill="#f4c35b"/><rect x="148.5" y="181.5" width="3" height="9" fill="#1f2933"/></g><g class="a-bee" style="--dx:390px; --dy:58px; --dur:4.2s; --delay:0.5s;"><ellipse cx="208" cy="178" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="213" cy="178" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="210" cy="184" rx="7" ry="4.6" fill="#f4c35b"/><rect x="208.5" y="179.5" width="3" height="9" fill="#1f2933"/></g><g class="a-bee" style="--dx:270px; --dy:20px; --dur:3.4s; --delay:1.1s;"><ellipse cx="268" cy="180" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="273" cy="180" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="270" cy="186" rx="7" ry="4.6" fill="#f4c35b"/><rect x="268.5" y="181.5" width="3" height="9" fill="#1f2933"/></g><g class="a-bee" style="--dx:470px; --dy:64px; --dur:4.6s; --delay:1.6s;"><ellipse cx="158" cy="182" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="163" cy="182" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="160" cy="188" rx="7" ry="4.6" fill="#f4c35b"/><rect x="158.5" y="183.5" width="3" height="9" fill="#1f2933"/></g><g class="a-bee" style="--dx:520px; --dy:12px; --dur:4.0s; --delay:2.2s;"><ellipse cx="238" cy="180" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="243" cy="180" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="240" cy="186" rx="7" ry="4.6" fill="#f4c35b"/><rect x="238.5" y="181.5" width="3" height="9" fill="#1f2933"/></g><g class="a-bee" style="--dx:600px; --dy:58px; --dur:4.8s; --delay:2.8s;"><ellipse cx="194" cy="184" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="199" cy="184" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="196" cy="190" rx="7" ry="4.6" fill="#f4c35b"/><rect x="194.5" y="185.5" width="3" height="9" fill="#1f2933"/></g><rect x="215.3" y="11" width="405.4" height="23" rx="11.5" fill="#b8600f"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">2 &middot; The bees fly next door, and pollinate the blossoms</text></g><g class="reveal-step" data-step-group="cb" data-step="3"><g class="a-pop fb" style="--delay:0.00s;"><circle cx="451" cy="194" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.12s;"><circle cx="466" cy="190" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.24s;"><circle cx="470" cy="204" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.36s;"><circle cx="456" cy="208" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.48s;"><circle cx="460" cy="199" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.60s;"><circle cx="513" cy="194" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.72s;"><circle cx="528" cy="190" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.84s;"><circle cx="532" cy="204" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.96s;"><circle cx="518" cy="208" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:1.08s;"><circle cx="522" cy="199" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:1.20s;"><circle cx="575" cy="194" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:1.32s;"><circle cx="590" cy="190" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.00s;"><circle cx="594" cy="204" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.12s;"><circle cx="580" cy="208" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.24s;"><circle cx="584" cy="199" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.36s;"><circle cx="637" cy="194" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.48s;"><circle cx="652" cy="190" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.60s;"><circle cx="656" cy="204" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.72s;"><circle cx="642" cy="208" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.84s;"><circle cx="646" cy="199" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.96s;"><circle cx="699" cy="194" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:1.08s;"><circle cx="714" cy="190" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:1.20s;"><circle cx="718" cy="204" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:1.32s;"><circle cx="704" cy="208" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.00s;"><circle cx="708" cy="199" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.12s;"><circle cx="761" cy="194" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.24s;"><circle cx="776" cy="190" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.36s;"><circle cx="780" cy="204" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.48s;"><circle cx="766" cy="208" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.60s;"><circle cx="770" cy="199" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.72s;"><circle cx="451" cy="244" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.84s;"><circle cx="466" cy="240" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.96s;"><circle cx="470" cy="254" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:1.08s;"><circle cx="456" cy="258" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:1.20s;"><circle cx="460" cy="249" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:1.32s;"><circle cx="513" cy="244" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.00s;"><circle cx="528" cy="240" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.12s;"><circle cx="532" cy="254" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.24s;"><circle cx="518" cy="258" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.36s;"><circle cx="522" cy="249" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.48s;"><circle cx="575" cy="244" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.60s;"><circle cx="590" cy="240" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.72s;"><circle cx="594" cy="254" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.84s;"><circle cx="580" cy="258" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.96s;"><circle cx="584" cy="249" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:1.08s;"><circle cx="637" cy="244" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:1.20s;"><circle cx="652" cy="240" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:1.32s;"><circle cx="656" cy="254" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.00s;"><circle cx="642" cy="258" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.12s;"><circle cx="646" cy="249" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.24s;"><circle cx="699" cy="244" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.36s;"><circle cx="714" cy="240" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.48s;"><circle cx="718" cy="254" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.60s;"><circle cx="704" cy="258" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.72s;"><circle cx="708" cy="249" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.84s;"><circle cx="761" cy="244" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:0.96s;"><circle cx="776" cy="240" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:1.08s;"><circle cx="780" cy="254" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:1.20s;"><circle cx="766" cy="258" r="4.6" fill="#3b4fa8"/></g><g class="a-pop fb" style="--delay:1.32s;"><circle cx="770" cy="249" r="4.6" fill="#3b4fa8"/></g><rect x="460.6" y="151" width="298.9" height="23" rx="11.5" fill="#378a61"/><text class="sc-pill" x="610.0" y="167.5" text-anchor="middle">Grower: more berries, never paid a cent</text></g></svg></div>
+    <div class="button-row" style="margin-top:8px;"><button type="button" class="step-reveal" data-step-group="cb">Play next</button></div>
+    <div class="reveal-step " data-step-group="cb" data-step="4"><div class="definition-strip" style="margin-top:8px; font-size:16px; padding:8px 15px;">The grower next door gets more blueberries from the bees and pays nothing for them: a <strong>positive externality</strong>, from <strong>producing</strong> honey.</div></div>
+    <div class="src">Made-up example. Bees come back on Wednesday: can the grower and the beekeeper strike a deal?</div>
+  </section>
+
+  <!-- 5 case_flu -->
+  <section class="slide interactive">
+    <div class="section-kicker">case 4 of 4 &middot; hands up</div>
+    <h1>A flu shot protects more than you</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:8px 16px;"><div class="market-label">Vote first</div>
+      <p style="font-size:17.5px;">You pay for a flu shot at Student Health. You are happy. The clinic is happy. <strong>Who else gains?</strong></p></div>
+    <div class="scene-wrap"><svg class="scene" viewBox="0 0 836 290" role="img" aria-label="Left: Student Health, where a nurse gives you a flu shot. Right: five students in a row; the one at the far right is sick. Step 1: you pay for the shot and a shield appears around you. Step 2: the flu spreads from the sick student to the next one, then stops at you. Step 3: your roommate and the classmate behind you stay healthy and are labeled as third parties who gain without paying"><rect width="836" height="290" fill="#eef5fb"/><rect y="236" width="836" height="54" fill="#e5e8eb"/><rect x="18" y="74" width="240" height="162" fill="#fff" stroke="#9aa3ab" stroke-width="1.4"/><rect x="12" y="64" width="252" height="12" fill="#8a949e"/><rect x="64" y="84" width="150" height="24" rx="3" fill="#2f80c9"/><text class="sc-sub" x="139" y="101" text-anchor="middle" style="fill:#fff">STUDENT HEALTH</text><rect x="34" y="88" width="20" height="6" fill="#c9504d"/><rect x="41" y="81" width="6" height="20" fill="#c9504d"/><rect x="86.0" y="173.0" width="20.0" height="26.0" rx="8.0" fill="#f3f4f6"/><circle cx="96" cy="162" r="9.5" fill="#8d5a3b"/><path d="M 108 182 L 130 176" stroke="#5f6b76" stroke-width="3" stroke-linecap="round"/><text class="sc-sub" x="96" y="226" text-anchor="middle">nurse</text><rect x="150.0" y="173.0" width="20.0" height="26.0" rx="8.0" fill="#2f80c9"/><circle cx="160" cy="162" r="9.5" fill="#f1c7a3"/><text class="sc-sub" x="160" y="226" text-anchor="middle">you: the buyer</text><text class="sc-lab" x="139" y="258" text-anchor="middle">the clinic: seller</text><text class="sc-sub" x="139" y="272" text-anchor="middle">a flu shot</text><rect x="370" y="210" width="450" height="10" fill="#c4a35a"/><rect x="770.0" y="179.0" width="20.0" height="26.0" rx="8.0" fill="#c9504d"/><circle cx="780" cy="168" r="9.5" fill="#c68e62"/><text class="sc-sub" x="780" y="236" text-anchor="middle">sick</text><rect x="680.0" y="179.0" width="20.0" height="26.0" rx="8.0" fill="#7657a5"/><circle cx="690" cy="168" r="9.5" fill="#e8b48f"/><text class="sc-sub" x="690" y="236" text-anchor="middle">classmate</text><rect x="590.0" y="179.0" width="20.0" height="26.0" rx="8.0" fill="#2f80c9"/><circle cx="600" cy="168" r="9.5" fill="#f1c7a3"/><text class="sc-sub" x="600" y="236" text-anchor="middle">you</text><rect x="500.0" y="179.0" width="20.0" height="26.0" rx="8.0" fill="#378a61"/><circle cx="510" cy="168" r="9.5" fill="#8d5a3b"/><text class="sc-sub" x="510" y="236" text-anchor="middle">roommate</text><rect x="410.0" y="179.0" width="20.0" height="26.0" rx="8.0" fill="#b8600f"/><circle cx="420" cy="168" r="9.5" fill="#c68e62"/><text class="sc-sub" x="420" y="236" text-anchor="middle">classmate</text><path d="M 772 162 q 6 6 0 10" fill="none" stroke="#1f2933" stroke-width="1.6"/><text class="sc-sub" x="800" y="146" text-anchor="middle">achoo!</text><g class="reveal-step" data-step-group="cf" data-step="1"><g class="a-move" style="--dx:-50px; --dy:0px; --dur:3.2s; --delay:0s;"><circle cx="160" cy="150" r="11" fill="#f4c35b" stroke="#b8600f" stroke-width="2"/><text class="sc-coin" x="160" y="154" text-anchor="middle">$</text></g><g class="a-pop fb" style="--delay:.4s;"><circle cx="178" cy="146" r="11" fill="#378a61"/><path d="M 173 146 L 176.5 150 L 183.5 141.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><g class="a-pop fb" style="--delay:.9s;"><circle cx="160" cy="178" r="30" fill="none" stroke="#378a61" stroke-width="3.4" stroke-dasharray="6 4"/></g><g class="a-pop fb" style="--delay:1.2s;"><circle cx="600" cy="182" r="34" fill="none" stroke="#378a61" stroke-width="3.4" stroke-dasharray="6 4"/></g><g class="reveal-step" data-step-group="cf" data-step="1" data-hide-at="2"><rect x="275.6" y="11" width="284.7" height="23" rx="11.5" fill="#2f80c9"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">1 &middot; The trade: you pay for a flu shot</text></g></g><g class="reveal-step" data-step-group="cf" data-step="2"><g class="a-move" style="--dx:-66px; --dy:6px; --dur:3.2s; --delay:0s;"><path d="M 760 150 l 11.2 0.0 M 760 150 l -11.2 0.0 M 760 150 l 0.0 11.2 M 760 150 l 0.0 -11.2 M 760 150 l 7.8 7.8 M 760 150 l -7.8 7.8 M 760 150 l 7.8 -7.8 M 760 150 l -7.8 -7.8" stroke="#c9504d" stroke-width="2"/><circle cx="760" cy="150" r="7" fill="#e57b78"/></g><g class="a-move" style="--dx:-70px; --dy:-4px; --dur:3.2s; --delay:1.0s;"><path d="M 760 176 l 11.2 0.0 M 760 176 l -11.2 0.0 M 760 176 l 0.0 11.2 M 760 176 l 0.0 -11.2 M 760 176 l 7.8 7.8 M 760 176 l -7.8 7.8 M 760 176 l 7.8 -7.8 M 760 176 l -7.8 -7.8" stroke="#c9504d" stroke-width="2"/><circle cx="760" cy="176" r="7" fill="#e57b78"/></g><g class="a-move" style="--dx:-40px; --dy:4px; --dur:3.2s; --delay:1.6s;"><path d="M 674 160 l 11.2 0.0 M 674 160 l -11.2 0.0 M 674 160 l 0.0 11.2 M 674 160 l 0.0 -11.2 M 674 160 l 7.8 7.8 M 674 160 l -7.8 7.8 M 674 160 l 7.8 -7.8 M 674 160 l -7.8 -7.8" stroke="#c9504d" stroke-width="2"/><circle cx="674" cy="160" r="7" fill="#e57b78"/></g><g class="a-move" style="--dx:-38px; --dy:-6px; --dur:3.2s; --delay:2.4s;"><path d="M 674 186 l 11.2 0.0 M 674 186 l -11.2 0.0 M 674 186 l 0.0 11.2 M 674 186 l 0.0 -11.2 M 674 186 l 7.8 7.8 M 674 186 l -7.8 7.8 M 674 186 l 7.8 -7.8 M 674 186 l -7.8 -7.8" stroke="#c9504d" stroke-width="2"/><circle cx="674" cy="186" r="7" fill="#e57b78"/></g><g class="a-pop fb" style="--delay:1.8s;"><circle cx="690" cy="168" r="9.5" fill="#d9e8a8"/><text class="sc-sub" x="712" y="150" text-anchor="start" style="fill:#c9504d">now sick</text></g><rect x="176.2" y="11" width="483.5" height="23" rx="11.5" fill="#b8600f"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">2 &middot; Flu season: it spreads person to person, until it reaches you</text></g><g class="reveal-step" data-step-group="cf" data-step="3"><g class="a-pop fb" style="--delay:.1s;"><circle cx="510" cy="140" r="11" fill="#378a61"/><path d="M 505 140 L 508.5 144 L 515.5 135.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><g class="a-pop fb" style="--delay:.4s;"><circle cx="420" cy="140" r="11" fill="#378a61"/><path d="M 415 140 L 418.5 144 L 425.5 135.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><rect x="299.6" y="97" width="440.9" height="23" rx="11.5" fill="#378a61"/><text class="sc-pill" x="520.0" y="113.5" text-anchor="middle">Roommate, classmates: less likely to get sick, paid nothing</text></g></svg></div>
+    <div class="button-row" style="margin-top:8px;"><button type="button" class="step-reveal" data-step-group="cf">Play next</button></div>
+    <div class="reveal-step " data-step-group="cf" data-step="4"><div class="definition-strip" style="margin-top:8px; font-size:16px; padding:8px 15px;">Your roommate and classmates are less likely to catch the flu, and they paid nothing for your shot: a <strong>positive externality</strong>, from <strong>consuming</strong>.</div></div>
+    <div class="src">Made-up example. Flu shots come back later today, on a graph.</div>
+  </section>
+
+  <!-- 6 define -->
+  <section class="slide">
+    <div class="section-kicker">the four cases, side by side</div>
+    <h1>What is an externality?</h1>
+    <div class="definition-strip" style="font-size:19px; padding:12px 17px;">
+      An <strong>externality</strong> (or <strong>spillover</strong>) is a cost or benefit that falls on a <strong>third party</strong>: someone who is neither the buyer nor the seller.
+    </div>
+    <div class="ext-grid">
+      <div></div><div class="ext-h">from producing</div><div class="ext-h">from consuming</div>
+      <div class="ext-h neg">negative<br>a cost on others</div>
+      <div class="ext-cell neg">A hog farm&rsquo;s smell drifts over its neighbors.<small>Third party: the neighbors</small></div>
+      <div class="ext-cell neg">Jet skis roar across a lake.<small>Third party: swimmers and anglers</small></div>
+      <div class="ext-h pos">positive<br>a benefit to others</div>
+      <div class="ext-cell pos">A beekeeper&rsquo;s bees pollinate the farm next door.<small>Third party: the neighboring grower</small></div>
+      <div class="ext-cell pos">Your flu shot keeps your roommate healthy too.<small>Third party: the people around you</small></div>
+    </div>
+    <p class="footer-note muted" style="font-size:15px;">The four cases you just watched. Hogs and flu shots come back later today on a graph; jet skis are today&rsquo;s check; bees return on Wednesday.</p>
+    <div class="src">Definitions: OpenStax, <em>Principles of Economics</em>, Sec. 12.1; Krugman and Wells, <em>Microeconomics</em> 5e, Ch. 16.</div>
+  </section>
+
+  <!-- 7 sort1 -->
+  <section class="slide interactive">
+    <div class="section-kicker">hands up</div>
+    <h1>Positive, negative, or not an externality?</h1>
+    <div class="sort-grid six"><div class="sort-card"><p>A neighbor&rsquo;s floodlight shines into your bedroom all night.</p><span class="reveal-step " data-step-group="s1" data-step="1"><span class="tag neg-t">negative</span><span class="tag-note">You bear a cost you never agreed to.</span></span></div><div class="sort-card"><p>A neighbor restores the old house on your street.</p><span class="reveal-step " data-step-group="s1" data-step="2"><span class="tag pos-t">positive</span><span class="tag-note">Nearby homes are worth more.</span></span></div><div class="sort-card"><p>A driver texts while driving.</p><span class="reveal-step " data-step-group="s1" data-step="3"><span class="tag neg-t">negative</span><span class="tag-note">Other drivers and people on foot bear the risk.</span></span></div><div class="sort-card"><p>Every house on your street installs a burglar alarm, except yours.</p><span class="reveal-step " data-step-group="s1" data-step="4"><span class="tag pos-t">positive</span><span class="tag-note">Burglars skip the street, including your house.</span></span></div><div class="sort-card"><p>You buy a used phone, and it dies a week later.</p><span class="reveal-step " data-step-group="s1" data-step="5"><span class="tag not-t">not an externality</span><span class="tag-note">The cost falls on the buyer. No third party.</span></span></div><div class="sort-card"><p>Your neighbor keeps backyard beehives, and you are allergic to stings.</p><span class="reveal-step " data-step-group="s1" data-step="6"><span class="tag both-t">both</span><span class="tag-note">The bees pollinate your tomatoes, and they might sting you.</span></span></div></div>
+    <div class="button-row" style="margin-top:10px;"><button type="button" class="step-reveal" data-step-group="s1">Reveal next</button></div>
+    <div class="reveal-step " data-step-group="s1" data-step="7"><div class="definition-strip blue-strip" style="margin-top:10px; font-size:17px; padding:10px 15px;">First ask: <strong>is someone outside the transaction affected?</strong> If not, it is not an externality, however bad it is (a lemon, a cartel, a risky choice you make).</div></div>
+    <div class="src">Burglar alarms adapted from Krugman and Wells, <em>Microeconomics</em> 5e lecture slides, Ch. 16; restored houses from OpenStax Sec. 13.1.</div>
+  </section>
+
+  <!-- 8 social -->
+  <section class="slide">
+    <div class="section-kicker">private vs. social</div>
+    <h1>The market sees only part of the picture</h1>
+    <div class="cmp-grid">
+      <div class="card purple-top"><h3 class="purple">Costs</h3>
+        <div class="eq-big"><span class="soc-c">MSC</span> = <span class="pri-c">MPC</span> + MEC</div>
+        <div class="term"><b class="red">MPC</b><span>marginal private cost: what the seller pays for one more unit (feed, labor). The supply curve.</span>
+          <b>MEC</b><span>marginal external cost: what one more unit costs the third party.</span>
+          <b class="purple">MSC</b><span>marginal social cost: the cost to everyone.</span></div></div>
+      <div class="card green-top"><h3 class="green">Benefits</h3>
+        <div class="eq-big"><span class="soc-b">MSB</span> = <span class="pri-b">MPB</span> + MEB</div>
+        <div class="term"><b class="blue">MPB</b><span>marginal private benefit: what the buyer would pay for one more unit. The demand curve.</span>
+          <b>MEB</b><span>marginal external benefit: what one more unit is worth to the third party.</span>
+          <b class="green">MSB</b><span>marginal social benefit: the value to everyone.</span></div></div>
+    </div>
+    <div class="definition-strip" style="margin-top:12px; font-size:17px; padding:10px 15px;">The market only sees the <strong>private</strong> curves (supply and demand). Society counts both.</div>
+    <div class="definition-strip red-strip" style="margin-top:8px; font-size:15.5px; padding:8px 15px;">A firm that does not pay its external cost does not face its full cost. Make it pay, and its marginal cost rises.</div>
+    <div class="definition-strip blue-strip" style="margin-top:8px; font-size:15.5px; padding:8px 15px;">Unit 5: benefits are measured by <strong>willingness to pay</strong> for one more unit. MSB adds what everyone else would pay.</div>
+  </section>
+
+  <!-- 9 parts_cost -->
+  <section class="slide interactive">
+    <div class="section-kicker">one unit, taken apart &middot; 1 of 2 &middot; the hog farm</div>
+    <h1>One more hog: who pays which part?</h1>
+    <div class="scene-wrap"><svg class="scene" viewBox="0 0 836 380" role="img" aria-label="Left: the hog farm, with barns, a feed bin, a worker and a lagoon, and its neighbors. Right: a chart of dollars a hog against thousand hogs a week, with one bar at 50 thousand hogs. Step 1: the farm's own costs (feed 100, labor 35, vet and power 25 dollars) stack up to a marginal private cost of 160 dollars. Step 2: the neighbors' costs (smell and flies 25, well water 15) add a marginal external cost of 40 dollars on top. Step 3: the whole bar, 200 dollars, is the marginal social cost. Step 4: bars for every quantity appear, and lines through their tops trace the supply curve, MPC, and the marginal social cost curve"><rect width="836" height="380" fill="#fff"/><rect width="446" height="380" fill="#eef5fb"/><path d="M 446 0 L 446 380" stroke="#d8dde3" stroke-width="1.5"/><rect y="150" width="446" height="230" fill="#dfeecf"/><rect x="18" y="178" width="196" height="24" fill="#f3f4f6" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 12 179 L 24 169 L 208 169 L 220 179 Z" fill="#8a949e"/><rect x="32" y="185" width="12" height="7" fill="#c4ccd3"/><rect x="58" y="185" width="12" height="7" fill="#c4ccd3"/><rect x="84" y="185" width="12" height="7" fill="#c4ccd3"/><rect x="110" y="185" width="12" height="7" fill="#c4ccd3"/><rect x="136" y="185" width="12" height="7" fill="#c4ccd3"/><rect x="162" y="185" width="12" height="7" fill="#c4ccd3"/><rect x="188" y="185" width="12" height="7" fill="#c4ccd3"/><rect x="18" y="212" width="196" height="24" fill="#f3f4f6" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 12 213 L 24 203 L 208 203 L 220 213 Z" fill="#8a949e"/><rect x="32" y="219" width="12" height="7" fill="#c4ccd3"/><rect x="58" y="219" width="12" height="7" fill="#c4ccd3"/><rect x="84" y="219" width="12" height="7" fill="#c4ccd3"/><rect x="110" y="219" width="12" height="7" fill="#c4ccd3"/><rect x="136" y="219" width="12" height="7" fill="#c4ccd3"/><rect x="162" y="219" width="12" height="7" fill="#c4ccd3"/><rect x="188" y="219" width="12" height="7" fill="#c4ccd3"/><rect x="230" y="150" width="30" height="86" fill="#c4ccd3" stroke="#9aa3ab"/><ellipse cx="245" cy="150" rx="15" ry="7" fill="#9aa3ab"/><text class="sc-sub" x="245" y="252" text-anchor="middle">feed</text><rect x="243.0" y="281.9" width="18.0" height="23.4" rx="7.2" fill="#b8600f"/><circle cx="252" cy="272" r="8.6" fill="#c68e62"/><text class="sc-sub" x="252" y="322" text-anchor="middle">labor</text><ellipse cx="108" cy="300" rx="84" ry="22" fill="#b98b6e"/><text class="sc-sub" x="108" y="304" text-anchor="middle" style="fill:#fff">lagoon</text><text class="sc-lab" x="116" y="146" text-anchor="middle">the hog farm</text><rect x="304" y="176" width="40" height="28" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 299 177 L 324.0 160.6 L 349 177 Z" fill="#8a949e"/><rect x="318.0" y="189" width="12" height="15" fill="#c9a27a"/><rect x="370" y="168" width="40" height="28" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 365 169 L 390.0 152.6 L 415 169 Z" fill="#8a949e"/><rect x="384.0" y="181" width="12" height="15" fill="#c9a27a"/><rect x="316" y="296" width="44" height="28" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 311 297 L 338.0 280.6 L 365 297 Z" fill="#8a949e"/><rect x="332.0" y="309" width="12" height="15" fill="#c9a27a"/><rect x="392" y="304" width="22" height="18" fill="#9aa3ab"/><path d="M 386 304 L 403 290 L 420 304 Z" fill="#8a949e"/><text class="sc-lab" x="362" y="146" text-anchor="middle">the neighbors</text><path d="M 478 54 L 478 318 L 822 318" fill="none" stroke="#1f2933" stroke-width="1.6"/><path d="M 478 281.1 L 822 281.1" stroke="#e5e8eb" stroke-width="1"/><text class="sc-sub" x="472" y="285.1" text-anchor="end">$40</text><path d="M 478 244.3 L 822 244.3" stroke="#e5e8eb" stroke-width="1"/><text class="sc-sub" x="472" y="248.3" text-anchor="end">$80</text><path d="M 478 207.4 L 822 207.4" stroke="#e5e8eb" stroke-width="1"/><text class="sc-sub" x="472" y="211.4" text-anchor="end">$120</text><path d="M 478 170.6 L 822 170.6" stroke="#e5e8eb" stroke-width="1"/><text class="sc-sub" x="472" y="174.6" text-anchor="end">$160</text><path d="M 478 133.7 L 822 133.7" stroke="#e5e8eb" stroke-width="1"/><text class="sc-sub" x="472" y="137.7" text-anchor="end">$200</text><path d="M 478 96.9 L 822 96.9" stroke="#e5e8eb" stroke-width="1"/><text class="sc-sub" x="472" y="100.9" text-anchor="end">$240</text><text class="sc-sub" x="519.3" y="334" text-anchor="middle">10</text><text class="sc-sub" x="560.6" y="334" text-anchor="middle">20</text><text class="sc-sub" x="601.9" y="334" text-anchor="middle">30</text><text class="sc-sub" x="643.3" y="334" text-anchor="middle">40</text><text class="sc-sub" x="725.9" y="334" text-anchor="middle">60</text><text class="sc-sub" x="767.2" y="334" text-anchor="middle">70</text><text class="sc-sub" x="635.0" y="352" text-anchor="middle">thousand hogs a week</text><text class="sc-sub" x="482" y="50" text-anchor="start">$ a hog</text><text class="sc-lab" x="684.6" y="334" text-anchor="middle">50</text><g class="reveal-step" data-step-group="mc" data-step="1"><rect x="8" y="128" width="268" height="232" rx="12" fill="none" stroke="#c9504d" stroke-width="2.6" stroke-dasharray="7 5"/><rect x="67.1" y="103" width="149.8" height="23" rx="11.5" fill="#c9504d"/><text class="sc-pill" x="142.0" y="119.5" text-anchor="middle">The farm pays: MPC</text><g class="a-grow" style="--delay:0.3s;"><rect x="671.6" y="225.9" width="26" height="92.1" fill="#e3908d" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:0.8999999999999999s;"><rect x="671.6" y="193.6" width="26" height="32.2" fill="#d46f6b" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:1.5s;"><rect x="671.6" y="170.6" width="26" height="23.0" fill="#c9504d" stroke="#fff" stroke-width="1"/></g></g><g class="reveal-step" data-step-group="mc" data-step="1" data-hide-at="4"><path d="M 698.6 271.9 L 708.6 271.9" stroke="#9aa3ab"/><text class="sc-sub" x="711.6" y="275.9" text-anchor="start" style="fill:#e3908d">feed $100</text><path d="M 698.6 209.7 L 708.6 209.7" stroke="#9aa3ab"/><text class="sc-sub" x="711.6" y="213.7" text-anchor="start" style="fill:#d46f6b">labor $35</text><path d="M 698.6 182.1 L 708.6 182.1" stroke="#9aa3ab"/><text class="sc-sub" x="711.6" y="186.1" text-anchor="start" style="fill:#c9504d">vet, power $25</text><path d="M 668.6 318.0 L 662.6 318.0 L 662.6 170.6 L 668.6 170.6" fill="none" stroke="#c9504d" stroke-width="2.6"/><text class="sc-lab" x="654.6" y="248.3" text-anchor="end" style="fill:#c9504d">MPC = $160</text><text class="sc-sub" x="684.6" y="368" text-anchor="middle" style="fill:#1f2933">the 50,000th hog</text><g class="a-move" style="--dx:440px; --dy:76px; --dur:3.2s; --delay:0s;"><circle cx="245" cy="196" r="11" fill="#f4c35b" stroke="#b8600f" stroke-width="2"/><text class="sc-coin" x="245" y="200" text-anchor="middle">$</text></g><g class="a-move" style="--dx:433px; --dy:-59px; --dur:3.2s; --delay:0.7s;"><circle cx="252" cy="268" r="11" fill="#f4c35b" stroke="#b8600f" stroke-width="2"/><text class="sc-coin" x="252" y="272" text-anchor="middle">$</text></g><g class="a-move" style="--dx:565px; --dy:-10px; --dur:3.2s; --delay:1.4s;"><circle cx="120" cy="192" r="11" fill="#f4c35b" stroke="#b8600f" stroke-width="2"/><text class="sc-coin" x="120" y="196" text-anchor="middle">$</text></g></g><g class="reveal-step" data-step-group="mc" data-step="2"><rect x="288" y="128" width="150" height="232" rx="12" fill="none" stroke="#7657a5" stroke-width="2.6" stroke-dasharray="7 5"/><rect x="287.1" y="103" width="149.8" height="23" rx="11.5" fill="#7657a5"/><text class="sc-pill" x="362.0" y="119.5" text-anchor="middle">Neighbors pay: MEC</text><g class="a-drift fb" style="--dx:240px; --dy:-6px; --dur:3.4s; --delay:0s;"><circle cx="70" cy="188" r="8" fill="#8f8a3e"/><circle cx="80" cy="182" r="10" fill="#8f8a3e"/><circle cx="91" cy="187" r="8" fill="#8f8a3e"/></g><g class="a-drift fb" style="--dx:190px; --dy:-16px; --dur:3.4s; --delay:0.8s;"><circle cx="150" cy="192" r="8" fill="#8f8a3e"/><circle cx="160" cy="186" r="10" fill="#8f8a3e"/><circle cx="171" cy="191" r="8" fill="#8f8a3e"/></g><g class="a-drift fb" style="--dx:220px; --dy:4px; --dur:3.4s; --delay:1.6s;"><circle cx="110" cy="288" r="8" fill="#8f8a3e"/><circle cx="120" cy="282" r="10" fill="#8f8a3e"/><circle cx="131" cy="287" r="8" fill="#8f8a3e"/></g><path class="a-dash" d="M 190 306 Q 300 336 400 320" fill="none" stroke="#8d6a4b" stroke-width="3" stroke-dasharray="8 4"/><g class="a-grow" style="--delay:0.6s;"><rect x="671.6" y="147.5" width="26" height="23.0" fill="#9a82c0" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:1.2s;"><rect x="671.6" y="133.7" width="26" height="13.8" fill="#7657a5" stroke="#fff" stroke-width="1"/></g></g><g class="reveal-step" data-step-group="mc" data-step="2" data-hide-at="4"><path d="M 698.6 159.1 L 708.6 159.1" stroke="#9aa3ab"/><text class="sc-sub" x="711.6" y="163.1" text-anchor="start" style="fill:#9a82c0">smell, flies $25</text><path d="M 698.6 140.6 L 708.6 140.6" stroke="#9aa3ab"/><text class="sc-sub" x="711.6" y="144.6" text-anchor="start" style="fill:#7657a5">well water $15</text><path d="M 668.6 170.6 L 662.6 170.6 L 662.6 133.7 L 668.6 133.7" fill="none" stroke="#7657a5" stroke-width="2.6"/><text class="sc-lab" x="654.6" y="156.1" text-anchor="end" style="fill:#7657a5">MEC = $40</text><g class="a-move" style="--dx:295px; --dy:-26px; --dur:3.2s; --delay:0.3s;"><circle cx="390" cy="186" r="9" fill="#9a82c0"/></g><g class="a-move" style="--dx:282px; --dy:-155px; --dur:3.2s; --delay:1.0s;"><circle cx="403" cy="296" r="9" fill="#7657a5"/></g></g><g class="reveal-step" data-step-group="mc" data-step="3" data-hide-at="4"><path d="M 572.6 317.0 L 566.6 317.0 L 566.6 133.7 L 572.6 133.7" fill="none" stroke="#1f2933" stroke-width="2.6"/><text class="sc-big" x="560.6" y="221.9" text-anchor="end" style="fill:#1f2933">MSC</text><text class="sc-lab" x="560.6" y="237.9" text-anchor="end">= $200</text><rect x="483.5" y="5" width="313.1" height="23" rx="11.5" fill="#1f2933"/><text class="sc-pill" x="640.0" y="21.5" text-anchor="middle">3 &middot; MSC = MPC + MEC: the cost to everyone</text></g><g class="reveal-step" data-step-group="mc" data-step="4"><g class="a-grow" style="--delay:0.0s;"><rect x="506.3" y="244.3" width="26" height="73.7" fill="#c9504d" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:0.35s;"><rect x="506.3" y="207.4" width="26" height="36.9" fill="#7657a5" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:0.1s;"><rect x="547.6" y="225.9" width="26" height="92.1" fill="#c9504d" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:0.44999999999999996s;"><rect x="547.6" y="189.0" width="26" height="36.9" fill="#7657a5" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:0.2s;"><rect x="588.9" y="207.4" width="26" height="110.6" fill="#c9504d" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:0.55s;"><rect x="588.9" y="170.6" width="26" height="36.9" fill="#7657a5" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:0.30000000000000004s;"><rect x="630.3" y="189.0" width="26" height="129.0" fill="#c9504d" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:0.65s;"><rect x="630.3" y="152.1" width="26" height="36.9" fill="#7657a5" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:0.4s;"><rect x="712.9" y="152.1" width="26" height="165.9" fill="#c9504d" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:0.75s;"><rect x="712.9" y="115.3" width="26" height="36.9" fill="#7657a5" stroke="#fff" stroke-width="1"/></g><path class="a-draw" style="--delay:0.9s;" pathLength="1" d="M 478.0 262.7 L 767.2 133.7" fill="none" stroke="#c9504d" stroke-width="3.5" stroke-linecap="round"/><path class="a-draw" style="--delay:1.3s;" pathLength="1" d="M 478.0 225.9 L 767.2 96.9" fill="none" stroke="#7657a5" stroke-width="3.5" stroke-linecap="round"/><text class="sc-lab" x="773.2" y="137.7" text-anchor="start" style="fill:#c9504d">S = MPC</text><text class="sc-lab" x="773.2" y="100.9" text-anchor="start" style="fill:#7657a5">MSC</text><rect x="437.3" y="5" width="405.4" height="23" rx="11.5" fill="#2f80c9"/><text class="sc-pill" x="640.0" y="21.5" text-anchor="middle">4 &middot; Every hog: red tops trace MPC, full bars trace MSC</text></g></svg></div>
+    <div class="button-row" style="margin-top:8px;"><button type="button" class="step-reveal" data-step-group="mc">Play next</button></div>
+    <div class="reveal-step " data-step-group="mc" data-step="5"><div class="definition-strip" style="margin-top:8px; font-size:15.5px; padding:8px 15px;">Do this for every hog: the red tops trace the <strong>supply curve (MPC)</strong>; the full bars trace <strong>MSC</strong>. The purple part between them is the <strong>MEC</strong>: the same $40 at every quantity.</div></div>
+    <div class="src">Made-up numbers, the same as the next graphs: MPC = $60 + 2Q; MEC = $40 a hog (smell and flies $25, well water $15); Q in thousands of hogs a week.</div>
+  </section>
+
+  <!-- 10 parts_bees -->
+  <section class="slide interactive">
+    <div class="section-kicker">one unit, taken apart &middot; 2 of 2 &middot; the bees</div>
+    <h1>One more jar of honey: who gets what?</h1>
+    <div class="scene-wrap"><svg class="scene" viewBox="0 0 836 380" role="img" aria-label="Left: a beekeeper with two hives and a roadside honey stand with a customer; over the fence, blueberry bushes and two apple trees. Right: a chart of dollars a jar against hundred jars of honey a season, with one bar at 60 hundred jars. Step 1: the jar is worth 6 dollars to the customer, the marginal private benefit. Step 2: the bees pollinate the farms next door, worth 3 dollars of blueberries and 1 dollar of apples, a marginal external benefit of 4 dollars on top. Step 3: the whole bar, 10 dollars, is the marginal social benefit. Step 4: bars for every quantity appear, and lines through their tops trace the demand for honey, MPB, and the marginal social benefit"><rect width="836" height="380" fill="#fff"/><rect width="446" height="380" fill="#eef5fb"/><path d="M 446 0 L 446 380" stroke="#d8dde3" stroke-width="1.5"/><rect y="150" width="226" height="230" fill="#dfeecf"/><rect x="226" y="150" width="220" height="230" fill="#cfe5c2"/><rect x="223" y="140" width="6" height="22" fill="#8a5a3b"/><rect x="223" y="170" width="6" height="22" fill="#8a5a3b"/><rect x="223" y="200" width="6" height="22" fill="#8a5a3b"/><rect x="223" y="230" width="6" height="22" fill="#8a5a3b"/><rect x="223" y="260" width="6" height="22" fill="#8a5a3b"/><rect x="223" y="290" width="6" height="22" fill="#8a5a3b"/><rect x="223" y="320" width="6" height="22" fill="#8a5a3b"/><rect x="223" y="350" width="6" height="22" fill="#8a5a3b"/><path d="M 226 150 L 226 380" stroke="#a07a52" stroke-width="3" stroke-dasharray="2 8"/><rect x="24.0" y="197.0" width="20.0" height="26.0" rx="8.0" fill="#f3f4f6"/><circle cx="34" cy="186" r="9.5" fill="#e8b48f"/><path d="M 21.0 181.0 L 47.0 181.0 L 42.0 172.0 L 26.0 172.0 Z" fill="#e8d6a8"/><text class="sc-sub" x="34" y="150" text-anchor="middle" style="fill:#1f2933">beekeeper</text><rect x="70" y="196" width="44" height="13" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="70" y="209" width="44" height="13" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="70" y="222" width="44" height="13" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="67" y="190" width="50" height="7" fill="#9aa3ab"/><rect x="87" y="231" width="10" height="4" fill="#1f2933"/><rect x="128" y="196" width="44" height="13" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="128" y="209" width="44" height="13" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="128" y="222" width="44" height="13" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="125" y="190" width="50" height="7" fill="#9aa3ab"/><rect x="145" y="231" width="10" height="4" fill="#1f2933"/><text class="sc-sub" x="121" y="180" text-anchor="middle">hives</text><rect x="14" y="318" width="110" height="8" fill="#8a5a3b"/><rect x="22" y="302" width="14" height="16" rx="3" fill="#f4c35b" stroke="#b8600f" stroke-width="1.2"/><rect x="42" y="302" width="14" height="16" rx="3" fill="#f4c35b" stroke="#b8600f" stroke-width="1.2"/><rect x="62" y="302" width="14" height="16" rx="3" fill="#f4c35b" stroke="#b8600f" stroke-width="1.2"/><rect x="82" y="302" width="14" height="16" rx="3" fill="#f4c35b" stroke="#b8600f" stroke-width="1.2"/><rect x="102" y="302" width="14" height="16" rx="3" fill="#f4c35b" stroke="#b8600f" stroke-width="1.2"/><rect x="157.0" y="301.9" width="18.0" height="23.4" rx="7.2" fill="#2f80c9"/><circle cx="166" cy="292" r="8.6" fill="#c68e62"/><text class="sc-sub" x="166" y="352" text-anchor="middle" style="fill:#1f2933">customer</text><text class="sc-sub" x="68" y="344" text-anchor="middle">honey stand</text><circle cx="262" cy="236" r="18" fill="#3f7d4a"/><circle cx="254" cy="231" r="2.6" fill="#fff"/><circle cx="268" cy="227" r="2.6" fill="#fff"/><circle cx="271" cy="240" r="2.6" fill="#fff"/><circle cx="259" cy="243" r="2.6" fill="#fff"/><circle cx="318" cy="236" r="18" fill="#3f7d4a"/><circle cx="310" cy="231" r="2.6" fill="#fff"/><circle cx="324" cy="227" r="2.6" fill="#fff"/><circle cx="327" cy="240" r="2.6" fill="#fff"/><circle cx="315" cy="243" r="2.6" fill="#fff"/><circle cx="262" cy="290" r="18" fill="#3f7d4a"/><circle cx="254" cy="285" r="2.6" fill="#fff"/><circle cx="268" cy="281" r="2.6" fill="#fff"/><circle cx="271" cy="294" r="2.6" fill="#fff"/><circle cx="259" cy="297" r="2.6" fill="#fff"/><circle cx="318" cy="290" r="18" fill="#3f7d4a"/><circle cx="310" cy="285" r="2.6" fill="#fff"/><circle cx="324" cy="281" r="2.6" fill="#fff"/><circle cx="327" cy="294" r="2.6" fill="#fff"/><circle cx="315" cy="297" r="2.6" fill="#fff"/><rect x="390" y="230" width="8" height="24" fill="#8a5a3b"/><circle cx="394" cy="226" r="22" fill="#5e9e4f"/><circle cx="385" cy="222" r="3.4" fill="#c9504d"/><circle cx="401" cy="218" r="3.4" fill="#c9504d"/><circle cx="404" cy="232" r="3.4" fill="#c9504d"/><circle cx="389" cy="234" r="3.4" fill="#c9504d"/><rect x="390" y="290" width="8" height="24" fill="#8a5a3b"/><circle cx="394" cy="286" r="22" fill="#5e9e4f"/><circle cx="385" cy="282" r="3.4" fill="#c9504d"/><circle cx="401" cy="278" r="3.4" fill="#c9504d"/><circle cx="404" cy="292" r="3.4" fill="#c9504d"/><circle cx="389" cy="294" r="3.4" fill="#c9504d"/><text class="sc-sub" x="290" y="330" text-anchor="middle" style="fill:#1f2933">blueberries</text><text class="sc-sub" x="394" y="336" text-anchor="middle" style="fill:#1f2933">apples</text><path d="M 478 54 L 478 318 L 822 318" fill="none" stroke="#1f2933" stroke-width="1.6"/><path d="M 478 257.3 L 822 257.3" stroke="#e5e8eb" stroke-width="1"/><text class="sc-sub" x="472" y="261.3" text-anchor="end">$4</text><path d="M 478 196.6 L 822 196.6" stroke="#e5e8eb" stroke-width="1"/><text class="sc-sub" x="472" y="200.6" text-anchor="end">$8</text><path d="M 478 135.9 L 822 135.9" stroke="#e5e8eb" stroke-width="1"/><text class="sc-sub" x="472" y="139.9" text-anchor="end">$12</text><path d="M 478 75.2 L 822 75.2" stroke="#e5e8eb" stroke-width="1"/><text class="sc-sub" x="472" y="79.2" text-anchor="end">$16</text><text class="sc-sub" x="535.1" y="334" text-anchor="middle">20</text><text class="sc-sub" x="592.2" y="334" text-anchor="middle">40</text><text class="sc-sub" x="706.4" y="334" text-anchor="middle">80</text><text class="sc-sub" x="763.5" y="334" text-anchor="middle">100</text><text class="sc-sub" x="635.0" y="352" text-anchor="middle">hundred jars of honey a season</text><text class="sc-sub" x="482" y="50" text-anchor="start">$ a jar</text><text class="sc-lab" x="649.3" y="334" text-anchor="middle">60</text><g class="reveal-step" data-step-group="mh" data-step="1"><rect x="6" y="276" width="208" height="96" rx="12" fill="none" stroke="#2f80c9" stroke-width="2.6" stroke-dasharray="7 5"/><rect x="35.1" y="251" width="149.8" height="23" rx="11.5" fill="#2f80c9"/><text class="sc-pill" x="110.0" y="267.5" text-anchor="middle">Customer gets: MPB</text><g class="a-grow" style="--delay:0.3s;"><rect x="636.3" y="226.9" width="26" height="91.1" fill="#5d9ad6" stroke="#fff" stroke-width="1"/></g></g><g class="reveal-step" data-step-group="mh" data-step="1" data-hide-at="4"><path d="M 663.3 272.5 L 673.3 272.5" stroke="#9aa3ab"/><text class="sc-sub" x="676.3" y="276.5" text-anchor="start" style="fill:#5d9ad6">a jar of honey $6</text><path d="M 633.3 318.0 L 627.3 318.0 L 627.3 226.9 L 633.3 226.9" fill="none" stroke="#2f80c9" stroke-width="2.6"/><text class="sc-lab" x="619.3" y="276.5" text-anchor="end" style="fill:#2f80c9">MPB = $6</text><text class="sc-sub" x="649.3" y="368" text-anchor="middle" style="fill:#1f2933">the 6,000th jar</text><g class="a-move" style="--dx:482px; --dy:-36px; --dur:3.2s; --delay:0s;"><rect x="160" y="300" width="14" height="16" rx="3" fill="#f4c35b" stroke="#b8600f" stroke-width="1.2"/></g></g><g class="reveal-step" data-step-group="mh" data-step="2"><rect x="236" y="196" width="202" height="150" rx="12" fill="none" stroke="#378a61" stroke-width="2.6" stroke-dasharray="7 5"/><rect x="262.1" y="171" width="149.8" height="23" rx="11.5" fill="#378a61"/><text class="sc-pill" x="337.0" y="187.5" text-anchor="middle">Neighbors get: MEB</text><g class="a-bee" style="--dx:170px; --dy:44px; --dur:3.4s; --delay:0s;"><ellipse cx="90" cy="180" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="95" cy="180" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="92" cy="186" rx="7" ry="4.6" fill="#f4c35b"/><rect x="90.5" y="181.5" width="3" height="9" fill="#1f2933"/></g><g class="a-bee" style="--dx:168px; --dy:100px; --dur:3.8s; --delay:0.6s;"><ellipse cx="148" cy="180" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="153" cy="180" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="150" cy="186" rx="7" ry="4.6" fill="#f4c35b"/><rect x="148.5" y="181.5" width="3" height="9" fill="#1f2933"/></g><g class="a-bee" style="--dx:290px; --dy:40px; --dur:4.2s; --delay:1.2s;"><ellipse cx="98" cy="182" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="103" cy="182" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="100" cy="188" rx="7" ry="4.6" fill="#f4c35b"/><rect x="98.5" y="183.5" width="3" height="9" fill="#1f2933"/></g><g class="a-bee" style="--dx:244px; --dy:104px; --dur:4.0s; --delay:1.8s;"><ellipse cx="138" cy="180" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="143" cy="180" rx="5" ry="3.5" fill="#fff" opacity=".9"/><ellipse cx="140" cy="186" rx="7" ry="4.6" fill="#f4c35b"/><rect x="138.5" y="181.5" width="3" height="9" fill="#1f2933"/></g><g class="a-grow" style="--delay:0.6s;"><rect x="636.3" y="181.4" width="26" height="45.5" fill="#7fbf9b" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:1.2s;"><rect x="636.3" y="166.2" width="26" height="15.2" fill="#378a61" stroke="#fff" stroke-width="1"/></g></g><g class="reveal-step" data-step-group="mh" data-step="2" data-hide-at="4"><path d="M 663.3 204.2 L 673.3 204.2" stroke="#9aa3ab"/><text class="sc-sub" x="676.3" y="208.2" text-anchor="start" style="fill:#7fbf9b">blueberries next door $3</text><path d="M 663.3 173.8 L 673.3 173.8" stroke="#9aa3ab"/><text class="sc-sub" x="676.3" y="177.8" text-anchor="start" style="fill:#378a61">apples down the road $1</text><path d="M 633.3 226.9 L 627.3 226.9 L 627.3 166.2 L 633.3 166.2" fill="none" stroke="#378a61" stroke-width="2.6"/><text class="sc-lab" x="619.3" y="200.6" text-anchor="end" style="fill:#378a61">MEB = $4</text><g class="a-move" style="--dx:359px; --dy:-58px; --dur:3.2s; --delay:0.3s;"><circle cx="290" cy="262" r="9" fill="#7fbf9b"/></g><g class="a-move" style="--dx:255px; --dy:-88px; --dur:3.2s; --delay:1.0s;"><circle cx="394" cy="262" r="9" fill="#378a61"/></g></g><g class="reveal-step" data-step-group="mh" data-step="3" data-hide-at="4"><path d="M 537.3 317.0 L 531.3 317.0 L 531.3 166.2 L 537.3 166.2" fill="none" stroke="#1f2933" stroke-width="2.6"/><text class="sc-big" x="525.3" y="238.1" text-anchor="end" style="fill:#1f2933">MSB</text><text class="sc-lab" x="525.3" y="254.1" text-anchor="end">= $10</text><rect x="479.9" y="5" width="320.2" height="23" rx="11.5" fill="#1f2933"/><text class="sc-pill" x="640.0" y="21.5" text-anchor="middle">3 &middot; MSB = MPB + MEB: the value to everyone</text></g><g class="reveal-step" data-step-group="mh" data-step="4"><g class="a-grow" style="--delay:0.0s;"><rect x="522.1" y="166.2" width="26" height="151.8" fill="#5d9ad6" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:0.35s;"><rect x="522.1" y="105.5" width="26" height="60.7" fill="#378a61" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:0.1s;"><rect x="579.2" y="196.6" width="26" height="121.4" fill="#5d9ad6" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:0.44999999999999996s;"><rect x="579.2" y="135.9" width="26" height="60.7" fill="#378a61" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:0.2s;"><rect x="693.4" y="257.3" width="26" height="60.7" fill="#5d9ad6" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:0.55s;"><rect x="693.4" y="196.6" width="26" height="60.7" fill="#378a61" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:0.30000000000000004s;"><rect x="750.5" y="287.6" width="26" height="30.4" fill="#5d9ad6" stroke="#fff" stroke-width="1"/></g><g class="a-grow" style="--delay:0.65s;"><rect x="750.5" y="226.9" width="26" height="60.7" fill="#378a61" stroke="#fff" stroke-width="1"/></g><path class="a-draw" style="--delay:0.9s;" pathLength="1" d="M 478.0 135.9 L 763.5 287.6" fill="none" stroke="#2f80c9" stroke-width="3.5" stroke-linecap="round"/><path class="a-draw" style="--delay:1.3s;" pathLength="1" d="M 478.0 75.2 L 763.5 226.9" fill="none" stroke="#378a61" stroke-width="3.5" stroke-linecap="round"/><text class="sc-lab" x="781.5" y="291.6" text-anchor="start" style="fill:#2f80c9">MPB</text><text class="sc-lab" x="781.5" y="230.9" text-anchor="start" style="fill:#378a61">MSB</text><rect x="433.8" y="5" width="412.5" height="23" rx="11.5" fill="#2f80c9"/><text class="sc-pill" x="640.0" y="21.5" text-anchor="middle">4 &middot; Every jar: blue tops trace MPB, full bars trace MSB</text></g></svg></div>
+    <div class="button-row" style="margin-top:8px;"><button type="button" class="step-reveal" data-step-group="mh">Play next</button></div>
+    <div class="reveal-step " data-step-group="mh" data-step="5"><div class="definition-strip" style="margin-top:8px; font-size:15.5px; padding:8px 15px;">Every jar: the blue tops trace the demand for honey (<strong>MPB</strong>); the full bars trace <strong>MSB</strong>. Back to the hogs: nobody outside that deal benefits, so there <strong>MPB = MSB</strong>. Next: the hog market on one graph.</div></div>
+    <div class="src">Made-up numbers: MPB = $12 &minus; 0.1Q; MEB = $4 a jar (blueberries next door $3, apples down the road $1); Q in hundreds of jars a season.</div>
+  </section>
+
+  <!-- 11 hog -->
+  <section class="slide interactive">
+    <div class="section-kicker">negative externality &middot; step by step</div>
+    <h1>The hog market: the market vs. society</h1>
+    <div class="two-thirds" style="margin-top:0;">
+      <div class="plot-panel"><div class="plot-title">Hogs from eastern NC farms (made-up numbers)</div><svg class="plot" viewBox="0 0 470 300" role="img" aria-label="The hog market. Demand, which is also marginal private and social benefit, meets supply, the marginal private cost, at 50 thousand hogs a week and 160 dollars. Revealed: the marginal social cost curve lies 40 dollars above supply; it meets demand at 40 thousand hogs and 180 dollars"><defs><clipPath id="c93"><rect x="52" y="14" width="330" height="244"/></clipPath></defs><path class="gridline" d="M 52 223.4 L 382 223.4 M 52 188.9 L 382 188.9 M 52 154.3 L 382 154.3 M 52 85.1 L 382 85.1 M 52 50.6 L 382 50.6"/><path class="axis" d="M 52 12 L 52 258"/><path class="axis" d="M 52 258 L 382 258"/><text class="tick-label" x="46" y="227.4" text-anchor="end">$40</text><text class="tick-label" x="46" y="192.9" text-anchor="end">$80</text><text class="tick-label" x="46" y="158.3" text-anchor="end">$120</text><text class="tick-label" x="46" y="89.1" text-anchor="end">$200</text><text class="tick-label" x="46" y="54.6" text-anchor="end">$240</text><text class="tick-label" x="99.1" y="273" text-anchor="middle">10</text><text class="tick-label" x="146.3" y="273" text-anchor="middle">20</text><text class="tick-label" x="193.4" y="273" text-anchor="middle">30</text><text class="tick-label" x="334.9" y="273" text-anchor="middle">60</text><text class="axis-title" x="57" y="20" text-anchor="start">$ a hog</text><text class="axis-title" x="217" y="289" text-anchor="middle">thousand hogs a week</text><path class="demand-line" d="M 52 33.3 L 382 154.3" /><path class="c-line mpc" d="M 52 206.1 L 382 85.1" /><text class="c-label" x="388" y="158.3" text-anchor="start" style="fill:#2f80c9">D = MPB</text><text class="c-label" x="388" y="173.3" text-anchor="start" style="fill:#2f80c9">= MSB</text><text class="c-label" x="388" y="89.1" text-anchor="start" style="fill:#c9504d">S = MPC</text><path class="guide" d="M 287.7 258 L 287.7 119.7" /><path class="guide" d="M 52 119.7 L 287.7 119.7" /><text class="tick-label strong-tick" x="287.7" y="273" text-anchor="middle">50</text><text class="tick-label strong-tick" x="46" y="123.7" text-anchor="end">$160</text><circle class="dot blue-dot" cx="287.7" cy="119.7" r="6"/><text class="plot-label sm" x="316" y="123.2" text-anchor="start" style="fill:#2f80c9">market</text><g class="reveal-step" data-step-group="hog" data-step="1"><path class="c-line msc" d="M 52 171.6 L 382 50.6" /><text class="c-label" x="388" y="54.6" text-anchor="start" style="fill:#7657a5">MSC</text><path class="bracket purple-br" d="M 94.7 192.3 L 89.7 192.3 L 89.7 157.7 L 94.7 157.7"/><text class="plot-label sm" x="95.8" y="170.7" text-anchor="start" style="fill:#7657a5">+$40</text></g><g class="reveal-step" data-step-group="hog" data-step="2"><path class="guide" d="M 240.6 258 L 240.6 102.4" /><path class="guide" d="M 52 102.4 L 240.6 102.4" /><text class="tick-label strong-tick" x="240.6" y="273" text-anchor="middle">40</text><text class="tick-label strong-tick" x="46" y="106.4" text-anchor="end">$180</text><circle class="dot" cx="240.6" cy="102.4" r="6"/><text class="plot-label sm" x="202.9" y="105.9" text-anchor="end" style="fill:#b8600f">social optimum</text></g></svg></div>
+      <div class="calc-run">
+        <div class="calc-line "><div class="calc-num">0</div><div><strong>The market: D meets S = MPC</strong><span>Farms count their own costs only: <b>50,000 hogs a week at $160</b>.</span></div></div>
+        <div class="reveal-step" data-step-group="hog" data-step="1"><div class="calc-line "><div class="calc-num">1</div><div><strong>Add the neighbors&rsquo; cost: $40 a hog</strong><span>MSC = MPC + MEC: the supply curve shifted up by $40.</span></div></div></div>
+        <div class="reveal-step" data-step-group="hog" data-step="2"><div class="calc-line hi"><div class="calc-num">2</div><div><strong>What society wants: MSB = MSC</strong><span><b>40,000 hogs at $180</b>. The market makes 10,000 too many.</span></div></div></div>
+        <div class="button-row" style="margin-top:8px;"><button type="button" class="step-reveal" data-step-group="hog">Reveal next</button></div>
+      </div>
+    </div>
+    <div class="reveal-step " data-step-group="hog" data-step="3"><div class="definition-strip" style="margin-top:12px; font-size:18px; padding:10px 15px;"><strong>Socially optimal quantity: where MSB = MSC.</strong> The market stops where MPB = MPC instead.</div></div>
+    <div class="src">Made-up numbers: D = MPB = MSB: P = $260 &minus; 2Q; MPC: P = $60 + 2Q; MEC = $40 a hog; Q in thousands of hogs a week. Here buyers create no spillover, so MPB = MSB.</div>
+  </section>
+
+  <!-- 12 dwl -->
+  <section class="slide interactive">
+    <div class="section-kicker">negative externality &middot; the cost of too much</div>
+    <h1>Why 50,000 hogs is too many</h1>
+    <div class="two-thirds" style="margin-top:0;">
+      <div class="plot-panel"><div class="plot-title">Hogs (made-up numbers)</div><svg class="plot" viewBox="0 0 470 300" role="img" aria-label="The hog market with marginal social cost. The market makes 50 thousand hogs; the social optimum is 40 thousand. Revealed: the 45 thousandth hog is worth 170 dollars to buyers but costs society 190; the triangle between 40 and 50 thousand is the deadweight loss"><defs><clipPath id="c94"><rect x="52" y="14" width="330" height="244"/></clipPath></defs><path class="gridline" d="M 52 223.4 L 382 223.4 M 52 188.9 L 382 188.9 M 52 154.3 L 382 154.3 M 52 85.1 L 382 85.1 M 52 50.6 L 382 50.6"/><path class="axis" d="M 52 12 L 52 258"/><path class="axis" d="M 52 258 L 382 258"/><text class="tick-label" x="46" y="227.4" text-anchor="end">$40</text><text class="tick-label" x="46" y="192.9" text-anchor="end">$80</text><text class="tick-label" x="46" y="158.3" text-anchor="end">$120</text><text class="tick-label" x="46" y="89.1" text-anchor="end">$200</text><text class="tick-label" x="46" y="54.6" text-anchor="end">$240</text><text class="tick-label" x="99.1" y="273" text-anchor="middle">10</text><text class="tick-label" x="146.3" y="273" text-anchor="middle">20</text><text class="tick-label" x="193.4" y="273" text-anchor="middle">30</text><text class="tick-label" x="334.9" y="273" text-anchor="middle">60</text><text class="axis-title" x="57" y="20" text-anchor="start">$ a hog</text><text class="axis-title" x="217" y="289" text-anchor="middle">thousand hogs a week</text><path class="demand-line" d="M 52 33.3 L 382 154.3" /><path class="c-line mpc" d="M 52 206.1 L 382 85.1" /><text class="c-label" x="388" y="158.3" text-anchor="start" style="fill:#2f80c9">D = MPB</text><text class="c-label" x="388" y="173.3" text-anchor="start" style="fill:#2f80c9">= MSB</text><text class="c-label" x="388" y="89.1" text-anchor="start" style="fill:#c9504d">S = MPC</text><path class="c-line msc" d="M 52 171.6 L 382 50.6" /><text class="c-label" x="388" y="54.6" text-anchor="start" style="fill:#7657a5">MSC</text><path class="guide" d="M 287.7 258 L 287.7 119.7" /><path class="guide" d="M 52 119.7 L 287.7 119.7" /><text class="tick-label strong-tick" x="287.7" y="273" text-anchor="middle">50</text><text class="tick-label strong-tick" x="46" y="123.7" text-anchor="end">$160</text><circle class="dot blue-dot" cx="287.7" cy="119.7" r="6"/><path class="guide" d="M 240.6 258 L 240.6 102.4" /><path class="guide" d="M 52 102.4 L 240.6 102.4" /><text class="tick-label strong-tick" x="240.6" y="273" text-anchor="middle">40</text><text class="tick-label strong-tick" x="46" y="106.4" text-anchor="end">$180</text><circle class="dot" cx="240.6" cy="102.4" r="6"/><g class="reveal-step" data-step-group="dw" data-step="1"><path class="loss-seg" d="M 264.1 111.1 L 264.1 93.8" /><path class="guide" d="M 264.1 258 L 264.1 111.1" /><text class="tick-label strong-tick" x="264.1" y="273" text-anchor="middle">45</text><circle class="dot blue-dot" cx="264.1" cy="111.1" r="4"/><circle class="dot purple-dot" cx="264.1" cy="93.8" r="4"/></g><g class="reveal-step" data-step-group="dw" data-step="2"><path class="dwl-area" d="M 240.6 102.4 L 287.7 85.1 L 287.7 119.7 Z"/><text class="plot-label" x="292.4" y="105.9" text-anchor="start" style="fill:#c9504d">DWL</text></g></svg></div>
+      <div class="calc-run">
+        <div class="reveal-step" data-step-group="dw" data-step="1"><div class="calc-line bad"><div class="calc-num">1</div><div><strong>Take the 45,000th hog</strong><span>Buyers value it at $170 (MSB). It costs society $190 (MSC): <b>&minus;$20</b>.</span></div></div></div>
+        <div class="reveal-step" data-step-group="dw" data-step="2"><div class="calc-line bad"><div class="calc-num">2</div><div><strong>Every hog from 40,000 to 50,000</strong><span>costs society more than it is worth. At 50,000 the gap is the full $40 external cost.</span></div></div></div>
+        <div class="reveal-step" data-step-group="dw" data-step="3"><div class="calc-line hi"><div class="calc-num">3</div><div><strong>Deadweight loss</strong><span>&frac12; &times; 10 thousand &times; $40 = <b>$200,000 a week</b>, lost every week.</span></div></div></div>
+        <div class="button-row" style="margin-top:8px;"><button type="button" class="step-reveal" data-step-group="dw">Reveal next</button></div>
+      </div>
+    </div>
+    <div class="reveal-step " data-step-group="dw" data-step="4"><div class="definition-strip blue-strip" style="margin-top:12px; font-size:17px; padding:10px 15px;">Unit 5 called this <strong>overproduction</strong>: units whose cost is above their value. The lost value is a <strong>deadweight loss</strong>.</div></div>
+    <div class="src">Made-up numbers. Same market as the previous page.</div>
+  </section>
+
+  <!-- 13 tax -->
+  <section class="slide interactive">
+    <div class="section-kicker">the fix</div>
+    <h1>A $40 tax: the same wedge as Unit 6</h1>
+    <div class="two-thirds" style="margin-top:0;">
+      <div class="plot-panel"><div class="plot-title">Hogs with a $40 tax per hog (made-up numbers)</div><svg class="plot" viewBox="0 0 470 300" role="img" aria-label="A 40 dollar tax on each hog moves the supply curve up 40 dollars. At 40 thousand hogs, buyers pay 180 dollars and farms keep 140, compared with 160 dollars and 50 thousand hogs with no tax"><defs><clipPath id="c95"><rect x="52" y="14" width="330" height="244"/></clipPath></defs><path class="gridline" d="M 52 223.4 L 382 223.4 M 52 188.9 L 382 188.9 M 52 154.3 L 382 154.3 M 52 85.1 L 382 85.1 M 52 50.6 L 382 50.6"/><path class="axis" d="M 52 12 L 52 258"/><path class="axis" d="M 52 258 L 382 258"/><text class="tick-label" x="46" y="227.4" text-anchor="end">$40</text><text class="tick-label" x="46" y="192.9" text-anchor="end">$80</text><text class="tick-label" x="46" y="158.3" text-anchor="end">$120</text><text class="tick-label" x="46" y="89.1" text-anchor="end">$200</text><text class="tick-label" x="46" y="54.6" text-anchor="end">$240</text><text class="tick-label" x="99.1" y="273" text-anchor="middle">10</text><text class="tick-label" x="146.3" y="273" text-anchor="middle">20</text><text class="tick-label" x="193.4" y="273" text-anchor="middle">30</text><text class="tick-label" x="334.9" y="273" text-anchor="middle">60</text><text class="axis-title" x="57" y="20" text-anchor="start">$ a hog</text><text class="axis-title" x="217" y="289" text-anchor="middle">thousand hogs a week</text><path class="demand-line" d="M 52 33.3 L 382 154.3" /><path class="c-line mpc" d="M 52 206.1 L 382 85.1" /><text class="c-label" x="388" y="158.3" text-anchor="start" style="fill:#2f80c9">D = MPB</text><text class="c-label" x="388" y="173.3" text-anchor="start" style="fill:#2f80c9">= MSB</text><text class="c-label" x="388" y="89.1" text-anchor="start" style="fill:#c9504d">S = MPC</text><path class="c-line msc dash-line" d="M 52 171.6 L 382 50.6" /><text class="c-label" x="388" y="54.6" text-anchor="start" style="fill:#7657a5">MPC + tax</text><circle class="dot hollow-dot" cx="287.7" cy="119.7" r="5"/><text class="tick-label strong-tick" x="287.7" y="273" text-anchor="middle">50</text><text class="tick-label" x="46" y="123.7" text-anchor="end">$160</text><g class="reveal-step" data-step-group="tx" data-step="1"><path class="guide" d="M 240.6 258 L 240.6 137" /><path class="bracket tax-br" d="M 246.6 137 L 240.6 137 L 240.6 102.4 L 246.6 102.4"/><text class="tick-label strong-tick" x="240.6" y="273" text-anchor="middle">40</text><path class="leader" d="M 297.1 168.1 L 245.3 122.3"/><text class="plot-label" x="297.1" y="175" text-anchor="start" style="fill:#b8600f">$40 tax</text></g><g class="reveal-step" data-step-group="tx" data-step="2"><path class="guide" d="M 52 102.4 L 240.6 102.4" /><path class="guide" d="M 52 137 L 240.6 137" /><text class="tick-label strong-tick" x="46" y="106.4" text-anchor="end">$180</text><text class="tick-label strong-tick" x="46" y="141" text-anchor="end">$140</text><circle class="dot" cx="240.6" cy="102.4" r="6"/><circle class="dot red-dot" cx="240.6" cy="137" r="6"/></g></svg></div>
+      <div style="display:grid; gap:9px;">
+        <div class="card red-top" style="padding:10px 14px;"><h3 class="red" style="font-size:16.5px; margin-bottom:3px;">Unit 6: a $1 gas tax</h3>
+          <p style="font-size:14.5px;">No externality in the model, so the wedge <strong>created</strong> a deadweight loss.</p></div>
+        <div class="card green-top" style="padding:10px 14px;"><h3 class="green" style="font-size:16.5px; margin-bottom:3px;">Today: a $40 hog tax</h3>
+          <p style="font-size:14.5px;">The tax equals the external cost, so the wedge <strong>removes</strong> the deadweight loss: 40,000 hogs.</p>
+          <div class="reveal-step " data-step-group="tx" data-step="2"><p style="font-size:14.5px; margin-top:5px;">Buyers pay <strong style="color:var(--accent);">$180</strong> (+$20); farms keep <strong style="color:var(--red);">$140</strong> (&minus;$20).</p></div></div>
+        <div class="button-row"><button type="button" class="step-reveal" data-step-group="tx">Reveal next</button></div>
+      </div>
+    </div>
+    <div class="reveal-step " data-step-group="tx" data-step="3"><div class="definition-strip" style="margin-top:10px; font-size:16.5px; padding:9px 15px;">A tax equal to the marginal external cost is a <strong>Pigouvian tax</strong> (after Arthur Pigou). Now the farm <strong>internalizes</strong> the externality: it counts the neighbors&rsquo; cost as its own.</div></div>
+    <p class="footer-note small muted" style="margin-top:6px;">Price rises $20, not $40: buyers and farms split the tax, as in Unit 6 (here the two curves are equally steep).</p>
+  </section>
+
+  <!-- 14 notzero -->
+  <section class="slide interactive">
+    <div class="section-kicker">one more thing &middot; hands up</div>
+    <h1>Is the goal zero hogs?</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:11px 16px;"><div class="market-label">Vote first</div>
+      <p style="font-size:20px;">With the $40 tax, farms raise 40,000 hogs a week. Do the neighbors still smell anything?</p></div>
+    <div class="reveal-step " data-step-group="nz" data-step="1"><div class="stat-pair" style="margin-top:14px;"><div class="stat red-stat"><div style="font-size:15px; font-weight:800;">No tax: 50,000 hogs</div><div style="font-size:34px; font-weight:900; color:var(--red);">$2.0 million</div><div class="muted" style="font-size:14px;">of damage to neighbors a week</div></div><div class="stat green-stat"><div style="font-size:15px; font-weight:800;">$40 tax: 40,000 hogs</div><div style="font-size:34px; font-weight:900; color:var(--green);">$1.6 million</div><div class="muted" style="font-size:14px;">still, every week</div></div></div></div>
+    <div class="reveal-step " data-step-group="nz" data-step="2"><div class="definition-strip green-strip" style="margin-top:14px; font-size:18px; padding:11px 16px;">Yes. The goal is the <strong>right amount</strong>, not zero. Each hog up to 40,000 is worth more to buyers than it costs everyone; each hog past it is not. Wednesday: the right amount of pollution.</div></div>
+    <div class="button-row" style="margin-top:12px;"><button type="button" class="step-reveal" data-step-group="nz">Reveal next</button></div>
+    <div class="src">Made-up numbers. Damage = $40 &times; hogs a week.</div>
+  </section>
+
+  <!-- 15 flu -->
+  <section class="slide interactive">
+    <div class="section-kicker">positive externality &middot; step by step</div>
+    <h1>Flu shots: the opposite problem</h1>
+    <div class="two-thirds" style="margin-top:0;">
+      <div class="plot-panel"><div class="plot-title">Flu shots near campus (made-up numbers)</div><svg class="plot" viewBox="0 0 470 300" role="img" aria-label="The market for flu shots. Demand, the marginal private benefit, meets supply at 25 thousand shots and 35 dollars. Revealed: marginal social benefit lies 20 dollars above demand and meets supply at 35 thousand shots and 45 dollars; the triangle between 25 and 35 thousand is the deadweight loss; a 20 dollar subsidy per shot means students pay 25 dollars and the clinic gets 45"><defs><clipPath id="c96"><rect x="52" y="14" width="330" height="244"/></clipPath></defs><path class="gridline" d="M 52 201.1 L 382 201.1 M 52 87.2 L 382 87.2 M 52 30.2 L 382 30.2"/><path class="axis" d="M 52 12 L 52 258"/><path class="axis" d="M 52 258 L 382 258"/><text class="tick-label" x="46" y="205.1" text-anchor="end">$20</text><text class="tick-label" x="46" y="91.2" text-anchor="end">$60</text><text class="tick-label" x="46" y="34.2" text-anchor="end">$80</text><text class="tick-label" x="107" y="273" text-anchor="middle">10</text><text class="tick-label" x="162" y="273" text-anchor="middle">20</text><text class="tick-label" x="217" y="273" text-anchor="middle">30</text><text class="tick-label" x="272" y="273" text-anchor="middle">40</text><text class="tick-label" x="327" y="273" text-anchor="middle">50</text><text class="axis-title" x="57" y="20" text-anchor="start">$ a shot</text><text class="axis-title" x="217" y="289" text-anchor="middle">thousand flu shots a season</text><path class="demand-line" d="M 52 87.2 L 382 258" /><path class="c-line mpc" d="M 52 229.5 L 382 58.7" /><text class="c-label" x="388" y="258" text-anchor="start" style="fill:#2f80c9">D = MPB</text><text class="c-label" x="388" y="62.7" text-anchor="start" style="fill:#c9504d">S = MPC</text><text class="c-label" x="388" y="77.7" text-anchor="start" style="fill:#c9504d">= MSC</text><path class="guide" d="M 189.5 258 L 189.5 158.4" /><path class="guide" d="M 52 158.4 L 189.5 158.4" /><text class="tick-label strong-tick" x="189.5" y="273" text-anchor="middle">25</text><text class="tick-label strong-tick" x="46" y="162.4" text-anchor="end">$35</text><circle class="dot blue-dot" cx="189.5" cy="158.4" r="6"/><path class="leader" d="M 222.5 221 L 195 165.5"/><text class="plot-label sm" x="222.5" y="233.8" text-anchor="start" style="fill:#2f80c9">market</text><g class="reveal-step" data-step-group="flu" data-step="1"><path class="c-line msb" d="M 52 30.2 L 382 201.1" /><text class="c-label" x="388" y="205.1" text-anchor="start" style="fill:#2a6f4d">MSB</text><path class="bracket green-br" d="M 101 110 L 96 110 L 96 53 L 101 53"/><text class="plot-label sm" x="103.2" y="85.8" text-anchor="start" style="fill:#2a6f4d">+$20</text></g><g class="reveal-step" data-step-group="flu" data-step="2"><path class="guide" d="M 244.5 258 L 244.5 129.9" /><path class="guide" d="M 52 129.9 L 244.5 129.9" /><text class="tick-label strong-tick" x="244.5" y="273" text-anchor="middle">35</text><text class="tick-label strong-tick" x="46" y="133.9" text-anchor="end">$45</text><circle class="dot" cx="244.5" cy="129.9" r="6"/><path class="leader" d="M 280.2 55.9 L 250 124.2"/><text class="plot-label sm" x="277.5" y="50.2" text-anchor="start" style="fill:#b8600f">social optimum</text></g><g class="reveal-step" data-step-group="flu" data-step="3"><path class="dwl-area" d="M 189.5 158.4 L 189.5 101.4 L 244.5 129.9 Z"/><text class="plot-label sm" x="210.4" y="133.9" text-anchor="middle" style="fill:#c9504d">DWL</text></g><g class="reveal-step" data-step-group="flu" data-step="4"><path class="guide" d="M 52 186.8 L 244.5 186.8" /><text class="tick-label strong-tick" x="46" y="190.8" text-anchor="end">$25</text><circle class="dot blue-dot" cx="244.5" cy="186.8" r="5"/><path class="bracket green-br" d="M 250.5 186.8 L 244.5 186.8 L 244.5 129.9 L 250.5 129.9"/><text class="plot-label sm" x="252.2" y="164" text-anchor="start" style="fill:#2a6f4d">$20</text></g></svg></div>
+      <div class="calc-run">
+        <div class="calc-line "><div class="calc-num">0</div><div><strong>The market: MPB meets MPC</strong><span>Students count their own benefit only: <b>25,000 shots at $35</b>.</span></div></div>
+        <div class="reveal-step" data-step-group="flu" data-step="1"><div class="calc-line "><div class="calc-num">1</div><div><strong>Add the benefit to others: $20 a shot</strong><span>MSB = MPB + MEB: fewer roommates and classmates get sick.</span></div></div></div>
+        <div class="reveal-step" data-step-group="flu" data-step="2"><div class="calc-line hi"><div class="calc-num">2</div><div><strong>What society wants: MSB = MSC</strong><span><b>35,000 shots</b>. The market makes 10,000 too few.</span></div></div></div>
+        <div class="reveal-step" data-step-group="flu" data-step="3"><div class="calc-line bad"><div class="calc-num">3</div><div><strong>Deadweight loss</strong><span>&frac12; &times; 10 thousand &times; $20 = <b>$100,000</b>: shots worth more than they cost, never given.</span></div></div></div>
+        <div class="reveal-step" data-step-group="flu" data-step="4"><div class="calc-line good"><div class="calc-num">4</div><div><strong>Fix: a $20 subsidy per shot</strong><span>The clinic gets $45; students pay $25. Now 35,000 shots.</span></div></div></div>
+        <div class="button-row" style="margin-top:6px;"><button type="button" class="step-reveal" data-step-group="flu">Reveal next</button></div>
+      </div>
+    </div>
+    <p class="footer-note small muted" style="margin-top:6px;">The subsidy equals the <strong>marginal external benefit</strong> (MSB &minus; MPB), not the whole MSB.
+      Pay it to buyers (a voucher) or to sellers (per shot given): same 35,000 shots, as with Unit 6&rsquo;s tax.</p>
+    <div class="src">Made-up numbers: MPB: P = $60 &minus; Q; MEB = $20; MPC = MSC: P = $10 + Q (no spillover from making shots); Q in thousands. OpenStax Fig. 13.3 uses the same story.</div>
+  </section>
+
+  <!-- 16 letters -->
+  <section class="slide interactive">
+    <div class="section-kicker">same graph, quiz style &middot; hands up</div>
+    <h1>When the graph has letters, not numbers</h1>
+    <div class="two-thirds" style="margin-top:0;">
+      <div class="plot-panel"><div class="plot-title">The flu-shot market, with letters</div><svg class="plot" viewBox="0 0 470 300" role="img" aria-label="The flu-shot graph with letters: prices P a, P b, P c and P d from low to high on the vertical axis, quantities Q 1 and Q 2 on the horizontal axis. At Q 1, MPB meets MSC at P b and MSB is at P d. At Q 2, MSB meets MSC at P c and MPB is at P a"><defs><clipPath id="c97"><rect x="52" y="14" width="330" height="244"/></clipPath></defs><path class="axis" d="M 52 12 L 52 258"/><path class="axis" d="M 52 258 L 382 258"/><text class="axis-title" x="217" y="289" text-anchor="middle">quantity</text><path class="demand-line" d="M 52 87.2 L 382 258" /><path class="c-line mpc" d="M 52 229.5 L 382 58.7" /><text class="c-label" x="388" y="258" text-anchor="start" style="fill:#2f80c9">MPB</text><text class="c-label" x="388" y="62.7" text-anchor="start" style="fill:#c9504d">MPC</text><text class="c-label" x="388" y="77.7" text-anchor="start" style="fill:#c9504d">= MSC</text><path class="c-line msb" d="M 52 30.2 L 382 201.1" /><text class="c-label" x="388" y="205.1" text-anchor="start" style="fill:#2a6f4d">MSB</text><path class="guide" d="M 52 158.4 L 189.5 158.4" /><circle class="dot" cx="189.5" cy="158.4" r="5"/><path class="guide" d="M 52 101.4 L 189.5 101.4" /><circle class="dot" cx="189.5" cy="101.4" r="5"/><path class="guide" d="M 52 129.9 L 244.5 129.9" /><circle class="dot" cx="244.5" cy="129.9" r="5"/><path class="guide" d="M 52 186.8 L 244.5 186.8" /><circle class="dot" cx="244.5" cy="186.8" r="5"/><path class="guide" d="M 189.5 258 L 189.5 101.4" /><path class="guide" d="M 244.5 258 L 244.5 129.9" /><text class="tick-label strong-tick" x="46" y="191.8" text-anchor="end" style="font-size:14px">P<tspan baseline-shift="sub" style="font-size:.72em">a</tspan></text><text class="tick-label strong-tick" x="46" y="163.4" text-anchor="end" style="font-size:14px">P<tspan baseline-shift="sub" style="font-size:.72em">b</tspan></text><text class="tick-label strong-tick" x="46" y="134.9" text-anchor="end" style="font-size:14px">P<tspan baseline-shift="sub" style="font-size:.72em">c</tspan></text><text class="tick-label strong-tick" x="46" y="106.4" text-anchor="end" style="font-size:14px">P<tspan baseline-shift="sub" style="font-size:.72em">d</tspan></text><text class="tick-label strong-tick" x="189.5" y="275" text-anchor="middle" style="font-size:14px">Q<tspan baseline-shift="sub" style="font-size:.72em">1</tspan></text><text class="tick-label strong-tick" x="244.5" y="275" text-anchor="middle" style="font-size:14px">Q<tspan baseline-shift="sub" style="font-size:.72em">2</tspan></text></svg></div>
+      <div>
+        <div class="qa-list"><div class="calc-line"><div class="calc-num">1</div><div><strong>Quantity without government action?</strong><span class="reveal-step ans" data-step-group="lt" data-step="1">Q<sub>1</sub>: where MPB meets MSC <em>(buyers ignore the spillover)</em></span></div></div><div class="calc-line"><div class="calc-num">2</div><div><strong>Socially optimal quantity?</strong><span class="reveal-step ans" data-step-group="lt" data-step="2">Q<sub>2</sub>: where MSB meets MSC</span></div></div><div class="calc-line"><div class="calc-num">3</div><div><strong>Too much or too little?</strong><span class="reveal-step ans" data-step-group="lt" data-step="3">Too little: Q<sub>1</sub> &lt; Q<sub>2</sub></span></div></div><div class="calc-line"><div class="calc-num">4</div><div><strong>Which per-unit subsidy fixes it? P<sub>c</sub> &minus; P<sub>b</sub> &middot; P<sub>d</sub> &minus; P<sub>b</sub> &middot; P<sub>d</sub> &minus; P<sub>c</sub> &middot; P<sub>b</sub> &minus; P<sub>a</sub></strong><span class="reveal-step ans" data-step-group="lt" data-step="4">P<sub>d</sub> &minus; P<sub>b</sub>: the gap between MSB and MPB at Q<sub>1</sub> <em>(P<sub>c</sub> &minus; P<sub>a</sub> is the same gap at Q<sub>2</sub>)</em></span></div></div></div>
+        <div class="button-row" style="margin-top:8px;"><button type="button" class="step-reveal" data-step-group="lt">Reveal next</button></div>
+      </div>
+    </div>
+    <div class="reveal-step " data-step-group="lt" data-step="5"><div class="definition-strip red-strip" style="margin-top:10px; font-size:16px; padding:9px 15px;"><strong>Trap:</strong> the other three gaps are each only half the spillover. The right subsidy is always the <strong>vertical distance between the social and the private curve</strong>.</div></div>
+    <div class="src">Same made-up numbers as the previous page: P<sub>a</sub> = $25, P<sub>b</sub> = $35, P<sub>c</sub> = $45, P<sub>d</sub> = $55; Q<sub>1</sub> = 25, Q<sub>2</sub> = 35 thousand shots.</div>
+  </section>
+
+  <!-- 17 rule -->
+  <section class="slide">
+    <div class="section-kicker">summary</div>
+    <h1>Two kinds, one rule</h1>
+    <table class="u8-table left-first" style="margin-top:6px;">
+      <thead><tr><th></th><th style="background:var(--red);">Negative externality</th><th style="background:var(--green);">Positive externality</th></tr></thead>
+      <tbody>
+        <tr><td class="lead">Which curve is higher?</td><td>MSC &gt; MPC</td><td>MSB &gt; MPB</td></tr>
+        <tr><td class="lead">The market produces&hellip;</td><td>too much</td><td>too little</td></tr>
+        <tr><td class="lead">The fix</td><td>a tax = MEC</td><td>a subsidy = MEB</td></tr>
+        <tr><td class="lead">Size on the graph</td><td>the vertical gap between MSC and MPC</td><td>the vertical gap between MSB and MPB</td></tr>
+        <tr><td class="lead">Our examples</td><td>hogs ($40), jet skis</td><td>flu shots ($20), bees</td></tr>
+      </tbody>
+    </table>
+    <div class="definition-strip" style="margin-top:16px; font-size:19px; padding:12px 17px;"><strong>One rule:</strong> the socially optimal quantity is where <strong>MSB = MSC</strong>. Find the market&rsquo;s quantity, find society&rsquo;s, and the gap between them is the deadweight loss.</div>
+    <div class="definition-strip blue-strip" style="margin-top:10px; font-size:16.5px; padding:10px 16px;">A good the government subsidizes probably has a positive externality; a good it taxes for this reason, a negative one.</div>
+  </section>
+
+  <!-- 18 jet -->
+  <section class="slide interactive">
+    <div class="section-kicker">check &middot; quiz style &middot; hands up</div>
+    <h1>Jet skis on the lake</h1>
+    <p style="margin:0 0 8px; font-size:15.5px;">A shop rents jet skis by the hour. Their noise and wakes bother swimmers and anglers, who are not part of the rental.</p>
+    <div class="two-thirds" style="margin-top:0;">
+      <div class="plot-panel"><div class="plot-title">Jet-ski rentals (made-up numbers)</div><svg class="plot" viewBox="0 0 470 300" role="img" aria-label="Jet-ski rentals: marginal private benefit, which is also marginal social benefit, slopes down; marginal private cost and marginal social cost slope up, 12 dollars apart. Labeled points: 60 hours at 44 and 56 dollars; 45 hours at 50 and 38 dollars"><defs><clipPath id="c98"><rect x="52" y="14" width="340" height="244"/></clipPath></defs><path class="axis" d="M 52 12 L 52 258"/><path class="axis" d="M 52 258 L 392 258"/><text class="axis-title" x="57" y="20" text-anchor="start">$ an hour</text><text class="axis-title" x="222" y="289" text-anchor="middle">jet-ski hours rented a day</text><path class="demand-line" d="M 52 41.5 L 392 156.1" /><path class="c-line mpc" d="M 52 194.3 L 392 79.7" /><path class="c-line msc" d="M 52 156.1 L 392 41.5" /><text class="c-label" x="398" y="160.1" text-anchor="start" style="fill:#2f80c9">MPB</text><text class="c-label" x="398" y="175.1" text-anchor="start" style="fill:#2f80c9">= MSB</text><text class="c-label" x="398" y="83.7" text-anchor="start" style="fill:#c9504d">MPC</text><text class="c-label" x="398" y="45.5" text-anchor="start" style="fill:#7657a5">MSC</text><path class="guide" d="M 52 117.9 L 278.7 117.9" /><circle class="dot" cx="278.7" cy="117.9" r="5"/><text class="tick-label strong-tick" x="46" y="121.9" text-anchor="end">$44</text><path class="guide" d="M 52 79.7 L 278.7 79.7" /><circle class="dot" cx="278.7" cy="79.7" r="5"/><text class="tick-label strong-tick" x="46" y="83.7" text-anchor="end">$56</text><path class="guide" d="M 52 98.8 L 222 98.8" /><circle class="dot" cx="222" cy="98.8" r="5"/><text class="tick-label strong-tick" x="46" y="102.8" text-anchor="end">$50</text><path class="guide" d="M 52 137 L 222 137" /><circle class="dot" cx="222" cy="137" r="5"/><text class="tick-label strong-tick" x="46" y="141" text-anchor="end">$38</text><path class="guide" d="M 278.7 258 L 278.7 79.7" /><path class="guide" d="M 222 258 L 222 98.8" /><text class="tick-label strong-tick" x="278.7" y="273" text-anchor="middle">60</text><text class="tick-label strong-tick" x="222" y="273" text-anchor="middle">45</text></svg></div>
+      <div>
+        <div class="qa-list"><div class="calc-line"><div class="calc-num">1</div><div><strong>Positive or negative externality?</strong><span class="reveal-step ans" data-step-group="jt" data-step="1">Negative: MSC is above MPC</span></div></div><div class="calc-line"><div class="calc-num">2</div><div><strong>Hours rented without government action?</strong><span class="reveal-step ans" data-step-group="jt" data-step="2">60: where MPB meets MPC</span></div></div><div class="calc-line"><div class="calc-num">3</div><div><strong>Socially optimal hours?</strong><span class="reveal-step ans" data-step-group="jt" data-step="3">45: where MSB meets MSC</span></div></div><div class="calc-line"><div class="calc-num">4</div><div><strong>Per-hour tax that fixes it?</strong><span class="reveal-step ans" data-step-group="jt" data-step="4">$12 = $50 &minus; $38 = $56 &minus; $44</span></div></div><div class="calc-line"><div class="calc-num">5</div><div><strong>With the tax, what do renters pay an hour?</strong><span class="reveal-step ans" data-step-group="jt" data-step="5">$50 <em>(the shop keeps $38)</em></span></div></div><div class="calc-line"><div class="calc-num">6</div><div><strong>Deadweight loss without the tax?</strong><span class="reveal-step ans" data-step-group="jt" data-step="6">&frac12; &times; 15 &times; $12 = $90 a day</span></div></div></div>
+        <div class="button-row" style="margin-top:8px;"><button type="button" class="step-reveal" data-step-group="jt">Reveal next</button></div>
+      </div>
+    </div>
+    <div class="src">Made-up numbers. Wrong answers we see: a price floor or ceiling (they fix no spillover), a subsidy (wrong direction), a $6 tax (half the gap).</div>
+  </section>
+
+  <!-- 19 tf1 -->
+  <section class="slide interactive">
+    <div class="section-kicker">true or false?</div>
+    <h1>You be the judge</h1>
+    <div class="stmt qc-stmt"><p><span class="qc-tag">Direction</span>If a good&rsquo;s MSB is above its MPB, the market produces too much of it.</p><span class="reveal-step " data-step-group="q1" data-step="1"><span class="verdict">False</span>Too little: buyers ignore the benefit to others.</span></div><div class="stmt qc-stmt"><p><span class="qc-tag">Costs</span>A firm that does not pay for its pollution faces only part of its costs.</p><span class="reveal-step " data-step-group="q1" data-step="2"><span class="verdict ok">True</span>MPC &lt; MSC: the rest lands on third parties.</span></div><div class="stmt qc-stmt"><p><span class="qc-tag">Markets</span>Externalities only happen when the government gets involved.</p><span class="reveal-step " data-step-group="q1" data-step="3"><span class="verdict">False</span>Free markets have them all the time; the market just ignores them.</span></div><div class="stmt qc-stmt"><p><span class="qc-tag">Taxes</span>Taxing a product whose production pollutes can make total surplus bigger.</p><span class="reveal-step " data-step-group="q1" data-step="4"><span class="verdict ok">True</span>A tax = MEC removes the deadweight loss (the hog tax).</span></div>
+    <div class="button-row" style="margin-top:10px;"><button type="button" class="step-reveal" data-step-group="q1">Reveal next</button></div>
+  </section>
+
+  <!-- 20 write -->
+  <section class="slide interactive">
+    <div class="section-kicker">quiz and exam essays</div>
+    <h1>How to write about an externality</h1>
+    <div class="tpl">___ is a <span class="blank">[negative / positive]</span> externality because <span class="blank">[third party]</span> <span class="blank">[bear a cost / get a benefit]</span> that <span class="blank">[decision maker]</span> <span class="blank">[doesn&rsquo;t pay for / isn&rsquo;t paid for]</span>. So <span class="blank">MSC &gt; MPC or MSB &gt; MPB</span>, and the market produces <span class="blank">[more / less]</span> than the socially optimal quantity, where <strong>MSB = MSC</strong>.</div>
+    <div class="reveal-step " data-step-group="wr" data-step="1"><div class="market-label" style="margin-top:12px; color:var(--green); font-size:13px; font-weight:820; letter-spacing:.07em; text-transform:uppercase;">Filled in</div><div class="tpl" style="border-color:var(--green); margin-top:4px;">Hog farming is a <span class="blank done">negative</span> externality because <span class="blank done">neighbors of the farm</span> <span class="blank done">bear a cost</span> that <span class="blank done">the farm</span> <span class="blank done">doesn&rsquo;t pay for</span>. So <span class="blank done">MSC &gt; MPC</span>, and the market produces <span class="blank done">more</span> than the socially optimal quantity, where <strong>MSB = MSC</strong>.</div></div>
+    <div class="button-row" style="margin-top:10px;"><button type="button" class="step-reveal" data-step-group="wr">Fill it in</button></div>
+    <div class="definition-strip blue-strip" style="margin-top:12px; font-size:16.5px; padding:10px 15px;">Graders look for three things: <strong>who the third party is</strong>, <strong>which curve is higher</strong> (MSC vs. MPC or MSB vs. MPB), and <strong>too much or too little</strong>.</div>
+  </section>
+
+  <!-- 21 wrap1 -->
+  <section class="slide">
+    <div class="section-kicker">Monday &middot; takeaways</div>
+    <h1>Three things to take away</h1>
+    <div class="calc-run big-run">
+      <div class="calc-line "><div class="calc-num">1</div><div><strong>An externality falls on a third party</strong><span>So the market&rsquo;s quantity is wrong: too much if the externality is negative, too little if it is positive.</span></div></div>
+      <div class="calc-line hi"><div class="calc-num">2</div><div><strong>Socially optimal quantity: MSB = MSC</strong><span>The vertical gap between the social and the private curve is the size of the right tax or subsidy.</span></div></div>
+      <div class="calc-line good"><div class="calc-num">3</div><div><strong>A Pigouvian tax uses Unit 6&rsquo;s wedge</strong><span>But here the wedge removes a deadweight loss instead of creating one. The firm internalizes the externality.</span></div></div>
+    </div>
+    <div class="definition-strip blue-strip" style="margin-top:16px; font-size:18px; padding:12px 16px;"><strong>Wednesday:</strong> how much pollution is the right amount, and who should do the cutting?</div>
+  </section>
+
+  <!-- 22 pr_neg -->
+  <section class="slide interactive">
+    <div class="section-kicker">practice 1 of 5 &middot; spot the externality &middot; hands up</div>
+    <h1>Which one is a negative externality?</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:11px 16px;"><div class="market-label">Vote first</div><p style="font-size:19px;">Which of the following is an activity that generates a <strong>negative externality</strong>?</p></div>
+    <div class="vote-opts"><div class="vote-opt"><span class="option-letter">A</span><span class="vote-opt-t">Your upstairs neighbor practices the drums at midnight.</span><span class="reveal-step why" data-step-group="pr1" data-step="1"><span class="verdict ok">&check; Answer</span> You lose sleep, and nobody pays you: a cost on a third party.</span></div><div class="vote-opt"><span class="option-letter">B</span><span class="vote-opt-t">A restaurant serves you a cold, overpriced meal.</span><span class="reveal-step why" data-step-group="pr1" data-step="1"><span class="verdict">No</span> Bad for you, but you are the buyer. No third party.</span></div><div class="vote-opt"><span class="option-letter">C</span><span class="vote-opt-t">The only two gas stations in town agree to raise their prices.</span><span class="reveal-step why" data-step-group="pr1" data-step="1"><span class="verdict">No</span> That is collusion (Unit 9): a problem of market power, not a spillover.</span></div><div class="vote-opt"><span class="option-letter">D</span><span class="vote-opt-t">After buying phone insurance, Sam stops using a phone case.</span><span class="reveal-step why" data-step-group="pr1" data-step="1"><span class="verdict">No</span> Sam shifts a risk to the insurer, who is part of the deal (moral hazard).</span></div></div>
+    <div class="button-row" style="margin-top:9px;"><button type="button" class="step-reveal" data-step-group="pr1">Reveal next</button></div>
+    <div class="reveal-step " data-step-group="pr1" data-step="2"><div class="definition-strip green-strip" style="margin-top:9px; font-size:16px; padding:9px 15px;">First ask: <strong>is someone outside the transaction affected?</strong> A bad deal, a cartel, or a risky choice is a different problem.</div></div>
+    <div class="src">Made-up example, in the format of the question bank.</div>
+  </section>
+
+  <!-- 23 pr_pos -->
+  <section class="slide interactive">
+    <div class="section-kicker">practice 2 of 5 &middot; spot the externality &middot; hands up</div>
+    <h1>Which one is a positive externality?</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:11px 16px;"><div class="market-label">Vote first</div><p style="font-size:19px;">Which of the following generates a <strong>positive externality</strong>?</p></div>
+    <div class="vote-opts"><div class="vote-opt"><span class="option-letter">A</span><span class="vote-opt-t">Your neighbor turns an empty lot into a flower garden the whole block enjoys.</span><span class="reveal-step why" data-step-group="pr2" data-step="1"><span class="verdict ok">&check; Answer</span> Everyone who walks by gains, and none of them paid for it.</span></div><div class="vote-opt"><span class="option-letter">B</span><span class="vote-opt-t">You find a $20 bill in the pocket of a used jacket you bought.</span><span class="reveal-step why" data-step-group="pr2" data-step="1"><span class="verdict">No</span> Lucky, but you are the buyer: no third party.</span></div><div class="vote-opt"><span class="option-letter">C</span><span class="vote-opt-t">Your neighbor&rsquo;s dog barks all night.</span><span class="reveal-step why" data-step-group="pr2" data-step="1"><span class="verdict">No</span> Third parties bear a cost: a negative externality.</span></div><div class="vote-opt"><span class="option-letter">D</span><span class="vote-opt-t">After buying car insurance, Kim starts driving faster.</span><span class="reveal-step why" data-step-group="pr2" data-step="1"><span class="verdict">No</span> A risk shifted to the insurer (moral hazard), not a benefit to others.</span></div></div>
+    <div class="button-row" style="margin-top:9px;"><button type="button" class="step-reveal" data-step-group="pr2">Reveal next</button></div>
+    <div class="reveal-step " data-step-group="pr2" data-step="2"><div class="definition-strip green-strip" style="margin-top:9px; font-size:16px; padding:9px 15px;">Positive externality: a <strong>third party gains</strong> and pays nothing, so <strong>MSB &gt; MPB</strong>.</div></div>
+    <div class="src">Made-up example, in the format of the question bank.</div>
+  </section>
+
+  <!-- 24 pr_policy -->
+  <section class="slide interactive">
+    <div class="section-kicker">practice 3 of 5 &middot; choose the policy &middot; hands up</div>
+    <h1>Cleaner rivers, too few filters</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:11px 16px;"><div class="market-label">Vote first</div><p style="font-size:19px;">A coastal company makes water filters. Each one it sells also cleans the nearby rivers, but it makes fewer than is best for the community. Which policy would <strong>best</strong> raise production to the socially optimal level?</p></div>
+    <div class="vote-opts" style="gap:4px;"><div class="vote-opt" style="padding:4px 12px;"><span class="option-letter">A</span><span class="vote-opt-t">A city-wide campaign about the value of clean water</span><span class="reveal-step why" data-step-group="pr3" data-step="1"><span class="verdict">No</span> It may nudge demand a little, but it does not reward the spillover on each unit.</span></div><div class="vote-opt" style="padding:4px 12px;"><span class="option-letter">B</span><span class="vote-opt-t">A one-time grant to expand the factory</span><span class="reveal-step why" data-step-group="pr3" data-step="1"><span class="verdict">No</span> A lump sum does not change the reward for each extra filter, so it is a weak lever on how many get made.</span></div><div class="vote-opt" style="padding:4px 12px;"><span class="option-letter">C</span><span class="vote-opt-t">A rule that every local company must install one, whatever the cost</span><span class="reveal-step why" data-step-group="pr3" data-step="1"><span class="verdict">No</span> A blunt command: it ignores whether each installation is worth its cost.</span></div><div class="vote-opt" style="padding:4px 12px;"><span class="option-letter">D</span><span class="vote-opt-t">A per-unit subsidy for each filter produced</span><span class="reveal-step why" data-step-group="pr3" data-step="1"><span class="verdict ok">&check; Answer</span> Each extra filter now earns its external benefit, so the company makes more: a Pigouvian subsidy.</span></div><div class="vote-opt" style="padding:4px 12px;"><span class="option-letter">E</span><span class="vote-opt-t">A per-unit tax on each filter produced</span><span class="reveal-step why" data-step-group="pr3" data-step="1"><span class="verdict">No</span> A tax raises the cost of each unit and cuts production: the wrong direction.</span></div></div>
+    <div class="button-row" style="margin-top:9px;"><button type="button" class="step-reveal" data-step-group="pr3">Reveal next</button></div>
+    <div class="reveal-step " data-step-group="pr3" data-step="2"><div class="definition-strip green-strip" style="margin-top:9px; font-size:16px; padding:9px 15px;">Positive externality &rarr; <strong>per-unit subsidy</strong> = MEB. Negative externality &rarr; <strong>per-unit tax</strong> = MEC.</div></div>
+    <div class="src">From the Moodle question bank (&ldquo;ext&rdquo;), reworded.</div>
+  </section>
+
+  <!-- 25 pr_explain -->
+  <section class="slide interactive">
+    <div class="section-kicker">practice 4 of 5 &middot; explain it with MSC and MPC &middot; hands up</div>
+    <h1>Chicken litter and the creek</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:11px 16px;"><div class="market-label">Vote first</div><p style="font-size:19px;">A poultry farm spreads chicken litter on its fields as fertilizer. Rain washes some into a creek, and the town downstream pays more to clean its drinking water. <strong>Why is this a negative externality?</strong></p></div>
+    <div class="vote-opts"><div class="vote-opt"><span class="option-letter">A</span><span class="vote-opt-t">The town bears a cost the farm does not pay, so MSC &gt; MPC.</span><span class="reveal-step why" data-step-group="pr4" data-step="1"><span class="verdict ok">&check; Answer</span> A third party (the town) plus the right curve: the full answer.</span></div><div class="vote-opt"><span class="option-letter">B</span><span class="vote-opt-t">The town bears a cost the farm does not pay, so MSB &gt; MPB.</span><span class="reveal-step why" data-step-group="pr4" data-step="1"><span class="verdict">No</span> Wrong curve: the town bears a cost, not a benefit.</span></div><div class="vote-opt"><span class="option-letter">C</span><span class="vote-opt-t">The town gets a benefit it does not pay for, so MSB &gt; MPB.</span><span class="reveal-step why" data-step-group="pr4" data-step="1"><span class="verdict">No</span> That describes a positive externality.</span></div><div class="vote-opt"><span class="option-letter">D</span><span class="vote-opt-t">There is no externality: the town&rsquo;s water bills cover the cleanup.</span><span class="reveal-step why" data-step-group="pr4" data-step="1"><span class="verdict">No</span> The town&rsquo;s residents pay, the farm does not. That is the spillover.</span></div></div>
+    <div class="button-row" style="margin-top:9px;"><button type="button" class="step-reveal" data-step-group="pr4">Reveal next</button></div>
+    <div class="reveal-step " data-step-group="pr4" data-step="2"><div class="definition-strip green-strip" style="margin-top:9px; font-size:16px; padding:9px 15px;">A full answer has three parts (Monday&rsquo;s template): <strong>the third party</strong> (the town), <strong>which curve is higher</strong> (MSC &gt; MPC), and <strong>too much or too little</strong> (too much litter).</div></div>
+    <div class="src">Made-up example, in the format of the question bank.</div>
+  </section>
+
+  <!-- 26 pr_both -->
+  <section class="slide interactive">
+    <div class="section-kicker">practice 5 of 5 &middot; both at once &middot; hands up</div>
+    <h1>Beavers come back to the creek</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:11px 16px;"><div class="market-label">Vote first</div><p style="font-size:19px;">A county brings beavers back to a creek. Their dams make wetlands that clean the water and draw birdwatchers, but they also flood some farmers&rsquo; fields. Which best describes the case?</p></div>
+    <div class="vote-opts"><div class="vote-opt"><span class="option-letter">A</span><span class="vote-opt-t">A positive externality only</span><span class="reveal-step why" data-step-group="pr5" data-step="1"><span class="verdict">No</span> The flooded farmers bear a cost.</span></div><div class="vote-opt"><span class="option-letter">B</span><span class="vote-opt-t">A negative externality only</span><span class="reveal-step why" data-step-group="pr5" data-step="1"><span class="verdict">No</span> Birdwatchers and people downstream gain.</span></div><div class="vote-opt"><span class="option-letter">C</span><span class="vote-opt-t">Both positive and negative externalities</span><span class="reveal-step why" data-step-group="pr5" data-step="1"><span class="verdict ok">&check; Answer</span> Some third parties gain and others lose, like the backyard beehives earlier today.</span></div><div class="vote-opt"><span class="option-letter">D</span><span class="vote-opt-t">No externalities: every cost and benefit is already counted</span><span class="reveal-step why" data-step-group="pr5" data-step="1"><span class="verdict">No</span> Nobody pays the farmers, and nobody charges the birdwatchers.</span></div></div>
+    <div class="button-row" style="margin-top:9px;"><button type="button" class="step-reveal" data-step-group="pr5">Reveal next</button></div>
+    <div class="reveal-step " data-step-group="pr5" data-step="2"><div class="definition-strip green-strip" style="margin-top:9px; font-size:16px; padding:9px 15px;">One activity can create both kinds. List every third party and ask, for each one: <strong>a cost or a benefit?</strong></div></div>
+    <div class="src">Made-up example, in the format of the question bank.</div>
+  </section>
+</div>
+<div id="progress"></div>
+<div id="hint">&larr; &rarr; / Space to navigate &middot; P to print</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const stage = document.getElementById('stage');
+  const progress = document.getElementById('progress');
+  let idx = 0;
+
+  slides.forEach(function(slide, i){
+    const footer = document.createElement('div');
+    footer.className = 'footer';
+    footer.innerHTML = '<span>ARE 201 &middot; Unit 10 &middot; Externalities &amp; Public Goods</span><span>' + (i + 1) + ' / ' + slides.length + '</span>';
+    slide.appendChild(footer);
+  });
+
+  function fit(){
+    const scale = Math.min(window.innerWidth / 960, window.innerHeight / 720);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+  }
+
+  function show(n){
+    const prev = slides[idx];
+    idx = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(slide, i){ slide.classList.toggle('active', i === idx); });
+    // leaving the video page stops the video (reloading the player)
+    if (prev && prev !== slides[idx]) prev.querySelectorAll('iframe.yt-frame').forEach(function(f){ f.src = f.src; });
+    progress.style.width = (((idx + 1) / slides.length) * 100) + '%';
+    history.replaceState(null, '', '#' + (idx + 1));
+  }
+
+  // Step-by-step reveals (cumulative; data-hide-at takes an element away again at that step)
+  document.querySelectorAll('.step-reveal').forEach(function(button){
+    const group = button.dataset.stepGroup;
+    const elements = Array.from(document.querySelectorAll('.reveal-step')).filter(function(e){ return e.dataset.stepGroup === group; });
+    const steps = Array.from(new Set(elements.map(function(e){ return Number(e.dataset.step); }))).sort(function(a, b){ return a - b; });
+    const label = button.textContent;
+    let shown = 0;
+    button.addEventListener('click', function(){
+      if (shown >= steps.length) {
+        elements.forEach(function(e){ e.classList.remove('visible'); });
+        shown = 0;
+        button.textContent = label;
+        return;
+      }
+      const next = steps[shown];
+      elements.forEach(function(e){ if (Number(e.dataset.step) === next) e.classList.add('visible'); });
+      elements.forEach(function(e){ if (Number(e.dataset.hideAt) === next) e.classList.remove('visible'); });
+      shown += 1;
+      button.textContent = shown >= steps.length ? 'Reset' : label + ' (' + shown + '/' + steps.length + ')';
+    });
+  });
+
+  // State groups: an element is visible only in the states listed in data-on
+  const sg = {}, stateOf = {};
+  document.querySelectorAll('.st').forEach(function(e){ (sg[e.dataset.sg] = sg[e.dataset.sg] || []).push(e); });
+  function setState(g, n){
+    (sg[g] || []).forEach(function(e){ e.classList.toggle('on', e.dataset.on.split(' ').indexOf(String(n)) !== -1); });
+    document.querySelectorAll('.state-btn').forEach(function(b){ if (b.dataset.sg === g) b.classList.toggle('selected', b.dataset.state === String(n)); });
+    document.querySelectorAll('.sg-root').forEach(function(e){ if (e.dataset.sg === g) e.dataset.state = String(n); });
+    stateOf[g] = n;
+  }
+  Object.keys(sg).forEach(function(g){ setState(g, 0); });
+  document.querySelectorAll('.state-btn').forEach(function(b){
+    b.addEventListener('click', function(){ setState(b.dataset.sg, Number(b.dataset.state)); });
+  });
+
+  document.addEventListener('keydown', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea')) return;
+    if (['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(event.key)) { event.preventDefault(); show(idx + 1); }
+    else if (['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(event.key)) { event.preventDefault(); show(idx - 1); }
+    else if (event.key.toLowerCase() === 'p') { window.print(); }
+    else if (event.key === 'Home') { show(0); }
+    else if (event.key === 'End') { show(slides.length - 1); }
+  });
+
+  document.addEventListener('click', function(event){
+    if (event.target.closest && event.target.closest('a, button, input, select, textarea, .feedback, .plot-panel, .u8-table, .wf-table, .nl-card, .vote-opt, .sg-root, .fund, .pm-wrap')) return;
+    if (event.clientX > window.innerWidth / 2) show(idx + 1); else show(idx - 1);
+  });
+
+  // YouTube will not embed in a page opened as a local file (Error 153): swap the player for a link card
+  if (location.protocol === 'file:') {
+    document.querySelectorAll('.yt-wrap').forEach(function(w){
+      const t = w.parentElement.querySelector('template.yt-file');
+      if (!t) return;
+      w.innerHTML = t.innerHTML;
+      const l = w.parentElement.querySelector('.yt-link'); if (l) l.style.visibility = 'hidden';
+    });
+  }
+
+  window.addEventListener('resize', fit);
+  const hash = parseInt(location.hash.replace('#',''), 10);
+  if (Number.isFinite(hash)) idx = Math.max(0, Math.min(slides.length - 1, hash - 1));
+  fit();
+  show(idx);
+})();
+</script>
+
+<script>
+(function(){
+  document.querySelectorAll('.fund').forEach(function(g){
+    const pts = Number(g.dataset.pts), inN = g.querySelector('.fund-n'), inC = g.querySelector('.fund-c');
+    const fk = g.querySelector('.fk'), fc = g.querySelector('.fc'), rows = Array.from(g.querySelectorAll('.fund-row'));
+    function r1(v){ return (Math.round(v * 10) / 10).toString(); }
+    function vals(tax){
+      const n = Math.max(2, Math.round(Number(inN.value) || 0));
+      let c = Math.max(0, Math.min(n, Math.round(Number(inC.value) || 0)));
+      if (tax) c = n;
+      const share = 2 * pts * c / n;
+      return {n: n, c: c, keep: pts + share, give: share, avg: pts + pts * c / n};
+    }
+    function show(){ const v = vals(false); fk.textContent = r1(v.keep); fc.textContent = r1(v.give); }
+    inN.addEventListener('input', show); inC.addEventListener('input', show);
+    g.querySelectorAll('.fund-rec').forEach(function(b){ b.addEventListener('click', function(){
+      const r = Number(b.dataset.r), tax = r === 2, v = vals(tax), td = rows[r].querySelectorAll('td');
+      if (tax) { inC.value = v.n; show(); }
+      td[1].textContent = v.c + ' of ' + v.n;
+      td[2].textContent = tax ? '–' : r1(v.keep);
+      td[3].textContent = r1(v.give);
+      td[4].textContent = r1(v.avg);
+      rows[r].classList.add('done');
+    }); });
+    g.querySelector('.fund-reset').addEventListener('click', function(){
+      rows.forEach(function(tr){ tr.classList.remove('done'); tr.querySelectorAll('td:not(.lead)').forEach(function(td){ td.innerHTML = '&ndash;'; }); });
+      inC.value = 0; show();
+    });
+    show();
+  });
+})();
+</script>
+</body>
+</html>
