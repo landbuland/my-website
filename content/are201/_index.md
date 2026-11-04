@@ -75,3 +75,4 @@ courseTitle: "Introduction to Agricultural and Resource Economics"
 ### Unit 10: Externalities and Public Goods
 
 - [Externalities Slides](https://zihanzhang.me/assets/are201/ARE201_Unit10_Part1_Externalities_Fall2026.html)
+- [Pollution Policy Slides](https://zihanzhang.me/assets/are201/ARE201_Unit10_Part2_Pollution_Policy_Fall2026.html)

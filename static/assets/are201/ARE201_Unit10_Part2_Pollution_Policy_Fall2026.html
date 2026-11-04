@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARE 201 — Unit 10: Externalities & Public Goods (Part 2: Pollution Policy)</title>
+<style>
+  :root {
+    --accent: #EB811B;
+    --accent-soft: #fff4e8;
+    --ink: #1f2933;
+    --muted: #5f6b76;
+    --paper: #ffffff;
+    --soft: #f3f4f6;
+    --line: #d8dde3;
+    --blue: #2f80c9;
+    --blue-soft: #eef5fb;
+    --green: #378a61;
+    --green-soft: #e9f6ef;
+    --red: #c9504d;
+    --red-soft: #fcedec;
+    --purple: #7657a5;
+    --purple-soft: #f3effa;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #111; }
+  body { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+
+  #stage {
+    position: absolute; left: 50%; top: 50%;
+    width: 960px; height: 720px;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+    background: var(--paper);
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  }
+
+  .slide {
+    position: absolute; inset: 0; display: none;
+    width: 960px; height: 720px;
+    padding: 50px 62px 48px;
+    overflow: hidden; color: var(--ink); background: var(--paper);
+  }
+  .slide.active { display: block; }
+  .slide.center { text-align: center; }
+  .slide.middle { align-items: center; justify-content: center; flex-direction: column; }
+  .slide.middle.active { display: flex; }
+
+  h1, h2, h3, p { margin-top: 0; }
+  h1 { margin-bottom: 16px; font-size: 37px; line-height: 1.12; letter-spacing: -.4px; }
+  h2 { margin-bottom: 10px; font-size: 25px; line-height: 1.2; }
+  h3 { margin-bottom: 7px; font-size: 19px; line-height: 1.2; }
+  p, li { font-size: 19px; line-height: 1.34; }
+  ul { margin: 7px 0 0 22px; padding: 0; }
+  li { margin: 6px 0; }
+  strong { font-weight: 780; }
+  .small { font-size: 16px; line-height: 1.34; }
+  .tiny { font-size: 13px; line-height: 1.3; }
+  .muted { color: var(--muted); }
+  .accent { color: var(--accent); }
+  .blue { color: var(--blue); }
+  .green { color: var(--green); }
+  .red { color: var(--red); }
+  .purple { color: var(--purple); }
+
+  .section-kicker {
+    margin-bottom: 7px; color: var(--accent);
+    font-size: 14px; font-weight: 820; letter-spacing: .1em; text-transform: uppercase;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  .two-thirds { display: grid; grid-template-columns: 1.12fr .88fr; gap: 23px; align-items: start; }
+  .thirds-two { display: grid; grid-template-columns: .88fr 1.12fr; gap: 23px; align-items: start; }
+
+  .card { padding: 17px 19px; border-radius: 8px; background: var(--soft); }
+  .card.white { border: 1px solid var(--line); background: #fff; }
+  .card.accent-top { border-top: 4px solid var(--accent); border-radius: 0 0 8px 8px; }
+  .card.blue-top { border-top: 4px solid var(--blue); border-radius: 0 0 8px 8px; }
+  .card.green-top { border-top: 4px solid var(--green); border-radius: 0 0 8px 8px; }
+  .card.red-top { border-top: 4px solid var(--red); border-radius: 0 0 8px 8px; }
+  .card.purple-top { border-top: 4px solid var(--purple); border-radius: 0 0 8px 8px; }
+  .card p, .card li { font-size: 16px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  .definition-strip {
+    padding: 13px 16px; border-left: 5px solid var(--accent);
+    background: var(--accent-soft); font-size: 19px; line-height: 1.36;
+  }
+  .definition-strip.blue-strip { border-left-color: var(--blue); background: var(--blue-soft); }
+  .definition-strip.green-strip { border-left-color: var(--green); background: var(--green-soft); }
+  .definition-strip.red-strip { border-left-color: var(--red); background: var(--red-soft); }
+  .definition-strip.purple-strip { border-left-color: var(--purple); background: var(--purple-soft); }
+
+  .interactive button {
+    min-height: 41px; padding: 9px 14px; border: 0; border-radius: 7px;
+    color: #fff; background: var(--accent);
+    font: 730 15px "Avenir Next", "Helvetica Neue", Arial, sans-serif; cursor: pointer;
+  }
+  .interactive button:hover { filter: brightness(.96); }
+  .interactive button:focus-visible { outline: 3px solid rgba(235,129,27,.35); outline-offset: 2px; }
+  .interactive button:disabled { opacity: .45; cursor: default; filter: none; }
+  .interactive button.secondary { color: var(--ink); background: #e5e8eb; }
+  .interactive button.blue-button { background: var(--blue); }
+  .interactive button.green-button { background: var(--green); }
+  .interactive button.purple-button { background: var(--purple); }
+  .interactive button.selected { box-shadow: inset 0 0 0 3px rgba(255,255,255,.65); }
+  .interactive button.correct { color: #fff; background: var(--green); }
+  .interactive button.wrong { color: #fff; background: var(--red); }
+
+  .button-row { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
+  .feedback {
+    min-height: 54px; padding: 10px 13px;
+    border-left: 4px solid var(--line); background: var(--soft);
+    font-size: 15px; line-height: 1.33;
+  }
+  .feedback.success { border-left-color: var(--green); background: var(--green-soft); }
+  .feedback.error { border-left-color: var(--red); background: var(--red-soft); }
+  .feedback.info { border-left-color: var(--blue); background: var(--blue-soft); }
+
+  .title-slide { padding-bottom: 150px; }
+  .title-kicker { margin-bottom: 13px; color: var(--accent); font-size: 17px; font-weight: 780; letter-spacing: .11em; text-transform: uppercase; }
+  .title-main { max-width: 780px; margin: 0 auto 12px; font-size: 57px; line-height: 1.02; }
+  .title-sub { color: var(--muted); font-size: 24px; line-height: 1.35; }
+  .title-graphic { position: absolute; right: 65px; bottom: 38px; width: 470px; height: 170px; }
+
+  .poll-letter { display: inline-flex; width: 31px; height: 31px; margin-bottom: 9px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--accent); font-weight: 820; }
+
+  .quiz-scenario { min-height: 84px; padding: 15px 18px; border-left: 5px solid var(--accent); background: var(--accent-soft); }
+  .quiz-scenario .market-label { color: var(--accent); font-size: 13px; font-weight: 820; letter-spacing: .07em; text-transform: uppercase; }
+  .quiz-scenario p { margin: 5px 0 0; font-size: 21px; line-height: 1.28; }
+
+  /* ---- plots ---- */
+  .plot-panel { padding: 10px 12px 8px; border: 1px solid var(--line); background: #fff; }
+  .plot-title { margin: 0 0 2px; font-size: 14px; font-weight: 800; text-align: center; }
+  .plot { display: block; width: 100%; height: 300px; }
+  .plot.mid { height: 250px; }
+  .plot.demand-h { height: 222px; }
+  .plot.half { height: 196px; }
+  .plot.mini { height: 106px; }
+  .axis { fill: none; stroke: var(--ink); stroke-width: 2; }
+  .gridline { fill: none; stroke: #e8ebee; stroke-width: 1; }
+  .demand-line { fill: none; stroke: var(--blue); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+  .old-line { fill: none; stroke: #9aa3ab; stroke-width: 3; stroke-dasharray: 7 6; }
+  .projection { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 5 4; }
+  .ref-line { fill: none; stroke: var(--muted); stroke-width: 1.6; stroke-dasharray: 5 4; }
+  .leader { fill: none; stroke: var(--muted); stroke-width: 1.2; }
+  .plot-label { fill: var(--ink); font: 700 13px Arial, sans-serif; }
+  .plot-label.sm { font-size: 11px; }
+  .tick-label { fill: var(--muted); font: 11px Arial, sans-serif; }
+  .dot { fill: var(--accent); stroke: #fff; stroke-width: 2; }
+  .dot.blue-dot { fill: var(--blue); }
+  .dot.green-dot { fill: var(--green); }
+  .dot.red-dot { fill: var(--red); }
+  .dot.purple-dot { fill: var(--purple); }
+  .dot.hollow-dot { fill: #fff; stroke: var(--green); stroke-width: 3; }
+
+  /* ---- reveal machinery ---- */
+  .reveal-step { visibility: hidden; opacity: 0; transition: opacity .18s ease; }
+  .reveal-step.visible { visibility: visible; opacity: 1; }
+  .check-answer { visibility: hidden; opacity: 0; transition: opacity .18s ease; }
+  .check-answer.visible { visibility: visible; opacity: 1; }
+
+  .formula-box {
+    padding: 15px 18px; border: 2px solid var(--accent); border-radius: 8px;
+    background: var(--accent-soft); text-align: center;
+  }
+  .formula-box .frac { display: inline-block; vertical-align: middle; text-align: center; }
+  .formula-box .frac .num { display: block; padding: 0 9px 3px; border-bottom: 2.5px solid var(--ink); font-size: 20px; font-weight: 800; }
+  .formula-box .frac .den { display: block; padding: 3px 9px 0; font-size: 20px; font-weight: 800; }
+  .formula-box .lhs { display: inline-block; vertical-align: middle; margin-right: 10px; font-size: 22px; font-weight: 840; }
+  .formula-box.purple-box { border-color: var(--purple); background: var(--purple-soft); }
+
+  .calc-run { display: grid; gap: 9px; margin-top: 4px; }
+  .calc-line {
+    display: grid; grid-template-columns: 30px 1fr; gap: 11px; align-items: center;
+    padding: 9px 13px; background: var(--soft);
+  }
+  .calc-line.hi { background: var(--accent-soft); }
+  .calc-line.bad { background: var(--red-soft); }
+  .calc-line.good { background: var(--green-soft); }
+  .calc-num { display: flex; width: 26px; height: 26px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--ink); font-size: 12px; font-weight: 820; }
+  .calc-line.hi .calc-num { background: var(--accent); }
+  .calc-line.bad .calc-num { background: var(--red); }
+  .calc-line.good .calc-num { background: var(--green); }
+  .calc-line strong { display: block; font-size: 16px; }
+  .calc-line span { display: block; margin-top: 2px; color: var(--muted); font-size: 13px; line-height: 1.28; }
+  .calc-line .ans { margin-top: 3px; color: var(--ink); font-size: 14px; font-weight: 700; line-height: 1.3; }
+
+  .lo-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .lo-row { display: grid; grid-template-columns: 58px 1fr; gap: 10px; align-items: center; padding: 9px 12px; background: var(--soft); }
+  .lo-row.today { background: var(--accent-soft); }
+  .lo-tag { padding: 5px 4px; color: #fff; background: var(--muted); font-size: 11px; font-weight: 850; text-align: center; }
+  .lo-row.today .lo-tag { background: var(--accent); }
+  .lo-row span { font-size: 13px; line-height: 1.25; }
+
+  .mechanism-box { display: flex; min-height: 86px; padding: 11px; align-items: center; justify-content: center; background: var(--soft); font-size: 15px; font-weight: 740; line-height: 1.28; text-align: center; }
+  .mechanism-box.blue-box { background: var(--blue-soft); }
+  .mechanism-box.green-box { background: var(--green-soft); }
+  .mechanism-box.purple-box { background: var(--purple-soft); }
+  .mechanism-box.accent-box { background: var(--accent-soft); }
+  .mechanism-arrow { display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 24px; font-weight: 850; }
+
+  .compact-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-top: 13px; }
+  .compact-check { padding: 11px 13px; border-left: 4px solid var(--purple); background: var(--purple-soft); }
+  .compact-check strong { display: block; margin-bottom: 3px; font-size: 14px; }
+  .compact-check span { color: var(--muted); font-size: 12px; line-height: 1.25; }
+
+  .exit-answer { min-height: 58px; margin-top: 12px; padding: 12px 14px; border-left: 4px solid var(--green); background: var(--green-soft); visibility: hidden; opacity: 0; }
+  .exit-answer.visible { visibility: visible; opacity: 1; }
+  .exit-answer p { margin: 0; font-size: 15px; line-height: 1.34; }
+
+  .illus-tag {
+    display: inline-block; margin-left: 8px; padding: 2px 7px; border-radius: 3px;
+    background: var(--soft); color: var(--muted); font-size: 11px; font-weight: 800;
+    letter-spacing: .05em; text-transform: uppercase; vertical-align: middle;
+  }
+  .footer-note { margin-top: 14px; }
+
+  .know-badge { display: inline-block; padding: 4px 10px; border-radius: 3px; color: #fff; font-size: 11px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .know-badge.yes { background: var(--muted); }
+  .know-badge.no { background: var(--accent); }
+  .know-card { padding: 14px 16px 10px; border-top: 5px solid var(--muted); background: var(--soft); }
+  .know-card.unknown { border-top-color: var(--accent); background: var(--accent-soft); }
+  .know-card h2 { margin: 8px 0 4px; font-size: 21px; }
+
+  .option-row { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: center; padding: 12px 15px; background: var(--soft); }
+  .option-row + .option-row { margin-top: 9px; }
+  .option-letter { display: flex; width: 26px; height: 26px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--blue); font-size: 12px; font-weight: 820; }
+  .option-row span:last-child { font-size: 17px; font-weight: 700; }
+
+  .footer { position: absolute; right: 62px; bottom: 18px; left: 62px; display: flex; justify-content: space-between; color: #8a949e; font-size: 12px; }
+  #progress { position: fixed; bottom: 0; left: 0; z-index: 20; height: 4px; background: var(--accent); transition: width .18s ease; }
+  #hint { position: fixed; right: 14px; bottom: 9px; z-index: 20; color: rgba(255,255,255,.52); font: 12px Arial, sans-serif; }
+
+  @page { size: 10in 7.5in; margin: 0; }
+  @media print {
+    html, body { width: auto; height: auto; overflow: visible; background: #fff; }
+    #stage { position: static; width: auto; height: auto; transform: none !important; box-shadow: none; }
+    .slide { position: relative; display: block !important; page-break-after: always; break-after: page; }
+    #progress, #hint { display: none; }
+    .exit-answer { visibility: visible !important; opacity: 1 !important; }
+    .reveal-step { visibility: visible !important; opacity: 1 !important; }
+    .check-answer { visibility: visible !important; opacity: 1 !important; }
+    .print-only { display: block; }
+  }
+
+  /* ---- unit 8a specific ---- */
+  .mp-bar { fill: var(--accent); }
+  .mp-bar.neg { fill: var(--red); }
+  .mp-bar.hl { fill: var(--blue); }
+  .mp-bar.soft { fill: #f5c08f; }
+  .tp-line { fill: none; stroke: var(--blue); stroke-width: 3.5; stroke-linejoin: round; stroke-linecap: round; }
+  .tp-line.alt { stroke: var(--green); }
+  .tp-line.ghost { stroke: #9aa3ab; stroke-width: 2.5; stroke-dasharray: 7 6; }
+  .flow-sub { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .zero-line { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+  .c-line { fill: none; stroke-width: 3.5; stroke-linejoin: round; stroke-linecap: round; }
+  .c-line.mc { stroke: var(--red); }
+  .c-line.atc { stroke: var(--blue); }
+  .c-line.avc { stroke: var(--green); }
+  .c-line.afc { stroke: var(--purple); }
+  .c-line.tc { stroke: var(--ink); }
+  .c-line.vc { stroke: var(--green); }
+  .c-line.fc { stroke: var(--purple); }
+  .c-line.ghost { stroke-width: 2.4; stroke-dasharray: 7 6; opacity: .5; }
+  .c-label { font: 800 13px Arial, sans-serif; }
+  .c-label.mc { fill: var(--red); } .c-label.atc { fill: var(--blue); } .c-label.avc { fill: var(--green); }
+  .c-label.afc { fill: var(--purple); } .c-label.tc { fill: var(--ink); } .c-label.vc { fill: var(--green); } .c-label.fc { fill: var(--purple); }
+  .c-label.ghost { opacity: .6; font-weight: 700; }
+  .axis-title { fill: var(--muted); font: 700 12px Arial, sans-serif; }
+
+  .u8-table { width: 100%; border-collapse: collapse; font-size: 16px; text-align: center; }
+  .u8-table caption { caption-side: top; padding: 0 0 6px; color: var(--muted); font-size: 12px; font-weight: 820; letter-spacing: .07em; text-align: left; text-transform: uppercase; }
+  .u8-table th { padding: 8px 8px; color: #fff; background: var(--ink); font-size: 13px; font-weight: 800; line-height: 1.2; }
+  .u8-table td { padding: 7px 8px; border-bottom: 1px solid var(--line); font-weight: 700; }
+  .u8-table td.lead { color: var(--muted); font-weight: 840; }
+  .u8-table tr.hl td { background: var(--accent-soft); }
+  .u8-table tr.hl-blue td { background: var(--blue-soft); }
+  .u8-table tr.hl-green td { background: var(--green-soft); }
+  .u8-table tr.hl-red td { background: var(--red-soft); }
+  .u8-table td.cell-hl { background: var(--accent-soft); color: var(--accent); }
+  .u8-table td.cell-min { background: var(--green-soft); color: var(--green); }
+  .u8-table.compact th { padding: 6px 6px; }
+  .u8-table.compact td { padding: 5px 6px; font-size: 15px; }
+  .u8-table.tight td { padding: 4px 6px; font-size: 14px; }
+  .u8-table.tight th { padding: 5px 5px; font-size: 12px; }
+  .u8-table.left-first th:first-child, .u8-table.left-first td:first-child { padding-left: 10px; text-align: left; }
+  .u8-table .new { color: var(--red); }
+  .u8-table .same { color: #a3abb3; }
+
+  .sign-table { width: 100%; border-collapse: collapse; font-size: 16px; text-align: center; }
+  .sign-table th { padding: 9px 8px; color: #fff; background: var(--ink); font-size: 13px; line-height: 1.2; }
+  .sign-table td { padding: 11px 8px; border-bottom: 1px solid var(--line); font-weight: 840; font-size: 20px; }
+  .sign-table td:first-child { padding-left: 12px; font-size: 15px; font-weight: 760; text-align: left; }
+  .sign-table td .sub { display: block; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .up { color: var(--red); }
+  .down { color: var(--green); }
+  .flat { color: #a3abb3; }
+
+  .factor-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 16px; }
+  .factor { padding: 12px 11px; border-top: 4px solid var(--accent); background: var(--soft); }
+  .factor h3 { margin-bottom: 5px; font-size: 15px; }
+  .factor p { margin: 0; font-size: 14px; line-height: 1.3; }
+
+  .sort-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px; margin-top: 14px; }
+  .sort-card { min-height: 92px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  .sort-card p { margin: 0; font-size: 16px; font-weight: 700; line-height: 1.28; }
+  .sort-card .reveal-step { display: block; margin-top: 8px; }
+  .tag { display: inline-block; padding: 3px 9px; border-radius: 3px; color: #fff; font-size: 12px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+  .tag.fixed { background: var(--purple); }
+  .tag.variable { background: var(--green); }
+  .tag.prod { background: var(--blue); }
+  .tag.down-tag { background: var(--green); }
+  .tag-note { display: block; margin-top: 5px; color: var(--muted); font-size: 13px; line-height: 1.25; font-weight: 600; }
+
+  .event-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+  .event { min-height: 128px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  .event .num { display: inline-flex; width: 22px; height: 22px; margin-right: 6px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: var(--ink); font-size: 11px; font-weight: 850; vertical-align: 1px; }
+  .event p { margin: 0; font-size: 15px; font-weight: 700; line-height: 1.27; }
+  .event .reveal-step { display: block; margin-top: 7px; }
+  .event .curves { display: block; margin-top: 4px; font-size: 13px; font-weight: 700; line-height: 1.25; }
+
+  .phase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+  .phase { padding: 13px 15px; border-top: 5px solid var(--green); background: var(--green-soft); }
+  .phase.mid { border-top-color: var(--accent); background: var(--accent-soft); }
+  .phase.neg { border-top-color: var(--red); background: var(--red-soft); }
+  .phase .who { color: var(--muted); font-size: 12px; font-weight: 850; letter-spacing: .07em; text-transform: uppercase; }
+  .phase h3 { margin: 4px 0 6px; font-size: 19px; }
+  .phase p { margin: 0; font-size: 15px; line-height: 1.32; }
+
+  .scene { display: block; width: 100%; height: auto; }
+  .stmt { display: grid; grid-template-columns: 1fr 230px; gap: 14px; align-items: center; padding: 12px 15px; background: var(--soft); }
+  .stmt + .stmt { margin-top: 9px; }
+  .stmt p { margin: 0; font-size: 17px; font-weight: 700; line-height: 1.3; }
+  .stmt .reveal-step { font-size: 14px; line-height: 1.3; }
+  .verdict { display: inline-block; margin-right: 6px; padding: 2px 8px; border-radius: 3px; color: #fff; background: var(--red); font-size: 12px; font-weight: 850; }
+  .verdict.ok { background: var(--green); }
+
+  .q-list { margin: 8px 0 0; padding: 0; list-style: none; }
+  .q-list li { margin: 5px 0; font-size: 16px; line-height: 1.3; }
+  .q-list li b { display: inline-block; width: 24px; color: var(--accent); }
+
+  .ans-box { margin-top: 10px; padding: 9px 13px; border-left: 4px solid var(--green); background: var(--green-soft); }
+  .ans-box p { margin: 3px 0; font-size: 15px; line-height: 1.3; }
+  .ans-box b { color: var(--green); }
+  .calc-line span b { color: var(--ink); font-size: 15px; }
+  .big-num { display: block; font-size: 44px; font-weight: 850; line-height: 1.05; }
+  .big-cap { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+  .stat-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .stat { padding: 14px 10px; background: var(--soft); text-align: center; }
+  .stat.accent-stat { background: var(--accent-soft); }
+  .stat.red-stat { background: var(--red-soft); }
+  .stat.green-stat { background: var(--green-soft); }
+  .stat.blue-stat { background: var(--blue-soft); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 6px; font-size: 13px; font-weight: 700; }
+  .legend span::before { content: ''; display: inline-block; width: 18px; height: 0; margin-right: 6px; border-top: 3.5px solid currentColor; vertical-align: 4px; }
+  .legend span.dash::before { border-top-style: dashed; opacity: .6; }
+
+  #debriefSlide .calc-run { gap: 9px; }
+  #debriefSlide .calc-line { padding: 9px 13px; }
+  #debriefSlide .calc-line strong { font-size: 17px; }
+  #debriefSlide .calc-line span { margin-top: 3px; color: var(--ink); font-size: 14.5px; line-height: 1.33; }
+  #debriefSlide .calc-line span b.k { color: #b8600f; font-size: inherit; }
+  .launch { display: inline-flex; align-items: center; justify-content: center; min-height: 58px; padding: 12px 22px; border-radius: 10px;
+    background: var(--accent); color: #fff; font-size: 21px; font-weight: 820; text-decoration: none; box-shadow: 0 3px 0 #c56a12; }
+  .launch:hover { filter: brightness(1.05); }
+  .interactive .choice-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+  .interactive .choice-row button { min-height: 50px; font-size: 18px; }
+
+
+  /* ---- shared with the 8b deck ---- */
+  .p-line { fill: none; stroke: var(--accent); stroke-width: 3.2; stroke-linecap: round; }
+  .p-line.dash { stroke-dasharray: 8 5; stroke-width: 2.4; }
+  .gain-area { fill: var(--green); opacity: .26; }
+  .loss-area { fill: var(--red); opacity: .26; }
+  .profit-rect { fill: var(--green); fill-opacity: .24; stroke: var(--green); stroke-width: 2; }
+  .guide { fill: none; stroke: #9aa3ab; stroke-width: 1.2; stroke-dasharray: 3 4; }
+  .tick-label.strong-tick { fill: var(--ink); font-weight: 700; }
+  .zone.z1 { fill: var(--green); opacity: .10; }
+  .zone.z3 { fill: var(--red); opacity: .09; }
+  .st { visibility: hidden; opacity: 0; transition: opacity .25s ease; }
+  .st.on { visibility: visible; opacity: 1; }
+  .interactive button.state-btn.selected { background: var(--ink); box-shadow: none; }
+  .qc-stmt { grid-template-columns: 1fr 280px; padding: 9px 14px; }
+  .qc-stmt + .qc-stmt { margin-top: 7px; }
+  .qc-stmt p { font-size: 15.5px; font-weight: 600; }
+  .qc-stmt .reveal-step { font-size: 13.5px; }
+  .qc-tag { display: inline-block; margin-right: 8px; padding: 1px 7px; border-radius: 3px; background: var(--ink); color: #fff; font-size: 11px; font-weight: 850; letter-spacing: .05em; text-transform: uppercase; vertical-align: 2px; }
+  .stack { display: grid; }
+  .stack > * { grid-area: 1 / 1; }
+  .u8-table .neg { color: var(--red); white-space: nowrap; }
+  .u8-table .pos { color: var(--green); white-space: nowrap; }
+  .u8-table td.cell-red { background: var(--red-soft); color: var(--red); }
+  .big-run .calc-line { padding: 12px 16px; }
+  .big-run .calc-line strong { font-size: 20px; }
+  .big-run .calc-line span { margin-top: 4px; color: var(--ink); font-size: 15.5px; }
+
+  /* ---- unit 9 ---- */
+  .mr-line { fill: none; stroke: var(--purple); stroke-width: 3.2; stroke-linecap: round; }
+  .c-line.atc9 { stroke: #5f6b76; stroke-width: 2.8; }
+  .cs-area { fill: var(--blue); opacity: .22; }
+  .dwl-area { fill: var(--red); opacity: .34; }
+  @media print { .reveal-step[data-hide-at] { display: none !important; } }
+  .loss-rect { fill: var(--red); fill-opacity: .24; stroke: var(--red); stroke-width: 2; }
+  .mrp-table th { width: 150px; padding-left: 12px; text-align: left; font-size: 14px; }
+  .mrp-table td { font-size: 18px; }
+  .mrp-table tr.reveal-step:not(.visible) td { border-bottom-color: transparent; }
+  .sp-card { padding: 9px 14px 11px; }
+  .sp-card + .sp-card { margin-top: 10px; }
+  .sp-card h3 { margin-bottom: 2px; font-size: 16px; }
+  .sp-q { margin-top: 6px; font-size: 15px; font-weight: 650; line-height: 1.3; }
+  .sp-q .reveal-step { display: block; margin-top: 1px; font-size: 14px; font-weight: 400; }
+  .cal { display: grid; grid-template-columns: 118px repeat(3, 1fr) 118px; gap: 6px 8px; margin-top: 14px; align-items: stretch; }
+  .cal .hd { padding: 0 2px 2px; border-bottom: 2px solid var(--ink); color: var(--muted); font-size: 12px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+  .cal .wk { grid-column: 1; align-self: center; font-size: 17px; font-weight: 800; white-space: nowrap; }
+  .cal .due { align-self: center; font-size: 16px; font-weight: 750; white-space: nowrap; }
+  .cal .cell { display: flex; flex-direction: column; justify-content: center; min-height: 61px; padding: 7px 14px; border-radius: 6px; background: var(--soft); font-size: 19px; font-weight: 800; line-height: 1.2; }
+  .cal .cell small { margin-top: 3px; font-size: 13.5px; font-weight: 650; opacity: .85; }
+  .cal .span3 { grid-column: span 3; flex-direction: row; flex-wrap: wrap; justify-content: flex-start; align-content: center; align-items: center; column-gap: 12px; }
+  .cal .span3 small { flex-basis: 100%; }
+  .cal .span2 { grid-column: span 2; }
+  .cal .u9 { border-left: 6px solid var(--accent); background: var(--accent-soft); }
+  .cal .u10 { border-left: 6px solid var(--blue); background: var(--blue-soft); }
+  .cal .u11 { border-left: 6px solid var(--green); background: var(--green-soft); }
+  .cal .rev { border-left: 6px solid var(--purple); background: var(--purple-soft); }
+  .cal .exam { background: var(--red); color: #fff; }
+  .cal .off { background: repeating-linear-gradient(135deg, #f3f4f6 0 8px, #e9ecef 8px 16px); color: var(--muted); }
+  .cal .last { background: var(--ink); color: #fff; }
+  .cal-today { display: inline-block; padding: 2px 8px; border-radius: 3px; background: var(--accent); color: #fff; font-size: 11.5px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+  .game-logo { display: block; width: 600px; margin: 12px auto 14px; }
+  .ans-tag.key { background: var(--accent); }
+  .big-cards .card { padding: 18px 18px 22px; }
+  .big-cards h3 { font-size: 21px; }
+  .big-cards p { font-size: 18px; line-height: 1.38; }
+  .zero-line { stroke: var(--muted); stroke-width: 1.4; }
+  .nl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 10px; }
+  .nl-card { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; padding: 10px 13px; border-radius: 8px; background: var(--soft); }
+  .nl-card h3 { margin: 0 0 2px; font-size: 16.5px; }
+  .nl-card p { margin: 0; font-size: 13.5px; color: var(--muted); line-height: 1.3; }
+  .nl-card .reveal-step { grid-column: 2; margin-top: 4px; font-size: 13.5px; line-height: 1.3; }
+  .ans-tag { display: inline-block; margin-right: 6px; padding: 2px 8px; border-radius: 3px; color: #fff; font-size: 11.5px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
+  .ans-tag.nat { background: var(--green); } .ans-tag.leg { background: var(--blue); } .ans-tag.both { background: var(--purple); }
+  .vote-opts { display: grid; gap: 6px; margin-top: 8px; }
+  .vote-opt { display: grid; grid-template-columns: 28px 1fr; column-gap: 10px; align-items: center; padding: 6px 12px; border-radius: 8px; background: var(--soft); }
+  .vote-opt-t { font-size: 16px; font-weight: 700; }
+  .vote-opt .why { grid-column: 2; margin-top: 3px; font-size: 13.5px; line-height: 1.28; }
+  .cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; }
+  .chain { display: grid; gap: 6px; margin-top: 8px; }
+  .chain .mechanism-box { min-height: 0; padding: 8px 10px; font-size: 15px; }
+  .chain .arrow { color: var(--accent); font-size: 18px; font-weight: 850; text-align: center; line-height: 1; }
+  .quote { margin: 10px 0 0; padding: 10px 14px; border-left: 4px solid var(--muted); background: var(--soft); font-size: 15px; font-style: italic; line-height: 1.35; }
+  .quote .who { display: block; margin-top: 4px; color: var(--muted); font-size: 12.5px; font-style: normal; font-weight: 700; }
+  .wf-table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  .wf-table th { padding: 5px 6px; border-bottom: 2px solid var(--ink); color: var(--muted); font-size: 11.5px; letter-spacing: .05em; text-transform: uppercase; text-align: right; }
+  .wf-table th:first-child, .wf-table td:first-child { text-align: left; }
+  .wf-table td { padding: 6px 6px; border-bottom: 1px solid var(--line); font-weight: 700; text-align: right; }
+  .wf-table td.lead { color: var(--muted); font-weight: 800; }
+  .wf-table tr.dwl td { color: var(--red); }
+  .yt-q { padding: 6px 11px; border-radius: 7px; background: var(--soft); }
+  .yt-q + .yt-q { margin-top: 6px; }
+  .yt-q p { margin: 0; font-size: 15px; font-weight: 650; line-height: 1.3; }
+  .yt-a { margin-top: 3px; font-size: 13.5px; line-height: 1.3; }
+  .ae-step { padding: 8px 12px; border-left: 4px solid var(--muted); border-radius: 6px; background: var(--soft); font-size: 15px; line-height: 1.35; }
+  .ae-step + .ae-step { margin-top: 8px; }
+  .ae-note { display: block; margin-top: 3px; color: var(--muted); font-size: 12.5px; }
+  .ae-step.g { border-color: var(--green); } .ae-step.o { border-color: var(--accent); } .ae-step.r { border-color: var(--red); } .ae-step.b { border-color: var(--blue); }
+  .yt-wrap { width: 704px; height: 396px; margin: 4px auto 0; border-radius: 8px; overflow: hidden; background: #111; }
+  .yt-wrap iframe { display: block; width: 100%; height: 100%; border: 0; }
+  .yt-watch { margin-top: 12px; padding: 9px 15px; font-size: 17px; }
+  .yt-link { margin: 6px 0 0; font-size: 14px; text-align: right; }
+  .yt-link a { color: var(--blue); font-weight: 700; }
+  .yt-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 100%; color: #fff; text-decoration: none;
+             background: radial-gradient(circle at 50% 40%, #2b3440, #111 70%); }
+  .yt-play { width: 88px; height: 62px; border-radius: 16px; background: var(--red); position: relative; }
+  .yt-play::after { content: ""; position: absolute; left: 35px; top: 18px; border-left: 26px solid #fff; border-top: 13px solid transparent; border-bottom: 13px solid transparent; }
+  .yt-t { margin-top: 6px; font-size: 24px; font-weight: 800; }
+  .yt-s { color: #c8d0d8; font-size: 15px; }
+  .yt-go { margin-top: 8px; padding: 9px 18px; border-radius: 7px; background: #fff; color: var(--ink); font-size: 16px; font-weight: 800; }
+  .yt-card:hover .yt-go { background: var(--accent-soft); }
+  .src { position: absolute; left: 62px; right: 62px; bottom: 36px; color: #8a949e; font-size: 10.5px; line-height: 1.25; }
+
+  @media print {
+    .st { visibility: hidden !important; opacity: 0 !important; }
+    .st.pr { visibility: visible !important; opacity: 1 !important; }
+  }
+
+
+  /* ---- unit 9 part 2 ---- */
+  .old-line { fill: none; stroke: var(--blue); stroke-width: 2.4; stroke-dasharray: 7 5; opacity: .55; }
+  .b-loss { fill: #8a949e; opacity: .3; }
+  .own-a { fill: var(--accent); opacity: .85; } .own-b { fill: var(--blue); opacity: .85; }
+  .ms-table { table-layout: fixed; }
+  .ms-table th:first-child { width: 150px; }
+  .ms-table th { font-size: 13px; line-height: 1.15; }
+  .ms-table th small { display: block; margin-top: 3px; font-size: 11px; font-weight: 700; opacity: .8; }
+  .ms-table th.mid { background: var(--accent); }
+  .ms-table td { padding: 7px 7px; font-size: 14.5px; line-height: 1.2; }
+  .ms-table td.lead { font-size: 13.5px; text-align: left; }
+  .ms-table td.mid { background: var(--accent-soft); }
+  .ms-table .q { color: #b5bdc5; font-size: 21px; font-weight: 900; }
+  .ms-table .stack { justify-items: center; align-items: center; }
+  .pm { width: 100%; border-collapse: separate; border-spacing: 7px; }
+  .pm th { color: var(--muted); font-size: 13px; font-weight: 850; text-align: center; }
+  .pm th.rowh { width: 104px; text-align: right; white-space: nowrap; }
+  .pm th.colA { color: var(--accent); } .pm th.colB { color: var(--blue); }
+  .pm-cell { position: relative; padding: 11px 8px 11px 16px; border-radius: 8px; background: var(--soft); text-align: left; }
+  .pm-a, .pm-b { font-size: 17px; font-weight: 800; line-height: 1.45; white-space: nowrap; }
+  .pm-a { color: var(--accent); } .pm-b { color: var(--blue); }
+  .best-tag { display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 3px; background: var(--green); color: #fff; font-size: 10.5px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; vertical-align: 2px; }
+  .pm-nash { position: absolute; inset: -4px; border: 3px solid var(--accent); border-radius: 10px; pointer-events: none; }
+  .pm-nash span { position: absolute; right: 8px; top: -11px; padding: 1px 7px; border-radius: 3px; background: var(--accent); color: #fff; font-size: 10.5px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
+  .pm.mini { border-spacing: 5px; }
+  .pm.mini th { font-size: 12px; } .pm.mini th.rowh { width: 92px; }
+  .pm.mini .pm-cell { padding: 6px 6px 6px 12px; }
+  .pm.mini .pm-a, .pm.mini .pm-b { font-size: 14px; line-height: 1.35; }
+  .game-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .game-side { padding: 10px 12px; }
+  .game-side h3 { margin-bottom: 7px; font-size: 17px; }
+  .game-side h3 small { display: block; margin-top: 1px; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .game .game-btn { padding: 7px 11px; font-size: 14px; }
+  .game .game-btn.selected { background: var(--ink); box-shadow: none; }
+  .game-msg { font-size: 13px; }
+  .game-table { margin-top: 8px; }
+  .game-table td { padding: 5px 6px; font-size: 14px; }
+  .game-table tr.played td { background: #fff; }
+  .game-table tr.game-tot td { border-top: 2px solid var(--ink); font-weight: 900; }
+  .hhi-row { display: grid; grid-template-columns: 140px 1fr 156px; gap: 12px; align-items: center; margin-top: 9px; }
+  .hhi-lab { font-size: 15px; font-weight: 800; line-height: 1.2; }
+  .hhi-lab small { display: block; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .hhi-bar { display: flex; height: 36px; border-radius: 6px; overflow: hidden; }
+  .hhi-bar span { display: flex; align-items: center; justify-content: center; border-right: 2px solid #fff; color: #fff; font-size: 12.5px; font-weight: 850; white-space: nowrap; overflow: hidden; }
+  .hhi-bar span.small-firms { background: repeating-linear-gradient(90deg, #9aa3ab 0 5px, #c4ccd3 5px 7px); color: var(--ink); font-size: 11px; }
+  .hhi-bar span.tight { font-size: 11px; }
+  .hhi-key { margin-top: 4px; color: var(--muted); font-size: 12.5px; text-align: right; }
+  .hhi-num { font-size: 14.5px; font-weight: 800; line-height: 1.3; }
+  .hhi-num .reveal-step { display: block; }
+  .hhi-calc { margin-top: 8px; padding: 7px 12px; border-radius: 6px; background: var(--soft); font-size: 13.5px; line-height: 1.45; }
+  .event-grid.four { grid-template-columns: repeat(4, 1fr); }
+  .event-grid.four .event { min-height: 120px; }
+  .event .when { display: block; margin-bottom: 4px; color: var(--accent); font-size: 12px; font-weight: 850; letter-spacing: .05em; text-transform: uppercase; }
+  .pdq-card { padding: 12px 14px; }
+  .pdq-card h3 { margin-bottom: 3px; font-size: 17px; }
+  .pdq-card > p { margin: 0 0 4px; color: var(--muted); font-size: 13.5px; line-height: 1.3; }
+  .pdq-line { margin-top: 5px; font-size: 14px; line-height: 1.3; }
+  .owl-street { padding: 4px 8px; }
+  /* P2-2 market-structure grid (after Krugman & Wells, Microeconomics 5e, Fig. 13-1) */
+  .ms-fig { display: grid; grid-template-columns: 150px 30px 62px 245px 245px; grid-template-rows: 28px 22px 30px repeat(3, 104px); justify-content: center; margin-top: 4px; }
+  .ms-qtop, .ms-qleft { font-size: 17px; font-weight: 800; line-height: 1.3; }
+  .ms-qtop { grid-column: 4 / 6; grid-row: 1; text-align: center; }
+  .ms-qleft { grid-column: 1; grid-row: 4 / 7; align-self: center; padding-right: 4px; text-align: right; }
+  .ms-brace { display: block; fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .ms-btop { grid-column: 4 / 6; grid-row: 2; width: 490px; height: 22px; }
+  .ms-bleft { grid-column: 2; grid-row: 4 / 7; width: 30px; height: 312px; }
+  .ms-lab { display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 650; }
+  .ms-cells { display: grid; grid-column: 4 / 6; grid-row: 4 / 7; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 1fr); gap: 1.5px; border: 1.5px solid var(--ink); background: var(--ink); }
+  .ms-cell { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 14px; font-size: 21px; font-weight: 720; line-height: 1.15; text-align: center; }
+  .ms-cell small { margin-top: 6px; color: rgba(31,41,51,.72); font-size: 13.5px; font-weight: 650; }
+  .ms-cell.mono { background: #b9b2dd; } .ms-cell.na { background: #c6e2a6; } .ms-cell.oli { grid-column: 1 / 3; background: #f4c35b; }
+  .ms-cell.pc { background: #ef8a85; } .ms-cell.mc { background: #a5d9d5; box-shadow: inset 0 0 0 3px var(--accent); }
+  .ms-cell .cal-today { position: absolute; top: -10px; right: 10px; }
+  /* P2-5a to P2-5d: which of the four kinds this page is */
+  .diff-track { position: absolute; top: 47px; right: 62px; display: flex; gap: 6px; }
+  .diff-track span { padding: 3px 10px; border-radius: 999px; background: var(--soft); color: var(--muted); font-size: 12px; font-weight: 800; }
+  .diff-track span.on { background: var(--accent); color: #fff; }
+  .quiz-scenario.test-q { border-left-color: var(--blue); background: var(--blue-soft); }
+  .quiz-scenario.test-q .market-label { color: var(--blue); }
+
+
+  /* ---- unit 10 ---- */
+  .c-line.mpc { stroke: var(--red); }
+  .c-line.msc { stroke: var(--purple); }
+  .c-line.msb { stroke: var(--green); }
+  .c-line.dash-line { stroke-dasharray: 9 6; }
+  .bracket { fill: none; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+  .bracket.purple-br { stroke: var(--purple); } .bracket.green-br { stroke: var(--green); }
+  .bracket.tax-br { stroke: var(--accent); stroke-width: 3.6; }
+  .loss-seg { fill: none; stroke: var(--red); stroke-width: 4.5; stroke-linecap: round; }
+  .tax-line { fill: none; stroke: var(--accent); stroke-width: 2.8; stroke-dasharray: 10 5; }
+  .tax-line.thin { stroke-width: 1.8; opacity: .85; }
+  /* a deal and its third parties (P1-2) */
+  .deal-row { display: grid; grid-template-columns: 1fr 150px 1fr; gap: 10px; align-items: center; margin-top: 14px; }
+  .deal-box { padding: 14px 16px; border-radius: 8px; background: var(--blue-soft); border-left: 5px solid var(--blue); text-align: center; }
+  .deal-box b { display: block; font-size: 22px; } .deal-box small { color: var(--muted); font-size: 14.5px; font-weight: 650; }
+  .deal-arrow { color: var(--muted); font-size: 17px; font-weight: 850; line-height: 1.5; text-align: center; }
+  .third-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .third { padding: 11px 15px; border-radius: 8px; background: var(--red-soft); border-left: 5px solid var(--red); font-size: 17px; font-weight: 700; line-height: 1.3; }
+  .third small { display: block; margin-top: 3px; color: var(--muted); font-size: 13.5px; font-weight: 650; }
+  /* the 2x2 of externalities (P1-3) */
+  .ext-grid { display: grid; grid-template-columns: 118px 1fr 1fr; grid-template-rows: 30px 1fr 1fr; gap: 8px; margin-top: 14px; }
+  .ext-h { display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 13px; font-weight: 850; letter-spacing: .06em; text-align: center; text-transform: uppercase; }
+  .ext-h.neg { color: var(--red); } .ext-h.pos { color: var(--green); }
+  .ext-cell { min-height: 96px; padding: 12px 15px; border-radius: 8px; font-size: 17.5px; font-weight: 700; line-height: 1.3; }
+  .ext-cell.neg { background: var(--red-soft); } .ext-cell.pos { background: var(--green-soft); }
+  .ext-cell small { display: block; margin-top: 5px; color: var(--muted); font-size: 13.5px; font-weight: 650; }
+  .tag.neg-t { background: var(--red); } .tag.pos-t { background: var(--green); } .tag.both-t { background: var(--purple); } .tag.not-t { background: #8a949e; }
+  .sort-grid.six .sort-card { min-height: 0; padding: 10px 13px; }
+  .sort-grid.six .sort-card p { font-size: 15.5px; }
+  .sort-grid.four { grid-template-columns: repeat(4, 1fr); gap: 9px; }
+  .sort-grid.four .sort-card { min-height: 0; padding: 9px 11px; }
+  .sort-grid.four .sort-card p { font-size: 15px; }
+  .sort-grid.two { grid-template-columns: 1fr 1fr; }
+  /* private vs social (P1-5) */
+  .eq-big { margin: 4px 0 10px; font-size: 29px; font-weight: 850; letter-spacing: -.3px; text-align: center; }
+  .eq-big .soc-c { color: var(--purple); } .eq-big .soc-b { color: var(--green); } .eq-big .pri-c { color: var(--red); } .eq-big .pri-b { color: var(--blue); }
+  .term { display: grid; grid-template-columns: 62px 1fr; gap: 4px 10px; font-size: 14.5px; line-height: 1.3; }
+  .term b { font-size: 15px; }
+  /* writing template (P1-14) */
+  .tpl { padding: 14px 20px; border: 2px dashed var(--accent); border-radius: 10px; background: #fff; font-size: 19px; line-height: 1.85; }
+  .tpl .blank { display: inline-block; min-width: 120px; padding: 0 6px; border-bottom: 2.5px solid var(--accent); color: var(--accent); font-weight: 800; line-height: 1.25; text-align: center; }
+  .tpl .blank.done { min-width: 0; color: var(--ink); }
+  /* question list beside a graph */
+  .qa-list { display: grid; gap: 6px; }
+  .qa-list .calc-line { padding: 7px 12px; }
+  .qa-list .calc-line strong { font-size: 15px; }
+  .qa-list .calc-line .ans { display: block; margin-top: 2px; color: var(--green); font-size: 14.5px; font-weight: 800; }
+  .qa-list .calc-line .ans em { color: var(--muted); font-style: normal; font-weight: 650; }
+  /* two plants' cost table (P2-5 ... P2-7) */
+  .cost-t td { position: relative; height: 44px; font-size: 19px; }
+  .cost-t td.lead { width: 170px; text-align: left; font-size: 15px; }
+  .cost-t .cut { position: absolute; inset: 3px; border: 3px solid var(--green); border-radius: 7px; background: rgba(55,138,97,.10); }
+  .cost-t .cut::after { content: 'cut'; position: absolute; right: 4px; top: 1px; color: var(--green); font-size: 10px; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; }
+  .cost-t .cut.sold::after { content: 'cut + sell a permit'; }
+  /* Wednesday's quiz-style practice graph (Nov 3) */
+  .gridline.read { stroke: #d9dee3; }
+  .c-label.pq { font-size: 17px; }
+  .tools-t td { padding: 7px 10px; font-size: 14.5px; line-height: 1.3; }
+  .tools-t td.lead { width: 190px; font-size: 15px; }
+  .tools-t td.lead small { display: block; color: var(--muted); font-size: 12.5px; font-weight: 650; }
+  /* four kinds of goods (P3-4) */
+  .gg { display: grid; grid-template-columns: 150px 1fr 1fr; grid-template-rows: 32px 150px 150px; gap: 6px; margin-top: 8px; }
+  .gg-h { display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 850; text-align: center; }
+  .gg-c { padding: 14px 16px; border-radius: 8px; }
+  .gg-c h3 { margin: 0 0 4px; font-size: 22px; }
+  .gg-c p { margin: 0; font-size: 15px; line-height: 1.32; }
+  .gg-c.priv { background: #e3f1d3; } .gg-c.club { background: #dcf0ee; } .gg-c.comm { background: #fbe7bd; } .gg-c.pub { background: #e3dff2; }
+  .tag.priv-t { background: #4f8a2a; } .tag.club-t { background: #2c8f88; } .tag.comm-t { background: #b07a07; } .tag.pub-t { background: var(--purple); }
+  /* the class fund (P3-6) */
+  .fund { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; }
+  .fund-in label { display: grid; grid-template-columns: 1fr 90px; gap: 10px; align-items: center; margin-bottom: 8px; font-size: 15.5px; font-weight: 750; }
+  .fund-in input { width: 90px; padding: 6px 8px; border: 2px solid var(--line); border-radius: 6px; font: 800 20px Arial, sans-serif; text-align: center; }
+  .fund-out { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+  .fund-out .stat b { display: block; font-size: 30px; line-height: 1.1; }
+  .fund-out .stat span { color: var(--muted); font-size: 13px; font-weight: 750; }
+  .fund-table td { padding: 5px 6px; font-size: 14.5px; }
+  .fund-table tr.done td { background: #fff; }
+  .fund .button-row button { padding: 7px 11px; font-size: 14px; }
+  /* in-class work */
+  .icw-note { padding: 6px 12px; border-radius: 6px; background: var(--soft); color: var(--muted); font-size: 13.5px; font-weight: 700; }
+
+
+  /* ---- unit 10 animated scenes (scenes10.py) ---- */
+  .scene-wrap { margin-top: 10px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #fff; }
+  .scene { display: block; width: 100%; height: auto; }
+  .scene .sc-lab { font: 800 13px Arial, sans-serif; fill: var(--ink); }
+  .scene .sc-sub { font: 700 11.5px Arial, sans-serif; fill: var(--muted); }
+  .scene .sc-pill { font: 800 12.5px Arial, sans-serif; fill: #fff; }
+  .scene .sc-coin { font: 900 12px Arial, sans-serif; fill: #8a4b08; }
+  .scene .sc-big { font: 900 15px Arial, sans-serif; }
+  .scene .fb { transform-box: fill-box; transform-origin: center; }
+  .scene .a-move, .scene .a-drift, .scene .a-bee { --dx: 0px; --dy: 0px; }
+  .scene .reveal-step.visible .a-move { animation: sc-move var(--dur, 4s) ease-in-out var(--delay, 0s) infinite both; }
+  .scene .reveal-step.visible .a-drift { animation: sc-drift var(--dur, 3.2s) ease-out var(--delay, 0s) infinite both; }
+  .scene .reveal-step.visible .a-dash { animation: sc-dash 1.1s linear infinite; }
+  .scene .reveal-step.visible .a-ripple { animation: sc-ripple 2.4s ease-out var(--delay, 0s) infinite both; }
+  .scene .reveal-step.visible .a-pulse { animation: sc-pulse 0.9s ease-in-out var(--delay, 0s) infinite alternate both; }
+  .scene .reveal-step.visible .a-pop { animation: sc-pop 0.5s cubic-bezier(.3,1.6,.6,1) var(--delay, 0s) both; }
+  .scene .reveal-step.visible .a-bob { animation: sc-bob 1.1s ease-in-out var(--delay, 0s) infinite alternate; }
+  .scene .reveal-step.visible .a-fly { animation: sc-fly 0.7s linear var(--delay, 0s) infinite alternate; }
+  .scene .reveal-step.visible .a-ski { animation: sc-ski 6s ease-in-out infinite; }
+  .scene .reveal-step.visible .a-bee { animation: sc-bee var(--dur, 3.6s) ease-in-out var(--delay, 0s) infinite; }
+  @keyframes sc-move { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 70% { transform: translate(var(--dx), var(--dy)); opacity: 1; }
+                       85%, 100% { transform: translate(var(--dx), var(--dy)); opacity: 0; } }
+  @keyframes sc-drift { 0% { transform: translate(0, 0) scale(.5); opacity: 0; } 20% { opacity: .85; } 100% { transform: translate(var(--dx), var(--dy)) scale(1.35); opacity: 0; } }
+  @keyframes sc-dash { to { stroke-dashoffset: -24; } }
+  @keyframes sc-ripple { 0% { transform: scale(.3); opacity: .9; } 100% { transform: scale(1.9); opacity: 0; } }
+  @keyframes sc-pulse { from { opacity: .25; } to { opacity: 1; } }
+  @keyframes sc-pop { from { transform: scale(0); } to { transform: scale(1); } }
+  @keyframes sc-bob { from { transform: translateY(-3px); } to { transform: translateY(3px); } }
+  @keyframes sc-fly { 0% { transform: translate(0, 0); } 33% { transform: translate(5px, -4px); } 66% { transform: translate(-4px, 3px); } 100% { transform: translate(3px, 5px); } }
+  @keyframes sc-ski { 0% { transform: translateX(0) scaleX(1); } 45% { transform: translateX(250px) scaleX(1); } 50% { transform: translateX(250px) scaleX(-1); }
+                      95% { transform: translateX(0) scaleX(-1); } 100% { transform: translateX(0) scaleX(1); } }
+  @keyframes sc-bee { 0% { transform: translate(0, 0); } 25% { transform: translate(calc(var(--dx) * .5), -46px); } 50% { transform: translate(var(--dx), var(--dy)); }
+                      75% { transform: translate(calc(var(--dx) * .5), 26px); } 100% { transform: translate(0, 0); } }
+  .scene .a-grow { transform-box: fill-box; transform-origin: 50% 100%; }
+  .scene .reveal-step.visible .a-grow { animation: sc-grow .7s ease-out var(--delay, 0s) both; }
+  .scene .a-draw { stroke-dasharray: 1; stroke-dashoffset: 0; }
+  .scene .reveal-step.visible .a-draw { animation: sc-draw 1.4s ease-out var(--delay, 0s) both; }
+  @keyframes sc-grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  @keyframes sc-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  @media print { .scene * { animation: none !important; } }
+  @media (prefers-reduced-motion: reduce) { .scene * { animation: none !important; } }
+
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1 t2 -->
+  <section class="slide title-slide center middle">
+    <div>
+      <div class="title-kicker">ARE 201 &middot; Unit 10 &middot; Part 2 &middot; Wednesday</div>
+      <h1 class="title-main">Pollution Policy</h1>
+      <div class="title-sub">How Much Pollution, and Who Should Cut It?</div>
+    </div>
+    <svg class="title-graphic" viewBox="0 0 470 170" role="img" aria-label="Left: the marginal social benefit of pollution falls and its marginal social cost rises; they cross above zero. Right: two plants' costs of cutting each ton; the cheap tons get cut"><defs><clipPath id="c99"><rect x="14" y="10" width="200" height="134"/></clipPath></defs><path class="axis" d="M 14 8 L 14 144"/><path class="axis" d="M 14 144 L 214 144"/><path class="c-line msb" d="M 14 22.2 L 185.4 144" /><path class="c-line msc" d="M 14 144 L 214 72.9" /><path class="ref-line" d="M 128.3 144 L 128.3 103.4" /><circle class="dot" cx="128.3" cy="103.4" r="6"/><text class="plot-label sm" x="30.6" y="26.2" text-anchor="start" style="fill:#2a6f4d">MSB of pollution</text><text class="c-label" x="196.9" y="71" text-anchor="end" style="fill:#7657a5">MSC</text><text class="plot-label sm" x="114" y="160" text-anchor="middle" style="fill:#b8600f">the best amount of pollution &gt; 0</text><text x="308" y="47.0" text-anchor="end" style="font:800 11.5px Arial,sans-serif" fill="#1f2933">Plant A</text><text x="308" y="83.0" text-anchor="end" style="font:800 11.5px Arial,sans-serif" fill="#1f2933">Plant B</text><rect x="316" y="30" width="34" height="26" rx="4" fill="#e9f6ef" stroke="#2a6f4d" stroke-width="2"/><text x="333.0" y="47" text-anchor="middle" style="font:800 11.5px Arial,sans-serif" fill="#2a6f4d">$10</text><rect x="354" y="30" width="34" height="26" rx="4" fill="#e9f6ef" stroke="#2a6f4d" stroke-width="2"/><text x="371.0" y="47" text-anchor="middle" style="font:800 11.5px Arial,sans-serif" fill="#2a6f4d">$20</text><rect x="392" y="30" width="34" height="26" rx="4" fill="#e9f6ef" stroke="#2a6f4d" stroke-width="2"/><text x="409.0" y="47" text-anchor="middle" style="font:800 11.5px Arial,sans-serif" fill="#2a6f4d">$30</text><rect x="430" y="30" width="34" height="26" rx="4" fill="#f3f4f6" stroke="#c4ccd3" stroke-width="1.2"/><text x="447.0" y="47" text-anchor="middle" style="font:800 11.5px Arial,sans-serif" fill="#5f6b76">$50</text><rect x="316" y="66" width="34" height="26" rx="4" fill="#e9f6ef" stroke="#2a6f4d" stroke-width="2"/><text x="333.0" y="83" text-anchor="middle" style="font:800 11.5px Arial,sans-serif" fill="#2a6f4d">$40</text><rect x="354" y="66" width="34" height="26" rx="4" fill="#f3f4f6" stroke="#c4ccd3" stroke-width="1.2"/><text x="371.0" y="83" text-anchor="middle" style="font:800 11.5px Arial,sans-serif" fill="#5f6b76">$60</text><rect x="392" y="66" width="34" height="26" rx="4" fill="#f3f4f6" stroke="#c4ccd3" stroke-width="1.2"/><text x="409.0" y="83" text-anchor="middle" style="font:800 11.5px Arial,sans-serif" fill="#5f6b76">$80</text><rect x="430" y="66" width="34" height="26" rx="4" fill="#f3f4f6" stroke="#c4ccd3" stroke-width="1.2"/><text x="447.0" y="83" text-anchor="middle" style="font:800 11.5px Arial,sans-serif" fill="#5f6b76">$100</text><text x="390" y="116" text-anchor="middle" style="font:700 12.5px Arial,sans-serif" fill="#b8600f">cut where it is cheapest</text></svg>
+  </section>
+
+  <!-- 2 cut -->
+  <section class="slide interactive">
+    <div class="section-kicker">regulating pollution &middot; play the scene</div>
+    <h1>Cutting the pollution, one fix at a time</h1>
+    <p style="margin:0 0 4px; font-size:15.5px;">Neighbors of the region&rsquo;s hog farms protest the smell and their wells. Suppose the county makes the farms cut their pollution. <strong>What does each cut cost?</strong></p>
+    <div class="scene-wrap" style="margin-top:6px;"><svg class="scene" viewBox="0 0 836 320" role="img" aria-label="Two hog barns with exhaust fans, a manure lagoon, and a spray field; neighbors&#x27; houses and a home with a well; a panel for the cost of cutting one more ton. Step 1: smell drifts from the barns and the spray field, liquid seeps from the lagoon toward the well, and three neighbors hold protest signs; 60 tons a week. Step 2: a wastewater filter stops the seepage at 20 dollars a ton; 40 tons left. Step 3: a tractor injects manure instead of spraying it at 60 dollars a ton; 20 tons left. Step 4: biofilters on the barn fans stop the smell at 100 dollars a ton; no pollution left, and the neighbors get check marks. The cost bars rise from 20 to 60 to 100 dollars"><rect width="836" height="320" fill="#eef5fb"/><rect y="140" width="836" height="180" fill="#dfeecf"/><circle cx="330" cy="140" r="12" fill="#9cc59a"/><circle cx="364" cy="140" r="15" fill="#9cc59a"/><circle cx="398" cy="140" r="18" fill="#9cc59a"/><circle cx="432" cy="140" r="12" fill="#9cc59a"/><circle cx="466" cy="140" r="15" fill="#9cc59a"/><circle cx="500" cy="140" r="18" fill="#9cc59a"/><circle cx="534" cy="140" r="12" fill="#9cc59a"/><rect x="24" y="156" width="190" height="24" fill="#f3f4f6" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 18 157 L 30 147 L 208 147 L 220 157 Z" fill="#8a949e"/><rect x="38" y="163" width="12" height="7" fill="#c4ccd3"/><rect x="64" y="163" width="12" height="7" fill="#c4ccd3"/><rect x="90" y="163" width="12" height="7" fill="#c4ccd3"/><rect x="116" y="163" width="12" height="7" fill="#c4ccd3"/><rect x="142" y="163" width="12" height="7" fill="#c4ccd3"/><rect x="168" y="163" width="12" height="7" fill="#c4ccd3"/><rect x="194" y="163" width="12" height="7" fill="#c4ccd3"/><circle cx="214" cy="168" r="7" fill="#5f6b76"/><path d="M 208 168 L 220 168 M 214 162 L 214 174" stroke="#c4ccd3" stroke-width="1.6"/><rect x="24" y="190" width="190" height="24" fill="#f3f4f6" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 18 191 L 30 181 L 208 181 L 220 191 Z" fill="#8a949e"/><rect x="38" y="197" width="12" height="7" fill="#c4ccd3"/><rect x="64" y="197" width="12" height="7" fill="#c4ccd3"/><rect x="90" y="197" width="12" height="7" fill="#c4ccd3"/><rect x="116" y="197" width="12" height="7" fill="#c4ccd3"/><rect x="142" y="197" width="12" height="7" fill="#c4ccd3"/><rect x="168" y="197" width="12" height="7" fill="#c4ccd3"/><rect x="194" y="197" width="12" height="7" fill="#c4ccd3"/><circle cx="214" cy="202" r="7" fill="#5f6b76"/><path d="M 208 202 L 220 202 M 214 196 L 214 208" stroke="#c4ccd3" stroke-width="1.6"/><text class="sc-lab" x="118" y="124" text-anchor="middle">Hog farms</text><text class="sc-sub" x="118" y="138" text-anchor="middle">the polluters</text><ellipse cx="96" cy="250" rx="74" ry="19" fill="#b98b6e"/><text class="sc-sub" x="96" y="254" text-anchor="middle" style="fill:#fff">manure lagoon</text><rect x="196" y="222" width="132" height="56" rx="4" fill="#c9d9a0"/><text class="sc-sub" x="262" y="274" text-anchor="middle">spray field</text><path d="M 168 252 L 262 252" stroke="#8d6a4b" stroke-width="3"/><path d="M 262 252 L 262 232" stroke="#5f6b76" stroke-width="3"/><circle cx="262" cy="230" r="4" fill="#5f6b76"/><rect x="378" y="166" width="46" height="30" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 373 167 L 401.0 149.5 L 429 167 Z" fill="#8a949e"/><rect x="395.0" y="181" width="12" height="15" fill="#c9a27a"/><rect x="440" y="158" width="46" height="30" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 435 159 L 463.0 141.5 L 491 159 Z" fill="#8a949e"/><rect x="457.0" y="173" width="12" height="15" fill="#c9a27a"/><rect x="502" y="168" width="46" height="30" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 497 169 L 525.0 151.5 L 553 169 Z" fill="#8a949e"/><rect x="519.0" y="183" width="12" height="15" fill="#c9a27a"/><rect x="359.0" y="231.9" width="18.0" height="23.4" rx="7.2" fill="#2f80c9"/><circle cx="368" cy="222" r="8.6" fill="#f1c7a3"/><rect x="443.0" y="235.9" width="18.0" height="23.4" rx="7.2" fill="#378a61"/><circle cx="452" cy="226" r="8.6" fill="#8d5a3b"/><rect x="527.0" y="231.9" width="18.0" height="23.4" rx="7.2" fill="#7657a5"/><circle cx="536" cy="222" r="8.6" fill="#c68e62"/><rect x="372" y="280" width="50" height="26" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 367 281 L 397.0 265.7 L 427 281 Z" fill="#8a949e"/><rect x="391.0" y="291" width="12" height="15" fill="#c9a27a"/><rect x="440" y="288" width="22" height="16" fill="#9aa3ab"/><path d="M 434 288 L 451 276 L 468 288 Z" fill="#8a949e"/><text class="sc-sub" x="451" y="316" text-anchor="middle">well</text><rect x="562" y="46" width="262" height="266" rx="8" fill="#fff" stroke="#c4ccd3" stroke-width="1.2"/><text class="sc-lab" x="693" y="68" text-anchor="middle">Cost to cut one more ton</text><path d="M 574 280 L 812 280" stroke="#9aa3ab" stroke-width="1.4"/><g class="reveal-step" data-step-group="cu" data-step="1" data-hide-at="2"><rect x="130.1" y="11" width="575.8" height="23" rx="11.5" fill="#c9504d"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">1 &middot; No rules: smell from the barns and the spray field, seepage into the wells</text><text class="sc-big" x="693" y="96" text-anchor="middle" style="fill:#c9504d">Pollution left: 60 tons a week</text></g><g class="reveal-step" data-step-group="cu" data-step="1" data-hide-at="4"><g class="a-drift fb" style="--dx:170px; --dy:-4px; --dur:3.6s; --delay:0s;"><circle cx="214" cy="166" r="9" fill="#8f8a3e"/><circle cx="226" cy="160" r="12" fill="#8f8a3e"/><circle cx="239" cy="165" r="9" fill="#8f8a3e"/><circle cx="228" cy="170" r="8" fill="#8f8a3e"/></g><g class="a-drift fb" style="--dx:180px; --dy:-14px; --dur:3.6s; --delay:0.9s;"><circle cx="214" cy="202" r="9" fill="#8f8a3e"/><circle cx="226" cy="196" r="12" fill="#8f8a3e"/><circle cx="239" cy="201" r="9" fill="#8f8a3e"/><circle cx="228" cy="206" r="8" fill="#8f8a3e"/></g><g class="a-drift fb" style="--dx:210px; --dy:30px; --dur:3.6s; --delay:1.8s;"><circle cx="214" cy="170" r="9" fill="#8f8a3e"/><circle cx="226" cy="164" r="12" fill="#8f8a3e"/><circle cx="239" cy="169" r="9" fill="#8f8a3e"/><circle cx="228" cy="174" r="8" fill="#8f8a3e"/></g><g class="a-drift fb" style="--dx:150px; --dy:14px; --dur:3.6s; --delay:2.7s;"><circle cx="214" cy="198" r="9" fill="#8f8a3e"/><circle cx="226" cy="192" r="12" fill="#8f8a3e"/><circle cx="239" cy="197" r="9" fill="#8f8a3e"/><circle cx="228" cy="202" r="8" fill="#8f8a3e"/></g></g><g class="reveal-step" data-step-group="cu" data-step="1" data-hide-at="3"><path class="a-dash" d="M 262 230 q -32 -30 -62 4" fill="none" stroke="#8d6a4b" stroke-width="2.4" stroke-dasharray="3 5"/><path class="a-dash" d="M 262 230 q 32 -30 62 4" fill="none" stroke="#8d6a4b" stroke-width="2.4" stroke-dasharray="3 5"/><g class="a-drift fb" style="--dx:150px; --dy:-22px; --dur:3.4s; --delay:0.4s;"><circle cx="250" cy="216" r="9" fill="#a08a5c"/><circle cx="262" cy="210" r="12" fill="#a08a5c"/><circle cx="275" cy="215" r="9" fill="#a08a5c"/><circle cx="264" cy="220" r="8" fill="#a08a5c"/></g><g class="a-drift fb" style="--dx:120px; --dy:-4px; --dur:3.4s; --delay:1.6s;"><circle cx="278" cy="222" r="9" fill="#a08a5c"/><circle cx="290" cy="216" r="12" fill="#a08a5c"/><circle cx="303" cy="221" r="9" fill="#a08a5c"/><circle cx="292" cy="226" r="8" fill="#a08a5c"/></g><g class="a-drift fb" style="--dx:190px; --dy:-34px; --dur:3.4s; --delay:2.6s;"><circle cx="228" cy="224" r="9" fill="#a08a5c"/><circle cx="240" cy="218" r="12" fill="#a08a5c"/><circle cx="253" cy="223" r="9" fill="#a08a5c"/><circle cx="242" cy="228" r="8" fill="#a08a5c"/></g></g><g class="reveal-step" data-step-group="cu" data-step="1" data-hide-at="2"><path class="a-dash" d="M 150 262 Q 290 326 440 300" fill="none" stroke="#8d6a4b" stroke-width="3" stroke-dasharray="8 4"/></g><g class="reveal-step" data-step-group="cu" data-step="1" data-hide-at="4"><g class="a-bob" style="--delay:0.0s;"><path d="M 368 210 L 368 192" stroke="#5f6b76" stroke-width="2"/><rect x="326" y="170" width="84" height="22" rx="3" fill="#fff" stroke="#c9504d" stroke-width="2"/><text class="sc-sub" x="368" y="185" text-anchor="middle" style="fill:#c9504d">NO STINK!</text></g><g class="a-bob" style="--delay:0.25s;"><path d="M 452 214 L 452 170" stroke="#5f6b76" stroke-width="2"/><rect x="410" y="148" width="84" height="22" rx="3" fill="#fff" stroke="#c9504d" stroke-width="2"/><text class="sc-sub" x="452" y="163" text-anchor="middle" style="fill:#c9504d">CLEAN WELLS!</text></g><g class="a-bob" style="--delay:0.5s;"><path d="M 536 210 L 536 192" stroke="#5f6b76" stroke-width="2"/><rect x="494" y="170" width="84" height="22" rx="3" fill="#fff" stroke="#c9504d" stroke-width="2"/><text class="sc-sub" x="536" y="185" text-anchor="middle" style="fill:#c9504d">FRESH AIR!</text></g></g><g class="reveal-step" data-step-group="cu" data-step="2" data-hide-at="3"><rect x="204.7" y="11" width="426.7" height="23" rx="11.5" fill="#b8600f"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">2 &middot; Fix 1: filter the wastewater, $20 a ton: 60 &rarr; 40 tons</text><text class="sc-big" x="693" y="96" text-anchor="middle" style="fill:#b8600f">Pollution left: 40 tons a week</text></g><g class="reveal-step" data-step-group="cu" data-step="2"><rect x="136" y="270" width="58" height="18" rx="3" fill="#2f80c9"/><text class="sc-sub" x="165" y="283" text-anchor="middle" style="fill:#fff">FILTER</text><g class="a-move" style="--dx:46px; --dy:158px; --dur:3.2s; --delay:0s;"><circle cx="118" cy="112" r="11" fill="#f4c35b" stroke="#b8600f" stroke-width="2"/><text class="sc-coin" x="118" y="116" text-anchor="middle">$</text></g><g class="a-grow" style="--delay:.2s;"><rect x="584" y="250.0" width="56" height="30.0" fill="#378a61" opacity=".85"/></g><text class="sc-lab" x="612" y="243.0" text-anchor="middle" style="fill:#378a61">$20 a ton</text><text class="sc-sub" x="612" y="295" text-anchor="middle">filter</text><text class="sc-sub" x="612" y="307" text-anchor="middle">60 &rarr; 40</text></g><g class="reveal-step" data-step-group="cu" data-step="3" data-hide-at="4"><rect x="151.4" y="11" width="533.2" height="23" rx="11.5" fill="#b8600f"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">3 &middot; Fix 2: inject manure instead of spraying it, $60 a ton: 40 &rarr; 20 tons</text><text class="sc-big" x="693" y="96" text-anchor="middle" style="fill:#b8600f">Pollution left: 20 tons a week</text></g><g class="reveal-step" data-step-group="cu" data-step="3"><g class="a-move" style="--dx:78px; --dy:0px; --dur:5s; --delay:0s;"><rect x="204" y="240" width="30" height="16" rx="3" fill="#c9504d"/><rect x="216" y="232" width="12" height="9" fill="#5f6b76"/><circle cx="210" cy="258" r="6" fill="#1f2933"/><circle cx="230" cy="258" r="4" fill="#1f2933"/><path d="M 200 252 L 194 262" stroke="#5f6b76" stroke-width="2"/></g><g class="a-move" style="--dx:120px; --dy:120px; --dur:3.2s; --delay:0s;"><circle cx="118" cy="112" r="11" fill="#f4c35b" stroke="#b8600f" stroke-width="2"/><text class="sc-coin" x="118" y="116" text-anchor="middle">$</text></g><g class="a-grow" style="--delay:.2s;"><rect x="664" y="190.0" width="56" height="90.0" fill="#378a61" opacity=".85"/></g><text class="sc-lab" x="692" y="183.0" text-anchor="middle" style="fill:#378a61">$60 a ton</text><text class="sc-sub" x="692" y="295" text-anchor="middle">inject</text><text class="sc-sub" x="692" y="307" text-anchor="middle">40 &rarr; 20</text></g><g class="reveal-step" data-step-group="cu" data-step="4"><rect x="183.4" y="11" width="469.3" height="23" rx="11.5" fill="#378a61"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">4 &middot; Fix 3: biofilters on the barn fans, $100 a ton: 20 &rarr; 0 tons</text><text class="sc-big" x="693" y="96" text-anchor="middle" style="fill:#378a61">Pollution left: 0 tons a week</text></g><g class="reveal-step" data-step-group="cu" data-step="4"><rect x="222" y="158" width="26" height="20" rx="2" fill="#378a61"/><rect x="222" y="192" width="26" height="20" rx="2" fill="#378a61"/><text class="sc-sub" x="254" y="186" text-anchor="start" style="fill:#378a61">biofilters</text><g class="a-move" style="--dx:110px; --dy:54px; --dur:3.2s; --delay:0s;"><circle cx="118" cy="112" r="11" fill="#f4c35b" stroke="#b8600f" stroke-width="2"/><text class="sc-coin" x="118" y="116" text-anchor="middle">$</text></g><g class="a-grow" style="--delay:.2s;"><rect x="744" y="130.0" width="56" height="150.0" fill="#378a61" opacity=".85"/></g><text class="sc-lab" x="772" y="123.0" text-anchor="middle" style="fill:#378a61">$100 a ton</text><text class="sc-sub" x="772" y="295" text-anchor="middle">biofilters</text><text class="sc-sub" x="772" y="307" text-anchor="middle">20 &rarr; 0</text></g><g class="reveal-step" data-step-group="cu" data-step="4"><g class="a-pop fb" style="--delay:0.2s;"><circle cx="368" cy="198" r="10" fill="#378a61"/><path d="M 363 198 L 366.5 202 L 373.5 193.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><g class="a-pop fb" style="--delay:0.4s;"><circle cx="452" cy="202" r="10" fill="#378a61"/><path d="M 447 202 L 450.5 206 L 457.5 197.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><g class="a-pop fb" style="--delay:0.6000000000000001s;"><circle cx="536" cy="198" r="10" fill="#378a61"/><path d="M 531 198 L 534.5 202 L 541.5 193.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg></div>
+    <div class="button-row" style="margin-top:7px;"><button type="button" class="step-reveal" data-step-group="cu">Play next</button></div>
+    <div class="reveal-step " data-step-group="cu" data-step="5"><div class="definition-strip" style="margin-top:7px; font-size:15.5px; padding:8px 15px;">The cheap fix comes first, so each extra ton costs more to cut: $20, then $60, then $100. Cutting all 60 tons ends the protest, but the last 20 cost $100 a ton. <strong>Is every cut worth it?</strong> Next: the graph.</div></div>
+    <div class="src">Made-up costs. The fixes are real ways hog farms cut pollution: treating wastewater, injecting manure instead of spraying it, biofilters on barn fans.</div>
+  </section>
+
+  <!-- 3 pgraph -->
+  <section class="slide interactive">
+    <div class="section-kicker">the market for pollution &middot; 1 of 3 &middot; step by step</div>
+    <h1>Drawing the market for pollution</h1>
+    <div class="two-thirds" style="margin-top:0; grid-template-columns:1.08fr .92fr;">
+      <div><div class="plot-panel"><div class="plot-title">The region&rsquo;s hog farms (made-up numbers)</div><svg class="plot" viewBox="0 0 470 290" role="img" aria-label="Tons of pollution emitted. Revealed in turn: a line along the horizontal axis, the marginal private cost of pollution, zero; then the marginal social benefit of pollution, which equals the marginal private benefit, falling from 120 dollars to zero at 60 tons, through the three fixes at 20, 60 and 100 dollars a ton; then the marginal social cost of pollution, rising from zero; they cross at 40 tons and 40 dollars"><defs><clipPath id="c911"><rect x="52" y="14" width="340" height="234"/></clipPath></defs><path class="gridline" d="M 52 212.3 L 392 212.3 M 52 140.9 L 392 140.9 M 52 69.5 L 392 69.5"/><path class="axis" d="M 52 12 L 52 248"/><path class="axis" d="M 52 248 L 392 248"/><text class="tick-label" x="46" y="216.3" text-anchor="end">$20</text><text class="tick-label" x="46" y="144.9" text-anchor="end">$60</text><text class="tick-label" x="46" y="73.5" text-anchor="end">$100</text><text class="tick-label" x="100.6" y="263" text-anchor="middle">10</text><text class="tick-label" x="149.1" y="263" text-anchor="middle">20</text><text class="tick-label" x="197.7" y="263" text-anchor="middle">30</text><text class="tick-label" x="294.9" y="263" text-anchor="middle">50</text><text class="tick-label" x="343.4" y="263" text-anchor="middle">60</text><text class="axis-title" x="57" y="20" text-anchor="start">$ a ton</text><text class="axis-title" x="222" y="279" text-anchor="middle">tons of pollution emitted a week</text><g class="reveal-step" data-step-group="pg" data-step="1" data-hide-at="2"><path class="c-line mpc" d="M 52 248 L 392 248" /><text class="c-label" x="71.4" y="235.5" text-anchor="start" style="fill:#c9504d">MPC of pollution = $0</text></g><g class="reveal-step" data-step-group="pg" data-step="2"><path class="c-line msb" d="M 52 33.8 L 343.4 248" /><text class="c-label" x="74.6" y="41" text-anchor="start" style="fill:#2a6f4d">MSB of pollution<tspan class="reveal-step" data-step-group="pg" data-step="2" data-hide-at="3"> = MPB</tspan></text><circle class="dot green-dot" cx="294.9" cy="212.3" r="4.5"/><text class="plot-label sm" x="302.1" y="205.2" text-anchor="start" style="fill:#2a6f4d">filter $20</text><circle class="dot green-dot" cx="197.7" cy="140.9" r="4.5"/><text class="plot-label sm" x="205" y="133.8" text-anchor="start" style="fill:#2a6f4d">inject $60</text><circle class="dot green-dot" cx="100.6" cy="69.5" r="4.5"/><text class="plot-label sm" x="107.9" y="62.4" text-anchor="start" style="fill:#2a6f4d">biofilters $100</text></g><g class="reveal-step" data-step-group="pg" data-step="4"><path class="c-line msc" d="M 52 248 L 392 123.1" /><text class="c-label" x="398" y="127.1" text-anchor="start" style="fill:#7657a5">MSC of</text><text class="c-label" x="398" y="142.1" text-anchor="start" style="fill:#7657a5">pollution</text></g><g class="reveal-step" data-step-group="pg" data-step="5"><path class="guide" d="M 246.3 248 L 246.3 176.6" /><path class="guide" d="M 52 176.6 L 246.3 176.6" /><text class="tick-label strong-tick" x="246.3" y="263" text-anchor="middle">40</text><text class="tick-label strong-tick" x="46" y="180.6" text-anchor="end">$40</text><circle class="dot" cx="246.3" cy="176.6" r="6"/></g></svg></div>
+        <div class="button-row" style="margin-top:8px;"><button type="button" class="step-reveal" data-step-group="pg">Reveal next</button></div></div>
+      <div class="calc-run">
+        <div class="reveal-step" data-step-group="pg" data-step="1"><div class="calc-line bad"><div class="calc-num">1</div><div><strong>MPC of pollution = $0</strong><span>With no rules, the farms pay nothing for the pollution they send out.</span></div></div></div>
+        <div class="reveal-step" data-step-group="pg" data-step="2"><div class="calc-line good"><div class="calc-num">2</div><div><strong>MPB of pollution: the cleanup skipped</strong><span>Each ton a farm may emit is a fix it need not pay for: $20, $60, $100. It also makes pork cheaper to produce.</span></div></div></div>
+        <div class="reveal-step" data-step-group="pg" data-step="3"><div class="calc-line "><div class="calc-num">3</div><div><strong>MEB = $0, so MPB = MSB</strong><span>Monday: MSB = MPB + MEB. The smell helps no one outside, and cheaper pork goes to buyers inside the market. So we just say <b>MSB of pollution</b>, as the quiz does.</span></div></div></div>
+        <div class="reveal-step" data-step-group="pg" data-step="4"><div class="calc-line bad"><div class="calc-num">4</div><div><strong>MSC of pollution: total marginal damage</strong><span>The harm one more ton does to everyone. MPC = $0, so all of it falls on third parties.</span></div></div></div>
+        <div class="reveal-step" data-step-group="pg" data-step="5"><div class="calc-line hi"><div class="calc-num">5</div><div><strong>Where they cross: 40 tons</strong><span>Socially optimal: MSB = MSC = $40. Not zero: below 40, each ton costs more to cut than the harm it does.</span></div></div></div>
+      </div>
+    </div>
+    <div class="src">Made-up numbers: MSB of pollution = $120 &minus; 2 &times; tons; MSC = $1 &times; tons. After Krugman and Wells, Fig. 16-2. OpenStax draws tons <em>cut</em> instead (MC and MB of cutting).</div>
+  </section>
+
+  <!-- 4 pm_steps -->
+  <section class="slide interactive">
+    <div class="section-kicker">the market for pollution &middot; 2 of 3</div>
+    <h1>No rules vs. the right amount</h1>
+    <div class="two-thirds" style="margin-top:0; grid-template-columns:1.08fr .92fr;">
+      <div class="plot-panel"><div class="plot-title">Tons emitted (made-up numbers)</div><svg class="plot" viewBox="0 0 470 290" role="img" aria-label="The market for pollution: the marginal social benefit of pollution falls from 120 dollars to zero at 60 tons; the marginal social cost rises from zero. Revealed: with no rules, plants emit 60 tons; the optimum is 40 tons at 40 dollars; at 50 tons the marginal social cost, 50 dollars, is above the marginal social benefit, 20 dollars; the triangle from 40 to 60 tons is a 600 dollar loss"><defs><clipPath id="c912"><rect x="52" y="14" width="340" height="234"/></clipPath></defs><path class="gridline" d="M 52 105.2 L 392 105.2 M 52 69.5 L 392 69.5 M 52 33.8 L 392 33.8"/><path class="axis" d="M 52 12 L 52 248"/><path class="axis" d="M 52 248 L 392 248"/><text class="tick-label" x="46" y="109.2" text-anchor="end">$80</text><text class="tick-label" x="46" y="73.5" text-anchor="end">$100</text><text class="tick-label" x="46" y="37.8" text-anchor="end">$120</text><text class="tick-label" x="100.6" y="263" text-anchor="middle">10</text><text class="tick-label" x="149.1" y="263" text-anchor="middle">20</text><text class="axis-title" x="57" y="20" text-anchor="start">$ a ton</text><text class="axis-title" x="222" y="279" text-anchor="middle">tons of pollution emitted a week</text><path class="c-line msb" d="M 52 33.8 L 343.4 248" /><text class="c-label" x="74.6" y="41" text-anchor="start" style="fill:#2a6f4d">MSB of pollution<tspan class="reveal-step" data-step-group="pm" data-step="1" data-hide-at="2"> = MPB</tspan></text><path class="c-line msc" d="M 52 248 L 392 123.1" /><text class="c-label" x="398" y="127.1" text-anchor="start" style="fill:#7657a5">MSC of</text><text class="c-label" x="398" y="142.1" text-anchor="start" style="fill:#7657a5">pollution</text><g class="reveal-step" data-step-group="pm" data-step="1" data-hide-at="2"><text class="c-label" x="139.4" y="235.5" text-anchor="start" style="fill:#c9504d">MPC of pollution = $0</text></g><g class="reveal-step" data-step-group="pm" data-step="1"><path class="c-line mpc" d="M 52 248 L 392 248" /><circle class="dot red-dot" cx="343.4" cy="248" r="6"/><text class="tick-label strong-tick" x="343.4" y="263" text-anchor="middle">60</text><text class="plot-label sm" x="350.7" y="224.8" text-anchor="start" style="fill:#c9504d">no rules:</text><text class="plot-label sm" x="350.7" y="240.9" text-anchor="start" style="fill:#c9504d">MSB = 0</text></g><g class="reveal-step" data-step-group="pm" data-step="2"><path class="guide" d="M 246.3 248 L 246.3 176.6" /><path class="guide" d="M 52 176.6 L 246.3 176.6" /><text class="tick-label strong-tick" x="246.3" y="263" text-anchor="middle">40</text><text class="tick-label strong-tick" x="46" y="180.6" text-anchor="end">$40</text><circle class="dot" cx="246.3" cy="176.6" r="6"/></g><g class="reveal-step" data-step-group="pm" data-step="3"><path class="dwl-area" d="M 246.3 176.6 L 343.4 140.9 L 343.4 248 Z"/><path class="loss-seg" d="M 294.9 212.3 L 294.9 158.8" /><circle class="dot purple-dot" cx="294.9" cy="158.8" r="4"/><circle class="dot green-dot" cx="294.9" cy="212.3" r="4"/><text class="tick-label strong-tick" x="294.9" y="263" text-anchor="middle">50</text><text class="plot-label sm" x="350.7" y="194.5" text-anchor="start" style="fill:#c9504d">$600</text><text class="plot-label sm" x="350.7" y="208.7" text-anchor="start" style="fill:#c9504d">lost</text></g></svg></div>
+      <div class="calc-run">
+        <div class="reveal-step" data-step-group="pm" data-step="1"><div class="calc-line bad"><div class="calc-num">1</div><div><strong>No rules: 60 tons</strong><span>Monday&rsquo;s market rule: MPB = MPC. Here MPC of pollution = $0, so farms emit every ton that saves them anything, <b>until MSB = 0</b>. They ignore the MSC.</span></div></div></div>
+        <div class="reveal-step" data-step-group="pm" data-step="2"><div class="calc-line hi"><div class="calc-num">2</div><div><strong>Best amount: 40 tons</strong><span>Where <b>MSB = MSC = $40</b>. Not zero: each of the first 40 tons saves more than it harms.</span></div></div></div>
+        <div class="reveal-step" data-step-group="pm" data-step="3"><div class="calc-line "><div class="calc-num">3</div><div><strong>Past 40 tons: MSC &gt; MSB</strong><span>At 50 tons the next ton harms $50 and saves only $20. All the tons from 40 to 60 lose &frac12; &times; 20 &times; $60 = <b>$600</b> a week.</span></div></div></div>
+        <div class="button-row" style="margin-top:6px;"><button type="button" class="step-reveal" data-step-group="pm">Reveal next</button></div>
+      </div>
+    </div>
+    <div class="reveal-step " data-step-group="pm" data-step="4"><div class="definition-strip" style="margin-top:12px; font-size:17px; padding:10px 15px;"><strong>Socially optimal pollution: MSB of pollution = MSC of pollution.</strong> Below it, MSB &gt; MSC; above it, MSC &gt; MSB. With no rules, farms go all the way to MSB = 0.</div></div>
+    <div class="src">Made-up numbers, same as the previous page.</div>
+  </section>
+
+  <!-- 5 pm_tax -->
+  <section class="slide interactive">
+    <div class="section-kicker">the market for pollution &middot; 3 of 3</div>
+    <h1>Getting to 40 tons: a tax or a cap</h1>
+    <div class="two-thirds" style="margin-top:0; grid-template-columns:1.08fr .92fr;">
+      <div class="plot-panel"><div class="plot-title">Tons emitted, with a tax per ton (made-up numbers)</div><svg class="plot" viewBox="0 0 470 290" role="img" aria-label="The market for pollution with a tax. The farms' marginal private cost of pollution is zero, along the axis. Revealed: a 40 dollar tax per ton lifts it to 40 dollars, so the farms stop at 40 tons, the optimum; a 20 dollar tax stops them at 50 tons, where marginal social cost is above marginal social benefit; a 60 dollar tax stops them at 30 tons; a cap of 40 tradable permits also gives 40 tons"><defs><clipPath id="c913"><rect x="52" y="14" width="340" height="234"/></clipPath></defs><path class="gridline" d="M 52 105.2 L 392 105.2 M 52 69.5 L 392 69.5 M 52 33.8 L 392 33.8"/><path class="axis" d="M 52 12 L 52 248"/><path class="axis" d="M 52 248 L 392 248"/><text class="tick-label" x="46" y="109.2" text-anchor="end">$80</text><text class="tick-label" x="46" y="73.5" text-anchor="end">$100</text><text class="tick-label" x="46" y="37.8" text-anchor="end">$120</text><text class="tick-label" x="100.6" y="263" text-anchor="middle">10</text><text class="tick-label" x="149.1" y="263" text-anchor="middle">20</text><text class="axis-title" x="57" y="20" text-anchor="start">$ a ton</text><text class="axis-title" x="222" y="279" text-anchor="middle">tons of pollution emitted a week</text><path class="c-line msb" d="M 52 33.8 L 343.4 248" /><text class="c-label" x="74.6" y="41" text-anchor="start" style="fill:#2a6f4d">MSB of pollution</text><path class="c-line msc" d="M 52 248 L 392 123.1" /><text class="c-label" x="398" y="127.1" text-anchor="start" style="fill:#7657a5">MSC of</text><text class="c-label" x="398" y="142.1" text-anchor="start" style="fill:#7657a5">pollution</text><text class="tick-label strong-tick" x="343.4" y="263" text-anchor="middle">60</text><path class="c-line mpc" d="M 52 248 L 392 248" /><text class="c-label" x="120" y="239.1" text-anchor="start" style="fill:#c9504d">MPC = $0</text><g class="reveal-step" data-step-group="px" data-step="1" data-hide-at="2"><path class="c-line mpc dash-line" d="M 52 176.6 L 392 176.6" /><path d="M 367.7 245 L 367.7 185.6" stroke="#b8600f" stroke-width="3"/><path d="M 361.7 186.6 L 373.7 186.6 L 367.7 177.6 Z" fill="#b8600f"/><text class="plot-label sm" x="360.4" y="198" text-anchor="end" style="fill:#b8600f">+$40 tax</text><text class="c-label" x="398" y="180.6" text-anchor="start" style="fill:#c9504d">MPC + tax</text><text class="c-label" x="398" y="195.6" text-anchor="start" style="fill:#c9504d">= $40</text><path class="guide" d="M 246.3 248 L 246.3 176.6" /><path class="guide" d="M 52 176.6 L 246.3 176.6" /><text class="tick-label strong-tick" x="46" y="180.6" text-anchor="end">$40</text></g><g class="reveal-step" data-step-group="px" data-step="1"><text class="tick-label strong-tick" x="246.3" y="263" text-anchor="middle">40</text><circle class="dot" cx="246.3" cy="176.6" r="6"/></g><g class="reveal-step" data-step-group="px" data-step="2" data-hide-at="3"><path class="tax-line thin" d="M 52 212.3 L 294.9 212.3" /><text class="tick-label strong-tick" x="46" y="216.3" text-anchor="end">$20</text><path class="guide" d="M 294.9 248 L 294.9 158.8" /><text class="tick-label strong-tick" x="294.9" y="263" text-anchor="middle">50</text><circle class="dot green-dot" cx="294.9" cy="212.3" r="4"/><circle class="dot purple-dot" cx="294.9" cy="158.8" r="4"/><text class="plot-label sm" x="71.4" y="207.3" text-anchor="start" style="fill:#b8600f">too low</text></g><g class="reveal-step" data-step-group="px" data-step="3" data-hide-at="4"><path class="tax-line thin" d="M 52 140.9 L 197.7 140.9" /><text class="tick-label strong-tick" x="46" y="144.9" text-anchor="end">$60</text><path class="guide" d="M 197.7 248 L 197.7 140.9" /><text class="tick-label strong-tick" x="197.7" y="263" text-anchor="middle">30</text><text class="plot-label sm" x="71.4" y="135.9" text-anchor="start" style="fill:#b8600f">too high</text></g><g class="reveal-step" data-step-group="px" data-step="4"><path class="tax-line" d="M 246.3 248 L 246.3 21.4" /><text class="plot-label sm" x="253.6" y="33.8" text-anchor="start" style="fill:#b8600f">cap: 40 permits</text><path class="guide" d="M 52 176.6 L 246.3 176.6" /><text class="tick-label strong-tick" x="46" y="180.6" text-anchor="end">$40</text></g></svg></div>
+      <div class="calc-run">
+        <div class="reveal-step" data-step-group="px" data-step="1"><div class="calc-line good"><div class="calc-num">1</div><div><strong>A Pigouvian tax of $40 a ton</strong><span>The tax lifts the farms&rsquo; MPC of pollution from $0 to $40, so they stop where MSB = $40: <b>40 tons</b> (the filter pays, injecting does not). Size: the MSC at the optimum.</span></div></div></div>
+        <div class="reveal-step" data-step-group="px" data-step="2"><div class="calc-line bad"><div class="calc-num">2</div><div><strong>Too low: a $20 tax</strong><span>Farms stop where MSB = $20: <b>50 tons, too much pollution</b>. There, MSC ($50) &gt; MSB ($20).</span></div></div></div>
+        <div class="reveal-step" data-step-group="px" data-step="3"><div class="calc-line "><div class="calc-num">3</div><div><strong>Too high: a $60 tax</strong><span>30 tons: too little pollution. Cutting those last 10 tons cost more than they were worth.</span></div></div></div>
+        <div class="reveal-step" data-step-group="px" data-step="4"><div class="calc-line hi"><div class="calc-num">4</div><div><strong>Or a cap: 40 tradable permits</strong><span>Farms bid for the 40 permits until a permit costs $40, the MSB at 40 tons. Same result.</span></div></div></div>
+        <div class="button-row" style="margin-top:6px;"><button type="button" class="step-reveal" data-step-group="px">Reveal next</button></div>
+      </div>
+    </div>
+    <div class="reveal-step " data-step-group="px" data-step="5"><div class="definition-strip blue-strip" style="margin-top:10px; font-size:16px; padding:9px 15px;">Check the direction: a tax set too low leaves <strong>too much</strong> pollution, and at that amount <strong>MSC &gt; MSB</strong>.</div></div>
+    <div class="src">Made-up numbers, same as the previous two pages.</div>
+  </section>
+
+  <!-- 6 pq_graph -->
+  <section class="slide interactive">
+    <div class="section-kicker">practice 1 of 3 &middot; quiz style &middot; hands up</div>
+    <h1>Dust from the brick kilns</h1>
+    <p style="margin:0 0 8px; font-size:15.5px;">Brick kilns in a valley release dust. Curves X and Y are the MSB and the MSC of the dust, in some order.</p>
+    <div class="two-thirds" style="margin-top:0;">
+      <div class="plot-panel"><div class="plot-title">Dust in the valley (made-up numbers)</div><svg class="plot" viewBox="0 0 470 300" role="img" aria-label="A practice graph: tons of dust a day on the horizontal axis, dollars a ton on the vertical. Curve X falls from 600 dollars to zero at 12 tons; curve Y rises from zero to 350 dollars at 14 tons. They cross at 8 tons and 200 dollars"><defs><clipPath id="c914"><rect x="58" y="14" width="376" height="244"/></clipPath></defs><path class="gridline" d="M 58 220.8 L 434 220.8 M 58 183.5 L 434 183.5 M 58 146.3 L 434 146.3 M 58 109.1 L 434 109.1 M 58 71.8 L 434 71.8 M 58 34.6 L 434 34.6"/><path class="axis" d="M 58 12 L 58 258"/><path class="axis" d="M 58 258 L 434 258"/><text class="tick-label" x="52" y="224.8" text-anchor="end">$100</text><text class="tick-label" x="52" y="187.5" text-anchor="end">$200</text><text class="tick-label" x="52" y="150.3" text-anchor="end">$300</text><text class="tick-label" x="52" y="113.1" text-anchor="end">$400</text><text class="tick-label" x="52" y="75.8" text-anchor="end">$500</text><text class="tick-label" x="52" y="38.6" text-anchor="end">$600</text><text class="tick-label" x="111.7" y="273" text-anchor="middle">2</text><text class="tick-label" x="165.4" y="273" text-anchor="middle">4</text><text class="tick-label" x="219.1" y="273" text-anchor="middle">6</text><text class="tick-label" x="272.9" y="273" text-anchor="middle">8</text><text class="tick-label" x="326.6" y="273" text-anchor="middle">10</text><text class="tick-label" x="380.3" y="273" text-anchor="middle">12</text><text class="tick-label" x="434" y="273" text-anchor="middle">14</text><text class="axis-title" x="63" y="20" text-anchor="start">$ a ton</text><text class="axis-title" x="246" y="289" text-anchor="middle">tons of dust a day</text><path class="gridline read" d="M 111.7 16 L 111.7 258 M 165.4 16 L 165.4 258 M 219.1 16 L 219.1 258 M 272.9 16 L 272.9 258 M 326.6 16 L 326.6 258 M 380.3 16 L 380.3 258 M 434 16 L 434 258"/><path class="c-line tc" d="M 58 34.6 L 380.3 258" /><path class="c-line tc" d="M 58 258 L 434 127.7" /><text class="c-label pq" x="117.1" y="55.1" text-anchor="start" style="fill:#1f2933">X</text><text class="c-label pq" x="440" y="131.7" text-anchor="start" style="fill:#1f2933">Y</text></svg></div>
+      <div>
+        <div class="qa-list"><div class="calc-line"><div class="calc-num">1</div><div><strong>Which curve is the MSC of pollution?</strong><span class="reveal-step ans" data-step-group="pq" data-step="1">Y: each ton does more harm as dust builds up. X is MSB: the savings fall to $0</span></div></div><div class="calc-line"><div class="calc-num">2</div><div><strong>Tons of dust with no government action?</strong><span class="reveal-step ans" data-step-group="pq" data-step="2">12: kilns emit until MSB = 0 <em>(not 8)</em></span></div></div><div class="calc-line"><div class="calc-num">3</div><div><strong>Socially optimal amount of dust?</strong><span class="reveal-step ans" data-step-group="pq" data-step="3">8 tons: where MSB = MSC</span></div></div><div class="calc-line"><div class="calc-num">4</div><div><strong>Pigouvian tax that gets there?</strong><span class="reveal-step ans" data-step-group="pq" data-step="4">$200 a ton: the MSC (= MSB) at 8 tons <em>(not $300, the MSC at 12)</em></span></div></div><div class="calc-line"><div class="calc-num">5</div><div><strong>True or false: at any amount above 8 tons, MSB &gt; MSC.</strong><span class="reveal-step ans" data-step-group="pq" data-step="5">False: above 8, MSC &gt; MSB <em>(at 10 tons: MSC $250, MSB $100)</em></span></div></div></div>
+        <div class="button-row" style="margin-top:8px;"><button type="button" class="step-reveal" data-step-group="pq">Reveal next</button></div>
+      </div>
+    </div>
+    <div class="src">Made-up numbers. Curve X: $600 &minus; $50 &times; tons; curve Y: $25 &times; tons. Wrong answers we see: 8 tons with no rules (that is the optimum), a $300 tax (the MSC at 12 tons).</div>
+  </section>
+
+  <!-- 7 pq_tf -->
+  <section class="slide interactive">
+    <div class="section-kicker">practice 2 of 3 &middot; true or false</div>
+    <h1>You be the judge: pollution</h1>
+    <div class="stmt qc-stmt"><p><span class="qc-tag">Savings</span>The MSB of pollution is the money a firm saves by emitting one more ton instead of cleaning it up.</p><span class="reveal-step " data-step-group="q2" data-step="1"><span class="verdict ok">True</span>That saving is why polluting is tempting.</span></div><div class="stmt qc-stmt"><p><span class="qc-tag">Society</span>Pollution has social benefits because it lets us produce goods we enjoy at a lower cost.</p><span class="reveal-step " data-step-group="q2" data-step="2"><span class="verdict ok">True</span>Cleaning up every ton would make power, food, and steel cost more.</span></div><div class="stmt qc-stmt"><p><span class="qc-tag">No rules</span>With no regulation, a firm keeps emitting until the MSB of pollution equals the MSC.</p><span class="reveal-step " data-step-group="q2" data-step="3"><span class="verdict">False</span>It ignores the MSC and keeps going until MSB = 0.</span></div><div class="stmt qc-stmt"><p><span class="qc-tag">Tax</span>If an emissions tax is set too low, firms cut too much pollution.</p><span class="reveal-step " data-step-group="q2" data-step="4"><span class="verdict">False</span>Too low a tax &rarr; too much pollution, and there MSC &gt; MSB.</span></div>
+    <div class="button-row" style="margin-top:10px;"><button type="button" class="step-reveal" data-step-group="q2">Reveal next</button></div>
+  </section>
+
+  <!-- 8 plants_scene -->
+  <section class="slide interactive">
+    <div class="section-kicker">who should cut? &middot; play the scene</div>
+    <h1>Two plants, one goal</h1>
+    <p style="margin:0 0 4px; font-size:15.5px;">Two plants in the same valley each send out 4 tons of smoke a week. The state wants less smoke. <strong>Where is cutting cheapest?</strong></p>
+    <div class="scene-wrap" style="margin-top:6px;"><svg class="scene" viewBox="0 0 836 300" role="img" aria-label="Two plants. Plant A has new equipment, Plant B old equipment. Step 1: four clouds of smoke rise over each plant, one cloud per ton a week. Step 2: a price tag under each cloud shows the cost to cut that ton: 10, 20, 30, 50 dollars at A; 40, 60, 80, 100 dollars at B. Step 3: the state says cut 4 of these 8 tons. Step 4: the four cheapest tons, 3 at A and 1 at B, are cut, for 100 dollars a week"><rect width="836" height="300" fill="#eef5fb"/><rect y="200" width="836" height="100" fill="#dfeecf"/><circle cx="300" cy="200" r="12" fill="#9cc59a"/><circle cx="334" cy="200" r="15" fill="#9cc59a"/><circle cx="368" cy="200" r="18" fill="#9cc59a"/><circle cx="402" cy="200" r="12" fill="#9cc59a"/><circle cx="436" cy="200" r="15" fill="#9cc59a"/><circle cx="470" cy="200" r="18" fill="#9cc59a"/><circle cx="504" cy="200" r="12" fill="#9cc59a"/><circle cx="538" cy="200" r="15" fill="#9cc59a"/><rect x="70" y="150" width="180" height="80" fill="#dfe9f3" stroke="#5f6b76" stroke-width="1.4"/><rect x="84" y="164" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="84" y="192" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="118" y="164" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="118" y="192" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="152" y="164" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="152" y="192" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="186" y="164" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="186" y="192" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="220" y="164" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="220" y="192" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="216" y="108" width="20" height="42" fill="#8a949e"/><rect x="212" y="104" width="28" height="6" fill="#5f6b76"/><text class="sc-lab" x="160" y="254" text-anchor="middle">Plant A</text><text class="sc-sub" x="160" y="270" text-anchor="middle">new equipment</text><rect x="586" y="150" width="180" height="80" fill="#c98b6b" stroke="#5f6b76" stroke-width="1.4"/><path d="M 586 162 L 766 162" stroke="#a96d50" stroke-width="1"/><path d="M 586 174 L 766 174" stroke="#a96d50" stroke-width="1"/><path d="M 586 186 L 766 186" stroke="#a96d50" stroke-width="1"/><path d="M 586 198 L 766 198" stroke="#a96d50" stroke-width="1"/><path d="M 586 210 L 766 210" stroke="#a96d50" stroke-width="1"/><path d="M 586 222 L 766 222" stroke="#a96d50" stroke-width="1"/><rect x="630" y="166" width="22" height="14" fill="#5f6b76" opacity=".7"/><rect x="630" y="194" width="22" height="14" fill="#5f6b76" opacity=".7"/><rect x="664" y="166" width="22" height="14" fill="#5f6b76" opacity=".7"/><rect x="664" y="194" width="22" height="14" fill="#5f6b76" opacity=".7"/><rect x="698" y="166" width="22" height="14" fill="#5f6b76" opacity=".7"/><rect x="698" y="194" width="22" height="14" fill="#5f6b76" opacity=".7"/><rect x="732" y="166" width="22" height="14" fill="#5f6b76" opacity=".7"/><rect x="732" y="194" width="22" height="14" fill="#5f6b76" opacity=".7"/><rect x="598" y="100" width="24" height="50" fill="#8a5a3b"/><rect x="594" y="96" width="32" height="6" fill="#5f6b76"/><text class="sc-lab" x="676" y="254" text-anchor="middle">Plant B</text><text class="sc-sub" x="676" y="270" text-anchor="middle">old equipment</text><g class="reveal-step" data-step-group="pp" data-step="1" data-hide-at="2"><rect x="179.8" y="11" width="476.4" height="23" rx="11.5" fill="#2f80c9"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">1 &middot; Each plant sends out 4 tons of smoke a week: 1 cloud = 1 ton</text></g><g class="reveal-step" data-step-group="pp" data-step="1"><g class="a-drift fb" style="--dx:0px; --dy:-34px; --dur:2.8s; --delay:0s;"><circle cx="214" cy="98" r="9" fill="#b9bfc6"/><circle cx="226" cy="92" r="12" fill="#b9bfc6"/><circle cx="239" cy="97" r="9" fill="#b9bfc6"/><circle cx="228" cy="102" r="8" fill="#b9bfc6"/></g><g class="a-drift fb" style="--dx:0px; --dy:-34px; --dur:2.8s; --delay:1.4s;"><circle cx="214" cy="98" r="9" fill="#b9bfc6"/><circle cx="226" cy="92" r="12" fill="#b9bfc6"/><circle cx="239" cy="97" r="9" fill="#b9bfc6"/><circle cx="228" cy="102" r="8" fill="#b9bfc6"/></g><g class="a-drift fb" style="--dx:0px; --dy:-34px; --dur:2.8s; --delay:0.7s;"><circle cx="598" cy="90" r="9" fill="#b9bfc6"/><circle cx="610" cy="84" r="12" fill="#b9bfc6"/><circle cx="623" cy="89" r="9" fill="#b9bfc6"/><circle cx="612" cy="94" r="8" fill="#b9bfc6"/></g><g class="a-drift fb" style="--dx:0px; --dy:-34px; --dur:2.8s; --delay:2.1s;"><circle cx="598" cy="90" r="9" fill="#b9bfc6"/><circle cx="610" cy="84" r="12" fill="#b9bfc6"/><circle cx="623" cy="89" r="9" fill="#b9bfc6"/><circle cx="612" cy="94" r="8" fill="#b9bfc6"/></g></g><g class="reveal-step" data-step-group="pp" data-step="1" data-hide-at="4"><g class="a-pop fb" style="--delay:0.00s;"><circle cx="86" cy="61" r="11" fill="#9aa3ab"/><circle cx="100" cy="53" r="14" fill="#9aa3ab"/><circle cx="114" cy="61" r="11" fill="#9aa3ab"/><rect x="76" y="60" width="48" height="12" rx="6" fill="#9aa3ab"/><text class="sc-sub" x="100" y="69" text-anchor="middle" style="fill:#fff">1 ton</text></g></g><g class="reveal-step" data-step-group="pp" data-step="1" data-hide-at="4"><g class="a-pop fb" style="--delay:0.15s;"><circle cx="138" cy="61" r="11" fill="#9aa3ab"/><circle cx="152" cy="53" r="14" fill="#9aa3ab"/><circle cx="166" cy="61" r="11" fill="#9aa3ab"/><rect x="128" y="60" width="48" height="12" rx="6" fill="#9aa3ab"/><text class="sc-sub" x="152" y="69" text-anchor="middle" style="fill:#fff">1 ton</text></g></g><g class="reveal-step" data-step-group="pp" data-step="1" data-hide-at="4"><g class="a-pop fb" style="--delay:0.30s;"><circle cx="190" cy="61" r="11" fill="#9aa3ab"/><circle cx="204" cy="53" r="14" fill="#9aa3ab"/><circle cx="218" cy="61" r="11" fill="#9aa3ab"/><rect x="180" y="60" width="48" height="12" rx="6" fill="#9aa3ab"/><text class="sc-sub" x="204" y="69" text-anchor="middle" style="fill:#fff">1 ton</text></g></g><g class="reveal-step" data-step-group="pp" data-step="1"><g class="a-pop fb" style="--delay:0.45s;"><circle cx="242" cy="61" r="11" fill="#9aa3ab"/><circle cx="256" cy="53" r="14" fill="#9aa3ab"/><circle cx="270" cy="61" r="11" fill="#9aa3ab"/><rect x="232" y="60" width="48" height="12" rx="6" fill="#9aa3ab"/><text class="sc-sub" x="256" y="69" text-anchor="middle" style="fill:#fff">1 ton</text></g></g><g class="reveal-step" data-step-group="pp" data-step="1" data-hide-at="4"><g class="a-pop fb" style="--delay:0.00s;"><circle cx="566" cy="61" r="11" fill="#9aa3ab"/><circle cx="580" cy="53" r="14" fill="#9aa3ab"/><circle cx="594" cy="61" r="11" fill="#9aa3ab"/><rect x="556" y="60" width="48" height="12" rx="6" fill="#9aa3ab"/><text class="sc-sub" x="580" y="69" text-anchor="middle" style="fill:#fff">1 ton</text></g></g><g class="reveal-step" data-step-group="pp" data-step="1"><g class="a-pop fb" style="--delay:0.15s;"><circle cx="618" cy="61" r="11" fill="#9aa3ab"/><circle cx="632" cy="53" r="14" fill="#9aa3ab"/><circle cx="646" cy="61" r="11" fill="#9aa3ab"/><rect x="608" y="60" width="48" height="12" rx="6" fill="#9aa3ab"/><text class="sc-sub" x="632" y="69" text-anchor="middle" style="fill:#fff">1 ton</text></g></g><g class="reveal-step" data-step-group="pp" data-step="1"><g class="a-pop fb" style="--delay:0.30s;"><circle cx="670" cy="61" r="11" fill="#9aa3ab"/><circle cx="684" cy="53" r="14" fill="#9aa3ab"/><circle cx="698" cy="61" r="11" fill="#9aa3ab"/><rect x="660" y="60" width="48" height="12" rx="6" fill="#9aa3ab"/><text class="sc-sub" x="684" y="69" text-anchor="middle" style="fill:#fff">1 ton</text></g></g><g class="reveal-step" data-step-group="pp" data-step="1"><g class="a-pop fb" style="--delay:0.45s;"><circle cx="722" cy="61" r="11" fill="#9aa3ab"/><circle cx="736" cy="53" r="14" fill="#9aa3ab"/><circle cx="750" cy="61" r="11" fill="#9aa3ab"/><rect x="712" y="60" width="48" height="12" rx="6" fill="#9aa3ab"/><text class="sc-sub" x="736" y="69" text-anchor="middle" style="fill:#fff">1 ton</text></g></g><g class="reveal-step" data-step-group="pp" data-step="2" data-hide-at="3"><rect x="215.3" y="11" width="405.4" height="23" rx="11.5" fill="#b8600f"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">2 &middot; Cutting a ton costs money: little at A, a lot at B</text></g><g class="reveal-step" data-step-group="pp" data-step="2"><g class="a-pop fb" style="--delay:0.0s;"><rect x="79" y="78" width="42" height="19" rx="4" fill="#fff" stroke="#378a61" stroke-width="2"/><text class="sc-lab" x="100" y="92" text-anchor="middle" style="fill:#378a61">$10</text></g><g class="a-pop fb" style="--delay:0.2s;"><rect x="131" y="78" width="42" height="19" rx="4" fill="#fff" stroke="#378a61" stroke-width="2"/><text class="sc-lab" x="152" y="92" text-anchor="middle" style="fill:#378a61">$20</text></g><g class="a-pop fb" style="--delay:0.4s;"><rect x="183" y="78" width="42" height="19" rx="4" fill="#fff" stroke="#378a61" stroke-width="2"/><text class="sc-lab" x="204" y="92" text-anchor="middle" style="fill:#378a61">$30</text></g><g class="a-pop fb" style="--delay:0.6s;"><rect x="235" y="78" width="42" height="19" rx="4" fill="#fff" stroke="#378a61" stroke-width="2"/><text class="sc-lab" x="256" y="92" text-anchor="middle" style="fill:#378a61">$50</text></g></g><g class="reveal-step" data-step-group="pp" data-step="2"><g class="a-pop fb" style="--delay:0.0s;"><rect x="559" y="78" width="42" height="19" rx="4" fill="#fff" stroke="#c9504d" stroke-width="2"/><text class="sc-lab" x="580" y="92" text-anchor="middle" style="fill:#c9504d">$40</text></g><g class="a-pop fb" style="--delay:0.2s;"><rect x="611" y="78" width="42" height="19" rx="4" fill="#fff" stroke="#c9504d" stroke-width="2"/><text class="sc-lab" x="632" y="92" text-anchor="middle" style="fill:#c9504d">$60</text></g><g class="a-pop fb" style="--delay:0.4s;"><rect x="663" y="78" width="42" height="19" rx="4" fill="#fff" stroke="#c9504d" stroke-width="2"/><text class="sc-lab" x="684" y="92" text-anchor="middle" style="fill:#c9504d">$80</text></g><g class="a-pop fb" style="--delay:0.6s;"><rect x="715" y="78" width="42" height="19" rx="4" fill="#fff" stroke="#c9504d" stroke-width="2"/><text class="sc-lab" x="736" y="92" text-anchor="middle" style="fill:#c9504d">$100</text></g></g><g class="reveal-step" data-step-group="pp" data-step="3" data-hide-at="4"><rect x="240.2" y="11" width="355.7" height="23" rx="11.5" fill="#2f80c9"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">3 &middot; The state wants 4 tons cut in all. Which 4?</text></g><g class="reveal-step" data-step-group="pp" data-step="3"><g class="a-pop fb"><path d="M 364 172 L 418 146 L 472 172 Z" fill="#e5e8eb" stroke="#8a949e" stroke-width="1.4"/><text class="sc-sub" x="418" y="167" text-anchor="middle">STATE</text><rect x="370" y="172" width="96" height="56" fill="#f3f4f6" stroke="#8a949e" stroke-width="1.4"/><rect x="380" y="178" width="8" height="44" fill="#c4ccd3"/><rect x="402" y="178" width="8" height="44" fill="#c4ccd3"/><rect x="424" y="178" width="8" height="44" fill="#c4ccd3"/><rect x="446" y="178" width="8" height="44" fill="#c4ccd3"/></g><g class="a-pop fb" style="--delay:.3s;"><rect x="318" y="92" width="200" height="30" rx="8" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 410 122 L 418 140 L 428 122 Z" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 411 121 L 427 121" stroke="#fff" stroke-width="3"/><text class="sc-lab" x="418" y="112" text-anchor="middle">Cut 4 of these 8 tons.</text></g></g><g class="reveal-step" data-step-group="pp" data-step="4"><rect x="268.6" y="11" width="298.9" height="23" rx="11.5" fill="#378a61"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">4 &middot; The cheapest 4 tons: 3 at A, 1 at B</text></g><g class="reveal-step" data-step-group="pp" data-step="4"><g class="a-pop fb" style="--delay:0.20s;"><circle cx="86" cy="61" r="11" fill="#d6efe0"/><circle cx="100" cy="53" r="14" fill="#d6efe0"/><circle cx="114" cy="61" r="11" fill="#d6efe0"/><rect x="76" y="60" width="48" height="12" rx="6" fill="#d6efe0"/><text class="sc-sub" x="100" y="69" text-anchor="middle" style="fill:#378a61">cut</text><circle cx="122" cy="44" r="8" fill="#378a61"/><path d="M 117 44 L 120.5 48 L 127.5 39.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="79" y="78" width="42" height="19" rx="4" fill="#378a61"/><text class="sc-lab" x="100" y="92" text-anchor="middle" style="fill:#fff">$10</text></g><g class="a-pop fb" style="--delay:0.45s;"><circle cx="138" cy="61" r="11" fill="#d6efe0"/><circle cx="152" cy="53" r="14" fill="#d6efe0"/><circle cx="166" cy="61" r="11" fill="#d6efe0"/><rect x="128" y="60" width="48" height="12" rx="6" fill="#d6efe0"/><text class="sc-sub" x="152" y="69" text-anchor="middle" style="fill:#378a61">cut</text><circle cx="174" cy="44" r="8" fill="#378a61"/><path d="M 169 44 L 172.5 48 L 179.5 39.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="131" y="78" width="42" height="19" rx="4" fill="#378a61"/><text class="sc-lab" x="152" y="92" text-anchor="middle" style="fill:#fff">$20</text></g><g class="a-pop fb" style="--delay:0.70s;"><circle cx="190" cy="61" r="11" fill="#d6efe0"/><circle cx="204" cy="53" r="14" fill="#d6efe0"/><circle cx="218" cy="61" r="11" fill="#d6efe0"/><rect x="180" y="60" width="48" height="12" rx="6" fill="#d6efe0"/><text class="sc-sub" x="204" y="69" text-anchor="middle" style="fill:#378a61">cut</text><circle cx="226" cy="44" r="8" fill="#378a61"/><path d="M 221 44 L 224.5 48 L 231.5 39.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="183" y="78" width="42" height="19" rx="4" fill="#378a61"/><text class="sc-lab" x="204" y="92" text-anchor="middle" style="fill:#fff">$30</text></g><g class="a-pop fb" style="--delay:0.95s;"><circle cx="566" cy="61" r="11" fill="#d6efe0"/><circle cx="580" cy="53" r="14" fill="#d6efe0"/><circle cx="594" cy="61" r="11" fill="#d6efe0"/><rect x="556" y="60" width="48" height="12" rx="6" fill="#d6efe0"/><text class="sc-sub" x="580" y="69" text-anchor="middle" style="fill:#378a61">cut</text><circle cx="602" cy="44" r="8" fill="#378a61"/><path d="M 597 44 L 600.5 48 L 607.5 39.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="559" y="78" width="42" height="19" rx="4" fill="#378a61"/><text class="sc-lab" x="580" y="92" text-anchor="middle" style="fill:#fff">$40</text></g><rect x="282.8" y="237" width="270.5" height="23" rx="11.5" fill="#378a61"/><text class="sc-pill" x="418.0" y="253.5" text-anchor="middle">$10 + $20 + $30 + $40 = $100 a week</text></g></svg></div>
+    <div class="button-row" style="margin-top:7px;"><button type="button" class="step-reveal" data-step-group="pp">Play next</button></div>
+    <div class="reveal-step " data-step-group="pp" data-step="5"><div class="definition-strip" style="margin-top:8px; font-size:16px; padding:9px 15px;">Three of the four cheap tons are at Plant A. But the state does not know these costs; only each plant does. <strong>Which rule gets the cheap tons cut?</strong> Next page: three rules.</div></div>
+    <div class="src">Made-up numbers. Same plants and numbers as the next page.</div>
+  </section>
+
+  <!-- 9 plants_play -->
+  <section class="slide interactive">
+    <div class="section-kicker">who should cut? &middot; three rules &middot; play the scene</div>
+    <h1>Three rules for cutting 4 tons</h1>
+    <p style="margin:0 0 4px; font-size:15.5px;">Same plants, same costs. The state does not know the costs, but it picks the rule. <strong>Who cuts under each rule, and what does it cost?</strong></p>
+    <div class="scene-wrap" style="margin-top:6px;"><svg class="scene" viewBox="0 0 836 320" role="img" aria-label="The two plants and their eight clouds, one per ton, each with the cost to cut it. Rule 1, a standard: each plant cuts 2 tons, 30 dollars at A and 100 at B, 130 in all. Rule 2, a 45 dollar tax per ton: A cuts 3 tons and B cuts 1, the tons that cost less than the tax, 100 dollars in all; they pay the tax on the rest, and coins go to the state. Rule 3, two tradable permits each: A cuts 3 tons and sells its spare permit to B for 45 dollars; B cuts 1; 100 dollars in all. A scoreboard in the middle keeps the three totals"><rect width="836" height="320" fill="#eef5fb"/><rect y="200" width="836" height="120" fill="#dfeecf"/><circle cx="300" cy="200" r="12" fill="#9cc59a"/><circle cx="334" cy="200" r="15" fill="#9cc59a"/><circle cx="368" cy="200" r="18" fill="#9cc59a"/><circle cx="402" cy="200" r="12" fill="#9cc59a"/><circle cx="436" cy="200" r="15" fill="#9cc59a"/><circle cx="470" cy="200" r="18" fill="#9cc59a"/><circle cx="504" cy="200" r="12" fill="#9cc59a"/><circle cx="538" cy="200" r="15" fill="#9cc59a"/><rect x="70" y="150" width="180" height="80" fill="#dfe9f3" stroke="#5f6b76" stroke-width="1.4"/><rect x="84" y="164" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="84" y="192" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="118" y="164" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="118" y="192" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="152" y="164" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="152" y="192" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="186" y="164" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="186" y="192" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="220" y="164" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="220" y="192" width="22" height="14" fill="#2f80c9" opacity=".55"/><rect x="216" y="108" width="20" height="42" fill="#8a949e"/><rect x="212" y="104" width="28" height="6" fill="#5f6b76"/><text class="sc-lab" x="160" y="254" text-anchor="middle">Plant A</text><text class="sc-sub" x="160" y="270" text-anchor="middle">new equipment</text><rect x="586" y="150" width="180" height="80" fill="#c98b6b" stroke="#5f6b76" stroke-width="1.4"/><path d="M 586 162 L 766 162" stroke="#a96d50" stroke-width="1"/><path d="M 586 174 L 766 174" stroke="#a96d50" stroke-width="1"/><path d="M 586 186 L 766 186" stroke="#a96d50" stroke-width="1"/><path d="M 586 198 L 766 198" stroke="#a96d50" stroke-width="1"/><path d="M 586 210 L 766 210" stroke="#a96d50" stroke-width="1"/><path d="M 586 222 L 766 222" stroke="#a96d50" stroke-width="1"/><rect x="630" y="166" width="22" height="14" fill="#5f6b76" opacity=".7"/><rect x="630" y="194" width="22" height="14" fill="#5f6b76" opacity=".7"/><rect x="664" y="166" width="22" height="14" fill="#5f6b76" opacity=".7"/><rect x="664" y="194" width="22" height="14" fill="#5f6b76" opacity=".7"/><rect x="698" y="166" width="22" height="14" fill="#5f6b76" opacity=".7"/><rect x="698" y="194" width="22" height="14" fill="#5f6b76" opacity=".7"/><rect x="732" y="166" width="22" height="14" fill="#5f6b76" opacity=".7"/><rect x="732" y="194" width="22" height="14" fill="#5f6b76" opacity=".7"/><rect x="598" y="100" width="24" height="50" fill="#8a5a3b"/><rect x="594" y="96" width="32" height="6" fill="#5f6b76"/><text class="sc-lab" x="676" y="254" text-anchor="middle">Plant B</text><text class="sc-sub" x="676" y="270" text-anchor="middle">old equipment</text><path d="M 364 172 L 418 146 L 472 172 Z" fill="#e5e8eb" stroke="#8a949e" stroke-width="1.4"/><text class="sc-sub" x="418" y="167" text-anchor="middle">STATE</text><rect x="370" y="172" width="96" height="56" fill="#f3f4f6" stroke="#8a949e" stroke-width="1.4"/><rect x="380" y="178" width="8" height="44" fill="#c4ccd3"/><rect x="402" y="178" width="8" height="44" fill="#c4ccd3"/><rect x="424" y="178" width="8" height="44" fill="#c4ccd3"/><rect x="446" y="178" width="8" height="44" fill="#c4ccd3"/><circle cx="86" cy="61" r="11" fill="#9aa3ab"/><circle cx="100" cy="53" r="14" fill="#9aa3ab"/><circle cx="114" cy="61" r="11" fill="#9aa3ab"/><rect x="76" y="60" width="48" height="12" rx="6" fill="#9aa3ab"/><text class="sc-sub" x="100" y="69" text-anchor="middle" style="fill:#fff">1 ton</text><rect x="79" y="78" width="42" height="19" rx="4" fill="#fff" stroke="#378a61" stroke-width="2"/><text class="sc-lab" x="100" y="92" text-anchor="middle" style="fill:#378a61">$10</text><circle cx="138" cy="61" r="11" fill="#9aa3ab"/><circle cx="152" cy="53" r="14" fill="#9aa3ab"/><circle cx="166" cy="61" r="11" fill="#9aa3ab"/><rect x="128" y="60" width="48" height="12" rx="6" fill="#9aa3ab"/><text class="sc-sub" x="152" y="69" text-anchor="middle" style="fill:#fff">1 ton</text><rect x="131" y="78" width="42" height="19" rx="4" fill="#fff" stroke="#378a61" stroke-width="2"/><text class="sc-lab" x="152" y="92" text-anchor="middle" style="fill:#378a61">$20</text><circle cx="190" cy="61" r="11" fill="#9aa3ab"/><circle cx="204" cy="53" r="14" fill="#9aa3ab"/><circle cx="218" cy="61" r="11" fill="#9aa3ab"/><rect x="180" y="60" width="48" height="12" rx="6" fill="#9aa3ab"/><text class="sc-sub" x="204" y="69" text-anchor="middle" style="fill:#fff">1 ton</text><rect x="183" y="78" width="42" height="19" rx="4" fill="#fff" stroke="#378a61" stroke-width="2"/><text class="sc-lab" x="204" y="92" text-anchor="middle" style="fill:#378a61">$30</text><circle cx="242" cy="61" r="11" fill="#9aa3ab"/><circle cx="256" cy="53" r="14" fill="#9aa3ab"/><circle cx="270" cy="61" r="11" fill="#9aa3ab"/><rect x="232" y="60" width="48" height="12" rx="6" fill="#9aa3ab"/><text class="sc-sub" x="256" y="69" text-anchor="middle" style="fill:#fff">1 ton</text><rect x="235" y="78" width="42" height="19" rx="4" fill="#fff" stroke="#378a61" stroke-width="2"/><text class="sc-lab" x="256" y="92" text-anchor="middle" style="fill:#378a61">$50</text><circle cx="566" cy="61" r="11" fill="#9aa3ab"/><circle cx="580" cy="53" r="14" fill="#9aa3ab"/><circle cx="594" cy="61" r="11" fill="#9aa3ab"/><rect x="556" y="60" width="48" height="12" rx="6" fill="#9aa3ab"/><text class="sc-sub" x="580" y="69" text-anchor="middle" style="fill:#fff">1 ton</text><rect x="559" y="78" width="42" height="19" rx="4" fill="#fff" stroke="#c9504d" stroke-width="2"/><text class="sc-lab" x="580" y="92" text-anchor="middle" style="fill:#c9504d">$40</text><circle cx="618" cy="61" r="11" fill="#9aa3ab"/><circle cx="632" cy="53" r="14" fill="#9aa3ab"/><circle cx="646" cy="61" r="11" fill="#9aa3ab"/><rect x="608" y="60" width="48" height="12" rx="6" fill="#9aa3ab"/><text class="sc-sub" x="632" y="69" text-anchor="middle" style="fill:#fff">1 ton</text><rect x="611" y="78" width="42" height="19" rx="4" fill="#fff" stroke="#c9504d" stroke-width="2"/><text class="sc-lab" x="632" y="92" text-anchor="middle" style="fill:#c9504d">$60</text><circle cx="670" cy="61" r="11" fill="#9aa3ab"/><circle cx="684" cy="53" r="14" fill="#9aa3ab"/><circle cx="698" cy="61" r="11" fill="#9aa3ab"/><rect x="660" y="60" width="48" height="12" rx="6" fill="#9aa3ab"/><text class="sc-sub" x="684" y="69" text-anchor="middle" style="fill:#fff">1 ton</text><rect x="663" y="78" width="42" height="19" rx="4" fill="#fff" stroke="#c9504d" stroke-width="2"/><text class="sc-lab" x="684" y="92" text-anchor="middle" style="fill:#c9504d">$80</text><circle cx="722" cy="61" r="11" fill="#9aa3ab"/><circle cx="736" cy="53" r="14" fill="#9aa3ab"/><circle cx="750" cy="61" r="11" fill="#9aa3ab"/><rect x="712" y="60" width="48" height="12" rx="6" fill="#9aa3ab"/><text class="sc-sub" x="736" y="69" text-anchor="middle" style="fill:#fff">1 ton</text><rect x="715" y="78" width="42" height="19" rx="4" fill="#fff" stroke="#c9504d" stroke-width="2"/><text class="sc-lab" x="736" y="92" text-anchor="middle" style="fill:#c9504d">$100</text><g class="reveal-step" data-step-group="po" data-step="1" data-hide-at="2"><rect x="201.1" y="11" width="433.8" height="23" rx="11.5" fill="#c9504d"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">Rule 1 &middot; An environmental standard: each plant cuts 2 tons</text><rect x="322.2" y="92" width="191.6" height="30" rx="8" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 410 122 L 418 140 L 428 122 Z" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 411 121 L 427 121" stroke="#fff" stroke-width="3"/><text class="sc-lab" x="418" y="112" text-anchor="middle">Each plant: cut 2 tons.</text><g class="a-pop fb" style="--delay:0.20s;"><circle cx="86" cy="61" r="11" fill="#d6efe0"/><circle cx="100" cy="53" r="14" fill="#d6efe0"/><circle cx="114" cy="61" r="11" fill="#d6efe0"/><rect x="76" y="60" width="48" height="12" rx="6" fill="#d6efe0"/><text class="sc-sub" x="100" y="69" text-anchor="middle" style="fill:#378a61">cut</text><circle cx="122" cy="44" r="8" fill="#378a61"/><path d="M 117 44 L 120.5 48 L 127.5 39.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="79" y="78" width="42" height="19" rx="4" fill="#378a61"/><text class="sc-lab" x="100" y="92" text-anchor="middle" style="fill:#fff">$10</text></g><g class="a-pop fb" style="--delay:0.45s;"><circle cx="138" cy="61" r="11" fill="#d6efe0"/><circle cx="152" cy="53" r="14" fill="#d6efe0"/><circle cx="166" cy="61" r="11" fill="#d6efe0"/><rect x="128" y="60" width="48" height="12" rx="6" fill="#d6efe0"/><text class="sc-sub" x="152" y="69" text-anchor="middle" style="fill:#378a61">cut</text><circle cx="174" cy="44" r="8" fill="#378a61"/><path d="M 169 44 L 172.5 48 L 179.5 39.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="131" y="78" width="42" height="19" rx="4" fill="#378a61"/><text class="sc-lab" x="152" y="92" text-anchor="middle" style="fill:#fff">$20</text></g><g class="a-pop fb" style="--delay:0.70s;"><circle cx="566" cy="61" r="11" fill="#d6efe0"/><circle cx="580" cy="53" r="14" fill="#d6efe0"/><circle cx="594" cy="61" r="11" fill="#d6efe0"/><rect x="556" y="60" width="48" height="12" rx="6" fill="#d6efe0"/><text class="sc-sub" x="580" y="69" text-anchor="middle" style="fill:#378a61">cut</text><circle cx="602" cy="44" r="8" fill="#378a61"/><path d="M 597 44 L 600.5 48 L 607.5 39.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="559" y="78" width="42" height="19" rx="4" fill="#378a61"/><text class="sc-lab" x="580" y="92" text-anchor="middle" style="fill:#fff">$40</text></g><g class="a-pop fb" style="--delay:0.95s;"><circle cx="618" cy="61" r="11" fill="#d6efe0"/><circle cx="632" cy="53" r="14" fill="#d6efe0"/><circle cx="646" cy="61" r="11" fill="#d6efe0"/><rect x="608" y="60" width="48" height="12" rx="6" fill="#d6efe0"/><text class="sc-sub" x="632" y="69" text-anchor="middle" style="fill:#378a61">cut</text><circle cx="654" cy="44" r="8" fill="#378a61"/><path d="M 649 44 L 652.5 48 L 659.5 39.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="611" y="78" width="42" height="19" rx="4" fill="#378a61"/><text class="sc-lab" x="632" y="92" text-anchor="middle" style="fill:#fff">$60</text></g><text class="sc-lab" x="160" y="298" text-anchor="middle">cuts 2: $10 + $20 = $30</text><text class="sc-lab" x="676" y="298" text-anchor="middle">cuts 2: $40 + $60 = $100</text></g><g class="reveal-step" data-step-group="po" data-step="2" data-hide-at="3"><rect x="165.6" y="11" width="504.8" height="23" rx="11.5" fill="#b8600f"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">Rule 2 &middot; An emissions tax: $45 for every ton a plant still sends out</text><rect x="325.8" y="92" width="184.4" height="30" rx="8" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 410 122 L 418 140 L 428 122 Z" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 411 121 L 427 121" stroke="#fff" stroke-width="3"/><text class="sc-lab" x="418" y="112" text-anchor="middle">$45 a ton. You choose.</text><g class="a-pop fb" style="--delay:0.20s;"><circle cx="86" cy="61" r="11" fill="#d6efe0"/><circle cx="100" cy="53" r="14" fill="#d6efe0"/><circle cx="114" cy="61" r="11" fill="#d6efe0"/><rect x="76" y="60" width="48" height="12" rx="6" fill="#d6efe0"/><text class="sc-sub" x="100" y="69" text-anchor="middle" style="fill:#378a61">cut</text><circle cx="122" cy="44" r="8" fill="#378a61"/><path d="M 117 44 L 120.5 48 L 127.5 39.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="79" y="78" width="42" height="19" rx="4" fill="#378a61"/><text class="sc-lab" x="100" y="92" text-anchor="middle" style="fill:#fff">$10</text></g><g class="a-pop fb" style="--delay:0.45s;"><circle cx="138" cy="61" r="11" fill="#d6efe0"/><circle cx="152" cy="53" r="14" fill="#d6efe0"/><circle cx="166" cy="61" r="11" fill="#d6efe0"/><rect x="128" y="60" width="48" height="12" rx="6" fill="#d6efe0"/><text class="sc-sub" x="152" y="69" text-anchor="middle" style="fill:#378a61">cut</text><circle cx="174" cy="44" r="8" fill="#378a61"/><path d="M 169 44 L 172.5 48 L 179.5 39.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="131" y="78" width="42" height="19" rx="4" fill="#378a61"/><text class="sc-lab" x="152" y="92" text-anchor="middle" style="fill:#fff">$20</text></g><g class="a-pop fb" style="--delay:0.70s;"><circle cx="190" cy="61" r="11" fill="#d6efe0"/><circle cx="204" cy="53" r="14" fill="#d6efe0"/><circle cx="218" cy="61" r="11" fill="#d6efe0"/><rect x="180" y="60" width="48" height="12" rx="6" fill="#d6efe0"/><text class="sc-sub" x="204" y="69" text-anchor="middle" style="fill:#378a61">cut</text><circle cx="226" cy="44" r="8" fill="#378a61"/><path d="M 221 44 L 224.5 48 L 231.5 39.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="183" y="78" width="42" height="19" rx="4" fill="#378a61"/><text class="sc-lab" x="204" y="92" text-anchor="middle" style="fill:#fff">$30</text></g><g class="a-pop fb" style="--delay:0.95s;"><circle cx="566" cy="61" r="11" fill="#d6efe0"/><circle cx="580" cy="53" r="14" fill="#d6efe0"/><circle cx="594" cy="61" r="11" fill="#d6efe0"/><rect x="556" y="60" width="48" height="12" rx="6" fill="#d6efe0"/><text class="sc-sub" x="580" y="69" text-anchor="middle" style="fill:#378a61">cut</text><circle cx="602" cy="44" r="8" fill="#378a61"/><path d="M 597 44 L 600.5 48 L 607.5 39.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="559" y="78" width="42" height="19" rx="4" fill="#378a61"/><text class="sc-lab" x="580" y="92" text-anchor="middle" style="fill:#fff">$40</text></g><g class="a-pop fb" style="--delay:1.50s;"><circle cx="242" cy="61" r="11" fill="#f6d2ae"/><circle cx="256" cy="53" r="14" fill="#f6d2ae"/><circle cx="270" cy="61" r="11" fill="#f6d2ae"/><rect x="232" y="60" width="48" height="12" rx="6" fill="#f6d2ae"/><text class="sc-sub" x="256" y="69" text-anchor="middle" style="fill:#b8600f">tax</text></g><g class="a-pop fb" style="--delay:1.10s;"><circle cx="618" cy="61" r="11" fill="#f6d2ae"/><circle cx="632" cy="53" r="14" fill="#f6d2ae"/><circle cx="646" cy="61" r="11" fill="#f6d2ae"/><rect x="608" y="60" width="48" height="12" rx="6" fill="#f6d2ae"/><text class="sc-sub" x="632" y="69" text-anchor="middle" style="fill:#b8600f">tax</text></g><g class="a-pop fb" style="--delay:1.30s;"><circle cx="670" cy="61" r="11" fill="#f6d2ae"/><circle cx="684" cy="53" r="14" fill="#f6d2ae"/><circle cx="698" cy="61" r="11" fill="#f6d2ae"/><rect x="660" y="60" width="48" height="12" rx="6" fill="#f6d2ae"/><text class="sc-sub" x="684" y="69" text-anchor="middle" style="fill:#b8600f">tax</text></g><g class="a-pop fb" style="--delay:1.50s;"><circle cx="722" cy="61" r="11" fill="#f6d2ae"/><circle cx="736" cy="53" r="14" fill="#f6d2ae"/><circle cx="750" cy="61" r="11" fill="#f6d2ae"/><rect x="712" y="60" width="48" height="12" rx="6" fill="#f6d2ae"/><text class="sc-sub" x="736" y="69" text-anchor="middle" style="fill:#b8600f">tax</text></g><g class="a-move" style="--dx:150px; --dy:40px; --dur:3.4s; --delay:0s;"><circle cx="250" cy="140" r="11" fill="#f4c35b" stroke="#b8600f" stroke-width="2"/><text class="sc-coin" x="250" y="144" text-anchor="middle">$</text></g><g class="a-move" style="--dx:-150px; --dy:40px; --dur:3.4s; --delay:1.2s;"><circle cx="586" cy="140" r="11" fill="#f4c35b" stroke="#b8600f" stroke-width="2"/><text class="sc-coin" x="586" y="144" text-anchor="middle">$</text></g><text class="sc-lab" x="160" y="298" text-anchor="middle">cuts 3 ($60), pays tax on 1</text><text class="sc-lab" x="676" y="298" text-anchor="middle">cuts 1 ($40), pays tax on 3</text></g><g class="reveal-step" data-step-group="po" data-step="3"><g class="reveal-step" data-step-group="po" data-step="3" data-hide-at="4"><rect x="140.8" y="11" width="554.5" height="23" rx="11.5" fill="#2f80c9"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">Rule 3 &middot; Tradable permits: 2 for each plant, 1 permit = 1 ton, buy and sell</text></g><rect x="282.6" y="92" width="270.8" height="30" rx="8" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 410 122 L 418 140 L 428 122 Z" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 411 121 L 427 121" stroke="#fff" stroke-width="3"/><text class="sc-lab" x="418" y="112" text-anchor="middle">2 permits each. Trade if you like.</text><g class="a-pop fb" style="--delay:0.20s;"><circle cx="86" cy="61" r="11" fill="#d6efe0"/><circle cx="100" cy="53" r="14" fill="#d6efe0"/><circle cx="114" cy="61" r="11" fill="#d6efe0"/><rect x="76" y="60" width="48" height="12" rx="6" fill="#d6efe0"/><text class="sc-sub" x="100" y="69" text-anchor="middle" style="fill:#378a61">cut</text><circle cx="122" cy="44" r="8" fill="#378a61"/><path d="M 117 44 L 120.5 48 L 127.5 39.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="79" y="78" width="42" height="19" rx="4" fill="#378a61"/><text class="sc-lab" x="100" y="92" text-anchor="middle" style="fill:#fff">$10</text></g><g class="a-pop fb" style="--delay:0.45s;"><circle cx="138" cy="61" r="11" fill="#d6efe0"/><circle cx="152" cy="53" r="14" fill="#d6efe0"/><circle cx="166" cy="61" r="11" fill="#d6efe0"/><rect x="128" y="60" width="48" height="12" rx="6" fill="#d6efe0"/><text class="sc-sub" x="152" y="69" text-anchor="middle" style="fill:#378a61">cut</text><circle cx="174" cy="44" r="8" fill="#378a61"/><path d="M 169 44 L 172.5 48 L 179.5 39.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="131" y="78" width="42" height="19" rx="4" fill="#378a61"/><text class="sc-lab" x="152" y="92" text-anchor="middle" style="fill:#fff">$20</text></g><g class="a-pop fb" style="--delay:0.70s;"><circle cx="190" cy="61" r="11" fill="#d6efe0"/><circle cx="204" cy="53" r="14" fill="#d6efe0"/><circle cx="218" cy="61" r="11" fill="#d6efe0"/><rect x="180" y="60" width="48" height="12" rx="6" fill="#d6efe0"/><text class="sc-sub" x="204" y="69" text-anchor="middle" style="fill:#378a61">cut</text><circle cx="226" cy="44" r="8" fill="#378a61"/><path d="M 221 44 L 224.5 48 L 231.5 39.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="183" y="78" width="42" height="19" rx="4" fill="#378a61"/><text class="sc-lab" x="204" y="92" text-anchor="middle" style="fill:#fff">$30</text></g><g class="a-pop fb" style="--delay:0.95s;"><circle cx="566" cy="61" r="11" fill="#d6efe0"/><circle cx="580" cy="53" r="14" fill="#d6efe0"/><circle cx="594" cy="61" r="11" fill="#d6efe0"/><rect x="556" y="60" width="48" height="12" rx="6" fill="#d6efe0"/><text class="sc-sub" x="580" y="69" text-anchor="middle" style="fill:#378a61">cut</text><circle cx="602" cy="44" r="8" fill="#378a61"/><path d="M 597 44 L 600.5 48 L 607.5 39.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="559" y="78" width="42" height="19" rx="4" fill="#378a61"/><text class="sc-lab" x="580" y="92" text-anchor="middle" style="fill:#fff">$40</text></g><rect x="78" y="124" width="46" height="18" rx="3" fill="#fff4d6" stroke="#b8600f" stroke-width="1.6"/><text class="sc-sub" x="101" y="137" text-anchor="middle" style="fill:#b8600f">permit</text><rect x="640" y="124" width="46" height="18" rx="3" fill="#fff4d6" stroke="#b8600f" stroke-width="1.6"/><text class="sc-sub" x="663" y="137" text-anchor="middle" style="fill:#b8600f">permit</text><rect x="690" y="124" width="46" height="18" rx="3" fill="#fff4d6" stroke="#b8600f" stroke-width="1.6"/><text class="sc-sub" x="713" y="137" text-anchor="middle" style="fill:#b8600f">permit</text><g class="a-move" style="--dx:612px; --dy:0px; --dur:4.6s; --delay:0s;"><rect x="128" y="124" width="46" height="18" rx="3" fill="#fff4d6" stroke="#b8600f" stroke-width="1.6"/><text class="sc-sub" x="151" y="137" text-anchor="middle" style="fill:#b8600f">permit</text></g><g class="a-move" style="--dx:-600px; --dy:0px; --dur:4.6s; --delay:0.4s;"><circle cx="760" cy="156" r="11" fill="#f4c35b" stroke="#b8600f" stroke-width="2"/><text class="sc-coin" x="760" y="160" text-anchor="middle">$</text></g><text class="sc-lab" x="160" y="298" text-anchor="middle">cuts 3 ($60), sells 1 permit: +$45</text><text class="sc-lab" x="676" y="298" text-anchor="middle">cuts 1 ($40), buys 1 permit: &minus;$45</text></g><g class="reveal-step" data-step-group="po" data-step="1"><g class="a-pop fb"><rect x="343.1" y="237" width="149.8" height="23" rx="11.5" fill="#c9504d"/><text class="sc-pill" x="418.0" y="253.5" text-anchor="middle">1 &middot; Standard: $130</text></g></g><g class="reveal-step" data-step-group="po" data-step="2"><g class="a-pop fb"><rect x="360.9" y="261" width="114.3" height="23" rx="11.5" fill="#378a61"/><text class="sc-pill" x="418.0" y="277.5" text-anchor="middle">2 &middot; Tax: $100</text></g></g><g class="reveal-step" data-step-group="po" data-step="3"><g class="a-pop fb"><rect x="346.6" y="285" width="142.7" height="23" rx="11.5" fill="#378a61"/><text class="sc-pill" x="418.0" y="301.5" text-anchor="middle">3 &middot; Permits: $100</text></g></g><g class="reveal-step" data-step-group="po" data-step="4"><rect x="190.5" y="11" width="455.1" height="23" rx="11.5" fill="#378a61"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">Same 4 tons: $130 with a standard, $100 with a tax or permits</text></g></svg></div>
+    <div class="button-row" style="margin-top:7px;"><button type="button" class="step-reveal" data-step-group="po">Play next</button></div>
+    <div class="reveal-step " data-step-group="po" data-step="4"><div class="definition-strip blue-strip" style="margin-top:8px; font-size:16px; padding:9px 15px;">Same 4 tons, <strong>$30 less</strong>. A price on each ton (a tax, or a permit that can be sold) lets the plant that can cut cheaply do most of the cutting, and no one has to tell the state the costs.</div></div>
+    <div class="src">Made-up numbers. The $45 tax also collects $45 &times; 4 tons still emitted = $180: a transfer, not a cost to society (Unit 6). Any permit price from $30 to $60 works; at $45, each plant pays $15 less than under the standard.</div>
+  </section>
+
+  <!-- 10 coase -->
+  <section class="slide interactive">
+    <div class="section-kicker">option 4 &middot; property rights &middot; play the scene</div>
+    <h1>Who holds the right: the farm or the neighbor?</h1>
+    <p style="margin:0 0 4px; font-size:15.5px;">One hog farm, one neighbor, no government rule. The two can talk. <strong>Does it matter who holds the right?</strong></p>
+    <div class="scene-wrap" style="margin-top:6px;"><svg class="scene" viewBox="0 0 836 280" role="img" aria-label="A hog farm with a manure lagoon and one neighbor&#x27;s house. Step 1: smell drifts to the house; a cover costs the farm 30 thousand dollars a year, the smell costs the neighbor 50 thousand. Step 2: the neighbor holds the right to clean air; the farm compares covering with paying damages, covers the lagoon, and pays. Step 3: the farm holds the right to emit; the neighbor offers 40 thousand dollars, money goes to the farm, and the cover goes on. Step 4: either way the cover goes on; the right decides only who pays"><rect width="836" height="280" fill="#eef5fb"/><rect y="150" width="836" height="130" fill="#dfeecf"/><circle cx="300" cy="150" r="12" fill="#9cc59a"/><circle cx="334" cy="150" r="15" fill="#9cc59a"/><circle cx="368" cy="150" r="18" fill="#9cc59a"/><circle cx="402" cy="150" r="12" fill="#9cc59a"/><circle cx="436" cy="150" r="15" fill="#9cc59a"/><circle cx="470" cy="150" r="18" fill="#9cc59a"/><circle cx="504" cy="150" r="12" fill="#9cc59a"/><circle cx="538" cy="150" r="15" fill="#9cc59a"/><rect x="30" y="140" width="180" height="26" fill="#f3f4f6" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 24 141 L 36 131 L 204 131 L 216 141 Z" fill="#8a949e"/><rect x="44" y="147" width="12" height="7" fill="#c4ccd3"/><rect x="70" y="147" width="12" height="7" fill="#c4ccd3"/><rect x="96" y="147" width="12" height="7" fill="#c4ccd3"/><rect x="122" y="147" width="12" height="7" fill="#c4ccd3"/><rect x="148" y="147" width="12" height="7" fill="#c4ccd3"/><rect x="174" y="147" width="12" height="7" fill="#c4ccd3"/><text class="sc-lab" x="120" y="122" text-anchor="middle">Hog farm</text><ellipse cx="150" cy="212" rx="74" ry="18" fill="#b98b6e"/><text class="sc-sub" x="150" y="216" text-anchor="middle" style="fill:#fff">manure lagoon</text><rect x="620" y="172" width="70" height="44" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 615 173 L 655.0 147.8 L 695 173 Z" fill="#8a949e"/><rect x="649.0" y="201" width="12" height="15" fill="#c9a27a"/><rect x="720.0" y="197.0" width="20.0" height="26.0" rx="8.0" fill="#2f80c9"/><circle cx="730" cy="186" r="9.5" fill="#f1c7a3"/><text class="sc-lab" x="668" y="238" text-anchor="middle">Neighbor</text><g class="reveal-step" data-step-group="co" data-step="1" data-hide-at="2"><rect x="204.7" y="11" width="426.7" height="23" rx="11.5" fill="#c9504d"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">1 &middot; No cover: the smell costs the neighbor $50,000 a year</text><g class="a-drift fb" style="--dx:440px; --dy:-20px; --dur:3.8s; --delay:0s;"><circle cx="158" cy="198" r="9" fill="#8f8a3e"/><circle cx="170" cy="192" r="12" fill="#8f8a3e"/><circle cx="183" cy="197" r="9" fill="#8f8a3e"/><circle cx="172" cy="202" r="8" fill="#8f8a3e"/></g><g class="a-drift fb" style="--dx:470px; --dy:-30px; --dur:3.8s; --delay:1.0s;"><circle cx="118" cy="202" r="9" fill="#8f8a3e"/><circle cx="130" cy="196" r="12" fill="#8f8a3e"/><circle cx="143" cy="201" r="9" fill="#8f8a3e"/><circle cx="132" cy="206" r="8" fill="#8f8a3e"/></g><g class="a-drift fb" style="--dx:420px; --dy:-12px; --dur:3.8s; --delay:2.0s;"><circle cx="188" cy="208" r="9" fill="#8f8a3e"/><circle cx="200" cy="202" r="12" fill="#8f8a3e"/><circle cx="213" cy="207" r="9" fill="#8f8a3e"/><circle cx="202" cy="212" r="8" fill="#8f8a3e"/></g><g class="a-drift fb" style="--dx:460px; --dy:-40px; --dur:3.8s; --delay:3.0s;"><circle cx="138" cy="192" r="9" fill="#8f8a3e"/><circle cx="150" cy="186" r="12" fill="#8f8a3e"/><circle cx="163" cy="191" r="9" fill="#8f8a3e"/><circle cx="152" cy="196" r="8" fill="#8f8a3e"/></g></g><g class="reveal-step" data-step-group="co" data-step="1"><text class="sc-lab" x="150" y="262" text-anchor="middle" style="fill:#1f2933">Cover costs the farm $30,000 a year</text><text class="sc-lab" x="675" y="262" text-anchor="middle" style="fill:#c9504d">Smell costs the neighbor $50,000 a year</text></g><g class="reveal-step" data-step-group="co" data-step="2" data-hide-at="3"><rect x="254.3" y="11" width="327.3" height="23" rx="11.5" fill="#2f80c9"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">2 &middot; The neighbor has the right to clean air</text><g class="a-pop fb"><rect x="694" y="58" width="96" height="42" rx="4" fill="#fff8e6" stroke="#b8600f" stroke-width="2"/><text class="sc-sub" x="742" y="74" text-anchor="middle" style="fill:#b8600f">THE RIGHT:</text><text class="sc-lab" x="742" y="91" text-anchor="middle">clean air</text></g><g class="a-pop fb" style="--delay:.4s;"><rect x="209.0" y="52" width="242.0" height="46" rx="8" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 215.0 98 L 214 128 L 231.0 98 Z" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 216.0 97 L 230.0 97" stroke="#fff" stroke-width="3"/><text class="sc-lab" x="330" y="72" text-anchor="middle">Cover it ($30k) or pay</text><text class="sc-lab" x="330" y="89" text-anchor="middle">the neighbor ($50k)? Cover it.</text></g><g class="a-pop fb" style="--delay:1.2s;"><ellipse cx="150" cy="208" rx="80" ry="23" fill="#5f6b76"/><path d="M 84 204 Q 150 182 216 204" fill="none" stroke="#9aa3ab" stroke-width="2"/><text class="sc-sub" x="150" y="214" text-anchor="middle" style="fill:#fff">cover</text></g><g class="a-move" style="--dx:30px; --dy:80px; --dur:3.2s; --delay:1.2s;"><circle cx="120" cy="120" r="11" fill="#f4c35b" stroke="#b8600f" stroke-width="2"/><text class="sc-coin" x="120" y="124" text-anchor="middle">$</text></g><rect x="332.4" y="185" width="171.1" height="23" rx="11.5" fill="#2f80c9"/><text class="sc-pill" x="418.0" y="201.5" text-anchor="middle">The farm pays $30,000</text></g><g class="reveal-step" data-step-group="co" data-step="3" data-hide-at="4"><rect x="286.3" y="11" width="263.4" height="23" rx="11.5" fill="#b8600f"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">3 &middot; The farm has the right to emit</text><g class="a-pop fb"><rect x="30" y="58" width="96" height="42" rx="4" fill="#fff8e6" stroke="#b8600f" stroke-width="2"/><text class="sc-sub" x="78" y="74" text-anchor="middle" style="fill:#b8600f">THE RIGHT:</text><text class="sc-lab" x="78" y="91" text-anchor="middle">to emit</text></g><g class="a-pop fb" style="--delay:.4s;"><rect x="555.0" y="56" width="170.0" height="46" rx="8" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 703.0 102 L 724 172 L 719.0 102 Z" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 704.0 101 L 718.0 101" stroke="#fff" stroke-width="3"/><text class="sc-lab" x="640" y="76" text-anchor="middle">I&rsquo;ll pay you $40,000</text><text class="sc-lab" x="640" y="93" text-anchor="middle">to cover it.</text></g><g class="a-move" style="--dx:-500px; --dy:-40px; --dur:3.4s; --delay:0.9s;"><circle cx="716" cy="196" r="11" fill="#f4c35b" stroke="#b8600f" stroke-width="2"/><text class="sc-coin" x="716" y="200" text-anchor="middle">$</text></g><rect x="304.1" y="185" width="227.9" height="23" rx="11.5" fill="#b8600f"/><text class="sc-pill" x="418.0" y="201.5" text-anchor="middle">The neighbor pays ($30k&ndash;$50k)</text></g><g class="reveal-step" data-step-group="co" data-step="3"><g class="a-pop fb" style="--delay:1.6s;"><ellipse cx="150" cy="208" rx="80" ry="23" fill="#5f6b76"/><path d="M 84 204 Q 150 182 216 204" fill="none" stroke="#9aa3ab" stroke-width="2"/><text class="sc-sub" x="150" y="214" text-anchor="middle" style="fill:#fff">cover</text></g></g><g class="reveal-step" data-step-group="co" data-step="4"><rect x="172.7" y="11" width="490.6" height="23" rx="11.5" fill="#378a61"/><text class="sc-pill" x="418.0" y="27.5" text-anchor="middle">4 &middot; Either way the cover goes on. The right decides only who pays.</text><g class="a-pop fb" style="--delay:.2s;"><circle cx="232" cy="196" r="12" fill="#378a61"/><path d="M 227 196 L 230.5 200 L 237.5 191.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><g class="a-pop fb" style="--delay:.4s;"><circle cx="706" cy="156" r="12" fill="#378a61"/><path d="M 701 156 L 704.5 160 L 711.5 151.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg></div>
+    <div class="button-row" style="margin-top:7px;"><button type="button" class="step-reveal" data-step-group="co">Play next</button></div>
+    <div class="reveal-step " data-step-group="co" data-step="4"><div class="definition-strip green-strip" style="margin-top:8px; font-size:16px; padding:9px 15px;"><strong>Coase theorem:</strong> if <strong>transaction costs</strong> are low, people can bargain to the efficient outcome, whoever holds the right. The right decides <strong>who pays</strong>, not <strong>what happens</strong>. The bargain <strong>internalizes</strong> the externality.</div></div>
+    <div class="reveal-step " data-step-group="co" data-step="5"><p class="footer-note small muted" style="margin-top:6px;">Paying the people who bear the cost (compensation) also makes the cost count. It raises a fairness question: who should pay when a few bear the cost and many enjoy the benefit?</p></div>
+    <div class="src">Made-up numbers. Ronald Coase (Nobel Prize, 1991) used a railroad whose sparks set a farmer&rsquo;s field on fire (OpenStax Sec. 12.3).</div>
+  </section>
+
+  <!-- 11 bargain -->
+  <section class="slide interactive">
+    <div class="section-kicker">transaction costs &middot; play the scene</div>
+    <h1>When does bargaining work?</h1>
+    <p style="margin:0 0 4px; font-size:15.5px;">Left: Monday&rsquo;s bees and the blueberries next door. Right: the same $30,000 cover, but the smell now reaches 200 households.</p>
+    <div class="scene-wrap" style="margin-top:6px;"><svg class="scene" viewBox="0 0 836 270" role="img" aria-label="Left: a beekeeper with hives, a fence, and a blueberry field with its grower. Step 1: the grower asks to rent two hives for bloom season; a hive moves into the field, bees work the bushes, money goes to the beekeeper, and both get check marks. Right: a hog farm and rows of small houses. Step 2: the smell drifts over the houses; an organizer goes door to door; the houses say let the others pay, not me, why should I; only 37 of the 120 needed sign up, and the deal fails"><rect width="836" height="270" fill="#eef5fb"/><rect y="150" width="836" height="120" fill="#dfeecf"/><path d="M 418 44 L 418 262" stroke="#c4ccd3" stroke-width="2" stroke-dasharray="6 5"/><rect x="30.0" y="179.0" width="20.0" height="26.0" rx="8.0" fill="#f3f4f6"/><circle cx="40" cy="168" r="9.5" fill="#e8b48f"/><path d="M 27.0 163.0 L 53.0 163.0 L 48.0 154.0 L 32.0 154.0 Z" fill="#e8d6a8"/><text class="sc-sub" x="40" y="230" text-anchor="middle">beekeeper</text><rect x="70" y="182" width="34" height="11" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="70" y="193" width="34" height="11" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="70" y="204" width="34" height="11" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="68" y="177" width="38" height="6" fill="#9aa3ab"/><rect x="112" y="182" width="34" height="11" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="112" y="193" width="34" height="11" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="112" y="204" width="34" height="11" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="110" y="177" width="38" height="6" fill="#9aa3ab"/><rect x="168" y="150" width="5" height="20" fill="#8a5a3b"/><rect x="168" y="176" width="5" height="20" fill="#8a5a3b"/><rect x="168" y="202" width="5" height="20" fill="#8a5a3b"/><rect x="168" y="228" width="5" height="20" fill="#8a5a3b"/><circle cx="212" cy="186" r="15" fill="#3f7d4a"/><circle cx="205" cy="181" r="2.6" fill="#fff"/><circle cx="217" cy="178" r="2.6" fill="#fff"/><circle cx="220" cy="189" r="2.6" fill="#fff"/><circle cx="256" cy="186" r="15" fill="#3f7d4a"/><circle cx="249" cy="181" r="2.6" fill="#fff"/><circle cx="261" cy="178" r="2.6" fill="#fff"/><circle cx="264" cy="189" r="2.6" fill="#fff"/><circle cx="300" cy="186" r="15" fill="#3f7d4a"/><circle cx="293" cy="181" r="2.6" fill="#fff"/><circle cx="305" cy="178" r="2.6" fill="#fff"/><circle cx="308" cy="189" r="2.6" fill="#fff"/><circle cx="344" cy="186" r="15" fill="#3f7d4a"/><circle cx="337" cy="181" r="2.6" fill="#fff"/><circle cx="349" cy="178" r="2.6" fill="#fff"/><circle cx="352" cy="189" r="2.6" fill="#fff"/><circle cx="212" cy="224" r="15" fill="#3f7d4a"/><circle cx="205" cy="219" r="2.6" fill="#fff"/><circle cx="217" cy="216" r="2.6" fill="#fff"/><circle cx="220" cy="227" r="2.6" fill="#fff"/><circle cx="256" cy="224" r="15" fill="#3f7d4a"/><circle cx="249" cy="219" r="2.6" fill="#fff"/><circle cx="261" cy="216" r="2.6" fill="#fff"/><circle cx="264" cy="227" r="2.6" fill="#fff"/><circle cx="300" cy="224" r="15" fill="#3f7d4a"/><circle cx="293" cy="219" r="2.6" fill="#fff"/><circle cx="305" cy="216" r="2.6" fill="#fff"/><circle cx="308" cy="227" r="2.6" fill="#fff"/><circle cx="344" cy="224" r="15" fill="#3f7d4a"/><circle cx="337" cy="219" r="2.6" fill="#fff"/><circle cx="349" cy="216" r="2.6" fill="#fff"/><circle cx="352" cy="227" r="2.6" fill="#fff"/><rect x="378.0" y="161.0" width="20.0" height="26.0" rx="8.0" fill="#b8600f"/><circle cx="388" cy="150" r="9.5" fill="#8d5a3b"/><path d="M 375.0 145.0 L 401.0 145.0 L 396.0 136.0 L 380.0 136.0 Z" fill="#5f6b76"/><text class="sc-sub" x="388" y="204" text-anchor="middle">grower</text><g class="reveal-step" data-step-group="bg" data-step="1"><rect x="134.1" y="11" width="149.8" height="23" rx="11.5" fill="#378a61"/><text class="sc-pill" x="209.0" y="27.5" text-anchor="middle">Works: two parties</text><g class="a-move" style="--dx:150px; --dy:6px; --dur:4.2s; --delay:0s;"><rect x="112" y="182" width="34" height="11" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="112" y="193" width="34" height="11" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="112" y="204" width="34" height="11" fill="#fff" stroke="#c4a35a" stroke-width="1.2"/><rect x="110" y="177" width="38" height="6" fill="#9aa3ab"/></g><g class="a-bee" style="--dx:90px; --dy:30px; --dur:3.4s; --delay:0.6s;"><ellipse cx="232" cy="167" rx="4" ry="3" fill="#fff" opacity=".9"/><ellipse cx="237" cy="167" rx="4" ry="3" fill="#fff" opacity=".9"/><ellipse cx="234" cy="172" rx="6" ry="4" fill="#f4c35b"/><rect x="232.7" y="168" width="2.6" height="8" fill="#1f2933"/></g><g class="a-bee" style="--dx:60px; --dy:-20px; --dur:3.0s; --delay:1.2s;"><ellipse cx="284" cy="201" rx="4" ry="3" fill="#fff" opacity=".9"/><ellipse cx="289" cy="201" rx="4" ry="3" fill="#fff" opacity=".9"/><ellipse cx="286" cy="206" rx="6" ry="4" fill="#f4c35b"/><rect x="284.7" y="202" width="2.6" height="8" fill="#1f2933"/></g><g class="a-bee" style="--dx:-80px; --dy:30px; --dur:3.8s; --delay:1.8s;"><ellipse cx="318" cy="175" rx="4" ry="3" fill="#fff" opacity=".9"/><ellipse cx="323" cy="175" rx="4" ry="3" fill="#fff" opacity=".9"/><ellipse cx="320" cy="180" rx="6" ry="4" fill="#f4c35b"/><rect x="318.7" y="176" width="2.6" height="8" fill="#1f2933"/></g><g class="a-pop fb" style="--delay:.2s;"><rect x="168.6" y="48" width="162.8" height="46" rx="8" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 309.4 94 L 380 136 L 325.4 94 Z" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 310.4 93 L 324.4 93" stroke="#fff" stroke-width="3"/><text class="sc-lab" x="250" y="68" text-anchor="middle">Rent me 2 hives for</text><text class="sc-lab" x="250" y="85" text-anchor="middle">bloom season?</text></g><g class="a-move" style="--dx:-320px; --dy:0px; --dur:3.6s; --delay:1.4s;"><circle cx="376" cy="180" r="11" fill="#f4c35b" stroke="#b8600f" stroke-width="2"/><text class="sc-coin" x="376" y="184" text-anchor="middle">$</text></g><g class="a-pop fb" style="--delay:2.2s;"><circle cx="66" cy="150" r="11" fill="#378a61"/><path d="M 61 150 L 64.5 154 L 71.5 145.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><g class="a-pop fb" style="--delay:2.2s;"><circle cx="408" cy="128" r="11" fill="#378a61"/><path d="M 403 128 L 406.5 132 L 413.5 123.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><text class="sc-lab" x="209" y="258" text-anchor="middle" style="fill:#378a61">1 grower + 1 beekeeper: easy to find, easy to agree</text></g><rect x="434" y="150" width="76" height="20" fill="#f3f4f6" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 430 151 L 438 143 L 506 143 L 514 151 Z" fill="#8a949e"/><ellipse cx="472" cy="196" rx="36" ry="10" fill="#b98b6e"/><text class="sc-sub" x="472" y="132" text-anchor="middle">hog farm</text><rect x="533" y="100" width="26" height="18" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 528 101 L 546.0 90.1 L 564 101 Z" fill="#8a949e"/><rect x="540.0" y="103" width="12" height="15" fill="#c9a27a"/><rect x="583" y="100" width="26" height="18" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 578 101 L 596.0 90.1 L 614 101 Z" fill="#8a949e"/><rect x="590.0" y="103" width="12" height="15" fill="#c9a27a"/><rect x="633" y="100" width="26" height="18" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 628 101 L 646.0 90.1 L 664 101 Z" fill="#8a949e"/><rect x="640.0" y="103" width="12" height="15" fill="#c9a27a"/><rect x="683" y="100" width="26" height="18" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 678 101 L 696.0 90.1 L 714 101 Z" fill="#8a949e"/><rect x="690.0" y="103" width="12" height="15" fill="#c9a27a"/><rect x="733" y="100" width="26" height="18" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 728 101 L 746.0 90.1 L 764 101 Z" fill="#8a949e"/><rect x="740.0" y="103" width="12" height="15" fill="#c9a27a"/><rect x="783" y="100" width="26" height="18" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 778 101 L 796.0 90.1 L 814 101 Z" fill="#8a949e"/><rect x="790.0" y="103" width="12" height="15" fill="#c9a27a"/><rect x="533" y="140" width="26" height="18" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 528 141 L 546.0 130.1 L 564 141 Z" fill="#8a949e"/><rect x="540.0" y="143" width="12" height="15" fill="#c9a27a"/><rect x="583" y="140" width="26" height="18" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 578 141 L 596.0 130.1 L 614 141 Z" fill="#8a949e"/><rect x="590.0" y="143" width="12" height="15" fill="#c9a27a"/><rect x="633" y="140" width="26" height="18" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 628 141 L 646.0 130.1 L 664 141 Z" fill="#8a949e"/><rect x="640.0" y="143" width="12" height="15" fill="#c9a27a"/><rect x="683" y="140" width="26" height="18" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 678 141 L 696.0 130.1 L 714 141 Z" fill="#8a949e"/><rect x="690.0" y="143" width="12" height="15" fill="#c9a27a"/><rect x="733" y="140" width="26" height="18" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 728 141 L 746.0 130.1 L 764 141 Z" fill="#8a949e"/><rect x="740.0" y="143" width="12" height="15" fill="#c9a27a"/><rect x="783" y="140" width="26" height="18" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 778 141 L 796.0 130.1 L 814 141 Z" fill="#8a949e"/><rect x="790.0" y="143" width="12" height="15" fill="#c9a27a"/><rect x="533" y="180" width="26" height="18" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 528 181 L 546.0 170.1 L 564 181 Z" fill="#8a949e"/><rect x="540.0" y="183" width="12" height="15" fill="#c9a27a"/><rect x="583" y="180" width="26" height="18" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 578 181 L 596.0 170.1 L 614 181 Z" fill="#8a949e"/><rect x="590.0" y="183" width="12" height="15" fill="#c9a27a"/><rect x="633" y="180" width="26" height="18" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 628 181 L 646.0 170.1 L 664 181 Z" fill="#8a949e"/><rect x="640.0" y="183" width="12" height="15" fill="#c9a27a"/><rect x="683" y="180" width="26" height="18" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 678 181 L 696.0 170.1 L 714 181 Z" fill="#8a949e"/><rect x="690.0" y="183" width="12" height="15" fill="#c9a27a"/><rect x="733" y="180" width="26" height="18" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 728 181 L 746.0 170.1 L 764 181 Z" fill="#8a949e"/><rect x="740.0" y="183" width="12" height="15" fill="#c9a27a"/><rect x="783" y="180" width="26" height="18" fill="#ffffff" stroke="#9aa3ab" stroke-width="1.2"/><path d="M 778 181 L 796.0 170.1 L 814 181 Z" fill="#8a949e"/><rect x="790.0" y="183" width="12" height="15" fill="#c9a27a"/><g class="reveal-step" data-step-group="bg" data-step="2"><rect x="520.1" y="11" width="213.7" height="23" rx="11.5" fill="#c9504d"/><text class="sc-pill" x="627.0" y="27.5" text-anchor="middle">Breaks down: 200 households</text></g><g class="reveal-step" data-step-group="bg" data-step="2"><g class="a-drift fb" style="--dx:250px; --dy:-40px; --dur:3.6s; --delay:0s;"><circle cx="478" cy="188" r="9" fill="#8f8a3e"/><circle cx="490" cy="182" r="12" fill="#8f8a3e"/><circle cx="503" cy="187" r="9" fill="#8f8a3e"/><circle cx="492" cy="192" r="8" fill="#8f8a3e"/></g><g class="a-drift fb" style="--dx:300px; --dy:0px; --dur:3.6s; --delay:1.2s;"><circle cx="468" cy="194" r="9" fill="#8f8a3e"/><circle cx="480" cy="188" r="12" fill="#8f8a3e"/><circle cx="493" cy="193" r="9" fill="#8f8a3e"/><circle cx="482" cy="198" r="8" fill="#8f8a3e"/></g><g class="a-drift fb" style="--dx:200px; --dy:-70px; --dur:3.6s; --delay:2.4s;"><circle cx="488" cy="182" r="9" fill="#8f8a3e"/><circle cx="500" cy="176" r="12" fill="#8f8a3e"/><circle cx="513" cy="181" r="9" fill="#8f8a3e"/><circle cx="502" cy="186" r="8" fill="#8f8a3e"/></g><g class="a-move" style="--dx:250px; --dy:0px; --dur:5s; --delay:0s;"><rect x="532.0" y="222.8" width="16.0" height="20.8" rx="6.4" fill="#7657a5"/><circle cx="540" cy="214" r="7.6" fill="#c68e62"/><rect x="550" y="220" width="12" height="15" fill="#fff" stroke="#5f6b76"/></g><g class="a-pop fb" style="--delay:0.8s;"><rect x="473.0" y="44" width="134.0" height="29" rx="8" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 538.0 73 L 546 90 L 554.0 73 Z" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 539.0 72 L 553.0 72" stroke="#fff" stroke-width="3"/><text class="sc-lab" x="540" y="64" text-anchor="middle">Let others pay!</text></g><g class="a-pop fb" style="--delay:1.4s;"><rect x="611.8" y="44" width="76.4" height="29" rx="8" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 638.0 73 L 646 90 L 654.0 73 Z" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 639.0 72 L 653.0 72" stroke="#fff" stroke-width="3"/><text class="sc-lab" x="650" y="64" text-anchor="middle">Not me.</text></g><g class="a-pop fb" style="--delay:2.0s;"><rect x="700.2" y="44" width="119.6" height="29" rx="8" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 738.0 73 L 746 90 L 754.0 73 Z" fill="#fff" stroke="#1f2933" stroke-width="1.6"/><path d="M 739.0 72 L 753.0 72" stroke="#fff" stroke-width="3"/><text class="sc-lab" x="760" y="64" text-anchor="middle">Why should I?</text></g><text class="sc-lab" x="612" y="258" text-anchor="middle" style="fill:#c9504d">Need 120 to chip in $250 each. Signed: 37</text><g class="a-pop fb" style="--delay:2.6s;"><circle cx="800" cy="253" r="12" fill="#c9504d"/><path d="M 794 247 L 806 259 M 806 247 L 794 259" stroke="#fff" stroke-width="3" stroke-linecap="round"/></g></g></svg></div>
+    <div class="button-row" style="margin-top:7px;"><button type="button" class="step-reveal" data-step-group="bg">Play next</button></div>
+    <div class="reveal-step " data-step-group="bg" data-step="3"><div class="definition-strip" style="margin-top:8px; font-size:16px; padding:9px 15px;"><strong>Transaction costs</strong>: all the costs of making a deal: finding everyone, agreeing on who pays, writing it down, enforcing it. Two parties: low. Hundreds: high, and each would rather let the others pay (Friday: free riders).</div></div>
+    <div class="reveal-step " data-step-group="bg" data-step="4"><div class="definition-strip blue-strip" style="margin-top:8px; font-size:14.5px; padding:8px 15px;"><strong>North Carolina:</strong> in 2018, federal juries ordered a Smithfield subsidiary to pay neighbors of large hog farms in eastern NC; the legislature then limited such nuisance suits (Farm Act of 2018). When bargaining fails, <strong>courts and legislatures decide who holds the right</strong>.</div></div>
+    <div class="src">Bees: S. N. S. Cheung, &ldquo;The Fable of the Bees,&rdquo; <em>J. Law &amp; Econ.</em> 16(1), 1973. NC: nuisance verdicts against Murphy-Brown LLC (E.D.N.C., 2018); NC Farm Act of 2018 (S.B. 711). Household numbers are made up.</div>
+  </section>
+
+  <!-- 12 pq_coase -->
+  <section class="slide interactive">
+    <div class="section-kicker">practice 3 of 3 &middot; hands up</div>
+    <h1>Why no deal?</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:11px 16px;"><div class="market-label">Vote first</div>
+      <p style="font-size:19px;">A food truck parks every evening on a street with 40 families. Its generator is loud. In principle, the families could pay the owner to park somewhere else. <strong>Why doesn&rsquo;t that happen?</strong></p></div>
+    <div class="vote-opts"><div class="vote-opt"><span class="option-letter">A</span><span class="vote-opt-t">The families don&rsquo;t really mind the noise.</span><span class="reveal-step why" data-step-group="pc" data-step="1"><span class="verdict">No</span> They mind; that is the externality.</span></div><div class="vote-opt"><span class="option-letter">B</span><span class="vote-opt-t">The owner would turn down any offer.</span><span class="reveal-step why" data-step-group="pc" data-step="1"><span class="verdict">No</span> An offer bigger than what the spot is worth to the owner makes the owner better off.</span></div><div class="vote-opt"><span class="option-letter">C</span><span class="vote-opt-t">Getting 40 families to agree on who pays how much takes too much time and effort.</span><span class="reveal-step why" data-step-group="pc" data-step="1"><span class="verdict ok">&check; Answer</span> High <strong>transaction costs</strong>: finding everyone, agreeing on shares, stopping free riders.</span></div><div class="vote-opt"><span class="option-letter">D</span><span class="vote-opt-t">Private deals work only if the city owns the street.</span><span class="reveal-step why" data-step-group="pc" data-step="1"><span class="verdict">No</span> Coase: a deal can work whoever holds the right, if transaction costs are low.</span></div></div>
+    <div class="button-row" style="margin-top:9px;"><button type="button" class="step-reveal" data-step-group="pc">Reveal next</button></div>
+    <div class="reveal-step " data-step-group="pc" data-step="2"><div class="definition-strip green-strip" style="margin-top:9px; font-size:16px; padding:9px 15px;">Few parties &rarr; bargaining can fix the externality. Many parties &rarr; transaction costs swamp the gains. Making sure a deal is kept is a transaction cost too.</div></div>
+    <div class="src">Made-up example, in the format of the question bank.</div>
+  </section>
+
+  <!-- 13 tools -->
+  <section class="slide">
+    <div class="section-kicker">four tools, side by side</div>
+    <h1>Four tools, four names</h1>
+    <table class="u8-table compact left-first tools-t">
+      <thead><tr><th>Tool</th><th>How it works</th><th>Our example</th><th>Who decides who cuts?</th></tr></thead>
+      <tbody>
+        <tr><td class="lead"><strong style="color:var(--ink);">Environmental standard</strong><small>command-and-control</small></td><td>A rule: how much each polluter cuts, or which equipment it must use</td><td>each plant cuts 2 tons: <b>$130</b></td><td>the regulator</td></tr>
+        <tr><td class="lead"><strong style="color:var(--ink);">Emissions tax</strong><small>a Pigouvian tax on each ton</small></td><td>A price on every ton emitted</td><td>$45 a ton: <b>$100</b></td><td>each plant</td></tr>
+        <tr><td class="lead"><strong style="color:var(--ink);">Tradable emissions permits</strong><small>cap and trade</small></td><td>A cap on total tons; plants buy and sell the permits</td><td>4 permits, A sells 1 to B: <b>$100</b></td><td>each plant, by trading</td></tr>
+        <tr><td class="lead"><strong style="color:var(--ink);">Coase theorem</strong><small>property rights and bargaining</small></td><td>Give someone the right; the parties strike a deal</td><td>the lagoon cover; the bees</td><td>the parties themselves</td></tr>
+      </tbody>
+    </table>
+    <div class="card red-top" style="margin-top:12px; padding:10px 16px;"><h3 class="red" style="font-size:16.5px; margin-bottom:3px;">Why economists criticize standards (OpenStax 12.2)</h3>
+      <p style="font-size:14.5px;">1 &middot; No reward for beating the standard. &nbsp; 2 &middot; One rule for everyone, cheap or costly to meet. &nbsp; 3 &middot; Written in politics: loopholes and exceptions.</p></div>
+    <div class="definition-strip blue-strip" style="margin-top:10px; font-size:15px; padding:9px 15px;"><strong>Real case:</strong> the 1990 Clean Air Act&rsquo;s cap and trade for sulfur dioxide. Power-plant SO<sub>2</sub> fell 36% from 1990 to 2004 while coal-fired power rose 25%,
+      at a cost at least 15% (maybe up to 90%) below command-and-control.</div>
+    <div class="src">SO2: R. Schmalensee and R. Stavins, &ldquo;The SO2 Allowance Trading System,&rdquo; <em>Journal of Economic Perspectives</em> 27(1), 2013. &ldquo;Cap and trade&rdquo; means tradable permits only.</div>
+  </section>
+
+  <!-- 14 match -->
+  <section class="slide interactive">
+    <div class="section-kicker">check &middot; name the tool &middot; hands up</div>
+    <h1>Which tool is this?</h1>
+    <p style="margin:0 0 8px; font-size:16px;">For each one, pick: <strong>environmental standard</strong>, <strong>emissions tax</strong>, <strong>tradable emissions permits</strong>, or the <strong>Coase theorem</strong>.</p>
+    <div class="sort-grid two" style="margin-top:4px;"><div class="sort-card"><p>1. The state requires every coal plant to install a scrubber on its smokestack.</p><span class="reveal-step " data-step-group="mt" data-step="1"><span class="tag prod">Environmental standard</span><span class="tag-note">A rule about equipment, the same for every plant.</span></span></div><div class="sort-card"><p>2. The city charges each factory $25 for every ton of smoke it releases.</p><span class="reveal-step " data-step-group="mt" data-step="2"><span class="tag prod">Emissions tax</span><span class="tag-note">A price on each ton; each factory decides how much to cut.</span></span></div><div class="sort-card"><p>3. The state caps a region at 1,000 tons a year and hands out permits that plants can buy and sell.</p><span class="reveal-step " data-step-group="mt" data-step="3"><span class="tag prod">Tradable emissions permits</span><span class="tag-note">A cap on the total; trading decides who cuts.</span></span></div><div class="sort-card"><p>4. A farmer pays the rancher upstream to fence cattle out of the creek they share.</p><span class="reveal-step " data-step-group="mt" data-step="4"><span class="tag prod">Coase theorem (private bargaining)</span><span class="tag-note">Two parties, low transaction costs: they strike the deal themselves.</span></span></div></div>
+    <div class="button-row" style="margin-top:10px;"><button type="button" class="step-reveal" data-step-group="mt">Reveal next</button></div>
+    <div class="reveal-step " data-step-group="mt" data-step="5"><div class="definition-strip blue-strip" style="margin-top:10px; font-size:16px; padding:9px 15px;">Which fits where: millions of small sources &rarr; a tax; a few big sources &rarr; permits; two parties &rarr; bargaining; one must-do fix &rarr; a standard.</div></div>
+    <div class="src">Made-up examples. The last line follows OpenStax Sec. 12.3, &ldquo;Applying Market-Oriented Environmental Tools.&rdquo;</div>
+  </section>
+
+  <!-- 15 wrap2 -->
+  <section class="slide">
+    <div class="section-kicker">Wednesday &middot; takeaways</div>
+    <h1>Three things to take away</h1>
+    <div class="calc-run big-run">
+      <div class="calc-line "><div class="calc-num">1</div><div><strong>The right amount of pollution: MSB = MSC of pollution</strong><span>Usually not zero. With no rules, polluters keep going until MSB = 0, where MSC &gt; MSB.</span></div></div>
+      <div class="calc-line hi"><div class="calc-num">2</div><div><strong>A Pigouvian tax = the MSC at the optimal amount</strong><span>Too low a tax: too much pollution. Too high: too little. A cap with tradable permits gets the same result.</span></div></div>
+      <div class="calc-line good"><div class="calc-num">3</div><div><strong>Let the cheap cutters cut</strong><span>Taxes and permits cut the same tons for less than a standard. Bargaining (Coase) works only when transaction costs are low.</span></div></div>
+    </div>
+    <div class="definition-strip blue-strip" style="margin-top:16px; font-size:18px; padding:12px 16px;"><strong>Friday:</strong> goods that no one will pay for, and goods that everyone overuses.</div>
+  </section>
+
+  <!-- 16 ex_benefit -->
+  <section class="slide interactive">
+    <div class="section-kicker">exercise 1 of 5 &middot; the benefit of polluting &middot; hands up</div>
+    <h1>What is the extra profit called?</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:11px 16px;"><div class="market-label">Vote first</div><p style="font-size:19px;">A factory could produce more, which would mean more pollution. The extra profit it would gain for each extra unit of pollution is the <strong>______</strong> of increasing pollution.</p></div>
+    <div class="vote-opts"><div class="vote-opt"><span class="option-letter">A</span><span class="vote-opt-t">marginal benefit</span><span class="reveal-step why" data-step-group="ex1" data-step="1"><span class="verdict ok">&check; Answer</span> Each extra unit lets the factory skip a cleanup or make more: the MSB of pollution (page 3, where MPB = MSB).</span></div><div class="vote-opt"><span class="option-letter">B</span><span class="vote-opt-t">marginal private cost</span><span class="reveal-step why" data-step-group="ex1" data-step="1"><span class="verdict">No</span> With no rules, the factory pays $0 for each unit it emits: that is the MPC of pollution.</span></div><div class="vote-opt"><span class="option-letter">C</span><span class="vote-opt-t">optimal level of pollution</span><span class="reveal-step why" data-step-group="ex1" data-step="1"><span class="verdict">No</span> That is an amount (40 tons on page 4), not a gain on each unit.</span></div><div class="vote-opt"><span class="option-letter">D</span><span class="vote-opt-t">marginal social cost</span><span class="reveal-step why" data-step-group="ex1" data-step="1"><span class="verdict">No</span> That is the harm the extra unit does to everyone else.</span></div></div>
+    <div class="button-row" style="margin-top:9px;"><button type="button" class="step-reveal" data-step-group="ex1">Reveal next</button></div>
+    <div class="reveal-step " data-step-group="ex1" data-step="2"><div class="definition-strip green-strip" style="margin-top:9px; font-size:16px; padding:9px 15px;">Polluting is tempting because each unit <strong>saves the polluter money</strong>: that saving is the marginal benefit (MSB) of pollution. The harm it does to others is the MSC.</div></div>
+    <div class="src">From the Moodle question bank (&ldquo;ind&rdquo;), reworded.</div>
+  </section>
+
+  <!-- 17 ex_zero -->
+  <section class="slide interactive">
+    <div class="section-kicker">exercise 2 of 5 &middot; is zero the goal? &middot; hands up</div>
+    <h1>Should the goal be zero pollution?</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:11px 16px;"><div class="market-label">Vote first</div><p style="font-size:19px;">True or false: an economist would argue that it is <strong>not</strong> optimal to cut pollution to zero.</p></div>
+    <div class="vote-opts"><div class="vote-opt"><span class="option-letter">A</span><span class="vote-opt-t">True</span><span class="reveal-step why" data-step-group="ex2" data-step="1"><span class="verdict ok">&check; Answer</span> The best amount is where MSB = MSC: 40 tons on page 4. Each of the last 40 tons would cost more to cut than the harm it does.</span></div><div class="vote-opt"><span class="option-letter">B</span><span class="vote-opt-t">False</span><span class="reveal-step why" data-step-group="ex2" data-step="1"><span class="verdict">No</span> Zero sounds clean, but the last tons are the costliest to cut ($60, then $100 a ton on page 2), and each does $40 of harm or less.</span></div></div>
+    <div class="button-row" style="margin-top:9px;"><button type="button" class="step-reveal" data-step-group="ex2">Reveal next</button></div>
+    <div class="reveal-step " data-step-group="ex2" data-step="2"><div class="definition-strip green-strip" style="margin-top:9px; font-size:16px; padding:9px 15px;">Optimal pollution is where <strong>MSB = MSC</strong>, and that is usually above zero.</div></div>
+    <div class="src">From the Moodle question bank (&ldquo;Zero pollution&rdquo;), reworded.</div>
+  </section>
+
+  <!-- 18 ex_toomuch -->
+  <section class="slide interactive">
+    <div class="section-kicker">exercise 3 of 5 &middot; no rules &middot; hands up</div>
+    <h1>No rules: too much or too little?</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:11px 16px;"><div class="market-label">Vote first</div><p style="font-size:19px;">When pollution is a negative externality and nothing makes the polluter pay, will there be too much pollution or too little?</p></div>
+    <div class="vote-opts"><div class="vote-opt"><span class="option-letter">A</span><span class="vote-opt-t">Too much pollution</span><span class="reveal-step why" data-step-group="ex3" data-step="1"><span class="verdict ok">&check; Answer</span> Polluters ignore the MSC and keep going until MSB = 0: 60 tons, not 40 (page 4).</span></div><div class="vote-opt"><span class="option-letter">B</span><span class="vote-opt-t">Too little pollution</span><span class="reveal-step why" data-step-group="ex3" data-step="1"><span class="verdict">No</span> Nothing holds them back: the harm falls on others.</span></div><div class="vote-opt"><span class="option-letter">C</span><span class="vote-opt-t">Just the right amount</span><span class="reveal-step why" data-step-group="ex3" data-step="1"><span class="verdict">No</span> Only if polluters counted the MSC, and with no rules they do not.</span></div></div>
+    <div class="button-row" style="margin-top:9px;"><button type="button" class="step-reveal" data-step-group="ex3">Reveal next</button></div>
+    <div class="reveal-step " data-step-group="ex3" data-step="2"><div class="definition-strip green-strip" style="margin-top:9px; font-size:16px; padding:9px 15px;">No rules &rarr; polluters stop at <strong>MSB = 0</strong>. Past the optimum, <strong>MSC &gt; MSB</strong>: each extra ton harms more than it saves.</div></div>
+    <div class="src">From the Moodle question bank (&ldquo;Pollution with externalities&rdquo;), reworded.</div>
+  </section>
+
+  <!-- 19 ex_mc -->
+  <section class="slide interactive">
+    <div class="section-kicker">exercise 4 of 5 &middot; making the polluter pay &middot; hands up</div>
+    <h1>Make the polluter pay</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:11px 16px;"><div class="market-label">Vote first</div><p style="font-size:19px;">A company is now <strong>forced to pay</strong> the external cost of its activity (for example, through a Pigouvian tax). What happens to its marginal cost?</p></div>
+    <div class="vote-opts"><div class="vote-opt"><span class="option-letter">A</span><span class="vote-opt-t">Its marginal cost rises.</span><span class="reveal-step why" data-step-group="ex4" data-step="1"><span class="verdict ok">&check; Answer</span> Each unit now carries the harm it does. On page 5, the $40 tax lifts the farms&rsquo; MPC of pollution from $0 to $40.</span></div><div class="vote-opt"><span class="option-letter">B</span><span class="vote-opt-t">Its marginal cost falls.</span><span class="reveal-step why" data-step-group="ex4" data-step="1"><span class="verdict">No</span> Paying more on each unit cannot make a unit cheaper.</span></div><div class="vote-opt"><span class="option-letter">C</span><span class="vote-opt-t">Its marginal cost stays the same.</span><span class="reveal-step why" data-step-group="ex4" data-step="1"><span class="verdict">No</span> Then nothing would change, and the tax would not cut any pollution.</span></div></div>
+    <div class="button-row" style="margin-top:9px;"><button type="button" class="step-reveal" data-step-group="ex4">Reveal next</button></div>
+    <div class="reveal-step " data-step-group="ex4" data-step="2"><div class="definition-strip green-strip" style="margin-top:9px; font-size:16px; padding:9px 15px;">Making the polluter pay <strong>internalizes</strong> the externality: its marginal cost now includes the harm, so it cuts back to the optimal amount.</div></div>
+    <div class="src">From the Moodle question bank (&ldquo;Marginal costs&rdquo;), reworded.</div>
+  </section>
+
+  <!-- 20 ex_coase -->
+  <section class="slide interactive">
+    <div class="section-kicker">exercise 5 of 5 &middot; when bargaining fails &middot; hands up</div>
+    <h1>When can&rsquo;t the parties make a deal?</h1>
+    <div class="quiz-scenario" style="min-height:0; padding:11px 16px;"><div class="market-label">Vote first</div><p style="font-size:19px;">True or false: a private solution to an externality (a deal between the parties) will <strong>not</strong> be reached if transaction costs are high.</p></div>
+    <div class="vote-opts"><div class="vote-opt"><span class="option-letter">A</span><span class="vote-opt-t">True</span><span class="reveal-step why" data-step-group="ex5" data-step="1"><span class="verdict ok">&check; Answer</span> Finding everyone, agreeing on who pays, and enforcing the deal can cost more than the deal is worth: the 200 households on page 11.</span></div><div class="vote-opt"><span class="option-letter">B</span><span class="vote-opt-t">False</span><span class="reveal-step why" data-step-group="ex5" data-step="1"><span class="verdict">No</span> The Coase theorem needs low transaction costs. With high ones, as on page 11, the deal falls apart.</span></div></div>
+    <div class="button-row" style="margin-top:9px;"><button type="button" class="step-reveal" data-step-group="ex5">Reveal next</button></div>
+    <div class="reveal-step " data-step-group="ex5" data-step="2"><div class="definition-strip green-strip" style="margin-top:9px; font-size:16px; padding:9px 15px;">Coase: with <strong>low transaction costs</strong>, the parties bargain to the efficient outcome, whoever holds the right. With high ones, a tax, permits, or a standard has to do the job.</div></div>
+    <div class="src">From the Moodle question bank (&ldquo;Coase Theorem&rdquo;), reworded.</div>
+  </section>
+</div>
+<div id="progress"></div>
+<div id="hint">&larr; &rarr; / Space to navigate &middot; P to print</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const stage = document.getElementById('stage');
+  const progress = document.getElementById('progress');
+  let idx = 0;
+
+  slides.forEach(function(slide, i){
+    const footer = document.createElement('div');
+    footer.className = 'footer';
+    footer.innerHTML = '<span>ARE 201 &middot; Unit 10 &middot; Externalities &amp; Public Goods</span><span>' + (i + 1) + ' / ' + slides.length + '</span>';
+    slide.appendChild(footer);
+  });
+
+  function fit(){
+    const scale = Math.min(window.innerWidth / 960, window.innerHeight / 720);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+  }
+
+  function show(n){
+    const prev = slides[idx];
+    idx = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(slide, i){ slide.classList.toggle('active', i === idx); });
+    // leaving the video page stops the video (reloading the player)
+    if (prev && prev !== slides[idx]) prev.querySelectorAll('iframe.yt-frame').forEach(function(f){ f.src = f.src; });
+    progress.style.width = (((idx + 1) / slides.length) * 100) + '%';
+    history.replaceState(null, '', '#' + (idx + 1));
+  }
+
+  // Step-by-step reveals (cumulative; data-hide-at takes an element away again at that step)
+  document.querySelectorAll('.step-reveal').forEach(function(button){
+    const group = button.dataset.stepGroup;
+    const elements = Array.from(document.querySelectorAll('.reveal-step')).filter(function(e){ return e.dataset.stepGroup === group; });
+    const steps = Array.from(new Set(elements.map(function(e){ return Number(e.dataset.step); }))).sort(function(a, b){ return a - b; });
+    const label = button.textContent;
+    let shown = 0;
+    button.addEventListener('click', function(){
+      if (shown >= steps.length) {
+        elements.forEach(function(e){ e.classList.remove('visible'); });
+        shown = 0;
+        button.textContent = label;
+        return;
+      }
+      const next = steps[shown];
+      elements.forEach(function(e){ if (Number(e.dataset.step) === next) e.classList.add('visible'); });
+      elements.forEach(function(e){ if (Number(e.dataset.hideAt) === next) e.classList.remove('visible'); });
+      shown += 1;
+      button.textContent = shown >= steps.length ? 'Reset' : label + ' (' + shown + '/' + steps.length + ')';
+    });
+  });
+
+  // State groups: an element is visible only in the states listed in data-on
+  const sg = {}, stateOf = {};
+  document.querySelectorAll('.st').forEach(function(e){ (sg[e.dataset.sg] = sg[e.dataset.sg] || []).push(e); });
+  function setState(g, n){
+    (sg[g] || []).forEach(function(e){ e.classList.toggle('on', e.dataset.on.split(' ').indexOf(String(n)) !== -1); });
+    document.querySelectorAll('.state-btn').forEach(function(b){ if (b.dataset.sg === g) b.classList.toggle('selected', b.dataset.state === String(n)); });
+    document.querySelectorAll('.sg-root').forEach(function(e){ if (e.dataset.sg === g) e.dataset.state = String(n); });
+    stateOf[g] = n;
+  }
+  Object.keys(sg).forEach(function(g){ setState(g, 0); });
+  document.querySelectorAll('.state-btn').forEach(function(b){
+    b.addEventListener('click', function(){ setState(b.dataset.sg, Number(b.dataset.state)); });
+  });
+
+  document.addEventListener('keydown', function(event){
+    if (event.target.closest && event.target.closest('button, input, select, textarea')) return;
+    if (['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(event.key)) { event.preventDefault(); show(idx + 1); }
+    else if (['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(event.key)) { event.preventDefault(); show(idx - 1); }
+    else if (event.key.toLowerCase() === 'p') { window.print(); }
+    else if (event.key === 'Home') { show(0); }
+    else if (event.key === 'End') { show(slides.length - 1); }
+  });
+
+  document.addEventListener('click', function(event){
+    if (event.target.closest && event.target.closest('a, button, input, select, textarea, .feedback, .plot-panel, .u8-table, .wf-table, .nl-card, .vote-opt, .sg-root, .fund, .pm-wrap')) return;
+    if (event.clientX > window.innerWidth / 2) show(idx + 1); else show(idx - 1);
+  });
+
+  // YouTube will not embed in a page opened as a local file (Error 153): swap the player for a link card
+  if (location.protocol === 'file:') {
+    document.querySelectorAll('.yt-wrap').forEach(function(w){
+      const t = w.parentElement.querySelector('template.yt-file');
+      if (!t) return;
+      w.innerHTML = t.innerHTML;
+      const l = w.parentElement.querySelector('.yt-link'); if (l) l.style.visibility = 'hidden';
+    });
+  }
+
+  window.addEventListener('resize', fit);
+  const hash = parseInt(location.hash.replace('#',''), 10);
+  if (Number.isFinite(hash)) idx = Math.max(0, Math.min(slides.length - 1, hash - 1));
+  fit();
+  show(idx);
+})();
+</script>
+
+<script>
+(function(){
+  document.querySelectorAll('.fund').forEach(function(g){
+    const pts = Number(g.dataset.pts), inN = g.querySelector('.fund-n'), inC = g.querySelector('.fund-c');
+    const fk = g.querySelector('.fk'), fc = g.querySelector('.fc'), rows = Array.from(g.querySelectorAll('.fund-row'));
+    function r1(v){ return (Math.round(v * 10) / 10).toString(); }
+    function vals(tax){
+      const n = Math.max(2, Math.round(Number(inN.value) || 0));
+      let c = Math.max(0, Math.min(n, Math.round(Number(inC.value) || 0)));
+      if (tax) c = n;
+      const share = 2 * pts * c / n;
+      return {n: n, c: c, keep: pts + share, give: share, avg: pts + pts * c / n};
+    }
+    function show(){ const v = vals(false); fk.textContent = r1(v.keep); fc.textContent = r1(v.give); }
+    inN.addEventListener('input', show); inC.addEventListener('input', show);
+    g.querySelectorAll('.fund-rec').forEach(function(b){ b.addEventListener('click', function(){
+      const r = Number(b.dataset.r), tax = r === 2, v = vals(tax), td = rows[r].querySelectorAll('td');
+      if (tax) { inC.value = v.n; show(); }
+      td[1].textContent = v.c + ' of ' + v.n;
+      td[2].textContent = tax ? '–' : r1(v.keep);
+      td[3].textContent = r1(v.give);
+      td[4].textContent = r1(v.avg);
+      rows[r].classList.add('done');
+    }); });
+    g.querySelector('.fund-reset').addEventListener('click', function(){
+      rows.forEach(function(tr){ tr.classList.remove('done'); tr.querySelectorAll('td:not(.lead)').forEach(function(td){ td.innerHTML = '&ndash;'; }); });
+      inC.value = 0; show();
+    });
+    show();
+  });
+})();
+</script>
+</body>
+</html>
