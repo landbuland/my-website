@@ -77,3 +77,7 @@ courseTitle: "Introduction to Agricultural and Resource Economics"
 - [Externalities Slides](https://zihanzhang.me/assets/are201/ARE201_Unit10_Part1_Externalities_Fall2026.html)
 - [Pollution Policy Slides](https://zihanzhang.me/assets/are201/ARE201_Unit10_Part2_Pollution_Policy_Fall2026.html)
 - [Public Goods and Common Resources Slides](https://zihanzhang.me/assets/are201/ARE201_Unit10_Part3_Public_Goods_Fall2026.html)
+
+### Unit 11: International Trade and Tariffs
+
+- [International Trade and Tariffs Slides](https://zihanzhang.me/assets/are201/ARE201_Unit11_International_Trade_Tariffs_Fall2026.html)
