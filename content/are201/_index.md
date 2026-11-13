@@ -81,3 +81,4 @@ courseTitle: "Introduction to Agricultural and Resource Economics"
 ### Unit 11: International Trade and Tariffs
 
 - [International Trade and Tariffs Slides](https://zihanzhang.me/assets/are201/ARE201_Unit11_International_Trade_Tariffs_Fall2026.html)
+- [Review Session Slides](https://zihanzhang.me/assets/are201/ARE201_Unit11_Review_Session_Fall2026.html)
